@@ -1,0 +1,35 @@
+# Xcode
+build/
+DerivedData/
+
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xccheckout
+*.moved-aside
+*.xcworkspace
+*.xcuserstate
+
+xcuserdata
+
+!default.pbxuser
+!default.mode1v3
+!default.mode2v3
+!default.perspectivev3
+!default.xcworkspace
+
+profile
+*.hmap
+*.ipa
+
+# CocoaPods
+Pods/
+!Podfile.lock
+
+# Temporary files
+.DS_Store
+.Trashes
+.Spotlight-V100
+*.swp
+*.lock
