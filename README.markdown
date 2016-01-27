@@ -12,6 +12,18 @@ This is a work in progress. More algorithms will be added soon. :-)
 
 **Suggestions and contributions are welcome!** Report an issue to leave feedback, or submit a pull request.
 
+## Where to start?
+
+If you're new to algorithms and data structures, here are a few good ones to start out with:
+
+- [Stack](Stack/)
+- Queue
+- [Insertion Sort](Insertion Sort/)
+- Binary Search
+- Binary Tree
+- Merge Sort
+- [Boyer-Moore](Boyer-Moore/) string search
+
 ## The algorithms
 
 ### Searching
