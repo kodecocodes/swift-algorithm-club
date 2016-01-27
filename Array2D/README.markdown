@@ -59,7 +59,7 @@ The `dim()` function makes it easy to go into even more dimensions:
 var threeDimensions = dim(2, dim(3, dim(4, 0)))
 ```
 
-The downside of using multi-dimensional arrays in this fashion -- actually, multiple nested arrays -- is that it's hard to lose track of what dimension represents what.
+The downside of using multi-dimensional arrays in this fashion -- actually, multiple nested arrays -- is that it's easy to lose track of what dimension represents what.
 
 So instead let's create our own type that acts like a 2-D array and that is more convenient to use. Here it is:
 
