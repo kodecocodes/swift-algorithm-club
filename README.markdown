@@ -75,7 +75,7 @@ Bad sorting algorithms (don't use these!):
 
 - Array2D
 - Deque
-- FixedSizeArray
+- [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an array with a fixed size.
 - LinkedList
 - OrderedArray
 - PriorityQueue
