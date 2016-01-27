@@ -47,7 +47,7 @@ public struct Queue<T> {
 
 var queueOfNames = Queue(array: ["Carl", "Lisa", "Stephanie", "Jeff", "Wade"]) // Initialized queue
 
-queueOfNames.enqueue("Mike") // Adds "Mike" to the end of the queue. Queue is now ["Carl", "Lisa", "Stephanie", "Jeff", "Wade", "Mike"]
+queueOfNames.enqueue("Mike") // Adds element to the end of the queue. Queue is now ["Carl", "Lisa", "Stephanie", "Jeff", "Wade", "Mike"]
 
 queueOfNames.dequeue() // Removes and returns the first element in the queue. Returns "Carl" and then removes it from the queue
 
