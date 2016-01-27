@@ -17,7 +17,7 @@ This is a work in progress. More algorithms will be added soon. :-)
 If you're new to algorithms and data structures, here are a few good ones to start out with:
 
 - [Stack](Stack/)
-- Queue
+- [Queue](Queue/)
 - [Insertion Sort](Insertion Sort/)
 - Binary Search
 - Binary Tree
@@ -94,15 +94,24 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 ### Arrays and lists
 
+Variations on arrays:
+
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
-- Deque
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an array with a fixed size.
-- Linked List
-- Ordered Array
-- Priority Queue
-- Queue
+- Ordered Array. An array that is always sorted.
 - Ring Buffer. Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
+
+Queues:
+
 - [Stack](Stack/). Last-in, first-out!
+- [Queue](Queue/). First-in, first-out!
+- Deque
+- Priority Queue
+
+Lists:
+
+- Singly Linked List
+- Doubly Linked List
 
 ### Trees
 
