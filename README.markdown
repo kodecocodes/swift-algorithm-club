@@ -32,7 +32,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - Binary Search
 - Count Occurrences
 - Select Minimum / Maximum
-- General-purpose Select
+- Select k-th Largest Element
 - Selection Sampling
 - Union-Find
 
@@ -80,6 +80,7 @@ Bad sorting algorithms (don't use these!):
 
 - Greatest Common Divisor (GCD)
 - Statistics
+- Combinatorics (permutations etc)
 
 ## Data structures
 
@@ -96,38 +97,45 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
 - Deque
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an array with a fixed size.
-- LinkedList
-- OrderedArray
-- PriorityQueue
+- Linked List
+- Ordered Array
+- Priority Queue
 - Queue
-- RingBuffer
+- Ring Buffer. Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 - [Stack](Stack/). Last-in, first-out!
 
 ### Trees
 
-- General-Purpose Tree
+- Tree (general-purpose)
 - Binary Tree
-- Binary Search Tree
-- AVLTree
+- Binary Search Tree (BST)
+- AVL Tree
 - Red-Black Tree
+- Splay Tree
 - Threaded Binary Tree
+- kd-Tree
 - Heap
+- Fibonacci Heap
 - Trie
 
 ### Sets
 
-- BitSet
+- Bit Set
+- Bloom Filter
+- Hash Set
+- Multiset
+- Ordered Set
 
 ### Hashing
 
 - Hash Table
-- Hash functions
+- Hash Functions
 
 ### Graphs
 
 - Graph
-- Breadth-First Search
-- Depth-First Search
+- Breadth-First Search (BFS)
+- Depth-First Search (DFS)
 - Shortest Path
 - Minimum Spanning Tree
 - All Paths
