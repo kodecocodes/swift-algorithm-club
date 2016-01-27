@@ -83,6 +83,14 @@ Bad sorting algorithms (don't use these!):
 
 ## Data structures
 
+The choice of data structure for a particular task depends on a few things. 
+
+First, there is the shape of your data and the kinds of operations that you'll need to perform on it. If you want to look up objects by a key you need some kind of dictionary; if your data is hierarchical in nature you want a tree structure of some sort; if your data is sequential you want a stack or queue.
+
+Second, it matters what particular operations you'll be performing most, as certain data structures are optimized for certain actions. For example, if you often need to find the most important object in a queue, then a heap or priority queue is more optimal than a plain array.
+
+Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficient, but sometimes you may want something more fancy...
+
 ### Arrays and lists
 
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
@@ -93,7 +101,7 @@ Bad sorting algorithms (don't use these!):
 - PriorityQueue
 - Queue
 - RingBuffer
-- Stack
+- [Stack](Stack/). Last-in, first-out!
 
 ### Trees
 
