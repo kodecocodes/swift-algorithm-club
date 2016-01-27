@@ -26,8 +26,7 @@ This is a work in progress. More algorithms will be added soon. :-)
 
 ### String Search
 
-- Brute-force string search
-- Boyer-Moore
+- [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
 - Rabin-Karp
 
 ### Sorting
