@@ -73,7 +73,7 @@ Bad sorting algorithms (don't use these!):
 
 ### Arrays and lists
 
-- Array2D
+- [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
 - Deque
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an array with a fixed size.
 - LinkedList
