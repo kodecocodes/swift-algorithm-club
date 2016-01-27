@@ -36,7 +36,7 @@ let a = [2, 3, 4, 4, 7, 8, 9, 10, 12, 14, 21, 22, 100]
 if let (i, j) = twoSumProblem(a, k: 33) {
   a[i] + a[j]  // 33
 }
-```swift
+```
 
 This returns the tuple `(8, 10)` because `a[8] = 12` and `a[10] = 21`, and together they add up to `33`.
 
