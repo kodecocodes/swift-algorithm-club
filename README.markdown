@@ -28,6 +28,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 
 ### Searching
 
+- [Linear Search](Linear Search/) (by [Patrick Balestra](http://www.github.com/BalestraPatrick))
 - [Binary Search](Binary Search/). Quickly find elements in a sorted array.
 - Count Occurrences
 - Select Minimum / Maximum
