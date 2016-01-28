@@ -231,3 +231,5 @@ I did a quick test comparing our `insertionSort()` with Swift's built-in `sort()
 ### See also
 
 See also [Wikipedia](https://en.wikipedia.org/wiki/Insertion_sort).
+
+*Written by Matthijs Hollemans*

@@ -103,3 +103,5 @@ let myCookie = cookies[column, row]
 Internally, `Array2D` uses a single one-dimensional array to store the data. The index of an object in that array is given by `(row x numberOfColumns) + column`. But as a user of `Array2D` you don't have to worry about that; you only have to think in terms of "column" and "row", and let `Array2D` figure out the details for you. That's the advantage of wrapping primitive types into a wrapper class or struct.
 
 And that's all there is to it.
+
+*Written by Matthijs Hollemans*

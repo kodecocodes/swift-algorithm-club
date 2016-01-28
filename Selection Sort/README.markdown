@@ -111,3 +111,5 @@ Selection sort is easy to understand but it performs quite badly, **O(n^2)**. It
 ### See also
 
 See also [Wikipedia](https://en.wikipedia.org/wiki/Selection_sort).
+
+*Written by Matthijs Hollemans*
