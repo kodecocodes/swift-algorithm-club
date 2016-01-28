@@ -19,11 +19,8 @@ public struct Stack<T> {
   }
 
   public mutating func pop() -> T? {
-    if count == 0 {
-      return nil
-    } else {
-      return array.removeLast()
-    }
+    guard array.count > 0 else { return nil }
+    return array.removeLast()
   }
 
   public func peek() -> T? {
