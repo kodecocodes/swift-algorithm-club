@@ -137,3 +137,5 @@ var a = FixedSizeArray(maxSize: 10, defaultValue: 0)
 ```
 
 Note that `removeAtIndex()` overwrites the last element with this `defaultValue` to clean up the "junk" object that gets left behind. Normally it wouldn't matter to leave that duplicate object in the array, but if it's a class or a struct it may have strong references to other objects and it's good boyscout practice to zero those out.
+
+*Written by Matthijs Hollemans*

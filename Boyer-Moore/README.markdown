@@ -163,3 +163,5 @@ The closer a character is to the end of the pattern, the smaller the skip amount
 A caveat: If the search pattern consists of only a few characters, it's faster to do a brute-force search. There's a trade-off between the time it takes to build the skip table and doing brute-force for short patterns.
 
 Credits: This code is based on the article ["Faster String Searches" by Costas Menico](http://www.drdobbs.com/database/faster-string-searches/184408171) from Dr Dobb's magazine, July 1989 -- Yes, 1989! Sometimes it's useful to keep those old magazines around.
+
+*Written by Matthijs Hollemans*

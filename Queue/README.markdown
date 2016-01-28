@@ -81,3 +81,5 @@ However, to dequeue we remove the element from the beginning of the array. This 
 More efficient implementations would use a linked list, a circular buffer, or a heap. (I might add an example of this later.)
 
 Variations on this theme are [deque](../Deque/), a double-ended queue where you can enqueue and dequeue at both ends, and [priority queue](../Priority Queue/), a sorted queue where the "most important" item is always at the front.
+
+*Written by Matthijs Hollemans*
