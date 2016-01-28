@@ -28,7 +28,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 
 ### Searching
 
-- [Linear Search](LinearSearch/)
+- [Linear Search](Linear Search/) (by [Patrick Balestra](http://www.github.com/BalestraPatrick))
 - Binary Search
 - Count Occurrences
 - Select Minimum / Maximum
