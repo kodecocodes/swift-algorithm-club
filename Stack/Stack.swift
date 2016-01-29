@@ -3,7 +3,7 @@
 
   Push and pop are O(1) operations.
 */
-public struct Stack<T> {
+public struct Stack<T>: ArrayLiteralConvertible {
   private var array = [T]()
 
   public var isEmpty: Bool {
@@ -28,5 +28,10 @@ public struct Stack<T> {
 
   public func peek() -> T? {
     return array.last
+  }
+	
+  // MARK: - ArrayLiteralConvertible
+  public init(arrayLiteral elements: T...) {
+	array = elements
   }
 }
