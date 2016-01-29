@@ -15,7 +15,7 @@ We start by comparing the first number in the array, `5` with the number we're l
 Here is a simple implementation of insertion sort in Swift:
 
 ```swift
-func linearSearch<T: Comparable>(array: [T], _ object: T) -> Int? {
+func linearSearch<T: Equatable>(array: [T], _ object: T) -> Int? {
   for (index, obj) in array.enumerate() where obj == object {
     return index
   }
