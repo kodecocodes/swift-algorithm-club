@@ -38,6 +38,7 @@ public struct MaxHeap<T : Comparable> : Heap {
 
     init(array: [T]) {
         self.init()
+        //This could be optimized into O(n) time using the Floyd algorithm instead of O(nlog(n))
         mem.reserveCapacity(array.count)
         for value in array {
             insert(value)
@@ -57,7 +58,7 @@ public struct MaxHeap<T : Comparable> : Heap {
      */
     public mutating func insert(value: T) {
         mem.append(value)
-        upShift(index: mem.count - 1)
+        shiftUp(index: mem.count - 1)
     }
     
     public mutating func insert<S : SequenceType where S.Generator.Element == T>(sequence: S) {
@@ -85,7 +86,7 @@ public struct MaxHeap<T : Comparable> : Heap {
         mem[0] = last
         
         //Downshift the new top value
-        downShift()
+        shiftDown()
         
         return value
     }
@@ -114,7 +115,7 @@ public struct MaxHeap<T : Comparable> : Heap {
     /**
      * Restore the heap property above a given index.
      */
-    private mutating func upShift(index index: Int) {
+    private mutating func shiftUp(index index: Int) {
         var childIndex = index
         let child = mem[childIndex]
         while childIndex != 0 {
@@ -134,9 +135,9 @@ public struct MaxHeap<T : Comparable> : Heap {
     }
     
     /**
-     * Maintains the heap property of parents > both children
+     * Maintains the heap property of parent > both children
      */
-    private mutating func downShift(index index: Int = 0) {
+    private mutating func shiftDown(index index: Int = 0) {
         var parentIndex = index
         var leftChildIndex = firstChildIndex(parentIndex)
         
