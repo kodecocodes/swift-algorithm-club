@@ -123,7 +123,7 @@ Lists:
 - Splay Tree
 - Threaded Binary Tree
 - kd-Tree
-- [Heap](Heap/)
+- [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
 - Trie
 
