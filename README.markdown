@@ -53,7 +53,7 @@ Basic sorts:
 
 Fast sorts:
 
-- Quicksort
+- [Quicksort](Quicksort/)
 - Merge Sort
 - Heap Sort
 
