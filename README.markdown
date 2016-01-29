@@ -19,7 +19,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Stack](Stack/)
 - [Queue](Queue/)
 - [Insertion Sort](Insertion Sort/)
-- Binary Search
+- [Binary Search](Binary Search/)
 - Binary Tree
 - Merge Sort
 - [Boyer-Moore](Boyer-Moore/) string search
