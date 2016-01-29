@@ -15,11 +15,11 @@ We start by comparing the first number in the array, `5` with the number we're l
 Here is a simple implementation of insertion sort in Swift:
 
 ```swift
-func linearSearch<T: Comparable>(array: [T], object:T) -> Int? {
-    for (index, obj) in array.enumerate() where obj == object {
-        return index
-    }
-    return nil
+func linearSearch<T: Comparable>(array: [T], _ object: T) -> Int? {
+  for (index, obj) in array.enumerate() where obj == object {
+    return index
+  }
+  return nil
 }
 ```
 
@@ -39,3 +39,5 @@ The best-case performance is **O(1)** but this case is rare because the object w
 ### See also
 
 See also [Wikipedia](https://en.wikipedia.org/wiki/Linear_search).
+
+*Written by [Patrick Balestra](http://www.github.com/BalestraPatrick)*
