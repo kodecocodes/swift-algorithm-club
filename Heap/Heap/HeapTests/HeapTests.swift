@@ -4,7 +4,7 @@
 //
 
 import XCTest
-@testable import Test
+@testable import Heap
 
 class HeapTests: XCTestCase {
     

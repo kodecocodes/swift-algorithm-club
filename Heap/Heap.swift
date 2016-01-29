@@ -4,7 +4,7 @@
 //
 
 /**
- * A heap is a type of tree data structure with 2 charactersitics:
+ * A heap is a type of tree data structure with 2 characteristics:
  * 1. Parent nodes are either greater or less than each one of their children (called max heaps and min heaps respectively)
  * 2. Only the top item is accessible (greatest or smallest)
  *

@@ -123,7 +123,7 @@ Lists:
 - Splay Tree
 - Threaded Binary Tree
 - kd-Tree
-- [Heap](Heap/) (by [Kevin Randrup](http://www.github.com/kevinrandrup))
+- [Heap](Heap/)
 - Fibonacci Heap
 - Trie
 

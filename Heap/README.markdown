@@ -1,14 +1,14 @@
 # Heap
 
-Written for the Swift Algorithm Club by Kevin Randrup. 
+Written for the Swift Algorithm Club by [Kevin Randrup](http://www.github.com/kevinrandrup). 
 
-### Intro
+## Intro
 
 A heap is a specialized type of tree with only two operations, `insert()` and `remove()`. Heaps are usually implemented using an array. 
 
 In Swift, a Heap protocol would look something like this:
 
-```
+```swift
 protocol Heap {
     typealias Value
     func insert(value: Value)
@@ -16,7 +16,7 @@ protocol Heap {
 }
 ```
 
-### Heap Property
+## Heap Property
 
 In any given heap, ether every parent node is greater than its child nodes or every parent is less than its child nodes. This "heap property" is true for every single node in the tree.
 
@@ -29,14 +29,17 @@ An example:
  /  \
 (5) (1) 
 ```
+
 The heap property for this tree is satisfied because every parent node is greater than its children node. `(10)` is greater than `(7)` and `(3)`. `(7)` is greater than `(3)` and `(1)`.
 
-### So what's the problem with trees?
+## So what's the problem with trees?
 
-#### The balancing issue
+### The balancing issue
+
 If you randomly add and remove data, trees will have `O(log(n))` performance. Unfortunatly our data ususally isn't perfectly random so tree can become unbalanced and take more than `O(log(n))` time. There are a lot of ways to combat this issue in trees (see Binary Trees, AVL tree, Red-Black Tree) but with heaps we don't actually need the entire tree to be sorted. We just want the heap property to be fullfilled.
 
-#### The memory issue
+### The memory issue
+
 Trees also take up more memory than they data they store. You need to allocate memory for nodes and pointers to the left/right child nodes. Compare this to an [array](../Fixed Size Array).
 
 ```
@@ -46,9 +49,10 @@ Trees also take up more memory than they data they store. You need to allocate m
  /  \
 (5) (1) 
 ```
+
 Notice that if you go horizontally accross the tree shown above, the values are in no particular order; it does not matter whether `(7)` is greater than or less that `(2)`, as long as they are both less than `(10)`.  The lack of order means we can fill out our tree one row at a time, as long as we maintain the heap property.
 
-#### The solution
+## The solution
 
 Adding only to the end of the heap allows us to implement the Heap with an array; this may seem like an odd way to implement a tree-like structure but it is very efficient in both time and space. This is how we're going to store the array shown above:
 
@@ -67,7 +71,7 @@ We can use simple path to find the parent or child node for a node at a particul
 
 Using integer arithmetic and division the solution is a trivial computation:
 
-```
+```swift
 childOne = (parent * 2) + 1
 childTwo = childOne + 1 = (parent * 2) + 2
 parent = (child - 1) / 2
@@ -75,7 +79,7 @@ parent = (child - 1) / 2
 
 These equations let us find the parent or child index for any node in `O(1)` time without using nodes; this means we don't need to use extra memory to allocate nodes that contain data and references to the left and right children. We can also append a node to the end of the array in `O(1)` time.
 
-### Insertion
+## Insertion
 
 Lets go through an example insertion. Lets insert `(6)` into this heap:
 
@@ -86,6 +90,7 @@ Lets go through an example insertion. Lets insert `(6)` into this heap:
  /  \
 (5) (1) 
 ```
+
 Lets add `(6)` to the last available space on the last row.
 
 ```
@@ -107,7 +112,7 @@ Unfortunately, the heap property is no longer satisfied because `(2)` is above `
 ```
 
 
-### Removal
+## Removal
 
 The `remove()` method is implemented similar to `insert()`. Lets remove 10 from the previous tree:
 
@@ -128,6 +133,7 @@ So what happens to the empty spot at the top?
  /  \
 (5) (1) 
 ```
+
 Like `insert()`, we're going to take the last object we have, stick it up on top of the tree, and restore the heap property. 
 
 ```
@@ -157,8 +163,9 @@ Keep shifting down until the node doesn't have any children or it's largest than
  /
 (1)
 ```
+
 Finally we can return `(10)`.
 
-### Sources
+## See also
 
 [Heap on Wikipedia](https://en.wikipedia.org/wiki/Heap_%28data_structure%29)
