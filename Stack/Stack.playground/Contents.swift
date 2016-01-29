@@ -11,7 +11,7 @@
   Push and pop are O(1) operations.
 */
 
-public struct Stack<T> {
+public struct Stack<T> : ArrayLiteralConvertible {
   private var array = [T]()
   
   public var count: Int {
@@ -37,10 +37,15 @@ public struct Stack<T> {
   public func peek() -> T? {
     return array.last
   }
+	
+  // MARK: - ArrayLiteralConvertible
+  public init(arrayLiteral elements: T...) {
+	array = elements
+  }
 }
 
 // Create a stack and put some elements on it already.
-var stackOfNames = Stack(array: ["Carl", "Lisa", "Stephanie", "Jeff", "Wade"])
+var stackOfNames: Stack<String> = ["Carl", "Lisa", "Stephanie", "Jeff", "Wade"]
 
 // Add an element to the top of the stack.
 stackOfNames.push("Mike")
