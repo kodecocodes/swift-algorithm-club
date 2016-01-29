@@ -19,7 +19,7 @@ public struct Stack<T> {
   }
 
   public mutating func pop() -> T? {
-    if count == 0 {
+    if isEmpty {
       return nil
     } else {
       return array.removeLast()
