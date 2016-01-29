@@ -28,9 +28,9 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 
 ### Searching
 
-- [Linear Search](Linear Search/)
+- [Linear Search](Linear Search/). Find an element in an array.
 - [Binary Search](Binary Search/). Quickly find elements in a sorted array.
-- Count Occurrences
+- [Count Occurrences](Count Occurrences/). Count how often a value appears in an array.
 - Select Minimum / Maximum
 - Select k-th Largest Element
 - Selection Sampling
