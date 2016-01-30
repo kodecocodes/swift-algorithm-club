@@ -80,7 +80,7 @@ Bad sorting algorithms (don't use these!):
 
 ### Mathematics
 
-- Greatest Common Divisor (GCD)
+- [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
 - Statistics
 - Combinatorics (permutations etc)
 
