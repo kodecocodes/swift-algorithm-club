@@ -81,8 +81,8 @@ Bad sorting algorithms (don't use these!):
 ### Mathematics
 
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
+- [Permutations and combinations](Combinatorics/). Get your combinatorics on!
 - Statistics
-- Combinatorics (permutations etc)
 
 ## Data structures
 
