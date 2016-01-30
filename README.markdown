@@ -99,7 +99,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an array with a fixed size.
 - Ordered Array. An array that is always sorted.
-- Ring Buffer. Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
+- [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Queues
 

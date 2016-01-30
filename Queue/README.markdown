@@ -78,7 +78,7 @@ Enqueuing is an **O(1)** operation because adding to the end of an array always 
 
 However, to dequeue we remove the element from the beginning of the array. This is an **O(n)** operation because it requires all remaining array elements to be shifted in memory.
 
-More efficient implementations would use a linked list, a circular buffer, or a heap. (I might add an example of this later.)
+More efficient implementations would use a linked list, a [circular buffer](../Ring Buffer/), or a [heap](../Heap/). (I might add an example of this later.)
 
 Variations on this theme are [deque](../Deque/), a double-ended queue where you can enqueue and dequeue at both ends, and [priority queue](../Priority Queue/), a sorted queue where the "most important" item is always at the front.
 
