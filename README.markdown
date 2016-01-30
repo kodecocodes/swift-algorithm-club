@@ -8,6 +8,8 @@ If you're a computer science student who needs to learn this stuff for exams -- 
 
 The goal of this project is to explain how algorithms work. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use, but you may need to tweak it to fit into your own codebase.
 
+All code is compatible with **Xcode 7.2** and **Swift 2.1**.
+
 This is a work in progress. More algorithms will be added soon. :-)
 
 **Suggestions and contributions are welcome!** Report an issue to leave feedback, or submit a pull request.
@@ -74,7 +76,7 @@ Bad sorting algorithms (don't use these!):
 
 ### Miscellaneous
 
-- Shuffle array
+- [Shuffle](Shuffle/). Randomly rearranges the contents of an array.
 
 ### Mathematics
 
