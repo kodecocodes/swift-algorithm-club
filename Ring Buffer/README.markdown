@@ -129,7 +129,7 @@ In other words, we take the modulo (or the remainder) of the read and write inde
 
 The reason this is a bit controversial is that `writeIndex` and `readIndex` always increment, so in theory these values could become too large to fit into an integer and the app will crash. However, a quick back-of-the-napkin calculation should take away those fears.
 
-Both `writeIndex` and `readIndex` are 64-bit integers. If we assume that they are incremented 1000 times per second, which is a lot, then doing this continuously for one year requires `ceil(log_2(365 * 24 * 60 * 60 * 1000)) = 35` bits. That gives us 28 bits to spare, so that should give you about 2^28 years before running into problems. That's a long time. :-)
+Both `writeIndex` and `readIndex` are 64-bit integers. If we assume that they are incremented 1000 times per second, which is a lot, then doing this continuously for one year requires `ceil(log_2(365 * 24 * 60 * 60 * 1000)) = 35` bits. That leaves 28 bits to spare, so that should give you about 2^28 years before running into problems. That's a long time. :-)
   
 To play with this ring buffer, copy the code to a playground and do the following to mimic the example above:
 
