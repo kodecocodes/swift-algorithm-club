@@ -12,7 +12,7 @@ We start by comparing the first number in the array, `5` with the number we're l
 
 ### The code
 
-Here is a simple implementation of insertion sort in Swift:
+Here is a simple implementation of linear search in Swift:
 
 ```swift
 func linearSearch<T: Equatable>(array: [T], _ object: T) -> Int? {
