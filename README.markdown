@@ -81,7 +81,7 @@ Bad sorting algorithms (don't use these!):
 ### Mathematics
 
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
-- [Permutations and combinations](Combinatorics/). Get your combinatorics on!
+- [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
 - Statistics
 
 ## Data structures
@@ -99,7 +99,6 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an array with a fixed size.
 - Ordered Array. An array that is always sorted.
-- [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Queues
 
@@ -107,6 +106,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 - [Queue](Queue/). First-in, first-out!
 - Deque
 - Priority Queue
+- [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Lists
 
@@ -131,7 +131,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 - Bit Set
 - Bloom Filter
-- Hash Set
+- [Hash Set](Hash Set/). A set implemented using a hash table.
 - Multiset
 - Ordered Set
 
