@@ -137,7 +137,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 ### Hashing
 
-- Hash Table
+- [Hash Table](Hash Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented. 
 - Hash Functions
 
 ### Graphs
