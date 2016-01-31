@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B18E0E11C5E5A27005A2B8E /* SinglyLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B18E0E01C5E5A27005A2B8E /* SinglyLinkedList.swift */; };
 		E63E399B1C5D1963005F7332 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63E399A1C5D1963005F7332 /* AppDelegate.swift */; };
 		E63E399D1C5D1963005F7332 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E63E399C1C5D1963005F7332 /* Assets.xcassets */; };
 		E63E39A01C5D1963005F7332 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E63E399E1C5D1963005F7332 /* MainMenu.xib */; };
 		E63E39AB1C5D1963005F7332 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63E39AA1C5D1963005F7332 /* LinkedListTests.swift */; };
-		E63E39BA1C5D19DF005F7332 /* SinglyLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63E39B91C5D19DF005F7332 /* SinglyLinkedList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,6 +25,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B18E0E01C5E5A27005A2B8E /* SinglyLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SinglyLinkedList.swift; path = ../../SinglyLinkedList.swift; sourceTree = "<group>"; };
 		E63E39971C5D1963005F7332 /* LinkedListTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LinkedListTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E63E399A1C5D1963005F7332 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E63E399C1C5D1963005F7332 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -33,7 +34,6 @@
 		E63E39A61C5D1963005F7332 /* LinkedListTestsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LinkedListTestsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E63E39AA1C5D1963005F7332 /* LinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
 		E63E39AC1C5D1963005F7332 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E63E39B91C5D19DF005F7332 /* SinglyLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglyLinkedList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +57,6 @@
 		E63E398E1C5D1963005F7332 = {
 			isa = PBXGroup;
 			children = (
-				E63E39B91C5D19DF005F7332 /* SinglyLinkedList.swift */,
 				E63E39991C5D1963005F7332 /* LinkedListTests */,
 				E63E39A91C5D1963005F7332 /* LinkedListTestsTests */,
 				E63E39981C5D1963005F7332 /* Products */,
@@ -78,8 +77,9 @@
 			children = (
 				E63E399A1C5D1963005F7332 /* AppDelegate.swift */,
 				E63E399C1C5D1963005F7332 /* Assets.xcassets */,
-				E63E399E1C5D1963005F7332 /* MainMenu.xib */,
 				E63E39A11C5D1963005F7332 /* Info.plist */,
+				E63E399E1C5D1963005F7332 /* MainMenu.xib */,
+				7B18E0E01C5E5A27005A2B8E /* SinglyLinkedList.swift */,
 			);
 			path = LinkedListTests;
 			sourceTree = "<group>";
@@ -193,7 +193,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E63E39BA1C5D19DF005F7332 /* SinglyLinkedList.swift in Sources */,
+				7B18E0E11C5E5A27005A2B8E /* SinglyLinkedList.swift in Sources */,
 				E63E399B1C5D1963005F7332 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

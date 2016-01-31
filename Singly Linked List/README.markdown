@@ -2,11 +2,12 @@
 
 Singly linked lists are basic data structures that enable linking of related elements. Linked lists are not unlike arrays. They provide insertion, retrieval, updating, and removal of their elements. The elements of a linked list are referred to as 'nodes.' Each node has two properties: a value, and pointer the the next node in the list.They provide O(n) time for storage and lookup. See below for the memory implications and differences between singly and doubly linked lists.
 
-### Linked List vs. Array
+## Linked List vs. Array
 
 One major difference between linked lists and arrays are that the elements of a linked list are not stored 'contiguously' in memory as in an array. This means that elements can be inserted or removed without having to reorganize their entire structure. Conversely, linked lists do not random access to the data or efficient indexing of their elements.
 
-#### Singly linked list vs. Doubly linked list
+## Singly linked list vs. Doubly linked list
+
 A singly linked list's nodes contain only their key (or data) and a pointer to the next node in the list. A Doubly linked list contains nodes that have a key, a pointer to the next node, and also a pointer to the previous node in the list.
 Doubly linked lists require more memory per node, but can provide easier manipulation than singly linked lists. 
 
@@ -18,6 +19,7 @@ class Node {
 	var next: Node?
 }
 ```
+
 Note the type of the 'next' property. If we are at the end of our list or if our list is empty, there is no next link. Because of this, 'next' is of type optional node. What if we want a linked list of something other than integers, or support nil-values for keys? We can make our data structure generic.
 
 ```swift
@@ -27,7 +29,8 @@ class Node<T> {
 }
 ```
 
-#### Head and Tail
+## Head and Tail
+
 A linked list's first node is referred to as its 'head'. The term 'tail' can be used to refer to the last node in the list, or to all the nodes in the list after the head.
 
 To create a linked list of nodes, we create a class with a generic type. Because we'll need to compare the nodes on the basis of equality, we constrain our generic type 'T' to conform to Swift's Equatable protocol.
@@ -39,6 +42,7 @@ class SinglyLinkedList<T: Equatable> {
 	var head = Node<T>()
 }
 ```
+
 To support insertion of nodes to the list, we write a function that takes a key of type 'T'. 
 
 ```swift
@@ -64,6 +68,7 @@ To support insertion of nodes to the list, we write a function that takes a key 
         }
     }
 ```
+
 Before we can write a function that removes a node by its index, we'll need to know the count of nodes in our list. We'll also include a computed property that will tell us if a list is empty.
 
 ```swift
@@ -82,7 +87,6 @@ var count: Int {
         return head.key == nil
     }
 ```
-
 
 To support deletion of nodes in the list, we write a function that accepts the index of the node to remove. We'll have to reorganize the nodes that surround the link that is removed.
 
@@ -125,4 +129,7 @@ To support deletion of nodes in the list, we write a function that accepts the i
         }
     }
 ```
-Linked lists  are relatively simple structures, but can be used to implement other common data types like stacks and queues. It can be helpful to better understand how they differ from the Array type and what memory and efficiency implications are associated with their use.
+
+Linked lists are relatively simple structures, but can be used to implement other common data types like stacks and queues. It can be helpful to better understand how they differ from the Array type and what memory and efficiency implications are associated with their use.
+
+*Written for Swift Algorithm Club by [Mac Bellingrath](https://github.com/macbellingrath)*
