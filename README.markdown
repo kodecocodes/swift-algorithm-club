@@ -81,7 +81,7 @@ Bad sorting algorithms (don't use these!):
 ### Mathematics
 
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
-- [Permutations and combinations](Combinatorics/). Get your combinatorics on!
+- [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
 - Statistics
 
 ## Data structures
@@ -99,7 +99,6 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an array with a fixed size.
 - Ordered Array. An array that is always sorted.
-- [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Queues
 
@@ -107,11 +106,12 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 - [Queue](Queue/). First-in, first-out!
 - Deque
 - Priority Queue
+- [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Lists
 
-- Singly Linked List
-- Doubly Linked List
+- [Singly Linked List](Singly Linked List/). A list where each node only has a pointer to the next node.
+- Doubly Linked List. A list where each node has pointers to the previous and the next node.
 
 ### Trees
 
@@ -131,13 +131,13 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 - Bit Set
 - Bloom Filter
-- Hash Set
+- [Hash Set](Hash Set/). A set implemented using a hash table.
 - Multiset
 - Ordered Set
 
 ### Hashing
 
-- Hash Table
+- [Hash Table](Hash Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented. 
 - Hash Functions
 
 ### Graphs
