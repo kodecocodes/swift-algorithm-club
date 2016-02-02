@@ -1,6 +1,6 @@
 /*
   Determines if there are any entries a[i] + a[j] == k in the array.
-  Returns the first pair that sums to k as a tuple.
+  Returns the indices of the first pair of elements that sum to k as a tuple.
 
   Uses a dictionary to store differences between the target and each element.
   If any value in the dictionary equals an element in the array, they sum to k.
@@ -17,6 +17,6 @@ func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
           map[k - a[i]] =  i
       }
   }
-  
+
   return nil // if empty array or no entries sum to target k
 }
