@@ -123,7 +123,7 @@ This method is quite straightforward:
 
 Most implementations of Mergesort produce a *stable* sort. 
 
-*"A sort is stable when elements that have identical sort keys remain in the same relative order after sorting. This is not important for simple values such as numbers or strings, but it is important when sorting more complex objects. In the example above, if two objects have the same `priority`, regardless of the values of their other properties, those two objects don't get swapped around."* Matthijs Hollemans
+*"A sort is stable when elements that have identical sort keys remain in the same relative order after sorting. This is not important for simple values such as numbers or strings, but it is important when sorting more complex objects. In the example above, if two objects have the same `priority`, regardless of the values of their other properties, those two objects don't get swapped around." - *Matthijs Hollemans*
 
 ### Performance
 
