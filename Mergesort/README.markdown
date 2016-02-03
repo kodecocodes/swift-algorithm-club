@@ -38,7 +38,7 @@ Since you're left with 2 piles, `[9]` finally gets it's chance to merge, resulti
 
 In code, it looks like this:
 
-```
+```swift
 let array = [2, 1, 5, 4, 9]
 
 func mergeSort(array: [Int]) -> [Int] {
