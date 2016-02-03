@@ -120,6 +120,17 @@ This method is quite straightforward:
 
 4. If control exits from the previous while loop, it means that either `leftPile` or `rightPile` has it's contents completely merged into the `orderedPile`. At this point, you no longer need to do comparisons. Just append the rest of the contents of the other array until there's no more to append.
 
+
+Most implementations of Mergesort produce a *stable* sort. 
+
+*"A sort is stable when elements that have identical sort keys remain in the same relative order after sorting. This is not important for simple values such as numbers or strings, but it is important when sorting more complex objects. In the example above, if two objects have the same `priority`, regardless of the values of their other properties, those two objects don't get swapped around."* Matthijs Hollemans
+
+### Performance
+
+The speed of mergesort is dependent on the size of the array it needs to sort. Whether or not the initial array is sorted already doesn't affect the speed of the sort since you'll be doing the same amount splits and comparisons irregardless of the initial order of the elements.
+
+Therefore, the time complexity for the best, worst, and average case will always be O(n log n). 
+
 ## See Also
 
 See also [Wikipedia](https://en.wikipedia.org/wiki/Merge_sort)
