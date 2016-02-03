@@ -2,7 +2,53 @@
 
 You're given an array `a` with numbers. Write an algorithm that checks if there are any two entries in the array that add up to a given number `k`. In other words, is there any `a[i] + a[j] == k`?
 
-There are a variety of solutions to this problem (some better than others) but I quite like the following. 
+There are a variety of solutions to this problem (some better than others). The following solutions both run in O(n) time.
+
+# Solution 1
+
+This solution uses a dictionary to store differences between the target value and each element, along with the corresponding indices. With this approach, each key found in the dictionary corresponds with a new target value; if any new target value is found (i.e. one of the following entries is equal to one of the dictionary's keys), then we know there exists two entries that sum to the given k, namely the current entry, and the entry i (the value stored in the dictionary whose k equals the current entry).
+
+**Note:** This solution returns the first set of indices `(i, j)` where `a[i] + a[j] == k`.
+
+```swift
+func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
+    var dict = [Int: Int]()
+
+    for i in 0 ... a.count - 1 {
+        if let newK = dict[a[i]] {
+            return (newK, i)
+        } else {
+            dict[k - a[i]] =  i
+        }
+    }
+
+    return nil // if empty array or no entries sum to target k
+}
+```
+
+Let's take a look at an example and run through the algorithm to see how it works:
+Given an array: {8, 1, 23, 9, -1, 0, 11, 6}
+Let's find out if there exist two entries whose sum is equal to 10.
+
+Initially, our dictionary is empty. We begin looping through each element:
+i = 0:
+Is `8` in the dictionary? No. Let's add the difference between the target and the current element, and the current index to the dictionary: {10 - 8 => 0} = {2 => 0}
+dict = {2 => 0}
+
+i = 1:
+Is `1` in the dictionary? No. Let's do as above and add it: `{10 - 1 => 1} = {9 => 1}`
+`dict = {2 => 0, 9 => 1}`
+
+i = 2:
+Is `23` in the dictionary? No. Let's do as above and add it: `{10 - 23 => 2} = {-13 => 2}`
+`dict = {2 => 0, 9 => 1, -13 => 2}`
+
+i = 3:
+Is `9` in the dictionary? Yes! That means that we have found a pair of entries that sum to our target. Namely `9` and `array[dict[9]]`. `9 + array[dict[9]] = 9 + array[1] = 9 + 1 = 10`. Therefore, we return the corresponding indices of the entries `1` and `9`: `(1, 3)`.
+
+**Note:** This array has multiple solutions: `(1, 3), and (4, 6)`, however only the first solution is returned.
+
+# Solution 2
 
 **Note**: This particular algorithm requires that the array is sorted, so if the array isn't sorted yet (usually it won't be), you need to sort it first. The time complexity of the algorithm itself is **O(n)** but if you have to sort first, the total time complexity becomes **O(n log n)**. Slightly worse but still quite acceptable.
 
@@ -88,4 +134,4 @@ It's possible, of course, that there are no values for `a[i] + a[j]` that sum to
 
 I'm quite enamored by this little algorithm. It shows that with some basic preprocessing on the input data -- sorting it from low to high -- you can turn a tricky problem into a very simple and beautiful algorithm.
 
-*Written by Matthijs Hollemans*
+*Written by Matthijs Hollemans and Daniel Speiser*
