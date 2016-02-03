@@ -11,7 +11,7 @@
 func binarySearch<T: Comparable>(a: [T], key: T) -> Int? {
   var range = 0..<a.count
   while range.startIndex < range.endIndex {
-    let midIndex = range.startIndex + (range.endIndex - range.startIndex) / 2
+    let midIndex = (range.startIndex + range.endIndex) / 2
     if a[midIndex] == key {
       return midIndex
     } else if a[midIndex] < key {
