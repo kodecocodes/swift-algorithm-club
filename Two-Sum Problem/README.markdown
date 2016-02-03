@@ -2,55 +2,69 @@
 
 You're given an array `a` with numbers. Write an algorithm that checks if there are any two entries in the array that add up to a given number `k`. In other words, is there any `a[i] + a[j] == k`?
 
-There are a variety of solutions to this problem (some better than others). The following solutions both run in O(n) time.
+There are a variety of solutions to this problem (some better than others). The following solutions both run in **O(n)** time.
 
 # Solution 1
 
-This solution uses a dictionary to store differences between the target value and each element, along with the corresponding indices. With this approach, each key found in the dictionary corresponds with a new target value; if any new target value is found (i.e. one of the following entries is equal to one of the dictionary's keys), then we know there exists two entries that sum to the given k, namely the current entry, and the entry i (the value stored in the dictionary whose k equals the current entry).
+This solution uses a dictionary to store differences between each element in the array and the sum `k` that we're looking for. The dictionary also stores the indices of each element.
 
-**Note:** This solution returns the first set of indices `(i, j)` where `a[i] + a[j] == k`.
+With this approach, each key in the dictionary corresponds to a new target value. If one of the following numbers from the array is equal to one of the dictionary's keys, then we know there exist two numbers that sum to `k`. 
 
 ```swift
 func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
-    var dict = [Int: Int]()
+  var dict = [Int: Int]()
 
-    for i in 0 ... a.count - 1 {
-        if let newK = dict[a[i]] {
-            return (newK, i)
-        } else {
-            dict[k - a[i]] =  i
-        }
+  for i in 0 ..< a.count {
+    if let newK = dict[a[i]] {
+      return (newK, i)
+    } else {
+      dict[k - a[i]] =  i
     }
+  }
 
-    return nil // if empty array or no entries sum to target k
+  return nil  // if empty array or no entries sum to target k
 }
 ```
 
-Let's take a look at an example and run through the algorithm to see how it works:
-Given an array: {8, 1, 23, 9, -1, 0, 11, 6}
+The `twoSumProblem()` function takes two parameters: the array `a` with the numbers, and `k`, the sum we're looking for. It returns the first set of indices `(i, j)` where `a[i] + a[j] == k`, or `nil` if no two numbers add up to `k`.
+
+Let's take a look at an example and run through the algorithm to see how it works. Given is the array:
+
+```swift
+[ 7, 2, 23, 8, -1, 0, 11, 6  ]
+```
+
 Let's find out if there exist two entries whose sum is equal to 10.
 
 Initially, our dictionary is empty. We begin looping through each element:
-i = 0:
-Is `8` in the dictionary? No. Let's add the difference between the target and the current element, and the current index to the dictionary: {10 - 8 => 0} = {2 => 0}
-dict = {2 => 0}
 
-i = 1:
-Is `1` in the dictionary? No. Let's do as above and add it: `{10 - 1 => 1} = {9 => 1}`
-`dict = {2 => 0, 9 => 1}`
+- **i = 0**: Is `0` in the dictionary? No. We add the difference between the target `k` and the current number to the dictionary. The difference is `10 - 7 = 3`, so the dictionary key is `3`. The value for that key is the current index, `0`. The dictionary now looks like this:
 
-i = 2:
-Is `23` in the dictionary? No. Let's do as above and add it: `{10 - 23 => 2} = {-13 => 2}`
-`dict = {2 => 0, 9 => 1, -13 => 2}`
+```swift
+[ 3: 0 ]
+```
 
-i = 3:
-Is `9` in the dictionary? Yes! That means that we have found a pair of entries that sum to our target. Namely `9` and `array[dict[9]]`. `9 + array[dict[9]] = 9 + array[1] = 9 + 1 = 10`. Therefore, we return the corresponding indices of the entries `1` and `9`: `(1, 3)`.
+- **i = 1:** Is `2` in the dictionary? No. Let's do as above and add the difference (`10 - 2 = 8`) and the array index (`1`). The dictionary is:
 
-**Note:** This array has multiple solutions: `(1, 3), and (4, 6)`, however only the first solution is returned.
+```swift
+[ 3: 0, 8: 1 ]
+```
+
+- **i = 2:** Is `23` in the dictionary? No. Again, we add it to the dictionary. The difference is `10 - 23 = -13` and the index is `2`:
+
+```swift
+[ 3: 0, 8: 1, -13: 2 ]
+```
+
+- **i = 3:** Is `8` in the dictionary? Yes! That means that we have found a pair of entries that sum to our target. Namely the current number `8` and `array[dict[8]]` because `dict[8] = 1`, `array[1] = 2`, and `8 + 2 = 10`. Therefore, we return the corresponding indices of these numbers. For `8` that is the current loop index, `3`. For `2` that is `dict[8]` or `1`. The tuple we return is `(1, 3)`.
+
+The given array actually has multiple solutions: `(1, 3)` and `(4, 6)`. However, only the first solution is returned.
+
+The running time of this algorithm is **O(n)** because it potentially may need to look at all array elements. It also requires **O(n)** additional storage space for the dictionary.
 
 # Solution 2
 
-**Note**: This particular algorithm requires that the array is sorted, so if the array isn't sorted yet (usually it won't be), you need to sort it first. The time complexity of the algorithm itself is **O(n)** but if you have to sort first, the total time complexity becomes **O(n log n)**. Slightly worse but still quite acceptable.
+**Note**: This particular algorithm requires that the array is sorted, so if the array isn't sorted yet (usually it won't be), you need to sort it first. The time complexity of the algorithm itself is **O(n)** and, unlike the previous solution, it does not require extra storage. Of course, if you have to sort first, the total time complexity becomes **O(n log n)**. Slightly worse but still quite acceptable.
 
 Here is the code in Swift:
 
@@ -73,7 +87,7 @@ func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
 }
 ```
 
-The `twoSumProblem()` function takes as parameters the array `a` with the numbers, which it assumes is sorted, and `k`, the sum we're looking for. If there are two numbers that add up to `k`, the function returns a tuple containing their array indices. If not, it returns `nil`.
+As in the first solution, the `twoSumProblem()` function takes as parameters the array `a` with the numbers and `k`, the sum we're looking for. If there are two numbers that add up to `k`, the function returns a tuple containing their array indices. If not, it returns `nil`. The main difference is that `a` is assumed to be sorted.
 
 To test it, copy the code into a playground and add the following:
 
