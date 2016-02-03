@@ -2,7 +2,7 @@
 
 Goal: Sort an array from low to high (or high to low)
 
-Invented in 1945, mergesort is a fairly efficient sorting algorithm with a best, worst, and average time complexity of **O(n log n)**. The idea behind Mergesort
+Invented in 1945 by John von Neumann, mergesort is a fairly efficient sorting algorithm with a best, worst, and average time complexity of **O(n log n)**. The idea behind Mergesort
 is to **divide and conquer**; To divide a big problem into smaller problems and solving many small problems instead of solving a big one. I think of mergesort as **split first** and **merge after**. 
 
 Assume you're given an array of *n* numbers and you need to put them in the right order. The merge sort algorithm works as follows:
