@@ -110,8 +110,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 ### Lists
 
-- [Singly Linked List](Singly Linked List/). A list where each node only has a pointer to the next node.
-- Doubly Linked List. A list where each node has pointers to the previous and the next node.
+- [Linked List](Linked List/). A sequence of data items connected through links. Covers both singly and doubly linked lists.
 
 ### Trees
 
