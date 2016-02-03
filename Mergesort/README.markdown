@@ -43,8 +43,6 @@ Since you're left with 2 piles, `[9]` finally gets it's chance to merge, resulti
 Based off of the above example, here's what mergesort may look like:
 
 ```swift
-let array = [2, 1, 5, 4, 9]
-
 func mergeSort(array: [Int]) -> [Int] {
   guard array.count > 1 else { return array } // 1
   let middleIndex = array.count / 2 // 2
@@ -74,11 +72,14 @@ Here's the merging algorithm:
 
 ```swift
 func merge(leftPile leftPile: [Int], rightPile: [Int]) -> [Int] {
+	// 1
   var leftIndex = 0
   var rightIndex = 0
 
+  // 2 
   var orderedPile = [Int]()
 
+  // 3
   while leftIndex < leftPile.count && rightIndex < rightPile.count {
     if leftPile[leftIndex] < rightPile[rightIndex] {
       orderedPile.append(leftPile[leftIndex])
@@ -94,6 +95,7 @@ func merge(leftPile leftPile: [Int], rightPile: [Int]) -> [Int] {
     }
   }
 
+  // 4
   while leftIndex < leftPile.count {
     orderedPile.append(leftPile[leftIndex])
     leftIndex += 1
@@ -108,3 +110,12 @@ func merge(leftPile leftPile: [Int], rightPile: [Int]) -> [Int] {
 }
 ```
 
+This method is quite straightforward:
+
+1. You need 2 indexes to keep track of your progress for the two arrays while merging.
+
+2. This is the merged array. It's empty right now, but you'll build it up in subsequent steps by appending elements from the other arrays.
+
+3. This while loop will compare the elements from the left and right sides to make sure that the result stays in order.
+
+4. If control exits from the previous while loop, it means that either `leftPile` or `rightPile` has it's contents completely merged into the `orderedPile`. At this point, you no longer need to do comparisons. Just append the rest of the contents of the other array until there's no more to append. 
