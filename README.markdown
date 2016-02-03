@@ -134,7 +134,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 ### Trees
 
-- Tree (general-purpose)
+- [Tree](Tree/). A general-purpose tree structure.
 - Binary Tree
 - Binary Search Tree (BST)
 - AVL Tree
