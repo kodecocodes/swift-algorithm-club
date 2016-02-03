@@ -56,7 +56,7 @@ Basic sorts:
 Fast sorts:
 
 - [Quicksort](Quicksort/)
-- Merge Sort
+- [Merge Sort](Mergesort/)
 - Heap Sort
 
 Special-purpose sorts:

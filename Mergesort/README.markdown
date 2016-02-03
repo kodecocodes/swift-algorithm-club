@@ -116,6 +116,12 @@ This method is quite straightforward:
 
 2. This is the merged array. It's empty right now, but you'll build it up in subsequent steps by appending elements from the other arrays.
 
-3. This while loop will compare the elements from the left and right sides to make sure that the result stays in order.
+3. This while loop will compare the elements from the left and right sides, and append them to the `orderedPile` while making sure that the result stays in order.
 
-4. If control exits from the previous while loop, it means that either `leftPile` or `rightPile` has it's contents completely merged into the `orderedPile`. At this point, you no longer need to do comparisons. Just append the rest of the contents of the other array until there's no more to append. 
+4. If control exits from the previous while loop, it means that either `leftPile` or `rightPile` has it's contents completely merged into the `orderedPile`. At this point, you no longer need to do comparisons. Just append the rest of the contents of the other array until there's no more to append.
+
+## See Also
+
+See also [Wikipedia](https://en.wikipedia.org/wiki/Merge_sort)
+
+*Written by Kelvin Lau*
