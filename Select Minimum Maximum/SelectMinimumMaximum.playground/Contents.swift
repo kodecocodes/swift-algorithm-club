@@ -14,11 +14,11 @@ func maximum<T: Comparable>(var array: [T]) -> T? {
   return maximum
 }
 
-// Simple test minimum and maximum functions
+// Simple test of minimum and maximum functions
 let array = [ 8, 3, 9, 4, 6 ]
 minimum(array)
 maximum(array)
 
 // Built-in Swift functions
-array.maxElement()
 array.minElement()
+array.maxElement()
