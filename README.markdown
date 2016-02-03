@@ -4,7 +4,7 @@ Welcome to the algorithm club!
 
 Here you'll find implementations of popular algorithms and data structures in everyone's favorite new language Swift, with detailed explanations of how they work.
 
-If you're a computer science student who needs to learn this stuff for exams -- or if you're a self-taught programmer who wants to brush up on the theory behind your craft, you've come to the right place.
+If you're a computer science student who needs to learn this stuff for exams -- or if you're a self-taught programmer who wants to brush up on the theory behind your craft -- you've come to the right place.
 
 The goal of this project is to explain how algorithms work. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use, but you may need to tweak it to fit into your own codebase.
 
@@ -13,6 +13,22 @@ All code is compatible with **Xcode 7.2** and **Swift 2.1**.
 This is a work in progress. More algorithms will be added soon. :-)
 
 **Suggestions and contributions are welcome!** Report an issue to leave feedback, or submit a pull request.
+
+## How to contribute
+
+To keep this a high quality repo, please follow this process when submitting your contribution:
+
+1. Create a pull request to "claim" an algorithm or data structure. Just so multiple people don't work on the same thing.
+2. Use this [style guide](https://github.com/raywenderlich/swift-style-guide) for writing code (more or less).
+3. Write an explanation of how the algorithm works. Include plenty of examples for readers to follow along.
+4. Include your name in the explanation, something like *Written by Your Name* at the end of the document. If you wrote it, you deserve the credit and fame.
+5. Add a playground and/or unit tests.
+
+Just so you know, I will probably edit your text and code for grammar etc, just to ensure a certain level of polish.
+
+### What sort of things can you contribute?
+
+New algorithms and data structures are always welcome (even if they aren't on the list). Improvements to existing implementations. Better explanations. Suggestions for making the code more Swift-like or to make it fit better with the standard library. Unit tests. Fixes for typos. No contribution is too small. :-)
 
 ## Where to start?
 
@@ -83,6 +99,10 @@ Bad sorting algorithms (don't use these!):
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
 - [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
 - Statistics
+
+### Machine learning
+
+- k-Nearest Neighbors
 
 ## Data structures
 
