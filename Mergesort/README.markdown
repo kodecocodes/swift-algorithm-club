@@ -46,29 +46,39 @@ Based off of the above example, here's what mergesort may look like:
 let array = [2, 1, 5, 4, 9]
 
 func mergeSort(array: [Int]) -> [Int] {
+  guard array.count > 1 else { return array } // 1
+  let middleIndex = array.count / 2 // 2
 
-  // base case - if the unsortedArray has less than 2 elements - aka 1 element, simply return, no need to split further
-  if array.count < 2 { return array }
-  let middleIndex = array.count / 2
+  let leftArray = mergeSort(Array(array[0..<middleIndex])) // 3
 
-  // recursively split the left side of the array
-  let leftArray = mergeSort(Array(array[0..<middleIndex]))
+  let rightArray = mergeSort(Array(array[middleIndex..<array.count])) // 4
 
-  // recursively split the right side of the array
-  let rightArray = mergeSort(Array(array[middleIndex..<array.count]))
-
-  // at this point, you should have n piles of arrays with a single element. Time to merge
-  return merge(leftPile: leftArray, rightPile: rightArray)
+  return merge(leftPile: leftArray, rightPile: rightArray) // 5
 }
+```
 
+A step-by-step explanation of how the code works:
+
+1. If the array is empty or only contains a single element, there's no way to split it into smaller pieces. You'll just return the array.
+
+2. Find the middle index. 
+
+3. Using the middle index from the previous step, recursively split the left side of the resulting arrays.
+
+4. Using the middle index, recursively split the right side of the resulting arrays.
+
+5. Finally, merge all the values together, making sure that it's always sorted
+
+
+Here's the merging algorithm:
+
+```swift
 func merge(leftPile leftPile: [Int], rightPile: [Int]) -> [Int] {
   var leftIndex = 0
   var rightIndex = 0
 
-  // orderedPile will be the result of the merge
   var orderedPile = [Int]()
 
-  // insert
   while leftIndex < leftPile.count && rightIndex < rightPile.count {
     if leftPile[leftIndex] < rightPile[rightIndex] {
       orderedPile.append(leftPile[leftIndex])
@@ -97,3 +107,4 @@ func merge(leftPile leftPile: [Int], rightPile: [Int]) -> [Int] {
   return orderedPile
 }
 ```
+
