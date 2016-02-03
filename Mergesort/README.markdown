@@ -38,7 +38,9 @@ The next pass will merge `[1, 2]` and `[4, 5]` together. This results in `[1, 2,
 
 Since you're left with 2 piles, `[9]` finally gets it's chance to merge, resulting in the sorted array `[1, 2, 4, 5, 9]`. 
 
-In code, it looks like this:
+### Top Down Implementation
+
+Based off of the above example, here's what mergesort may look like:
 
 ```swift
 let array = [2, 1, 5, 4, 9]
