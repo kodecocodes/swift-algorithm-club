@@ -1,11 +1,11 @@
 import Foundation
 
 public enum BinarySearchTree<T: Comparable> {
-    indirect case Node(Tree, T, Tree)
+    indirect case Node(BinarySearchTree, T, BinarySearchTree)
     case Leaf(T)
     case Empty
 
-    public func insert(new: T) -> Tree {
+    public func insert(new: T) -> BinarySearchTree {
         switch self {
         case .Leaf(let value):
             if new < value {
