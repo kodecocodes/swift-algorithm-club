@@ -129,3 +129,5 @@ let array = [ 8, 3, 9, 4, 6 ]
 array.minElement() // This will return 3
 array.maxElement() // This will return 9
 ```
+
+*Written by [Chris Pilcher](https://github.com/chris-pilcher)*
