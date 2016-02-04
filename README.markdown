@@ -50,7 +50,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Binary Search](Binary Search/). Quickly find elements in a sorted array.
 - [Count Occurrences](Count Occurrences/). Count how often a value appears in an array.
 - [Select Minimum / Maximum](Select Minimum Maximum). Find the minimum/maximum value in an array.
-- Select k-th Largest Element
+- [k-th Largest Element](Kth Largest Element/). Find the kth largest element in an array.
 - Selection Sampling
 - Union-Find
 
