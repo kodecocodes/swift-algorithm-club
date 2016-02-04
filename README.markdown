@@ -118,7 +118,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 - Tree (general-purpose)
 - Binary Tree
-- [Binary Search Tree (BST)](Binary Search Tree/). A binary tree with the special requirement that elements are inserted according to a specified value, allowing for faster queries, as if using a [binary search](Binary Search/) algorithm.
+- [Binary Search Tree (BST)](Binary Search Tree/). A binary tree with the special requirement that elements are inserted in a specific way, allowing for faster queries, like when using a [binary search](Binary Search/) algorithm.
 - AVL Tree
 - Red-Black Tree
 - Splay Tree
