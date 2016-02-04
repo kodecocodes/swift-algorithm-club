@@ -37,11 +37,9 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Stack](Stack/)
 - [Queue](Queue/)
 - [Insertion Sort](Insertion Sort/)
-- [Binary Search](Binary Search/)
-- Binary Tree
-- Merge Sort
+- [Binary Search](Binary Search/) and [Binary Search Tree](Binary Search Tree/)
+- [Merge Sort](Merge Sort/)
 - [Boyer-Moore](Boyer-Moore/) string search
-- [Binary Search Tree](Binary Search Tree/)
 
 ## The algorithms
 
@@ -73,7 +71,7 @@ Basic sorts:
 Fast sorts:
 
 - [Quicksort](Quicksort/)
-- [Merge Sort](Mergesort/)
+- [Merge Sort](Merge Sort/)
 - Heap Sort
 
 Special-purpose sorts:
