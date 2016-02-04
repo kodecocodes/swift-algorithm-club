@@ -64,7 +64,7 @@ Pick the next pair of numbers from the list, `[ 3, 9 ]`, `3` is less than `9` so
 
 Pick the next pair of numbers from the list, `[ 4, 6 ]`, `4` is less than `6` so we compare `4` to the current minimum `3` and `6` to the current maximum `9`. `4` is greater than `3` so the minimum does not change. `6` is less than `9` so the maximum does not change.
 
-The result is a minimum of `2` and a maximum of `9`.
+The result is a minimum of `3` and a maximum of `9`.
 
 #### The code
 
