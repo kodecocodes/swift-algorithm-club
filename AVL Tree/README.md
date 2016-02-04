@@ -27,3 +27,5 @@ Inserting into the tree is similar to Binary Tree but differs by one additional 
 
 # See also
 [AVL tree on Wikipedia](https://en.wikipedia.org/wiki/AVL_tree)
+
+*Written by Mike Taghavi*
