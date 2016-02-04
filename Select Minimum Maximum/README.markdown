@@ -2,9 +2,9 @@
 
 Goal: Find the minimum/maximum object in an unsorted array.
 
-We have an array of generic objects and we iterate over all the objects keeping track of the minimum/maximum element so far.
-
 ### Maximum or minimum
+
+We have an array of generic objects and we iterate over all the objects keeping track of the minimum/maximum element so far.
 
 #### An example
 
@@ -51,6 +51,24 @@ maximum(array) // This will return 9
 ### Maximum and minimum
 
 To find both the maximum and minimum values contained in array while minimizing the number of comparisons we can compare the items in pairs. 
+
+#### An example
+
+Let's say the we want to find the minimum and maximum value in the unsorted list `[ 8, 3, 9, 4, 6 ]`.
+
+Pick the first number, `8`, and store it as the minimum and maximum element so far. 
+
+Because we have an odd number of items we remove `8` from the list which leaves the pairs `[ 3, 9 ]` and `[ 4, 6 ]`.
+
+Pick the next pair of numbers from the list, `[ 3, 9 ]`, `3` is less than `9` so we compare `3` to the current minimum `8` and `9` to the current maximum `8`. `3` is less than `8` so the new minimum is `3`. `9` is greater than `8` so the new maximum is `9`.
+
+Pick the next pair of numbers from the list, `[ 4, 6 ]`, `4` is less than `6` so we compare `4` to the current minimum `3` and `6` to the current maximum `9`. `4` is greater than `3` so the minimum does not change. `6` is less than `9` so the maximum does not change.
+
+The result is a minimum of `2` and a maximum of `9`.
+
+#### The code
+
+Here is a simple implementation in Swift:
 
 ```swift
 func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)
