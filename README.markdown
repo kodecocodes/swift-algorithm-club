@@ -41,6 +41,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - Binary Tree
 - Merge Sort
 - [Boyer-Moore](Boyer-Moore/) string search
+- [Binary Search Tree](Binary Search Tree/)
 
 ## The algorithms
 
@@ -50,7 +51,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Binary Search](Binary Search/). Quickly find elements in a sorted array.
 - [Count Occurrences](Count Occurrences/). Count how often a value appears in an array.
 - [Select Minimum / Maximum](Select Minimum Maximum). Find the minimum/maximum value in an array.
-- Select k-th Largest Element
+- [k-th Largest Element](Kth Largest Element/). Find the kth largest element in an array.
 - Selection Sampling
 - Union-Find
 
@@ -106,7 +107,7 @@ Bad sorting algorithms (don't use these!):
 
 ## Data structures
 
-The choice of data structure for a particular task depends on a few things. 
+The choice of data structure for a particular task depends on a few things.
 
 First, there is the shape of your data and the kinds of operations that you'll need to perform on it. If you want to look up objects by a key you need some kind of dictionary; if your data is hierarchical in nature you want a tree structure of some sort; if your data is sequential you want a stack or queue.
 
@@ -136,7 +137,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 - [Tree](Tree/). A general-purpose tree structure.
 - Binary Tree
-- Binary Search Tree (BST)
+- [Binary Search Tree (BST)](Binary Search Tree/). A binary tree with the special requirement that elements are inserted in a specific way, allowing for faster queries, like when using a [binary search](Binary Search/) algorithm.
 - AVL Tree
 - Red-Black Tree
 - Splay Tree
@@ -156,7 +157,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 ### Hashing
 
-- [Hash Table](Hash Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented. 
+- [Hash Table](Hash Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented.
 - Hash Functions
 
 ### Graphs
