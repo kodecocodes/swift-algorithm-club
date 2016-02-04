@@ -1,11 +1,11 @@
 import Foundation
 
-enum Tree<T: Comparable> {
+public enum BinarySearchTree<T: Comparable> {
     indirect case Node(Tree, T, Tree)
     case Leaf(T)
     case Empty
-    
-    func insert(new: T) -> Tree {
+
+    public func insert(new: T) -> Tree {
         switch self {
         case .Leaf(let value):
             if new < value {
@@ -23,8 +23,8 @@ enum Tree<T: Comparable> {
             }
         }
     }
-    
-    var height: Int {
+
+    public var height: Int {
         switch self {
             case .Empty: return 0
             case .Leaf(_): return 1
@@ -33,7 +33,7 @@ enum Tree<T: Comparable> {
     }
 }
 
-extension Tree: CustomDebugStringConvertible {
+extension BinarySearchTree: CustomDebugStringConvertible {
     var debugDescription: String {
         switch self {
         case .Empty: return "<X>"
@@ -42,4 +42,3 @@ extension Tree: CustomDebugStringConvertible {
         }
     }
 }
-
