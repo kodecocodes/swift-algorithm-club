@@ -56,4 +56,17 @@ class SelectMinimumMaximumTests: XCTestCase {
     XCTAssertEqual(result.minimum, 3)
     XCTAssertEqual(result.maximum, 9)
   }
+
+  func testMinimumAndMaximumMatchSwiftLibraryGivenARandomList() {
+    for _ in 0...10 {
+      for n in 1...100 {
+        let array = createRandomList(n)
+
+        let result = minimumMaximum(array)
+
+        XCTAssertEqual(result.minimum, array.minElement())
+        XCTAssertEqual(result.maximum, array.maxElement())
+      }
+    }
+  }
 }

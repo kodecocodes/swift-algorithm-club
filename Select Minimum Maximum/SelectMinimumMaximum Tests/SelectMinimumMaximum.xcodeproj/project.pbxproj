@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7B18E0971C5BFA2E005A2B8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B18E0961C5BFA2E005A2B8E /* AppDelegate.swift */; };
 		7B18E0A71C5BFA2E005A2B8E /* SelectMinimumMaximumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B18E0A61C5BFA2E005A2B8E /* SelectMinimumMaximumTests.swift */; };
+		838A4FB41C64AED00092AA8F /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838A4FB31C64AED00092AA8F /* TestHelper.swift */; };
 		83F3255D1C64A0E700EB0421 /* Maximum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3255A1C64A0E700EB0421 /* Maximum.swift */; };
 		83F3255E1C64A0E700EB0421 /* Minimum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3255B1C64A0E700EB0421 /* Minimum.swift */; };
 		83F3255F1C64A0E700EB0421 /* MinimumMaximumPairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3255C1C64A0E700EB0421 /* MinimumMaximumPairs.swift */; };
@@ -33,6 +34,7 @@
 		7B18E0A21C5BFA2E005A2B8E /* SelectMinimumMaximumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SelectMinimumMaximumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B18E0A61C5BFA2E005A2B8E /* SelectMinimumMaximumTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMinimumMaximumTests.swift; sourceTree = "<group>"; };
 		7B18E0A81C5BFA2E005A2B8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		838A4FB31C64AED00092AA8F /* TestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
 		83F3255A1C64A0E700EB0421 /* Maximum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Maximum.swift; path = ../../Maximum.swift; sourceTree = "<group>"; };
 		83F3255B1C64A0E700EB0421 /* Minimum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Minimum.swift; path = ../../Minimum.swift; sourceTree = "<group>"; };
 		83F3255C1C64A0E700EB0421 /* MinimumMaximumPairs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MinimumMaximumPairs.swift; path = ../../MinimumMaximumPairs.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				7B18E0A61C5BFA2E005A2B8E /* SelectMinimumMaximumTests.swift */,
 				83F325601C64A3E000EB0421 /* MinimumTests.swift */,
 				83F325621C64A4D400EB0421 /* MaximumTests.swift */,
+				838A4FB31C64AED00092AA8F /* TestHelper.swift */,
 			);
 			path = SelectMinimumMaximumTests;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 				83F325611C64A3E000EB0421 /* MinimumTests.swift in Sources */,
 				83F325631C64A4D400EB0421 /* MaximumTests.swift in Sources */,
 				7B18E0A71C5BFA2E005A2B8E /* SelectMinimumMaximumTests.swift in Sources */,
+				838A4FB41C64AED00092AA8F /* TestHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
