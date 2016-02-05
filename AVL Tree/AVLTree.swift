@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-class TreeNode<Key:Comparable,Payload:Comparable>{
+class TreeNode<Key:Comparable,Payload>{
     var key: Key
     var value: Payload?
     var balance: Int = 0
@@ -28,7 +28,7 @@ class TreeNode<Key:Comparable,Payload:Comparable>{
     var rightChild: TreeNode<Key,Payload>?
     var parent: TreeNode<Key,Payload>?
 
-    init(key: Key, value: Payload,leftChild: TreeNode<Key,Payload>?, rightChild: TreeNode<Key,Payload>?, parent: TreeNode<Key,Payload>?){
+    init(key: Key, value: Payload?,leftChild: TreeNode<Key,Payload>?, rightChild: TreeNode<Key,Payload>?, parent: TreeNode<Key,Payload>?){
         self.key = key
         self.value = value        
         self.leftChild = leftChild
@@ -36,20 +36,22 @@ class TreeNode<Key:Comparable,Payload:Comparable>{
         self.parent = parent
     }
 
-    init(key: Key){
-        self.key = key
-        self.value = nil
-        self.leftChild = nil
-        self.rightChild = nil
-        self.parent = nil        
+    convenience init(key: Key){
+        self.init(key: key, value: nil, leftChild: nil, rightChild: nil, parent: nil)
+        // self.key = key
+        // self.value = nil
+        // self.leftChild = nil
+        // self.rightChild = nil
+        // self.parent = nil        
     }
 
-    init(key: Key,value: Payload){
-        self.key = key
-        self.value = value
-        self.leftChild = nil
-        self.rightChild = nil
-        self.parent = nil
+    convenience init(key: Key,value: Payload){
+        self.init(key: key, value: value, leftChild: nil, rightChild: nil, parent: nil)
+        // self.key = key
+        // self.value = value
+        // self.leftChild = nil
+        // self.rightChild = nil
+        // self.parent = nil
     }
 
     var isRoot: Bool {
@@ -153,7 +155,7 @@ class TreeNode<Key:Comparable,Payload:Comparable>{
     }    
 }
 
-class AVLTree<Key:Comparable,Payload:Comparable> {
+class AVLTree<Key:Comparable,Payload> {
     var root: TreeNode<Key,Payload>?
     var size: Int = 0
 
