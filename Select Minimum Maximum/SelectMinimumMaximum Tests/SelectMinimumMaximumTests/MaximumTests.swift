@@ -35,6 +35,14 @@ class MaximumTests: XCTestCase {
     XCTAssertEqual(result, 9)
   }
 
+  func testMaximumGivenAnEmptyList() {
+    let array = [Int]()
+
+    let result = maximum(array)
+
+    XCTAssertNil(result)
+  }
+
   func testMaximumMatchesSwiftLibraryGivenARandomList() {
     for _ in 0...10 {
       for n in 1...100 {
