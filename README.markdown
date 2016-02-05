@@ -130,6 +130,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 ### Lists
 
 - [Linked List](Linked List/). A sequence of data items connected through links. Covers both singly and doubly linked lists.
+- Skip List
 
 ### Trees
 
