@@ -6,7 +6,7 @@ class SelectMinimumMaximumTests: XCTestCase {
   func testMinimumAndMaximumGivenAListContainingOneElement() {
     let array = [ 8 ]
 
-    let result = minimumMaximum(array)
+    let result = minimumMaximum(array)!
 
     XCTAssertEqual(result.minimum, 8)
     XCTAssertEqual(result.maximum, 8)
@@ -15,7 +15,7 @@ class SelectMinimumMaximumTests: XCTestCase {
   func testMinimumAndMaximumGivenAListContainingMultipleElementsWithTheSameValue() {
     let array = [ 8, 16, 8, 8 ]
 
-    let result = minimumMaximum(array)
+    let result = minimumMaximum(array)!
 
     XCTAssertEqual(result.minimum, 8)
     XCTAssertEqual(result.maximum, 16)
@@ -24,7 +24,7 @@ class SelectMinimumMaximumTests: XCTestCase {
   func testMimimumAndMaximumGivenAListContainingAnEvenNumberOfElements() {
     let array = [ 3, 4, 6, 8 ]
 
-    let result = minimumMaximum(array)
+    let result = minimumMaximum(array)!
 
     XCTAssertEqual(result.minimum, 3)
     XCTAssertEqual(result.maximum, 8)
@@ -33,7 +33,7 @@ class SelectMinimumMaximumTests: XCTestCase {
   func testMimimumAndMaximumGivenAListContainingAnOddNumberOfElements() {
     let array = [ 8, 3, 9, 4, 6 ]
 
-    let result = minimumMaximum(array)
+    let result = minimumMaximum(array)!
 
     XCTAssertEqual(result.minimum, 3)
     XCTAssertEqual(result.maximum, 9)
@@ -42,7 +42,7 @@ class SelectMinimumMaximumTests: XCTestCase {
   func testMimimumAndMaximumGivenAListOfOrderedElements() {
     let array = [ 3, 4, 6, 8, 9 ]
 
-    let result = minimumMaximum(array)
+    let result = minimumMaximum(array)!
 
     XCTAssertEqual(result.minimum, 3)
     XCTAssertEqual(result.maximum, 9)
@@ -51,10 +51,18 @@ class SelectMinimumMaximumTests: XCTestCase {
   func testMimimumAndMaximumGivenAListOfReverseOrderedElements() {
     let array = [ 9, 8, 6, 4, 3 ]
 
-    let result = minimumMaximum(array)
+    let result = minimumMaximum(array)!
 
     XCTAssertEqual(result.minimum, 3)
     XCTAssertEqual(result.maximum, 9)
+  }
+
+  func testMinimumAndMaximumGivenAnEmptyList() {
+    let array = [Int]()
+
+    let result = minimumMaximum(array)
+
+    XCTAssertNil(result)
   }
 
   func testMinimumAndMaximumMatchSwiftLibraryGivenARandomList() {
@@ -62,7 +70,7 @@ class SelectMinimumMaximumTests: XCTestCase {
       for n in 1...100 {
         let array = createRandomList(n)
 
-        let result = minimumMaximum(array)
+        let result = minimumMaximum(array)!
 
         XCTAssertEqual(result.minimum, array.minElement())
         XCTAssertEqual(result.maximum, array.maxElement())

@@ -35,6 +35,14 @@ class MinimumTests: XCTestCase {
     XCTAssertEqual(result, 3)
   }
 
+  func testMinimumGivenAnEmptyList() {
+    let array = [Int]()
+
+    let result = minimum(array)
+
+    XCTAssertNil(result)
+  }
+
   func testMinimumMatchesSwiftLibraryGivenARandomList() {
     for _ in 0...10 {
       for n in 1...100 {

@@ -24,6 +24,10 @@ Here is a simple implementation in Swift:
 
 ```swift
 func minimum<T: Comparable>(var array: [T]) -> T? {
+  guard !array.isEmpty else {
+    return nil
+  }
+
   var minimum = array.removeFirst()
   for element in array {
     minimum = element < minimum ? element : minimum
@@ -32,6 +36,10 @@ func minimum<T: Comparable>(var array: [T]) -> T? {
 }
 
 func maximum<T: Comparable>(var array: [T]) -> T? {
+  guard !array.isEmpty else {
+    return nil
+  }
+
   var maximum = array.removeFirst()
   for element in array {
     maximum = element > maximum ? element : maximum
@@ -71,8 +79,12 @@ The result is a minimum of `3` and a maximum of `9`.
 Here is a simple implementation in Swift:
 
 ```swift
-func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)
+func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)?
 {
+  guard !array.isEmpty else {
+    return nil
+  }
+
   var minimum = array.first!
   var maximum = array.first!
 
@@ -109,7 +121,7 @@ Put this code in a playground and test it like so:
 
 ```swift
 
-let result = minimumMaximum(array)
+let result = minimumMaximum(array)!
 result.minimum // This will return 3
 result.maximum // This will return 9
 ```
