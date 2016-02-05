@@ -19,7 +19,7 @@ class MaximumTests: XCTestCase {
     XCTAssertEqual(result, 16)
   }
 
-  func testMimimumGivenAListOfOrderedElements() {
+  func testMaximumGivenAListOfOrderedElements() {
     let array = [ 3, 4, 6, 8, 9 ]
 
     let result = maximum(array)
@@ -27,11 +27,23 @@ class MaximumTests: XCTestCase {
     XCTAssertEqual(result, 9)
   }
 
-  func testMimimumGivenAListOfReverseOrderedElements() {
+  func testMaximumGivenAListOfReverseOrderedElements() {
     let array = [ 9, 8, 6, 4, 3 ]
 
     let result = maximum(array)
     
     XCTAssertEqual(result, 9)
+  }
+
+  func testMaximumMatchesSwiftLibraryGivenARandomList() {
+    for _ in 0...10 {
+      for n in 1...100 {
+        let array = createRandomList(n)
+
+        let result = maximum(array)
+
+        XCTAssertEqual(result, array.maxElement())
+      }
+    }
   }
 }
