@@ -20,90 +20,92 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-class TreeNode<A:Comparable,B:Comparable>{
-    var key: A
-    var value: B!
+class TreeNode<Key:Comparable,Payload:Comparable>{
+    var key: Key
+    var value: Payload?
     var balance: Int = 0
-    var leftchild: TreeNode<A,B>?
-    var rightchild: TreeNode<A,B>?
-    var parent: TreeNode<A,B>?
+    var leftChild: TreeNode<Key,Payload>?
+    var rightChild: TreeNode<Key,Payload>?
+    var parent: TreeNode<Key,Payload>?
 
-    init(key: A, value: B,leftchild: TreeNode<A,B>?, rightchild: TreeNode<A,B>?, parent: TreeNode<A,B>?){
+    init(key: Key, value: Payload,leftChild: TreeNode<Key,Payload>?, rightChild: TreeNode<Key,Payload>?, parent: TreeNode<Key,Payload>?){
         self.key = key
         self.value = value        
-        self.leftchild = leftchild
-        self.rightchild = rightchild
+        self.leftChild = leftChild
+        self.rightChild = rightChild
         self.parent = parent
     }
 
-    init(key: A){
+    init(key: Key){
         self.key = key
         self.value = nil
-        self.leftchild = nil
-        self.rightchild = nil
-        self.parent = nil
+        self.leftChild = nil
+        self.rightChild = nil
+        self.parent = nil        
     }
 
-    init(key: A,value: B){
+    init(key: Key,value: Payload){
         self.key = key
         self.value = value
-        self.leftchild = nil
-        self.rightchild = nil
+        self.leftChild = nil
+        self.rightChild = nil
         self.parent = nil
     }
 
-    func isroot() -> Bool {
+    var isRoot: Bool {
         return self.parent == nil
     }
 
-    func is_leftchild() -> Bool {
-        return self.parent != nil && self.parent!.leftchild === self
+    var isLeftChild: Bool {
+        return self.parent != nil && self.parent!.leftChild === self
     }
 
-    func is_rightchild() -> Bool {
-        return self.parent != nil && self.parent!.rightchild === self
+    var isRightChild: Bool {
+        return self.parent != nil && self.parent!.rightChild === self
+    }    
+
+    var hasLeftChild: Bool {
+        return self.leftChild != nil
     }
 
-    func has_leftchild() -> Bool {
-        return self.leftchild != nil
+    var isLeaf: Bool {
+        return self.rightChild == nil && self.leftChild == nil
     }
 
-    func is_leaf() -> Bool {
-        return self.rightchild == nil && self.leftchild == nil
+    var hasRightChild: Bool {
+        return self.rightChild != nil
     }
 
-    func has_rightchild() -> Bool {
-        return self.rightchild != nil
+    var hasAnyChild: Bool {
+        return self.leftChild != nil || self.rightChild != nil
     }
 
-    func has_anychild() -> Bool {
-        return self.leftchild != nil || self.rightchild != nil
+    var hasBothChilds: Bool {
+        return self.leftChild != nil && self.rightChild != nil        
     }
-
-    func has_bothchild() -> Bool {
-        return self.leftchild != nil && self.rightchild != nil
-    }
+    
 
     func findmin() -> TreeNode? {
-        var curr:TreeNode? = self
-        while (curr != nil) && curr!.has_leftchild() {
-            curr = curr!.leftchild
+        var curr: TreeNode? = self
+        while (curr != nil) && curr!.hasLeftChild {
+            curr = curr!.leftChild
         }
         return curr
     }
 
-    func find_successor() -> TreeNode<A,B>? {
-        var res: TreeNode<A,B>?
-        if self.has_rightchild(){
-            res = self.rightchild!.findmin()
+    func find_successor() -> TreeNode<Key,Payload>? {
+        var res: TreeNode<Key,Payload>?
+        
+        if self.hasRightChild{
+            res = self.rightChild!.findmin()
         } else {
-            if self.parent != nil {
-                if self.is_leftchild() {
-                    res = self.parent!
+            if let parent = self.parent {
+                if self.isLeftChild {
+                    res = parent
                 } else {
-                    self.parent!.rightchild = nil
-                    res = self.parent!.find_successor()
-                    self.parent!.rightchild = self
+                    parent.rightChild = nil
+                    res = parent.find_successor()
+                    parent.rightChild = self
                 }
             }
         }
@@ -112,64 +114,63 @@ class TreeNode<A:Comparable,B:Comparable>{
     }
 
     func spliceout(){
-        if self.is_leaf(){
-            if self.is_leftchild() {
-                self.parent!.leftchild = nil
-            } else if self.is_rightchild() {
-                self.parent!.rightchild = nil
+        if self.isLeaf {
+            if self.isLeftChild {
+                self.parent!.leftChild = nil
+            } else if self.isRightChild {
+                self.parent!.rightChild = nil
             }
-        } else if self.has_anychild(){
-            if self.has_leftchild(){
-                self.parent!.leftchild = self.leftchild!
+        } else if self.hasAnyChild{
+            if self.hasLeftChild{
+                self.parent!.leftChild = self.leftChild!
             } else {
-                self.parent!.rightchild = self.rightchild!
+                self.parent!.rightChild = self.rightChild!
             }
-            self.leftchild!.parent = self.parent!
+            self.leftChild!.parent = self.parent!
         } else {
-            if self.is_leftchild(){
-                self.parent!.leftchild = self.rightchild!
+            if self.isLeftChild{
+                self.parent!.leftChild = self.rightChild!
             } else {
-                self.parent!.rightchild = self.rightchild!
+                self.parent!.rightChild = self.rightChild!
             }
-            self.rightchild!.parent = self.parent!
-        }
-        
+            self.rightChild!.parent = self.parent!
+        }        
     }
 
-    func replace_nodedata(key: A,_ value: B, _ leftchild: TreeNode<A,B>?,_ rightchild: TreeNode<A,B>?){
+    func replace_nodedata(key: Key,_ value: Payload, _ leftChild: TreeNode<Key,Payload>?,_ rightChild: TreeNode<Key,Payload>?){
         self.key = key
         self.value = value
-        self.leftchild = leftchild
-        self.rightchild = rightchild
+        self.leftChild = leftChild
+        self.rightChild = rightChild
 
-        if self.has_leftchild(){
-            self.leftchild!.parent! = self
+        if self.hasLeftChild{
+            self.leftChild!.parent! = self
         }
 
-        if self.has_rightchild(){
-            self.rightchild!.parent! = self
+        if self.hasRightChild{
+            self.rightChild!.parent! = self
         }
     }    
 }
 
-class AVLTree<A:Comparable,B:Comparable> {
-    var root: TreeNode<A,B>?
+class AVLTree<Key:Comparable,Payload:Comparable> {
+    var root: TreeNode<Key,Payload>?
     var size: Int = 0
 
-    func insert(input: A,_ value: B) {
+    func insert(input: Key,_ value: Payload) {
         if self.size == 0 {
-            self.root = TreeNode<A,B>(key:input,value:value)
+            self.root = TreeNode<Key,Payload>(key:input,value:value)                        
             self.size += 1
             return
         } else if self.size >= 1 {
 
-            self.insert_in(input,value,self.root)
+            self._insert(input,value,self.root)
             self.size += 1
         }
         
     }
 
-    subscript(key: A) -> B? {
+    subscript(key: Key) -> Payload? {
         get {
             return self.get(key)
         }
@@ -178,35 +179,35 @@ class AVLTree<A:Comparable,B:Comparable> {
         }
     }
 
-    func insert_in(input: A, _ value: B, _ node :TreeNode<A,B>?){
+    private func _insert(input: Key, _ value: Payload, _ node :TreeNode<Key,Payload>?){
         if input < node!.key {
-            if node!.has_leftchild() {
-                self.insert_in(input,value, node!.leftchild!)
+            if node!.hasLeftChild {
+                self._insert(input,value, node!.leftChild!)
             } else {
-                node!.leftchild = TreeNode<A,B>(key: input, value: value,leftchild: nil,rightchild: nil,parent:node!)
-                self.updatebalance(node!.leftchild)
+                node!.leftChild = TreeNode<Key,Payload>(key: input, value: value,leftChild: nil,rightChild: nil,parent:node!)
+                self.updatebalance(node!.leftChild)
             }
         } else {
-            if node!.has_rightchild(){
-                self.insert_in(input,value,node!.rightchild!)
+            if node!.hasRightChild{
+                self._insert(input,value,node!.rightChild!)
             } else {
-                node!.rightchild = TreeNode<A,B>(key: input, value: value,leftchild: nil,rightchild: nil,parent:node!)
-                self.updatebalance(node!.rightchild)
+                node!.rightChild = TreeNode<Key,Payload>(key: input, value: value,leftChild: nil,rightChild: nil,parent:node!)
+                self.updatebalance(node!.rightChild)
             }
         }
     }
 
-    func updatebalance(node: TreeNode<A,B>?){
+    func updatebalance(node: TreeNode<Key,Payload>?){
         if node!.balance > 1 || node!.balance < -1 {
-            self.reblance(node)
+            self.rebalance(node)
             return
                   
         } else {
             
             if node!.parent != nil {
-                if node!.is_leftchild() {
+                if node!.isLeftChild {
                     node!.parent!.balance += 1                
-                } else if node!.is_rightchild(){
+                } else if node!.isRightChild{
                     node!.parent!.balance -= 1
                 }
 
@@ -218,17 +219,17 @@ class AVLTree<A:Comparable,B:Comparable> {
         
     }
 
-    func reblance(node: TreeNode<A,B>?){
+    func rebalance(node: TreeNode<Key,Payload>?){
         if node!.balance < 0 {
-            if node!.rightchild != nil && node!.rightchild!.balance > 0 {
-                self.rotateright(node!.rightchild)
+            if node!.rightChild != nil && node!.rightChild!.balance > 0 {
+                self.rotateright(node!.rightChild)
                 self.rotateleft(node)
             } else {
                 self.rotateleft(node)
             }
         } else if node!.balance > 0 {
-            if node!.leftchild != nil && node!.leftchild!.balance < 0 {
-                self.rotateleft(node!.leftchild)
+            if node!.leftChild != nil && node!.leftChild!.balance < 0 {
+                self.rotateleft(node!.leftChild)
                 self.rotateright(node)
             } else {
                 self.rotateright(node)
@@ -236,58 +237,57 @@ class AVLTree<A:Comparable,B:Comparable> {
         }
     }
 
-    func rotateright(node: TreeNode<A,B>?){
-        let newroot: TreeNode<A,B>? = node!.leftchild
-        node!.leftchild = newroot!.rightchild
+    func rotateright(node: TreeNode<Key,Payload>?){
+        let newroot: TreeNode<Key,Payload>? = node!.leftChild
+        node!.leftChild = newroot!.rightChild
         
-        if newroot!.rightchild != nil{
-            newroot!.rightchild!.parent = node            
+        if newroot!.rightChild != nil{
+            newroot!.rightChild!.parent = node            
         }
         newroot!.parent = node!.parent
         
-        if node!.isroot() {
+        if node!.isRoot {
             self.root = newroot
         } else {
-            if node!.is_rightchild() {
-                node!.parent!.rightchild = newroot
-            }else if node!.is_leftchild(){
-                node!.parent!.leftchild = newroot
+            if node!.isRightChild {
+                node!.parent!.rightChild = newroot
+            }else if node!.isLeftChild{
+                node!.parent!.leftChild = newroot
             }
         }
-        newroot!.rightchild = node
+        newroot!.rightChild = node
         node!.parent = newroot
         node!.balance = node!.balance + 1 - min(newroot!.balance,0)
         newroot!.balance = newroot!.balance + 1 - max(node!.balance,0)
     }
 
-    func rotateleft(node: TreeNode<A,B>?){
+    func rotateleft(node: TreeNode<Key,Payload>?){
+        let newroot: TreeNode<Key,Payload>? = node!.rightChild
 
-        let newroot: TreeNode<A,B>? = node!.rightchild
+        node!.rightChild = newroot!.leftChild
 
-        node!.rightchild = newroot!.leftchild
-
-        if newroot!.leftchild != nil{
-            newroot!.leftchild!.parent = node            
+        if newroot!.leftChild != nil {
+            newroot!.leftChild!.parent = node            
         }
 
         newroot!.parent = node!.parent
 
-        if node!.isroot() {
+        if node!.isRoot {
             self.root = newroot
         } else {
-            if node!.is_leftchild() {
-                node!.parent!.leftchild = newroot                
-            }else if node!.is_rightchild(){
-                node!.parent!.rightchild = newroot
+            if node!.isLeftChild {
+                node!.parent!.leftChild = newroot                
+            }else if node!.isRightChild{
+                node!.parent!.rightChild = newroot
             }
         }
-        newroot!.leftchild = node
+        newroot!.leftChild = node
         node!.parent = newroot
         node!.balance = node!.balance + 1 - min(newroot!.balance,0)
         newroot!.balance = newroot!.balance + 1 - max(node!.balance,0)
     }
     
-    func get(input: A) -> B? {
+    func get(input: Key) -> Payload? {
         guard self.size >= 1 else { return nil }
         let result = self._get(input,self.root)
         
@@ -295,17 +295,17 @@ class AVLTree<A:Comparable,B:Comparable> {
                result!.value : nil
     }
 
-    func _get(key: A, _ node: TreeNode<A,B>?) -> TreeNode<A,B>? {
+    private func _get(key: Key, _ node: TreeNode<Key,Payload>?) -> TreeNode<Key,Payload>? {
         guard node != nil else { return nil }
 
         if key == node!.key { return node }
-        else if key < node!.key { return self._get(key,node!.leftchild) }
-        else if key > node!.key { return self._get(key,node!.rightchild) }
+        else if key < node!.key { return self._get(key,node!.leftChild) }
+        else if key > node!.key { return self._get(key,node!.rightChild) }
 
         return nil
     }
 
-    func delete(key: A){
+    func delete(key: Key){
         guard self.size >= 1 else { return }
 
         if self.size == 1 {
@@ -315,44 +315,73 @@ class AVLTree<A:Comparable,B:Comparable> {
         }
         
         let item = self._get(key,self.root)
-        if item != nil { self._delete(item) }
+
+        if let item = item { self._delete(item) }
         self.size -= 1
     }
 
-    func _delete(item: TreeNode<A,B>?){
-        if item!.is_leaf() {
-            if item!.is_leftchild(){
-                item!.parent!.leftchild = nil
-            } else if item!.is_rightchild() {
-                item!.parent!.rightchild = nil
+    private func _delete(item: TreeNode<Key,Payload>){
+        if item.isLeaf {
+            if item.isLeftChild{
+                item.parent!.leftChild = nil
+            } else if item.isRightChild {
+                item.parent!.rightChild = nil
             }            
-        } else if item!.has_bothchild() {
-            let _item = item!.find_successor()
+        } else if item.hasBothChilds {
+            let _item = item.find_successor()
             _item!.spliceout()
-            item!.key = _item!.key
-            item!.value = _item!.value
+            item.key = _item!.key
+            item.value = _item!.value
             
-        } else if item!.has_leftchild() {
-            if item!.is_leftchild() {
-                item!.leftchild!.parent = item!.parent
-                item!.parent!.leftchild = item!.leftchild                
-            } else if item!.is_rightchild(){
-                item!.leftchild!.parent = item!.parent
-                item!.parent!.rightchild = item!.rightchild
-            } else {
-                item!.replace_nodedata(item!.leftchild!.key,item!.leftchild!.value,item!.leftchild!.leftchild,item!.leftchild!.rightchild)
+            if item.hasAnyChild {
+                if item.hasBothChilds{
+                    item.balance = max(item.leftChild!.balance,item.rightChild!.balance) + 1
+                } else if item.hasRightChild {
+                    item.balance = item.rightChild!.balance + 1
+                } else if item.hasLeftChild {
+                    item.balance = item.leftChild!.balance + 1
+                }                
             }
-        } else if item!.has_rightchild(){
-            if item!.is_rightchild(){
-                item!.rightchild!.parent = item!.parent
-                item!.parent!.rightchild = item!.rightchild
-            } else if item!.is_leftchild(){
-                item!.rightchild!.parent = item!.parent
-                item!.parent!.leftchild = item!.leftchild
+            
+        } else if item.hasLeftChild {
+            if item.isLeftChild {
+                item.leftChild!.parent = item.parent
+                item.parent!.leftChild = item.leftChild
+                item.balance = item.leftChild!.balance + 1
+            } else if item.isRightChild{
+                item.leftChild!.parent = item.parent
+                item.parent!.rightChild = item.rightChild
+                item.balance = item.rightChild!.balance + 1                
             } else {
-                item!.replace_nodedata(item!.rightchild!.key,item!.rightchild!.value,item!.rightchild!.leftchild,item!.rightchild!.rightchild)
+                item.replace_nodedata(item.leftChild!.key,item.leftChild!.value!,item.leftChild!.leftChild,item.leftChild!.rightChild)
+            }
+        } else if item.hasRightChild{
+            if item.isRightChild{
+                item.rightChild!.parent = item.parent
+                item.parent!.rightChild = item.rightChild
+                item.balance = item.rightChild!.balance + 1
+            } else if item.isLeftChild{
+                item.rightChild!.parent = item.parent
+                item.parent!.leftChild = item.leftChild
+                item.balance = item.leftChild!.balance + 1
+            } else {
+                item.replace_nodedata(item.rightChild!.key,item.rightChild!.value!,item.rightChild!.leftChild,item.rightChild!.rightChild)
             }
         }
         
     }
+
+    func print_values() {
+        self._print_values(self.root)
+    }
+    
+    private func _print_values(node: TreeNode<Key,Payload>?) {
+        if let node = node {
+            self._print_values(node.leftChild)
+            print("\(node.key) -> \(node.value!). Balance : \(node.balance)")
+            self._print_values(node.rightChild)            
+        }
+    }
 }
+
+
