@@ -1,3 +1,8 @@
+/*
+  Finds the maximum and minimum value in an array in O(n) time.
+  The array must not be empty.
+*/
+
 func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)
 {
   var minimum = array.first!
