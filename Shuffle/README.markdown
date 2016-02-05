@@ -125,4 +125,6 @@ The algoritm is quite clever and I suggest you walk through an example yourself,
 
 These Swift implementations are based on pseudocode from the [Wikipedia article](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
 
+Mike Bostock has a [great visualization](http://bost.ocks.org/mike/shuffle/) of the shuffle algorithm.
+
 *Written for Swift Algorithm Club by Matthijs Hollemans*
