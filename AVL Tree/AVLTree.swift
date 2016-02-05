@@ -38,20 +38,10 @@ class TreeNode<Key:Comparable,Payload>{
 
     convenience init(key: Key){
         self.init(key: key, value: nil, leftChild: nil, rightChild: nil, parent: nil)
-        // self.key = key
-        // self.value = nil
-        // self.leftChild = nil
-        // self.rightChild = nil
-        // self.parent = nil        
     }
 
     convenience init(key: Key,value: Payload){
         self.init(key: key, value: value, leftChild: nil, rightChild: nil, parent: nil)
-        // self.key = key
-        // self.value = value
-        // self.leftChild = nil
-        // self.rightChild = nil
-        // self.parent = nil
     }
 
     var isRoot: Bool {
