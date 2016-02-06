@@ -117,7 +117,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an array with a fixed size.
-- Ordered Array. An array that is always sorted.
+- [Ordered Array](Ordered Array/). An array that is always sorted.
 
 ### Queues
 
