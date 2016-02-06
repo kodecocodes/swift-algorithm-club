@@ -123,7 +123,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 - [Stack](Stack/). Last-in, first-out!
 - [Queue](Queue/). First-in, first-out!
-- Deque
+- [Deque](Deque/). A double-ended queue.
 - Priority Queue
 - [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
