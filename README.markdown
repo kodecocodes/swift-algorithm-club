@@ -137,7 +137,7 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 - [Tree](Tree/). A general-purpose tree structure.
 - [Binary Tree](Binary Tree/). A tree where each node has at most two children.
 - [Binary Search Tree (BST)](Binary Search Tree/). A binary tree with the special requirement that elements are inserted in a specific way, allowing for faster queries, like when using a [binary search](Binary Search/) algorithm.
-- AVL Tree
+- [AVL Tree](AVL Tree/). A binary search tree that balances itself using rotations.
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
