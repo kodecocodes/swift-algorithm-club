@@ -1,34 +1,22 @@
-# Swift Algorithm Club
-
-Welcome to the algorithm club!
+# Welcome to the Swift Algorithm Club!
 
 Here you'll find implementations of popular algorithms and data structures in everyone's favorite new language Swift, with detailed explanations of how they work.
 
-If you're a computer science student who needs to learn this stuff for exams -- or if you're a self-taught programmer who wants to brush up on the theory behind your craft -- you've come to the right place.
+If you're a computer science student who needs to learn this stuff for exams -- or if you're a self-taught programmer who wants to brush up on the theory behind your craft -- you've come to the right place!
 
-The goal of this project is to explain how algorithms work. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use, but you may need to tweak it to fit into your own codebase.
+The goal of this project is to **explain how algorithms work**. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use but you may need to tweak it to fit into your own codebase.
 
-All code is compatible with **Xcode 7.2** and **Swift 2.1**.
+All code is compatible with **Xcode 7.2** and **Swift 2.1**. We'll keep this updated with the latest version of Swift.
 
 This is a work in progress. More algorithms will be added soon. :-)
 
-**Suggestions and contributions are welcome!** Report an issue to leave feedback, or submit a pull request.
+## Important links
 
-## How to contribute
+[Why learn algorithms?](Why Algorithms.markdown) Worried this isn't your cup of tea? Then read this.
 
-To keep this a high quality repo, please follow this process when submitting your contribution:
+[Big-O notation](Big-O Notation.markdown). We often say things like, "This algorithm is **O(n)**." If you don't know what that means, read this first.
 
-1. Create a pull request to "claim" an algorithm or data structure. Just so multiple people don't work on the same thing.
-2. Use this [style guide](https://github.com/raywenderlich/swift-style-guide) for writing code (more or less).
-3. Write an explanation of how the algorithm works. Include plenty of examples for readers to follow along.
-4. Include your name in the explanation, something like *Written by Your Name* at the end of the document. If you wrote it, you deserve the credit and fame.
-5. Add a playground and/or unit tests.
-
-Just so you know, I will probably edit your text and code for grammar etc, just to ensure a certain level of polish.
-
-### What sort of things can you contribute?
-
-New algorithms and data structures are always welcome (even if they aren't on the list). Improvements to existing implementations. Better explanations. Suggestions for making the code more Swift-like or to make it fit better with the standard library. Unit tests. Fixes for typos. No contribution is too small. :-)
+[How to contribute](How to Contribute.markdown). Report an issue to leave feedback, or submit a pull request. **Suggestions and contributions are welcome!**
 
 ## Where to start?
 
@@ -39,7 +27,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Insertion Sort](Insertion Sort/)
 - [Binary Search](Binary Search/) and [Binary Search Tree](Binary Search Tree/)
 - [Merge Sort](Merge Sort/)
-- [Boyer-Moore](Boyer-Moore/) string search
+- [Boyer-Moore string search](Boyer-Moore/)
 
 ## The algorithms
 
@@ -49,8 +37,8 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Binary Search](Binary Search/). Quickly find elements in a sorted array.
 - [Count Occurrences](Count Occurrences/). Count how often a value appears in an array.
 - [Select Minimum / Maximum](Select Minimum Maximum). Find the minimum/maximum value in an array.
-- [k-th Largest Element](Kth Largest Element/). Find the kth largest element in an array.
-- [Selection Sampling](Selection Sampling/). Randomly choose a number of items from a collection.
+- [k-th Largest Element](Kth Largest Element/). Find the *k*th largest element in an array, such as the median.
+- [Selection Sampling](Selection Sampling/). Randomly choose a bunch of items from a collection.
 - Union-Find
 
 ### String Search
@@ -87,6 +75,7 @@ Bad sorting algorithms (don't use these!):
 
 ### Compression
 
+- Run-Length Encoding (RLE)
 - Huffman Encoding
 
 ### Miscellaneous
@@ -111,12 +100,12 @@ First, there is the shape of your data and the kinds of operations that you'll n
 
 Second, it matters what particular operations you'll be performing most, as certain data structures are optimized for certain actions. For example, if you often need to find the most important object in a queue, then a heap or priority queue is more optimal than a plain array.
 
-Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficient, but sometimes you may want something more fancy...
+Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types is sufficient, but sometimes you may want something more fancy...
 
 ### Variations on arrays
 
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
-- [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an array with a fixed size.
+- [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an old-fashioned array with a fixed size.
 - [Ordered Array](Ordered Array/). An array that is always sorted.
 
 ### Queues
@@ -146,6 +135,11 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 - Fibonacci Heap
 - Trie
 
+### Hashing
+
+- [Hash Table](Hash Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented.
+- Hash Functions
+
 ### Sets
 
 - Bit Set
@@ -153,11 +147,6 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 - [Hash Set](Hash Set/). A set implemented using a hash table.
 - Multiset
 - Ordered Set
-
-### Hashing
-
-- [Hash Table](Hash Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented.
-- Hash Functions
 
 ### Graphs
 
@@ -173,31 +162,6 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 A lot of software developer interview questions consist of algorithmic puzzles. Here is a small selection of fun ones. For more puzzles (with answers), see [here](http://elementsofprogramminginterviews.com/) and [here](http://www.crackingthecodinginterview.com).
 
 - [Two-Sum Problem](Two-Sum Problem/)
-
-## A note on Big-O notation
-
-It's useful to know how fast an algorithm is and how much space it needs. This allows you to pick the right algorithm for the job.
-
-Big-O notation gives you a rough indication of the running time of an algorithm and the amount of memory it uses. When someone says, "This algorithm has worst-case running time of **O(n^2)** and uses **O(n)** space," they mean it's kinda slow but doesn't need lots of extra memory.
-
-Figuring out the Big-O of an algorithm is usually done through mathematical analysis. We're skipping the math here, but it's useful to know what the different values mean, so here's a handy table. **n** refers to the number of data items that you're processing. For example, when sorting an array of 100 items, **n = 100**.
-
-Big-O | Name | Description
-------| ---- | -----------
-**O(1)** | constant | This is the best. The algorithm always takes the same amount of time, regardless of how much data there is. Example: looking up an element of an array by its index.
-**O(log n)** | logarithmic | Pretty great. These kinds of algorithms halve the amount of data with each iteration. If you have 100 items, it takes about 7 steps to find the answer. With 1,000 items, it takes 10 steps. And 1,000,000 items only take 20 steps. This is super fast even for large amounts of data. Example: binary search.
-**O(n)** | linear | Good performance. If you have 100 items, this does 100 units of work. Doubling the number of items to 200 makes the algorithm take twice as long (200 units of work). Example: sequential search.
-**O(n log n)** | "linearithmic" | Decent performance. This is slightly worse than linear but not too bad. Example: the fastest sorting algorithms.
-**O(n^2)** | quadratic | Kinda slow. If you have 100 items, this does 100^2 = 10,000 units of work. Doubling the number of items makes it four times slower (because 2 squared equals 4). Example: algorithms using nested loops, such as insertion sort.
-**O(n^3)** | cubic | Poor performance. If you have 100 items, this does 100^3 = 1,000,000 units of work. Doubling the input size makes it eight times slower. Example: matrix multiplication.
-**O(2^n)** | exponential | Very poor performance. You want to avoid these kinds of algorithms, but sometimes you have no choice. Example: traveling salesperson problem.
-**O(n!)** | factorial | Intolerably slow. It literally takes a million years to do anything.
-
-Often you don't need math to figure out what the Big-O of an algorithm is but you can simply use your intuition. If your code uses a single loop that looks at all **n** elements of your input, the algorithm is **O(n)**. If the code has two nested loops, it is **O(n^2)**. Three nested loops gives **O(n^3)**, and so on.
-
-Note that Big-O notation is an estimate and is only really useful for large values of **n**. For example, the worst-case running time for the "insertion sort" algorithm is **O(n^2)**. In theory that is worse than the running time for "merge sort", which is **O(n log n)**. But for small amounts of data, insertion sort is actually faster, especially if the array is partially sorted already!
-
-If you find this confusing, don't let this Big-O stuff bother you too much. It's mostly useful when comparing two algorithms to figure out which one is better. But in the end, you still want to test in practice which one really is the best. And if the amount of data is relatively small, then even a slow algorithm will be fast enough for practical use.
 
 ## Learn more!
 
