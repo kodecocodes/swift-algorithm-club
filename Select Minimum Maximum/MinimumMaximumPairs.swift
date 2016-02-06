@@ -1,10 +1,13 @@
 /*
   Finds the maximum and minimum value in an array in O(n) time.
-  The array must not be empty.
 */
 
-func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)
+func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)?
 {
+  guard !array.isEmpty else {
+    return nil
+  }
+
   var minimum = array.first!
   var maximum = array.first!
 

@@ -1,5 +1,9 @@
 // Compare each item to find minimum
 func minimum<T: Comparable>(var array: [T]) -> T? {
+  guard !array.isEmpty else {
+    return nil
+  }
+
   var minimum = array.removeFirst()
   for element in array {
     minimum = element < minimum ? element : minimum
@@ -9,6 +13,10 @@ func minimum<T: Comparable>(var array: [T]) -> T? {
 
 // Compare each item to find maximum
 func maximum<T: Comparable>(var array: [T]) -> T? {
+  guard !array.isEmpty else {
+    return nil
+  }
+
   var maximum = array.removeFirst()
   for element in array {
     maximum = element > maximum ? element : maximum
@@ -17,8 +25,12 @@ func maximum<T: Comparable>(var array: [T]) -> T? {
 }
 
 // Compare in pairs to find minimum and maximum
-func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)
+func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)?
 {
+  guard !array.isEmpty else {
+    return nil
+  }
+
   var minimum = array.first!
   var maximum = array.first!
 
@@ -56,7 +68,7 @@ minimum(array)
 maximum(array)
 
 // Test of minimumMaximum function
-let result = minimumMaximum(array)
+let result = minimumMaximum(array)!
 result.minimum
 result.maximum
 

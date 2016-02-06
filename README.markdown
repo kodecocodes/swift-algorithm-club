@@ -50,7 +50,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Count Occurrences](Count Occurrences/). Count how often a value appears in an array.
 - [Select Minimum / Maximum](Select Minimum Maximum). Find the minimum/maximum value in an array.
 - [k-th Largest Element](Kth Largest Element/). Find the kth largest element in an array.
-- Selection Sampling
+- [Selection Sampling](Selection Sampling/). Randomly choose a number of items from a collection.
 - Union-Find
 
 ### String Search
@@ -117,13 +117,13 @@ Often just using the built-in `Array`, `Dictionary`, and `Set` types is sufficie
 
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an array with a fixed size.
-- Ordered Array. An array that is always sorted.
+- [Ordered Array](Ordered Array/). An array that is always sorted.
 
 ### Queues
 
 - [Stack](Stack/). Last-in, first-out!
 - [Queue](Queue/). First-in, first-out!
-- Deque
+- [Deque](Deque/). A double-ended queue.
 - Priority Queue
 - [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
