@@ -6,13 +6,13 @@ A binary tree is *balanced* when its left and right subtrees contain roughly the
 
 This is an example of an unbalanced tree:
 
-![Unbalanced tree](Images/Unbalanced.svg)
+![Unbalanced tree](Images/Unbalanced.png)
 
 All the children are in the left branch and none are in the right. This is essentially the same as a [linked list](../Linked List/) and as a result, searching takes **O(n)** time instead of the much faster **O(log n)** that you'd expect from a binary search tree.
 
 A balanced version of that tree would look like this:
 
-![Balanced tree](Images/Balanced.svg)
+![Balanced tree](Images/Balanced.png)
 
 One way to make the binary search tree balanced is to insert the nodes in a totally random order. But that doesn't guarantee success, nor is it always practical.
 
@@ -26,15 +26,15 @@ A node in an AVL tree is considered balanced if its subtrees differ in "height" 
 
 The *height* of a node is how many steps it takes to get to that node's lowest leaf. For example, in the following tree it takes three steps to go from A to E, so the height of A is 3. The height of B is 2, the height of C is 1, and the height of the others is 0 because they are leaf nodes.
 
-![Node height](Images/Height.svg)
+![Node height](Images/Height.png)
 
 As mentioned, in an AVL tree a node is balanced if its left and right subtree have the same height. It doesn't have to be the exact same height, but the difference may not be greater than 1. These are all examples of balanced trees:
 
-![Balanced trees](Images/BalanceOK.svg)
+![Balanced trees](Images/BalanceOK.png)
 
 But these are trees that are unbalanced, because the height of the left subtree is too large compared to the right subtree:
 
-![Unbalanced trees](Images/BalanceNotOK.svg)
+![Unbalanced trees](Images/BalanceNotOK.png)
 
 The difference between the heights of the left and right subtrees is called the *balance factor*. It is calculated as follows:
 

@@ -215,6 +215,10 @@ The following books are available for free online:
 - [Algorithms + Data Structures = Programs](http://www.ethoberon.ethz.ch/WirthPubl/AD.pdf) by Wirth
 - Algorithms and Data Structures: The Basic Toolbox by Mehlhorn and Sanders
 
+Friends of the club:
+
+- [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). A great collection of algorithms in Objective-C.
+
 ## License
 
 All content is licensed under the terms of the MIT open source license.
