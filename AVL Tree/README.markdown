@@ -18,7 +18,7 @@ One way to make the binary search tree balanced is to insert the nodes in a tota
 
 The other solution is to use a *self-balancing* binary tree. This type of data structure adjusts the tree to keep it balanced after you insert or delete nodes. The height of such a tree is guaranteed to be *log(n)* where *n* is the number nodes. On a balanced tree all insert, remove, and search operations take **O(log n)** time. That means fast. ;-)
 
-## AVL tree
+## Introducing the AVL tree
 
 An AVL tree fixes any imbalances by "rotating" the tree to the left or right.
 
@@ -44,20 +44,23 @@ If after an insertion or deletion the balance factor becomes greater than 1, the
 
 ## Rotations
 
-[TODO]
+Each tree node keeps track of its current balance factor in a variable. After inserting a new node, we need to update the balance factor of its parent node. If that balance factor becomes greater than 1, we "rotate" part of that tree to restore the balance.
 
-Inserting into the tree is similar to Binary Tree but differs by one additional opeartion which updates the `balance` variable.
+TODO: describe with pictures how these rotations work
 
-Insertion never needs more than 2 rotations. Removal might require up to lg n rotations.
+Insertion never needs more than 2 rotations. Removal might require up to *log(n)* rotations.
 
 ## The code
 
 Most of the code in [AVLTree.swift](AVLTree.swift) is just regular [binary search tree](../Binary Search Tree/) stuff. You'll find this in any implementation of a binary search tree. For example, searching the tree is exactly the same. The only things that an AVL tree does slightly differently is inserting and deleting the nodes.
 
+> **Note:** If you're a bit fuzzy on the regular operations of a binary search tree, I suggest you [catch up on those first](../Binary Search Tree/). It will make the rest of the AVL tree easier to understand.
+
 The interesting bits are in the following methods:
 
-- `methodName()`
-- TODO
+- `updateBalance()`. Called after inserting a new node. This may cause the node's parent to be rebalanced.
+- `rebalance()`. Figures out how to rotate the nodes to restore the balance.
+- `rotateRight()` and `rotateLeft()` perform the actual rotations.
 
 ## See also
 
