@@ -311,15 +311,29 @@ extension BinarySearchTree {
 
 extension BinarySearchTree: CustomStringConvertible {
   public var description: String {
+    var s = ""
+    if let left = left {
+      s += "(\(left.description)) <- "
+    }
+    s += "\(value)"
+    if let right = right {
+      s += " -> (\(right.description))"
+    }
+    return s
+  }
+}
+
+extension BinarySearchTree: CustomDebugStringConvertible {
+  public var debugDescription: String {
     var s = "value: \(value)"
     if let parent = parent {
       s += ", parent: \(parent.value)"
     }
     if let left = left {
-      s += ", left = [" + left.description + "]"
+      s += ", left = [" + left.debugDescription + "]"
     }
     if let right = right {
-      s += ", right = [" + right.description + "]"
+      s += ", right = [" + right.debugDescription + "]"
     }
     return s
   }

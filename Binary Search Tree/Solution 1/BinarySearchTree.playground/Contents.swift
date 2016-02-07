@@ -6,7 +6,9 @@ tree.insert(5)
 tree.insert(10)
 tree.insert(9)
 tree.insert(1)
+
 tree
+tree.debugDescription
 
 let tree2 = BinarySearchTree<Int>(array: [7, 2, 5, 10, 9, 1])
 
@@ -24,7 +26,7 @@ tree.maximum()
 
 if let node2 = tree.search(2) {
   node2.remove()
-  node2            // this is now node "5"
+  node2.value          // this is now node "5"
   print(tree)
 }
 

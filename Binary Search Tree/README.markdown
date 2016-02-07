@@ -226,15 +226,13 @@ When working with somewhat complicated data structures such as this, it's useful
 ```swift
 extension BinarySearchTree: CustomStringConvertible {
   public var description: String {
-    var s = "value: \(value)"
-    if let parent = parent {
-      s += ", parent: \(parent.value)"
-    }
+    var s = ""
     if let left = left {
-      s += ", left = [" + left.description + "]"
+      s += "(\(left.description)) <- "
     }
+    s += "\(value)"
     if let right = right {
-      s += ", right = [" + right.description + "]"
+      s += " -> (\(right.description))"
     }
     return s
   }
@@ -243,16 +241,7 @@ extension BinarySearchTree: CustomStringConvertible {
 
 When you do a `print(tree)`, you should get something like this:
 
-	value: 7, left = [value: 2, parent: 7, left = [value: 1, parent: 2], right = [value: 5, parent: 2]], right = [value: 10, parent: 7, left = [value: 9, parent: 10]]
-
-To make this a bit clearer to understand, reformat it slightly:
-
-	value: 7, 
-		left = [value: 2, parent: 7, 
-			left = [value: 1, parent: 2], 
-			right = [value: 5, parent: 2]], 
-		right = [value: 10, parent: 7, 
-			left = [value: 9, parent: 10]]
+	((1) <- 2 -> (5)) <- 7 -> ((9) <- 10)
 
 With some imagination, you should see now that this indeed corresponds to the following tree:
 
@@ -477,17 +466,19 @@ Try it out:
 
 ```swift
 if let node2 = tree.search(2) {
+  print(tree)     // before
   node2.remove()
+  print(tree)     // after
 }
 ```
 
-First you find the node that you want to remove with `search()` and then you call `remove()` on that object. If you now print out the tree you get:
+First you find the node that you want to remove with `search()` and then you call `remove()` on that object. Before the removal, the tree printed like this:
 
-	value: 7, 
-		left = [value: 5, parent: 7, 
-			left = [value: 1, parent: 5]], 
-		right = [value: 10, parent: 7, 
-			left = [value: 9, parent: 10]]
+	((1) <- 2 -> (5)) <- 7 -> ((9) <- 10)
+
+But after `remove()` you get:
+
+	((1) <- 5) <- 7 -> ((9) <- 10)
 
 As you can see, node `5` has taken the place of `2`. In fact, if you do `print(node2)` you'll see that it now has the value `5`. We didn't actually remove the `node2` object, we just gave it a new value.
 
