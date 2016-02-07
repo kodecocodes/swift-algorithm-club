@@ -16,6 +16,8 @@ This is a work in progress. More algorithms will be added soon. :-)
 
 [Big-O notation](Big-O Notation.markdown). We often say things like, "This algorithm is **O(n)**." If you don't know what that means, read this first.
 
+[Algorithm design techniques](Algorithm Design.markdown). How do you create your own algorithms?
+
 [How to contribute](How to Contribute.markdown). Report an issue to leave feedback, or submit a pull request. **Suggestions and contributions are welcome!**
 
 ## Where to start?
@@ -130,6 +132,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
+- [Segment Tree](Segment Tree/). Stores intervals and can answer which intervals (or segments) contain a given point.
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
