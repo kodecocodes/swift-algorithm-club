@@ -126,7 +126,7 @@ The loop also does some Swift magic. The `while case let next? = node.next` bit 
       }
 ```
 
-But that doesn't feel very Swifty too me. We might as well make use of Swift's built-in support for unwrapping optionals. You'll see a bunch of these kinds of loops in the code that follows.
+But that doesn't feel very Swifty to me. We might as well make use of Swift's built-in support for unwrapping optionals. You'll see a bunch of these kinds of loops in the code that follows.
 
 > **Note:** If we kept a tail pointer, `last` would simply do `return tail`. But we don't, so it has to step through the entire list from beginning to the end. It's an expensive operation, especially if the list is long.
 
