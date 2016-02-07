@@ -709,7 +709,7 @@ Notice that each time you insert something, you get back a completely new tree. 
 
 Here is the all-important search function:
 
-```
+```swift
   public func search(x: T) -> BinarySearchTree? {
     switch self {
     case .Empty:
