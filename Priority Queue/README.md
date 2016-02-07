@@ -18,4 +18,8 @@ for every index in the Array:
 
 Parents must have priority value lesser than their childs.
 
+# See also
 
+[Priority Queue on Wikipedia](https://en.wikipedia.org/wiki/Priority_queue)
+
+*Written for Swift Algorithm Club by [Mike Taghavi](https://github.com/mitghi)*
