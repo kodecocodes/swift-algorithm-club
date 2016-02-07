@@ -30,7 +30,7 @@ An example:
 (5) (1) 
 ```
 
-The heap property for this tree is satisfied because every parent node is greater than its children node. `(10)` is greater than `(7)` and `(3)`. `(7)` is greater than `(3)` and `(1)`.
+The heap property for this tree is satisfied because every parent node is greater than its children node. `(10)` is greater than `(7)` and `(2)`. `(7)` is greater than `(5)` and `(1)`.
 
 ## So what's the problem with trees?
 
