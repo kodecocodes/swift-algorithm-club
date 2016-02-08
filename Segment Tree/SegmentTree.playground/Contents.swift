@@ -29,7 +29,7 @@ public class SegmentTree<T> {
   }
   
   public func queryWithLeftBound(leftBound: Int, rightBound: Int) -> T {
-    if self.leftBound == self.rightBound {
+    if self.leftBound == leftBound && self.rightBound == rightBound {
       return self.value
     } else if leftChild!.rightBound < leftBound {
       return rightChild!.queryWithLeftBound(leftBound, rightBound: rightBound)
@@ -59,11 +59,11 @@ public class SegmentTree<T> {
 
 
 
-let array = [1, 2, 3]
+let array = [1, 2, 3, 4]
 
 let sumSegmentTree = SegmentTree(array: array, function: +)
 
-print(sumSegmentTree.queryWithLeftBound(0, rightBound: 2)) // 1 + 2 + 3 + 4 = 10
+print(sumSegmentTree.queryWithLeftBound(0, rightBound: 3)) // 1 + 2 + 3 + 4 = 10
 print(sumSegmentTree.queryWithLeftBound(1, rightBound: 2)) // 2 + 3 = 5
 print(sumSegmentTree.queryWithLeftBound(0, rightBound: 0)) // 1 = 1
 

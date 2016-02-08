@@ -132,7 +132,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
-- [Segment Tree](Segment Tree/). Stores intervals and can answer which intervals (or segments) contain a given point.
+- [Segment Tree](Segment Tree/). Can compute f(a[l], a[l+1], ..., a[r]) for l ≤ r (f is some associative function) and update a[x] = v both on **O(log n)** time
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
