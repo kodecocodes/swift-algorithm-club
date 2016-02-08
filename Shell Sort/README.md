@@ -22,8 +22,8 @@ n = floor(5/2) = 2
 
     i = 0    64 23 72 33 4
              ``    ``    ``
-        	64 23 4 33 72
-		4 23 64 33 72
+              64 23 4 33 72
+              4 23 64 33 72
 
     i = 1    4  23 64 33 72
                 ``    ``
@@ -32,8 +32,8 @@ n = floor(2/2) = 1
 
     i = 0    4  23 64 33 72
              `` `` `` `` ``
-	     ( normal insertionSort operations )
-	       4  23 33 64 72
+     ( normal insertionSort operations )
+             4  23 33 64 72
 	       
 Each item in sublist is compared against each other, if the condition is met, the value is swapped and that value travels all the way down and compared against previous items until we reach our start point.
 
