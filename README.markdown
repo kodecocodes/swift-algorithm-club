@@ -62,7 +62,7 @@ Fast sorts:
 
 - [Quicksort](Quicksort/)
 - [Merge Sort](Merge Sort/)
-- Heap Sort
+- [Heap Sort](Heap Sort/)
 
 Special-purpose sorts:
 
@@ -115,7 +115,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Stack](Stack/). Last-in, first-out!
 - [Queue](Queue/). First-in, first-out!
 - [Deque](Deque/). A double-ended queue.
-- Priority Queue
+- [Priority Queue](Priority Queue). A queue where the most important element is always at the front.
 - [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Lists
