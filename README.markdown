@@ -56,7 +56,7 @@ Basic sorts:
 
 - [Insertion Sort](Insertion Sort/)
 - [Selection Sort](Selection Sort/)
-- Shell Sort
+- [Shell Sort](Shell Sort/)
 
 Fast sorts:
 
@@ -93,6 +93,7 @@ Bad sorting algorithms (don't use these!):
 ### Machine learning
 
 - k-Nearest Neighbors
+- PageRank
 
 ## Data structures
 
