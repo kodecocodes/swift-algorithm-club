@@ -2,7 +2,7 @@
 
 I'm pleased to present to you Segment Tree. It's actually one of my favorite data structures because it's very flexible and simple in realization.
 
-Let's suppose that you have an array **a** of some type and some associative function **f**. For example, the function can be sum, multiplication, min, max, [gcd](../Greatest Common Divisor/), and so on.
+Let's suppose that you have an array **a** of some type and some associative function **f**. For example, the function can be sum, multiplication, min, max, [gcd](../GCD/), and so on.
 
 Your task is:
 
