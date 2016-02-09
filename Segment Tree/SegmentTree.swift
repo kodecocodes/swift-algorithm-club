@@ -1,9 +1,10 @@
 /*
-  Segment tree
-  build is O(n)
-  query is O(log n)
-  replace item is O(log n)
+Segment tree
+build is O(n)
+query is O(log n)
+replace item is O(log n)
 */
+
 
 public class SegmentTree<T> {
   
@@ -34,7 +35,7 @@ public class SegmentTree<T> {
   }
   
   public func queryWithLeftBound(leftBound: Int, rightBound: Int) -> T {
-    if self.leftBound == self.rightBound {
+    if self.leftBound == leftBound && self.rightBound == rightBound {
       return self.value
     } else if leftChild!.rightBound < leftBound {
       return rightChild!.queryWithLeftBound(leftBound, rightBound: rightBound)

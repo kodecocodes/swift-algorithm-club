@@ -54,13 +54,13 @@ init(array: [T], leftBound: Int, rightBound: Int, function: (T, T) -> T) {
   }
 ```
 
-If out current leftBound and rightBound are equal it means that we are in leaf so we don't have any child nodes and we just fill in `value` property with `array[leftBound]` else we have two child nodes. In that case we divide our current segment into two equal (if length is even) segments: `middle = (leftBound + rightBound) / 2` **[leftBound, middle]** and **[middle+1, rightBound]** and then we build our child nodes for that segments. After we build our child nodes we can easily calculate our value as `value = function(leftChild!.value, rightChild!.value)` because **f(leftBound, rightBound) = f(f(leftBound, middle), f(middle+1, rightBound))**
+If out current leftBound and rightBound are equal it means that we are in leaf so we don't have any child nodes and we just fill in `value` property with `array[leftBound]` else we have two child nodes. In that case we divide our current segment into two equal (if length is even) segments: `middle = (leftBound + rightBound) / 2` **[leftBound, middle]** and **[middle+1, rightBound]** and then we build our child nodes for that segments. After we build our child nodes so we can easily calculate our value as `value = function(leftChild!.value, rightChild!.value)` because **f(leftBound, rightBound) = f(f(leftBound, middle), f(middle+1, rightBound))**
 
 ## Getting answer to query
 
 ```swift
 public func queryWithLeftBound(leftBound: Int, rightBound: Int) -> T {
-    if self.leftBound == self.rightBound {
+    if self.leftBound == leftBound && self.rightBound == rightBound { {
       return self.value
     } else if leftChild!.rightBound < leftBound {
       return rightChild!.queryWithLeftBound(leftBound, rightBound: rightBound)
@@ -73,8 +73,36 @@ public func queryWithLeftBound(leftBound: Int, rightBound: Int) -> T {
     }
   }
 ```
-Firstly, we check if our current node is leaf, if it is we just return its value else
-we check that our query segment fully lies in rightChild, if so we return result of query on rightChild else if segment lies in leftChild we return result of query on leftChild. If our query lies in both child then we combine results of query on both child.
+Firstly, we check if current query segment is equal to segment for which our current node responsible, if it is we just return its value.
+```swift
+return self.value
+```
+
+![equalSegments](Images/EqualSegments.png)
+
+Else we check that our query segment fully lies in rightChild, if so we return result of query on rightChild
+```swift
+return rightChild!.queryWithLeftBound(leftBound, rightBound: rightBound)
+```
+
+![rightSegment](Images/RightSegment.png)
+
+else if segment lies in leftChild we return result of query on leftChild.
+ ```swift
+ return leftChild!.queryWithLeftBound(leftBound, rightBound: rightBound)
+ ```
+
+![leftSegment](Images/LeftSegment.png)
+
+If none of above-descripted runs it means our query lies in both child so we combine results of query on both child.
+
+```swift
+let leftResult = leftChild!.queryWithLeftBound(leftBound, rightBound: leftChild!.rightBound)
+let rightResult = rightChild!.queryWithLeftBound(rightChild!.leftBound, rightBound: rightBound)
+return function(leftResult, rightResult)
+```
+
+![mixedSegment](Images/MixedSegment.png)
 
 ## Replacing items
 
@@ -92,10 +120,14 @@ public func replaceItemAtIndex(index: Int, withItem item: T) {
     }
   }
 ```
-As always we check if current node is leaf and if so we just change its value otherwise we need to find out to which child index belongs. After that we call same function on that child and after that we recalculate our value because it needs to be in actual state.
+Foremost, we check if current node is leaf and if so we just change its value otherwise we need to find out to which child index belongs and call same function on that child. After that we recalculate our value because it needs to be in actual state.
 
 ## Examples
 
 Examples of using segment trees can be found in playground
+
+## See also
+
+[Segment tree](http://wcipeg.com/wiki/Segment_tree)
 
 *Written for Swift Algorithm Club by [Artur Antonov](https://github.com/goingreen)*
