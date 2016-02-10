@@ -12,6 +12,8 @@ This is a work in progress. More algorithms will be added soon. :-)
 
 ## Important links
 
+[What are algorithms and data structures?](What are Algorithms.markdown)
+
 [Why learn algorithms?](Why Algorithms.markdown) Worried this isn't your cup of tea? Then read this.
 
 [Big-O notation](Big-O Notation.markdown). We often say things like, "This algorithm is **O(n)**." If you don't know what that means, read this first.
