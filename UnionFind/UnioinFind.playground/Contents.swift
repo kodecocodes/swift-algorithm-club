@@ -1,19 +1,19 @@
 //: Playground - noun: a place where people can play
 
-public class UnionFindDS<T: Hashable> {
+public struct UnionFind<T: Hashable> {
   
   private var index = [T:Int]()
   private var parent = [Int]()
   private var size = [Int]()
   
   
-  public func addSetWithElement(element: T) {
+  public mutating func addSetWithElement(element: T) {
     index[element] = parent.count
     parent.append(parent.count)
     size.append(1)
   }
   
-  private func findSetByIndexOfElement(index: Int) -> Int {
+  private mutating func findSetByIndexOfElement(index: Int) -> Int {
     if parent[index] == index {
       return index
     } else {
@@ -22,12 +22,12 @@ public class UnionFindDS<T: Hashable> {
     }
   }
   
-  public func findSetOfElement(element: T) -> Int {
+  public mutating func findSetOfElement(element: T) -> Int {
     let indexOfElement = index[element]!
     return findSetByIndexOfElement(indexOfElement)
   }
   
-  public func unionSetsWithElement(firstElement: T, andSecondElement secondElement: T) {
+  public mutating func unionSetsWithElement(firstElement: T, andSecondElement secondElement: T) {
     let firstSet = findSetOfElement(firstElement)
     let secondSet = findSetOfElement(secondElement)
     if (firstSet != secondSet) {
@@ -43,7 +43,7 @@ public class UnionFindDS<T: Hashable> {
 }
 
 
-let dsu = UnionFindDS<Int>()
+var dsu = UnionFind<Int>()
 
 for i in 1...10 {
   dsu.addSetWithElement(i)
@@ -74,7 +74,7 @@ print(dsu.findSetOfElement(8) == dsu.findSetOfElement(9))
 print(dsu.findSetOfElement(4) == dsu.findSetOfElement(3))
 
 
-let dsuForStrings = UnionFindDS<String>()
+var dsuForStrings = UnionFind<String>()
 let words = ["all", "border", "boy", "afternoon", "amazing", "awesome", "best"]
 
 dsuForStrings.addSetWithElement("a")

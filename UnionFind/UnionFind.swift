@@ -8,20 +8,20 @@
 */
 
 
-public class UnionFindDS<T: Hashable> {
+public struct UnionFind<T: Hashable> {
   
   private var index = [T:Int]()
   private var parent = [Int]()
   private var size = [Int]()
   
   
-  public func addSetWithElement(element: T) {
+  public mutating func addSetWithElement(element: T) {
     index[element] = parent.count
     parent.append(parent.count)
     size.append(1)
   }
   
-  private func findSetByIndexOfElement(index: Int) -> Int {
+  private mutating func findSetByIndexOfElement(index: Int) -> Int {
     if parent[index] == index {
       return index
     } else {
@@ -30,12 +30,12 @@ public class UnionFindDS<T: Hashable> {
     }
   }
   
-  public func findSetOfElement(element: T) -> Int {
+  public mutating func findSetOfElement(element: T) -> Int {
     let indexOfElement = index[element]!
     return findSetByIndexOfElement(indexOfElement)
   }
   
-  public func unionSetsWithElement(firstElement: T, andSecondElement secondElement: T) {
+  public mutating func unionSetsWithElement(firstElement: T, andSecondElement secondElement: T) {
     let firstSet = findSetOfElement(firstElement)
     let secondSet = findSetOfElement(secondElement)
     if (firstSet != secondSet) {
