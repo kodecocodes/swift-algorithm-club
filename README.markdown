@@ -12,7 +12,7 @@ This is a work in progress. More algorithms will be added soon. :-)
 
 ## Important links
 
-[What are algorithms and data structures?](What are Algorithms.markdown)
+[What are algorithms and data structures?](What are Algorithms.markdown) Pancakes!
 
 [Why learn algorithms?](Why Algorithms.markdown) Worried this isn't your cup of tea? Then read this.
 
@@ -136,7 +136,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
-- [Segment Tree](Segment Tree/). Can compute f(a[l], a[l+1], ..., a[r]) for l ≤ r (f is some associative function) and update a[x] = v both on **O(log n)** time
+- [Segment Tree](Segment Tree/). Can quickly compute a function over a portion of an array.
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
