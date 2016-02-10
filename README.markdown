@@ -110,6 +110,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 ### Variations on arrays
 
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
+- [Bit Set](Bit Set/). A fixed-size sequence of *n* bits.
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an old-fashioned array with a fixed size.
 - [Ordered Array](Ordered Array/). An array that is always sorted.
 
@@ -148,7 +149,6 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 ### Sets
 
-- Bit Set
 - Bloom Filter
 - [Hash Set](Hash Set/). A set implemented using a hash table.
 - Multiset
