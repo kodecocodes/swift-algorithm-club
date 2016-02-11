@@ -150,7 +150,7 @@ let tree = BinarySearchTree<Int>(value: 7)
 
 The `count` property determines how many nodes are in the subtree described by this node. This doesn't just count the node's immediate children but also their children and their children's children, and so on. If this is the root node, then it counts how many nodes are in the entire tree. Initially, `count = 0`.
 
-> **Note:** Because `left`, `right`, and `parent` are optionals, we can make good use of Swift's optional chaining (`?`) and null-coalescing operators (`??`). You could also write this sort of thing with `if let` but that takes up more space.
+> **Note:** Because `left`, `right`, and `parent` are optionals, we can make good use of Swift's optional chaining (`?`) and nil-coalescing operators (`??`). You could also write this sort of thing with `if let` but that takes up more space.
 
 ### Inserting nodes
 
