@@ -22,21 +22,24 @@ public struct UnionFind<T: Hashable> {
     }
   }
   
-  public mutating func findSetOfElement(element: T) -> Int {
-    let indexOfElement = index[element]!
-    return findSetByIndexOfElement(indexOfElement)
+  public mutating func findSetOfElement(element: T) -> Int? {
+    if let indexOfElement = index[element] {
+      return findSetByIndexOfElement(indexOfElement)
+    } else {
+      return nil
+    }
   }
   
   public mutating func unionSetsWithElement(firstElement: T, andSecondElement secondElement: T) {
-    let firstSet = findSetOfElement(firstElement)
-    let secondSet = findSetOfElement(secondElement)
-    if (firstSet != secondSet) {
-      if (size[firstSet] < size[secondSet]) {
-        parent[firstSet] = secondSet;
-        size[secondSet] += size[firstSet]
-      } else {
-        parent[secondSet] = firstSet;
-        size[firstSet] += size[secondSet]
+    if let firstSet = findSetOfElement(firstElement), secondSet = findSetOfElement(secondElement) {
+      if (firstSet != secondSet) {
+        if (size[firstSet] < size[secondSet]) {
+          parent[firstSet] = secondSet;
+          size[secondSet] += size[firstSet]
+        } else {
+          parent[secondSet] = firstSet;
+          size[firstSet] += size[secondSet]
+        }
       }
     }
   }
