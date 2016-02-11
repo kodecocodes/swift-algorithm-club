@@ -1,67 +1,68 @@
-public class Graph {
-  private var canvas: Array<Node>
+class Graph {
+  private var nodes = [Node]()
 
-  init() {
-    canvas = Array<Node>()
-  }
-
-  func addNode(key: String) -> Node {
-    let childNode: Node = Node(key: key)
-    canvas.append(childNode)
-    return childNode
+  func addNode(label: String) -> Node {
+    let node = Node(label: label)
+    nodes.append(node)
+    return node
   }
 
   func addEdge(source: Node, neighbor: Node) {
-    let newEdge = Edge(neighbor: neighbor)
-    newEdge.neighbor = neighbor
-    source.neighbors.append(newEdge)
+    let edge = Edge(neighbor: neighbor)
+    edge.neighbor = neighbor
+    source.neighbors.append(edge)
   }
 }
 
-public class Node {
-  var key: String
-  var neighbors: Array<Edge>
+class Node {
+  private var label: String
+  private var neighbors: [Edge]
 
-  init(key: String) {
-    self.key = key
-    self.neighbors = Array<Edge>()
+  init(label: String) {
+    self.label = label
+    neighbors = []
   }
 }
 
-public class Edge {
-  var neighbor: Node
+class Edge {
+  private var neighbor: Node
+
   init(neighbor: Node) {
     self.neighbor = neighbor
   }
 }
 
-public class Queue<T> {
-  private var top: QueueNode<T>! = QueueNode<T>()
+class Queue<T> {
+  private var top: QueueNode<T>!
 
-  func enQueue(key: T) {
+  func enqueue(item: T) {
     if (top == nil) {
       top = QueueNode<T>()
     }
 
-    if (top.key == nil) {
-      top.key = key;
+    if (top.item == nil) {
+      top.item = item;
       return
     }
 
-    let childToUse: QueueNode<T> = QueueNode<T>()
+    let childToUse = QueueNode<T>()
     var current: QueueNode = top
-    while (current.next != nil) {
+    while current.next != nil {
       current = current.next!
     }
 
-    childToUse.key = key;
+    childToUse.item = item;
     current.next = childToUse;
   }
 
-  func deQueue() -> QueueNode<T> {
-    let itemToDeQueue = top
-    top = itemToDeQueue.next
-    return itemToDeQueue
+  func dequeue() -> QueueNode<T>? {
+    guard !isEmpty else {
+      return nil
+    }
+
+    let itemToDequeue = top
+    top = itemToDequeue.next
+    return itemToDequeue
   }
 
   var isEmpty: Bool {
@@ -70,23 +71,23 @@ public class Queue<T> {
 }
 
 class QueueNode<T> {
-  var key: T?
+  var item: T?
   var next: QueueNode?
 }
 
 func breadthFirstSearch(graph: Graph, root: Node) {
+  print("Performing breadth-first search on '\(root.label)'")
 
   let q = Queue<Node>()
-  q.enQueue(root)
-  print(root.key)
+  q.enqueue(root)
 
   while !q.isEmpty {
-    let current = q.deQueue()
-    for edge in current.key!.neighbors {
-      let neighbor = edge.neighbor
-      q.enQueue(neighbor)
+    let current = q.dequeue()
+    for edge in current!.item!.neighbors {
+      let neighborNode = edge.neighbor
+      q.enqueue(neighborNode)
 
-      print(neighbor.key)
+      print(neighborNode.label)
     }
   }
 }
