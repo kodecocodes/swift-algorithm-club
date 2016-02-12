@@ -67,7 +67,7 @@ public mutating func setOf(element: T) -> Int? {
 
 1. First, we check if current index represent a node that is root. That means we find number that represent the set of element we search for.
 
-2. Otherwise we recursively call our method on parent of current node. And then we do **very important thing**: we cache index of root node, so when we call this method again it will executed faster because of cached indexes. Without that optimization method's complexity is **O(n)** but now in combination with the size optimization (we'll look at that in Union section) it is almost **O(1)**.
+2. Otherwise we recursively call our method on parent of current node. And then we do **very important thing**: we cache index of root node, so when we call this method again it will executed faster because of cached indexes. Without that optimization method's complexity is **O(n)** but now in combination with the size optimization (I'll cover that in Union section) it is almost **O(1)**.
 
 3. We return our cached root as result.
 
@@ -116,7 +116,7 @@ Union with optimizations also takes almost **O(1)** time.
 
 As always, some illustrations for better understanding
 
-Before calling `unionSetsContaining(4, and: 7)`:
+Before calling `unionSetsContaining(4, and: 3)`:
 
 ![BeforeUnion](Images/BeforeUnion.png)
 
@@ -128,7 +128,7 @@ Note that during union caching optimization was performed because of calling `se
 
 
 
-There are also helper method to just check that two elements is in the same set:
+There is also helper method to just check that two elements is in the same set:
 
 ```swift
 public mutating func inSameSet(firstElement: T, and secondElement: T) -> Bool {
