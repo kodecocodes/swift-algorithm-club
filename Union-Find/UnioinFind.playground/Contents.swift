@@ -7,40 +7,48 @@ public struct UnionFind<T: Hashable> {
   private var size = [Int]()
   
   
-  public mutating func addSetWithElement(element: T) {
+  public mutating func addSetWith(element: T) {
     index[element] = parent.count
     parent.append(parent.count)
     size.append(1)
   }
   
-  private mutating func findSetByIndexOfElement(index: Int) -> Int {
+  private mutating func setByIndex(index: Int) -> Int {
     if parent[index] == index {
       return index
     } else {
-      parent[index] = findSetByIndexOfElement(parent[index])
+      parent[index] = setByIndex(parent[index])
       return parent[index]
     }
   }
   
-  public mutating func findSetOfElement(element: T) -> Int? {
+  public mutating func setOf(element: T) -> Int? {
     if let indexOfElement = index[element] {
-      return findSetByIndexOfElement(indexOfElement)
+      return setByIndex(indexOfElement)
     } else {
       return nil
     }
   }
   
-  public mutating func unionSetsWithElement(firstElement: T, andSecondElement secondElement: T) {
-    if let firstSet = findSetOfElement(firstElement), secondSet = findSetOfElement(secondElement) {
-      if (firstSet != secondSet) {
-        if (size[firstSet] < size[secondSet]) {
-          parent[firstSet] = secondSet;
+  public mutating func unionSetsContaining(firstElement: T, and secondElement: T) {
+    if let firstSet = setOf(firstElement), secondSet = setOf(secondElement) {
+      if firstSet != secondSet {
+        if size[firstSet] < size[secondSet] {
+          parent[firstSet] = secondSet
           size[secondSet] += size[firstSet]
         } else {
-          parent[secondSet] = firstSet;
+          parent[secondSet] = firstSet
           size[firstSet] += size[secondSet]
         }
       }
+    }
+  }
+  
+  public mutating func inSameSet(firstElement: T, and secondElement: T) -> Bool {
+    if let firstSet = setOf(firstElement), secondSet = setOf(secondElement) {
+      return firstSet == secondSet
+    } else {
+      return false
     }
   }
 }
@@ -49,60 +57,63 @@ public struct UnionFind<T: Hashable> {
 var dsu = UnionFind<Int>()
 
 for i in 1...10 {
-  dsu.addSetWithElement(i)
+  dsu.addSetWith(i)
 }
 // now our dsu contains 10 independent sets
 
 // let's divide our numbers into two sets by divisibility by 2
 for i in 3...10 {
   if i % 2 == 0 {
-    dsu.unionSetsWithElement(2, andSecondElement: i)
+    dsu.unionSetsContaining(2, and: i)
   } else {
-    dsu.unionSetsWithElement(1, andSecondElement: i)
+    dsu.unionSetsContaining(1, and: i)
   }
 }
 
 // check our division
-print(dsu.findSetOfElement(2) == dsu.findSetOfElement(4))
-print(dsu.findSetOfElement(4) == dsu.findSetOfElement(6))
-print(dsu.findSetOfElement(6) == dsu.findSetOfElement(8))
-print(dsu.findSetOfElement(8) == dsu.findSetOfElement(10))
+print(dsu.inSameSet(2, and: 4))
+print(dsu.inSameSet(4, and: 6))
+print(dsu.inSameSet(6, and: 8))
+print(dsu.inSameSet(8, and: 10))
 
-print(dsu.findSetOfElement(1) == dsu.findSetOfElement(3))
-print(dsu.findSetOfElement(3) == dsu.findSetOfElement(5))
-print(dsu.findSetOfElement(5) == dsu.findSetOfElement(7))
-print(dsu.findSetOfElement(7) == dsu.findSetOfElement(9))
 
-print(dsu.findSetOfElement(8) == dsu.findSetOfElement(9))
-print(dsu.findSetOfElement(4) == dsu.findSetOfElement(3))
+print(dsu.inSameSet(1, and: 3))
+print(dsu.inSameSet(3, and: 5))
+print(dsu.inSameSet(5, and: 7))
+print(dsu.inSameSet(7, and: 9))
+
+
+print(dsu.inSameSet(7, and: 4))
+print(dsu.inSameSet(3, and: 6))
+
 
 
 var dsuForStrings = UnionFind<String>()
 let words = ["all", "border", "boy", "afternoon", "amazing", "awesome", "best"]
 
-dsuForStrings.addSetWithElement("a")
-dsuForStrings.addSetWithElement("b")
+dsuForStrings.addSetWith("a")
+dsuForStrings.addSetWith("b")
 
 // In that example we divide strings by its first letter
 for word in words {
-  dsuForStrings.addSetWithElement(word)
+  dsuForStrings.addSetWith(word)
   if word.hasPrefix("a") {
-    dsuForStrings.unionSetsWithElement("a", andSecondElement: word)
+    dsuForStrings.unionSetsContaining("a", and: word)
   } else if word.hasPrefix("b") {
-    dsuForStrings.unionSetsWithElement("b", andSecondElement: word)
+    dsuForStrings.unionSetsContaining("b", and: word)
   }
 }
 
-print(dsuForStrings.findSetOfElement("a") == dsuForStrings.findSetOfElement("all"))
-print(dsuForStrings.findSetOfElement("all") == dsuForStrings.findSetOfElement("awesome"))
-print(dsuForStrings.findSetOfElement("amazing") == dsuForStrings.findSetOfElement("afternoon"))
+print(dsuForStrings.inSameSet("a", and: "all"))
+print(dsuForStrings.inSameSet("all", and: "awesome"))
+print(dsuForStrings.inSameSet("amazing", and: "afternoon"))
 
-print(dsuForStrings.findSetOfElement("b") == dsuForStrings.findSetOfElement("boy"))
-print(dsuForStrings.findSetOfElement("best") == dsuForStrings.findSetOfElement("boy"))
-print(dsuForStrings.findSetOfElement("border") == dsuForStrings.findSetOfElement("best"))
+print(dsuForStrings.inSameSet("b", and: "boy"))
+print(dsuForStrings.inSameSet("best", and: "boy"))
+print(dsuForStrings.inSameSet("border", and: "best"))
 
-print(dsuForStrings.findSetOfElement("amazing") == dsuForStrings.findSetOfElement("boy"))
-print(dsuForStrings.findSetOfElement("all") == dsuForStrings.findSetOfElement("border"))
+print(dsuForStrings.inSameSet("amazing", and: "boy"))
+print(dsuForStrings.inSameSet("all", and: "border"))
 
 
 

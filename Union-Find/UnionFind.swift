@@ -15,40 +15,48 @@ public struct UnionFind<T: Hashable> {
   private var size = [Int]()
   
   
-  public mutating func addSetWithElement(element: T) {
+  public mutating func addSetWith(element: T) {
     index[element] = parent.count
     parent.append(parent.count)
     size.append(1)
   }
   
-  private mutating func findSetByIndexOfElement(index: Int) -> Int {
+  private mutating func setByIndex(index: Int) -> Int {
     if parent[index] == index {
       return index
     } else {
-      parent[index] = findSetByIndexOfElement(parent[index])
+      parent[index] = setByIndex(parent[index])
       return parent[index]
     }
   }
   
-  public mutating func findSetOfElement(element: T) -> Int? {
+  public mutating func setOf(element: T) -> Int? {
     if let indexOfElement = index[element] {
-      return findSetByIndexOfElement(indexOfElement)
+      return setByIndex(indexOfElement)
     } else {
       return nil
     }
   }
   
-  public mutating func unionSetsWithElement(firstElement: T, andSecondElement secondElement: T) {
-    if let firstSet = findSetOfElement(firstElement), secondSet = findSetOfElement(secondElement) {
-      if (firstSet != secondSet) {
-        if (size[firstSet] < size[secondSet]) {
-          parent[firstSet] = secondSet;
+  public mutating func unionSetsContaining(firstElement: T, and secondElement: T) {
+    if let firstSet = setOf(firstElement), secondSet = setOf(secondElement) {
+      if firstSet != secondSet {
+        if size[firstSet] < size[secondSet] {
+          parent[firstSet] = secondSet
           size[secondSet] += size[firstSet]
         } else {
-          parent[secondSet] = firstSet;
+          parent[secondSet] = firstSet
           size[firstSet] += size[secondSet]
         }
       }
+    }
+  }
+  
+  public mutating func inSameSet(firstElement: T, and secondElement: T) -> Bool {
+    if let firstSet = setOf(firstElement), secondSet = setOf(secondElement) {
+      return firstSet == secondSet
+    } else {
+      return false
     }
   }
 }
