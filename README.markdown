@@ -79,7 +79,7 @@ Bad sorting algorithms (don't use these!):
 
 ### Compression
 
-- Run-Length Encoding (RLE)
+- [Run-Length Encoding (RLE)](Run-Length Encoding)
 - Huffman Encoding
 
 ### Miscellaneous
