@@ -29,7 +29,7 @@ Next, Monty opens one of the empty doors. Obviously, he won't choose the door th
 ```swift
   var openDoor = -1
   repeat {
-    openDoor = random(numberOfDoors)
+    openDoor = random(3)
   } while openDoor == prizeDoor || openDoor == chooseDoor
 ```  
 
