@@ -7,13 +7,10 @@
     union sets is almost O(1)
 */
 
-
 public struct UnionFind<T: Hashable> {
-  
-  private var index = [T:Int]()
+  private var index = [T: Int]()
   private var parent = [Int]()
   private var size = [Int]()
-  
   
   public mutating func addSetWith(element: T) {
     index[element] = parent.count
@@ -51,7 +48,7 @@ public struct UnionFind<T: Hashable> {
       }
     }
   }
-  
+
   public mutating func inSameSet(firstElement: T, and secondElement: T) -> Bool {
     if let firstSet = setOf(firstElement), secondSet = setOf(secondElement) {
       return firstSet == secondSet

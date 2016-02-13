@@ -1,11 +1,9 @@
 //: Playground - noun: a place where people can play
 
 public struct UnionFind<T: Hashable> {
-  
-  private var index = [T:Int]()
+  private var index = [T: Int]()
   private var parent = [Int]()
   private var size = [Int]()
-  
   
   public mutating func addSetWith(element: T) {
     index[element] = parent.count
@@ -52,6 +50,8 @@ public struct UnionFind<T: Hashable> {
     }
   }
 }
+
+
 
 
 var dsu = UnionFind<Int>()
