@@ -2,12 +2,15 @@
 
 I'm pleased to present to you Segment Tree. It's actually one of my favorite data structures because it's very flexible and simple in realization.
 
-Let's suppose that you have array **a** of some type and some associative function _**f**_(e.g. sum, multiplication, min, max, gcd).
-Your task is:
- * answer a queries for given **l** and **r**: `f(a[l], a[l+1], ..., a[r-1], a[r])`
- * support replacing item at some index `a[index] = newItem`
+Let's suppose that you have an array **a** of some type and some associative function **f**. For example, the function can be sum, multiplication, min, max, [gcd](../GCD/), and so on.
 
-Here's naive approach if our array's type is Int and _**f**_ is just sum of two integers:
+Your task is:
+
+- answer a query for an interval given by **l** and **r**, i.e. perform `f(a[l], a[l+1], ..., a[r-1], a[r])`
+- support replacing an item at some index `a[index] = newItem`
+
+Here's naive approach if our array's type is `Int` and **f** is just the sum of two integers:
+
 ```swift
 func query(array: [Int], l: Int, r: Int) -> Int {
   var sum = 0
@@ -17,117 +20,173 @@ func query(array: [Int], l: Int, r: Int) -> Int {
   return sum
 }
 ```
-The running time of this algorithm is **O(n)** in worst case (**l = 0, r = n-1**). And if we have **m** queries to answer we get **O(m*n)** complexity.
-If we have **n = 10^5** and **m = 100** our algorithm will do **10^7** units of work, ouh it's sounds not very good. Let's look how we can improve it.
 
-Segment trees allow us answer a queries and replace items on **O(log n)**, isn't it magic?:sparkles:
-The main idea of segment trees is simple: we precalculate some segments in our array and then we can use it without repeating calculation.
+The running time of this algorithm is **O(n)** in the worst case, that is when **l = 0, r = n-1**. And if we have **m** queries to answer we get **O(m*n)** complexity.
+
+If we have an array with 100,000 items (**n = 10^5**) and we have to do 100 queries (**m = 100**), then our algorithm will do **10^7** units of work. Ouch, that doesn't sound very good. Let's look at how we can improve it.
+
+Segment trees allow us to answer queries and replace items with **O(log n)** time. Isn't it magic? :sparkles:
+
+The main idea of segment trees is simple: we precalculate some segments in our array and then we can use those without repeating calculations.
+
 ## Structure of segment tree
 
-Segment tree is just [binary tree](../Binary Tree/) where each node has:
-  * `leftBound`
-  * `rightBound`
-  * `value` is actually `f(a[leftBound], a[leftBound+1], .., a[rightBound])`
-  * `leftChild`
-  * `rightChild`
+A segment tree is just a [binary tree](../Binary Tree/) where each node is an instance of the `SegmentTree` class:
 
-Here's structure of segment tree for given array `[1, 2, 3, 4]` and **f = a+b**, pairs of leftBound and rightBound marked in red
+```swift
+public class SegmentTree<T> {
+  private var value: T
+  private var function: (T, T) -> T
+  private var leftBound: Int
+  private var rightBound: Int
+  private var leftChild: SegmentTree<T>?
+  private var rightChild: SegmentTree<T>?
+}
+```
+
+Each node has the following data:
+
+- `leftBound` and `rightBound` describe an interval
+- `leftChild` and `rightChild` are pointers to child nodes
+- `value` is actually the application of the function `f(a[leftBound], a[leftBound+1], ..., a[rightBound-1], a[rightBound])`
+
+If our array is `[1, 2, 3, 4]` and the function `f = a + b`, the segment tree looks like this:
 
 ![structure](Images/Structure.png)
 
-## Building segment tree
+The `leftBound` and `rightBound` of each node are marked in red.
 
-Let's see how to build node of segment tree.
+## Building a segment tree
+
+Here's how we create a node of the segment tree:
+
 ```swift
-init(array: [T], leftBound: Int, rightBound: Int, function: (T, T) -> T) {
+public init(array: [T], leftBound: Int, rightBound: Int, function: (T, T) -> T) {
     self.leftBound = leftBound
     self.rightBound = rightBound
     self.function = function
-    if leftBound == rightBound {
+
+    if leftBound == rightBound {                    // 1
       value = array[leftBound]
     } else {
-      let middle = (leftBound + rightBound) / 2
+      let middle = (leftBound + rightBound) / 2     // 2
+
+      // 3
       leftChild = SegmentTree<T>(array: array, leftBound: leftBound, rightBound: middle, function: function)
       rightChild = SegmentTree<T>(array: array, leftBound: middle+1, rightBound: rightBound, function: function)
-      value = function(leftChild!.value, rightChild!.value)
+
+      value = function(leftChild!.value, rightChild!.value)  // 4
     }
   }
 ```
 
-If out current leftBound and rightBound are equal it means that we are in leaf so we don't have any child nodes and we just fill in `value` property with `array[leftBound]` else we have two child nodes. In that case we divide our current segment into two equal (if length is even) segments: `middle = (leftBound + rightBound) / 2` **[leftBound, middle]** and **[middle+1, rightBound]** and then we build our child nodes for that segments. After we build our child nodes so we can easily calculate our value as `value = function(leftChild!.value, rightChild!.value)` because **f(leftBound, rightBound) = f(f(leftBound, middle), f(middle+1, rightBound))**
+Notice that this is a recursive method! You give it an array, such as `[1, 2, 3, 4]` and it creates the root node of the tree and all the child nodes as well.
+
+1. The recursion terminates if `leftBound` and `rightBound` are equal. That means this `SegmentTree` instance will represent a leaf node. For the input array `[1, 2, 3, 4]`, it will create four such leaf nodes: `1`, `2`, `3`, and `4`. We just fill in the `value` property with the number from the array.
+
+2. However, if `rightBound` is still greater than `leftBound`, we create two child nodes. We divide the current segment into two equal (if length is even) segments.
+
+3. Recursively build child nodes for those two segments. The left child node covers the interval **[leftBound, middle]** and the right child node covers **[middle+1, rightBound]**.
+
+4. After having constructed our child nodes, we can calculate our own value because **f(leftBound, rightBound) = f(f(leftBound, middle), f(middle+1, rightBound))**. It's math!
+
+Building the tree is an **O(n)** operation.
 
 ## Getting answer to query
 
+We go through all this trouble so we can efficiently query the tree.
+
+Here's the code:
+
 ```swift
-public func queryWithLeftBound(leftBound: Int, rightBound: Int) -> T {
-    if self.leftBound == leftBound && self.rightBound == rightBound { {
+  public func queryWithLeftBound(leftBound: Int, rightBound: Int) -> T {
+    // 1
+    if self.leftBound == leftBound && self.rightBound == rightBound {
       return self.value
-    } else if leftChild!.rightBound < leftBound {
-      return rightChild!.queryWithLeftBound(leftBound, rightBound: rightBound)
-    } else if rightChild!.leftBound > rightBound {
-      return leftChild!.queryWithLeftBound(leftBound, rightBound: rightBound)
+    }
+    
+    guard let leftChild = leftChild else { fatalError("leftChild should not be nil") }
+    guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
+    
+    // 2
+    if leftChild.rightBound < leftBound {
+      return rightChild.queryWithLeftBound(leftBound, rightBound: rightBound)
+      
+    // 3
+    } else if rightChild.leftBound > rightBound {
+      return leftChild.queryWithLeftBound(leftBound, rightBound: rightBound)
+      
+    // 4
     } else {
-      let leftResult = leftChild!.queryWithLeftBound(leftBound, rightBound: leftChild!.rightBound)
-      let rightResult = rightChild!.queryWithLeftBound(rightChild!.leftBound, rightBound: rightBound)
+      let leftResult = leftChild.queryWithLeftBound(leftBound, rightBound: leftChild.rightBound)
+      let rightResult = rightChild.queryWithLeftBound(rightChild.leftBound, rightBound: rightBound)
       return function(leftResult, rightResult)
     }
   }
 ```
-Firstly, we check if current query segment is equal to segment for which our current node responsible, if it is we just return its value.
-```swift
-return self.value
-```
+
+Again, this is a recursive method. It checks four different possibilities.
+
+1) First, we check if the query segment is equal to the segment for which our current node is responsible. If it is we just return this node's value.
 
 ![equalSegments](Images/EqualSegments.png)
 
-Else we check that our query segment fully lies in rightChild, if so we return result of query on rightChild
-```swift
-return rightChild!.queryWithLeftBound(leftBound, rightBound: rightBound)
-```
+2) Does the query segment fully lie within the right child? If so, recursively perform the query on the right child.
 
 ![rightSegment](Images/RightSegment.png)
 
-else if segment lies in leftChild we return result of query on leftChild.
- ```swift
- return leftChild!.queryWithLeftBound(leftBound, rightBound: rightBound)
- ```
+3) Does the query segment fully lie within the left child? If so, recursively perform the query on the left child.
 
 ![leftSegment](Images/LeftSegment.png)
 
-If none of above-descripted runs it means our query lies in both child so we combine results of query on both child.
-
-```swift
-let leftResult = leftChild!.queryWithLeftBound(leftBound, rightBound: leftChild!.rightBound)
-let rightResult = rightChild!.queryWithLeftBound(rightChild!.leftBound, rightBound: rightBound)
-return function(leftResult, rightResult)
-```
+4) If none of the above, it means our query partially lies in both children so we combine the results of queries on both children.
 
 ![mixedSegment](Images/MixedSegment.png)
 
-## Replacing items
+For example, this is how you could test it out in a playground:
 
 ```swift
-public func replaceItemAtIndex(index: Int, withItem item: T) {
+let array = [1, 2, 3, 4]
+
+let sumSegmentTree = SegmentTree(array: array, function: +)
+
+sumSegmentTree.queryWithLeftBound(0, rightBound: 3)  // 1 + 2 + 3 + 4 = 10
+sumSegmentTree.queryWithLeftBound(1, rightBound: 2)  // 2 + 3 = 5
+sumSegmentTree.queryWithLeftBound(0, rightBound: 0)  // just 1
+sumSegmentTree.queryWithLeftBound(3, rightBound: 3)  // just 4
+```
+
+Querying the tree takes **O(log n)** time.
+
+## Replacing items
+
+The value of a node in the segment tree depends on the nodes below it. So if we want to change a value of a leaf node, we need to update all its parent nodes too.
+
+Here is the code:
+
+```swift
+  public func replaceItemAtIndex(index: Int, withItem item: T) {
     if leftBound == rightBound {
       value = item
-    } else {
-      if leftChild!.rightBound >= index {
-        leftChild!.replaceItemAtIndex(index, withItem: item)
+    } else if let leftChild = leftChild, rightChild = rightChild {
+      if leftChild.rightBound >= index {
+        leftChild.replaceItemAtIndex(index, withItem: item)
       } else {
-        rightChild!.replaceItemAtIndex(index, withItem: item)
+        rightChild.replaceItemAtIndex(index, withItem: item)
       }
-      value = function(leftChild!.value, rightChild!.value)
+      value = function(leftChild.value, rightChild.value)
     }
   }
 ```
-Foremost, we check if current node is leaf and if so we just change its value otherwise we need to find out to which child index belongs and call same function on that child. After that we recalculate our value because it needs to be in actual state.
 
-## Examples
+As usual, this works with recursion. If the node is a leaf, we just change its value. If the node is not a leaf, then we recursively call `replaceItemAtIndex()` to update its children. After that, we recalculate the node's own value so that it is up-to-date again.
 
-Examples of using segment trees can be found in playground
+Replacing an item takes **O(log n)** time.
+
+See the playground for more examples of how to use the segment tree.
 
 ## See also
 
-[Segment tree](http://wcipeg.com/wiki/Segment_tree)
+[Segment tree at PEGWiki](http://wcipeg.com/wiki/Segment_tree)
 
 *Written for Swift Algorithm Club by [Artur Antonov](https://github.com/goingreen)*

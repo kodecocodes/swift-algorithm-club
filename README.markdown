@@ -12,6 +12,8 @@ This is a work in progress. More algorithms will be added soon. :-)
 
 ## Important links
 
+[What are algorithms and data structures?](What are Algorithms.markdown) Pancakes!
+
 [Why learn algorithms?](Why Algorithms.markdown) Worried this isn't your cup of tea? Then read this.
 
 [Big-O notation](Big-O Notation.markdown). We often say things like, "This algorithm is **O(n)**." If you don't know what that means, read this first.
@@ -56,7 +58,7 @@ Basic sorts:
 
 - [Insertion Sort](Insertion Sort/)
 - [Selection Sort](Selection Sort/)
-- Shell Sort
+- [Shell Sort](Shell Sort/)
 
 Fast sorts:
 
@@ -77,7 +79,7 @@ Bad sorting algorithms (don't use these!):
 
 ### Compression
 
-- Run-Length Encoding (RLE)
+- [Run-Length Encoding (RLE)](Run-Length Encoding)
 - Huffman Encoding
 
 ### Miscellaneous
@@ -93,6 +95,7 @@ Bad sorting algorithms (don't use these!):
 ### Machine learning
 
 - k-Nearest Neighbors
+- PageRank
 
 ## Data structures
 
@@ -107,6 +110,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 ### Variations on arrays
 
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
+- [Bit Set](Bit Set/). A fixed-size sequence of *n* bits.
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an old-fashioned array with a fixed size.
 - [Ordered Array](Ordered Array/). An array that is always sorted.
 
@@ -132,7 +136,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
-- [Segment Tree](Segment Tree/). Can compute f(a[l], a[l+1], ..., a[r]) for l ≤ r (f is some associative function) and update a[x] = v both on **O(log n)** time
+- [Segment Tree](Segment Tree/). Can quickly compute a function over a portion of an array.
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
@@ -145,7 +149,6 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 ### Sets
 
-- Bit Set
 - Bloom Filter
 - [Hash Set](Hash Set/). A set implemented using a hash table.
 - Multiset
@@ -165,6 +168,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 A lot of software developer interview questions consist of algorithmic puzzles. Here is a small selection of fun ones. For more puzzles (with answers), see [here](http://elementsofprogramminginterviews.com/) and [here](http://www.crackingthecodinginterview.com).
 
 - [Two-Sum Problem](Two-Sum Problem/)
+- [Fizz Buzz](Fizz Buzz/)
 
 ## Learn more!
 
