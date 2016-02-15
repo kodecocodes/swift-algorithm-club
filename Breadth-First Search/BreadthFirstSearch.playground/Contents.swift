@@ -32,58 +32,43 @@ class Edge {
   }
 }
 
-class Queue<T> {
-  private var top: QueueNode<T>!
-
-  func enqueue(item: T) {
-    if (top == nil) {
-      top = QueueNode<T>()
-    }
-
-    if (top.item == nil) {
-      top.item = item;
-      return
-    }
-
-    let childToUse = QueueNode<T>()
-    var current: QueueNode = top
-    while current.next != nil {
-      current = current.next!
-    }
-
-    childToUse.item = item;
-    current.next = childToUse;
-  }
-
-  func dequeue() -> QueueNode<T>? {
-    guard !isEmpty else {
-      return nil
-    }
-
-    let itemToDequeue = top
-    top = itemToDequeue.next
-    return itemToDequeue
-  }
+struct Queue<T> {
+  var array = [T]()
 
   var isEmpty: Bool {
-    get { return top == nil }
+    return array.isEmpty
   }
-}
 
-class QueueNode<T> {
-  var item: T?
-  var next: QueueNode?
+  var count: Int {
+    return array.count
+  }
+
+  mutating func enqueue(element: T) {
+    array.append(element)
+  }
+
+  mutating func dequeue() -> T? {
+    if isEmpty {
+      return nil
+    } else {
+      return array.removeFirst()
+    }
+  }
+
+  func peek() -> T? {
+    return array.first
+  }
 }
 
 func breadthFirstSearch(graph: Graph, root: Node) {
   print("Performing breadth-first search on '\(root.label)'")
 
-  let q = Queue<Node>()
+  var q = Queue<Node>()
   q.enqueue(root)
 
   while !q.isEmpty {
     let current = q.dequeue()
-    for edge in current!.item!.neighbors {
+    for edge in current!.neighbors {
       let neighborNode = edge.neighbor
       q.enqueue(neighborNode)
 

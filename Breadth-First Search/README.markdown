@@ -6,111 +6,57 @@ Breadth-first search (BFS) is an algorithm for traversing or searching tree or g
 
 ![Animated example of a breadth-first search](Images/Animated_BFS.gif)
 
+Let's follow the animated example by using a [queue](../Queue/).
+
+Start with the root node ``a`` and add it to a queue.
+```swift
+queue.enqueue(a)
+```
+The queue is now ``[ a ]``. Dequeue ``a`` and enqueue the neighbor nodes ``b`` and ``c``.
+```swift
+queue.dequeue(a)
+queue.enqueue(b)
+queue.enqueue(c)
+```
+The queue is now ``[ b, c ]``. Dequeue ``b`` and enqueue the neighbor nodes ``d`` and ``e``.
+```swift
+queue.dequeue(b)
+queue.enqueue(d)
+queue.enqueue(e)
+```
+The queue is now ``[ c, d, e ]``. Dequeue ``c`` and enqueue the neighbor nodes ``f`` and ``g``.
+```swift
+queue.dequeue(c)
+queue.enqueue(f)
+queue.enqueue(g)
+```
+The queue is now ``[ d, e, f, g ]``. Dequeue ``d`` which has no neighbor nodes.
+```swift
+queue.dequeue(d)
+```
+The queue is now ``[ e, f, g ]``. Dequeue ``e`` which enqueue the single neighbor node ``h``.
+```swift
+queue.dequeue(e)
+queue.enqueue(h)
+```
+The queue is now ``[ f, g, h ]``. Dequeue ``f`` which has no neighbor nodes.
+```swift
+queue.dequeue(f)
+```
+The queue is now ``[ g, h ]``. Dequeue ``g`` which has no neighbor nodes.
+```swift
+queue.dequeue(g)
+```
+The queue is now ``[ h ]``. Dequeue ``h`` which has no neighbor nodes.
+```swift
+queue.dequeue(h)
+```
+The queue is now empty which means all nodes have been explored.
+
 ## The code
 
-Before we can code the breadth-first search algorithm we need to:
-* Create an implementation of the graph
-* Create an implementation of a queue
+Simple implementation of breadth-first search using a queue:
 
-### Graph implementation
-
-A graph is made up of nodes and edges. In the [animated example](#animated-example) the nodes are represented as circles and the edges are represented as lines.
-
-Implementation of a node:
-```swift
-class Node {
-  private var label: String
-  private var neighbors: [Edge]
-
-  init(label: String) {
-    self.label = label
-    neighbors = []
-  }
-}
-```
-
-Implementation of an edge:
-```swift
-class Edge {
-  private var neighbor: Node
-
-  init(neighbor: Node) {
-    self.neighbor = neighbor
-  }
-}
-```
-
-Implementation of a graph:
-```swift
-class Graph {
-  private var nodes = [Node]()
-
-  func addNode(label: String) -> Node {
-    let node = Node(label: label)
-    nodes.append(node)
-    return node
-  }
-
-  func addEdge(source: Node, neighbor: Node) {
-    let edge = Edge(neighbor: neighbor)
-    edge.neighbor = neighbor
-    source.neighbors.append(edge)
-  }
-}
-```
-
-### Queue implementation
-
-Implementation of simple queue:
-
-```swift
-class Queue<T> {
-  private var top: QueueNode<T>!
-
-  func enqueue(item: T) {
-    if (top == nil) {
-      top = QueueNode<T>()
-    }
-
-    if (top.item == nil) {
-      top.item = item;
-      return
-    }
-
-    let childToUse = QueueNode<T>()
-    var current: QueueNode = top
-    while current.next != nil {
-      current = current.next!
-    }
-
-    childToUse.item = item;
-    current.next = childToUse;
-  }
-
-  func dequeue() -> QueueNode<T>? {
-    guard !isEmpty else {
-      return nil
-    }
-
-    let itemToDequeue = top
-    top = itemToDequeue.next
-    return itemToDequeue
-  }
-
-  var isEmpty: Bool {
-    get { return top == nil }
-  }
-}
-
-class QueueNode<T> {
-  var item: T?
-  var next: QueueNode?
-}
-```
-
-### Breadth-first search algorithm
-
-Simple implementation of breadth-first search using queues:
 ```swift
 func breadthFirstSearch(graph: Graph, root: Node) {
   print("Performing breadth-first search on '\(root.label)'")
@@ -157,8 +103,6 @@ breadthFirstSearch(graph, root: nodeA) // This will output: Performing breadth-f
 
 ## See also
 
-[Breadth-first search on Wikipedia](https://en.wikipedia.org/wiki/Breadth-first_search)
-
-[Queues](http://waynewbishop.com/swift/stacks-queues) & [Graphs](http://waynewbishop.com/swift/graphs) by Wayne Bishop
+[Graphs](../Graph/), [Queues](../Queue/), [Breadth-first search on Wikipedia](https://en.wikipedia.org/wiki/Breadth-first_search).
 
 *Written by [Chris Pilcher](https://github.com/chris-pilcher)*
