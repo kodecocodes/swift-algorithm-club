@@ -34,7 +34,7 @@ The queue is now ``[ d, e, f, g ]``. Dequeue ``d`` which has no neighbor nodes.
 ```swift
 queue.dequeue(d)
 ```
-The queue is now ``[ e, f, g ]``. Dequeue ``e`` which enqueue the single neighbor node ``h``.
+The queue is now ``[ e, f, g ]``. Dequeue ``e`` and enqueue the single neighbor node ``h``.
 ```swift
 queue.dequeue(e)
 queue.enqueue(h)
@@ -100,6 +100,14 @@ graph.addEdge(nodeE, neighbor: nodeH)
 breadthFirstSearch(graph, root: nodeA) // This will output: Performing breadth-first search on 'a', b, c, d, e, f, g, h
 
 ```
+
+## Applications
+
+**TODO**: list a few common Applications
+
+# Finding the shortest path
+
+**TODO**: step through example
 
 ## See also
 
