@@ -43,7 +43,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Select Minimum / Maximum](Select Minimum Maximum). Find the minimum/maximum value in an array.
 - [k-th Largest Element](Kth Largest Element/). Find the *k*th largest element in an array, such as the median.
 - [Selection Sampling](Selection Sampling/). Randomly choose a bunch of items from a collection.
-- Union-Find
+- [Union-Find](Union-Find/). Keeps track of disjoint sets and lets you quickly merge them.
 
 ### String Search
 
@@ -79,7 +79,7 @@ Bad sorting algorithms (don't use these!):
 
 ### Compression
 
-- Run-Length Encoding (RLE)
+- [Run-Length Encoding (RLE)](Run-Length Encoding)
 - Huffman Encoding
 
 ### Miscellaneous
@@ -169,6 +169,7 @@ A lot of software developer interview questions consist of algorithmic puzzles. 
 
 - [Two-Sum Problem](Two-Sum Problem/)
 - [Fizz Buzz](Fizz Buzz/)
+- [Monty Hall Problem](Monty Hall Problem/)
 
 ## Learn more!
 
