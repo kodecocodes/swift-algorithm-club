@@ -14,14 +14,30 @@ class Graph {
   }
 }
 
-class Node {
+class Node : CustomStringConvertible, Equatable {
   private var label: String
   private var neighbors: [Edge]
+  private var distance: Int?
 
   init(label: String) {
     self.label = label
     neighbors = []
   }
+
+  var description: String {
+    if let distance = distance {
+      return "Node(label: \(label), distance: \(distance))"
+    }
+    return "Node(label: \(label), distance: infnity)"
+  }
+
+  var hasDistance: Bool {
+    return distance != nil
+  }
+}
+
+func ==(lhs: Node, rhs: Node) -> Bool {
+  return lhs.label == rhs.label
 }
 
 class Edge {
@@ -63,6 +79,25 @@ struct Queue<T> {
 func breadthFirstSearch(graph: Graph, root: Node) {
   print("Performing breadth-first search on '\(root.label)'")
 
+  var seenNodes = [root]
+  var queue = Queue<Node>()
+  queue.enqueue(root)
+
+  while !queue.isEmpty {
+    let current = queue.dequeue()
+    for edge in current!.neighbors {
+      let neighborNode = edge.neighbor
+      if !seenNodes.contains(neighborNode) {
+        queue.enqueue(neighborNode)
+        seenNodes.append(neighborNode)
+        print(neighborNode.label)
+      }
+    }
+  }
+}
+
+func breadthFirstSearchShortestPath(graph: Graph, root: Node) {
+  root.distance = 0
   var q = Queue<Node>()
   q.enqueue(root)
 
@@ -70,12 +105,16 @@ func breadthFirstSearch(graph: Graph, root: Node) {
     let current = q.dequeue()
     for edge in current!.neighbors {
       let neighborNode = edge.neighbor
-      q.enqueue(neighborNode)
-
-      print(neighborNode.label)
+      if !neighborNode.hasDistance {
+        q.enqueue(neighborNode)
+        neighborNode.distance = current!.distance! + 1
+      }
     }
   }
+
+  print(graph.nodes)
 }
+
 
 let graph = Graph()
 
@@ -96,4 +135,6 @@ graph.addEdge(nodeC, neighbor: nodeF)
 graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
 
+
 breadthFirstSearch(graph, root: nodeA)
+breadthFirstSearchShortestPath(graph, root: nodeA)

@@ -61,16 +61,19 @@ Simple implementation of breadth-first search using a queue:
 func breadthFirstSearch(graph: Graph, root: Node) {
   print("Performing breadth-first search on '\(root.label)'")
 
-  var q = Queue<Node>()
-  q.enqueue(root)
+  var seenNodes = [root]
+  var queue = Queue<Node>()
+  queue.enqueue(root)
 
-  while !q.isEmpty {
-    let current = q.dequeue()
+  while !queue.isEmpty {
+    let current = queue.dequeue()
     for edge in current!.neighbors {
       let neighborNode = edge.neighbor
-      q.enqueue(neighborNode)
-
-      print(neighborNode.label)
+      if !seenNodes.contains(neighborNode) {
+        queue.enqueue(neighborNode)
+        seenNodes.append(neighborNode)
+        print(neighborNode.label)
+      }
     }
   }
 }
@@ -103,11 +106,40 @@ breadthFirstSearch(graph, root: nodeA) // This will output: Performing breadth-f
 
 ## Applications
 
-**TODO**: list a few common Applications
+Breadth-first search can be used to solve many problems, for example:
 
-# Finding the shortest path
+* Computing the shortest path between a source node and each of the other nodes
+  * Only for unweighted graphs
+* Calculating the minimum spanning tree on an unweighted graph
 
-**TODO**: step through example
+## Shortest path example
+
+TODO: walkthrough + explanation
+
+```swift
+func breadthFirstSearchShortestPath(graph: Graph, root: Node) {
+  root.distance = 0
+  var q = Queue<Node>()
+  q.enqueue(root)
+
+  while !q.isEmpty {
+    let current = q.dequeue()
+    for edge in current!.neighbors {
+      let neighborNode = edge.neighbor
+      if !neighborNode.hasDistance {
+        q.enqueue(neighborNode)
+        neighborNode.distance = current!.distance! + 1
+      }
+    }
+  }
+
+  print(graph.nodes)
+}
+```
+
+## Minimum spanning tree example
+
+TODO
 
 ## See also
 
