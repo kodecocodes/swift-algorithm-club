@@ -61,12 +61,12 @@ Simple implementation of breadth-first search using a queue:
 func breadthFirstSearch(graph: Graph, root: Node) {
   print("Performing breadth-first search on '\(root.label)'")
 
-  let q = Queue<Node>()
+  var q = Queue<Node>()
   q.enqueue(root)
 
   while !q.isEmpty {
     let current = q.dequeue()
-    for edge in current!.item!.neighbors {
+    for edge in current!.neighbors {
       let neighborNode = edge.neighbor
       q.enqueue(neighborNode)
 
