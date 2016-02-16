@@ -28,7 +28,7 @@ class Node : CustomStringConvertible, Equatable {
     if let distance = distance {
       return "Node(label: \(label), distance: \(distance))"
     }
-    return "Node(label: \(label), distance: infnity)"
+    return "Node(label: \(label), distance: infinity)"
   }
 
   var hasDistance: Bool {
