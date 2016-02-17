@@ -47,6 +47,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 
 ### String Search
 
+- [Brute-Force String Search](Brute-Force String Search/). A naive method.
 - [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
 - Rabin-Karp
 
