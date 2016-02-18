@@ -1,0 +1,400 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E1E34DC71C7670240023AF4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DC61C7670240023AF4D /* AppDelegate.swift */; };
+		E1E34DC91C7670240023AF4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1E34DC81C7670240023AF4D /* Assets.xcassets */; };
+		E1E34DCC1C7670240023AF4D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E34DCA1C7670240023AF4D /* MainMenu.xib */; };
+		E1E34DD71C7670250023AF4D /* TreapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DD61C7670250023AF4D /* TreapTests.swift */; };
+		E1E34DE31C7670350023AF4D /* Treap.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DE11C7670350023AF4D /* Treap.swift */; };
+		E1E34DE41C7670350023AF4D /* TreapMergeSplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DE21C7670350023AF4D /* TreapMergeSplit.swift */; };
+		E1E34DEA1C7671200023AF4D /* TreapCollectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DE91C7671200023AF4D /* TreapCollectionType.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1E34DD31C7670250023AF4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1E34DBB1C7670240023AF4D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1E34DC21C7670240023AF4D;
+			remoteInfo = Treap;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E1E34DC31C7670240023AF4D /* Treap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Treap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1E34DC61C7670240023AF4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E1E34DC81C7670240023AF4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E1E34DCB1C7670240023AF4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		E1E34DCD1C7670240023AF4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1E34DD21C7670250023AF4D /* TreapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TreapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1E34DD61C7670250023AF4D /* TreapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreapTests.swift; sourceTree = "<group>"; };
+		E1E34DD81C7670250023AF4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1E34DE11C7670350023AF4D /* Treap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Treap.swift; path = ../../Treap.swift; sourceTree = "<group>"; };
+		E1E34DE21C7670350023AF4D /* TreapMergeSplit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TreapMergeSplit.swift; path = ../../TreapMergeSplit.swift; sourceTree = "<group>"; };
+		E1E34DE91C7671200023AF4D /* TreapCollectionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TreapCollectionType.swift; path = ../../TreapCollectionType.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1E34DC01C7670240023AF4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1E34DCF1C7670250023AF4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1E34DBA1C7670240023AF4D = {
+			isa = PBXGroup;
+			children = (
+				E1E34DC51C7670240023AF4D /* Treap */,
+				E1E34DD51C7670250023AF4D /* TreapTests */,
+				E1E34DC41C7670240023AF4D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1E34DC41C7670240023AF4D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1E34DC31C7670240023AF4D /* Treap.app */,
+				E1E34DD21C7670250023AF4D /* TreapTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1E34DC51C7670240023AF4D /* Treap */ = {
+			isa = PBXGroup;
+			children = (
+				E1E34DC61C7670240023AF4D /* AppDelegate.swift */,
+				E1E34DC81C7670240023AF4D /* Assets.xcassets */,
+				E1E34DCA1C7670240023AF4D /* MainMenu.xib */,
+				E1E34DE11C7670350023AF4D /* Treap.swift */,
+				E1E34DE21C7670350023AF4D /* TreapMergeSplit.swift */,
+				E1E34DE91C7671200023AF4D /* TreapCollectionType.swift */,
+				E1E34DCD1C7670240023AF4D /* Info.plist */,
+			);
+			path = Treap;
+			sourceTree = "<group>";
+		};
+		E1E34DD51C7670250023AF4D /* TreapTests */ = {
+			isa = PBXGroup;
+			children = (
+				E1E34DD61C7670250023AF4D /* TreapTests.swift */,
+				E1E34DD81C7670250023AF4D /* Info.plist */,
+			);
+			path = TreapTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E1E34DC21C7670240023AF4D /* Treap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1E34DDB1C7670250023AF4D /* Build configuration list for PBXNativeTarget "Treap" */;
+			buildPhases = (
+				E1E34DBF1C7670240023AF4D /* Sources */,
+				E1E34DC01C7670240023AF4D /* Frameworks */,
+				E1E34DC11C7670240023AF4D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Treap;
+			productName = Treap;
+			productReference = E1E34DC31C7670240023AF4D /* Treap.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E1E34DD11C7670250023AF4D /* TreapTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1E34DDE1C7670250023AF4D /* Build configuration list for PBXNativeTarget "TreapTests" */;
+			buildPhases = (
+				E1E34DCE1C7670250023AF4D /* Sources */,
+				E1E34DCF1C7670250023AF4D /* Frameworks */,
+				E1E34DD01C7670250023AF4D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E1E34DD41C7670250023AF4D /* PBXTargetDependency */,
+			);
+			name = TreapTests;
+			productName = TreapTests;
+			productReference = E1E34DD21C7670250023AF4D /* TreapTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1E34DBB1C7670240023AF4D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "WillowTree, Inc.";
+				TargetAttributes = {
+					E1E34DC21C7670240023AF4D = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					E1E34DD11C7670250023AF4D = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = E1E34DC21C7670240023AF4D;
+					};
+				};
+			};
+			buildConfigurationList = E1E34DBE1C7670240023AF4D /* Build configuration list for PBXProject "Treap" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E1E34DBA1C7670240023AF4D;
+			productRefGroup = E1E34DC41C7670240023AF4D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1E34DC21C7670240023AF4D /* Treap */,
+				E1E34DD11C7670250023AF4D /* TreapTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1E34DC11C7670240023AF4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1E34DC91C7670240023AF4D /* Assets.xcassets in Resources */,
+				E1E34DCC1C7670240023AF4D /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1E34DD01C7670250023AF4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1E34DBF1C7670240023AF4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1E34DEA1C7671200023AF4D /* TreapCollectionType.swift in Sources */,
+				E1E34DE31C7670350023AF4D /* Treap.swift in Sources */,
+				E1E34DC71C7670240023AF4D /* AppDelegate.swift in Sources */,
+				E1E34DE41C7670350023AF4D /* TreapMergeSplit.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1E34DCE1C7670250023AF4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1E34DD71C7670250023AF4D /* TreapTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1E34DD41C7670250023AF4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1E34DC21C7670240023AF4D /* Treap */;
+			targetProxy = E1E34DD31C7670250023AF4D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E1E34DCA1C7670240023AF4D /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1E34DCB1C7670240023AF4D /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E1E34DD91C7670250023AF4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E1E34DDA1C7670250023AF4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E1E34DDC1C7670250023AF4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Treap/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.willowtree.Treap;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E1E34DDD1C7670250023AF4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Treap/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.willowtree.Treap;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		E1E34DDF1C7670250023AF4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = TreapTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.willowtree.TreapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Treap.app/Contents/MacOS/Treap";
+			};
+			name = Debug;
+		};
+		E1E34DE01C7670250023AF4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = TreapTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.willowtree.TreapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Treap.app/Contents/MacOS/Treap";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1E34DBE1C7670240023AF4D /* Build configuration list for PBXProject "Treap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1E34DD91C7670250023AF4D /* Debug */,
+				E1E34DDA1C7670250023AF4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E1E34DDB1C7670250023AF4D /* Build configuration list for PBXNativeTarget "Treap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1E34DDC1C7670250023AF4D /* Debug */,
+				E1E34DDD1C7670250023AF4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E1E34DDE1C7670250023AF4D /* Build configuration list for PBXNativeTarget "TreapTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1E34DDF1C7670250023AF4D /* Debug */,
+				E1E34DE01C7670250023AF4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1E34DBB1C7670240023AF4D /* Project object */;
+}
