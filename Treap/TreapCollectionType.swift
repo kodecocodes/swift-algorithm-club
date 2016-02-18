@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Treap: CollectionType {
+extension Treap: MutableCollectionType {
     public typealias Index = TreapIndex<Key>
 
     public subscript(index: TreapIndex<Key>) -> Element {
