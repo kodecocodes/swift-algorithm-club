@@ -62,12 +62,16 @@ extension Treap: CollectionType {
     }
 }
 
-public struct TreapIndex<Key: Comparable>: ForwardIndexType {
+public struct TreapIndex<Key: Comparable>: BidirectionalIndexType {
     private let keys: [Key]
     private let keyIndex: Int
 
     public func successor() -> TreapIndex {
         return TreapIndex(keys: keys, keyIndex: keyIndex + 1)
+    }
+
+    public func predecessor() -> TreapIndex {
+        return TreapIndex(keys: keys, keyIndex: keyIndex - 1)
     }
 
     private init(keys: [Key] = [], keyIndex: Int = 0) {
