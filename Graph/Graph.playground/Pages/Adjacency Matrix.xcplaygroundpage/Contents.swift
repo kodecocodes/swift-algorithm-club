@@ -11,43 +11,49 @@ Connecting vertices os O(1).
 */
 
 public struct GraphVertex<T> {
-    public var data: T
-    private let uniqueID: Int
+  public var data: T
+  private let uniqueID: Int
 }
 
 public struct Graph<T> {
+  
+  // nil entries are used to mark that two vertices are NOT connected.
+  // If adjacencyMatrix[i][j] is not nil, then there is an edge from vertex i to vertex j.
+  private var adjacencyMatrix: [[Double?]] = []
+  
+  public init() { }
+  
+  public mutating func createVertex(data: T) -> GraphVertex<T> {
+    let vertex = GraphVertex(data: data, uniqueID: adjacencyMatrix.count)
     
-    // nil entries are used to mark that two vertices are NOT connected.
-    private var adjacencyMatrix: [[Double?]] = []
-    
-    public init() { }
-    
-    public mutating func createVertex(data: T) -> GraphVertex<T> {
-        let vertex = GraphVertex(data: data, uniqueID: adjacencyMatrix.count)
-        
-        // Expand each existing row to the right one column
-        for i in 0..<adjacencyMatrix.count {
-            adjacencyMatrix[i].append(nil)
-        }
-        
-        // Add one new row at the bottom
-        let newRow = [Double?](count: adjacencyMatrix.count + 1, repeatedValue: nil)
-        adjacencyMatrix.append(newRow)
-        
-        return vertex
+    // Expand each existing row to the right one column
+    for i in 0..<adjacencyMatrix.count {
+      adjacencyMatrix[i].append(nil)
     }
     
-    // Creates a directed edge source -----> dest.  Represented by M[source][dest] = weight
-    public mutating func connect(sourceVertex: GraphVertex<T>, toDestinationVertex: GraphVertex<T>, withWeight weight: Double = 0) {
-        adjacencyMatrix[sourceVertex.uniqueID][toDestinationVertex.uniqueID] = weight
-    }
+    // Add one new row at the bottom
+    let newRow = [Double?](count: adjacencyMatrix.count + 1, repeatedValue: nil)
+    adjacencyMatrix.append(newRow)
     
-    // Creates an undirected edge by making 2 directed edges: some ----> other, and other ----> some
-    public mutating func connect(someVertex: GraphVertex<T>, withVertex: GraphVertex<T>, withWeight weight: Double = 0) {
-        adjacencyMatrix[someVertex.uniqueID][withVertex.uniqueID] = weight
-        adjacencyMatrix[withVertex.uniqueID][someVertex.uniqueID] = weight
-        
-    }
+    return vertex
+  }
+  
+  // Creates a directed edge source -----> dest.  Represented by M[source][dest] = weight
+  public mutating func connect(sourceVertex: GraphVertex<T>, toDestinationVertex: GraphVertex<T>, withWeight weight: Double = 0) {
+    adjacencyMatrix[sourceVertex.uniqueID][toDestinationVertex.uniqueID] = weight
+  }
+  
+  // Creates an undirected edge by making 2 directed edges: some ----> other, and other ----> some
+  public mutating func connect(someVertex: GraphVertex<T>, symmetricallyWithVertex withVertex: GraphVertex<T>, withWeight weight: Double = 0) {
+    adjacencyMatrix[someVertex.uniqueID][withVertex.uniqueID] = weight
+    adjacencyMatrix[withVertex.uniqueID][someVertex.uniqueID] = weight
+    
+  }
+  
+  public func weightFrom(sourceVertex: GraphVertex<T>, toDestinationVertex: GraphVertex<T>) -> Double? {
+    return adjacencyMatrix[sourceVertex.uniqueID][toDestinationVertex.uniqueID]
+  }
+  
 }
 
 
@@ -60,12 +66,25 @@ let v3 = graph.createVertex(3)
 let v4 = graph.createVertex(4)
 
 // Setup a cycle like so:
-// v1 ---> v2 ---> v3 ---> v4
-// ^                       |
-// |                       V
-// -----------<------------|
+// v1 ---(1)---> v2 ---(1)---> v3 ---(4.5)---> v4
+// ^                                            |
+// |                                            V
+// ---------<-----------<---------(2.8)----<----|
 
-graph.connect(v1, toDestinationVertex: v2)
-graph.connect(v2, toDestinationVertex: v3)
-graph.connect(v3, toDestinationVertex: v4)
-graph.connect(v4, toDestinationVertex: v1)
+graph.connect(v1, toDestinationVertex: v2, withWeight: 1.0)
+graph.connect(v2, toDestinationVertex: v3, withWeight: 1.0)
+graph.connect(v3, toDestinationVertex: v4, withWeight: 4.5)
+graph.connect(v4, toDestinationVertex: v1, withWeight: 2.8)
+
+// Returns the weight of the edge from v1 to v2 (1.0)
+graph.weightFrom(v1, toDestinationVertex: v2)
+
+// Returns the weight of the edge from v1 to v3 (nil, since there is not an edge)
+graph.weightFrom(v1, toDestinationVertex: v3)
+
+// Returns the weight of the edge from v3 to v4 (4.5)
+graph.weightFrom(v3, toDestinationVertex: v4)
+
+// Returns the weight of the edge from v4 to v1 (2.8)
+graph.weightFrom(v4, toDestinationVertex: v1)
+
