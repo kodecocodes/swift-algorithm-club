@@ -21,33 +21,26 @@ class Array2DTest: XCTestCase {
     
     func testIntegerArrayWithPositiveRowsAndColumns() {
         let array = Array2D<Int>(columns: 3, rows: 2, initialValue: 0)
-        XCTAssert(array.columns == 3, "Column count setup worked")
-        XCTAssert(array.rows == 2, "Rows count setup worked")
-        XCTAssert(array[2,2] == 0, "Integer array: Initialization value properly read")
+        
+        XCTAssertEqual(array.columns, 3, "Column count setup failed")
+        XCTAssertEqual(array.rows, 2, "Rows count setup failed")
+        XCTAssertEqual(array[2,1], 0, "Integer array: Initialization value is wrong")
     }
     
     func testStringArrayWithPositiveRowsAndColumns() {
         let array = Array2D<String>(columns: 3, rows: 2, initialValue: "empty")
-        XCTAssert(array.columns == 3, "Column count setup worked")
-        XCTAssert(array.rows == 2, "Rows count setup worked")
-        XCTAssert(array[2,2] == "empty", "String array: Initialization value properly read")
+        
+        XCTAssertEqual(array.columns, 3, "Column count setup failed")
+        XCTAssertEqual(array.rows, 2, "Rows count setup failed")
+        XCTAssertEqual(array[2,1], "empty", "String array: Initialization value is wrong")
     }
     
     func testCustomClassArrayWithPositiveRowsAndColumns() {
         let array = Array2D<TestElement>(columns: 3, rows: 2, initialValue: TestElement(identifier: "pepe"))
-        XCTAssert(array.columns == 3, "Column count setup worked")
-        XCTAssert(array.rows == 2, "Rows count setup worked")
-        XCTAssert(array[2,2] == TestElement(identifier: "pepe"), "Custom Class array: Initialization value properly read")
-    }
-    
-    func testArrayWithNegativeColumns() {
-        let array = Array2D(columns: -1,rows: 2,initialValue: 0)
-        XCTAssertNil(array)
-    }
-    
-    func testAccessingWrongIndex() {
-        let array = Array2D(columns: 2, rows: 4, initialValue: 5)
-        XCTAssertNil(array[20,20], "Array in 20,20 is not a valid index")
+        
+        XCTAssertEqual(array.columns, 3, "Column count setup failed")
+        XCTAssertEqual(array.rows, 2, "Rows count setup failed")
+        XCTAssertEqual(array[2,1], TestElement(identifier: "pepe"), "Custom Class array: Initialization value is wrong")
     }
     
     func testPerformanceOnSmallArray() {
@@ -58,7 +51,7 @@ class Array2DTest: XCTestCase {
 
     func testPerformanceOnLargeArray() {
         self.measureBlock {
-            self.printArrayWith(columns: 2000000, rows: 2000000, inititalValue: 1)
+            self.printArrayWith(columns: 2000, rows: 2000, inititalValue: 1)
         }
     }
 
@@ -79,7 +72,6 @@ class TestElement : Equatable {
     init(identifier: String) {
         self.identifier = identifier
     }
-    
 }
 
 func == (lhs: TestElement, rhs: TestElement) -> Bool {
