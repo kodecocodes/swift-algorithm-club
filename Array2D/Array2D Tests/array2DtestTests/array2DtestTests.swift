@@ -49,11 +49,11 @@ class Array2DTest: XCTestCase {
         }
     }
 
-    func testPerformanceOnLargeArray() {
-        self.measureBlock {
-            self.printArrayWith(columns: 2000, rows: 2000, inititalValue: 1)
-        }
-    }
+//    func testPerformanceOnLargeArray() {
+//        self.measureBlock {
+//            self.printArrayWith(columns: 2000, rows: 2000, inititalValue: 1)
+//        }
+//    }
 
     private func printArrayWith(columns columns: Int, rows: Int, inititalValue: Int){
         let array = Array2D(columns: columns, rows: rows, initialValue: 4)
