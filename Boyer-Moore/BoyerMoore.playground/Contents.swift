@@ -39,11 +39,12 @@ extension String {
   }
 }
 
+
+
 // A few simple tests
 
 let s = "Hello, World"
 s.indexOf("World")  // 7
 
-// Input:
 let animals = "🐶🐔🐷🐮🐱"
 animals.indexOf("🐮")  // 6

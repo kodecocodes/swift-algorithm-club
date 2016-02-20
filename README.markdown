@@ -47,6 +47,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 
 ### String Search
 
+- [Brute-Force String Search](Brute-Force String Search/). A naive method.
 - [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
 - Rabin-Karp
 
@@ -187,9 +188,10 @@ The following books are available for free online:
 - [Algorithms + Data Structures = Programs](http://www.ethoberon.ethz.ch/WirthPubl/AD.pdf) by Wirth
 - Algorithms and Data Structures: The Basic Toolbox by Mehlhorn and Sanders
 
-Friends of the club:
+Other algorithm repositories:
 
 - [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). A great collection of algorithms in Objective-C.
+- [Rosetta Code](http://rosettacode.org). Implementations in pretty much any language you can think of.
 
 ## License
 
