@@ -268,7 +268,7 @@ This is what the process looks like:
 
 Now that we know how to build the compression tree from the frequency table, we can use it to compress the contents of an `NSData` object. Here is the code:
 
-```
+```swift
   func compressData(data: NSData) -> NSData {
     countByteFrequency(data)
     buildTree()
@@ -296,7 +296,7 @@ Then it loops through the entire input and for each byte calls `traverseTree()`.
 
 The interesting stuff happens in `traverseTree()`. This is a recursive method:
 
-```
+```swift
   private func traverseTree(writer writer: BitWriter, nodeIndex h: Int, childIndex child: Int) {
     if tree[h].parent != -1 {
       traverseTree(writer: writer, nodeIndex: tree[h].parent, childIndex: h)
