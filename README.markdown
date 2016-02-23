@@ -80,8 +80,8 @@ Bad sorting algorithms (don't use these!):
 
 ### Compression
 
-- [Run-Length Encoding (RLE)](Run-Length Encoding)
-- Huffman Encoding
+- [Run-Length Encoding (RLE)](Run-Length Encoding/). Store repeated values as a single byte and a count.
+- [Huffman Coding](Huffman Coding/). Store more common elements using a smaller number of bits.
 
 ### Miscellaneous
 
@@ -96,6 +96,9 @@ Bad sorting algorithms (don't use these!):
 ### Machine learning
 
 - k-Nearest Neighbors
+- Linear Regression
+- Logistic Regression
+- Neural Networks
 - PageRank
 
 ## Data structures
