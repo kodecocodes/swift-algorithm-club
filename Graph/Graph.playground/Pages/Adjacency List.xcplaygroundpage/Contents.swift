@@ -4,8 +4,6 @@ A graph implementation, using an adjacency list.
 
 In an adjacency list implementation, each vertex stores an array of edges, indicating to which vertices it has an edge (note the directionality).  The edge stores the source and destination vertices, as well as a weight.
 
-Connecting vertices in this implementation is O(1).
-
 */
 
 var uniqueIDCounter: Int = 0
@@ -19,7 +17,7 @@ public struct GraphEdge<T> {
 
 public struct GraphVertex<T> {
   public var data: T
-  public private(set) var edges: [GraphEdge<T>] = [] // This is an adjacency list, rather than matrix
+  private var edges: [GraphEdge<T>] = [] // This is an adjacency list, rather than matrix
   
   private let uniqueID: Int
   
@@ -35,11 +33,12 @@ public struct GraphVertex<T> {
   }
   
   // Creates an undirected edge by making 2 directed edges: self ----> other, and other ----> self
-  public mutating func connectBetween(inout otherVertex: GraphVertex<T>, withWeight weight: Double = 1.0) {
-    edges.append(GraphEdge(from: self, to: otherVertex, weight: weight))
-    otherVertex.edges.append(GraphEdge(from: otherVertex, to: self, weight: weight))
+  public mutating func connectBetween(inout otherVertex: GraphVertex<T>, withWeight weight: Double = 1.0) {  
+    connectTo(otherVertex, withWeight: weight)
+    otherVertex.connectTo(self, withWeight: weight)
   }
   
+  // Queries for an edge from self -----> otherVertex
   public func edgeTo(otherVertex: GraphVertex<T>) -> GraphEdge<T>? {
     for e in edges {
       if e.to.uniqueID == otherVertex.uniqueID {

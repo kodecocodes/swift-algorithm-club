@@ -5,14 +5,11 @@ A graph implementation, using an adjacency matrix.
 
 In an adjacency matrix implementation, each vertex is associated with an index from 0..<V (V being the number of vertices). Then a matrix (a 2D array) is stored for the entire graph, with each entry indicating if the corresponding vertices are connected, and the weight.  For example, if matrix[3][5] = 4.6, then vertex #3 is connected to vertex #5, with a weight of 4.6.  Note that vertex #5 is not necessarily connected to vertex #3.
 
-Creating a new vertex must expand the adjacency matrix in this implementation, so creating a new vertex is O(V).  
-Connecting vertices os O(1).
-
 */
 
 public struct GraphVertex<T> {
   public var data: T
-  private let uniqueID: Int
+  private let index: Int
 }
 
 public struct Graph<T> {
@@ -21,10 +18,9 @@ public struct Graph<T> {
   // If adjacencyMatrix[i][j] is not nil, then there is an edge from vertex i to vertex j.
   private var adjacencyMatrix: [[Double?]] = []
   
-  public init() { }
-  
+  // Possibly O(n^2) because of the resizing of the matrix
   public mutating func createVertex(data: T) -> GraphVertex<T> {
-    let vertex = GraphVertex(data: data, uniqueID: adjacencyMatrix.count)
+    let vertex = GraphVertex(data: data, index: adjacencyMatrix.count)
     
     // Expand each existing row to the right one column
     for i in 0..<adjacencyMatrix.count {
@@ -40,18 +36,17 @@ public struct Graph<T> {
   
   // Creates a directed edge source -----> dest.  Represented by M[source][dest] = weight
   public mutating func connect(sourceVertex: GraphVertex<T>, toDestinationVertex: GraphVertex<T>, withWeight weight: Double = 0) {
-    adjacencyMatrix[sourceVertex.uniqueID][toDestinationVertex.uniqueID] = weight
+    adjacencyMatrix[sourceVertex.index][toDestinationVertex.index] = weight
   }
   
   // Creates an undirected edge by making 2 directed edges: some ----> other, and other ----> some
   public mutating func connect(someVertex: GraphVertex<T>, symmetricallyWithVertex withVertex: GraphVertex<T>, withWeight weight: Double = 0) {
-    adjacencyMatrix[someVertex.uniqueID][withVertex.uniqueID] = weight
-    adjacencyMatrix[withVertex.uniqueID][someVertex.uniqueID] = weight
-    
+    adjacencyMatrix[someVertex.index][withVertex.index] = weight
+    adjacencyMatrix[withVertex.index][someVertex.index] = weight
   }
   
   public func weightFrom(sourceVertex: GraphVertex<T>, toDestinationVertex: GraphVertex<T>) -> Double? {
-    return adjacencyMatrix[sourceVertex.uniqueID][toDestinationVertex.uniqueID]
+    return adjacencyMatrix[sourceVertex.index][toDestinationVertex.index]
   }
   
 }
