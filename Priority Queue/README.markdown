@@ -12,7 +12,7 @@ Examples of algorithms that can benefit from a priority queue:
 
 - Event-driven simulations. Each event is given a timestamp and you want events to be performed in order of their timestamps. The priority queue makes it easy to find the next event that needs to be simulated.
 - Dijkstra's algorithm for graph searching uses a priority queue to calculate the minimum cost.
-- [Huffman encoding](../Huffman Encoding/) for data compression. This algorithm builds up a compression tree. It repeatedly needs to find the two nodes with the smallest frequencies that do not have a parent node yet.
+- [Huffman coding](../Huffman Coding/) for data compression. This algorithm builds up a compression tree. It repeatedly needs to find the two nodes with the smallest frequencies that do not have a parent node yet.
 - A* pathfinding for artificial intelligence.
 - Lots of other places!
 
