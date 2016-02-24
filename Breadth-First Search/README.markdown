@@ -8,7 +8,7 @@ Breadth-first search (BFS) is an algorithm for traversing or searching tree or g
 
 Let's follow the animated example by using a [queue](../Queue/).
 
-Start with the root node ``a`` and add it to a queue.
+Start with the source node ``a`` and add it to a queue.
 ```swift
 queue.enqueue(a)
 ```
@@ -58,12 +58,12 @@ The queue is now empty which means all nodes have been explored.
 Simple implementation of breadth-first search using a queue:
 
 ```swift
-func breadthFirstSearch(graph: Graph, root: Node) {
-  print("Performing breadth-first search on '\(root.label)'")
+func breadthFirstSearch(graph: Graph, source: Node) {
+  print("Performing breadth-first search on '\(source.label)'")
 
-  var seenNodes = [root]
+  var seenNodes = [source]
   var queue = Queue<Node>()
-  queue.enqueue(root)
+  queue.enqueue(source)
 
   while !queue.isEmpty {
     let current = queue.dequeue()
@@ -100,7 +100,7 @@ graph.addEdge(nodeC, neighbor: nodeF)
 graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
 
-breadthFirstSearch(graph, root: nodeA) // This will output: Performing breadth-first search on 'a', b, c, d, e, f, g, h
+breadthFirstSearch(graph, source: nodeA) // This will output: Performing breadth-first search on 'a', b, c, d, e, f, g, h
 
 ```
 
@@ -114,27 +114,62 @@ Breadth-first search can be used to solve many problems, for example:
 
 ## Shortest path example
 
-TODO: walkthrough + explanation
+Bread breadth-first can be used to compute the shortest path between a source node and each of the other nodes because it explores all of the neighbor nodes before moving to the next level neighbors. Let's follow the animated example and calculate the shortest path to all the other nodes:
 
+Start with the source node ``a`` and add it to a queue with a distance of ``0``.
 ```swift
-func breadthFirstSearchShortestPath(graph: Graph, root: Node) {
-  root.distance = 0
-  var q = Queue<Node>()
-  q.enqueue(root)
+queue.enqueue(a)
+a.distance = 0
+```
+The queue is now ``[ a ]``. Dequeue ``a`` and enqueue the neighbor nodes ``b`` and ``c`` with a distance of ``1``.
+```swift
+queue.dequeue(a)
+queue.enqueue(b)
+b.distance = a.distance + 1 // result: 1
+queue.enqueue(c)
+c.distance = a.distance + 1 // result: 1
+```
+The queue is now ``[ b, c ]``. Dequeue ``b`` and enqueue the neighbor nodes ``d`` and ``e`` with a distance of ``2``.
+```swift
+queue.dequeue(b)
+queue.enqueue(d)
+d.distance = b.distance + 1 // result: 2
+queue.enqueue(e)
+e.distance = b.distance + 1 // result: 2
+```
 
-  while !q.isEmpty {
-    let current = q.dequeue()
-    for edge in current!.neighbors {
+Continue until the queue is empty to calculate the shortest path to all other nodes.
+
+Here's the code:
+```swift
+func breadthFirstSearchShortestPath(graph: Graph, source: Node) {
+  var queue = Queue<Node>()
+  queue.enqueue(source)
+  source.distance = 0
+
+  while !queue.isEmpty {
+    let current = queue.dequeue()!
+    for edge in current.neighbors {
       let neighborNode = edge.neighbor
       if !neighborNode.hasDistance {
-        q.enqueue(neighborNode)
-        neighborNode.distance = current!.distance! + 1
+        queue.enqueue(neighborNode)
+        neighborNode.distance = current.distance! + 1
       }
     }
   }
 
   print(graph.nodes)
 }
+```
+
+Put this code in a playground and test it like so:
+```swift
+breadthFirstSearchShortestPath(graph, source: nodeA)
+
+// This will output:
+// Node(label: a, distance: 0), Node(label: b, distance: 1), Node(label: c, distance: 1),
+// Node(label: d, distance: 2), Node(label: e, distance: 2), Node(label: f, distance: 2),
+// Node(label: g, distance: 2), Node(label: h, distance: 3)
 ```
 
 ## Minimum spanning tree example

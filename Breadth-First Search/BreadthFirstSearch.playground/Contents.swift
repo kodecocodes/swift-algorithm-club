@@ -76,12 +76,12 @@ struct Queue<T> {
   }
 }
 
-func breadthFirstSearch(graph: Graph, root: Node) {
-  print("Performing breadth-first search on '\(root.label)'")
+func breadthFirstSearch(graph: Graph, source: Node) {
+  print("Performing breadth-first search on '\(source.label)'")
 
-  var seenNodes = [root]
+  var seenNodes = [source]
   var queue = Queue<Node>()
-  queue.enqueue(root)
+  queue.enqueue(source)
 
   while !queue.isEmpty {
     let current = queue.dequeue()
@@ -96,18 +96,18 @@ func breadthFirstSearch(graph: Graph, root: Node) {
   }
 }
 
-func breadthFirstSearchShortestPath(graph: Graph, root: Node) {
-  root.distance = 0
-  var q = Queue<Node>()
-  q.enqueue(root)
+func breadthFirstSearchShortestPath(graph: Graph, source: Node) {
+  var queue = Queue<Node>()
+  queue.enqueue(source)
+  source.distance = 0
 
-  while !q.isEmpty {
-    let current = q.dequeue()
-    for edge in current!.neighbors {
+  while !queue.isEmpty {
+    let current = queue.dequeue()!
+    for edge in current.neighbors {
       let neighborNode = edge.neighbor
       if !neighborNode.hasDistance {
-        q.enqueue(neighborNode)
-        neighborNode.distance = current!.distance! + 1
+        queue.enqueue(neighborNode)
+        neighborNode.distance = current.distance! + 1
       }
     }
   }
@@ -136,5 +136,5 @@ graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
 
 
-breadthFirstSearch(graph, root: nodeA)
-breadthFirstSearchShortestPath(graph, root: nodeA)
+breadthFirstSearch(graph, source: nodeA)
+breadthFirstSearchShortestPath(graph, source: nodeA)
