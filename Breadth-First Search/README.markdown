@@ -1,6 +1,6 @@
 # Breadth-First Search
 
-Breadth-first search (BFS) is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root and explores the neighbor nodes first, before moving to the next level neighbors.
+Breadth-first search (BFS) is an algorithm for traversing or searching [tree](../Tree/) or [graph](../Graph/) data structures. It starts at the tree source and explores the neighbor nodes first, before moving to the next level neighbors.
 
 ## Animated example
 
@@ -101,7 +101,6 @@ graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
 
 breadthFirstSearch(graph, source: nodeA) // This will output: Performing breadth-first search on 'a', b, c, d, e, f, g, h
-
 ```
 
 ## Applications
@@ -114,7 +113,7 @@ Breadth-first search can be used to solve many problems, for example:
 
 ## Shortest path example
 
-Bread breadth-first can be used to compute the shortest path between a source node and each of the other nodes because it explores all of the neighbor nodes before moving to the next level neighbors. Let's follow the animated example and calculate the shortest path to all the other nodes:
+Breadth-first search can be used to compute the [shortest path](../Shortest Path/) between a source node and each of the other nodes because it explores all of the neighbor nodes before moving to the next level neighbors. Let's follow the animated example and calculate the shortest path to all the other nodes:
 
 Start with the source node ``a`` and add it to a queue with a distance of ``0``.
 ```swift
@@ -174,10 +173,16 @@ breadthFirstSearchShortestPath(graph, source: nodeA)
 
 ## Minimum spanning tree example
 
-TODO
+Breadth-first search can be used to calculate the [minimum spanning tree](../Minimum Spanning Tree/) on an unweighted graph.
+
+![Minimum spanning tree](Images/Minimum_Spanning_Tree.png)
+
+The minimum spanning tree is represented by the bold edges.
+
+TODO: explain steps to generate minimum spanning tree
 
 ## See also
 
-[Graphs](../Graph/), [Queues](../Queue/), [Breadth-first search on Wikipedia](https://en.wikipedia.org/wiki/Breadth-first_search).
+[Graph](../Graph/), [Tree](../Tree/), [Queues](../Queue/), [Shortest Path](../Shortest Path/), [Breadth-first search on Wikipedia](https://en.wikipedia.org/wiki/Breadth-first_search), [Minimum spanning tree on Wikipedia](https://en.wikipedia.org/wiki/Minimum_spanning_tree).
 
 *Written by [Chris Pilcher](https://github.com/chris-pilcher)*
