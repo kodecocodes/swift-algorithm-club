@@ -84,8 +84,8 @@ func breadthFirstSearch(graph: Graph, source: Node) {
   queue.enqueue(source)
 
   while !queue.isEmpty {
-    let current = queue.dequeue()
-    for edge in current!.neighbors {
+    let current = queue.dequeue()!
+    for edge in current.neighbors {
       let neighborNode = edge.neighbor
       if !seenNodes.contains(neighborNode) {
         queue.enqueue(neighborNode)
