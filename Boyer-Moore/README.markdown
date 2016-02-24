@@ -1,8 +1,8 @@
 # Boyer-Moore String Search
 
-How would you go about writing a string search algorithm in pure Swift if you were not allowed to import Foundation and could not use `NSString`'s `rangeOfString()` method?
-
-The goal is to implement an `indexOf(pattern: String)` extension on `String` that returns the `String.Index` of the first occurrence of the search pattern, or `nil` if the pattern could not be found inside the string.
+Goal: Write a string search algorithm in pure Swift without importing Foundation or using `NSString`'s `rangeOfString()` method. 
+ 
+In other words, implement an `indexOf(pattern: String)` extension on `String` that returns the `String.Index` of the first occurrence of the search pattern, or `nil` if the pattern could not be found inside the string.
  
 For example:
 
@@ -22,36 +22,9 @@ animals.indexOf("🐮")
 <String.Index?> 6
 ```
 
-Note: The index of the cow is 6, not 3 as you might expect, because the string uses more storage per character for emoji. The actual value of the `String.Index` is not so important, just that it points at the right character in the string.
+> **Note:** The index of the cow is 6, not 3 as you might expect, because the string uses more storage per character for emoji. The actual value of the `String.Index` is not so important, just that it points at the right character in the string.
 
-First, a brute-force solution:
-
-```swift
-extension String {
-  func indexOf(pattern: String) -> String.Index? {
-    for i in self.startIndex ..< self.endIndex {
-      var j = i
-      var found = true
-      for p in pattern.startIndex ..< pattern.endIndex {
-        if j == self.endIndex || self[j] != pattern[p] {
-          found = false
-          break
-        } else {
-          j = j.successor()
-        }
-      }
-      if found {
-        return i
-      }
-    }
-    return nil
-  }
-}
-```
-
-This looks at each character in the source string in turn. If the character equals the first character of the search pattern, then the inner loop checks whether the rest of the pattern matches. If no match is found, the outer loop continues where it left off. This repeats until a complete match is found or the end of the source string is reached.
-
-The brute-force approach works OK, but it's not very efficient (or pretty). As it turns out, you don't need to look at *every* character from the source string -- you can often skip ahead multiple characters.
+The [brute-force approach](../Brute-Force Search Search/) works OK, but it's not very efficient, especially on large chunks of text. As it turns out, you don't need to look at *every* character from the source string -- you can often skip ahead multiple characters.
 
 That skip-ahead algorithm is called [Boyer-Moore](https://en.wikipedia.org/wiki/Boyer–Moore_string_search_algorithm) and it has been around for a long time. It is considered the benchmark for all string search algorithms.
 
@@ -164,4 +137,4 @@ A caveat: If the search pattern consists of only a few characters, it's faster t
 
 Credits: This code is based on the article ["Faster String Searches" by Costas Menico](http://www.drdobbs.com/database/faster-string-searches/184408171) from Dr Dobb's magazine, July 1989 -- Yes, 1989! Sometimes it's useful to keep those old magazines around.
 
-*Written by Matthijs Hollemans*
+*Written for Swift Algorithm Club by Matthijs Hollemans*

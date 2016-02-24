@@ -69,6 +69,20 @@ Since probabilities always need to add up to 100%, the chance that the prize is 
 
 This is hard to wrap your head around, but easily shown using a simulation that runs a significant number of times. Probability is weird.
 
+By the way, you can simplify the code to this:
+
+```swift
+  let prizeDoor = random(3)
+  let chooseDoor = random(3)
+  if chooseDoor == prizeDoor {
+    winOriginalChoice += 1
+  } else {
+    winChangedMind += 1
+  }
+```
+
+Now it's no longer a simulation but the logic is equivalent. You can clearly see that the `chooseDoor` only wins 1/3rd of the time -- because it's a random number between 1 and 3 -- so changing your mind must win the other 2/3rds of the time.
+
 [Monty Hall Problem on Wikipedia](https://en.wikipedia.org/wiki/Monty_Hall_problem)
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*

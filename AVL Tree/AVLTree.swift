@@ -28,14 +28,16 @@ public class TreeNode<Key: Comparable, Payload> {
   private var key: Key
   private var leftChild: Node?
   private var rightChild: Node?
-  private var parent: Node?
+  weak private var parent: Node?
   private var balance = 0
   
   public init(key: Key, payload: Payload?, leftChild: Node?, rightChild: Node?, parent: Node?) {
     self.key = key
     self.payload = payload
     self.leftChild = leftChild
+    self.leftChild?.parent = self
     self.rightChild = rightChild
+    self.rightChild?.parent = self
     self.parent = parent
   }
 

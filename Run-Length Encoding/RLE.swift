@@ -2,29 +2,6 @@ import Foundation
 
 extension NSData {
   /*
-    Helper method that reads the next run of bytes. Returns the size of the
-    run (between 1 and 64), the byte value, and the updated read pointer.
-  */
-  private func readRun(start start: UnsafePointer<UInt8>, end: UnsafePointer<UInt8>) -> (Int, UInt8, UnsafePointer<UInt8>) {
-    var ptr = start
-    var count = 0
-
-    // Read the current byte.
-    let previous = ptr.memory
-    var current = previous
-
-    // Is the next byte the same? Then keep reading until we find another
-    // byte, or we reach the end of the data, or the run is 64 bytes.
-    while current == previous && ptr < end && count < 64 {
-      ptr = ptr.advancedBy(1)
-      current = ptr.memory
-      count += 1
-    }
-    
-    return (count, previous, ptr)
-  }
-
-  /*
     Compresses the NSData using run-length encoding.
   */
   public func compressRLE() -> NSData {
@@ -34,27 +11,60 @@ extension NSData {
       let end = ptr + length
       
       while ptr < end {
-        var (count, byte, out) = readRun(start: ptr, end: end)
+        var count = 0
+        var byte = ptr.memory
+        var next = byte
+        
+        // Is the next byte the same? Keep reading until we find a different
+        // value, or we reach the end of the data, or the run is 64 bytes.
+        while next == byte && ptr < end && count < 64 {
+          ptr = ptr.advancedBy(1)
+          next = ptr.memory
+          count += 1
+        }
 
-        if count == 0 {                        // end-of-file
-          out = end
-        } else if count > 1 || byte >= 192 {   // byte run, up to 64 repeats
-          var pair: [UInt8] = [191 + UInt8(count), byte]
-          data.appendBytes(&pair, length: 2)
-        } else {                               // single byte between 0 and 192
+        if count > 1 || byte >= 192 {         // byte run of up to 64 repeats
+          var size = 191 + UInt8(count)
+          data.appendBytes(&size, length: 1)
+          data.appendBytes(&byte, length: 1)
+        } else {                              // single byte between 0 and 192
           data.appendBytes(&byte, length: 1)
         }
-        ptr = out
       }
     }
     return data
   }
   
-
   /*
     Converts a run-length encoded NSData back to the original.
   */
   public func decompressRLE() -> NSData {
-    return NSData()
+    let data = NSMutableData()
+    if length > 0 {
+      var ptr = UnsafePointer<UInt8>(bytes)
+      let end = ptr + length
+
+      while ptr < end {
+        // Read the next byte. This is either a single value less than 192, 
+        // or the start of a byte run.
+        var byte = ptr.memory
+        ptr = ptr.advancedBy(1)
+        
+        if byte < 192 {                       // single value
+          data.appendBytes(&byte, length: 1)
+
+        } else if ptr < end {                 // byte run
+          // Read the actual data value.
+          var value = ptr.memory
+          ptr = ptr.advancedBy(1)
+
+          // And write it out repeatedly.
+          for _ in 0 ..< byte - 191 {
+            data.appendBytes(&value, length: 1)
+          }
+        }
+      }
+    }
+    return data
   }
 }
