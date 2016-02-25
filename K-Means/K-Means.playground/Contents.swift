@@ -5,32 +5,40 @@
 
 import Foundation
 
-// Need a container to easily hold 2 Dimensional Vector2Ds
-class Vector2D: CustomStringConvertible {
-    var x:Float = 0.0 // x-Coordinate of Vector2D
-    var y:Float = 0.0 // y-Coordinate of Vector2D
+// Need a container to easily hold N Dimensional Vectors
+class VectorND: CustomStringConvertible {
+    private var length:Int = 0
+    private var data:[Float] = [Float]()
     
-    init(x: Float, y: Float) {
-        self.x = x
-        self.y = y
+    init(d:[Float]) {
+        self.data = d
+        self.length = d.count
     }
     
-    var description: String {
-        return "Vector2D (\(self.x), \(self.y))"
-    }
+    var description: String { return "VectorND (\(self.data)" }
+    func getData() -> [Float] { return data }
+    func getLength() -> Int { return length }
 }
 
-// Ability to use std operators on Vector2D object
-func +(left: Vector2D, right: Vector2D) -> Vector2D {
-    return Vector2D(x: left.x + right.x, y: left.y + right.y)
+// Ability to use std operators on VectorND object
+func +(left: VectorND, right: VectorND) -> VectorND {
+    var results = [Float](count: left.getLength(), repeatedValue: 0.0)
+    for idx in 0..<left.getLength() {
+        results[idx] = left.getData()[idx] + right.getData()[idx]
+    }
+    return VectorND(d: results)
 }
-func +=(inout left: Vector2D, right: Vector2D) {
+func +=(inout left: VectorND, right: VectorND) {
     left = left + right
 }
-func /(left:Vector2D, right: Float) -> Vector2D {
-    return Vector2D(x: left.x / right, y: left.y / right)
+func /(left:VectorND, right: Float) -> VectorND  {
+    var results = [Float](count: left.getLength(), repeatedValue: 0.0)
+    for (idx, value) in left.getData().enumerate() {
+        results[idx] = value / right
+    }
+    return VectorND(d: results)
 }
-func /=(inout left: Vector2D, right: Float) {
+func /=(inout left: VectorND, right: Float) {
     left = left / right
 }
 
@@ -49,16 +57,20 @@ extension Array {
     }
 }
 
-// Calculates the Euclidean distance between two Vector2Ds
-func euclidean(v1:Vector2D, v2:Vector2D) -> Float {
-    return sqrt(pow((v1.x - v2.x), 2.0) + pow((v1.y - v2.y), 2.0))
+// Calculates the Euclidean distance between two VectorNDs
+func euclidean(v1:VectorND, v2:VectorND) -> Float {
+    var result:Float = 0.0
+    for idx in 0..<v1.getLength() {
+        result += pow(v1.getData()[idx] - v2.getData()[idx], 2.0)
+    }
+    return sqrt(result)
 }
 
 // Get the INDEX of nearest Center to X
-func nearestCenter(x: Vector2D, Centers: [Vector2D]) -> Int {
+func nearestCenter(x: VectorND, Centers: [VectorND]) -> Int {
     var nearestDist = FLT_MAX
     var minIndex:Int = 0;
-    // Calculate the distance from Vector2D X to all the centers
+    // Calculate the distance from VectorND X to all the centers
     for (idx, c) in Centers.enumerate() {
         let dist = euclidean(x, v2: c)
         if dist < nearestDist {
@@ -69,19 +81,20 @@ func nearestCenter(x: Vector2D, Centers: [Vector2D]) -> Int {
     return minIndex
 }
 
-func kNN(numCenters: Int, convergeDist: Float, points: [Vector2D]) -> [Vector2D] {
+func kNN(numCenters: Int, convergeDist: Float, points: [VectorND]) -> [VectorND] {
     var centerMoveDist:Float = 0.0
+    let zeros = [Float](count: points[0].getLength(), repeatedValue: 0.0)
     
-    // 1. Choose k Random Vector2Ds as the initial centers
-    var kCenters:[Vector2D] = points.choose(numCenters)
+    // 1. Choose k Random VectorNDs as the initial centers
+    var kCenters:[VectorND] = points.choose(numCenters)
     
     // do following steps until convergence
     repeat {
         var cnts = [Float](count: numCenters, repeatedValue: 0.0)
-        var nCenters = [Vector2D](count:numCenters, repeatedValue: Vector2D(x:0, y:0))
-        // 2. Assign Vector2Ds to centers
-        //    a. Determine which center each Vector2D is closest to
-        //    b. Record how many Vector2Ds are assigned to each center
+        var nCenters = [VectorND](count:numCenters, repeatedValue: VectorND(d:zeros))
+        // 2. Assign VectorNDs to centers
+        //    a. Determine which center each VectorND is closest to
+        //    b. Record how many VectorNDs are assigned to each center
         for p in points {
             let c = nearestCenter(p, Centers: kCenters)
             cnts[c]++
@@ -102,15 +115,16 @@ func kNN(numCenters: Int, convergeDist: Float, points: [Vector2D]) -> [Vector2D]
     } while(centerMoveDist > convergeDist)
     return kCenters
 }
-var points = [Vector2D]()
-let lim = 50
+
+var points = [VectorND]()
+let lim = 10
 for _ in 0..<lim {
     let x = Float(arc4random_uniform(UInt32(lim)))
     let y = Float(arc4random_uniform(UInt32(lim)))
-    points.append(Vector2D(x: Float(x), y: y))
+    points.append(VectorND(d: [x, y]))
 }
 
 print("\nCenters")
-for c in kNN(10, convergeDist: 0.1, points: points) {
+for c in kNN(3, convergeDist: 0.1, points: points) {
     print(c)
 }
