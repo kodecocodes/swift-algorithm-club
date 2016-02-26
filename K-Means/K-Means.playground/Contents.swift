@@ -7,22 +7,22 @@ import Foundation
 
 // Need a container to easily hold N Dimensional Vectors
 class VectorND: CustomStringConvertible {
-    private var length:Int = 0
-    private var data:[Float] = [Float]()
+    private var length = 0
+    private var data = [Double]()
     
-    init(d:[Float]) {
-        self.data = d
-        self.length = d.count
+    init(d:[Double]) {
+        data = d
+        length = d.count
     }
     
-    var description: String { return "VectorND (\(self.data)" }
-    func getData() -> [Float] { return data }
+    var description: String { return "VectorND (\(data)" }
+    func getData() -> [Double] { return data }
     func getLength() -> Int { return length }
 }
 
-// Ability to use std operators on VectorND object
+// MARK: VectorND Operators
 func +(left: VectorND, right: VectorND) -> VectorND {
-    var results = [Float](count: left.getLength(), repeatedValue: 0.0)
+    var results = [Double](count: left.getLength(), repeatedValue: 0.0)
     for idx in 0..<left.getLength() {
         results[idx] = left.getData()[idx] + right.getData()[idx]
     }
@@ -31,35 +31,39 @@ func +(left: VectorND, right: VectorND) -> VectorND {
 func +=(inout left: VectorND, right: VectorND) {
     left = left + right
 }
-func /(left:VectorND, right: Float) -> VectorND  {
-    var results = [Float](count: left.getLength(), repeatedValue: 0.0)
+func /(left:VectorND, right: Double) -> VectorND  {
+    var results = [Double](count: left.getLength(), repeatedValue: 0.0)
     for (idx, value) in left.getData().enumerate() {
         results[idx] = value / right
     }
     return VectorND(d: results)
 }
-func /=(inout left: VectorND, right: Float) {
+func /=(inout left: VectorND, right: Double) {
     left = left / right
 }
 
-// TODO: Explain/Replace/Cleanup
-extension Array {
-    var shuffle: [Element] {
-        var elements = self
-        for index in indices {
-            let anotherIndex = Int(arc4random_uniform(UInt32(elements.count - index))) + index
-            anotherIndex != index ? swap(&elements[index], &elements[anotherIndex]) : ()
+// MARK: Assist Functions
+// Pick a k random elements from samples
+func reservoirSample(samples:[VectorND], k:Int) -> [VectorND] {
+    var result = [VectorND]()
+    
+    // Fill the result array with first k elements
+    for i in 0..<k {
+        result.append(samples[i])
+    }
+    // randomly replace elements from remaining ones 
+    for i in (k+1)..<samples.count {
+        let j = Int(arc4random_uniform(UInt32(i+1)))
+        if j < k {
+            result[j] = samples[i]
         }
-        return elements
     }
-    func choose(n: Int) -> [Element] {
-        return Array(shuffle.prefix(n))
-    }
+    return result
 }
 
 // Calculates the Euclidean distance between two VectorNDs
-func euclidean(v1:VectorND, v2:VectorND) -> Float {
-    var result:Float = 0.0
+func euclidean(v1:VectorND, v2:VectorND) -> Double {
+    var result = 0.0
     for idx in 0..<v1.getLength() {
         result += pow(v1.getData()[idx] - v2.getData()[idx], 2.0)
     }
@@ -68,9 +72,9 @@ func euclidean(v1:VectorND, v2:VectorND) -> Float {
 
 // Get the INDEX of nearest Center to X
 func nearestCenter(x: VectorND, Centers: [VectorND]) -> Int {
-    var nearestDist = FLT_MAX
-    var minIndex:Int = 0;
-    // Calculate the distance from VectorND X to all the centers
+    var nearestDist = DBL_MAX
+    var minIndex = 0;
+    
     for (idx, c) in Centers.enumerate() {
         let dist = euclidean(x, v2: c)
         if dist < nearestDist {
@@ -81,50 +85,56 @@ func nearestCenter(x: VectorND, Centers: [VectorND]) -> Int {
     return minIndex
 }
 
-func kNN(numCenters: Int, convergeDist: Float, points: [VectorND]) -> [VectorND] {
-    var centerMoveDist:Float = 0.0
-    let zeros = [Float](count: points[0].getLength(), repeatedValue: 0.0)
+// MARK: Main Function
+func kMeans(numCenters: Int, convergeDist: Double, points: [VectorND]) -> [VectorND] {
+    var centerMoveDist = 0.0
+    let zeros = [Double](count: points[0].getLength(), repeatedValue: 0.0)
     
     // 1. Choose k Random VectorNDs as the initial centers
-    var kCenters:[VectorND] = points.choose(numCenters)
+    var kCenters = reservoirSample(points, k: numCenters)
     
     // do following steps until convergence
     repeat {
-        var cnts = [Float](count: numCenters, repeatedValue: 0.0)
-        var nCenters = [VectorND](count:numCenters, repeatedValue: VectorND(d:zeros))
+        var cnts = [Double](count: numCenters, repeatedValue: 0.0)
+        var newCenters = [VectorND](count:numCenters, repeatedValue: VectorND(d:zeros))
         // 2. Assign VectorNDs to centers
         //    a. Determine which center each VectorND is closest to
         //    b. Record how many VectorNDs are assigned to each center
         for p in points {
             let c = nearestCenter(p, Centers: kCenters)
             cnts[c]++
-            nCenters[c] += p
+            newCenters[c] += p
         }
         // 3. Calculate a new centers
         for idx in 0..<numCenters {
-            nCenters[idx] /= cnts[idx]
+            newCenters[idx] /= cnts[idx]
         }
         // 4. Determine how far centers moved
         centerMoveDist = 0.0
         for idx in 0..<numCenters {
-            centerMoveDist += euclidean(kCenters[idx], v2: nCenters[idx])
+            centerMoveDist += euclidean(kCenters[idx], v2: newCenters[idx])
         }
         // 5. Update centers to the newly calculated ones
-        kCenters = nCenters
+        kCenters = newCenters
         print("Complete iteration coverge(\(centerMoveDist) <? \(convergeDist))")
     } while(centerMoveDist > convergeDist)
     return kCenters
 }
 
+// MARK: Sample Data
 var points = [VectorND]()
-let lim = 10
-for _ in 0..<lim {
-    let x = Float(arc4random_uniform(UInt32(lim)))
-    let y = Float(arc4random_uniform(UInt32(lim)))
-    points.append(VectorND(d: [x, y]))
+let numPoints = 10
+let numDimmensions = 5
+for _ in 0..<numPoints {
+    var data = [Double]()
+    for x in 0..<numDimmensions {
+        data.append(Double(arc4random_uniform(UInt32(numPoints*numDimmensions))))
+    }
+    points.append(VectorND(d: data))
 }
 
 print("\nCenters")
-for c in kNN(3, convergeDist: 0.1, points: points) {
+for c in kMeans(3, convergeDist: 0.01, points: points) {
     print(c)
 }
+
