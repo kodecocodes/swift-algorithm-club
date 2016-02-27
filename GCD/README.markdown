@@ -17,33 +17,25 @@ where `a % b` calculates the remainder of `a` divided by `b`.
 Here is an implementation of this idea in Swift:
 
 ```swift
-func gcd(m: Int, _ n: Int) -> Int {
-  var a = 0
-  var b = max(m, n)
-  var r = min(m, n)
-
-  while r != 0 {
-    a = b
-    b = r
-    r = a % b
+func gcd(a: Int, _ b: Int) -> Int {
+  let r = a % b
+  if r != 0 {
+    return gcd(b, r)
+  } else {
+    return b
   }
-  return b
 }
 ```
 
 Put it in a playground and try it out with these examples:
 
 ```swift
-gcd(39, 52)       // 13
-gcd(36, 228)      // 12
-gcd(3819, 51357)  // 57
+gcd(52, 39)       // 13
+gcd(228, 36)      // 12
+gcd(51357, 3819)  // 57
 ```
 
 Let's step through the third example:
-
-	gcd(3819, 51357)
-
-It's convenient to have the larger number first, so we swap them. That's what the `max()` and `min()` are for at the top of the function. We now have:
 
 	gcd(51357, 3819)
 
@@ -71,6 +63,23 @@ By the way, it's also possible that two numbers have a GCD of 1. They are said t
 
 ```swift
 gcd(841, 299)     // 1
+```
+
+Here is a slightly different implementation of Euclid's algorithm. Unlike the first version this doesn't use recursion but only a basic `while` loop. The `max()` and `min()` at the top of the function make sure we always divide the larger number by the smaller one.
+
+```swift
+func gcd(m: Int, _ n: Int) -> Int {
+  var a = 0
+  var b = max(m, n)
+  var r = min(m, n)
+
+  while r != 0 {
+    a = b
+    b = r
+    r = a % b
+  }
+  return b
+}
 ```
 
 ## Least Common Multiple
