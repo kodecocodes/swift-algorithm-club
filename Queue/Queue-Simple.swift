@@ -8,14 +8,14 @@
   implemented with a linked list, then both would be O(1).
 */
 public struct Queue<T> {
-  var array = [T]()
-
-  public var isEmpty: Bool {
-    return array.isEmpty
-  }
+  private var array = [T]()
 
   public var count: Int {
     return array.count
+  }
+
+  public var isEmpty: Bool {
+    return array.isEmpty
   }
 
   public mutating func enqueue(element: T) {
