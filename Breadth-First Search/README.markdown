@@ -175,14 +175,156 @@ breadthFirstSearchShortestPath(graph, source: nodeA)
 
 Breadth-first search can be used to calculate the [minimum spanning tree](../Minimum Spanning Tree/) on an unweighted graph.
 
+Let's calculate the minimum spanning tree for the following graph:
+
 ![Minimum spanning tree](Images/Minimum_Spanning_Tree.png)
 
-The minimum spanning tree is represented by the bold edges.
+*Note: the minimum spanning tree is represented by the bold edges.*
 
-TODO: explain steps to generate minimum spanning tree
+Start with the source node ``a`` and add it to a queue and mark it as visited.
+```swift
+queue.enqueue(a)
+a.visited = true
+```
+The queue is now ``[ a ]``. Dequeue ``a`` and enqueue the neighbor nodes ``b`` and ``h`` and mark them as visited.
+```swift
+queue.dequeue(a)
+queue.enqueue(b)
+b.visited = true
+queue.enqueue(h)
+h.visited = true
+```
+The queue is now ``[ b, h ]``. Dequeue ``b`` and enqueue the neighbor node ``c`` mark it as visited. Remove the edge between ``b`` to ``h`` because ``h`` has already been visited.
+```swift
+queue.dequeue(b)
+queue.enqueue(c)
+c.visited = true
+b.removeEdgeTo(h)
+```
+The queue is now ``[ h, c ]``. Dequeue ``h`` and enqueue the neighbor nodes ``g`` and ``i`` and mark them as visited.
+```swift
+queue.dequeue(h)
+queue.enqueue(g)
+g.visited = true
+queue.enqueue(i)
+i.visited = true
+```
+The queue is now ``[ c, g, i ]``. Dequeue ``c`` and enqueue the neighbor nodes ``d`` and ``f`` and mark them as visited. Remove the edge between ``c`` to ``i`` because ``i`` has already been visited.
+```swift
+queue.dequeue(c)
+queue.enqueue(d)
+d.visited = true
+queue.enqueue(f)
+f.visited = true
+c.removeEdgeTo(i)
+```
+The queue is now ``[ g, i, d, f ]``. Dequeue ``g`` and remove the edges between ``g`` to ``f`` and ``g`` to ``i`` because ``f`` and ``i`` have already been visited.
+```swift
+queue.dequeue(g)
+g.removeEdgeTo(f)
+g.removeEdgeTo(i)
+```
+The queue is now ``[ i, d, f ]``. Dequeue ``i``.
+```swift
+queue.dequeue(i)
+```
+The queue is now ``[ d, f ]``. Dequeue ``d`` and enqueue the neighbor node ``e`` mark it as visited. Remove the edge between ``d`` to ``f`` because ``f`` has already been visited.
+```swift
+queue.dequeue(d)
+queue.enqueue(e)
+e.visited = true
+d.removeEdgeTo(f)
+```
+The queue is now ``[ f, e ]``. Dequeue ``f``. Remove the edge between ``f`` to ``e`` because ``e`` has already been visited.
+```swift
+queue.dequeue(f)
+f.removeEdgeTo(e)
+```
+The queue is now ``[ e ]``. Dequeue ``e``.
+```swift
+queue.dequeue(e)
+```
+The queue is now empty which means the minimum spanning tree has been computed.
 
+Here's the code:
+```swift
+func breadthFirstSearchMinimumSpanningTree(graph: Graph, source: Node) -> Graph {
+  let minimumSpanningTree = graph.duplicate()
+
+  var queue = Queue<Node>()
+  let sourceInMinimumSpanningTree = minimumSpanningTree.findNodeWithLabel(source.label)
+  queue.enqueue(sourceInMinimumSpanningTree)
+  sourceInMinimumSpanningTree.visited = true
+
+  while !queue.isEmpty {
+    let current = queue.dequeue()!
+    for edge in current.neighbors {
+      let neighborNode = edge.neighbor
+      if !neighborNode.visited {
+        neighborNode.visited = true
+        queue.enqueue(neighborNode)
+      } else {
+        current.remove(edge)
+      }
+    }
+  }
+
+  return minimumSpanningTree
+}
+```
+Put this code in a playground and test it like so:
+```swift
+let graph = Graph()
+
+let nodeA = graph.addNode("a")
+let nodeB = graph.addNode("b")
+let nodeC = graph.addNode("c")
+let nodeD = graph.addNode("d")
+let nodeE = graph.addNode("e")
+let nodeF = graph.addNode("f")
+let nodeG = graph.addNode("g")
+let nodeH = graph.addNode("h")
+let nodeI = graph.addNode("i")
+
+graph.addEdge(nodeA, neighbor: nodeB)
+graph.addEdge(nodeA, neighbor: nodeH)
+graph.addEdge(nodeB, neighbor: nodeA)
+graph.addEdge(nodeB, neighbor: nodeC)
+graph.addEdge(nodeB, neighbor: nodeH)
+graph.addEdge(nodeC, neighbor: nodeB)
+graph.addEdge(nodeC, neighbor: nodeD)
+graph.addEdge(nodeC, neighbor: nodeF)
+graph.addEdge(nodeC, neighbor: nodeI)
+graph.addEdge(nodeD, neighbor: nodeC)
+graph.addEdge(nodeD, neighbor: nodeE)
+graph.addEdge(nodeD, neighbor: nodeF)
+graph.addEdge(nodeE, neighbor: nodeD)
+graph.addEdge(nodeE, neighbor: nodeF)
+graph.addEdge(nodeF, neighbor: nodeC)
+graph.addEdge(nodeF, neighbor: nodeD)
+graph.addEdge(nodeF, neighbor: nodeE)
+graph.addEdge(nodeF, neighbor: nodeG)
+graph.addEdge(nodeG, neighbor: nodeF)
+graph.addEdge(nodeG, neighbor: nodeH)
+graph.addEdge(nodeG, neighbor: nodeI)
+graph.addEdge(nodeH, neighbor: nodeA)
+graph.addEdge(nodeH, neighbor: nodeB)
+graph.addEdge(nodeH, neighbor: nodeG)
+graph.addEdge(nodeH, neighbor: nodeI)
+graph.addEdge(nodeI, neighbor: nodeC)
+graph.addEdge(nodeI, neighbor: nodeG)
+graph.addEdge(nodeI, neighbor: nodeH)
+
+let minimumSpanningTree = breadthFirstSearchMinimumSpanningTree(graph, source: nodeA)
+
+print(minimumSpanningTree) // [node: a edges: ["b", "h"]]
+                           // [node: b edges: ["c"]]
+                           // [node: c edges: ["d", "f"]]
+                           // [node: d edges: ["e"]]
+                           // [node: h edges: ["g", "i"]]
+```
 ## See also
 
-[Graph](../Graph/), [Tree](../Tree/), [Queues](../Queue/), [Shortest Path](../Shortest Path/), [Breadth-first search on Wikipedia](https://en.wikipedia.org/wiki/Breadth-first_search), [Minimum spanning tree on Wikipedia](https://en.wikipedia.org/wiki/Minimum_spanning_tree).
+[Graph](../Graph/), [Tree](../Tree/), [Queues](../Queue/), [Shortest Path](../Shortest Path/), [Minimum Spanning Tree](../Minimum Spanning Tree/).
 
 *Written by [Chris Pilcher](https://github.com/chris-pilcher)*
