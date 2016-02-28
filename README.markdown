@@ -94,16 +94,12 @@ Bad sorting algorithms (don't use these!):
 - Statistics
 
 ### Machine learning
-
-##### Supervised learning
+- [k-Means](K-Means/). Unsupervised classifier that partitions data into k clusters.
 - k-Nearest Neighbors
 - Linear Regression
 - Logistic Regression
 - Neural Networks
 - PageRank
-
-##### Clustering
-- [k-Means](K-Means/). Unsupervised classifier that partitions data into k clusters.
 
 ## Data structures
 
