@@ -59,11 +59,11 @@ Simple implementation of breadth-first search using a queue:
 
 ```swift
 func breadthFirstSearch(graph: Graph, source: Node) {
-  print("Performing breadth-first search on '\(source.label)'")
-
   var seenNodes = [source]
   var queue = Queue<Node>()
   queue.enqueue(source)
+
+  print(source.label)
 
   while !queue.isEmpty {
     let current = queue.dequeue()!
@@ -100,7 +100,7 @@ graph.addEdge(nodeC, neighbor: nodeF)
 graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
 
-breadthFirstSearch(graph, source: nodeA) // This will output: Performing breadth-first search on 'a', b, c, d, e, f, g, h
+breadthFirstSearch(graph, source: nodeA) // This will output: a, b, c, d, e, f, g, h
 ```
 
 ## Applications
