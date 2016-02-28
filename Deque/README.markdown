@@ -254,11 +254,11 @@ If `head` equals 0, there is no room left at the front. When that happens, we ad
 
 We have to do something similar for `dequeue()`. If you mostly enqueue a lot of elements at the back and mostly dequeue from the front, then you may end up with an array that looks like this:
 
-	[ x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, 1, 2, 3 ]
+	[ x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, 1, 2, 3 ]
 	                                                           |
 	                                                           head
 
-Those empty spots at the front only get used when you use `enqueueFront()`. But if enqueuing objects at the front happens only rarely, this leaves a lot of wasted space. So let's add some code to `dequeue()` to clean this up:
+Those empty spots at the front only get used when you call `enqueueFront()`. But if enqueuing objects at the front happens only rarely, this leaves a lot of wasted space. So let's add some code to `dequeue()` to clean this up:
 
 ```swift
   public mutating func dequeue() -> T? {
@@ -268,26 +268,29 @@ Those empty spots at the front only get used when you use `enqueueFront()`. But 
     head += 1
 
     if capacity > 10 && head >= capacity*2 {
-      array.removeFirst(capacity)
-      head -= capacity
+      let amountToRemove = capacity + capacity/2
+      array.removeFirst(amountToRemove)
+      head -= amountToRemove
+      capacity /= 2
     }
     return element
   }
 ```
 
-Recall that `capacity` is the original number of empty places at the front of the queue. If the `head` has advanced more to the right than twice the capacity, then it's time to trim off half of these empty spots.
+Recall that `capacity` is the original number of empty places at the front of the queue. If the `head` has advanced more to the right than twice the capacity, then it's time to trim off a bunch of these empty spots. We reduce it to about 25%.
 
 For example, this:
 
-	[ x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, 1, 2, 3 ]
-	                             |                             |
-	                             capacity                      head
+	[ x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, 1, 2, 3 ]
+	                                |                             |
+	                                capacity                      head
 
 becomes this after trimming:
 
-	[ x, x, x, x, x, x, x, x, x, 1, 2, 3 ]
-	                             |
-	                             head
+	[ x, x, x, x, x, 1, 2, 3 ]
+	              |
+	              head
+	              capacity
 
 This way we can strike a balance between fast enqueuing and dequeuing at the front and keeping the memory requirements reasonable.
 

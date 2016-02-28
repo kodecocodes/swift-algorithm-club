@@ -45,8 +45,10 @@ public struct Deque<T> {
     head += 1
 
     if capacity > 10 && head >= capacity*2 {
-      array.removeFirst(capacity)
-      head -= capacity
+      let amountToRemove = capacity + capacity/2
+      array.removeFirst(amountToRemove)
+      head -= amountToRemove
+      capacity /= 2
     }
     return element
   }
