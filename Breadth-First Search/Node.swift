@@ -1,6 +1,6 @@
 public class Node : CustomStringConvertible, Equatable {
   public var neighbors: [Edge]
-
+  
   public private(set) var label: String
   public var distance: Int?
   public var visited: Bool
