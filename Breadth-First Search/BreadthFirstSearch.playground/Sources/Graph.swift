@@ -1,4 +1,4 @@
-public class Graph : CustomStringConvertible {
+public class Graph : CustomStringConvertible, Equatable {
   public private(set) var nodes: [Node]
 
   public init() {
@@ -49,4 +49,8 @@ public class Graph : CustomStringConvertible {
 
     return duplicated
   }
+}
+
+public func ==(lhs: Graph, rhs: Graph) -> Bool {
+  return lhs.nodes == rhs.nodes
 }

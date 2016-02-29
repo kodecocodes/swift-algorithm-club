@@ -1,8 +1,8 @@
 import XCTest
 
-class BreadthFirstSearchTests: XCTestCase {
+class BreadthFirstSearchMinimumSpanningTreeTests: XCTestCase {
 
-  func testExploringTree() {
+  func testMinimumSpanningTreeReturnsSameTreeWhenGivenTree() {
     let tree = Graph()
     let nodeA = tree.addNode("a")
     let nodeB = tree.addNode("b")
@@ -20,12 +20,22 @@ class BreadthFirstSearchTests: XCTestCase {
     tree.addEdge(nodeC, neighbor: nodeG)
     tree.addEdge(nodeE, neighbor: nodeH)
 
-    let nodesExplored = breadthFirstSearch(tree, source: nodeA)
+    let minimumSpanningTree = breadthFirstSearchMinimumSpanningTree(tree, source: nodeA)
 
-    XCTAssertEqual(nodesExplored, ["a", "b", "c", "d", "e", "f", "g", "h"])
+    XCTAssertEqual(minimumSpanningTree, tree)
   }
 
-  func testExploringGraph() {
+  func testMinimumSpanningTreeReturnsMinimumSpanningTreeWhenGivenGraph() {
+    let graphAndSourceNode = createGraph()
+    let expectedMinimumSpanningTree = createMinimumSpanningTree()
+
+    let actualMinimumSpanningTree = breadthFirstSearchMinimumSpanningTree(graphAndSourceNode.graph,
+                                                                  source: graphAndSourceNode.source)
+
+    XCTAssertEqual(actualMinimumSpanningTree, expectedMinimumSpanningTree)
+  }
+
+  func createGraph() -> (graph: Graph, source: Node) {
     let graph = Graph()
 
     let nodeA = graph.addNode("a")
@@ -67,19 +77,31 @@ class BreadthFirstSearchTests: XCTestCase {
     graph.addEdge(nodeI, neighbor: nodeG)
     graph.addEdge(nodeI, neighbor: nodeH)
 
-    let nodesExplored = breadthFirstSearch(graph, source: nodeA)
-
-    XCTAssertEqual(nodesExplored, ["a", "b", "h", "c", "g", "i", "d", "f", "e"])
-
+    return (graph, nodeA)
   }
 
-  func testExploringGraphWithASingleNode() {
-    let graph = Graph()
-    let node = graph.addNode("a")
+  func createMinimumSpanningTree() -> Graph {
+    let minimumSpanningTree = Graph()
 
-    let nodesExplored = breadthFirstSearch(graph, source: node)
+    let nodeA = minimumSpanningTree.addNode("a")
+    let nodeB = minimumSpanningTree.addNode("b")
+    let nodeC = minimumSpanningTree.addNode("c")
+    let nodeD = minimumSpanningTree.addNode("d")
+    let nodeE = minimumSpanningTree.addNode("e")
+    let nodeF = minimumSpanningTree.addNode("f")
+    let nodeG = minimumSpanningTree.addNode("g")
+    let nodeH = minimumSpanningTree.addNode("h")
+    let nodeI = minimumSpanningTree.addNode("i")
 
-    XCTAssertEqual(nodesExplored, ["a"])
+    minimumSpanningTree.addEdge(nodeA, neighbor: nodeB)
+    minimumSpanningTree.addEdge(nodeA, neighbor: nodeH)
+    minimumSpanningTree.addEdge(nodeB, neighbor: nodeC)
+    minimumSpanningTree.addEdge(nodeH, neighbor: nodeG)
+    minimumSpanningTree.addEdge(nodeH, neighbor: nodeI)
+    minimumSpanningTree.addEdge(nodeC, neighbor: nodeD)
+    minimumSpanningTree.addEdge(nodeC, neighbor: nodeF)
+    minimumSpanningTree.addEdge(nodeD, neighbor: nodeE)
+
+    return minimumSpanningTree
   }
 }
-

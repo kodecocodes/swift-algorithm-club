@@ -1,6 +1,6 @@
 public class Node : CustomStringConvertible, Equatable {
   public var neighbors: [Edge]
-  
+
   public private(set) var label: String
   public var distance: Int?
   public var visited: Bool
@@ -28,5 +28,5 @@ public class Node : CustomStringConvertible, Equatable {
 }
 
 public func ==(lhs: Node, rhs: Node) -> Bool {
-  return lhs.label == rhs.label
+  return lhs.label == rhs.label && lhs.neighbors == rhs.neighbors
 }
