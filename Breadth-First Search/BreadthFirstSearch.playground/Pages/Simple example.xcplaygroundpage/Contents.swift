@@ -1,5 +1,4 @@
 func breadthFirstSearch(graph: Graph, source: Node) {
-  var seenNodes = [source]
   var queue = Queue<Node>()
   queue.enqueue(source)
 
@@ -9,9 +8,9 @@ func breadthFirstSearch(graph: Graph, source: Node) {
     let current = queue.dequeue()!
     for edge in current.neighbors {
       let neighborNode = edge.neighbor
-      if !seenNodes.contains(neighborNode) {
+      if !neighborNode.visited {
         queue.enqueue(neighborNode)
-        seenNodes.append(neighborNode)
+        neighborNode.visited = true
         print(neighborNode.label)
       }
     }
