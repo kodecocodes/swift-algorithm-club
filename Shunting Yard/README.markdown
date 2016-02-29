@@ -4,14 +4,14 @@ Any mathematical expression that we write is expressed in a notation known as In
 
 For example:
 
-A + B * C
+**A + B * C**
 
 In the above expression the operator is placed between operands hence the expression is said to be in Infix form.
 If you think about it any expression that you write on a piece of paper will always be in infix form. This is what we humans understand.
 
 Now, think about the way the above expression is evaluated, you would first multiply B and C then add the result to A. This is because multiplication has
 higher precedence than addition. We humans can easily understand the precedence of operators, but a machine needs to be given instructions about each operator. If you were to 
-write an algorithm than parsed and evaluated the infix notation you'll soon realize that it's a tedious process. You'd have to parse the expression
+write an algorithm that parsed and evaluated the infix notation you will realize that it's a tedious process. You'd have to parse the expression
 multiple times to know what operation to perform first. As the number of operators increase so does the complexity.
 
 ##  Postfix notations / Reverse Polish Notation 
@@ -29,16 +29,13 @@ The above is the postfix representation of the example in the previous section. 
 
 A stack is used to evaluate a postfix expression. Here is the pseudocode:
 
-1. read postfix expression token by token
-2.   if the token is an operand, push it
-     into the stack
-3.   if the token is a binary operator,
-3.1    pop the two top most operands
-       from the stack
-3.2    apply the binary operator with the
-       two operands
-3.3    push the result into the stack
-4. finally, the value of the whole postfix
+1. Read postfix expression token by token
+2. If the token is an operand, push it into the stack
+3. If the token is a binary operator,
+    1. Pop the two top most operands from the stack
+    2. Apply the binary operator with thetwo operands
+    3. Push the result into the stack
+4. Finally, the value of the whole postfix
    expression remains in the stack
 
 Using the above psuedocode the evaluation on the stack would be as follows:
@@ -106,3 +103,10 @@ The above table describes the precedence and the associativity for each operator
 | 5     | Add token to output                         | 4 4 2 * 1 5       | - ( / +        |
 | )     | * Pop stack to output * Pop stack           | 4 4 2 * 1 5 -     | /  +           |
 | end   | Pop entire stack to output                  | 4 4 2 * 1 5 - / + |                |
+
+
+# See Also
+
+[Shunting yard algorithm on Wikipedia](https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
+
+*Written for the Swift Algorithm Club by [Ali Hafizji](http://www.github.com/aliHafizji)*
