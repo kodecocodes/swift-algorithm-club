@@ -91,6 +91,7 @@ Bad sorting algorithms (don't use these!):
 
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
 - [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
+- [Shunting Yard Algorithm](Shunting Yard/). Convert infix expressions to postfix.
 - Statistics
 
 ### Machine learning

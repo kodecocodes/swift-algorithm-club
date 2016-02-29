@@ -1,7 +1,5 @@
 //: Playground - noun: a place where people can play
 
-import Foundation
-
 internal enum OperatorAssociativity {
   case LeftAssociative
   case RightAssociative
@@ -54,19 +52,18 @@ public enum TokenType: CustomStringConvertible {
 }
 
 public struct OperatorToken: CustomStringConvertible {
-  
-  var operatorType: OperatorType
+  let operatorType: OperatorType
   
   init(operatorType: OperatorType) {
     self.operatorType = operatorType
   }
   
-  var precedance: Int {
+  var precedence: Int {
     switch operatorType {
       case .Add, .Subtract:
         return 0
       case .Divide, .Multiply, .Percent:
-        return 5;
+        return 5
       case .Exponent:
         return 10
     }
@@ -87,22 +84,15 @@ public struct OperatorToken: CustomStringConvertible {
 }
 
 func <=(left: OperatorToken, right: OperatorToken) -> Bool {
-  if left.precedance <= right.precedance {
-    return true
-  }
-  return false
+  return left.precedence <= right.precedence
 }
 
 func <(left: OperatorToken, right: OperatorToken) -> Bool {
-  if left.precedance < right.precedance {
-    return true
-  }
-  return false
+  return left.precedence < right.precedence
 }
 
 public struct Token: CustomStringConvertible {
-  
-  var tokenType: TokenType
+  let tokenType: TokenType
   
   init(tokenType: TokenType) {
     self.tokenType = tokenType
@@ -136,9 +126,9 @@ public struct Token: CustomStringConvertible {
   
   var operatorToken: OperatorToken? {
     switch tokenType {
-    case .Operator(let operatorToken):
+      case .Operator(let operatorToken):
         return operatorToken
-    default:
+      default:
         return nil
     }
   }
@@ -149,8 +139,7 @@ public struct Token: CustomStringConvertible {
 }
 
 public class InfixExpressionBuilder {
-  
-  private var expression = Array<Token>()
+  private var expression = [Token]()
   
   public func addOperator(operatorType: OperatorType) -> InfixExpressionBuilder {
     expression.append(Token(operatorType: operatorType))
@@ -172,15 +161,15 @@ public class InfixExpressionBuilder {
     return self
   }
   
-  public func build() -> Array<Token> {
+  public func build() -> [Token] {
     // Maybe do some validation here
     return expression
   }
 }
 
 // This returns the result of the shunting yard algorithm
-public func reversePolishNotation(expression: Array<Token>) -> String {
-  
+public func reversePolishNotation(expression: [Token]) -> String {
+
   var tokenStack = Stack<Token>()
   var reversePolishNotation = [Token]()
   
@@ -188,40 +177,31 @@ public func reversePolishNotation(expression: Array<Token>) -> String {
     switch token.tokenType {
       case .Operand(_):
         reversePolishNotation.append(token)
-        break
+
       case .OpenBracket:
         tokenStack.push(token)
-        break
+
       case .CloseBracket:
-        while tokenStack.count > 0 {
-          if let tempToken = tokenStack.pop() where !tempToken.isOpenBracket {
-            reversePolishNotation.append(tempToken)
-          } else {
-            break
-          }
+        while tokenStack.count > 0, let tempToken = tokenStack.pop() where !tempToken.isOpenBracket {
+          reversePolishNotation.append(tempToken)
         }
-        break
+
       case .Operator(let operatorToken):
-          
         for tempToken in tokenStack.generate() {
           if !tempToken.isOperator {
             break
           }
           
           if let tempOperatorToken = tempToken.operatorToken {
-              
             if operatorToken.associativity == .LeftAssociative && operatorToken <= tempOperatorToken
                 || operatorToken.associativity == .RightAssociative && operatorToken < tempOperatorToken {
-                    
               reversePolishNotation.append(tokenStack.pop()!)
             } else {
               break
             }
           }
         }
-        
         tokenStack.push(token)
-        break
     }
   }
   
@@ -229,9 +209,14 @@ public func reversePolishNotation(expression: Array<Token>) -> String {
     reversePolishNotation.append(tokenStack.pop()!)
   }
   
-  return reversePolishNotation.map({token in
-    return token.description
-  }).joinWithSeparator(" ")
+  return reversePolishNotation.map({token in token.description}).joinWithSeparator(" ")
 }
 
-print(reversePolishNotation(InfixExpressionBuilder().addOperand(3).addOperator(.Add).addOperand(4).addOperator(.Multiply).addOperand(2).addOperator(.Divide).addOpenBracket().addOperand(1).addOperator(.Subtract).addOperand(5).addCloseBracket().addOperator(.Exponent).addOperand(2).addOperator(.Exponent).addOperand(3).build()))
+
+// Simple demo
+
+let expr = InfixExpressionBuilder().addOperand(3).addOperator(.Add).addOperand(4).addOperator(.Multiply).addOperand(2).addOperator(.Divide).addOpenBracket().addOperand(1).addOperator(.Subtract).addOperand(5).addCloseBracket().addOperator(.Exponent).addOperand(2).addOperator(.Exponent).addOperand(3).build()
+
+print(expr.description)
+print(reversePolishNotation(expr))
+
