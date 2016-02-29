@@ -1,8 +1,9 @@
-func breadthFirstSearch(graph: Graph, source: Node) {
+func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
   var queue = Queue<Node>()
   queue.enqueue(source)
 
-  print(source.label)
+  var nodesExplored = [source.label]
+  source.visited = true
 
   while !queue.isEmpty {
     let current = queue.dequeue()!
@@ -11,10 +12,13 @@ func breadthFirstSearch(graph: Graph, source: Node) {
       if !neighborNode.visited {
         queue.enqueue(neighborNode)
         neighborNode.visited = true
-        print(neighborNode.label)
+
+        nodesExplored.append(neighborNode.label)
       }
     }
   }
+
+  return nodesExplored
 }
 
 /*:
@@ -41,4 +45,5 @@ graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
 
 
-breadthFirstSearch(graph, source: nodeA)
+let nodesExplored = breadthFirstSearch(graph, source: nodeA)
+print(nodesExplored)

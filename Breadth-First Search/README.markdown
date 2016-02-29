@@ -58,11 +58,12 @@ The queue is now empty which means all nodes have been explored.
 Simple implementation of breadth-first search using a queue:
 
 ```swift
-func breadthFirstSearch(graph: Graph, source: Node) {
+func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
   var queue = Queue<Node>()
   queue.enqueue(source)
 
-  print(source.label)
+  var nodesExplored = [source.label]
+  source.visited = true
 
   while !queue.isEmpty {
     let current = queue.dequeue()!
@@ -71,10 +72,13 @@ func breadthFirstSearch(graph: Graph, source: Node) {
       if !neighborNode.visited {
         queue.enqueue(neighborNode)
         neighborNode.visited = true
-        print(neighborNode.label)
+
+        nodesExplored.append(neighborNode.label)
       }
     }
   }
+
+  return nodesExplored
 }
 ```
 
@@ -99,7 +103,8 @@ graph.addEdge(nodeC, neighbor: nodeF)
 graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
 
-breadthFirstSearch(graph, source: nodeA) // This will output: a, b, c, d, e, f, g, h
+let nodesExplored = breadthFirstSearch(graph, source: nodeA)
+print(nodesExplored) // This will output: ["a", "b", "c", "d", "e", "f", "g", "h"]
 ```
 
 ## Applications
