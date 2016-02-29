@@ -12,7 +12,6 @@ func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
       if !neighborNode.visited {
         queue.enqueue(neighborNode)
         neighborNode.visited = true
-
         nodesExplored.append(neighborNode.label)
       }
     }
