@@ -145,10 +145,13 @@ Continue until the queue is empty to calculate the shortest path to all other no
 
 Here's the code:
 ```swift
-func breadthFirstSearchShortestPath(graph: Graph, source: Node) {
+func breadthFirstSearchShortestPath(graph: Graph, source: Node) -> Graph {
+  let shortestPathGraph = graph.duplicate()
+
   var queue = Queue<Node>()
-  queue.enqueue(source)
-  source.distance = 0
+  let sourceInShortestPathsGraph = shortestPathGraph.findNodeWithLabel(source.label)
+  queue.enqueue(sourceInShortestPathsGraph)
+  sourceInShortestPathsGraph.distance = 0
 
   while !queue.isEmpty {
     let current = queue.dequeue()!
@@ -161,13 +164,14 @@ func breadthFirstSearchShortestPath(graph: Graph, source: Node) {
     }
   }
 
-  print(graph.nodes)
+  return shortestPathGraph
 }
 ```
 
 Put this code in a playground and test it like so:
 ```swift
-breadthFirstSearchShortestPath(graph, source: nodeA)
+let shortestPathGraph = breadthFirstSearchShortestPath(graph, source: nodeA)
+print(shortestPathGraph.nodes)
 
 // This will output:
 // Node(label: a, distance: 0), Node(label: b, distance: 1), Node(label: c, distance: 1),

@@ -1,7 +1,10 @@
-func breadthFirstSearchShortestPath(graph: Graph, source: Node) {
+func breadthFirstSearchShortestPath(graph: Graph, source: Node) -> Graph {
+  let shortestPathGraph = graph.duplicate()
+
   var queue = Queue<Node>()
-  queue.enqueue(source)
-  source.distance = 0
+  let sourceInShortestPathsGraph = shortestPathGraph.findNodeWithLabel(source.label)
+  queue.enqueue(sourceInShortestPathsGraph)
+  sourceInShortestPathsGraph.distance = 0
 
   while !queue.isEmpty {
     let current = queue.dequeue()!
@@ -14,5 +17,5 @@ func breadthFirstSearchShortestPath(graph: Graph, source: Node) {
     }
   }
 
-  print(graph.nodes)
+  return shortestPathGraph
 }
