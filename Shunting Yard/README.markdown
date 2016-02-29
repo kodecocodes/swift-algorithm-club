@@ -102,7 +102,7 @@ Here we go:
 
 We end up with the postfix expression:
 
-** 4 4 2 * 1 5 - / + **
+**4 4 2 * 1 5 - / +**
 
 # See also
 
