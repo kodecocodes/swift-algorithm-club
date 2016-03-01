@@ -22,7 +22,7 @@ This brings about a few of the parameters that are required for k-means:
 
 This is what the algorithm would look like in swift
 ```swift
-func kMeans(numCenters: Int, convergeDist: Double, points: [VectorND]) -> [VectorND] {
+func kMeans(numCenters: Int, convergeDist: Double, points: [Vector]) -> [Vector] {
     var centerMoveDist = 0.0
     let zeros = [Double](count: points[0].getLength(), repeatedValue: 0.0)
 
@@ -30,7 +30,7 @@ func kMeans(numCenters: Int, convergeDist: Double, points: [VectorND]) -> [Vecto
 
     repeat {
         var cnts = [Double](count: numCenters, repeatedValue: 0.0)
-        var newCenters = [VectorND](count:numCenters, repeatedValue: VectorND(d:zeros))
+        var newCenters = [Vector](count:numCenters, repeatedValue: Vector(d:zeros))
         for p in points {
             let c = nearestCenter(p, Centers: kCenters)
             cnts[c]++
