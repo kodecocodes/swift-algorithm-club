@@ -1,9 +1,7 @@
 import XCTest
-import BloomFilter
 
 /* Two hash functions, adapted from
     http://www.cse.yorku.ca/~oz/hash.html */
-
 
 func djb2(x: String) -> Int {
     var hash = 5381
