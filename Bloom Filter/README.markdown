@@ -1,4 +1,4 @@
-# Binary Tree
+# Bloom Filter
 
 ## Introduction
 
