@@ -6,9 +6,9 @@ Want to help out with the Swift Algorithm Club? Great!
 
 Take a look at the [list](README.markdown). Any algorithms or data structures that don't have a link yet are up for grabs.
 
-New algorithms and data structures are always welcome (even if they aren't on the list). 
+New algorithms and data structures are always welcome (even if they aren't on the list).
 
-We're always interested in improvements to existing implementations and better explanations. Suggestions for making the code more Swift-like or to make it fit better with the standard library. 
+We're always interested in improvements to existing implementations and better explanations. Suggestions for making the code more Swift-like or to make it fit better with the standard library.
 
 Unit tests. Fixes for typos. No contribution is too small. :-)
 
@@ -21,6 +21,13 @@ To keep this a high quality repo, please follow this process when submitting you
 3. Write an explanation of how the algorithm works. Include **plenty of examples** for readers to follow along. Pictures are good. Take a look at [the explanation of quicksort](Quicksort/) to get an idea.
 4. Include your name in the explanation, something like *Written by Your Name* at the end of the document. If you wrote it, you deserve the credit and fame.
 5. Add a playground and/or unit tests.
+  - Add unit test projects to `.travis.yml` so they will be run on [Travis-CI](https://travis-ci.org/hollance/swift-algorithm-club)
+    - `- xcodebuild test -project ./Algorithm/Tests/Tests.xcodeproj -scheme Tests`
+  - Configure scheme to run on Travis-CI
+    - Open `Product` -> `Scheme` -> `Manage Schemes ...`
+      - Uncheck `Autocreate schemes`
+      - Check `Shared`
+    - [Screenshot of scheme settings](/images/scheme-settings-for-travis.png)
 
 Just so you know, I will probably edit your text and code for grammar etc, just to ensure a certain level of polish.
 

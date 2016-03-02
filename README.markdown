@@ -200,3 +200,5 @@ Other algorithm repositories:
 ## License
 
 All content is licensed under the terms of the MIT open source license.
+
+[![Build Status](https://travis-ci.org/hollance/swift-algorithm-club.svg)](https://travis-ci.org/hollance/swift-algorithm-club)
