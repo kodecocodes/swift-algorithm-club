@@ -95,7 +95,7 @@ Bad sorting algorithms (don't use these!):
 - Statistics
 
 ### Machine learning
-
+- [k-Means](K-Means/). Unsupervised classifier that partitions data into k clusters.
 - k-Nearest Neighbors
 - Linear Regression
 - Logistic Regression
@@ -154,7 +154,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 ### Sets
 
-- Bloom Filter
+- [Bloom Filter](Bloom Filter/). A constant-memory data structure that probabilistically tests whether an element is in a set.
 - [Hash Set](Hash Set/). A set implemented using a hash table.
 - Multiset
 - Ordered Set
