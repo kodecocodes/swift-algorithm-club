@@ -2,6 +2,7 @@ language: objective-c
 osx_image: xcode7.2
 
 script:
+- xcodebuild build -project ./AVL\ Tree/Tests/Tests.xcodeproj
 - xcodebuild test -project ./AVL\ Tree/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Binary\ Search/Tests/Tests.xcodeproj -scheme Tests
+#- xcodebuild test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests
+#- xcodebuild test -project ./Binary\ Search/Tests/Tests.xcodeproj -scheme Tests
