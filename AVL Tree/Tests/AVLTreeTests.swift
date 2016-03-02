@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import testAVL
 
 class AVLTreeTests: XCTestCase {
   
