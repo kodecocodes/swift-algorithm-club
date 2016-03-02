@@ -125,6 +125,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Queue](Queue/). First-in, first-out!
 - [Deque](Deque/). A double-ended queue.
 - [Priority Queue](Priority Queue). A queue where the most important element is always at the front.
+- [Bounded Priority Queue](Bounded Priority Queue). A queue that is bounded to have a limited number of elements.
 - [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Lists
