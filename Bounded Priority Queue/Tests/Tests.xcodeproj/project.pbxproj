@@ -14,8 +14,8 @@
 /* Begin PBXFileReference section */
 		B80004B31C83E342001FE2D7 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80004B81C83E342001FE2D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
-		B810B5B01C83E3B200450324 /* BoundedPriorityQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoundedPriorityQueueTests.swift; path = ../BoundedPriorityQueueTests.swift; sourceTree = "<group>"; };
-		B8F635A71C83E4270060805E /* BoundedPriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoundedPriorityQueue.swift; path = ../../BoundedPriorityQueue.swift; sourceTree = "<group>"; };
+		B810B5B01C83E3B200450324 /* BoundedPriorityQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundedPriorityQueueTests.swift; sourceTree = SOURCE_ROOT; };
+		B8F635A71C83E4270060805E /* BoundedPriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoundedPriorityQueue.swift; path = ../BoundedPriorityQueue.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
