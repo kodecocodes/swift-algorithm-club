@@ -212,7 +212,7 @@ extension BinarySearchTree {
     var edges = 0
     while case let parent? = node.parent {
       node = parent
-      ++edges
+      edges += 1
     }
     return edges
   }

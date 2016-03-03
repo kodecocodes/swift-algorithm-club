@@ -30,16 +30,16 @@ func gcd(a: Int, _ b: Int) -> Int {
 Put it in a playground and try it out with these examples:
 
 ```swift
-gcd(52, 39)       // 13
-gcd(228, 36)      // 12
-gcd(51357, 3819)  // 57
+gcd(52, 39)        // 13
+gcd(228, 36)       // 12
+gcd(51357, 3819)   // 57
 ```
 
 Let's step through the third example:
 
 	gcd(51357, 3819)
 
-According to Euclid's rule, this is equivalent to:
+According to Euclid's rule, this is equivalent to,
 
 	gcd(3819, 51357 % 3819) = gcd(3819, 1710)
 
@@ -65,7 +65,7 @@ By the way, it's also possible that two numbers have a GCD of 1. They are said t
 gcd(841, 299)     // 1
 ```
 
-Here is a slightly different implementation of Euclid's algorithm. Unlike the first version this doesn't use recursion but only a basic `while` loop. The `max()` and `min()` at the top of the function make sure we always divide the larger number by the smaller one.
+Here is a slightly different implementation of Euclid's algorithm. Unlike the first version this doesn't use recursion but only a basic `while` loop.
 
 ```swift
 func gcd(m: Int, _ n: Int) -> Int {
@@ -81,6 +81,8 @@ func gcd(m: Int, _ n: Int) -> Int {
   return b
 }
 ```
+
+The `max()` and `min()` at the top of the function make sure we always divide the larger number by the smaller one.
 
 ## Least Common Multiple
 

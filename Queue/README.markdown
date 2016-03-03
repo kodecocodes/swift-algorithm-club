@@ -97,7 +97,9 @@ where `xxx` is memory that is reserved but not filled in yet. Adding a new eleme
 
 This is simply matter of copying memory from one place to another, a constant-time operation.
 
-Of course, there are only a limited number of such unused spots at the end of the array. When the last `xxx` gets used and you want to add another item, the array needs to resize to make more room. Resizing includes allocating new memory and copying all the existing data over to the new array. This is an **O(n)** process, so relatively slow. But since it happens only every so often, the time for appending a new element to the end of the array is still **O(1)** on average, or **O(1)** "amortized".
+Of course, there are only a limited number of such unused spots at the end of the array. When the last `xxx` gets used and you want to add another item, the array needs to resize to make more room.
+
+Resizing includes allocating new memory and copying all the existing data over to the new array. This is an **O(n)** process, so it's relatively slow. But since it happens only every so often, the time for appending a new element to the end of the array is still **O(1)** on average, or **O(1)** "amortized".
 
 The story for dequeueing is slightly different. To dequeue we remove the element from the *beginning* of the array, not the end. This is always an **O(n)** operation because it requires all remaining array elements to be shifted in memory.
 
@@ -116,7 +118,7 @@ Moving all these elements in memory is always an **O(n)** operation. So with our
 
 To make dequeuing more efficient, we can use the same trick of reserving some extra free space, but this time do it at the front of the array. We're going to have to write this code ourselves as the built-in Swift array doesn't support this out of the box.
 
-The idea is this: whenever we dequeue an item, we don't shift the contents of the array to the front (slow) but mark the item's position in the array as empty (fast). After dequeuing `"Ada"`, the array is:
+The idea is as follows: whenever we dequeue an item, we don't shift the contents of the array to the front (slow) but mark the item's position in the array as empty (fast). After dequeuing `"Ada"`, the array is:
 
 	[ xxx, "Steve", "Tim", "Grace", xxx, xxx ]
 
@@ -229,7 +231,7 @@ q.array             // [nil, nil, {Some "Tim"}, {Some "Grace"}]
 q.count             // 2
 ```
 
-To test the trimming behavior, replace the line
+To test the trimming behavior, replace the line,
 
 ```swift
     if array.count > 50 && percentage > 0.25 {

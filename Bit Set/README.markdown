@@ -10,7 +10,7 @@ Since manipulating individual bits is a little tricky, you can use `BitSet` to h
 
 ## The code
 
-A bit set is simply a wrapper around an array. The array doesn't store individual bits but larger integers that we call the "words". The `BitSet` maps the bits to the right word.
+A bit set is simply a wrapper around an array. The array doesn't store individual bits but larger integers called the "words". The main job of `BitSet` is to map the bits to the right word.
 
 ```swift
 public struct BitSet {
@@ -38,9 +38,9 @@ If you write,
 var bits = BitSet(size: 140)
 ```
 
-then the `BitSet` allocates an array of three words. Each word holds 64 bits and therefore three words can hold 192 bits. We only use 140 of those bits so we're wasting a bit of space (but of course we can never use less than a whole word.)
+then the `BitSet` allocates an array of three words. Each word has 64 bits and therefore three words can hold 192 bits. We only use 140 of those bits so we're wasting a bit of space (but of course we can never use less than a whole word).
 
-> **Note:** The first entry in the `words` array is the least-significant word, so these words are stored in little endian order.
+> **Note:** The first entry in the `words` array is the least-significant word, so these words are stored in little endian order in the array.
 
 ## Looking up the bits
 
@@ -56,9 +56,9 @@ Most of the operations on `BitSet` take the index of the bit as a parameter, so 
   }
 ```
 
-The `indexOf()` function returns the array index of the word, as well as a "mask" that shows where the bit sits inside that word.
+The `indexOf()` function returns the array index of the word, as well as a "mask" that shows exactly where the bit sits inside that word.
 
-For example, `indexOf(2)` returns the tuple `(0, 4)` because bit 2 is in the first word (index 0). The mask is 4. In binary that looks like:
+For example, `indexOf(2)` returns the tuple `(0, 4)` because bit 2 is in the first word (index 0). The mask is 4. In binary the mask looks like the following:
 
 	0010000000000000000000000000000000000000000000000000000000000000
 
@@ -94,7 +94,7 @@ Clearing the bit -- i.e. changing it to 0 -- is just as easy:
   }
 ```
 
-Instead of a bitwise OR we now do a bitwise AND with the inverse of the mask. So if the mask was `00100000...0`, then the inverse is `11011111...1`. All the bits are 1, except for the bit we want to set to 0. Due to the way `&` works, this leaves all other bits alone and only changes that one to 0.
+Instead of a bitwise OR we now do a bitwise AND with the inverse of the mask. So if the mask was `00100000...0`, then the inverse is `11011111...1`. All the bits are 1, except for the bit we want to set to 0. Due to the way `&` works, this leaves all other bits alone and only changes that single bit to 0.
 
 To see if a bit is set we also use the bitwise AND but without inverting:
 
@@ -185,7 +185,7 @@ But this is incorrect... Since we don't use most of the last word, we should lea
 
 Instead of 192 one-bits we now have only 140 one-bits. The fact that the last word may not be completely filled up means that we always have to treat this last word specially.
 
-Setting those "leftover" bits to 0 is what the `clearUnusedBits()` helper function does. If the size is not a multiple of `N` (i.e. 64), then we have to clear out the bits that we're not using. If we don't do this, bitwise operations between two differently sized `BitSet`s will go wrong (an example follows).
+Setting those "leftover" bits to 0 is what the `clearUnusedBits()` helper function does. If the `BitSet`'s size is not a multiple of `N` (i.e. 64), then we have to clear out the bits that we're not using. If we don't do this, bitwise operations between two differently sized `BitSet`s will go wrong (an example follows).
 
 This uses some advanced bit manipulation, so pay close attention:
 
@@ -209,7 +209,7 @@ Here's what it does, step-by-step:
 
 1) `diff` is the number of "leftover" bits. In the above example that is 52 because `3*64 - 140 = 52`.
 
-2) Create a mask that is all 0's. Except the highest bit that's still valid is a 1. In our example, that would be:
+2) Create a mask that is all 0's, except the highest bit that's still valid is a 1. In our example, that would be:
 
 	0000000000010000000000000000000000000000000000000000000000000000 
 
@@ -230,7 +230,7 @@ An example of where this is important is when you combine two `BitSet`s of diffe
 	10001111  size=4
 	00100011  size=8
 
-The first one only uses the first 4 bits; the second one uses 8 bits. The first one should really be `10000000` but let's pretend we forgot to clear out those 1's. Then a bitwise or between the two results in:
+The first one only uses the first 4 bits; the second one uses 8 bits. The first one should really be `10000000` but let's pretend we forgot to clear out those 1's at the end. Then a bitwise OR between the two results in:
 
 	10001111  
 	00100011  
@@ -299,7 +299,7 @@ To count the number of bits that are set to 1 we could scan through the entire a
   }
 ```
 
-When you write `x & ~(x - 1)`, it gives you a new value with a single bit set. This is the lowest bit that is one. For example take this 8-bit value (again, I'm showing this with the least significant bit on the left):
+When you write `x & ~(x - 1)`, it gives you a new value with only a single bit set. This is the lowest bit that is one. For example take this 8-bit value (again, I'm showing this with the least significant bit on the left):
 
 	00101101
 
@@ -325,7 +325,9 @@ The only value they have in common is the lowest (or least significant) 1-bit. T
 	-------- XOR
 	00001101
 
-We keep repeating this until the value consists of all zeros. The time complexity is **O(s)** where **s** is the number of 1-bits.
+This is the original value but with the lowest 1-bit removed.
+
+We keep repeating this process until the value consists of all zeros. The time complexity is **O(s)** where **s** is the number of 1-bits.
 
 ## See also
 
