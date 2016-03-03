@@ -100,7 +100,7 @@ Bad sorting algorithms (don't use these!):
 
 ### Machine learning
 
-- [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters.
+- [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters. :construction:
 - k-Nearest Neighbors
 - Linear Regression
 - Logistic Regression
@@ -130,7 +130,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Queue](Queue/). First-in, first-out!
 - [Deque](Deque/). A double-ended queue.
 - [Priority Queue](Priority Queue). A queue where the most important element is always at the front.
-- [Bounded Priority Queue](Bounded Priority Queue). A queue that is bounded to have a limited number of elements.
+- [Bounded Priority Queue](Bounded Priority Queue). A queue that is bounded to have a limited number of elements. :construction:
 - [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Lists
@@ -143,7 +143,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Tree](Tree/). A general-purpose tree structure.
 - [Binary Tree](Binary Tree/). A tree where each node has at most two children.
 - [Binary Search Tree (BST)](Binary Search Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
-- [AVL Tree](AVL Tree/). A binary search tree that balances itself using rotations.
+- [AVL Tree](AVL Tree/). A binary search tree that balances itself using rotations. :construction:
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
@@ -152,6 +152,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
 - Trie
+- [B-Tree](B Tree/) :construction:
 
 ### Hashing
 
@@ -167,9 +168,9 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 ### Graphs
 
-- [Graph](Graph/)
+- [Graph](Graph/) :construction:
 - [Breadth-First Search (BFS)](Breadth-First Search/)
-- [Depth-First Search (DFS)](Depth-First Search/)
+- [Depth-First Search (DFS)](Depth-First Search/) :construction:
 - Shortest Path
 - Minimum Spanning Tree
 - All Paths
