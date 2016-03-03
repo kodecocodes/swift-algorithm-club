@@ -6,6 +6,8 @@ Want to help out with the Swift Algorithm Club? Great!
 
 Take a look at the [list](README.markdown). Any algorithms or data structures that don't have a link yet are up for grabs.
 
+Things marked with :construction: need work.
+
 New algorithms and data structures are always welcome (even if they aren't on the list).
 
 We're always interested in improvements to existing implementations and better explanations. Suggestions for making the code more Swift-like or to make it fit better with the standard library.
