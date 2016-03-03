@@ -99,7 +99,8 @@ Bad sorting algorithms (don't use these!):
 - Statistics
 
 ### Machine learning
-- [k-Means](K-Means/). Unsupervised classifier that partitions data into k clusters.
+
+- [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters.
 - k-Nearest Neighbors
 - Linear Regression
 - Logistic Regression
