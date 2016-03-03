@@ -21,15 +21,23 @@ To keep this a high quality repo, please follow this process when submitting you
 3. Write an explanation of how the algorithm works. Include **plenty of examples** for readers to follow along. Pictures are good. Take a look at [the explanation of quicksort](Quicksort/) to get an idea.
 4. Include your name in the explanation, something like *Written by Your Name* at the end of the document. If you wrote it, you deserve the credit and fame.
 5. Add a playground and/or unit tests.
-  - Add unit test projects to `.travis.yml` so they will be run on [Travis-CI](https://travis-ci.org/hollance/swift-algorithm-club)
-    - `- xcodebuild test -project ./Algorithm/Tests/Tests.xcodeproj -scheme Tests`
-  - Configure scheme to run on Travis-CI
-    - Open `Product` -> `Scheme` -> `Manage Schemes ...`
-      - Uncheck `Autocreate schemes`
-      - Check `Shared`
-    - [Screenshot of scheme settings](/images/scheme-settings-for-travis.png)
 
 Just so you know, I will probably edit your text and code for grammar etc, just to ensure a certain level of polish.
+
+For the unit tests:
+
+- Add the unit test project to `.travis.yml` so they it be run on [Travis-CI](https://travis-ci.org/hollance/swift-algorithm-club). Add a line to `.travis.yml` like this:
+
+```
+- xcodebuild test -project ./Algorithm/Tests/Tests.xcodeproj -scheme Tests
+```
+
+- Configure the Test project's scheme to run on Travis-CI:
+    - Open **Product -> Scheme -> Manage Schemes...**
+    - Uncheck **Autocreate schemes**
+    - Check **Shared**
+
+![Screenshot of scheme settings](Images/scheme-settings-for-travis.png)
 
 ## Want to chat?
 
