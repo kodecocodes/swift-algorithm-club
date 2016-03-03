@@ -1,32 +1,33 @@
 # Depth-First Search
 
-Depth-first search (DFS) is an algorithm for traversing or searching [tree](../Tree/) or [graph](../Graph/) data structures. It starts at the tree source and explores as far as possible along each branch before backtracking.
+Depth-first search (DFS) is an algorithm for traversing or searching [tree](../Tree/) or [graph](../Graph/) data structures. It starts at a source node and explores as far as possible along each branch before backtracking.
+
+[TODO: this is a work-in-progress]
 
 ## The code
 
-Simple implementation of breadth-first search using a queue:
+Simple recursive implementation of depth-first search:
 
 ```swift
 func depthFirstSearch(graph: Graph, source: Node) -> [String] {
-  var nodesExplored: [String] = [source.label]
+  var nodesExplored = [source.label]
   source.visited = true
 
-  // Iterate through all neighbors, and for each one visit all of its neighbors
   for edge in source.neighbors {
-    let neighbor: Node = edge.neighbor
-
-    if (!neighbor.visited) {
-      nodesExplored += depthFirstSearch(graph, source: neighbor)
+    if !edge.neighbor.visited {
+      nodesExplored += depthFirstSearch(graph, source: edge.neighbor)
     }
   }
   return nodesExplored
 }
 ```
 
+Where a [breadth-first search](../Breadth-First Search/) visits all immediate neighbors first, a depth-first search tries to go as deep down the tree or graph as it can.
+
 Put this code in a playground and test it like so:
 
 ```swift
-let graph = Graph()   // Representing the graph from the animated example
+let graph = Graph()
 
 let nodeA = graph.addNode("a")
 let nodeB = graph.addNode("b")
@@ -58,4 +59,6 @@ Depth-first search can be used to solve many problems, for example:
 * Finding connected components of a sparse graph
 * Topological sorting of nodes in a graph
 * Finding bridges of a graph (see: [Bridges](https://en.wikipedia.org/wiki/Bridge_(graph_theory)#Bridge-finding_algorithm))
-* Among others
+* And lots of others!
+
+*Written for Swift Algorithm Club by Paulo Tanaka*

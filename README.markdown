@@ -168,7 +168,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 - Graph
 - [Breadth-First Search (BFS)](Breadth-First Search/)
-- Depth-First Search (DFS)
+- [Depth-First Search (DFS)](Depth-First Search/)
 - Shortest Path
 - Minimum Spanning Tree
 - All Paths
