@@ -13,7 +13,7 @@ You are given an array of numbers and need to put them in the right order. The i
 
 That's why this is called an "insertion" sort, because you take a number from the pile and insert it in the array in its proper sorted position. 
 
-### An example
+## An example
 
 Let's say the numbers to sort are `[ 8, 3, 5, 4, 6 ]`. This is our unsorted pile.
 
@@ -25,7 +25,7 @@ Pick the next number from the pile, `5`, and insert it into the sorted array. It
 
 Repeat this process until the pile is empty.
 
-### In-place sort
+## In-place sort
 
 The above explanation makes it seem like you need two arrays: one for the unsorted pile and one that contains the numbers in sorted order.
 
@@ -54,7 +54,7 @@ This is how the content of the array changes during the sort:
 
 In each step, the `|` bar moves up one position. As you can see, the beginning of the array up to the `|` is always sorted. The pile shrinks by one and the sorted portion grows by one, until the pile is empty and there are no more unsorted numbers left.
 
-### How to insert
+## How to insert
 
 At each step you pick the top-most number from the unsorted pile and insert it into the sorted portion of the array. You must put that number in the proper place so that the beginning of the array remains sorted. How does that work?
 
@@ -85,9 +85,9 @@ Again, look at the previous element. Is `3` greater than `4`? No, it is not. Tha
 
 This was a description of the inner loop of the insertion sort algorithm, which you'll see in the next section. It inserts the number from the top of the pile into the sorted portion by swapping numbers.
 
-### The code
+## The code
 
-Here is a simple implementation of insertion sort in Swift:
+Here is an implementation of insertion sort in Swift:
 
 ```swift
 func insertionSort(array: [Int]) -> [Int] {
@@ -118,9 +118,9 @@ Here is how the code works.
 
 3. The inner loop looks at the element at position `x`. This is the number at the top of the pile, and it may be smaller than any of the previous elements. The inner loop steps backwards through the sorted array; every time it finds a previous number that is larger, it swaps them. When the inner loop completes, the beginning of the array is sorted again, and the sorted portion has grown by one element.
 
-Note: The outer loop starts at index 1, not 0. Moving the very first element from the pile to the sorted portion doesn't actually change anything, so we might as well skip it. 
+> **Note:** The outer loop starts at index 1, not 0. Moving the very first element from the pile to the sorted portion doesn't actually change anything, so we might as well skip it. 
 
-### No more swaps
+## No more swaps
 
 The above version of insertion sort works fine, but it can be made a tiny bit faster by removing the call to `swap()`. 
 
@@ -168,7 +168,7 @@ func insertionSort(array: [Int]) -> [Int] {
 
 The line at `//1` is what shifts up the previous elements by one position. At the end of the inner loop, `y` is the destination index for the new number in the sorted portion, and the line at `//2` copies this number into place.
 
-### Making it generic
+## Making it generic
 
 It would be nice to sort other things than just numbers. We can make the datatype of the array generic and use a user-supplied function (or closure) to perform the less-than comparison. This only requires two changes to the code.
 
@@ -188,7 +188,7 @@ The only other change is in the inner loop, which now becomes:
       while y > 0 && isOrderedBefore(temp, a[y - 1]) {
 ```
 
-Instead of writing `temp < a[y - 1]`, we now call the `isOrderedBefore()` function. It does the exact same thing, except we can now compare any kind of object, not just numbers.
+Instead of writing `temp < a[y - 1]`, we call the `isOrderedBefore()` function. It does the exact same thing, except we can now compare any kind of object, not just numbers.
 
 To test this in a playground, do:
 
@@ -218,7 +218,7 @@ The closure tells `insertionSort()` to sort on the `priority` property of the ob
 
 Insertion sort is a *stable* sort. A sort is stable when elements that have identical sort keys remain in the same relative order after sorting. This is not important for simple values such as numbers or strings, but it is important when sorting more complex objects. In the example above, if two objects have the same `priority`, regardless of the values of their other properties, those two objects don't get swapped around.
 
-### Performance
+## Performance
 
 Insertion sort is really fast if the array is already sorted. That sounds obvious, but this is not true for all search algorithms. In practice, a lot of data will already be largely -- if not entirely -- sorted and insertion sort works quite well in that case.
 
@@ -228,8 +228,8 @@ Insertion sort is actually very fast for sorting small arrays. Some standard lib
 
 I did a quick test comparing our `insertionSort()` with Swift's built-in `sort()`. On arrays of about 100 items or so, the difference in speed is tiny. However, as your input becomes larger, **O(n^2)** quickly starts to perform a lot worse than **O(n log n)** and insertion sort just can't keep up.
 
-### See also
+## See also
 
-See also [Wikipedia](https://en.wikipedia.org/wiki/Insertion_sort).
+[Insertion sort on Wikipedia](https://en.wikipedia.org/wiki/Insertion_sort)
 
-*Written by Matthijs Hollemans*
+*Written for Swift Algorithm Club by Matthijs Hollemans*

@@ -16,11 +16,11 @@ An advantage of the Bloom Filter over a hash table is that the former maintains 
 
 > **Note:** Unlike a hash table, the Bloom Filter does not store the actual objects. It just remembers what objects you’ve seen (with a degree of uncertainty) and which ones you haven’t.
 
-## How it works
+## Inserting objects into the set
 
 A Bloom Filter is essentially a fixed-length [bit vector](../Bit Set/), an array of bits. When we insert objects, we set some of these bits to `1`, and when we query for objects we check if certain bits are `0` or `1`. Both operations use hash functions.
 
-To insert an element in the filter, the element is hashed with several different hash functions. Each hash function returns a value that we map to an index in the array. We set the bits at these indices to `1` or true.
+To insert an element in the filter, the element is hashed with several different hash functions. Each hash function returns a value that we map to an index in the array. We then set the bits at these indices to `1` or true.
 
 For example, let's say this is our array of bits. We have 17 bits and initially they are all `0` or false:
 
@@ -34,9 +34,11 @@ Then we hash the original string again but this time with a different hash funct
 
 	[ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 ]
 
-These two bits are enough to tell the Bloom Filter that it now contains the string `"Hello world!"`.
+These two 1-bits are enough to tell the Bloom Filter that it now contains the string `"Hello world!"`. Of course, it doesn't contain the actual string, so you can't ask the Bloom Filter, "give me a list of all the objects you contain". All it has is a bunch of ones and zeros.
 
-Querying, similarly, is accomplished by first hashing the expected value, which gives several array indices, and then checking to see if all of the bits at those indices are `true`. If even one of the bits is not `true`, the element could not have been inserted and the query returns `false`. If all the bits are `true`, the query returns likewise.
+## Querying the set
+
+Querying, similarly to inserting, is accomplished by first hashing the expected value, which gives several array indices, and then checking to see if all of the bits at those indices are `1`. If even one of the bits is not `1`, the element could not have been inserted and the query returns `false`. If all the bits are `1`, the query returns `true`.
 
 For example, if we query for the string `"Hello WORLD"`, then the first hash function returns 5383892684077141175, which modulo 17 is 12. That bit is `1`. But the second hash function gives 5625257205398334446, which maps to array index 9. That bit is `0`. This means the string `"Hello WORLD"` is not in the filter and the query returns `false`.
 
@@ -50,7 +52,7 @@ If you query for `"Hello WORLD"` again, the filter sees that bit 12 is true and 
 
 You can fix such issues by using an array with more bits and using additional hash functions. Of course, the more hash functions you use the slower the Bloom Filter will be. So you have to strike a balance.
 
-Deletion is not possible with a Bloom Filter, since any one bit might have been set by multiple elements inserted. Once you add an element, it's in there for good.
+Deletion is not possible with a Bloom Filter, since any one bit might belong to multiple elements. Once you add an element, it's in there for good.
 
 Performance of a Bloom Filter is **O(k)** where **k** is the number of hashing functions.
 
@@ -96,6 +98,6 @@ public func query(value: T) -> Bool {
 }
 ```
 
-If you're coming from another imperative language, you might notice the unusual syntax in the `exists` assignment. Swift makes use of functional paradigms when it makes code more consise and readable, and in this case, `reduce` is a much more consise way to check if all the required bits are `true` than a `for` loop. 
+If you're coming from another imperative language, you might notice the unusual syntax in the `exists` assignment. Swift makes use of functional paradigms when it makes code more consise and readable, and in this case `reduce` is a much more consise way to check if all the required bits are `true` than a `for` loop. 
 
 *Written for Swift Algorithm Club by Jamil Dhanani. Edited by Matthijs Hollemans.*

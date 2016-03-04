@@ -8,7 +8,7 @@ then RLE encodes it as follows:
 
 	5a3b1c1d7e1f...
 
-Instead of repeating bytes, you first write how often that byte occurs and then the byte's actual value. If the data has a lot of "byte runs", that is lots of repeating bytes, then RLE can save quite a bit of space. It works quite well on images.
+Instead of repeating bytes, you first write how often that byte occurs and then the byte's actual value. So `5a` means `aaaaa`. If the data has a lot of "byte runs", that is lots of repeating bytes, then RLE can save quite a bit of space. It works quite well on images.
 
 There are many different ways you can implement RLE. Here's an extension of `NSData` that does a version of RLE inspired by the old [PCX image file format](https://en.wikipedia.org/wiki/PCX).
 

@@ -2,7 +2,7 @@
 
 Goal: Count how often a certain value appears in an array.
 
-The obvious way to do this is with a [linear search](../Linear Search/) from the beginning of the array until the end, keeping count of how often you come across the value. This is an **O(n)** algorithm.
+The obvious way to do this is with a [linear search](../Linear Search/) from the beginning of the array until the end, keeping count of how often you come across the value. That is an **O(n)** algorithm.
 
 However, if the array is sorted you can do it much faster, in **O(log n)** time, by using a modification of [binary search](../Binary Search/).
 
@@ -10,7 +10,7 @@ Let's say we have the following array:
 
 	[ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
 
-If we want to know how often the value `3` occurs, we can do a binary search for `3`. That could give us any of these four indices:
+If we want to know how often the value `3` occurs, we can do a regular binary search for `3`. That could give us any of these four indices:
 
 	[ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
 	           *  *  *  *
@@ -55,7 +55,7 @@ func countOccurrencesOfKey(key: Int, inArray a: [Int]) -> Int {
 }
 ```
 
-Notice that the helper functions `leftBoundary()` and `rightBoundary()` are very similar to the binary search algorithm. The big difference is that they don't stop when they find the search key, but keep going.
+Notice that the helper functions `leftBoundary()` and `rightBoundary()` are very similar to the [binary search](../Binary Search/) algorithm. The big difference is that they don't stop when they find the search key, but keep going.
 
 To test this algorithm, copy the code to a playground and then do:
 
@@ -65,7 +65,7 @@ let a = [ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
 countOccurrencesOfKey(3, inArray: a)  // returns 4
 ```
 
-Remember: If you use your own array, make sure it is sorted first!
+> **Remember:** If you use your own array, make sure it is sorted first!
 
 Let's walk through the example. The array is:
 
@@ -111,10 +111,10 @@ Now let's start over and try to find the right boundary. This is very similar, s
 
 The right boundary is at index 7. The difference between the two boundaries is 7 - 3 = 4, so the number `3` occurs four times in this array.
 
-Each binary search took 4 steps, so in total this algorithm took 8 steps. Not a big gain on an array of only 12 items, but the bigger the array, the more efficient this algorithm becomes. For a sorted array with 1,000,000 items, it only takes 2x20 = 40 steps to count the number of occurrences for any particular value.
+Each binary search took 4 steps, so in total this algorithm took 8 steps. Not a big gain on an array of only 12 items, but the bigger the array, the more efficient this algorithm becomes. For a sorted array with 1,000,000 items, it only takes 2 x 20 = 40 steps to count the number of occurrences for any particular value.
 
 By the way, if the value you're looking for is not in the array, then `rightBoundary()` and `leftBoundary()` return the same value and so the difference between them is 0.
 
 This is an example of how you can modify the basic binary search to solve other algorithmic problems as well. Of course, it does require that the array is sorted.
 
-*Written by Matthijs Hollemans*
+*Written for Swift Algorithm Club by Matthijs Hollemans*
