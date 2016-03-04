@@ -2,7 +2,7 @@
 
 A double-ended queue. For some reason this is pronounced as "deck".
 
-A regular [queue](../Queue/) adds new elements to the back and removes from the front. The deque also allows enqueuing at the front and dequeuing from the back, and peeking at both ends.
+A regular [queue](../Queue/) adds elements to the back and removes from the front. The deque also allows enqueuing at the front and dequeuing from the back, and peeking at both ends.
 
 Here is a very basic implementation of a deque in Swift:
 
@@ -52,7 +52,7 @@ public struct Deque<T> {
 }
 ```
 
-This uses an array internally. Enqueuing and dequeuing is simply a matter of adding and removing items from the front or back of the array.
+This uses an array internally. Enqueuing and dequeuing are simply a matter of adding and removing items from the front or back of the array.
 
 An example of how to use it in a playground:
 
@@ -90,7 +90,7 @@ Likewise, inserting an element at the front of the array is expensive because it
 
 	[ 5, 2, 3, 4 ]
 
-First, the elements `2`, `3`, and `4`, are move up by one position in the computer's memory, and then the new element `5` is inserted at the position where `2` used to be.
+First, the elements `2`, `3`, and `4` are moved up by one position in the computer's memory, and then the new element `5` is inserted at the position where `2` used to be.
 
 Why is this not an issue at for `enqueue()` and `dequeueBack()`? Well, these operations are performed at the end of the array. The way resizable arrays are implemented in Swift is by reserving a certain amount of free space at the back. 
 
@@ -102,7 +102,7 @@ where the `x`s denote additional positions in the array that are not being used 
 
 	[ 1, 2, 3, 4, 6, x, x ]
 
-And `dequeueBack()` uses `array.removeLast()` to read that item and decrement `array.count` by one. There is no shifting of memory involved here. So operations at the back of the array are fast, **O(1)**.
+The `dequeueBack()` function uses `array.removeLast()` to delete that item. This does not shrink the array's memory but only decrements `array.count` by one. There are no expensive memory copies involved here. So operations at the back of the array are fast, **O(1)**.
 
 It is possible the array runs out of free spots at the back. In that case, Swift will allocate a new, larger array and copy over all the data. This is an **O(n)** operation but because it only happens once in a while, adding new elements at the end of an array is still **O(1)** on average.
 
@@ -110,7 +110,7 @@ Of course, we can use this same trick at the *beginning* of the array. That will
 
 	[ x, x, x, 1, 2, 3, 4, x, x, x ]
 
-There is now a chunk of free space at the start of the array, which allows adding or removing elements at the front of the queue to be **O(1)** as well.
+There is now also a chunk of free space at the start of the array, which allows adding or removing elements at the front of the queue to be **O(1)** as well.
 
 Here is the new version of `Deque`:
 
@@ -217,7 +217,7 @@ Notice how the array has resized itself. There was no room to add the `1`, so Sw
 	                          |
 	                          head
 
-> **Note:** You won't see those empty spots at the back when you `print(deque.array)`. This is because Swift hides them from you. Only the ones at the front of the array show up. 
+> **Note:** You won't see those empty spots at the back of the array when you `print(deque.array)`. This is because Swift hides them from you. Only the ones at the front of the array show up. 
 
 The `dequeue()` method does the opposite of `enqueueFront()`, it reads the value at `head`, sets the array element back to `nil`, and then moves `head` one position to the right:
 
@@ -232,7 +232,7 @@ The `dequeue()` method does the opposite of `enqueueFront()`, it reads the value
   }
 ```
 
-There is one tiny problem... If you enqueue a lot of objects at the front, you're going to run out of empty spots at the front at some point. When this happens at the back of the array, Swift automatically resizes it. But at the front of the array we have to handle this ourselves with some extra logic in `enqueueFront()`:
+There is one tiny problem... If you enqueue a lot of objects at the front, you're going to run out of empty spots at the front at some point. When this happens at the back of the array, Swift automatically resizes it. But at the front of the array we have to handle this situation ourselves, with some extra logic in `enqueueFront()`:
 
 ```swift
   public mutating func enqueueFront(element: T) {
@@ -252,11 +252,11 @@ If `head` equals 0, there is no room left at the front. When that happens, we ad
 
 > **Note:** We also multiply the capacity by 2 each time this happens, so if your queue grows bigger and bigger, the resizing happens less often. This is also what Swift arrays automatically do at the back.
 
-We have to do something similar for `dequeue()`. If you mostly enqueue a lot of elements at the back and mostly dequeue from the front, then you may end up with an array that looks like this:
+We have to do something similar for `dequeue()`. If you mostly enqueue a lot of elements at the back and mostly dequeue from the front, then you may end up with an array that looks as follows:
 
 	[ x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, 1, 2, 3 ]
-	                                                           |
-	                                                           head
+	                                                              |
+	                                                              head
 
 Those empty spots at the front only get used when you call `enqueueFront()`. But if enqueuing objects at the front happens only rarely, this leaves a lot of wasted space. So let's add some code to `dequeue()` to clean this up:
 
@@ -285,7 +285,7 @@ For example, this:
 	                                |                             |
 	                                capacity                      head
 
-becomes this after trimming:
+becomes after trimming:
 
 	[ x, x, x, x, x, 1, 2, 3 ]
 	              |
@@ -294,7 +294,7 @@ becomes this after trimming:
 
 This way we can strike a balance between fast enqueuing and dequeuing at the front and keeping the memory requirements reasonable.
 
-> **Note:** We don't perform this trimming on very small arrays. It's not worth it for saving just a few bytes of memory.
+> **Note:** We don't perform trimming on very small arrays. It's not worth it for saving just a few bytes of memory.
 
 ## See also
 

@@ -8,7 +8,7 @@ There are a variety of solutions to this problem (some better than others). The 
 
 This solution uses a dictionary to store differences between each element in the array and the sum `k` that we're looking for. The dictionary also stores the indices of each element.
 
-With this approach, each key in the dictionary corresponds to a new target value. If one of the following numbers from the array is equal to one of the dictionary's keys, then we know there exist two numbers that sum to `k`. 
+With this approach, each key in the dictionary corresponds to a new target value. If one of the successive numbers from the array is equal to one of the dictionary's keys, then we know there exist two numbers that sum to `k`. 
 
 ```swift
 func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
@@ -38,7 +38,7 @@ Let's find out if there exist two entries whose sum is equal to 10.
 
 Initially, our dictionary is empty. We begin looping through each element:
 
-- **i = 0**: Is `0` in the dictionary? No. We add the difference between the target `k` and the current number to the dictionary. The difference is `10 - 7 = 3`, so the dictionary key is `3`. The value for that key is the current index, `0`. The dictionary now looks like this:
+- **i = 0**: Is `7` in the dictionary? No. We add the difference between the target `k` and the current number to the dictionary. The difference is `10 - 7 = 3`, so the dictionary key is `3`. The value for that key is the current index, `0`. The dictionary now looks like this:
 
 ```swift
 [ 3: 0 ]
@@ -148,4 +148,4 @@ It's possible, of course, that there are no values for `a[i] + a[j]` that sum to
 
 I'm quite enamored by this little algorithm. It shows that with some basic preprocessing on the input data -- sorting it from low to high -- you can turn a tricky problem into a very simple and beautiful algorithm.
 
-*Written by Matthijs Hollemans and Daniel Speiser*
+*Written for Swift Algorithm Club by Matthijs Hollemans and Daniel Speiser*

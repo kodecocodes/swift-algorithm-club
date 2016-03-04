@@ -8,7 +8,7 @@ This is an example of an unbalanced tree:
 
 ![Unbalanced tree](Images/Unbalanced.png)
 
-All the children are in the left branch and none are in the right. This is essentially the same as a [linked list](../Linked List/) and as a result, searching takes **O(n)** time instead of the much faster **O(log n)** that you'd expect from a binary search tree.
+All the children are in the left branch and none are in the right. This is essentially the same as a [linked list](../Linked List/). As a result, searching takes **O(n)** time instead of the much faster **O(log n)** that you'd expect from a binary search tree.
 
 A balanced version of that tree would look like this:
 
@@ -16,7 +16,7 @@ A balanced version of that tree would look like this:
 
 One way to make the binary search tree balanced is to insert the nodes in a totally random order. But that doesn't guarantee success, nor is it always practical.
 
-The other solution is to use a *self-balancing* binary tree. This type of data structure adjusts the tree to keep it balanced after you insert or delete nodes. The height of such a tree is guaranteed to be *log(n)* where *n* is the number nodes. On a balanced tree all insert, remove, and search operations take **O(log n)** time. That means fast. ;-)
+The other solution is to use a *self-balancing* binary tree. This type of data structure adjusts the tree to keep it balanced after you insert or delete nodes. The height of such a tree is guaranteed to be *log(n)* where *n* is the number nodes. On a balanced tree all insert, remove, and search operations take only **O(log n)** time. That means fast. ;-)
 
 ## Introducing the AVL tree
 
@@ -32,7 +32,7 @@ As mentioned, in an AVL tree a node is balanced if its left and right subtree ha
 
 ![Balanced trees](Images/BalanceOK.png)
 
-But these are trees that are unbalanced, because the height of the left subtree is too large compared to the right subtree:
+But the following are trees that are unbalanced, because the height of the left subtree is too large compared to the right subtree:
 
 ![Unbalanced trees](Images/BalanceNotOK.png)
 
@@ -52,7 +52,7 @@ Insertion never needs more than 2 rotations. Removal might require up to *log(n)
 
 ## The code
 
-Most of the code in [AVLTree.swift](AVLTree.swift) is just regular [binary search tree](../Binary Search Tree/) stuff. You'll find this in any implementation of a binary search tree. For example, searching the tree is exactly the same. The only things that an AVL tree does slightly differently is inserting and deleting the nodes.
+Most of the code in [AVLTree.swift](AVLTree.swift) is just regular [binary search tree](../Binary Search Tree/) stuff. You'll find this in any implementation of a binary search tree. For example, searching the tree is exactly the same. The only things that an AVL tree does slightly differently are inserting and deleting the nodes.
 
 > **Note:** If you're a bit fuzzy on the regular operations of a binary search tree, I suggest you [catch up on those first](../Binary Search Tree/). It will make the rest of the AVL tree easier to understand.
 
@@ -66,6 +66,6 @@ The interesting bits are in the following methods:
 
 [AVL tree on Wikipedia](https://en.wikipedia.org/wiki/AVL_tree)
 
-AVL tree was the first self-balancing binary tree. These days, the [red-black tree](../Red-Black Tree/) seems to be more common.
+AVL tree was the first self-balancing binary tree. These days, the [red-black tree](../Red-Black Tree/) seems to be more popular.
 
 *Written for Swift Algorithm Club by Mike Taghavi and Matthijs Hollemans*
