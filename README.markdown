@@ -8,7 +8,9 @@ The goal of this project is to **explain how algorithms work**. The focus is on 
 
 All code is compatible with **Xcode 7.2** and **Swift 2.1**. We'll keep this updated with the latest version of Swift.
 
-This is a work in progress. More algorithms will be added soon. :-)
+This is a work in progress. More algorithms will be added soon. :-) 
+
+:heart_eyes: **Suggestions and contributions are welcome!** :heart_eyes:
 
 ## Important links
 
@@ -20,7 +22,7 @@ This is a work in progress. More algorithms will be added soon. :-)
 
 [Algorithm design techniques](Algorithm Design.markdown). How do you create your own algorithms?
 
-[How to contribute](How to Contribute.markdown). Report an issue to leave feedback, or submit a pull request. **Suggestions and contributions are welcome!**
+[How to contribute](How to Contribute.markdown). Report an issue to leave feedback, or submit a pull request.
 
 ## Where to start?
 
@@ -41,7 +43,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Binary Search](Binary Search/). Quickly find elements in a sorted array.
 - [Count Occurrences](Count Occurrences/). Count how often a value appears in an array.
 - [Select Minimum / Maximum](Select Minimum Maximum). Find the minimum/maximum value in an array.
-- [k-th Largest Element](Kth Largest Element/). Find the *k*th largest element in an array, such as the median.
+- [k-th Largest Element](Kth Largest Element/). Find the *k*-th largest element in an array, such as the median.
 - [Selection Sampling](Selection Sampling/). Randomly choose a bunch of items from a collection.
 - [Union-Find](Union-Find/). Keeps track of disjoint sets and lets you quickly merge them.
 
@@ -91,10 +93,12 @@ Bad sorting algorithms (don't use these!):
 
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
 - [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
+- [Shunting Yard Algorithm](Shunting Yard/). Convert infix expressions to postfix.
 - Statistics
 
 ### Machine learning
 
+- [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters. :construction:
 - k-Nearest Neighbors
 - Linear Regression
 - Logistic Regression
@@ -107,7 +111,7 @@ The choice of data structure for a particular task depends on a few things.
 
 First, there is the shape of your data and the kinds of operations that you'll need to perform on it. If you want to look up objects by a key you need some kind of dictionary; if your data is hierarchical in nature you want a tree structure of some sort; if your data is sequential you want a stack or queue.
 
-Second, it matters what particular operations you'll be performing most, as certain data structures are optimized for certain actions. For example, if you often need to find the most important object in a queue, then a heap or priority queue is more optimal than a plain array.
+Second, it matters what particular operations you'll be performing most, as certain data structures are optimized for certain actions. For example, if you often need to find the most important object in a collection, then a heap or priority queue is more optimal than a plain array.
 
 Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types is sufficient, but sometimes you may want something more fancy...
 
@@ -124,6 +128,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Queue](Queue/). First-in, first-out!
 - [Deque](Deque/). A double-ended queue.
 - [Priority Queue](Priority Queue). A queue where the most important element is always at the front.
+- [Bounded Priority Queue](Bounded Priority Queue). A queue that is bounded to have a limited number of elements. :construction:
 - [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Lists
@@ -135,8 +140,8 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 - [Tree](Tree/). A general-purpose tree structure.
 - [Binary Tree](Binary Tree/). A tree where each node has at most two children.
-- [Binary Search Tree (BST)](Binary Search Tree/). A binary tree with the special requirement that elements are inserted in a specific way, allowing for faster queries, like when using a [binary search](Binary Search/) algorithm.
-- [AVL Tree](AVL Tree/). A binary search tree that balances itself using rotations.
+- [Binary Search Tree (BST)](Binary Search Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
+- [AVL Tree](AVL Tree/). A binary search tree that balances itself using rotations. :construction:
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
@@ -145,6 +150,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
 - Trie
+- [B-Tree](B Tree/) :construction:
 
 ### Hashing
 
@@ -153,16 +159,16 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 ### Sets
 
-- Bloom Filter
+- [Bloom Filter](Bloom Filter/). A constant-memory data structure that probabilistically tests whether an element is in a set.
 - [Hash Set](Hash Set/). A set implemented using a hash table.
 - Multiset
 - Ordered Set
 
 ### Graphs
 
-- Graph
-- Breadth-First Search (BFS)
-- Depth-First Search (DFS)
+- [Graph](Graph/) :construction:
+- [Breadth-First Search (BFS)](Breadth-First Search/)
+- [Depth-First Search (DFS)](Depth-First Search/) :construction:
 - Shortest Path
 - Minimum Spanning Tree
 - All Paths
@@ -199,3 +205,5 @@ Other algorithm repositories:
 ## License
 
 All content is licensed under the terms of the MIT open source license.
+
+[![Build Status](https://travis-ci.org/hollance/swift-algorithm-club.svg?branch=master)](https://travis-ci.org/hollance/swift-algorithm-club)

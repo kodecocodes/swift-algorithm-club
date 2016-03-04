@@ -19,7 +19,7 @@ func select<T>(from a: [T], count k: Int) -> [T] {
 }
 ```
 
-As often happens with these [kinds of algorithms](../Shuffle/), it divides the array into two regions. The first region is the selected items; the second region is all the remaining items.
+As often happens with these [kinds of algorithms](../Shuffle/), it divides the array into two regions. The first region contains the selected items; the second region is all the remaining items.
 
 Here's an example. Let's say the array is:
 
@@ -115,7 +115,7 @@ Only one item left to select but there are still 4 candidates to look at. Suppos
 
 	4 * 0.718 = 2.872
 
-For this element to be selected the number has to be less than 1, since there is only 1 element left to be picked. It isn't, so we skip `"d"`. Only three possibilities left -- will we make it?
+For this element to be selected the number has to be less than 1, as there is only 1 element left to be picked. It isn't, so we skip `"d"`. Only three possibilities left -- will we make it before we run out of elements?
 
 The random number is 0.346. The formula gives:
 
@@ -135,7 +135,7 @@ Let's say our final random number is 0.999 (remember, it can never be 1.0 or hig
 
 And so the last element will always be chosen if we didn't have a big enough selection yet. The final selection is `[ "b", "c", "g" ]`. Notice that the elements are still in their original order, because we examined the array from left to right.
 
-Maybe you're not convinced yet... What if we always got 0.999 as the random value, would that still select 3 items? Well, let's do the math:
+Maybe you're not convinced yet... What if we always got 0.999 as the random value (the maximum possible), would that still select 3 items? Well, let's do the math:
 
 	7 * 0.999 = 6.993     is this less than 3? no
 	6 * 0.999 = 5.994     is this less than 3? no

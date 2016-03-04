@@ -41,7 +41,7 @@ Now the app decides it's time to write again and enqueues two more data items, `
 	[ 123, 456, 789, 666, 333 ]
 	                 r    ---> w
 
-Whoops, the write pointer has reached the end of the array, so there is no more room. What now? Well, this is why it's a circular buffer: we wrap the write pointer back to the beginning and write the remaining data:
+Whoops, the write pointer has reached the end of the array, so there is no more room for object `555`. What now? Well, this is why it's a circular buffer: we wrap the write pointer back to the beginning and write the remaining data:
 
 	[ 555, 456, 789, 666, 333 ]
 	  ---> w         r        
@@ -113,7 +113,7 @@ public struct RingBuffer<T> {
 
 The `RingBuffer` object has an array for the actual storage of the data, and `readIndex` and `writeIndex` variables for the "pointers" into the array. The `write()` function puts the new element into the array at the `writeIndex`, and the `read()` function returns the element at the `readIndex`.
 
-But hold up, you say, how does this wrapping around work? There are several ways to accomplish this and I chose a slightly controversial one. In this implementation, the `writeIndex` and `readIndex` always increment and never actually wrap around. Instead, we do this to find the actual index into the array:
+But hold up, you say, how does this wrapping around work? There are several ways to accomplish this and I chose a slightly controversial one. In this implementation, the `writeIndex` and `readIndex` always increment and never actually wrap around. Instead, we do the following to find the actual index into the array:
 
 ```swift
 array[writeIndex % array.count]
@@ -125,7 +125,7 @@ and:
 array[readIndex % array.count]
 ```
 
-In other words, we take the modulo (or the remainder) of the read and write index divided by the size of the underlying array.
+In other words, we take the modulo (or the remainder) of the read index and write index divided by the size of the underlying array.
 
 The reason this is a bit controversial is that `writeIndex` and `readIndex` always increment, so in theory these values could become too large to fit into an integer and the app will crash. However, a quick back-of-the-napkin calculation should take away those fears.
 
@@ -158,8 +158,8 @@ You've seen that a ring buffer can make a more optimal queue but it also has a d
 
 A ring buffer is also very useful for when a producer of data writes into the array at a different rate than the consumer of the data reads it. This happens often with file or network I/O. Ring buffers are also the preferred way of communicating between high priority threads (such as an audio rendering callback) and other, slower, parts of the system.
 
-The implementation given here is not thread safe. It only serves as an example of how a ring buffer works. That said, it should be fairly straightforward to make it thread-safe for a single reader and single writer by using `OSAtomicIncrement64()` to change the read and write pointers.
+The implementation given here is not thread-safe. It only serves as an example of how a ring buffer works. That said, it should be fairly straightforward to make it thread-safe for a single reader and single writer by using `OSAtomicIncrement64()` to change the read and write pointers.
 
 A cool trick to make a really fast ring buffer is to use the operating system's virtual memory system to map the same buffer onto different memory pages. Crazy stuff but worth looking into if you need to use a ring buffer in a high performance environment.
 
-*Written by Matthijs Hollemans*
+*Written for Swift Algorithm Club by Matthijs Hollemans*

@@ -29,7 +29,7 @@ list.shuffle()
 list.shuffle()
 ```
 
-You should see three different arrangements -- or permutations to use math-speak -- of the objects in the array.
+You should see three different arrangements -- or [permutations](../Combinatorics/) to use math-speak -- of the objects in the array.
 
 This shuffle works *in place*, it modifies the contents of the original array. The algorithm works by creating a new array, `temp`, that is initially empty. Then we randomly choose an element from the original array and append it to `temp`, until the original array is empty. Finally, the temporary array is copied back into the original one.
 

@@ -13,31 +13,34 @@
 
 public struct Queue<T> {
   private var array = [T]()
-  
-  public var count: Int {
-    return array.count
-  }
-  
+
   public var isEmpty: Bool {
     return array.isEmpty
   }
-  
+
+  public var count: Int {
+    return array.count
+  }
+
   public mutating func enqueue(element: T) {
     array.append(element)
   }
-  
+
   public mutating func dequeue() -> T? {
-    if count == 0 {
+    if isEmpty {
       return nil
     } else {
       return array.removeFirst()
     }
   }
-  
+
   public func peek() -> T? {
     return array.first
   }
 }
+
+
+
 
 // Create a queue and put some elements on it already.
 var queueOfNames = Queue(array: ["Carl", "Lisa", "Stephanie", "Jeff", "Wade"])
