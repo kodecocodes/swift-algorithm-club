@@ -31,7 +31,7 @@ var Array2DNumbers = Array2D(columns: 3, rows: 5, initialValue: 0)
 // makes an array of rows * columns elements all filled with zero
 print(Array2DNumbers.array)
 
-//setting numbers
+// setting numbers using subscript [x, y]
 Array2DNumbers[0, 0] = 1
 Array2DNumbers[1, 0] = 2
 
@@ -48,17 +48,9 @@ Array2DNumbers[2, 3] = 9
 // now the numbers are set in the array
 print(Array2DNumbers.array)
 
-// printint out the 2D array with a reference around the grid [x, y]
-print("  ", terminator: "")
-for k in 0..<Array2DNumbers.columns {
-    print(" \(k)", terminator:"")
-    if (k == Array2DNumbers.columns - 1){
-        print(" x")
-    }
-}
-
+// print out the 2D array with a reference around the grid
 for i in 0..<Array2DNumbers.rows {
-    print("\(i) [", terminator: "");
+    print("[", terminator: "");
     for j in 0..<Array2DNumbers.columns {
         if (j == Array2DNumbers.columns - 1) {
             print("\(Array2DNumbers[j, i])", terminator: "");
@@ -68,6 +60,6 @@ for i in 0..<Array2DNumbers.rows {
     }
     print("]");
 }
-print("y")
+
 
 
