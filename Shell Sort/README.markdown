@@ -1,6 +1,6 @@
 # Shell Sort
 
-Shell sort is based on [insertion sort](../Insertion%20Sort/) as a general way to improve its performance, by breaking the original list into smaller sublists which can then be individually sorted using insertion sort.
+Shell sort is based on [insertion sort](../Insertion%20Sort/) as a general way to improve its performance, by breaking the original list into smaller sublists which are then individually sorted using insertion sort.
 
 [There is a nice video created at Sapientia University](https://www.youtube.com/watch?v=CmPA7zE8mx0) which shows the process as a Hungarian folk dance.
 
@@ -12,7 +12,7 @@ The distance between elements is known as the *gap*. If the elements being compa
 
 The idea is that by moving the elements over large gaps, the array becomes partially sorted quite quickly. This makes later passes faster because they don't have to swap so many items anymore.
 
-Once a pass has been completed, the gap is made smaller and a new pass starts.  This repeats until the gap is 1, at which point the algorithm functions just like  insertion sort. But since the data is already fairly well sorted by then, the final pass can be very quick.
+Once a pass has been completed, the gap is made smaller and a new pass starts.  This repeats until the gap has size 1, at which point the algorithm functions just like  insertion sort. But since the data is already fairly well sorted by then, the final pass can be very quick.
 
 ## An example
 
@@ -26,36 +26,36 @@ This is the gap size.
 
 We create `n` sublists. In each sublist, the items are spaced apart by a gap of size `n`. In our example, we need to make four of these sublists. The sublists are sorted by the `insertionSort()` function.
 
-That probably didn't make a whole lot of sense, so let's look at what happens.
+That may not have made a whole lot of sense, so let's take a closer look at what happens.
 
 The first pass is as follows. We have `n = 4`, so we make four sublists:
 
-	list 0:  [ 64, xx, xx, xx, 72, xx, xx, xx, 4  ]
-	list 1:  [ xx, 20, xx, xx, xx, 10, xx, xx, xx ]
-	list 2:  [ xx, xx, 50, xx, xx, xx, 23, xx, xx ]
-	list 3:  [ xx, xx, xx, 33, xx, xx, xx, -1, xx ]
+	sublist 0:  [ 64, xx, xx, xx, 72, xx, xx, xx, 4  ]
+	sublist 1:  [ xx, 20, xx, xx, xx, 10, xx, xx, xx ]
+	sublist 2:  [ xx, xx, 50, xx, xx, xx, 23, xx, xx ]
+	sublist 3:  [ xx, xx, xx, 33, xx, xx, xx, -1, xx ]
 
-As you can see, each list contains only every 4th item from the original array. The items that are not in a sublist are marked with `xx`. So the first list is `[ 64, 72, 4]` and the second is `[ 20, 10 ]`, and so on. The reason we use this "gap" is so that we don't have to actually make new arrays. Instead, we interleave them in the original array.
+As you can see, each sublist contains only every 4th item from the original array. The items that are not in a sublist are marked with `xx`. So the first sublist is `[ 64, 72, 4 ]` and the second is `[ 20, 10 ]`, and so on. The reason we use this "gap" is so that we don't have to actually make new arrays. Instead, we interleave them in the original array.
 
 We now call `insertionSort()` once on each sublist.
 
-This particular version of [insertion sort](../Insertion Sort/) sorts from the back to the front. Each item in the sublist is compared against the others. If they're in the wrong order, the value is swapped and travels all the way down until we reach the start of the list.
+This particular version of [insertion sort](../Insertion Sort/) sorts from the back to the front. Each item in the sublist is compared against the others. If they're in the wrong order, the value is swapped and travels all the way down until we reach the start of the sublist.
 
-So for list 0, we swap `4` with `72`, then swap `4` with `64`. After sorting, this sublist looks like:
+So for sublist 0, we swap `4` with `72`, then swap `4` with `64`. After sorting, this sublist looks like:
 
-    list 0:  [ 4, xx, xx, xx, 64, xx, xx, xx, 72 ]
+    sublist 0:  [ 4, xx, xx, xx, 64, xx, xx, xx, 72 ]
 
 The other three sublists after sorting:
 
-	list 1:  [ xx, 10, xx, xx, xx, 20, xx, xx, xx ]
-	list 2:  [ xx, xx, 23, xx, xx, xx, 50, xx, xx ]
-	list 3:  [ xx, xx, xx, -1, xx, xx, xx, 33, xx ]
+	sublist 1:  [ xx, 10, xx, xx, xx, 20, xx, xx, xx ]
+	sublist 2:  [ xx, xx, 23, xx, xx, xx, 50, xx, xx ]
+	sublist 3:  [ xx, xx, xx, -1, xx, xx, xx, 33, xx ]
     
 The total array looks like this now:
 
 	[ 4, 10, 23, -1, 64, 20, 50, 33, 72 ]
 
-It's not sorted yet but it's more sorted than before. This completes the first pass.
+It's not entirely sorted yet but it's more sorted than before. This completes the first pass.
 
 In the second pass, we divide the gap size by two:
 
@@ -63,13 +63,13 @@ In the second pass, we divide the gap size by two:
 
 That means we now create only two sublists:
 
-	list 0:  [  4, xx, 23, xx, 64, xx, 50, xx, 72 ]
-	list 1:  [ xx, 10, xx, -1, xx, 20, xx, 33, xx ]
+	sublist 0:  [  4, xx, 23, xx, 64, xx, 50, xx, 72 ]
+	sublist 1:  [ xx, 10, xx, -1, xx, 20, xx, 33, xx ]
 
 Each sublist contains every 2nd item. Again, we call `insertionSort()` to sort these sublists. The result is:
 
-	list 0:  [  4, xx, 23, xx, 50, xx, 64, xx, 72 ]
-	list 1:  [ xx, -1, xx, 10, xx, 20, xx, 33, xx ]
+	sublist 0:  [  4, xx, 23, xx, 50, xx, 64, xx, 72 ]
+	sublist 1:  [ xx, -1, xx, 10, xx, 20, xx, 33, xx ]
 
 Note that in each list only two elements were out of place. So the insertion sort is really fast. That's because we already sorted the array a little in the first pass.
 
@@ -85,7 +85,7 @@ A gap size of 1 means we only have a single sublist, the array itself, and once 
 
 	[ -1, 4, 10, 20, 23, 33, 50, 64, 72 ]
 
-The performance of shell sort is **O(n^2)** or **O(n log n)** if you get lucky. This algorithm produces an unstable sort; it may change the relative order of elements with equal values.
+The performance of shell sort is **O(n^2)** in most cases or **O(n log n)** if you get lucky. This algorithm produces an unstable sort; it may change the relative order of elements with equal values.
   
 ## The gap sequence
 

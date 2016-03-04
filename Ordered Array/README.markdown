@@ -63,7 +63,7 @@ What remains is the `insert()` function. Here is an initial stab at it:
   }
 ```
 
-The helper function `findInsertionPoint()` simply loops through the entire array, looking for the right place to insert the new element. 
+The helper function `findInsertionPoint()` simply iterates through the entire array, looking for the right place to insert the new element. 
 
 > **Note:** Quite conveniently, `array.insert(... atIndex: array.count)` adds the new object to the end of the array, so if no suitable insertion point was found we can simply return `array.count` as the index.
 
@@ -83,7 +83,7 @@ a              // [-2, -1, 1, 3, 4, 5, 7, 9, 10]
 
 The array's contents will always be sorted from low to high, now matter what. 
 
-Unfortunately, the current `findInsertionPoint()` function is a bit slow. In the worst case, it needs to scan through the entire array in order to insert the new element. We can speed this up by using a [binary search](../Binary Search) to find the insertion point.
+Unfortunately, the current `findInsertionPoint()` function is a bit slow. In the worst case, it needs to scan through the entire array. We can speed this up by using a [binary search](../Binary Search) to find the insertion point.
 
 Here is the new version:
 
@@ -106,6 +106,6 @@ Here is the new version:
 
 The big difference with a regular binary search is that this doesn't return `nil` when the value can't be found, but the array index where the element would have been. That's where we insert the new object.
 
-Note that using binary search doesn't change the worst-case running time complexity of `insert()`. The binary search itself takes only **O(log n)** time, but inserting a new object in the middle of an array still involves shifting all remaining elements to the right in memory. So overall, the time complexity is still **O(n)**. But in practice this new version definitely is a lot faster, especially on large arrays.
+Note that using binary search doesn't change the worst-case running time complexity of `insert()`. The binary search itself takes only **O(log n)** time, but inserting a new object in the middle of an array still involves shifting all remaining elements in memory. So overall, the time complexity is still **O(n)**. But in practice this new version definitely is a lot faster, especially on large arrays.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*

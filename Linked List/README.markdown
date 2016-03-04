@@ -1,6 +1,6 @@
 # Linked List
 
-A linked list is a sequence of data items, just like an array. But where an array allocates a big block of memory and then divides this into different parts to store the objects, the elements in a linked list are totally separate objects in memory and are connected through links:
+A linked list is a sequence of data items, just like an array. But where an array allocates a big block of memory to store the objects, the elements in a linked list are totally separate objects in memory and are connected through links:
 
 	+--------+    +--------+    +--------+    +--------+
 	|        |    |        |    |        |    |        |
@@ -38,15 +38,17 @@ This means that when you're dealing with a linked list, you should insert new it
 
 ## Singly vs doubly linked lists
 
-A singly linked list uses less memory than a doubly linked list because it doesn't need to store all those `previous` pointers.
+A singly linked list uses a little less memory than a doubly linked list because it doesn't need to store all those `previous` pointers.
 
-But if you have a node and you need to find its previous node, you're screwed. You have to start back at the head of the list and iterate through the entire list until you get to the right node.
+But if you have a node and you need to find its previous node, you're screwed. You have to start at the head of the list and iterate through the entire list until you get to the right node.
 
 For many tasks, a doubly linked list makes things easier.
 
 ## Why use a linked list?
 
-An example of where to use a linked list is when you need a [queue](../Queue/). With an array, removing elements from the front of the queue is slow because it needs to shift down all the other elements in memory. But with a linked list it's just a matter of changing `head` to point to the second element. Much faster.
+A typical example of where to use a linked list is when you need a [queue](../Queue/). With an array, removing elements from the front of the queue is slow because it needs to shift down all the other elements in memory. But with a linked list it's just a matter of changing `head` to point to the second element. Much faster.
+
+But to be honest, you hardly ever need to write your own linked list these days. Still, it's useful to understand how they work; the principle of linking objects together is also used with [trees](../Tree/) and [graphs](../Graph/).
 
 ## The code
 
@@ -86,7 +88,7 @@ public class LinkedList<T> {
 }
 ```
 
-Ideally, I'd like to put the `LinkedListNode` class inside `LinkedList` but Swift 2 doesn't allow generic types to have nested types. Instead we're using a typealias so inside `LinkedList` we can write the shorter `Node` instead of `LinkedListNode<T>`.
+Ideally, I'd like to put the `LinkedListNode` class inside `LinkedList` but Swift currently doesn't allow generic types to have nested types. Instead we're using a typealias so inside `LinkedList` we can write the shorter `Node` instead of `LinkedListNode<T>`.
 
 This linked list only has a `head` pointer, not a tail. Adding a tail pointer is left as an exercise for the reader. (I'll point out which functions would be different if we also had a tail pointer.)
 
@@ -329,13 +331,13 @@ Now that we have this helper function, we can write the method for inserting nod
   }
 ```
 
-Some notes about this method:
+Some remarks about this method:
 
 1. First, we need to find where to insert this node. After calling the helper method, `prev` points to the previous node and `next` is the node currently at the given index. We'll insert the new node in between these two. Note that `prev` can be nil (index is 0), `next` can be nil (index equals size of the list), or both can be nil if the list is empty.
 
 2. Create the new node and connect the `previous` and `next` pointers. Because the local `prev` and `next` variables are optionals and may be nil, so we use optional chaining here.
 
-3. If the new node is being inserted at the front of the list, we need to update the `head` pointer. Note: If the list had a tail pointer, you'd also need to update that pointer here if `next == nil`, because that means the last element has changed.
+3. If the new node is being inserted at the front of the list, we need to update the `head` pointer. (Note: If the list had a tail pointer, you'd also need to update that pointer here if `next == nil`, because that means the last element has changed.)
 
 Try it out:
 
@@ -419,7 +421,7 @@ list.removeAtIndex(0)          // "Swift"
 list.count                     // 0
 ```
 
-> **Note:** For a singly linked list, it's slightly more complicated. You can't just use `last` to find the end of the list because you also need a reference to the second-to-last node. You'd need to use the `nodesBeforeAndAfter()` helper method instead. If you're using a tail pointer, then `removeLast()` is really quick, but you do need to remember to make `tail` point to the previous node.
+> **Note:** For a singly linked list, removing the last node is slightly more complicated. You can't just use `last` to find the end of the list because you also need a reference to the second-to-last node. Instead, use the `nodesBeforeAndAfter()` helper method. If the list has a tail pointer, then `removeLast()` is really quick, but you do need to remember to make `tail` point to the previous node.
 
 There's a few other fun things we can do with our `LinkedList` class. It's handy to have some sort of readable debug output:
 
@@ -520,7 +522,7 @@ Exercise for the reader: These implementations of `map()` and `filter()` aren't 
 
 ## An alternative approach
 
-The version of `LinkedList` you've seen so far uses nodes that are classes and therefore use reference semantics. Nothing wrong with that, but that does make them a bit more heavyweight than Swift's other collections such as `Array` and `Dictionary`.
+The version of `LinkedList` you've seen so far uses nodes that are classes and therefore have reference semantics. Nothing wrong with that, but that does make them a bit more heavyweight than Swift's other collections such as `Array` and `Dictionary`.
 
 It is possible to implement a linked list with value semantics using an enum. That would look somewhat like this:
 
@@ -541,6 +543,6 @@ Linked lists are flexible but many operations are **O(n)**.
 
 When performing operations on a linked list, you always need to be careful to update the relevant `next` and `previous` pointers, and possibly also the `head` and `tail` pointers. If you mess this up, your list will no longer be correct and your program will likely crash at some point. Be careful!
 
-When processing lists, you can often use recursion: process the first element and then recursively call the operation on the rest of the list. You’re done when there is no next element. This is why linked lists are the foundation of functional programming languages such as LISP.
+When processing lists, you can often use recursion: process the first element and then recursively call the function again on the rest of the list. You’re done when there is no next element. This is why linked lists are the foundation of functional programming languages such as LISP.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*

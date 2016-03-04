@@ -4,7 +4,7 @@ A binary tree is a [tree](../Tree/) where each node has 0, 1, or 2 children. Thi
 
 ![A binary tree](Images/BinaryTree.png)
 
-The child nodes are usually called the "left" child and the "right" child. If a node doesn't have any children, it's called a *leaf* node. The *root* is the node at the very top of the tree (programmers like their trees upside down).
+The child nodes are usually called the *left* child and the *right* child. If a node doesn't have any children, it's called a *leaf* node. The *root* is the node at the very top of the tree (programmers like their trees upside down).
 
 Often nodes will have a link back to their parent but this is not strictly necessary.
 
@@ -104,9 +104,9 @@ On the tree from the example, `tree.count` should be 12.
 
 Something you often need to do with trees is traverse them, i.e. look at all the nodes in some order. There are three ways to traverse a binary tree:
 
-1. *In-order* (or *depth-first*): first look at the left child node, then at the node itself, and finally at the right child.
-2. *Pre-order*: first look at a node, then its left and right children. 
-3. *Post-order*: first look at the left and right children and process the node last.
+1. *In-order* (or *depth-first*): first look at the left child of a node, then at the node itself, and finally at its right child.
+2. *Pre-order*: first look at a node, then at its left and right children. 
+3. *Post-order*: first look at the left and right children and process the node itself last.
 
 Here is how you'd implement that:
 

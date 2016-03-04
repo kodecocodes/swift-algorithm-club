@@ -1,38 +1,40 @@
 # Shunting Yard Algorithm
 
-Any mathematical expression that we write is expressed in a notation known as *infix notation*.
-
-For example:
+Any mathematics we write is expressed in a notation known as *infix notation*. For example:
 
 **A + B * C**
 
-In the above expression the operator is placed between operands, hence the expression is said to be in *infix* form. If you think about it, any expression that you write on a piece of paper will always be in infix form. This is what we humans understand.
+The operator is placed in between the operands, hence the expression is said to be in *infix* form. If you think about it, any expression that you write on a piece of paper will always be in infix form. This is what we humans understand.
 
-When the above expression is evaluated, you would first multiply **B** and **C**, and then add the result to **A**. This is because multiplication has higher precedence than addition. We humans can easily understand the precedence of operators, but a machine needs to be given instructions about each operator. 
+Multiplication has higher precedence than addition, so when the above expression is evaluated you would first multiply **B** and **C**, and then add the result to **A**. We humans can easily understand the precedence of operators, but a machine needs to be given instructions about each operator. 
 
-If you were to write an algorithm that parsed and evaluated the infix notation you will realize that it's a tedious process. You'd have to parse the expression multiple times to know what operation to perform first. As the number of operators increase so does the complexity.
+To change the order of evaluation, we can use parentheses:
 
-## Postfix notations / Reverse Polish Notation 
+**(A + B) * C**
+
+Now **A** is first added to **B** and then the sum is multiplied by **C**.
+
+If you were to write an algorithm that parsed and evaluated expressions in infix notation you will realize that it's a tedious process. You'd have to parse the expression multiple times to know what operation to perform first. As the number of operators increase so does the complexity.
+
+## Postfix notation
 
 In postfix notation, also known as Reverse Polish Notation or RPN, the operators come after the corresponding operands. Here is the postfix representation of the example from the previous section:
 
 **A B C * +**
 
-An expression when represented in postfix form will not have any brackets and neither will you have to worry about scanning for operator precedence. This makes it easy for the computer to evaluate expressions, since the order in which the operators need to be applied is fixed.
+An expression in postfix form will not have any parentheses and neither will you have to worry about scanning for operator precedence. This makes it easy for the computer to evaluate expressions, since the order in which the operators need to be applied is fixed.
 
-### Evaluating a postfix expression
+Evaluating a postfix expression is easily done using a stack. Here is the pseudocode:
 
-A stack is used to evaluate a postfix expression. Here is the pseudocode:
-
-1. Read postfix expression token by token
-2. If the token is an operand, push it into the stack
+1. Read the postfix expression token by token
+2. If the token is an operand, push it onto the stack
 3. If the token is a binary operator,
-    1. Pop the two top most operands from the stack
+    1. Pop the two topmost operands from the stack
     2. Apply the binary operator to the two operands
-    3. Push the result into the stack
+    3. Push the result back onto the stack
 4. Finally, the value of the whole postfix expression remains in the stack
 
-Using the above pseudocode, the evaluation on the stack would be as follows:
+Using the above pseudocode, the evaluation of **A B C * +** would be as follows:
 
 | Expression    | Stack   |
 | ------------- | --------|
@@ -47,7 +49,7 @@ Where **D = B * C** and **E = A + D.**
 
 As seen above, a postfix operation is relatively easy to evaluate as the order in which the operators need to be applied is pre-decided.
 
-## Dijkstra's shunting yard algorithm
+## Converting infix to postfix
 
 The shunting yard algorithm was invented by Edsger Dijkstra to convert an infix expression to postfix. Many calculators use this algorithm to convert the expression being entered to postfix form.
 
@@ -65,11 +67,9 @@ Here is the psedocode of the algorithm:
         1. Until the top token (from the stack) is left parenthesis, pop from the stack to the output buffer
         2. Also pop the left parenthesis but don’t include it in the output buffer
     7. Else add token to output buffer
-2. While there are still operator tokens in the stack, pop them to output
+2. Pop any remaining operator tokens from the stack to the output
 
-### How does it work
-
-Let's take a small example and see how the pseudocode works. 
+Let's take a small example and see how the pseudocode works. Here is the infix expression to convert:
 
 **4 + 4 * 2 / ( 1 - 5 )**
 
