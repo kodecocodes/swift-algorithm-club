@@ -20,15 +20,15 @@ The in-degree of a node is the number of incoming edges to that node. All nodes 
 
 If you think about it in the context of the previous example these nodes represent algorithms that don't need anything else to be learnt, hence the sort starts with them.
 
-### Step 2: Use depth first search for traversal
+### Step 2: Depth first search for traversal
 
-Depth first search is an algorithm that is used to traverse a graph. This algorithm traverses all the child nodes recursively and uses backtracking to find other edges.
+Depth first search is an algorithm that is used to traverse a graph. This algorithm traverses all the child nodes recursively and uses backtracking.
 
-To know more about this algorithm please take a look at the explanation here.
+To know more about this algorithm please take a look at the explanation [here](https://github.com/hollance/swift-algorithm-club/tree/master/Depth-First%20Search).
 
 ### Step 3: Remember all visited nodes
 
-The last step of the sort is to maintain a list of all the nodes that have already been visited.
+The last step of the sort is to maintain a list of all the nodes that have been visited. This is to avoid visiting the same node twice.
 
 ## Example
 
