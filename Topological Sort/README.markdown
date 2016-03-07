@@ -8,7 +8,7 @@ Let's consider that you want to learn all the algorithms present in the swift-al
 
 For e.g. To learn the depth first search algorithm you need to know how a graph is represented. Similarly, to understand how to calculate the length of a binary tree you need to know details of how a tree is traversed. If we were to represent these in the form of a graph it would be as follows:
 
-//add image
+![Example](Images/algorithm_example.png)
 
 If we consider each algorithm to be a node in the graph you'll see dependancies among them i.e. to learn something you might have to know something else first. This is exactly what topological sort is used for, it will sort things out such that you know what to learn first.
 
@@ -34,17 +34,23 @@ The last step of the sort is to maintain a list of all the nodes that have alrea
 
 Consider the following graph:
 
+![Graph Example](Images/graph_example.png)
+
 *Step 1* Nodes with 0 in-degree: **5, 7, 3**
 *Step 2* Depth first search for each without remembering nodes that have already been visited:
 
+```
 Node 3: 3, 8, 9, 10
 Node 7: 7, 11, 2, 8, 9
 Node 5: 5, 11, 2, 9, 10
+```
 
 *Step 3* Remember nodes already visited in each DFS.
 
+```
 Node 3: 3, 8, 9, 10
 Node 7: 7, 11, 2
 Node 5: 5
+```
 
 The final sorted order is a concatenation of the above three traversals: **3, 8, 9, 10, 7, 11, 2, 5**
