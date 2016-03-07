@@ -1,9 +1,10 @@
+
 public class Graph: CustomStringConvertible {
   
   public typealias Node = String
   
   private var adjacencyLists: [Node : [Node]]
-  
+
   public init() {
     adjacencyLists = [Node : [Node]]()
   }
@@ -73,7 +74,7 @@ extension Graph {
     }).map({(node, indegree) in
       return node
     })
-    
+
     var visited = [Node : Bool]()
     
     for (node, _) in adjacencyLists {
@@ -89,3 +90,4 @@ extension Graph {
     return result
   }
 }
+

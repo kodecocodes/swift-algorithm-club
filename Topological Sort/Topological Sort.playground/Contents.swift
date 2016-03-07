@@ -23,6 +23,5 @@ graph.addEdge(fromNode: node11, toNode: node9)
 graph.addEdge(fromNode: node11, toNode: node10)
 graph.addEdge(fromNode: node8, toNode: node9)
 
-print(graph.description, terminator: "")
 
-graph.depthFirstSearch("5")
+graph.topologicalSort()
