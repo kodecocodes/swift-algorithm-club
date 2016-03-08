@@ -24,4 +24,9 @@ graph.addEdge(fromNode: node11, toNode: node10)
 graph.addEdge(fromNode: node8, toNode: node9)
 
 
+
+// using depth-first search
 graph.topologicalSort()
+
+// alternative method
+graph.topologicalSort2()

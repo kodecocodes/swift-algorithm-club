@@ -1,43 +1,7 @@
-
-public class Graph: CustomStringConvertible {
-  
-  public typealias Node = String
-  
-  private var adjacencyLists: [Node : [Node]]
-
-  public init() {
-    adjacencyLists = [Node : [Node]]()
-  }
-  
-  public func addNode(value: Node) -> Node {
-    adjacencyLists[value] = []
-    return value
-  }
-  
-  public func addEdge(fromNode from: Node, toNode to: Node) -> Bool {
-    adjacencyLists[from]?.append(to)
-    return adjacencyLists[from] != nil ? true : false
-  }
-  
-  public var description: String {
-    return adjacencyLists.description
-  }
-  
-  private func adjacencyList(forNode node: Node) -> [Node]? {
-    for (key, adjacencyList) in adjacencyLists {
-      if key == node {
-        return adjacencyList
-      }
-    }
-    return nil
-  }
-}
-
 extension Graph {
-  
   typealias InDegree = Int
-  private func calculateInDegreeOfNodes() -> [Node : InDegree] {
-    
+
+  func calculateInDegreeOfNodes() -> [Node : InDegree] {
     var inDegrees = [Node : InDegree]()
     
     for (node, _) in adjacencyLists {
@@ -63,7 +27,6 @@ extension Graph {
         }
       }
     }
-    
     return result
   }
   
@@ -74,7 +37,7 @@ extension Graph {
     }).map({(node, indegree) in
       return node
     })
-
+    
     var visited = [Node : Bool]()
     
     for (node, _) in adjacencyLists {
@@ -90,4 +53,3 @@ extension Graph {
     return result
   }
 }
-

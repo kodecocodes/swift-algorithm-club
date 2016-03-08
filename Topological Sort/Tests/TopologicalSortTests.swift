@@ -38,5 +38,7 @@ class TopologicalSort: XCTestCase {
   
   func testTopologicalSort() {
     XCTAssertEqual(graph.topologicalSort(), ["3", "8", "9", "10", "7", "11", "2", "5"])
+
+    XCTAssertEqual(graph.topologicalSort2(), ["3", "7", "5", "8", "11", "2", "9", "10"])
   }
 }

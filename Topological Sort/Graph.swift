@@ -2,7 +2,7 @@ public class Graph: CustomStringConvertible {
   public typealias Node = String
   
   private(set) public var adjacencyLists: [Node : [Node]]
-  
+
   public init() {
     adjacencyLists = [Node : [Node]]()
   }
