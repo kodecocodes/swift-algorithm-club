@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		83F9C96C1C8443E800B3A87F /* DepthFirstSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9C96B1C8443E800B3A87F /* DepthFirstSearchTests.swift */; };
-		83F9C9711C84449D00B3A87F /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9C96D1C84449D00B3A87F /* Edge.swift */; };
 		83F9C9721C84449D00B3A87F /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9C96E1C84449D00B3A87F /* Graph.swift */; };
-		83F9C9731C84449D00B3A87F /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9C96F1C84449D00B3A87F /* Node.swift */; };
 		FFC6E11E1C8656D10046BA79 /* DepthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6E11D1C8656D10046BA79 /* DepthFirstSearch.swift */; };
 /* End PBXBuildFile section */
 
@@ -18,9 +16,7 @@
 		7B2BBC801C779D720067B71D /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B2BBC941C779E7B0067B71D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		83F9C96B1C8443E800B3A87F /* DepthFirstSearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepthFirstSearchTests.swift; sourceTree = SOURCE_ROOT; };
-		83F9C96D1C84449D00B3A87F /* Edge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Edge.swift; path = ../Edge.swift; sourceTree = SOURCE_ROOT; };
 		83F9C96E1C84449D00B3A87F /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Graph.swift; path = ../Graph.swift; sourceTree = SOURCE_ROOT; };
-		83F9C96F1C84449D00B3A87F /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Node.swift; path = ../Node.swift; sourceTree = SOURCE_ROOT; };
 		FFC6E11D1C8656D10046BA79 /* DepthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DepthFirstSearch.swift; path = ../DepthFirstSearch.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -54,9 +50,7 @@
 		7B2BBC831C779D720067B71D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				83F9C96D1C84449D00B3A87F /* Edge.swift */,
 				83F9C96E1C84449D00B3A87F /* Graph.swift */,
-				83F9C96F1C84449D00B3A87F /* Node.swift */,
 				83F9C96B1C8443E800B3A87F /* DepthFirstSearchTests.swift */,
 				FFC6E11D1C8656D10046BA79 /* DepthFirstSearch.swift */,
 				7B2BBC941C779E7B0067B71D /* Info.plist */,
@@ -134,10 +128,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				83F9C9721C84449D00B3A87F /* Graph.swift in Sources */,
-				83F9C9711C84449D00B3A87F /* Edge.swift in Sources */,
 				FFC6E11E1C8656D10046BA79 /* DepthFirstSearch.swift in Sources */,
 				83F9C96C1C8443E800B3A87F /* DepthFirstSearchTests.swift in Sources */,
-				83F9C9731C84449D00B3A87F /* Node.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

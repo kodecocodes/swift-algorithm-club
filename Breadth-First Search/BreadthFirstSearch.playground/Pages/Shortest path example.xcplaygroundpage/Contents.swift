@@ -1,3 +1,7 @@
+//: [Previous](@previous)
+
+//: # Shortest Path Example
+
 func breadthFirstSearchShortestPath(graph: Graph, source: Node) -> Graph {
   let shortestPathGraph = graph.duplicate()
 
@@ -44,3 +48,6 @@ graph.addEdge(nodeE, neighbor: nodeH)
 
 let shortestPathGraph = breadthFirstSearchShortestPath(graph, source: nodeA)
 print(shortestPathGraph.nodes)
+
+//: [Next: Minimum Spanning Tree Example](@next)
+
