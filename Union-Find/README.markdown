@@ -54,9 +54,9 @@ There are two trees in this forest, each of which corresponds to one set of elem
 
 We give each subset a unique number to identify it. That number is the index of  the root node of that subset's tree. In the example, node `1` is the root of the first tree and `6` is the root of the second tree.
 
-Note that the `parent[]` of a root node points to itself. So `parent[1] = 1` and `parent[6] = 6`. That's how we can tell something is a root node.
-
 So in this example we have two subsets, the first with the label `1` and the second with the label `6`. The **Find** operation actually returns the set's label, not its contents.
+
+Note that the `parent[]` of a root node points to itself. So `parent[1] = 1` and `parent[6] = 6`. That's how we can tell something is a root node.
 
 ## Add set
 
@@ -181,7 +181,7 @@ Now we call `unionSetsContaining(4, and: 3)`. The smaller tree is attached to th
 
 ![AfterUnion](Images/AfterUnion.png)
 
-Note that, because we call `setOf()` in the beginning of the method, the larger tree was also optimized in the process -- node `3` now hangs directly off the root.
+Note that, because we call `setOf()` at the start of the method, the larger tree was also optimized in the process -- node `3` now hangs directly off the root.
 
 Union with optimizations also takes almost **O(1)** time.
 

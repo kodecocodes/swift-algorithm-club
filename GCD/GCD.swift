@@ -15,6 +15,18 @@ func gcd(m: Int, _ n: Int) -> Int {
 }
 
 /*
+// Recursive version
+func gcd(a: Int, _ b: Int) -> Int {
+  let r = a % b
+  if r != 0 {
+    return gcd(b, r)
+  } else {
+    return b
+  }
+}
+*/
+
+/*
   Returns the least common multiple of two numbers.
 */
 func lcm(m: Int, _ n: Int) -> Int {

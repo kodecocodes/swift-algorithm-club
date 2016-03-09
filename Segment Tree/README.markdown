@@ -4,10 +4,22 @@ I'm pleased to present to you Segment Tree. It's actually one of my favorite dat
 
 Let's suppose that you have an array **a** of some type and some associative function **f**. For example, the function can be sum, multiplication, min, max, [gcd](../GCD/), and so on.
 
-Your task is:
+Your task is to:
 
 - answer a query for an interval given by **l** and **r**, i.e. perform `f(a[l], a[l+1], ..., a[r-1], a[r])`
 - support replacing an item at some index `a[index] = newItem`
+
+For example, if we have an array of numbers:
+
+```swift
+var a = [ 20, 3, -1, 101, 14, 29, 5, 61, 99 ]
+```
+
+We want to query this array on the interval from 3 to 7 for the function "sum". That means we do the following:
+
+	101 + 14 + 29 + 5 + 61 = 210
+	
+because `101` is at index 3 in the array and `61` is at index 7. So we pass all the numbers between `101` and `61` to the sum function, which adds them all up. If we had used the "min" function, the result would have been `5` because that's the smallest number in the interval from 3 to 7.
 
 Here's naive approach if our array's type is `Int` and **f** is just the sum of two integers:
 
@@ -21,7 +33,7 @@ func query(array: [Int], l: Int, r: Int) -> Int {
 }
 ```
 
-The running time of this algorithm is **O(n)** in the worst case, that is when **l = 0, r = n-1**. And if we have **m** queries to answer we get **O(m*n)** complexity.
+The running time of this algorithm is **O(n)** in the worst case, that is when **l = 0, r = n-1** (where **n** is the number of elements in the array). And if we have **m** queries to answer we get **O(m*n)** complexity.
 
 If we have an array with 100,000 items (**n = 10^5**) and we have to do 100 queries (**m = 100**), then our algorithm will do **10^7** units of work. Ouch, that doesn't sound very good. Let's look at how we can improve it.
 
@@ -48,7 +60,7 @@ Each node has the following data:
 
 - `leftBound` and `rightBound` describe an interval
 - `leftChild` and `rightChild` are pointers to child nodes
-- `value` is actually the application of the function `f(a[leftBound], a[leftBound+1], ..., a[rightBound-1], a[rightBound])`
+- `value` is the result of applying the function `f(a[leftBound], a[leftBound+1], ..., a[rightBound-1], a[rightBound])`
 
 If our array is `[1, 2, 3, 4]` and the function `f = a + b`, the segment tree looks like this:
 
@@ -80,11 +92,11 @@ public init(array: [T], leftBound: Int, rightBound: Int, function: (T, T) -> T) 
   }
 ```
 
-Notice that this is a recursive method! You give it an array, such as `[1, 2, 3, 4]` and it creates the root node of the tree and all the child nodes as well.
+Notice that this is a recursive method. You give it an array such as `[1, 2, 3, 4]` and it builds up the entire tree, from the root node to all the child nodes.
 
-1. The recursion terminates if `leftBound` and `rightBound` are equal. That means this `SegmentTree` instance will represent a leaf node. For the input array `[1, 2, 3, 4]`, it will create four such leaf nodes: `1`, `2`, `3`, and `4`. We just fill in the `value` property with the number from the array.
+1. The recursion terminates if `leftBound` and `rightBound` are equal. Such a `SegmentTree` instance represents a leaf node. For the input array `[1, 2, 3, 4]`, this process will create four such leaf nodes: `1`, `2`, `3`, and `4`. We just fill in the `value` property with the number from the array.
 
-2. However, if `rightBound` is still greater than `leftBound`, we create two child nodes. We divide the current segment into two equal (if length is even) segments.
+2. However, if `rightBound` is still greater than `leftBound`, we create two child nodes. We divide the current segment into two equal segments (at least, if the length is even; if it's odd, one segment will be slightly larger).
 
 3. Recursively build child nodes for those two segments. The left child node covers the interval **[leftBound, middle]** and the right child node covers **[middle+1, rightBound]**.
 
@@ -143,7 +155,7 @@ Again, this is a recursive method. It checks four different possibilities.
 
 ![mixedSegment](Images/MixedSegment.png)
 
-For example, this is how you could test it out in a playground:
+This is how you can test it out in a playground:
 
 ```swift
 let array = [1, 2, 3, 4]

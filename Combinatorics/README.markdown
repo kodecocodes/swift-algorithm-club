@@ -10,20 +10,20 @@ This is another permutation:
 
 For a collection of `n` objects, there are `n!` possible permutations, where `!` is the "factorial" function. So for our collection of five letters, the total number of permutations you can make is:
 
-	5! = 5 x 4 x 3 x 2 x 1 = 120
+	5! = 5 * 4 * 3 * 2 * 1 = 120
 
-A collection of six items has `6! = 720` permutations. For ten items, it is `10! = 3.628.800`. That adds up quick!
+A collection of six items has `6! = 720` permutations. For ten items, it is `10! = 3,628,800`. That adds up quick!
 
 Where does this `n!` come from? The logic is as follows: we have a collection of five letters that we want to put in some order. To do this, you need to pick up these letters one-by-one. Initially, you have the choice of five letters: `a, b, c, d, e`. That gives 5 possibilities.
 
-After picking the first letter, you only have four letters left to choose from. That gives `5 x 4 = 20` possibilities:
+After picking the first letter, you only have four letters left to choose from. That gives `5 * 4 = 20` possibilities:
 
 	a+b    b+a    c+a    d+a    e+a
 	a+c    b+c    c+b    d+b    e+b
 	a+d    b+d    c+d    d+c    e+c
 	a+e    b+e    c+e    d+e    e+d
 
-After picking the second letter, there are only three letters left to choose from. And so on... When you get to the last letter, you don't have any choice because there is only one letter left. That's why the total number of possibilities is `5 x 4 x 3 x 2 x 1`.
+After picking the second letter, there are only three letters left to choose from. And so on... When you get to the last letter, you don't have any choice because there is only one letter left. That's why the total number of possibilities is `5 * 4 * 3 * 2 * 1`.
 
 To calculate the factorial in Swift:
 
@@ -47,7 +47,7 @@ factorial(5)   // returns 120
 
 Note that `factorial(20)` is the largest number you can calculate with this function, or you'll get integer overflow.
 
-Let's say that from that collection of five letters you want to choose only 3 elements. How many possible ways can you do this? Well, that works the same way as before, except that you stop after the third letter. So now the number of possibilities is `5 x 4 x 3 = 60`.
+Let's say that from that collection of five letters you want to choose only 3 elements. How many possible ways can you do this? Well, that works the same way as before, except that you stop after the third letter. So now the number of possibilities is `5 * 4 * 3 = 60`.
 
 The formula for this is:
 
@@ -83,11 +83,13 @@ permutations(9, 4)   // returns 3024
 
 This function takes advantage of the following algebra fact:
 
-	          9 x 8 x 7 x 6 x 5 x 4 x 3 x 2 x 1
-	P(9, 4) = --------------------------------- = 9 x 8 x 7 x 6 = 3024
-	                          5 x 4 x 3 x 2 x 1
+	          9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1
+	P(9, 4) = --------------------------------- = 9 * 8 * 7 * 6 = 3024
+	                          5 * 4 * 3 * 2 * 1
 
-The denominator cancels out part of the numerator, so there's no need to perform a division and you're not dealing with intermediate results that are potentially too large. However, there are still limits to what you can calculate; for example the number of groups of size 15 that you can make from a collection of 30 objects -- i.e. `P(30, 15)` -- is ginormous and breaks Swift. Huh, you wouldn't think it would be so large but combinatorics is funny that way.
+The denominator cancels out part of the numerator, so there's no need to perform a division and you're not dealing with intermediate results that are potentially too large.
+
+However, there are still limits to what you can calculate; for example the number of groups of size 15 that you can make from a collection of 30 objects -- i.e. `P(30, 15)` -- is ginormous and breaks Swift. Huh, you wouldn't think it would be so large but combinatorics is funny that way.
 
 ## Generating the permutations
 
@@ -211,7 +213,7 @@ Of course, the larger your array is, the more swaps it performs and the deeper t
 
 If the above is still not entirely clear, then I suggest you give it a go in the playground. That's what playgrounds are great for. :-)
 
-For fun, here is an alternative algorithm, by Sedgewick:
+For fun, here is an alternative algorithm, by Robert Sedgewick:
 
 ```swift
 func permuteSedgewick(a: [Int], _ n: Int, inout _ pos: Int) {
@@ -259,7 +261,7 @@ Try to figure out for yourself how this algorithm works!
 
 ## Combinations
 
-A combination is like a permutation where the order does not matter. So the following are six different permutations of the letters `k` `l` `m` but they all count as the same combination:
+A combination is like a permutation where the order does not matter. The following are six different permutations of the letters `k` `l` `m` but they all count as the same combination:
 
 	k, l, m      k, m, l      m, l, k
 	l, m, k      l, k, m      m, k, l
@@ -276,15 +278,15 @@ The formula for `C(n, k)` is:
 
 	               n!         P(n, k)
 	C(n, k) = ------------- = --------
-	          (n - k)! x k!      k!
+	          (n - k)! * k!      k!
 
 As you can see, you can derive it from the formula for `P(n, k)`. There are always more permutations than combinations. You divide the number of permutations by `k!` because a total of `k!` of these permutations give the same combination.
 
-Above I showed that the number of permutations of `k` `l` `m` is 6 but, if you pick only two of those letters, the number of combinations is 3. If we use the formula we should get the same answer. We want to calculate `C(3, 2)` because we choose 2 letters out of a collection of 3. 
+Above I showed that the number of permutations of `k` `l` `m` is 6, but if you pick only two of those letters the number of combinations is 3. If we use the formula we should get the same answer. We want to calculate `C(3, 2)` because we choose 2 letters out of a collection of 3. 
 
-	          3 x 2 x 1    6
+	          3 * 2 * 1    6
 	C(3, 2) = --------- = --- = 3
-	           1! x 2!     2
+	           1! * 2!     2
 
 Here's a simple function to calculate `C(n, k)`:
 
@@ -300,7 +302,7 @@ Use it like this:
 combinations(28, 5)    // prints 98280
 ```
 
-Because this uses the `permutations()` and `factorial()` functions under the hood, you're still limited by how large these numbers can get. For example, `combinations(30, 15)` is "only" `155.117.520` but because the intermediate results don't fit into a 64-bit integer, you can't calculate it with the given function.
+Because this uses the `permutations()` and `factorial()` functions under the hood, you're still limited by how large these numbers can get. For example, `combinations(30, 15)` is "only" `155,117,520` but because the intermediate results don't fit into a 64-bit integer, you can't calculate it with the given function.
 
 Here is an algorithm that uses dynamic programming to overcome the need for calculating factorials. It is based on Pascal's triangle:
 
@@ -312,7 +314,7 @@ Here is an algorithm that uses dynamic programming to overcome the need for calc
 	5:     1   5  10   10  5   1 
 	6:   1   6  15  20   15  6   1 
 
-Each number in the next row is made up by adding two numbers from the previous row. For example, in row 6, the number 15 is made by adding the 5 and 10 from row 5. These numbers are called the binomial coefficients and as it happens they are the same as `C(n, k)`.
+Each number in the next row is made up by adding two numbers from the previous row. For example in row 6, the number 15 is made by adding the 5 and 10 from row 5. These numbers are called the binomial coefficients and as it happens they are the same as `C(n, k)`.
 
 For example, for row 6:
 
@@ -360,6 +362,6 @@ You may wonder what the point is in calculating these permutations and combinati
 
 ## References
 
-Wirth's and Sedgewick's permutation algorithms and the code for counting permutations and combinations is based on the Algorithm Alley column from Dr.Dobb's Magazine, June 1993. The dynamic programming binomial coefficient algorithm is from The Algorithm Design Manual by Skiena.
+Wirth's and Sedgewick's permutation algorithms and the code for counting permutations and combinations are based on the Algorithm Alley column from Dr.Dobb's Magazine, June 1993. The dynamic programming binomial coefficient algorithm is from The Algorithm Design Manual by Skiena.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*

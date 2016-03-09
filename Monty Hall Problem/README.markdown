@@ -8,7 +8,7 @@ Now Monty gives you the opportunity to change your mind. Should you stick with y
 
 You'd think that changing your answer wouldn't improve your chances... but it does!
 
-This is a very nonintuitive result. Maybe you have trouble believing this is true. Don't worry, when this problem was first proposed many mathematicians didn't believe it either, so you're in good company.
+This is a very nonintuitive result. Maybe you have trouble believing this is true. Don't worry, when this problem was first proposed many professional mathematicians didn't believe it either, so you're in good company.
 
 There's a simple way to verify this claim: we can write a program to test it out! We should be able to show who wins more often by playing the game a large number of times.
 
@@ -65,7 +65,7 @@ Here's why: When you first make a choice, your chances of picking the prize are 
 
 After Monty opens one of the doors, this gives you new information. However, it doesn't change the probability of your original choice being the winner. That chance remains 33% because you made that choice when you didn't know yet what was behind this open door.
 
-Since probabilities always need to add up to 100%, the chance that the prize is behind the other door is now 100 - 33 = 67%. So, as strange as it may sound, you're better of switching doors!
+Since probabilities always need to add up to 100%, the chance that the prize is behind the other door is now 100 - 33 = 67%. So, as strange as it may sound, you're better off switching doors!
 
 This is hard to wrap your head around, but easily shown using a simulation that runs a significant number of times. Probability is weird.
 

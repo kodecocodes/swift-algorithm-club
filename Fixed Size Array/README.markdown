@@ -2,7 +2,7 @@
 
 Early programming languages didn't have very fancy arrays. You'd create the array with a specific size and from that moment on it would never grow or shrink. Even the standard arrays in C and Objective-C are still of this type. 
 
-When you define an array like this,
+When you define an array like so,
 
 	int myArray[10];
 	
@@ -14,7 +14,7 @@ That's your array. It will always be this size. If you need to fit more than 10 
 
 To get an array that grows when it gets full you need to use a [dynamic array](https://en.wikipedia.org/wiki/Dynamic_array) object such as `NSMutableArray` in Objective-C or `std::vector` in C++, or a language like Swift whose arrays increase their capacity as needed.
 
-A big downside of the old-style arrays is that they need to be big enough or you run out of space. But if they are too big you're wasting memory. And you need to be careful about security flaws and crashes due to buffer overflows. In summary, fixed-size arrays are not flexible and they leave no room for error.
+A major downside of the old-style arrays is that they need to be big enough or you run out of space. But if they are too big you're wasting memory. And you need to be careful about security flaws and crashes due to buffer overflows. In summary, fixed-size arrays are not flexible and they leave no room for error.
 
 That said, **I like fixed-size arrays** because they are simple, fast, and predictable.
 
@@ -38,7 +38,7 @@ These two operations have complexity **O(1)**, meaning the time it takes to perf
 
 For an array that can grow, appending is more involved: if the array is full, new memory must be allocated and the old contents copied over to the new memory buffer. On average, appending is still an **O(1)** operation, but what goes on under the hood is less predictable.
 
-The expensive operations are inserting and deleting. When you insert an element somewhere that's not at the end, it requires moving up the remainder of the array by one position. That involves a relatively costly memory copy operation:
+The expensive operations are inserting and deleting. When you insert an element somewhere that's not at the end, it requires moving up the remainder of the array by one position. That involves a relatively costly memory copy operation. For example, inserting the value `7` in the middle of the array:
 
 ![Insert requires a memory copy](Images/insert.png)
 
@@ -48,7 +48,7 @@ Deleting requires a copy the other way around:
 
 ![Delete also requires a memory copy](Images/delete.png)
 
-This, by the way, is also true for `NSMutableArray` or Swift arrays. Inserting and deleting are **O(n)** operations -- the larger the array is the more time it takes.
+This, by the way, is also true for `NSMutableArray` or Swift arrays. Inserting and deleting are **O(n)** operations -- the larger the array the more time it takes.
 
 Fixed-size arrays are a good solution when:
 
@@ -87,7 +87,7 @@ This copies the last element on top of the element you want to remove, and then 
 
 This is why the array is not sorted. To avoid an expensive copy of a potentially large portion of the array we copy just one element, but that does change the order of the elements.
 
-There are now two copies of element "6" in the array, but what was previously the last element is no longer part of the active array. It's just junk data -- the next time you append an new element, this old version of "6" will be overwritten.
+There are now two copies of element `6` in the array, but what was previously the last element is no longer part of the active array. It's just junk data -- the next time you append an new element, this old version of `6` will be overwritten.
 
 Under these two constraints -- a limit on the number of elements and an unsorted array -- fixed-size arrays are still perfectly suitable for use in modern software.
 
@@ -138,4 +138,4 @@ var a = FixedSizeArray(maxSize: 10, defaultValue: 0)
 
 Note that `removeAtIndex()` overwrites the last element with this `defaultValue` to clean up the "junk" object that gets left behind. Normally it wouldn't matter to leave that duplicate object in the array, but if it's a class or a struct it may have strong references to other objects and it's good boyscout practice to zero those out.
 
-*Written by Matthijs Hollemans*
+*Written for Swift Algorithm Club by Matthijs Hollemans*

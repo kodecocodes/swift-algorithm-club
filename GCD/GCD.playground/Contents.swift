@@ -1,5 +1,17 @@
 //: Playground - noun: a place where people can play
 
+// Recursive version
+func gcd(a: Int, _ b: Int) -> Int {
+  let r = a % b
+  if r != 0 {
+    return gcd(b, r)
+  } else {
+    return b
+  }
+}
+
+/*
+// Iterative version
 func gcd(m: Int, _ n: Int) -> Int {
   var a = 0
   var b = max(m, n)
@@ -12,14 +24,15 @@ func gcd(m: Int, _ n: Int) -> Int {
   }
   return b
 }
+*/
 
 func lcm(m: Int, _ n: Int) -> Int {
   return m*n / gcd(m, n)
 }
 
-gcd(39, 52)       // 13
-gcd(36, 228)      // 12
-gcd(3819, 51357)  // 57
+gcd(52, 39)       // 13
+gcd(228, 36)      // 12
+gcd(51357, 3819)  // 57
 gcd(841, 299)     // 1
 
 lcm(2, 3)   // 6

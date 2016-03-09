@@ -1,10 +1,10 @@
-# Tree
+# Trees
 
 A tree represents hierarchical relationships between objects. This is a tree:
 
 ![A tree](Images/Tree.png)
 
-A tree consists of nodes. 
+A tree consists of nodes, and these nodes are linked to one another.
 
 Nodes have links to their children and usually to their parent as well. The children are the nodes below a given node; the parent is the node above. A node always has just one parent but can have multiple children.
 
@@ -16,7 +16,7 @@ The pointers in a tree do not form cycles. This is not a tree:
 
 ![Not a tree](Images/Cycles.png)
 
-Such a structure is called a [graph](../Graph/). A tree is really a very simple form of a graph. (In a similar vein, a [linked list](../Linked List) is a simple version of a tree. Think about it!)
+Such a structure is called a [graph](../Graph/). A tree is really a very simple form of a graph. (In a similar vein, a [linked list](../Linked List/) is a simple version of a tree. Think about it!)
 
 This article talks about a general-purpose tree. That's a tree without any kind of restrictions on how many children each node may have, or on the order of the nodes in the tree.
 
@@ -33,7 +33,7 @@ public class TreeNode<T> {
     self.value = value
   }
   
-  func addChild(node: TreeNode<T>) {
+  public func addChild(node: TreeNode<T>) {
     children.append(node)
     node.parent = self
   }
@@ -164,5 +164,7 @@ Then we can describe the tree with the following array:
 	[ -1, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 6, 6 ]
 
 Each entry in the array is a pointer to its parent node. The item at index 3, `tea`, has the value 1 because its parent is `hot`. The root node points to `-1` because it has no parent. You can only traverse such trees from a node back to the root but not the other way around.
+
+By the way, sometimes you see algorithms using the term *forest*. Unsurprisingly, that is the name given to a collection of separate tree objects. For an example of this, see [union-find](../Union-Find/).
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*

@@ -2,7 +2,7 @@
 
 Goal: Write a string search algorithm in pure Swift without importing Foundation or using `NSString`'s `rangeOfString()` method. 
  
-In other words, implement an `indexOf(pattern: String)` extension on `String` that returns the `String.Index` of the first occurrence of the search pattern, or `nil` if the pattern could not be found inside the string.
+In other words, we want to implement an `indexOf(pattern: String)` extension on `String` that returns the `String.Index` of the first occurrence of the search pattern, or `nil` if the pattern could not be found inside the string.
  
 For example:
 
@@ -24,9 +24,9 @@ animals.indexOf("🐮")
 
 > **Note:** The index of the cow is 6, not 3 as you might expect, because the string uses more storage per character for emoji. The actual value of the `String.Index` is not so important, just that it points at the right character in the string.
 
-The [brute-force approach](../Brute-Force Search Search/) works OK, but it's not very efficient, especially on large chunks of text. As it turns out, you don't need to look at *every* character from the source string -- you can often skip ahead multiple characters.
+The [brute-force approach](../Brute-Force String Search/) works OK, but it's not very efficient, especially on large chunks of text. As it turns out, you don't need to look at *every* character from the source string -- you can often skip ahead multiple characters.
 
-That skip-ahead algorithm is called [Boyer-Moore](https://en.wikipedia.org/wiki/Boyer–Moore_string_search_algorithm) and it has been around for a long time. It is considered the benchmark for all string search algorithms.
+The skip-ahead algorithm is called [Boyer-Moore](https://en.wikipedia.org/wiki/Boyer–Moore_string_search_algorithm) and it has been around for a long time. It is considered the benchmark for all string search algorithms.
 
 Here's how you could write it in Swift:
 
@@ -133,7 +133,7 @@ The amount to skip ahead at any given time is determined by the "skip table", wh
 
 The closer a character is to the end of the pattern, the smaller the skip amount. If a character appears more than once in the pattern, the one nearest to the end of the pattern determines the skip value for that character.
 
-A caveat: If the search pattern consists of only a few characters, it's faster to do a brute-force search. There's a trade-off between the time it takes to build the skip table and doing brute-force for short patterns.
+> **Note:** If the search pattern consists of only a few characters, it's faster to do a brute-force search. There's a trade-off between the time it takes to build the skip table and doing brute-force for short patterns.
 
 Credits: This code is based on the article ["Faster String Searches" by Costas Menico](http://www.drdobbs.com/database/faster-string-searches/184408171) from Dr Dobb's magazine, July 1989 -- Yes, 1989! Sometimes it's useful to keep those old magazines around.
 

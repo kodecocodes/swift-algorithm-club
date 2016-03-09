@@ -41,7 +41,7 @@ Now if we replace the original bytes with these bit strings, the compressed outp
 
 The extra 0-bit at the end is there to make a full number of bytes. We were able to compress the original 34 bytes into merely 16 bytes, a space savings of over 50%!
 
-But hold on... to be able to decode these bits we need to have the original frequency table. That table needs to be transmitted or saved along with the compressed data, otherwise the decoder doesn't know how to interpret the bits. Because of the overhead of this frequency table, it doesn't really pay to use Huffman encoding on very small inputs.
+But hold on... to be able to decode these bits we need to have the original frequency table. That table needs to be transmitted or saved along with the compressed data, otherwise the decoder doesn't know how to interpret the bits. Because of the overhead of this frequency table (about 1 kilobyte), it doesn't really pay to use Huffman encoding on very small inputs.
 
 ## How it works
 
@@ -63,7 +63,7 @@ Decompression works in exactly the opposite way. It reads the compressed bits on
 
 ## The code
 
-Before we get to the actual Huffman coding scheme, it's useful to have some helper code that can write individual bits to an `NSData` object. The smallest piece of data that `NSData` understands is the byte. But we're dealing in bits, so we need to translate between the two.
+Before we get to the actual Huffman coding scheme, it's useful to have some helper code that can write individual bits to an `NSData` object. The smallest piece of data that `NSData` understands is the byte, but we're dealing in bits, so we need to translate between the two.
 
 ```swift
 public class BitWriter {
@@ -92,7 +92,7 @@ public class BitWriter {
 }
 ```
 
-To add a bit to the `NSData` you call `writeBit()`. This simply stuffs each new bit into the `outByte` variable. Once you've written 8 bits, `outByte` gets added to the `NSData` object for real.
+To add a bit to the `NSData` you call `writeBit()`. This stuffs each new bit into the `outByte` variable. Once you've written 8 bits, `outByte` gets added to the `NSData` object for real.
 
 The `flush()` method is used for outputting the very last byte. There is no guarantee that the number of compressed bits is a nice round multiple of 8, in which case there may be some spare bits at the end. If so, `flush()` adds a few 0-bits to make sure that we write a full byte.
 
@@ -193,7 +193,7 @@ Instead, we'll add a method to export the frequency table without all the pieces
   }
 ```
 
-The `frequencyTable()` method looks at those first 256 nodes from the tree but keeps only those that are actually used, without the `parent`, `left`, and `right` pointers. You would serialize the array it returns along with the compressed file so that it can be properly decompressed later.
+The `frequencyTable()` method looks at those first 256 nodes from the tree but keeps only those that are actually used, without the `parent`, `left`, and `right` pointers. It returns an array of `Freq` objects. You have to serialize this array along with the compressed data so that it can be properly decompressed later.
 
 ## The tree
 
@@ -206,7 +206,7 @@ The leaf nodes represent the actual bytes that are present in the input data. Th
 To build the tree, we do the following:
 
 1. Find the two nodes with the smallest counts that do not have a parent node yet.
-2. Add a new parent node that links these two nodes together.
+2. Create a new parent node that links these two nodes together.
 3. This repeats over and over until only one node with no parent remains. This becomes the root node of the tree.
 
 This is an ideal place to use a [priority queue](../Priority Queue/). A priority queue is a data structure that is optimized so that finding the minimum value is always very fast. Here, we repeatedly need to find the node with the smallest count.
@@ -256,13 +256,13 @@ Here is how it works step-by-step:
 
 6. Repeat steps 2-5 until there is only one node left in the queue. This becomes the root node of the tree, and we're done.
 
-This is what the process looks like:
+The animation shows what the process looks like:
 
 ![Building the tree](Images/BuildTree.gif)
 
-> **Note:** Instead of using a priority queue, you can iterate through the `tree` array to find the next two smallest nodes, but that makes the compressor quite slow, **O(n^2)**. Using the priority queue, the running time is only **O(n log n)** where **n** is the number of nodes.
+> **Note:** Instead of using a priority queue, you can repeatedly iterate through the `tree` array to find the next two smallest nodes, but that makes the compressor quite slow, **O(n^2)**. Using the priority queue, the running time is only **O(n log n)** where **n** is the number of nodes.
 
-> **Note:** Due to the nature of binary trees, if we have *x* leaf nodes we can at most add *x - 1* additional nodes to the tree. Given that at most there will be 256 leaf nodes, the tree will never contain more than 511 nodes total.
+> **Fun fact:** Due to the nature of binary trees, if we have *x* leaf nodes we can at most add *x - 1* additional nodes to the tree. Given that at most there will be 256 leaf nodes, the tree will never contain more than 511 nodes total.
 
 ## Compression
 
@@ -319,7 +319,7 @@ In a picture:
 
 ![How compression works](Images/Compression.png)
 
-Note that, even through the illustration of the tree shows a 0 or 1 for each edge between the nodes, the bit values 0 and 1 aren't actually stored in the tree! The rule is that we write a 1 bit if we take the left branch and a 0 bit if we take the right branch, so just knowing the direction we're going in is enough to determine what bit value to write.
+Even though the illustration of the tree shows a 0 or 1 for each edge between the nodes, the bit values 0 and 1 aren't actually stored in the tree! The rule is that we write a 1 bit if we take the left branch and a 0 bit if we take the right branch, so just knowing the direction we're going in is enough to determine what bit value to write.
 
 You use the `compressData()` method as follows:
 
@@ -412,6 +412,6 @@ You can see how this works in more detail in the Playground.
 
 [Huffman coding at Wikipedia](https://en.wikipedia.org/wiki/Huffman_coding)
 
-The code is based on Al Stevens' C Programming column from Dr.Dobb's Magazine, February 1991 and October 1992.
+The code is loosely based on Al Stevens' C Programming column from Dr.Dobb's Magazine, February 1991 and October 1992.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*

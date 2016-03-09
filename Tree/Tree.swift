@@ -8,7 +8,7 @@ public class TreeNode<T> {
     self.value = value
   }
   
-  func addChild(node: TreeNode<T>) {
+  public func addChild(node: TreeNode<T>) {
     children.append(node)
     node.parent = self
   }

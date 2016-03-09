@@ -4,28 +4,28 @@ Goal: Sort an array from low to high (or high to low)
 
 Invented in 1945 by John von Neumann, merge sort is a fairly efficient sorting algorithm with a best, worst, and average time complexity of **O(n log n)**.
 
-The idea behind merge sort is to **divide and conquer**. To divide a big problem into smaller problems and solving many small problems instead of solving a big one. I think of merge sort as **split first** and **merge after**. 
+The idea behind merge sort is to **divide and conquer**: to divide a big problem into smaller problems and solving many small problems instead of solving a big one. I think of merge sort as **split first** and **merge after**. 
 
 Assume you're given an array of *n* numbers and you need to put them in the right order. The merge sort algorithm works as follows:
 
 - Put the numbers in a pile. The pile is unsorted.
 - Split the pile into 2. Now you have **two unsorted piles** of numbers.
-- Keep splitting the resulting piles until you can't anymore. In the end, you will have *n* piles with 1 number in each pile.
-- Begin to **merge** the piles together by sequentially pairing a pile with another pile. During each merge, you want to sort the contents in order.
+- Keep splitting the resulting piles until you can't split anymore. In the end, you will have *n* piles with 1 number in each pile.
+- Begin to **merge** the piles together by sequentially pairing a pile with another pile. During each merge, you put the contents in sorted order. This is fairly easy because each individual pile is already sorted.
 
 ## An example
 
 ### Splitting
 
-Let's say the numbers to sort are `[2, 1, 5, 4, 9]`. This is your unsorted pile. Our goal is to keep splitting the pile until you can't anymore. 
+Let's say the numbers to sort are `[2, 1, 5, 4, 9]`. This is your unsorted pile. The goal is to keep splitting the pile until you can't split anymore. 
 
-Split the array into two halves: `[2, 1,]` and `[5, 4, 9]`. Can you keep splitting them? Yes you can!
+First, split the array into two halves: `[2, 1,]` and `[5, 4, 9]`. Can you keep splitting them? Yes you can!
 
 Focus on the left pile. `[2, 1]` will split into `[2]` and `[1]`. Can you keep splitting them? No. Time to check the other pile.
 
-`[5, 4, 9]` splits to `[5]` and `[4, 9]`. Unsurprisingly, `[5]` can't split into anymore, but `[4, 9]` splits into `[4]` and `[9]`. 
+`[5, 4, 9]` splits to `[5]` and `[4, 9]`. Unsurprisingly, `[5]` can't be split anymore, but `[4, 9]` splits into `[4]` and `[9]`. 
 
-The splitting process ends with the following piles: `[2]` `[1]` `[5]` `[4]` `[9]`
+The splitting process ends with the following piles: `[2]` `[1]` `[5]` `[4]` `[9]`. Notice that each pile consists of just one element.
 
 ### Merging
 
@@ -35,7 +35,7 @@ Given the piles `[2]` `[1]` `[5]` `[4]` `[9]`, the first pass will result in `[1
 
 The next pass will merge `[1, 2]` and `[4, 5]` together. This results in `[1, 2, 4, 5]`, with the `[9]` left out again since it's the odd one out. 
 
-Since you're left with only two piles, `[9]` finally gets its chance to merge, resulting in the sorted array `[1, 2, 4, 5, 9]`. 
+You're left with only two piles and `[9]` finally gets its chance to merge, resulting in the sorted array `[1, 2, 4, 5, 9]`. 
 
 ## Top-down implementation
 
@@ -61,9 +61,9 @@ A step-by-step explanation of how the code works:
 
 2. Find the middle index. 
 
-3. Using the middle index from the previous step, recursively split the left side of the resulting arrays.
+3. Using the middle index from the previous step, recursively split the left side of the array.
 
-4. Using the middle index, recursively split the right side of the resulting arrays.
+4. Also recursively split the right side of the array.
 
 5. Finally, merge all the values together, making sure that it's always sorted.
 
@@ -119,7 +119,7 @@ This method may look scary but it is quite straightforward:
 
 4. If control exits from the previous while loop, it means that either `leftPile` or `rightPile` has its contents completely merged into the `orderedPile`. At this point, you no longer need to do comparisons. Just append the rest of the contents of the other array until there's no more to append.
 
-As an example of how `merge()` works, suppose that we have the following piles: `leftPile = [1, 7, 8]` and `rightPile = [3, 6, 9]`. Note that each of these piles is individually sorted already. These are merged into one larger sorted pile in the following steps:
+As an example of how `merge()` works, suppose that we have the following piles: `leftPile = [1, 7, 8]` and `rightPile = [3, 6, 9]`. Note that each of these piles is individually sorted already -- that is always true with merge sort. These are merged into one larger sorted pile in the following steps:
 
 	leftPile       rightPile       orderedPile
 	[ 1, 7, 8 ]    [ 3, 6, 9 ]     [ ]
@@ -218,7 +218,7 @@ Notable points:
 
 1. Merge sort needs a temporary working array because you can't merge the left and right piles and at the same time overwrite their contents. But allocating a new array for each merge is wasteful. Therefore, we're using two working arrays and we'll switch between them using the value of `d`, which is either 0 or 1. The array `z[d]` is used for reading, `z[1 - d]` is used for writing. This is called *double-buffering*.
 
-2. Conceptually, the bottom-up version works the same way as the top-down version. First, it merges small piles of 1 element each, then it merges piles of 2 elements each, then piles of 4 elements each, and so on. The size of the pile is given by `width`. Initially, this is `1` but at the end of each loop iteration we multiply it by 2. So this outer loop determines the size of the piles being merged. And in each step, the subarrays to merge become larger.
+2. Conceptually, the bottom-up version works the same way as the top-down version. First, it merges small piles of 1 element each, then it merges piles of 2 elements each, then piles of 4 elements each, and so on. The size of the pile is given by `width`. Initially, `width` is `1` but at the end of each loop iteration we multiply it by 2. So this outer loop determines the size of the piles being merged. And in each step, the subarrays to merge become larger.
 
 3. The inner loop steps through the piles and merges each pair of piles into a larger one. The result is written in the array given by `z[1 - d]`.
 
@@ -237,7 +237,7 @@ mergeSortBottomUp(array, <)   // [1, 2, 4, 5, 9]
 
 ## Performance
 
-The speed of merge sort is dependent on the size of the array it needs to sort. 
+The speed of merge sort is dependent on the size of the array it needs to sort. The larger the array, the more work it needs to do. 
 
 Whether or not the initial array is sorted already doesn't affect the speed of merge sort since you'll be doing the same amount splits and comparisons regardless of the initial order of the elements.
 
@@ -249,6 +249,6 @@ Most implementations of merge sort produce a **stable** sort. This means that ar
 
 ## See also
 
-See also [Wikipedia](https://en.wikipedia.org/wiki/Merge_sort)
+[Merge sort on Wikipedia](https://en.wikipedia.org/wiki/Merge_sort)
 
 *Written by Kelvin Lau. Additions by Matthijs Hollemans.*

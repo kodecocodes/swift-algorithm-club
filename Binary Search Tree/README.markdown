@@ -1,12 +1,12 @@
 # Binary Search Tree (BST)
 
-A binary search tree is a special kind of [binary tree](../Binary Tree/) (a tree in which a node only has two children) that performs insertions and deletions such that the tree is always sorted.
+A binary search tree is a special kind of [binary tree](../Binary Tree/) (a tree in which each node has at most two children) that performs insertions and deletions such that the tree is always sorted.
 
 If you don't know what a tree is or what it is for, then [read this first](../Tree/).
 
 ## "Always sorted" property
 
-This is an example of a valid binary search tree:
+Here is an example of a valid binary search tree:
 
 ![A binary search tree](Images/Tree1.png)
 
@@ -33,7 +33,7 @@ There is always only one possible place where the new element can be inserted in
 
 > **Note:** The *height* of a node is the number of steps it takes to go from that node to its lowest leaf. The height of the entire tree is the distance from the root to the lowest leaf. Many of the operations on a binary search tree are expressed in terms of the tree's height.
 
-By following this simple rule -- smaller values on the left, larger values on the right -- we keep the tree sorted in a way that whenever we query it, we can quickly check if a value is in the tree.
+By following this simple rule -- smaller values on the left, larger values on the right -- we keep the tree sorted in a way such that whenever we query it, we can quickly check if a value is in the tree.
 
 ## Searching the tree
 
@@ -49,7 +49,7 @@ If we were looking for the value `5` in the example, it would go as follows:
 
 ![Searching the tree](Images/Searching.png)
 
-Thanks to the structure of the tree, searching is really fast. It runs in **O(h)** time. If you have a tree with a million nodes, it only takes about 20 steps to find anything in this tree. (The idea is very similar to [binary search](../Binary Search) in an array.)
+Thanks to the structure of the tree, searching is really fast. It runs in **O(h)** time. If you have a well-balanced tree with a million nodes, it only takes about 20 steps to find anything in this tree. (The idea is very similar to [binary search](../Binary Search) in an array.)
 
 ## Traversing the tree
 
@@ -57,7 +57,7 @@ Sometimes you don't want to look at just a single node, but at all of them.
 
 There are three ways to traverse a binary tree:
 
-1. *In-order* (or *depth-first*): first look at the left child node, then at the node itself, and finally at the right child.
+1. *In-order* (or *depth-first*): first look at the left child of a node, then at the node itself, and finally at its right child.
 2. *Pre-order*: first look at a node, then its left and right children. 
 3. *Post-order*: first look at the left and right children and process the node itself last.
 
@@ -148,9 +148,9 @@ Here's how you'd use it:
 let tree = BinarySearchTree<Int>(value: 7)
 ```
 
-The `count` property determines how many nodes are in the subtree described by this node. This doesn't just count the node's immediate children but also their children and their children's children, and so on. If this is the root node, then it counts how many nodes are in the entire tree. Initially, `count = 0`.
+The `count` property determines how many nodes are in the subtree described by this node. This doesn't just count the node's immediate children but also their children and their children's children, and so on. If this particular object is the root node, then it counts how many nodes are in the entire tree. Initially, `count = 0`.
 
-> **Note:** Because `left`, `right`, and `parent` are optionals, we can make good use of Swift's optional chaining (`?`) and nil-coalescing operators (`??`). You could also write this sort of thing with `if let` but that takes up more space.
+> **Note:** Because `left`, `right`, and `parent` are optionals, we can make good use of Swift's optional chaining (`?`) and nil-coalescing operators (`??`). You could also write this sort of thing with `if let` but that is less concise.
 
 ### Inserting nodes
 
@@ -182,7 +182,7 @@ A tree node by itself is pretty useless, so here is how you would add new nodes 
 
 Like so many other tree operations, insertion is easiest to implement with recursion. We compare the new value to the values of the existing nodes and decide whether to add it to the left branch or the right branch.
 
-If there is no more left or right child to look at, we create a new `BinarySearchTree` object for the new node and connect it to the tree by setting its `parent` property.
+If there is no more left or right child to look at, we create a `BinarySearchTree` object for the new node and connect it to the tree by setting its `parent` property.
 
 > **Note:** Because the whole point of a binary search tree is to have smaller nodes on the left and larger ones on the right, you should always insert elements at the root, to make to sure this remains a valid binary tree!
 
@@ -197,7 +197,7 @@ tree.insert(9)
 tree.insert(1)
 ```
 
-> **Note:** For reasons that will become clear later, you should insert the numbers in a somewhat random order. If you insert them in sorted order, then the tree won't have the right shape.
+> **Note:** For reasons that will become clear later, you should insert the numbers in a somewhat random order. If you insert them in sorted order, the tree won't have the right shape.
 
 For convenience, let's add an init method that calls `insert()` for all the elements in an array:
 
@@ -243,11 +243,11 @@ When you do a `print(tree)`, you should get something like this:
 
 	((1) <- 2 -> (5)) <- 7 -> ((9) <- 10)
 
-With some imagination, you should see now that this indeed corresponds to the following tree:
+The root node is in the middle. With some imagination, you should see that this indeed corresponds to the following tree:
 
 ![The tree](Images/Tree2.png)
 
-By the way, you may be wondering what happens when you insert duplicate items? We always insert those kinds of items in the right branch. Try it out!
+By the way, you may be wondering what happens when you insert duplicate items? We always insert those in the right branch. Try it out!
 
 ### Searching
 
@@ -269,7 +269,7 @@ Here is the implementation of `search()`:
 
 I hope the logic is clear: this starts at the current node (usually the root) and compares the values. If the search value is less than the node's value, we continue searching in the left branch; if the search value is greater, we dive into the right branch.
 
-Of course, if there are no more nodes to look at -- when `left` or `right` is nil -- then we return nil to indicate the search value is not in the tree. 
+Of course, if there are no more nodes to look at -- when `left` or `right` is nil -- then we return `nil` to indicate the search value is not in the tree. 
 
 > **Note:** In Swift that's very conveniently done with optional chaining; when you write `left?.search(value)` it automatically returns nil if `left` is nil. There's no need to explicitly check for this with an `if` statement.
 
@@ -299,7 +299,7 @@ Here's how to test searching:
 tree.search(5)
 tree.search(2)
 tree.search(7)
-tree.search(6)  // nil
+tree.search(6)   // nil
 ```
 
 The first three lines all return the corresponding `BinaryTreeNode` object. The last line returns `nil` because there is no node with value `6`.
@@ -426,7 +426,7 @@ We won't need it for deleting, but for completeness' sake, here is the opposite 
   }
 ```
 
-It returns the rightmost descendent of this node. We find it by following `right` pointers until we get to the end. In the above example, the rightmost descendent of node `2` is `5`. The maximum value in the entire tree is `11`, because that is the rightmost descendent of the root node `7`.
+It returns the rightmost descendent of the node. We find it by following `right` pointers until we get to the end. In the above example, the rightmost descendent of node `2` is `5`. The maximum value in the entire tree is `11`, because that is the rightmost descendent of the root node `7`.
 
 Finally, we can write the code the remove a node from the tree:
 
@@ -460,8 +460,6 @@ It doesn't look so scary after all. ;-) Here is what it does:
 
 The only tricky situation here is `// 1`. Rather than deleting the current node, we give it the successor's value and remove the successor node instead.
 
-> **Note:** What would happen if you deleted the root node? Specifically, how would you know which node becomes the new root node? It turns out you don't have to worry about that because the root never actually gets deleted. We simply give it a new value.
-
 Try it out:
 
 ```swift
@@ -481,6 +479,8 @@ But after `remove()` you get:
 	((1) <- 5) <- 7 -> ((9) <- 10)
 
 As you can see, node `5` has taken the place of `2`. In fact, if you do `print(node2)` you'll see that it now has the value `5`. We didn't actually remove the `node2` object, we just gave it a new value.
+
+> **Note:** What would happen if you deleted the root node? Specifically, how would you know which node becomes the new root node? It turns out you don't have to worry about that because the root never actually gets deleted. We simply give it a new value.
 
 Like most binary search tree operations, removing a node runs in **O(h)** time, where **h** is the height of the tree.
 
@@ -516,7 +516,7 @@ You can also calculate the *depth* of a node, which is the distance to the root.
     var edges = 0
     while case let parent? = node.parent {
       node = parent
-      ++edges
+      edges += 1
     }
     return edges
   }
@@ -624,6 +624,8 @@ We've implemented the binary tree node as a class but you can also use an enum.
 
 The difference is reference semantics versus value semantics. Making a change to the class-based tree will update that same instance in memory. But the enum-based tree is immutable -- any insertions or deletions will give you an entirely new copy of the tree. Which one is best totally depends on what you want to use it for.
 
+Here's how you'd make a binary search tree using an enum:
+
 ```swift
 public enum BinarySearchTree<T: Comparable> {
   case Empty
@@ -638,9 +640,9 @@ The enum has three cases:
 - `Leaf` for a leaf node that has no children.
 - `Node` for a node that has one or two children. This is marked `indirect` so that it can hold `BinarySearchTree` values. Without `indirect` you can't make recursive enums.
 
-> **Note:** The nodes in this binary tree don't have a reference to their parent node. That will make certain operations slightly more cumbersome to implement.
+> **Note:** The nodes in this binary tree don't have a reference to their parent node. It's not a major impediment but it will make certain operations slightly more cumbersome to implement.
 
-A usual, we'll implement most functionality recursively. We'll treat each case slightly differently. For example, this is how you could calculate the number of nodes in the tree and the height of the tree:
+A usual, we'll implement most functionality recursively. We'll treat each case of the enum slightly differently. For example, this is how you could calculate the number of nodes in the tree and the height of the tree:
 
 ```swift
   public var count: Int {
@@ -696,7 +698,7 @@ tree = tree.insert(9)
 tree = tree.insert(1)
 ```
 
-Notice that each time you insert something, you get back a completely new tree. That's why you need to assign the result back to the `tree` variable.
+Notice that each time you insert something, you get back a completely new tree object. That's why you need to assign the result back to the `tree` variable.
 
 Here is the all-important search function:
 
@@ -748,13 +750,13 @@ When you do `print(tree)` it will look something like this:
 
 	((1 <- 2 -> 5) <- 7 -> (9 <- 10 -> .))
 
-The root node is in the middle. A dot means there is no child at that position.
+The root node is in the middle; a dot means there is no child at that position.
 
 ## When the tree becomes unbalanced...
 
 A binary search tree is *balanced* when its left and right subtrees contain roughly the same number of nodes. In that case, the height of the tree is *log(n)*, where *n* is the number of nodes. That's the ideal situation.
 
-However, if one branch is significantly longer than the other, searching becomes very slow. We need to check way more values than we'd ideally have to. In the worst case, the height of the tree can become *n*. Such a tree acts more like a [linked list](../Linked List/) than a binary search tree, with performance degrading to **O(n)**. Not good!
+However, if one branch is significantly longer than the other, searching becomes very slow. We end up checking way more values than we'd ideally have to. In the worst case, the height of the tree can become *n*. Such a tree acts more like a [linked list](../Linked List/) than a binary search tree, with performance degrading to **O(n)**. Not good!
 
 One way to make the binary search tree balanced is to insert the nodes in a totally random order. On average that should balance out the tree quite nicely. But it doesn't guarantee success, nor is it always practical.
 

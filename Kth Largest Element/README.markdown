@@ -6,21 +6,21 @@ For example, the 1-st largest element is the maximum value that occurs in the ar
 
 ## The naive solution
 
-The following solution is semi-naive. Its time complexity is **O(n log n)** since it first sorts the array, and uses an additional **O(n)** space. Better solutions using heaps exist that run in **O(n)** time.
+The following solution is semi-naive. Its time complexity is **O(n log n)** since it first sorts the array, and therefore also uses additional **O(n)** space.
 
 ```swift
 func kthLargest(a: [Int], k: Int) -> Int? {
   let len = a.count
-
-  if k <= 0 || k > len || len < 1 { return nil }
-
-  let sorted = a.sort()
-
-  return sorted[len - k]
+  if k > 0 && k <= len {
+    let sorted = a.sort()
+    return sorted[len - k]
+  } else {
+    return nil
+  }
 }
 ```
 
-The `kthLargest()` function takes two parameters: the array `a` consisting of integers, and `k`. It returns the k-th largest element.
+The `kthLargest()` function takes two parameters: the array `a` consisting of integers, and `k`. It returns the *k*-th largest element.
 
 Let's take a look at an example and run through the algorithm to see how it works. Given `k = 4` and the array:
 
@@ -48,9 +48,9 @@ There is a clever algorithm that combines the ideas of [binary search](../Binary
 
 Recall that binary search splits the array in half over and over again, to quickly narrow in on the value you're searching for. That's what we'll do here too.
 
-Quicksort also splits up arrays. It uses partitioning to move all smaller values to the left of the pivot and all greater values to the right. After partitioning around a certain pivot, that pivot will already be in its final, sorted position. We can use that to our advantage here.
+Quicksort also splits up arrays. It uses partitioning to move all smaller values to the left of the pivot and all greater values to the right. After partitioning around a certain pivot, that pivot value will already be in its final, sorted position. We can use that to our advantage here.
 
-We choose a random pivot, partition the array around that pivot, and then act like a binary search and only continue in the left or right partition. This repeats until we've found a pivot that happens to end up in the *k*-th position.
+Here's how it works: We choose a random pivot, partition the array around that pivot, then act like a binary search and only continue in the left or right partition. This repeats until we've found a pivot that happens to end up in the *k*-th position.
 
 Let's look at the original example again. We're looking for the 4-th largest element in this array:
 
@@ -58,12 +58,12 @@ Let's look at the original example again. We're looking for the 4-th largest ele
 
 The algorithm is a bit easier to follow if we look for the k-th *smallest* item instead, so let's take `k = 4` and look for the 4-th smallest element.
 
-Note that we don't have to sort the array first. We pick a random pivot, let's say `11` and partition the array around that. We might end up with something like this:
+Note that we don't have to sort the array first. We pick one of the elements at random to be the pivot, let's say `11`, and partition the array around that. We might end up with something like this:
 
 	[ 7, 9, -1, 0, 6, 11, 92, 23 ]
 	 <------ smaller    larger -->
 
-As you can see, all values smaller than `11` are on the left; all values larger are on the right. The pivot value is now in its final place. The index of the pivot is 5, so the 4-th smallest element must be in the left partition somewhere. We can ignore the rest of the array from now on:
+As you can see, all values smaller than `11` are on the left; all values larger are on the right. The pivot value `11` is now in its final place. The index of the pivot is 5, so the 4-th smallest element must be in the left partition somewhere. We can ignore the rest of the array from now on:
 
 	[ 7, 9, -1, 0, 6, x, x, x ]
 
@@ -126,15 +126,15 @@ public func randomizedSelect<T: Comparable>(array: [T], order k: Int) -> T {
 }
 ```
 
-To keep things readable, it splits up the functionality into three inner functions:
+To keep things readable, the functionality is split into three inner functions:
 
 - `randomPivot()` picks a random number and puts it at the end of the current partition (this is a requirement of the Lomuto partitioning scheme, see the discussion on [quicksort](../Quicksort/) for more details).
 
 - `randomizedPartition()` is Lomuto's partitioning scheme from quicksort. When this completes, the randomly chosen pivot is in its final sorted position in the array. It returns the array index of the pivot.
 
-- `randomizedSelect()` does all the hard work. It first calls the partitioning function and then decides what to do next. If the index of the pivot is equal to the k-th number we're looking for, we're done. If `k` is less than the pivot index, it must be in the left partition and we'll recursively try again there. Likewise for when the k-th number must be in the right partition.
+- `randomizedSelect()` does all the hard work. It first calls the partitioning function and then decides what to do next. If the index of the pivot is equal to the *k*-th number we're looking for, we're done. If `k` is less than the pivot index, it must be in the left partition and we'll recursively try again there. Likewise for when the *k*-th number must be in the right partition.
 
-Pretty cool, huh?
+Pretty cool, huh? Normally quicksort is an **O(n log n)** algorithm, but because we only partition smaller and smaller slices of the array, the running time of `randomizedSelect()` works out to **O(n)**.
 
 > **Note:** This function calculates the *k*-th smallest item in the array, where *k* starts at 0. If you want the *k*-th largest item, call it with `a.count - k`.
 

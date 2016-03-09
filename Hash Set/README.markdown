@@ -11,7 +11,7 @@ If the following were arrays, they'd all be different. However, they all represe
 [1, 2, 2, 3, 1]
 ```
 
-(Because each element can appear only once, it doesn't matter how often you write it down -- only one of them counts.) 
+Because each element can appear only once, it doesn't matter how often you write the element down -- only one of them counts.
 
 > **Note:** I often prefer to use sets over arrays when I have a collection of objects but don't care what order they are in. Using a set communicates to the programmer that the order of the elements is unimportant. If you're using an array, then you can't assume the same thing.
 
@@ -135,7 +135,7 @@ let union = setA.union(setB)
 union.allElements()           // [5, 6, 2, 3, 1, 4]
 ```
 
-As you can see, the union of the two sets contains all of the elements now. The values `3` and `4` appear only once, even though they were in both sets.
+As you can see, the union of the two sets contains all of the elements now. The values `3` and `4` still appear only once, even though they were in both sets.
 
 The *intersection* of two sets contains only the elements that they have in common. Here is the code:
 
@@ -192,7 +192,7 @@ difference2.allElements()                // [5, 6]
 
 If you look at the [documentation](http://swiftdoc.org/v2.1/type/Set/) for Swift's own `Set`, you'll notice it has tons more functionality. An obvious extension would be to make `HashSet` conform to `SequenceType` so that you can iterate it with a `for`...`in` loop.
 
-Another thing you could do is replace the `Dictionary` with an actual [hash table](../Hash Table), but one that just stores the keys and doesn't associate them with anything.
+Another thing you could do is replace the `Dictionary` with an actual [hash table](../Hash Table), but one that just stores the keys and doesn't associate them with anything. So you wouldn't need the `Bool` values anymore.
 
 If you often need to look up whether an element belongs to a set and perform unions, then the [union-find](../Union-Find/) data structure may be more suitable. It uses a tree structure instead of a dictionary to make the find and union operations very efficient.
 

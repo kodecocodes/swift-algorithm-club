@@ -2,12 +2,13 @@
 
 func kthLargest(a: [Int], k: Int) -> Int? {
   let len = a.count
-  if k <= 0 || k > len || len < 1 { return nil }
-  
-  let sorted = a.sort()
-  return sorted[len - k]
+  if k > 0 && k <= len {
+    let sorted = a.sort()
+    return sorted[len - k]
+  } else {
+    return nil
+  }
 }
-
 
 let a = [5, 1, 3, 2, 7, 6, 4]
 
