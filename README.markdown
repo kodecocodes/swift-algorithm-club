@@ -74,7 +74,7 @@ Special-purpose sorts:
 - Bucket Sort
 - Counting Sort
 - Radix Sort
-- Topological Sort
+- [Topological Sort](Topological Sort/)
 
 Bad sorting algorithms (don't use these!):
 
@@ -166,7 +166,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 ### Graphs
 
-- [Graph](Graph/) :construction:
+- [Graph](Graph/)
 - [Breadth-First Search (BFS)](Breadth-First Search/)
 - [Depth-First Search (DFS)](Depth-First Search/) :construction:
 - Shortest Path
