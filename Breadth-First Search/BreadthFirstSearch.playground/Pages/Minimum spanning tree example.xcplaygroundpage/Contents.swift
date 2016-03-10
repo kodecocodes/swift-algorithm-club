@@ -1,3 +1,7 @@
+//: [Previous](@previous)
+
+//: # Minimum Spanning Tree Example
+
 func breadthFirstSearchMinimumSpanningTree(graph: Graph, source: Node) -> Graph {
   let minimumSpanningTree = graph.duplicate()
 

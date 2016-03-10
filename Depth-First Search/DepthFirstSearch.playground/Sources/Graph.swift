@@ -13,7 +13,6 @@ public class Graph : CustomStringConvertible, Equatable {
 
   public func addEdge(source: Node, neighbor: Node) {
     let edge = Edge(neighbor: neighbor)
-    edge.neighbor = neighbor
     source.neighbors.append(edge)
   }
 

@@ -1,5 +1,3 @@
-import Foundation
-
 public struct Stack<T> {
   private var array = [T]()
   
@@ -25,15 +23,5 @@ public struct Stack<T> {
   
   public func peek() -> T? {
     return array.last
-  }
-}
-
-extension Stack: SequenceType {
-  public func generate() -> AnyGenerator<T> {
-    var curr = self
-    return anyGenerator {
-      _ -> T? in
-      return curr.pop()
-    }
   }
 }
