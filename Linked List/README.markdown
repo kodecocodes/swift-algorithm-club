@@ -465,9 +465,7 @@ This loops through the entire list and simply swaps the `next` and `previous` po
 	 nil <---|        |--->|        |--->|        |--->|        |<--- head
 	         +--------+    +--------+    +--------+    +--------+
 
-You may be wondering why the last statement says `node = node!.previous` to go to the next node instead of `node!.next` like you'd expect, but remember that we just swapped those pointers!
-
-> **Note:** I couldn't find a way to make this code more Swift-like, without the forced unwrapping. Suggestions for improvements are welcome!
+You may be wondering why the last statement says `node = currentNode.previous` to go to the next node instead of `currentNode.next` like you'd expect, but remember that we just swapped those pointers!
 
 Arrays have `map()` and `filter()` functions, and there's no reason why linked lists shouldn't either.
 
