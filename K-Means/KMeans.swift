@@ -5,21 +5,24 @@
 
 import Foundation
 
-class KMeans {
+class KMeans<Label: Hashable> {
   let numCenters: Int
-  let convergeDist: Double
+  let labels: Array<Label>
+  private(set) var centroids: Array<Vector>
 
-  init(numCenters: Int, convergeDist: Double) {
-    self.numCenters = numCenters
-    self.convergeDist = convergeDist
+  init(labels: Array<Label>) {
+    assert(labels.count > 1, "Exception: KMeans with less than 2 centers.")
+    self.labels = labels
+    self.numCenters = labels.count
+    centroids = []
   }
 
-  private func nearestCenter(x: Vector, centers: [Vector]) -> Int {
+  private func nearestCenterIndex(x: Vector, centers: [Vector]) -> Int {
     var nearestDist = DBL_MAX
     var minIndex = 0
-
-    for (idx, c) in centers.enumerate() {
-      let dist = x.distTo(c)
+    
+    for (idx, center) in centers.enumerate() {
+      let dist = x.distTo(center)
       if dist < nearestDist {
         minIndex = idx
         nearestDist = dist
@@ -28,24 +31,26 @@ class KMeans {
     return minIndex
   }
   
-  func findCenters(points: [Vector]) -> [Vector] {
+  
+  
+  func trainCenters(points: [Vector], convergeDist: Double) {
+    
     var centerMoveDist = 0.0
-    let zeros = [Double](count: points[0].length, repeatedValue: 0.0)
+    let zeroVector = Vector(d: [Double](count: points[0].length, repeatedValue: 0.0))
     
     var kCenters = reservoirSample(points, k: numCenters)
     
     repeat {
-      var cnts = [Double](count: numCenters, repeatedValue: 0.0)
-      var newCenters = [Vector](count:numCenters, repeatedValue: Vector(d:zeros))
-
+      
+      var classification: Array<[Vector]> = Array(count: numCenters, repeatedValue: [])
+      
       for p in points {
-        let c = nearestCenter(p, centers: kCenters)
-        cnts[c] += 1
-        newCenters[c] += p
+        let classIndex = nearestCenterIndex(p, centers: kCenters)
+        classification[classIndex].append(p)
       }
       
-      for idx in 0..<numCenters {
-        newCenters[idx] /= cnts[idx]
+      let newCenters = classification.map { assignedPoints in
+        assignedPoints.reduce(zeroVector, combine: +) / Double(assignedPoints.count)
       }
       
       centerMoveDist = 0.0
@@ -56,7 +61,20 @@ class KMeans {
       kCenters = newCenters
     } while centerMoveDist > convergeDist
 
-    return kCenters
+    centroids = kCenters
+  }
+  
+  func fit(point: Vector) -> Label {
+    assert(!centroids.isEmpty, "Exception: KMeans tried to fit on a non trained model.")
+    
+    let centroidIndex = nearestCenterIndex(point, centers: centroids)
+    return labels[centroidIndex]
+  }
+  
+  func fit(points: [Vector]) -> [Label] {
+    assert(!centroids.isEmpty, "Exception: KMeans tried to fit on a non trained model.")
+    
+    return points.map(fit)
   }
 }
 
