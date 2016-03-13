@@ -70,5 +70,18 @@ The result of the topological sort looks like this:
 
 TODO: I don't think this is correct! There should be no arrows going from right to left! (A valid topological order would be 3, 7, 5, 10, 8, 11, 9, 2 -- or 3, 7, 5, 8, 11, 2, 9, 10.)
 
+## Alternative algorithm
 
-*Written for Swift Algorithm Club by Ali Hafizji*
+Even though depth-first search is the typical way to perform a topological sort, there is another algorithm that also does the job. 
+
+1. Find out what the in-degree is of every vertex.
+2. Put all the vertices that have no predecessors in a new array called `leaders`. These vertices have in-degree 0 and therefore do not depend on any other vertices.
+3. Go through this list of leaders and remove them one-by-one from the graph. We don't actually modify the graph, we just decrement the in-degree of the vertices they point to. That has the same effect.
+4. Look at the (former) immediate neighbor vertices of each leader. If any of them now have an in-degree of 0, then they no longer have any predecessors themselves. We'll add those vertices to the `leaders` array too.
+5. This repeats until there are no more vertices left to look at. At this point, the `leaders` array contains all the vertices in sorted order.
+
+This is an **O(n + m)** algorithm where **n** is the number of vertices and **m** is the number of edges. You can see the implementation in [TopologicalSort2.swift](TopologicalSort2.swift).
+
+I first read about this algorithm in the Algorithm Alley column in Dr. Dobb's Magazine from May 1993.
+
+*Written for Swift Algorithm Club by Ali Hafizji and Matthijs Hollemans*
