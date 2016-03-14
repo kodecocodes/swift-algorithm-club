@@ -449,10 +449,10 @@ How about reversing a list, so that the head becomes the tail and vice versa? Th
 ```swift
   public func reverse() {
     var node = head
-    while node != nil {
-      swap(&node!.next, &node!.previous)
-      head = node
-      node = node!.previous
+    while let currentNode = node {
+      swap(&currentNode.next, &currentNode.previous)
+      head = currentNode
+      node = currentNode.previous
     }
   }
 ```
