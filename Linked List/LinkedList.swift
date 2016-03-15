@@ -158,10 +158,10 @@ extension LinkedList: CustomStringConvertible {
 extension LinkedList {
   public func reverse() {
     var node = head
-    while node != nil {
-      swap(&node!.next, &node!.previous)
-      head = node
-      node = node!.previous
+    while let currentNode = node {
+        swap(&currentNode.next, &currentNode.previous)
+        head = currentNode
+        node = currentNode.previous
     }
   }
 }
