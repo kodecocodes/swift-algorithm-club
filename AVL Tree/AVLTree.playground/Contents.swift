@@ -20,11 +20,8 @@ print(tree.debugDescription)
 
 let node = tree.search(2)   // "two"
 
-let minim = tree.root?.minimum()!  // node 1
-var succ = minim!.successor()!     // node 2
-succ = succ.successor()!           // node 3
-succ = succ.successor()!           // node 4
-succ = succ.successor()!           // node 5
-succ.successor()                   // nil
-
+tree.delete(5)
 tree.delete(2)
+tree.delete(1)
+tree.delete(4)
+tree.delete(3)
