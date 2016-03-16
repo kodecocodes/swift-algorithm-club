@@ -83,28 +83,6 @@ class AVLTreeTests: XCTestCase {
         XCTAssertEqual(min?.payload,treeNode.payload)
     }
     
-    func testSuccessorOfRoot() {
-        self.tree?.autopopulateWithNodes(10)
-        let successor = self.tree?.root?.successor()
-        XCTAssertNotNil(successor, "Succesor of root, non-empty tree, not found")
-    }
-    
-    func testSuccessorOfMinimum() {
-        self.tree?.autopopulateWithNodes(10)
-        
-        let minimum = self.tree?.root?.minimum()
-        XCTAssertNotNil(minimum, "Minimum should exist here")
-        
-        let successor = minimum!.successor()
-        XCTAssertNotNil(successor, "Succesor of minimum, non-empty tree, not found")
-    }
-    
-    func testSuccessorSingleNode() {
-        let singleNode = TreeNode(key: 1, payload: "A")
-        let successor = singleNode.successor()
-        XCTAssertNil(successor, "Empty node should not have succesor")
-    }
-    
     func testDeleteExistentKey() {
         self.tree?.delete(1)
         XCTAssertNil(self.tree?.search(1), "Key should not exist anymore")
