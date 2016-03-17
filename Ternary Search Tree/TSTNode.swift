@@ -12,7 +12,7 @@ class TSTNode<Element> {
     //Member properties of a particular node.
     var key: Character
     var data: Element?
-    var isKey: Bool
+    var hasData: Bool
     
     //Children
     var left: TSTNode?, right: TSTNode?, middle: TSTNode?
@@ -21,13 +21,13 @@ class TSTNode<Element> {
     init(key: Character, data: Element?) {
         self.key = key
         self.data = data
-        self.isKey = (data != nil)
+        self.hasData = (data != nil)
     }
     
     init(key:Character) {
         self.key = key
         self.data = nil
-        self.isKey = false
+        self.hasData = false
     }
     
 }
