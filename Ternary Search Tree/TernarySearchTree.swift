@@ -8,23 +8,57 @@
 
 import Foundation
 
+
 class TernarySearchTree<Element> {
     
-    var root: TSTNode?
+    var root: TSTNode<Element>?
     
     init() {}
     
     //MARK: - Insertion
+    
     func insert(data:Element, withKey key: String) -> Bool{
-        
+        return insertNode(&root, withData: data, andKey: key, atIndex: 0)
         
     }
     
-    private func insertNode(aNode: TSTNode<Element>, withData data: Element, andKey key: String, atIndex charIndex: Int) -> Bool {
+    private func insertNode(inout aNode: TSTNode<Element>?, withData data: Element, andKey key: String, atIndex charIndex: Int) -> Bool {
         
+        //sanity check.
+        if(key.characters.count == 0) {
+            return false
+        }
+        
+        //create a new node if necessary.
+        if(aNode == nil) {
+            let index = key.startIndex.advancedBy(charIndex)
+            aNode = TSTNode<Element>(key: key[index])
+        }
+        
+        //if current char is less than the current node's char, go left
+        let index = key.startIndex.advancedBy(charIndex)
+        if(key[index] < aNode!.key) {
+            return insertNode(&aNode!.left, withData: data, andKey: key, atIndex: charIndex)
+        }
+            //if it's greater, go right.
+        else if(key[index] > aNode!.key) {
+            return insertNode(&aNode!.right, withData: data, andKey: key, atIndex: charIndex)
+        }
+            //current char is equal to the current nodes, go middle
+        else {
+            //continue down the middle.
+            if(charIndex + 1 < key.characters.count) {
+                return insertNode(&aNode!.middle, withData: data, andKey: key, atIndex: charIndex + 1)
+            }
+                //otherwise, all done.
+            else {
+                aNode!.data = data
+                aNode?.hasData = true
+                return true
+            }
+        }
     }
+    
     
     //MARK: - Finding
-    
-    
 }
