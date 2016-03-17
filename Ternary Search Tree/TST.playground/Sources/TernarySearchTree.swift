@@ -17,7 +17,7 @@ public class TernarySearchTree<Element> {
     
     //MARK: - Insertion
     
-    func insert(data:Element, withKey key: String) -> Bool{
+    public func insert(data:Element, withKey key: String) -> Bool{
         return insertNode(&root, withData: data, andKey: key, atIndex: 0)
         
     }
@@ -63,7 +63,7 @@ public class TernarySearchTree<Element> {
     //MARK: - Finding
     
     
-    func find(key:String) -> Element? {
+    public func find(key:String) -> Element? {
         return findNode(root, withKey: key, atIndex: 0)
     }
     
