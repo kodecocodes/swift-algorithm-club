@@ -94,4 +94,3 @@ class TernarySearchTree<Element> {
         }
     }
 }
-}
