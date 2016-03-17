@@ -9,11 +9,11 @@
 import Foundation
 
 
-class TernarySearchTree<Element> {
+public class TernarySearchTree<Element> {
     
     var root: TSTNode<Element>?
     
-    init() {}
+    public init() {}
     
     //MARK: - Insertion
     
