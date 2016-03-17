@@ -8,16 +8,19 @@
 
 import Foundation
 
-class TernarySearchTree {
+class TernarySearchTree<Element> {
+    
+    var root: TSTNode?
     
     init() {}
     
     //MARK: - Insertion
-    func insert(data:String) -> Bool{
+    func insert(data:Element, withKey key: String) -> Bool{
+        
         
     }
     
-    private func insertNode(aNode: TSTNode, data: String, charIndex: Int) -> Bool {
+    private func insertNode(aNode: TSTNode<Element>, withData data: Element, andKey key: String, atIndex charIndex: Int) -> Bool {
         
     }
     
