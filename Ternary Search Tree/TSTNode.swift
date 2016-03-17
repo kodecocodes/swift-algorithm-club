@@ -9,9 +9,14 @@
 import Foundation
 
 class TSTNode<Element> {
+    //Member properties of a particular node.
     var key: String
     var data: Element?
     var isKey: Bool
+    
+    //Children
+    var left: TSTNode?, right: TSTNode?, middle: TSTNode?
+    
     
     init(key: String, data: Element?) {
         self.key = key
