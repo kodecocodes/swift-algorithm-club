@@ -61,4 +61,37 @@ class TernarySearchTree<Element> {
     
     
     //MARK: - Finding
+    
+    
+    func find(key:String) -> Element? {
+        return findNode(root, withKey: key, atIndex: 0)
+    }
+    
+    
+    private func findNode(aNode: TSTNode<Element>?, withKey key: String, atIndex charIndex: Int) -> Element? {
+        
+        //Given key does not exist in tree.
+        if aNode == nil {
+            return nil
+        }
+        
+        let index = key.startIndex.advancedBy(charIndex)
+        //go left
+        if key[index] < aNode!.key {
+            return findNode(aNode!.left, withKey: key, atIndex: charIndex)
+        }
+            //go right
+        else if key[index] > aNode!.key {
+            return findNode(aNode!.right, withKey: key, atIndex: charIndex)
+        }
+            //go middle
+        else {
+            if charIndex + 1 < key.characters.count {
+                return findNode(aNode!.middle, withKey: key, atIndex: charIndex + 1)
+            } else {
+                return aNode!.data
+            }
+        }
+    }
+}
 }
