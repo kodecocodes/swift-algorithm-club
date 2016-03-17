@@ -10,4 +10,18 @@ import Foundation
 
 class TernarySearchTree {
     
+    init() {}
+    
+    //MARK: - Insertion
+    func insert(data:String) -> Bool{
+        
+    }
+    
+    private func insertNode(aNode: TSTNode, data: String, charIndex: Int) -> Bool {
+        
+    }
+    
+    //MARK: - Finding
+    
+    
 }
