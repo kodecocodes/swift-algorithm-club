@@ -1,3 +1,4 @@
 # Ternary Search Tree
 
-Work in progress. Coming soon.
+Data structure and simple test in playground has been implemented. 
+Documentation and examples coming soon!! :)
