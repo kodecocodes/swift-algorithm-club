@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 
-class LongestCommonSubsquenceTests: XCTestCase {
+class LongestCommonSubsequenceTests: XCTestCase {
     
     func testLCSwithSelfIsSelf() {
         let a = "ABCDE"

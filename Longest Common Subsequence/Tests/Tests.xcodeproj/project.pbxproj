@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4716C7AF1C93751E00F6C1C0 /* LongestCommonSubsquenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4716C7891C936E0E00F6C1C0 /* LongestCommonSubsquenceTests.swift */; };
+		4716C7AF1C93751E00F6C1C0 /* LongestCommonSubsequenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4716C7891C936E0E00F6C1C0 /* LongestCommonSubsequenceTests.swift */; };
 		4716C7B01C93751E00F6C1C0 /* LongestCommonSubsequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4716C7881C936DDD00F6C1C0 /* LongestCommonSubsequence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4716C7881C936DDD00F6C1C0 /* LongestCommonSubsequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LongestCommonSubsequence.swift; path = ../../LongestCommonSubsequence.swift; sourceTree = "<group>"; };
-		4716C7891C936E0E00F6C1C0 /* LongestCommonSubsquenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LongestCommonSubsquenceTests.swift; path = ../LongestCommonSubsquenceTests.swift; sourceTree = "<group>"; };
+		4716C7891C936E0E00F6C1C0 /* LongestCommonSubsequenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LongestCommonSubsequenceTests.swift; path = ../LongestCommonSubsequenceTests.swift; sourceTree = "<group>"; };
 		4716C7A71C93750500F6C1C0 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4716C7AB1C93750500F6C1C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -48,8 +48,8 @@
 		4716C7A81C93750500F6C1C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				4716C7891C936E0E00F6C1C0 /* LongestCommonSubsquenceTests.swift */,
 				4716C7881C936DDD00F6C1C0 /* LongestCommonSubsequence.swift */,
+				4716C7891C936E0E00F6C1C0 /* LongestCommonSubsequenceTests.swift */,
 				4716C7AB1C93750500F6C1C0 /* Info.plist */,
 			);
 			path = Tests;
@@ -121,7 +121,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4716C7AF1C93751E00F6C1C0 /* LongestCommonSubsquenceTests.swift in Sources */,
+				4716C7AF1C93751E00F6C1C0 /* LongestCommonSubsequenceTests.swift in Sources */,
 				4716C7B01C93751E00F6C1C0 /* LongestCommonSubsequence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,6 +250,7 @@
 				4716C7AE1C93750500F6C1C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
