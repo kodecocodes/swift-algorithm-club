@@ -1,5 +1,3 @@
-//: # Breadth-First Search
-
 func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
   var queue = Queue<Node>()
   queue.enqueue(source)
@@ -47,5 +45,3 @@ graph.addEdge(nodeF, neighbor: nodeG)
 
 let nodesExplored = breadthFirstSearch(graph, source: nodeA)
 print(nodesExplored)
-
-//: [Next: Shortest Path Example](@next)

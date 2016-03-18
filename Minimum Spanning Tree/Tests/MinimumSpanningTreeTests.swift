@@ -1,8 +1,8 @@
 import XCTest
 
-class BreadthFirstSearchShortestPathTests: XCTestCase {
+class MinimumSpanningTreeTests: XCTestCase {
 
-  func testShortestPathWhenGivenTree() {
+  func testMinimumSpanningTreeReturnsSameTreeWhenGivenTree() {
     let tree = Graph()
     let nodeA = tree.addNode("a")
     let nodeB = tree.addNode("b")
@@ -20,19 +20,22 @@ class BreadthFirstSearchShortestPathTests: XCTestCase {
     tree.addEdge(nodeC, neighbor: nodeG)
     tree.addEdge(nodeE, neighbor: nodeH)
 
-    let shortestPaths = breadthFirstSearchShortestPath(tree, source: nodeA)
+    let minimumSpanningTree = breadthFirstSearchMinimumSpanningTree(tree, source: nodeA)
 
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeA.label).distance, 0)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeB.label).distance, 1)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeC.label).distance, 1)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeD.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeE.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeF.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeG.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeH.label).distance, 3)
+    XCTAssertEqual(minimumSpanningTree, tree)
   }
 
-  func testShortestPathWhenGivenGraph() {
+  func testMinimumSpanningTreeReturnsMinimumSpanningTreeWhenGivenGraph() {
+    let graphAndSourceNode = createGraph()
+    let expectedMinimumSpanningTree = createMinimumSpanningTree()
+
+    let actualMinimumSpanningTree = breadthFirstSearchMinimumSpanningTree(graphAndSourceNode.graph,
+                                                                  source: graphAndSourceNode.source)
+
+    XCTAssertEqual(actualMinimumSpanningTree, expectedMinimumSpanningTree)
+  }
+
+  func createGraph() -> (graph: Graph, source: Node) {
     let graph = Graph()
 
     let nodeA = graph.addNode("a")
@@ -74,16 +77,31 @@ class BreadthFirstSearchShortestPathTests: XCTestCase {
     graph.addEdge(nodeI, neighbor: nodeG)
     graph.addEdge(nodeI, neighbor: nodeH)
 
-    let shortestPaths = breadthFirstSearchShortestPath(graph, source: nodeA)
+    return (graph, nodeA)
+  }
 
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeA.label).distance, 0)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeB.label).distance, 1)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeC.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeD.label).distance, 3)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeE.label).distance, 4)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeF.label).distance, 3)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeG.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeH.label).distance, 1)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeI.label).distance, 2)
+  func createMinimumSpanningTree() -> Graph {
+    let minimumSpanningTree = Graph()
+
+    let nodeA = minimumSpanningTree.addNode("a")
+    let nodeB = minimumSpanningTree.addNode("b")
+    let nodeC = minimumSpanningTree.addNode("c")
+    let nodeD = minimumSpanningTree.addNode("d")
+    let nodeE = minimumSpanningTree.addNode("e")
+    let nodeF = minimumSpanningTree.addNode("f")
+    let nodeG = minimumSpanningTree.addNode("g")
+    let nodeH = minimumSpanningTree.addNode("h")
+    let nodeI = minimumSpanningTree.addNode("i")
+
+    minimumSpanningTree.addEdge(nodeA, neighbor: nodeB)
+    minimumSpanningTree.addEdge(nodeA, neighbor: nodeH)
+    minimumSpanningTree.addEdge(nodeB, neighbor: nodeC)
+    minimumSpanningTree.addEdge(nodeH, neighbor: nodeG)
+    minimumSpanningTree.addEdge(nodeH, neighbor: nodeI)
+    minimumSpanningTree.addEdge(nodeC, neighbor: nodeD)
+    minimumSpanningTree.addEdge(nodeC, neighbor: nodeF)
+    minimumSpanningTree.addEdge(nodeD, neighbor: nodeE)
+
+    return minimumSpanningTree
   }
 }

@@ -170,8 +170,8 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Graph](Graph/)
 - [Breadth-First Search (BFS)](Breadth-First Search/)
 - [Depth-First Search (DFS)](Depth-First Search/) :construction:
-- Shortest Path
-- Minimum Spanning Tree
+- [Shortest Path](Shortest Path/)
+- [Minimum Spanning Tree](Minimum Spanning Tree/)
 - All Paths
 
 ## Puzzles

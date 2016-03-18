@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		83F9C9681C84437C00B3A87F /* BreadthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9C9651C84437C00B3A87F /* BreadthFirstSearch.swift */; };
-		83F9C96C1C8443E800B3A87F /* BreadthFirstSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9C96B1C8443E800B3A87F /* BreadthFirstSearchTests.swift */; };
+		83AACB441C8456D200DDAFC7 /* ShortestPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AACB431C8456D200DDAFC7 /* ShortestPathTests.swift */; };
+		83F9C96A1C84437C00B3A87F /* ShortestPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9C9671C84437C00B3A87F /* ShortestPath.swift */; };
 		83F9C9721C84449D00B3A87F /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9C96E1C84449D00B3A87F /* Graph.swift */; };
 		83F9C9741C84449D00B3A87F /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9C9701C84449D00B3A87F /* Queue.swift */; };
 /* End PBXBuildFile section */
@@ -16,8 +16,8 @@
 /* Begin PBXFileReference section */
 		7B2BBC801C779D720067B71D /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B2BBC941C779E7B0067B71D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
-		83F9C9651C84437C00B3A87F /* BreadthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BreadthFirstSearch.swift; path = ../BreadthFirstSearch.swift; sourceTree = SOURCE_ROOT; };
-		83F9C96B1C8443E800B3A87F /* BreadthFirstSearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreadthFirstSearchTests.swift; sourceTree = SOURCE_ROOT; };
+		83AACB431C8456D200DDAFC7 /* ShortestPathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortestPathTests.swift; sourceTree = SOURCE_ROOT; };
+		83F9C9671C84437C00B3A87F /* ShortestPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortestPath.swift; path = ../ShortestPath.swift; sourceTree = SOURCE_ROOT; };
 		83F9C96E1C84449D00B3A87F /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = SOURCE_ROOT; };
 		83F9C9701C84449D00B3A87F /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -52,8 +52,8 @@
 		7B2BBC831C779D720067B71D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				83F9C9651C84437C00B3A87F /* BreadthFirstSearch.swift */,
-				83F9C96B1C8443E800B3A87F /* BreadthFirstSearchTests.swift */,
+				83F9C9671C84437C00B3A87F /* ShortestPath.swift */,
+				83AACB431C8456D200DDAFC7 /* ShortestPathTests.swift */,
 				83F9C96E1C84449D00B3A87F /* Graph.swift */,
 				83F9C9701C84449D00B3A87F /* Queue.swift */,
 				7B2BBC941C779E7B0067B71D /* Info.plist */,
@@ -130,10 +130,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83AACB441C8456D200DDAFC7 /* ShortestPathTests.swift in Sources */,
 				83F9C9721C84449D00B3A87F /* Graph.swift in Sources */,
-				83F9C9681C84437C00B3A87F /* BreadthFirstSearch.swift in Sources */,
 				83F9C9741C84449D00B3A87F /* Queue.swift in Sources */,
-				83F9C96C1C8443E800B3A87F /* BreadthFirstSearchTests.swift in Sources */,
+				83F9C96A1C84437C00B3A87F /* ShortestPath.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
