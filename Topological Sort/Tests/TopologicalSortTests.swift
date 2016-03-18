@@ -18,6 +18,18 @@ extension Graph {
 
 class TopologicalSort: XCTestCase {
   
+  // The topological sort is valid if a node does not have any of its
+  // predecessors in its adjacency list.
+  func checkIsValidTopologicalSort(graph: Graph, _ a: [Graph.Node]) {
+    for i in (a.count - 1).stride(to: 0, by: -1) {
+      if let neighbors = graph.adjacencyList(forNode: a[i]) {
+        for j in (i - 1).stride(through: 0, by: -1) {
+          XCTAssertFalse(neighbors.contains(a[j]), "\(a) is not a valid topological sort")
+        }
+      }
+    }
+  }
+  
   func testTopologicalSort() {
     let graph = Graph()
     
@@ -40,51 +52,31 @@ class TopologicalSort: XCTestCase {
     graph.addEdge(fromNode: node11, toNode: node10)
     graph.addEdge(fromNode: node8, toNode: node9)
 
-    XCTAssertEqual(graph.topologicalSort(), ["5", "7", "11", "2", "3", "8", "9", "10"])
+    XCTAssertEqual(graph.topologicalSort(), ["5", "7", "11", "2", "3", "10", "8", "9"])
     XCTAssertEqual(graph.topologicalSortKahn(), ["3", "7", "5", "8", "11", "2", "9", "10"])
     XCTAssertEqual(graph.topologicalSortAlternative(), ["5", "7", "3", "8", "11", "10", "9", "2"])
   }
 
   func testTopologicalSortEdgeLists() {
     let p1 = ["A B", "A C", "B C", "B D", "C E", "C F", "E D", "F E", "G A", "G F"]
-    let s1 = ["G", "A", "B", "C", "E", "D", "F"]
-    let a1 = ["G", "A", "B", "C", "F", "E", "D"]
-    let k1 = ["G", "A", "B", "C", "F", "E", "D"]
-
     let p2 = ["B C", "C D", "C G", "B F", "D G", "G E", "F G", "F G"]
-    let s2 = ["B", "C", "D", "G", "E", "F"]
-    let a2 = ["B", "C", "F", "D", "G", "E"]
-    let k2 = ["B", "F", "C", "D", "G", "E"]
-
     let p3 = ["S V", "S W", "V T", "W T"]
-    let s3 = ["S", "V", "W", "T"]
-    let a3 = ["S", "V", "W", "T"]
-    let k3 = ["S", "V", "W", "T"]
-
     let p4 = ["5 11", "7 11", "7 8", "3 8", "3 10", "11 2", "11 9", "11 10", "8 9"]
-    let s4 = ["5", "7", "11", "2", "3", "8", "9", "10"]
-    let a4 = ["3", "7", "5", "8", "11", "2", "9", "10"]
-    let k4 = ["5", "7", "3", "8", "11", "10", "9", "2"]
 
-    let data = [
-      (p1, s1, a1, k1),
-      (p2, s2, a2, k2),
-      (p3, s3, a3, k3),
-      (p4, s4, a4, k4),
-    ]
+    let data = [ p1, p2, p3, p4 ]
 
     for d in data {
       let graph = Graph()
-      graph.loadEdgeList(d.0)
+      graph.loadEdgeList(d)
 
       let sorted1 = graph.topologicalSort()
-      XCTAssertEqual(sorted1, d.1)
+      checkIsValidTopologicalSort(graph, sorted1)
 
       let sorted2 = graph.topologicalSortKahn()
-      XCTAssertEqual(sorted2, d.2)
+      checkIsValidTopologicalSort(graph, sorted2)
 
       let sorted3 = graph.topologicalSortAlternative()
-      XCTAssertEqual(sorted3, d.3)
+      checkIsValidTopologicalSort(graph, sorted3)
     }
   }
 }

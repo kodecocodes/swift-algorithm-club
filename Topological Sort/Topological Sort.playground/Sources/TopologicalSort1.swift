@@ -1,18 +1,19 @@
 extension Graph {
   private func depthFirstSearch(source: Node, inout visited: [Node : Bool]) -> [Node] {
-    var result = [source]
-    visited[source] = true
+    var result = [Node]()
     
     if let adjacencyList = adjacencyList(forNode: source) {
       for nodeInAdjacencyList in adjacencyList {
         if let seen = visited[nodeInAdjacencyList] where !seen {
-          result += depthFirstSearch(nodeInAdjacencyList, visited: &visited)
+          result = depthFirstSearch(nodeInAdjacencyList, visited: &visited) + result
         }
       }
     }
-    return result
+    
+    visited[source] = true
+    return [source] + result
   }
-  
+
   /* Topological sort using depth-first search. */
   public func topologicalSort() -> [Node] {
     

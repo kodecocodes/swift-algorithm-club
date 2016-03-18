@@ -28,7 +28,7 @@ If we were to represent these objectives in the form of a graph it would look as
 
 ![Example](Images/Algorithms.png)
 
-If we consider each algorithm to be a vertex in the graph you can clearly see the dependencies between them. To learn something you might have to know something else first. This is exactly what topological sort is used for -- it will sort things out such that you know what to do first.
+If we consider each algorithm to be a vertex in the graph you can clearly see the dependencies between them. To learn something you might have to know something else first. This is exactly what topological sort is used for -- it will sort things out so that you know what to do first.
 
 ## How does it work?
 
@@ -36,7 +36,7 @@ If we consider each algorithm to be a vertex in the graph you can clearly see th
 
 The *in-degree* of a vertex is the number of edges pointing at that vertex. Vertices with no incoming edges have an in-degree of 0. These vertices are the starting points for the topological sort.
 
-In the context of the previous example, these vertices represent algorithms that don't have any prerequisites; you don't need to learn anything else first, hence the sort starts with them.
+In the context of the previous example, these starting vertices represent algorithms and data structures that don't have any prerequisites; you don't need to learn anything else first, hence the sort starts with them.
 
 **Step 2: Traverse the graph with depth-first search**
 
@@ -63,7 +63,7 @@ Consider the following graph:
 **Step 2:** Perform depth-first search for each starting vertex, without remembering vertices that have already been visited:
 
 ```
-Vertex 3: 3, 8, 9, 10
+Vertex 3: 3, 10, 8, 9
 Vertex 7: 7, 11, 2, 8, 9
 Vertex 5: 5, 11, 2, 9, 10
 ```
@@ -71,12 +71,12 @@ Vertex 5: 5, 11, 2, 9, 10
 **Step 3:** Filter out the vertices already visited in each previous search:
 
 ```
-Vertex 3: 3, 8, 9, 10
+Vertex 3: 3, 10, 8, 9
 Vertex 7: 7, 11, 2
 Vertex 5: 5
 ```
 
-**Step 4:** Combine the results of these three depth-first searches. The final sorted order is **5, 7, 11, 2, 3, 8, 9, 10**. (Important: we need to add the results of each subsequent search to the *front* of the list.)
+**Step 4:** Combine the results of these three depth-first searches. The final sorted order is **5, 7, 11, 2, 3, 10, 8, 9**. (Important: we need to add the results of each subsequent search to the *front* of the sorted list.)
 
 The result of the topological sort looks like this:
 
@@ -122,11 +122,13 @@ Some remarks:
 
 2. The `visited` array keeps track of whether we've already seen a vertex during the depth-first search. Initially, we set all elements to `false`.
 
-3. For each of the vertices in the `startNodes` array, perform a depth-first search. This returns an array of `Node` objects. We prepend that array to our own `result` array.
+3. For each of the vertices in the `startNodes` array, perform a depth-first search. This returns an array of sorted `Node` objects. We prepend that array to our own `result` array.
 
 4. The `result` array contains all the vertices in topologically sorted order.
 
-## Alternative method (Kahn's algorithm)
+> **Note:** For a slightly different implementation of topological sort using depth-first search, see [TopologicalSort3.swift](TopologicalSort3.swift). This uses a stack and does not require you to find all vertices with in-degree 0 first.
+
+## Kahn's algorithm
 
 Even though depth-first search is the typical way to perform a topological sort, there is another algorithm that also does the job. 
 
