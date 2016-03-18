@@ -10,8 +10,7 @@ func breadthFirstSearchMinimumSpanningTree(graph: Graph, source: Node) -> Graph 
   queue.enqueue(sourceInMinimumSpanningTree)
   sourceInMinimumSpanningTree.visited = true
 
-  while !queue.isEmpty {
-    let current = queue.dequeue()!
+  while let current = queue.dequeue() {
     for edge in current.neighbors {
       let neighborNode = edge.neighbor
       if !neighborNode.visited {
@@ -26,9 +25,11 @@ func breadthFirstSearchMinimumSpanningTree(graph: Graph, source: Node) -> Graph 
   return minimumSpanningTree
 }
 
+
 /*:
 ![Animated example of a breadth-first search](Minimum_Spanning_Tree.png)
 */
+
 
 let graph = Graph()
 

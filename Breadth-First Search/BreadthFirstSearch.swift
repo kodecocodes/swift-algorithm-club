@@ -5,8 +5,7 @@ func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
   var nodesExplored = [source.label]
   source.visited = true
   
-  while !queue.isEmpty {
-    let current = queue.dequeue()!
+  while let current = queue.dequeue() {
     for edge in current.neighbors {
       let neighborNode = edge.neighbor
       if !neighborNode.visited {

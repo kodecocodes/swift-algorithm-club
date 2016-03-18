@@ -6,8 +6,7 @@ func breadthFirstSearchShortestPath(graph: Graph, source: Node) -> Graph {
   queue.enqueue(sourceInShortestPathsGraph)
   sourceInShortestPathsGraph.distance = 0
 
-  while !queue.isEmpty {
-    let current = queue.dequeue()!
+  while let current = queue.dequeue() {
     for edge in current.neighbors {
       let neighborNode = edge.neighbor
       if !neighborNode.hasDistance {
