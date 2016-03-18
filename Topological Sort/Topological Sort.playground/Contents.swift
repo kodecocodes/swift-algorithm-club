@@ -28,5 +28,8 @@ graph.addEdge(fromNode: node8, toNode: node9)
 // using depth-first search
 graph.topologicalSort()
 
-// alternative method
-graph.topologicalSort2()
+// also using depth-first search
+graph.topologicalSortAlternative()
+
+// Kahn's algorithm
+graph.topologicalSortKahn()

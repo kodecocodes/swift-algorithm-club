@@ -75,7 +75,7 @@ Special-purpose sorts:
 - Bucket Sort
 - Counting Sort
 - Radix Sort
-- [Topological Sort](Topological Sort/) :construction:
+- [Topological Sort](Topological Sort/)
 
 Bad sorting algorithms (don't use these!):
 

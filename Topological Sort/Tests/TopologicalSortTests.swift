@@ -40,44 +40,51 @@ class TopologicalSort: XCTestCase {
     graph.addEdge(fromNode: node11, toNode: node10)
     graph.addEdge(fromNode: node8, toNode: node9)
 
-    XCTAssertEqual(graph.topologicalSort(), ["3", "8", "9", "10", "7", "11", "2", "5"])
-    XCTAssertEqual(graph.topologicalSort2(), ["3", "7", "5", "8", "11", "2", "9", "10"])
+    XCTAssertEqual(graph.topologicalSort(), ["5", "7", "11", "2", "3", "8", "9", "10"])
+    XCTAssertEqual(graph.topologicalSortKahn(), ["3", "7", "5", "8", "11", "2", "9", "10"])
+    XCTAssertEqual(graph.topologicalSortAlternative(), ["5", "7", "3", "8", "11", "10", "9", "2"])
   }
 
   func testTopologicalSortEdgeLists() {
     let p1 = ["A B", "A C", "B C", "B D", "C E", "C F", "E D", "F E", "G A", "G F"]
-    let a1 = ["G", "A", "B", "C", "F", "E", "D"]  // TODO
-    let s1 = ["G", "A", "B", "C", "F", "E", "D"]
+    let s1 = ["G", "A", "B", "C", "E", "D", "F"]
+    let a1 = ["G", "A", "B", "C", "F", "E", "D"]
+    let k1 = ["G", "A", "B", "C", "F", "E", "D"]
 
     let p2 = ["B C", "C D", "C G", "B F", "D G", "G E", "F G", "F G"]
-    let a2 = ["B", "C", "F", "D", "G", "E"]  // TODO
-    let s2 = ["B", "C", "F", "D", "G", "E"]
+    let s2 = ["B", "C", "D", "G", "E", "F"]
+    let a2 = ["B", "C", "F", "D", "G", "E"]
+    let k2 = ["B", "F", "C", "D", "G", "E"]
 
     let p3 = ["S V", "S W", "V T", "W T"]
-    let a3 = ["S", "V", "W", "T"]  // TODO
     let s3 = ["S", "V", "W", "T"]
+    let a3 = ["S", "V", "W", "T"]
+    let k3 = ["S", "V", "W", "T"]
 
     let p4 = ["5 11", "7 11", "7 8", "3 8", "3 10", "11 2", "11 9", "11 10", "8 9"]
-    let a4 = ["3", "8", "9", "10", "7", "11", "2", "5"]
-    let s4 = ["3", "7", "5", "8", "11", "2", "9", "10"]
+    let s4 = ["5", "7", "11", "2", "3", "8", "9", "10"]
+    let a4 = ["3", "7", "5", "8", "11", "2", "9", "10"]
+    let k4 = ["5", "7", "3", "8", "11", "10", "9", "2"]
 
     let data = [
-      (p1, a1, s1),
-      (p2, a2, s2),
-      (p3, a3, s3),
-      (p4, a4, s4),
+      (p1, s1, a1, k1),
+      (p2, s2, a2, k2),
+      (p3, s3, a3, k3),
+      (p4, s4, a4, k4),
     ]
 
     for d in data {
       let graph = Graph()
       graph.loadEdgeList(d.0)
 
-      // TODO: this fails the tests
-      //let sorted1 = graph.topologicalSort()
-      //XCTAssertEqual(sorted1, d.1)
+      let sorted1 = graph.topologicalSort()
+      XCTAssertEqual(sorted1, d.1)
 
-      let sorted2 = graph.topologicalSort2()
+      let sorted2 = graph.topologicalSortKahn()
       XCTAssertEqual(sorted2, d.2)
+
+      let sorted3 = graph.topologicalSortAlternative()
+      XCTAssertEqual(sorted3, d.3)
     }
   }
 }
