@@ -207,7 +207,7 @@ extension AVLTree {
     let lrFactor = lrDifference(node)
     if lrFactor > 1 {
       // left-left or left-right
-      if (lrDifference(node.leftChild) > 0) {
+      if lrDifference(node.leftChild) > 0 {
         // left-left
         nodes[0] = node
         nodes[2] = node.leftChild
@@ -270,7 +270,6 @@ extension AVLTree {
       nodes[2]?.parent = nodeParent
     }
 
-
     nodes[2]?.leftChild = nodes[1]
     nodes[1]?.parent = nodes[2]
     nodes[2]?.rightChild = nodes[0]
@@ -288,7 +287,6 @@ extension AVLTree {
 
     updateHeightUpwards(nodes[1])    // Update height from left
     updateHeightUpwards(nodes[0])    // Update height from right
-
 
     balance(nodes[2]?.parent)
   }
