@@ -50,9 +50,9 @@
 		B80894E21C852D100018730E /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				B80894E91C852DA00018730E /* Vector.swift */,
 				B80894DB1C852CFA0018730E /* KMeans.swift */,
 				B80894E31C852D100018730E /* KMeansTests.swift */,
+				B80894E91C852DA00018730E /* Vector.swift */,
 				B80894E51C852D100018730E /* Info.plist */,
 			);
 			path = Tests;
