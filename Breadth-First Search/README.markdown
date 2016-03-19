@@ -2,6 +2,8 @@
 
 Breadth-first search (BFS) is an algorithm for traversing or searching [tree](../Tree/) or [graph](../Graph/) data structures. It starts at a source node and explores the immediate neighbor nodes first, before moving to the next level neighbors.
 
+Breadth-first search can be used on both directed and undirected graphs.
+
 ## Animated example
 
 Here's how breadth-first search works on a graph:
@@ -82,8 +84,6 @@ We can show this as a tree:
 The parent of a node is the one that "discovered" that node. The root of the tree is the node you started the breadth-first search from.
 
 For an unweighted graph, this tree defines a shortest path from the starting node to every other node in the tree. So breadth-first search is one way to find the shortest path between two nodes in a graph.
-
-Breadth-first search can be used on directed and undirected graphs.
 
 ## The code
 

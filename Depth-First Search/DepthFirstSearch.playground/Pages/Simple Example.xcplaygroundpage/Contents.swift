@@ -30,7 +30,8 @@ graph.addEdge(nodeB, neighbor: nodeE)
 graph.addEdge(nodeC, neighbor: nodeF)
 graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
-
+graph.addEdge(nodeE, neighbor: nodeF)
+graph.addEdge(nodeF, neighbor: nodeG)
 
 let nodesExplored = depthFirstSearch(graph, source: nodeA)
 print(nodesExplored)
