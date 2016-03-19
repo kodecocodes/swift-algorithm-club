@@ -26,8 +26,8 @@ public class TreeNode<Key: Comparable, Payload> {
   public var payload: Payload?
 
   private var key: Key
-  private var leftChild: Node?
-  private var rightChild: Node?
+  internal var leftChild: Node?
+  internal var rightChild: Node?
   private var height: Int
   weak private var parent: Node?
 
@@ -343,6 +343,8 @@ extension AVLTree {
         } else if node.isRightChild {
           parent.rightChild = nil
         }
+
+        balance(parent)
       } else {
         // at root
         root = nil
