@@ -1,4 +1,4 @@
-# Shortest Path
+# Shortest Path (Unweighted Graph)
 
 Goal: find the shortest route to go from one node to another in a graph.
 
@@ -98,9 +98,5 @@ This will output:
 	Node(label: g, distance: 2), Node(label: h, distance: 3)
 
 > **Note:** This version of `breadthFirstSearchShortestPath()` does not actually produce the tree, it only computes the distances. See [minimum spanning tree](../Minimum Spanning Tree/) on how you can convert the graph into a tree by removing edges.
-
-## Weighted graph: Dijkstra's algorithm
-
-[Coming soon]
 
 *Written by [Chris Pilcher](https://github.com/chris-pilcher) and Matthijs Hollemans*

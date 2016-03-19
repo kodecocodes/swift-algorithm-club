@@ -169,9 +169,9 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 - [Graph](Graph/)
 - [Breadth-First Search (BFS)](Breadth-First Search/)
-- [Depth-First Search (DFS)](Depth-First Search/) :construction:
-- [Shortest Path](Shortest Path/)
-- [Minimum Spanning Tree](Minimum Spanning Tree/)
+- [Depth-First Search (DFS)](Depth-First Search/)
+- [Shortest Path](Shortest Path %28Unweighted%29/) on an unweighted tree
+- [Minimum Spanning Tree](Minimum Spanning Tree %28Unweighted%29/) on an unweighted tree
 - All Paths
 
 ## Puzzles

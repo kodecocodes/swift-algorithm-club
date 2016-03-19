@@ -1,4 +1,4 @@
-# Minimum Spanning Tree
+# Minimum Spanning Tree (Unweighted Graph)
 
 A minimum spanning tree describes a path that contains the smallest number of edges that are needed to visit every node in the graph.
 
