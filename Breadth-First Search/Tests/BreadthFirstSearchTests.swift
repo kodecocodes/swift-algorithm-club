@@ -4,6 +4,7 @@ class BreadthFirstSearchTests: XCTestCase {
 
   func testExploringTree() {
     let tree = Graph()
+
     let nodeA = tree.addNode("a")
     let nodeB = tree.addNode("b")
     let nodeC = tree.addNode("c")
@@ -12,6 +13,7 @@ class BreadthFirstSearchTests: XCTestCase {
     let nodeF = tree.addNode("f")
     let nodeG = tree.addNode("g")
     let nodeH = tree.addNode("h")
+
     tree.addEdge(nodeA, neighbor: nodeB)
     tree.addEdge(nodeA, neighbor: nodeC)
     tree.addEdge(nodeB, neighbor: nodeD)
@@ -70,7 +72,6 @@ class BreadthFirstSearchTests: XCTestCase {
     let nodesExplored = breadthFirstSearch(graph, source: nodeA)
 
     XCTAssertEqual(nodesExplored, ["a", "b", "h", "c", "g", "i", "d", "f", "e"])
-
   }
 
   func testExploringGraphWithASingleNode() {
@@ -82,4 +83,3 @@ class BreadthFirstSearchTests: XCTestCase {
     XCTAssertEqual(nodesExplored, ["a"])
   }
 }
-

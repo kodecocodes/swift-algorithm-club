@@ -20,7 +20,7 @@ With this hypothetical airline, flying from San Francisco to Moscow is cheapest 
 
 Edges can also be *directed*. So far the edges you've seen have been undirected, so if Ada knows Charles, then Charles also knows Ada. A directed edge, on the other hand, implies a one-way relationship. A directed edge from vertex X to vertex Y connects X to Y, but *not* Y to X.
 
-Continuing from the flights example, a directed edge from San Francisco to Juneau in Alaska would indicate that there is a flight from San Francisco to Juneau, but not from Juneau to San Francisco (I suppose that means you're walking back!).
+Continuing from the flights example, a directed edge from San Francisco to Juneau in Alaska would indicate that there is a flight from San Francisco to Juneau, but not from Juneau to San Francisco (I suppose that means you're walking back).
 
 ![One-way flights](Images/FlightsDirected.png)
 
@@ -68,15 +68,15 @@ Another common graph that's used by programmers is the state machine, where edge
 
 ![State machine](Images/StateMachine.png)
 
-Graphs are awesome. Facebook made a fortune from them. If you're going to learn any data structure, it should be the graph, and the vast collection of standard graph algorithms.
+Graphs are awesome. Facebook made a fortune from their social graph. If you're going to learn any data structure, it should be the graph and the vast collection of standard graph algorithms.
 
 ## Vertices and edges, oh my!
 
 In theory, a graph is just a bunch of vertex objects and a bunch of edge objects. But how do you describe these in code?
 
-There are two main strategies:
+There are two main strategies: adjacency list and adjacency matrix.
 
-**Adjacency List.** In an adjacency list implementation, each vertex stores a list of edges that originate from the vertex. For example, if vertex A has an edge to vertices B, C, and D, then vertex A would have a list containing 3 edges.
+**Adjacency List.** In an adjacency list implementation, each vertex stores a list of edges that originate from that vertex. For example, if vertex A has an edge to vertices B, C, and D, then vertex A would have a list containing 3 edges.
 
 ![Adjacency list](Images/AdjacencyList.png)
 
@@ -97,7 +97,7 @@ Let *V* be the number of vertices in the graph, and *E* the number of edges.  Th
 | Add Edge        | O(1)           | O(1)             |
 | Check Adjacency | O(V)           | O(1)             |
 
-"Checking adjacency" means that we try to determine that a given vertex is an immediate neighbor of another vertex. The time to check adjacency for an adjacency list is **O(V)**, because at worst a vertex is connected to *every* other vertex.
+"Checking adjacency" means that we try to determine that a given vertex is an immediate neighbor of another vertex. The time to check adjacency for an adjacency list is **O(V)**, because in the worst case a vertex is connected to *every* other vertex.
 
 In the case of a *sparse* graph, where each vertex is connected to only a handful of other vertices, an adjacency list is the best way to store the edges. If the graph is *dense*, where each vertex is connected to most of the other vertices, then a matrix is preferred.
 
@@ -185,7 +185,7 @@ v4.connectTo(v1, withWeight: 2.8)
 v2.connectTo(v5, withWeight: 3.2)
 ```
 
-> **Note:** There are many, many ways to implement graphs. The code given here is just one possible implementation. You probably want to tailor the graph code for each individual problem you're trying to solve. For instance, your edges may not need a `weight` property, or you may not have the need to distinguish between directed and undirected edges.
+> **Note:** There are many, many ways to implement graphs. The code given here is just one possible implementation. You probably want to tailor the graph code to each individual problem you're trying to solve. For instance, your edges may not need a `weight` property, or you may not have the need to distinguish between directed and undirected edges.
 
 ## The code: adjacency matrix
 

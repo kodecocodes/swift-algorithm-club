@@ -52,6 +52,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Brute-Force String Search](Brute-Force String Search/). A naive method.
 - [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
 - Rabin-Karp
+- [Longest Common Subsequence](Longest Common Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
 
 ### Sorting
 
@@ -74,7 +75,7 @@ Special-purpose sorts:
 - Bucket Sort
 - Counting Sort
 - Radix Sort
-- [Topological Sort](Topological Sort/) :construction:
+- [Topological Sort](Topological Sort/)
 
 Bad sorting algorithms (don't use these!):
 
@@ -98,7 +99,7 @@ Bad sorting algorithms (don't use these!):
 
 ### Machine learning
 
-- [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters. :construction:
+- [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters.
 - k-Nearest Neighbors
 - Linear Regression
 - Logistic Regression
@@ -168,9 +169,9 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 - [Graph](Graph/)
 - [Breadth-First Search (BFS)](Breadth-First Search/)
-- [Depth-First Search (DFS)](Depth-First Search/) :construction:
-- Shortest Path
-- Minimum Spanning Tree
+- [Depth-First Search (DFS)](Depth-First Search/)
+- [Shortest Path](Shortest Path %28Unweighted%29/) on an unweighted tree
+- [Minimum Spanning Tree](Minimum Spanning Tree %28Unweighted%29/) on an unweighted tree
 - All Paths
 
 ## Puzzles

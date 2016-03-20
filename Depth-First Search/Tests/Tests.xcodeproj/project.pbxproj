@@ -16,7 +16,7 @@
 		7B2BBC801C779D720067B71D /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B2BBC941C779E7B0067B71D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		83F9C96B1C8443E800B3A87F /* DepthFirstSearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepthFirstSearchTests.swift; sourceTree = SOURCE_ROOT; };
-		83F9C96E1C84449D00B3A87F /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Graph.swift; path = ../Graph.swift; sourceTree = SOURCE_ROOT; };
+		83F9C96E1C84449D00B3A87F /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = SOURCE_ROOT; };
 		FFC6E11D1C8656D10046BA79 /* DepthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DepthFirstSearch.swift; path = ../DepthFirstSearch.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 

@@ -19,7 +19,7 @@ class TreeNodeTests: XCTestCase {
 
         left = TreeNode<String,String>(key: "Name", payload: "Left")
         right = TreeNode<String,String>(key: "Name", payload: "Right")
-        root = TreeNode<String,String>(key: "Name", payload: "Root", leftChild: left, rightChild: right, parent: nil)
+        root = TreeNode<String,String>(key: "Name", payload: "Root", leftChild: left, rightChild: right, parent: nil, height: 0)
     }
     
     override func tearDown() {

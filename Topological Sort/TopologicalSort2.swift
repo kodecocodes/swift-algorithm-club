@@ -1,6 +1,6 @@
 extension Graph {
-  /* Topological sort that does not use a depth-first search. */
-  public func topologicalSort2() -> [Node] {
+  /* Topological sort using Kahn's algorithm. */
+  public func topologicalSortKahn() -> [Node] {
     var nodes = calculateInDegreeOfNodes()
 
     // Find vertices with no predecessors and puts them into a new list.

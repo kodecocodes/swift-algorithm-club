@@ -1,5 +1,3 @@
-//: # Breadth-First Search
-
 func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
   var queue = Queue<Node>()
   queue.enqueue(source)
@@ -7,9 +5,8 @@ func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
   var nodesExplored = [source.label]
   source.visited = true
 
-  while !queue.isEmpty {
-    let current = queue.dequeue()!
-    for edge in current.neighbors {
+  while let node = queue.dequeue() {
+    for edge in node.neighbors {
       let neighborNode = edge.neighbor
       if !neighborNode.visited {
         queue.enqueue(neighborNode)
@@ -22,9 +19,7 @@ func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
   return nodesExplored
 }
 
-/*:
-![Animated example of a breadth-first search](Animated_BFS.gif)
-*/
+
 
 let graph = Graph()
 
@@ -44,10 +39,9 @@ graph.addEdge(nodeB, neighbor: nodeE)
 graph.addEdge(nodeC, neighbor: nodeF)
 graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
+graph.addEdge(nodeE, neighbor: nodeF)
+graph.addEdge(nodeF, neighbor: nodeG)
 
 
 let nodesExplored = breadthFirstSearch(graph, source: nodeA)
 print(nodesExplored)
-
-//: [Next: Shortest Path Example](@next)
-
