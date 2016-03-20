@@ -431,34 +431,62 @@ It returns the rightmost descendent of the node. We find it by following `right`
 Finally, we can write the code the remove a node from the tree:
 
 ```swift
-  public func remove() {
+  public func remove() -> BinarySearchTree? {
+    let replacement: BinarySearchTree?
+
     if let left = left {
       if let right = right {
-        let successor = right.minimum()  // 1
-        value = successor.value
-        successor.remove()
+        replacement = removeNodeWithTwoChildren(left, right)  // 1
       } else {
-        reconnectParentToNode(left)      // 2
+        replacement = left           // 2
       }
-    } else if let right = right {        // 3
-      reconnectParentToNode(right)
+    } else if let right = right {    // 3
+      replacement = right
     } else {
-      reconnectParentToNode(nil)         // 4 
+      replacement = nil              // 4
     }
+    
+    reconnectParentToNode(replacement)
+
+    parent = nil
+    left = nil
+    right = nil
+
+    return replacement
   }
 ```
 
-It doesn't look so scary after all. ;-) Here is what it does:
+It doesn't look so scary after all. ;-) There are four situations to handle:
 
-1. This node has two children. It must be replaced by the smallest child that is larger than this node's value, which is the leftmost descendent of the right child, i.e. `right.minimum()`. 
-
+1. This node has two children. 
 2. This node only has a left child. The left child replaces the node.
-
 3. This node only has a right child. The right child replaces the node.
-
 4. This node has no children. We just disconnect it from its parent.
 
-The only tricky situation here is `// 1`. Rather than deleting the current node, we give it the successor's value and remove the successor node instead.
+First, we determine which node will replace the one we're removing and then we call `reconnectParentToNode()` to change the `left`, `right`, and `parent` pointers to make that happen. Since the current node is no longer part of the tree, we clean it up by setting its pointers to `nil`. Finally, we return the node that has replaced the removed one (or `nil` if this was a leaf node).
+
+The only tricky situation here is `// 1` and that logic has its own helper method:
+
+```swift
+  private func removeNodeWithTwoChildren(left: BinarySearchTree, _ right: BinarySearchTree) -> BinarySearchTree {
+    let successor = right.minimum()
+    successor.remove()
+    
+    successor.left = left
+    left.parent = successor
+    
+    if right !== successor {
+      successor.right = right
+      right.parent = successor
+    } else {
+      successor.right = nil
+    }
+    
+    return successor
+  }
+```
+
+If the node to remove has two children, it must be replaced by the smallest child that is larger than this node's value. That always happens to be the leftmost descendent of the right child, i.e. `right.minimum()`. We take that node out of its original position in the tree and put it into the place of the node we're removing.
 
 Try it out:
 
@@ -478,9 +506,9 @@ But after `remove()` you get:
 
 	((1) <- 5) <- 7 -> ((9) <- 10)
 
-As you can see, node `5` has taken the place of `2`. In fact, if you do `print(node2)` you'll see that it now has the value `5`. We didn't actually remove the `node2` object, we just gave it a new value.
+As you can see, node `5` has taken the place of `2`.
 
-> **Note:** What would happen if you deleted the root node? Specifically, how would you know which node becomes the new root node? It turns out you don't have to worry about that because the root never actually gets deleted. We simply give it a new value.
+> **Note:** What would happen if you deleted the root node? In that case, `remove()` tells you which node has become the new root. Try it out: call `tree.remove()` and see what happens.
 
 Like most binary search tree operations, removing a node runs in **O(h)** time, where **h** is the height of the tree.
 
