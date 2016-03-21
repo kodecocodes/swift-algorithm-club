@@ -4,12 +4,11 @@ import Cocoa
 import Foundation
 
 let treeOfStrings = TernarySearchTree<String>()
+let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-//Random string generator from: 
+//Random string generator from:
 //http://stackoverflow.com/questions/26845307/generate-random-alphanumeric-string-in-swift/26845710
 func randomAlphaNumericString(length: Int) -> String {
-    
-    let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     let allowedCharsCount = UInt32(allowedChars.characters.count)
     var randomString = ""
     
