@@ -62,7 +62,6 @@ for _ in (1...testCount) {
 
 for aTest in testNums {
     let data = treeOfInts.find(aTest.key)
-    
     if data == nil {
         print("TEST FAILED. Key: \(aTest.key) Data: \(aTest.data)")
     }
