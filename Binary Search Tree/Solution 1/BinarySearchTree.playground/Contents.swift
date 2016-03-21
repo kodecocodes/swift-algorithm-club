@@ -26,7 +26,7 @@ tree.maximum()
 
 if let node2 = tree.search(2) {
   node2.remove()
-  node2.value          // this is now node "5"
+  node2
   print(tree)
 }
 

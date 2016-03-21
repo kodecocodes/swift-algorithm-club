@@ -30,3 +30,22 @@ public class Graph: CustomStringConvertible {
     return nil
   }
 }
+
+extension Graph {
+  typealias InDegree = Int
+
+  func calculateInDegreeOfNodes() -> [Node : InDegree] {
+    var inDegrees = [Node : InDegree]()
+    
+    for (node, _) in adjacencyLists {
+      inDegrees[node] = 0
+    }
+    
+    for (_, adjacencyList) in adjacencyLists {
+      for nodeInList in adjacencyList {
+        inDegrees[nodeInList] = (inDegrees[nodeInList] ?? 0) + 1
+      }
+    }
+    return inDegrees
+  }
+}

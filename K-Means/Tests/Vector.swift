@@ -1,76 +1,68 @@
-//
-//  Vector.swift
-//  Tests
-//
-//  Created by John Gill on 2/29/16.
-//
-//
-
 import Foundation
 
-// Container to easily hold N Dimensional Vectors
-class Vector: CustomStringConvertible, Equatable {
-    private(set) var length = 0
-    private(set) var data = [Double]()
-    
-    init(d:[Double]) {
-        data = d
-        length = d.count
+struct Vector: CustomStringConvertible, Equatable {
+  private(set) var length = 0
+  private(set) var data: [Double]
+
+  init(_ data: [Double]) {
+    self.data = data
+    self.length = data.count
+  }
+  
+  var description: String {
+    return "Vector (\(data)"
+  }
+  
+  func distanceTo(other: Vector) -> Double {
+    var result = 0.0
+    for idx in 0..<length {
+      result += pow(data[idx] - other.data[idx], 2.0)
     }
-    
-    var description: String { return "Vector (\(data)" }
-    
-    func distTo(v2:Vector) -> Double {
-        var result = 0.0
-        for idx in 0..<self.length {
-            result += pow(self.data[idx] - v2.data[idx], 2.0)
-        }
-        return sqrt(result)
-    }
+    return sqrt(result)
+  }
 }
 
-// MARK: Vector Operators
 func ==(left: Vector, right: Vector) -> Bool {
-    for idx in 0..<left.length {
-        if left.data[idx] != right.data[idx] {
-            return false
-        }
+  for idx in 0..<left.length {
+    if left.data[idx] != right.data[idx] {
+      return false
     }
-    return true
+  }
+  return true
 }
 
 func +(left: Vector, right: Vector) -> Vector {
-    var results = [Double]()
-    for idx in 0..<left.length {
-        results.append(left.data[idx] + right.data[idx])
-    }
-    return Vector(d: results)
+  var results = [Double]()
+  for idx in 0..<left.length {
+    results.append(left.data[idx] + right.data[idx])
+  }
+  return Vector(results)
 }
 
 func +=(inout left: Vector, right: Vector) {
-    left = left + right
+  left = left + right
 }
 
 func -(left: Vector, right: Vector) -> Vector {
-    var results = [Double]()
-    for idx in 0..<left.length {
-        results.append(left.data[idx] - right.data[idx])
-    }
-    return Vector(d: results)
+  var results = [Double]()
+  for idx in 0..<left.length {
+    results.append(left.data[idx] - right.data[idx])
+  }
+  return Vector(results)
 }
 
 func -=(inout left: Vector, right: Vector) {
-    left = left - right
+  left = left - right
 }
 
 func /(left:Vector, right: Double) -> Vector  {
-    var results = [Double](count: left.length, repeatedValue: 0.0)
-    for (idx, value) in left.data.enumerate() {
-        results[idx] = value / right
-    }
-    return Vector(d: results)
+  var results = [Double](count: left.length, repeatedValue: 0)
+  for (idx, value) in left.data.enumerate() {
+    results[idx] = value / right
+  }
+  return Vector(results)
 }
 
 func /=(inout left: Vector, right: Double) {
-    left = left / right
+  left = left / right
 }

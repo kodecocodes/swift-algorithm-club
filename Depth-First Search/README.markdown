@@ -2,7 +2,25 @@
 
 Depth-first search (DFS) is an algorithm for traversing or searching [tree](../Tree/) or [graph](../Graph/) data structures. It starts at a source node and explores as far as possible along each branch before backtracking.
 
-[TODO: this is a work-in-progress]
+Depth-first search can be used on both directed and undirected graphs.
+
+## Animated example
+
+Here's how depth-first search works on a graph:
+
+![Animated example](Images/AnimatedExample.gif)
+
+Let's say we start the search from node `A`. In depth-first search we look at the starting node's first neighbor and visit that. In the example that is node `B`. Then we look at node `B`'s first neighbor and visit it. This is node `D`. Since `D` doesn't have any unvisited neighbors of its own, we backtrack to node `B` and go to its other neighbor `E`. And so on, until we've visited all the nodes in the graph.
+
+Each time we visit the first neighbor and keep going until there's nowhere left to go, and then we backtrack to a point where there are again nodes to visit. When we've backtracked all the way to node `A`, the search is complete.
+
+For the example, the nodes were visited in the order `A`, `B`, `D`, `E`, `H`, `F`, `G`, `C`.
+
+The depth-first search process can also be visualized as a tree:
+
+![Traversal tree](Images/TraversalTree.png)
+
+The parent of a node is the one that "discovered" that node. The root of the tree is the node you started the depth-first search from. Whenever there's a branch, that's where we backtracked.
 
 ## The code
 
@@ -45,20 +63,22 @@ graph.addEdge(nodeB, neighbor: nodeE)
 graph.addEdge(nodeC, neighbor: nodeF)
 graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
+graph.addEdge(nodeE, neighbor: nodeF)
+graph.addEdge(nodeF, neighbor: nodeG)
 
 let nodesExplored = depthFirstSearch(graph, source: nodeA)
 print(nodesExplored)
 ```
 
-This will output: `["a", "b", "d", "e", "h", "c", "f", "g"]`
+This will output: `["a", "b", "d", "e", "h", "f", "g", "c"]`
    
-## Applications
+## What is DFS good for?
 
 Depth-first search can be used to solve many problems, for example:
 
 * Finding connected components of a sparse graph
-* Topological sorting of nodes in a graph
+* [Topological sorting](../Topological Sort/) of nodes in a graph
 * Finding bridges of a graph (see: [Bridges](https://en.wikipedia.org/wiki/Bridge_(graph_theory)#Bridge-finding_algorithm))
 * And lots of others!
 
-*Written for Swift Algorithm Club by Paulo Tanaka*
+*Written for Swift Algorithm Club by Paulo Tanaka and Matthijs Hollemans*

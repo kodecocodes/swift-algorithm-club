@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		7B3471BB1C8F50CF008381CD /* TopologicalSortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3471BA1C8F50CF008381CD /* TopologicalSortTests.swift */; };
 		7B3471BF1C8F50DD008381CD /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3471BC1C8F50DD008381CD /* Graph.swift */; };
-		7B3471C01C8F50DD008381CD /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3471BD1C8F50DD008381CD /* Stack.swift */; };
 		7B3471C11C8F50DD008381CD /* TopologicalSort1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3471BE1C8F50DD008381CD /* TopologicalSort1.swift */; };
 		7B3471C31C8F5348008381CD /* TopologicalSort2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3471C21C8F5348008381CD /* TopologicalSort2.swift */; };
+		7BE143491C9C6A93001BC747 /* TopologicalSort3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE143481C9C6A93001BC747 /* TopologicalSort3.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,9 +19,9 @@
 		7B2BBC941C779E7B0067B71D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		7B3471BA1C8F50CF008381CD /* TopologicalSortTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopologicalSortTests.swift; sourceTree = SOURCE_ROOT; };
 		7B3471BC1C8F50DD008381CD /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Graph.swift; path = ../Graph.swift; sourceTree = SOURCE_ROOT; };
-		7B3471BD1C8F50DD008381CD /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stack.swift; path = ../Stack.swift; sourceTree = SOURCE_ROOT; };
 		7B3471BE1C8F50DD008381CD /* TopologicalSort1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopologicalSort1.swift; path = ../TopologicalSort1.swift; sourceTree = SOURCE_ROOT; };
 		7B3471C21C8F5348008381CD /* TopologicalSort2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopologicalSort2.swift; path = ../TopologicalSort2.swift; sourceTree = SOURCE_ROOT; };
+		7BE143481C9C6A93001BC747 /* TopologicalSort3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopologicalSort3.swift; path = ../TopologicalSort3.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,9 +55,9 @@
 			isa = PBXGroup;
 			children = (
 				7B3471BC1C8F50DD008381CD /* Graph.swift */,
-				7B3471BD1C8F50DD008381CD /* Stack.swift */,
 				7B3471BE1C8F50DD008381CD /* TopologicalSort1.swift */,
 				7B3471C21C8F5348008381CD /* TopologicalSort2.swift */,
+				7BE143481C9C6A93001BC747 /* TopologicalSort3.swift */,
 				7B3471BA1C8F50CF008381CD /* TopologicalSortTests.swift */,
 				7B2BBC941C779E7B0067B71D /* Info.plist */,
 			);
@@ -135,9 +135,9 @@
 			files = (
 				7B3471C31C8F5348008381CD /* TopologicalSort2.swift in Sources */,
 				7B3471BF1C8F50DD008381CD /* Graph.swift in Sources */,
-				7B3471C01C8F50DD008381CD /* Stack.swift in Sources */,
 				7B3471BB1C8F50CF008381CD /* TopologicalSortTests.swift in Sources */,
 				7B3471C11C8F50DD008381CD /* TopologicalSort1.swift in Sources */,
+				7BE143491C9C6A93001BC747 /* TopologicalSort3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
