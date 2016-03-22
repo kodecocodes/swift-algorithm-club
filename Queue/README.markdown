@@ -158,7 +158,7 @@ public struct Queue<T> {
     head += 1
 
     let percentage = Double(head)/Double(array.count)
-    if head > 20 && percentage > 0.25 {
+    if array.count > 50 && percentage > 0.25 {
       array.removeFirst(head)
       head = 0
     }
