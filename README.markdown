@@ -6,7 +6,7 @@ If you're a computer science student who needs to learn this stuff for exams -- 
 
 The goal of this project is to **explain how algorithms work**. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use but you may need to tweak it to fit into your own codebase.
 
-All code is compatible with **Xcode 7.2** and **Swift 2.1**. We'll keep this updated with the latest version of Swift.
+All code is compatible with **Xcode 7.3** and **Swift 2.2**. We'll keep this updated with the latest version of Swift.
 
 This is a work in progress. More algorithms will be added soon. :-) 
 
