@@ -23,6 +23,13 @@ extension String {
 struct Player : Comparable {
     var name: String! = String.random()
     var points = randomNum(0, max: 5000)
+    
+    init(name: String, points: Int){
+        self.name = name
+        self.points = points
+    }
+    
+    init(){}
 }
 
 // == operator for struct Player
@@ -40,6 +47,12 @@ func <(x: Player, y: Player) -> Bool {
 // prints a Player formatted with their name and number of points
 func print(player: Player){
     print("Player: \(player.name) | Points: \(player.points)")
+}
+
+func print(set: OrderedSet<Player>){
+    for i in 0..<set.count {
+        print(set[set.count - i - 1])
+    }
 }
 
 import Foundation
@@ -94,7 +107,7 @@ public struct OrderedSet<T: Comparable> {
     // returns true if and only if the item exists somewhere in the set
     public func exists(item: T) -> Bool {
         let index = findIndex(item)
-        return index != -1 && internalSet[index] == item
+        return index != -1
     }
     
     // returns the index of an item if it exists, otherwise returns -1.
@@ -110,13 +123,38 @@ public struct OrderedSet<T: Comparable> {
             } else if internalSet[mid] < item {
                 leftBound = mid + 1
             } else {
-                return mid
+                // check the mid value to see if it is the item we are looking for
+                if internalSet[mid] == item {
+                    return mid
+                }
+                
+                var j = mid
+                
+                // check right side of mid
+                while j < internalSet.count - 1 && !(internalSet[j] < internalSet[j + 1]) {
+                    if internalSet[j + 1] == item {
+                        return j + 1
+                    }
+                    
+                    j++
+                }
+                
+                
+                // check right side of mid
+                while j > 0 && !(internalSet[j] < internalSet[j - 1]) {
+                    if internalSet[j - 1] == item {
+                        return j - 1
+                    }
+                    
+                    j--
+                }
+                return -1
             }
         }
         
         return -1
     }
-
+    
     // returns the item at the given index. assertion fails if the index is out of the range
     // of [0, count)
     public subscript(index: Int) -> T {
@@ -185,9 +223,7 @@ for _ in 0..<20 {
 playerSet.insert(anotherPlayer)
 
 // print all players in order
-for i in 0..<playerSet.count {
-    print(playerSet[playerSet.count - i - 1])
-}
+print(playerSet)
 
 
 // highest and lowest players:
@@ -199,13 +235,27 @@ print("'Another Player (\(anotherPlayer.name))' is ranked at level: \(playerSet.
 
 
 
+// Example with multiple entries with the same value
 
+var repeatedSet = OrderedSet<Player>()
 
+repeatedSet.insert(Player(name:"Player 1", points: 100))
+repeatedSet.insert(Player(name: "Player 1", points: 100))
+repeatedSet.insert(Player(name: "Player 2", points: 100))
+repeatedSet.insert(Player(name: "Player 3", points: 100))
+repeatedSet.insert(Player(name: "Player 4", points: 100))
+repeatedSet.insert(Player(name: "Player 5", points: 100))
+repeatedSet.insert(Player(name: "Player 6", points: 50))
+repeatedSet.insert(Player(name: "Player 7", points: 200))
+repeatedSet.insert(Player(name: "Player 8", points: 250))
+repeatedSet.insert(Player(name: "Player 9", points: 25))
 
+print(repeatedSet)
 
-
-
-
+// find player 5
+print(repeatedSet.findIndex(Player(name: "Player 5", points: 100)))
+print(repeatedSet.findIndex(Player(name: "Random Player", points: 100)))
+print(repeatedSet.findIndex(Player(name: "Player 5", points: 1000)))
 
 
 

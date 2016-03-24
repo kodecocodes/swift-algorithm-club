@@ -12,7 +12,8 @@ public struct OrderedSet<T: Comparable> {
         internalSet = [T]() // create the internal array on init
     }
     
-    // inserts an item into the set if it doesn't exist
+    // inserts an item
+    // O(n log n)
     public mutating func insert(item: T){
         if exists(item) {
             return // don't add an item if it already exists
@@ -47,7 +48,7 @@ public struct OrderedSet<T: Comparable> {
     // returns true if and only if the item exists somewhere in the set
     public func exists(item: T) -> Bool {
         let index = findIndex(item)
-        return index != -1 && internalSet[index] == item
+        return index != -1
     }
     
     // returns the index of an item if it exists, otherwise returns -1.
@@ -63,7 +64,32 @@ public struct OrderedSet<T: Comparable> {
             } else if internalSet[mid] < item {
                 leftBound = mid + 1
             } else {
-                return mid
+                // check the mid value to see if it is the item we are looking for
+                if internalSet[mid] == item {
+                    return mid
+                }
+                
+                var j = mid
+                
+                // check right side of mid
+                while j < internalSet.count - 1 && !(internalSet[j] < internalSet[j + 1]) {
+                    if internalSet[j + 1] == item {
+                        return j + 1
+                    }
+                    
+                    j++
+                }
+                
+                
+                // check right side of mid
+                while j > 0 && !(internalSet[j] < internalSet[j - 1]) {
+                    if internalSet[j - 1] == item {
+                        return j - 1
+                    }
+                    
+                    j--
+                }
+                return -1
             }
         }
         
