@@ -65,7 +65,7 @@ Lets take a look at the insert function first. The insert function first checks 
       internalSet.append(item)
   }
 ```
-The first part of the function checks if the item is already in the set.As we'll see later on, this has an efficiency of **O(nlog n + k)**. The second part iterates through the interal array so that it can find a spot for our given item. This is at worse **O(n)**. The insert function for arrays has an efficiency of **O(nlog(n))**, thus making the insert function for our Ordered Set **O(nlog(n) + k)** where k is the number of items with the same value as the item we are inserting.
+The first part of the function checks if the item is already in the set.As we'll see later on, this has an efficiency of **O(log n + k)** where k is the number of items with the same value as the item we are inserting. The second part iterates through the interal array so that it can find a spot for our given item. This is at worse **O(n)**. The insert function for arrays has an efficiency of **O(log(n))**, thus making the insert function for our Ordered Set **O(log(n) + k)**.
 
 
 Next we have the remove function. First check if the item exists. If not, then return and no nothing. If it does exist, remove it.
@@ -80,7 +80,7 @@ Next we have the remove function. First check if the item exists. If not, then r
         internalSet.removeAtIndex(findIndex(item))
     }
 ```
-Again, because of the `exists` function, the efficiency for remove is **O(nlog(n) + k)**
+Again, because of the `exists` function, the efficiency for remove is **O(log(n) + k)**
 
 
 *Written By Zain Humayun*
