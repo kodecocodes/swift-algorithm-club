@@ -136,7 +136,7 @@ public struct OrderedSet<T: Comparable> {
                         return j + 1
                     }
                     
-                    j++
+                    j += 1
                 }
                 
                 
@@ -146,7 +146,7 @@ public struct OrderedSet<T: Comparable> {
                         return j - 1
                     }
                     
-                    j--
+                    j -= 1
                 }
                 return -1
             }
