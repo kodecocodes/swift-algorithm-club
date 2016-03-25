@@ -3,7 +3,7 @@ An Ordered Set is a collection of unique items in sorted order. Items are usuall
 For example, we could define "a" and "z" to have the same value (their lengths), but clearly "a" != "z".
 
 ## Why use an Ordered Set?
-Ordered Sets should be considered for use when you need to require keeping your collection sorted at all times, and do lookups on the collection much more freuqently than inserting or deleting items. A good example would be keeping track of the rankings of players in a scoreboard (see example 2 below). Many of the lookup operations for an Ordered Set are **O(1)**. 
+Ordered Sets should be considered for use when you require keeping your collection sorted at all times, and do lookups on the collection much more freuqently than inserting or deleting items. A good example would be keeping track of the rankings of players in a scoreboard (see example 2 below). Many of the lookup operations for an Ordered Set are **O(1)**. 
 
 ### These are Ordered Sets
 ```
@@ -26,7 +26,7 @@ This Set violates the sorted property
 ```
 
 ## The Code
-We'll start by creating our internal representation for the Ordered Set. Since the idea of a set is similar to that of an array, we will use an array to represent our set. Furthermore, since we'll need to keep our set sorted, we need to compare the individual elemants. Thus, any type must conform to the [Comparable Protocol](https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Comparable_Protocol/index.html).
+We'll start by creating our internal representation for the Ordered Set. Since the idea of a set is similar to that of an array, we will use an array to represent our set. Furthermore, since we'll need to keep our set sorted, we need to compare the individual elements. Thus, any type must conform to the [Comparable Protocol](https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Comparable_Protocol/index.html).
 
 ``` swift
 public struct OrderedSet<T: Comparable> {
@@ -68,7 +68,7 @@ Lets take a look at the insert function first. The insert function first checks 
       internalSet.append(item)
   }
 ```
-The first part of the function checks if the item is already in the set.As we'll see later on, this has an efficiency of **O(log(n) + k)** where k is the number of items with the same value as the item we are inserting. The second part iterates through the interal array so that it can find a spot for our given item. This is at worse **O(n)**. The insert function for arrays has an efficiency of **O(log(n))**, thus making the insert function for our Ordered Set **O(log(n) + k)**.
+The first part of the function checks if the item is already in the set. As we'll see later on, this has an efficiency of **O(log(n) + k)** where k is the number of items with the same value as the item we are inserting. The second part iterates through the interal array so that it can find a spot for our given item. This is at worse **O(n)**. The insert function for arrays has an efficiency of **O(nlog(n))**, thus making the insert function for our Ordered Set **O(nlog(n))**.
 
 
 Next we have the `remove` function. First check if the item exists. If not, then return and no nothing. If it does exist, remove it.
@@ -83,7 +83,7 @@ Next we have the `remove` function. First check if the item exists. If not, then
         internalSet.removeAtIndex(findIndex(item))
     }
 ```
-Again, because of the `exists` function, the efficiency for remove is **O(log(n) + k)**
+Again, because of the `removeAtIndex` function, the efficiency for remove is **O(nlog(n))**
 
 The next function is the `findIndex` function which takes in an item of type `T` and returns the index of the item if it is in the set, otherwise returns -1. 
 
@@ -194,7 +194,7 @@ Since the set is sorted, the following operations are all **O(1)**:
 Below are a few examples that can be found in the playground file.
 
 ### Example 1
-Here we create a set with random Integers. Pringint the largest/smallest 5 numbers in the set is fairly easy.
+Here we create a set with random Integers. Printing the largest/smallest 5 numbers in the set is fairly easy.
 ``` swift
 // Example 1 with type Int
 var mySet = OrderedSet<Int>()
@@ -248,7 +248,7 @@ func <(x: Player, y: Player) -> Bool {
     return x.points < y.points
 }
 ```
-The set we create will hold players. One thing to note is that two `Player`'s can each have the same value, but are not guaranteed to be equal. 
+The set we create will hold players. One thing to note is that two `Player`s can each have the same value, but are not guaranteed to be equal. 
 
 Inserting 20 random players and one player we will track of.
 ``` swift
@@ -272,7 +272,7 @@ print(playerSet.max())
 print(playerSet.min())
 ```
 
-Next we use the findIndex function to find out what rank `anotherPlayer` in comparison to the other `Player`s.
+Next we use the findIndex function to find out what rank `anotherPlayer` is.
 ``` swift
 // we'll find our player now
 print("'Another Player (\(anotherPlayer.name))' is ranked at level: \(playerSet.count - playerSet.findIndex(anotherPlayer)) with \(anotherPlayer.points) points")
