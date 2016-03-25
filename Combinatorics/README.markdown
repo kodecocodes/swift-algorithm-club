@@ -358,7 +358,7 @@ binomialCoefficient(30, 15)   // prints 155117520
 binomialCoefficient(66, 33)   // prints a very large number
 ```
 
-There's a faster approach to calculate `C(n, k)` in `O(k) time and `O(1)` extra space.
+There's a faster approach to calculate `C(n, k)` in `O(k)` time and `O(1)` extra space.
 
 The idea behind it is that the formula for `C(n, k)` is:
 
