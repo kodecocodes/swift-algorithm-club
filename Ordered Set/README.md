@@ -1,5 +1,5 @@
 # Ordered Set
-An Ordered Set is a collection of unique items in sorted order. Items are usually sorted from least to greatest. The Ordered Set data type is a representation of a [Set in Mathematics](https://en.wikipedia.org/wiki/Set_(mathematics)). It's important to keep in mind that two items can have the same *value* but still may not be equal. 
+An Ordered Set is a collection of unique items in sorted order. Items are usually sorted from least to greatest. The Ordered Set data type is a hybrid of a [Set](https://en.wikipedia.org/wiki/Set_(mathematics)), and a [Sequence](https://en.wikipedia.org/wiki/Sequence). It's important to keep in mind that two items can have the same *value* but still may not be equal. 
 For example, we could define "a" and "z" to have the same value (their lengths), but clearly "a" != "z".
 
 ## Why use an Ordered Set?
