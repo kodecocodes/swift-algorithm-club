@@ -139,8 +139,9 @@ public struct OrderedSet<T: Comparable> {
                     j += 1
                 }
                 
+                j = mid
                 
-                // check right side of mid
+                // check left side of mid
                 while j > 0 && !(internalSet[j] < internalSet[j - 1]) {
                     if internalSet[j - 1] == item {
                         return j - 1
