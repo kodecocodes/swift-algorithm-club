@@ -358,6 +358,43 @@ binomialCoefficient(30, 15)   // prints 155117520
 binomialCoefficient(66, 33)   // prints a very large number
 ```
 
+There's a faster approach to calculate `C(n, k)` in 'O(k)' time and 'O(1)' extra space.
+
+The idea behind it is that the formula for `C(n, k)` is:
+
+                   n!                      n * (n - 1) * ... * 1
+    C(n, k) = ------------- = ------------------------------------------
+              (n - k)! * k!      (n - k) * (n - k - 1) * ... * 1 * k!
+
+After reduction of fractions, we get the following formula:
+
+                   n * (n - 1) * ... * (n - k + 1)         (n - 0) * (n - 1) * ... * (n - k + 1)  
+    C(n, k) = --------------------------------------- = -----------------------------------------
+                               k!                          (k - 0) * (k - 1) * ... * 1
+
+So the following code calculates the `C(n, k)` you're looking for:
+
+```swift
+func quickBinomialCoefficient(n: Int, _ k: Int) -> Int {
+  var result = 1
+    
+  for i in 0..<k {
+    result *= (n - i)
+    result /=  (i + 1)
+  }
+  return result
+}
+```
+
+As there're the divisors for numbers from '1...k' among 'k' consecutive numbers, what is exactly we've got in the numerator of our fast formula every time we devide 'result' by '(i + 1)' we won't have a real number.
+
+Now you can calculate `C(30, 15)` without any problems:
+
+```swift
+quickbinomialCoefficient(30, 15)   // prints 155117520
+quickbinomialCoefficient(8, 2)   // prints 28
+```
+
 You may wonder what the point is in calculating these permutations and combinations, but many algorithm problems are really combinatorics problems in disguise. Often you may need to look at all possible combinations of your data to see which one gives the right solution. If that means you need to search through `n!` potential solutions, you may want to consider a different approach -- as you've seen, these numbers become huge very quickly!
 
 ## References
