@@ -4,21 +4,21 @@ For example, we could define "a" and "z" to have the same value (their lengths),
 
 ### Examples of Ordered Sets
 ```
-{1, 2, 3, 6, 8, 10, 1000}
+[1, 2, 3, 6, 8, 10, 1000]
 Where each item (Integers) has it's normal definition of value and equality
 ```
 ```
-{"a", "is", "set", "this"}
+["a", "is", "set", "this"]
 Where each item (String) has it's value equal to it's length
 ```
 
 ### These are not Ordered Sets
 ```
-{1, 1, 2, 3, 5, 8}
+[1, 1, 2, 3, 5, 8]
 This Set violates the property of uniqueness
 ```
 ```
-{1, 11, 2, 3}
+[1, 11, 2, 3]
 This Set violates the sorted property
 ```
 
@@ -65,10 +65,10 @@ Lets take a look at the insert function first. The insert function first checks 
       internalSet.append(item)
   }
 ```
-The first part of the function checks if the item is already in the set.As we'll see later on, this has an efficiency of **O(log n + k)** where k is the number of items with the same value as the item we are inserting. The second part iterates through the interal array so that it can find a spot for our given item. This is at worse **O(n)**. The insert function for arrays has an efficiency of **O(log(n))**, thus making the insert function for our Ordered Set **O(log(n) + k)**.
+The first part of the function checks if the item is already in the set.As we'll see later on, this has an efficiency of **O(log(n) + k)** where k is the number of items with the same value as the item we are inserting. The second part iterates through the interal array so that it can find a spot for our given item. This is at worse **O(n)**. The insert function for arrays has an efficiency of **O(log(n))**, thus making the insert function for our Ordered Set **O(log(n) + k)**.
 
 
-Next we have the remove function. First check if the item exists. If not, then return and no nothing. If it does exist, remove it.
+Next we have the `remove` function. First check if the item exists. If not, then return and no nothing. If it does exist, remove it.
 
 ``` swift
     // removes an item if it exists
@@ -81,6 +81,86 @@ Next we have the remove function. First check if the item exists. If not, then r
     }
 ```
 Again, because of the `exists` function, the efficiency for remove is **O(log(n) + k)**
+
+The next function is the `findIndex` function which takes in an item of type `T` and returns the index of the item if it is in the set, otherwise returns -1. 
+
+``` swift
+// returns the index of an item if it exists, otherwise returns -1.
+    public func findIndex(item: T) -> Int {
+        var leftBound = 0
+        var rightBound = count - 1
+        
+        while leftBound <= rightBound {
+            let mid = leftBound + ((rightBound - leftBound) / 2)
+            
+            if internalSet[mid] > item {
+                rightBound = mid - 1
+            } else if internalSet[mid] < item {
+                leftBound = mid + 1
+            } else {
+                // check the mid value to see if it is the item we are looking for
+                if internalSet[mid] == item {
+                    return mid
+                }
+                
+                var j = mid
+                
+                // check right side of mid
+                while j < internalSet.count - 1 && !(internalSet[j] < internalSet[j + 1]) {
+                    if internalSet[j + 1] == item {
+                        return j + 1
+                    }
+                    
+                    j += 1
+                }
+                
+                j = mid
+                
+                // check right side of mid
+                while j > 0 && !(internalSet[j] < internalSet[j - 1]) {
+                    if internalSet[j - 1] == item {
+                        return j - 1
+                    }
+                    
+                    j -= 1
+                }
+                return -1
+            }
+        }
+        
+        return -1
+    }
+```
+Since our set is sorted, we can use a binary search to quickly search for the item. If you are not familiar with the concept of binary search, we have an article all about it [here](../Binary\ Search). 
+
+Since a set can contain multiple items with the same *value*, it is important to check to see if we have the correct item.
+
+For example, consider this Ordered  Set
+```
+["a", "b", "c", "longer string", "even longer string"]
+Where the value of each String is equal to it's length.
+```
+The call `findIndex("a")` with the traditional implementation of Binary Search would give us the value of 2, however we know that "a" is located at index 0. Thus, we need to check the items with the same *value* to the right and left of the mid value.
+
+The code to check the left and right side are similar so we will only look at the code that checks the left side.
+``` swift
+    j = mid
+
+    // check right side of mid
+    while j > 0 && !(internalSet[j] < internalSet[j - 1]) {
+        if internalSet[j - 1] == item {
+            return j - 1
+        }
+                    
+        j -= 1
+    }
+    return -1
+```
+First, `j` starts at the mid value. Above, we've already checked to see that the item at index `j` is not equal to the item we are looking for. Then, we keep looping until we either reach the end of the array, or hit an element which has a lower value than the current item at index `j`. If the item at value `j - 1` is equal to the one we are looking for, we return that index, otherwise we keep decreasing `j`. Once the loop terminates, we were unable to find the item and so we return -1. 
+
+The combined runtime for this function is **O(log(n) + k)** where `n` is the length of the set, and `k` is the number of 
+items with the same *value* as the one that is being searched for. 
+
 
 
 *Written By Zain Humayun*
