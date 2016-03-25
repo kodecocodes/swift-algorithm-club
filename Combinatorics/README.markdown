@@ -370,7 +370,7 @@ After the reduction of fractions, we get the following formula:
 
                    n * (n - 1) * ... * (n - k + 1)         (n - 0) * (n - 1) * ... * (n - k + 1)
     C(n, k) = --------------------------------------- = -----------------------------------------
-                               k!                          (k - 0) * (k - 1) * ... * 1
+                               k!                          (0 + 1) * (1 + 1) * ... * (k - 1 + 1)
 
 So the following code calculates the `C(n, k)` you're looking for:
 
