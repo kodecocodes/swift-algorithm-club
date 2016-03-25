@@ -391,8 +391,8 @@ As there're the divisors for numbers from '1...k' among 'k' consecutive numbers,
 Here's how you can use it:
 
 ```swift
-quickbinomialCoefficient(30, 15)   // prints 155117520
-quickbinomialCoefficient(8, 2)   // prints 28
+quickBinomialCoefficient(30, 15)   // prints 155117520
+quickBinomialCoefficient(8, 2)   // prints 28
 ```
 
 You may wonder what the point is in calculating these permutations and combinations, but many algorithm problems are really combinatorics problems in disguise. Often you may need to look at all possible combinations of your data to see which one gives the right solution. If that means you need to search through `n!` potential solutions, you may want to consider a different approach -- as you've seen, these numbers become huge very quickly!
