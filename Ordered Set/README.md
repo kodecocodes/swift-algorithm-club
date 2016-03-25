@@ -2,7 +2,10 @@
 An Ordered Set is a collection of unique items in sorted order. Items are usually sorted from least to greatest. The Ordered Set data type is a representation of a [Set in Mathematics](https://en.wikipedia.org/wiki/Set_(mathematics)). It's important to keep in mind that two items can have the same *value* but still may not be equal. 
 For example, we could define "a" and "z" to have the same value (their lengths), but clearly "a" != "z".
 
-### Examples of Ordered Sets
+## Why use an Ordered Set?
+Ordered Sets should be considered for use when you need to require keeping your collection sorted at all times, and do lookups on the collection much more freuqently than inserting or deleting items. A good example would be keeping track of the rankings of players in a scoreboard (see example 2 below). Many of the lookup operations for an Ordered Set are **O(1)**. 
+
+### These are Ordered Sets
 ```
 [1, 2, 3, 6, 8, 10, 1000]
 Where each item (Integers) has it's normal definition of value and equality
@@ -161,6 +164,177 @@ First, `j` starts at the mid value. Above, we've already checked to see that the
 The combined runtime for this function is **O(log(n) + k)** where `n` is the length of the set, and `k` is the number of 
 items with the same *value* as the one that is being searched for. 
 
+Since the set is sorted, the following operations are all **O(1)**:
 
+```swift
+    // returns the 'maximum' or 'largest' value in the set
+    public func max() -> T! {
+        return count == 0 ? nil : internalSet[count - 1]
+    }
+    
+    // returns the 'minimum' or 'smallest' value in the set
+    public func min() -> T! {
+        return count == 0 ? nil : internalSet[0]
+    }
+    
+    // returns the k largest element in the set, if k is in the range [1, count]
+    // returns nil otherwise
+    public func kLargest(k: Int) -> T! {
+        return k > count || k <= 0 ? nil : internalSet[count - k]
+    }
+    
+    // returns the k smallest element in the set, if k is in the range [1, count]
+    // returns nil otherwise
+    public func kSmallest(k: Int) -> T! {
+        return k > count || k <= 0 ? nil : internalSet[k - 1]
+    }
+```
+
+## Examples
+Below are a few examples that can be found in the playground file.
+
+### Example 1
+Here we create a set with random Integers. Pringint the largest/smallest 5 numbers in the set is fairly easy.
+``` swift
+// Example 1 with type Int
+var mySet = OrderedSet<Int>()
+
+// insert random ints into the set
+
+for _ in 0..<50 {
+    mySet.insert(randomNum(50, max: 500))
+}
+
+print(mySet)
+
+print(mySet.max())
+print(mySet.min())
+
+// print the 5 largest values
+for k in 1..<6 {
+    print(mySet.kLargest(k))
+}
+
+// print the 5 lowest values
+for k in 1..<6 {
+    print(mySet.kSmallest(k))
+}
+```
+
+### Exmaple 2
+In this example we take a look at something a bit more interesting. We define a `Player` struct as follows:
+``` swift
+struct Player : Comparable {
+    var name: String! = String.random()
+    var points = randomNum(0, max: 5000)
+    
+    init(name: String, points: Int){
+        self.name = name
+        self.points = points
+    }
+    
+    init(){}
+}
+
+// == operator for struct Player
+// Player x is equal to Player y if and only if both players have the same name and number of points
+func ==(x: Player, y: Player) -> Bool {
+    return x.name == y.name && x.points == y.points
+}
+
+// < operator for struct Player
+// Player x is less than Player y if and only if x has less points than y
+func <(x: Player, y: Player) -> Bool {
+    return x.points < y.points
+}
+```
+The set we create will hold players. One thing to note is that two `Player`'s can each have the same value, but are not guaranteed to be equal. 
+
+Inserting 20 random players and one player we will track of.
+``` swift
+// Example 2 with type Player
+var playerSet = OrderedSet<Player>()
+
+// populate with random players.
+var anotherPlayer = Player()
+for _ in 0..<20 {
+    playerSet.insert(Player())
+}
+
+// we'll look for this player later
+playerSet.insert(anotherPlayer)
+```
+
+Next, we can find the players with the most and least amount of points very quickly.
+``` swift
+// highest and lowest players:
+print(playerSet.max())
+print(playerSet.min())
+```
+
+Next we use the findIndex function to find out what rank `anotherPlayer` in comparison to the other `Player`s.
+``` swift
+// we'll find our player now
+print("'Another Player (\(anotherPlayer.name))' is ranked at level: \(playerSet.count - playerSet.findIndex(anotherPlayer)) with \(anotherPlayer.points) points")
+```
+
+### Example 3
+The final example demonstrates the need to look for the right item even after the Binary Search has completed. 9 Players are inserted into the set.
+``` swift
+
+var repeatedSet = OrderedSet<Player>()
+
+repeatedSet.insert(Player(name:"Player 1", points: 100))
+repeatedSet.insert(Player(name: "Player 1", points: 100))
+repeatedSet.insert(Player(name: "Player 2", points: 100))
+repeatedSet.insert(Player(name: "Player 3", points: 100))
+repeatedSet.insert(Player(name: "Player 4", points: 100))
+repeatedSet.insert(Player(name: "Player 5", points: 100))
+repeatedSet.insert(Player(name: "Player 6", points: 50))
+repeatedSet.insert(Player(name: "Player 7", points: 200))
+repeatedSet.insert(Player(name: "Player 8", points: 250))
+repeatedSet.insert(Player(name: "Player 9", points: 25))
+
+print(repeatedSet)
+```
+
+The set looks something like this:
+```
+[Player 9, Player 6, Player 1, Player 2, Player 3, Player 4, Player 5, Player 7, Player 8]
+```
+
+The next line looks for `Player 2`:
+``` swift
+print(repeatedSet.findIndex(Player(name: "Player 2", points: 100)))
+```
+
+After the Binary Search finishes, the value of `mid` is at index 5
+```
+[Player 9, Player 6, Player 1, Player 2, Player 3, Player 4, Player 5, Player 7, Player 8]
+                                                      mid
+```
+However, we know this may not be where `Player 2` is, so we check both sides of `mid`. The shown Players below are the ones with the same value as `Player 4`, and are the ones we check after the Binary Search.
+
+```
+[X, X, Player 1, Player 2, Player 3, Player 4, Player 5, X, X]
+                                       mid 
+```
+
+The code then checks the right of `mid` (Every `Player` with an * below it)
+```
+[X, X, Player 1, Player 2, Player 3, Player 4, Player 5, X, X]
+                                       mid        *
+```
+
+The right side did not contain the item, so we look at the left side.
+```
+[X, X, Player 1, Player 2, Player 3, Player 4, Player 5, X, X]
+                              *        mid        
+```
+```
+[X, X, Player 1, Player 2, Player 3, Player 4, Player 5, X, X]
+                    *                  mid        
+```
+We've found `Player 2`! Index 3 is then returned. 
 
 *Written By Zain Humayun*
