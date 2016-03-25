@@ -386,7 +386,7 @@ func quickBinomialCoefficient(n: Int, _ k: Int) -> Int {
 }
 ```
 
-As there're the divisors for numbers from '1...k' among 'k' consecutive numbers, what is exactly we've got in the numerator of our fast formula every time we devide 'result' by '(i + 1)' we won't have a real number.
+As there're the divisors for numbers from `1...k` among `k` consecutive numbers, what is exactly we've got in the numerator of our fast formula every time we devide `result` by `(i + 1)` we won't have a real number.
 
 Here's how you can use it:
 
