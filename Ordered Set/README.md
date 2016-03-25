@@ -116,7 +116,7 @@ The next function is the `findIndex` function which takes in an item of type `T`
                 
                 j = mid
                 
-                // check right side of mid
+                // check left side of mid
                 while j > 0 && !(internalSet[j] < internalSet[j - 1]) {
                     if internalSet[j - 1] == item {
                         return j - 1
@@ -146,7 +146,7 @@ The code to check the left and right side are similar so we will only look at th
 ``` swift
     j = mid
 
-    // check right side of mid
+    // check left side of mid
     while j > 0 && !(internalSet[j] < internalSet[j - 1]) {
         if internalSet[j - 1] == item {
             return j - 1
