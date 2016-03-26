@@ -19,12 +19,6 @@ public struct OrderedSet<T: Comparable> {
             return // don't add an item if it already exists
         }
         
-        // if the set is initially empty, we need to simply append the item to internalSet
-        if count == 0 {
-            internalSet.append(item)
-            return
-        }
-        
         for i in 0..<count {
             if internalSet[i] > item {
                 internalSet.insert(item, atIndex: i)

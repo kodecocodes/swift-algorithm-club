@@ -77,13 +77,7 @@ public struct OrderedSet<T: Comparable> {
         if exists(item) {
             return // don't add an item if it already exists
         }
-        
-        // if the set is initially empty, we need to simply append the item to internalSet
-        if count == 0 {
-            internalSet.append(item)
-            return
-        }
-        
+
         for i in 0..<count {
             if internalSet[i] > item {
                 internalSet.insert(item, atIndex: i)
@@ -257,9 +251,6 @@ print(repeatedSet)
 print(repeatedSet.findIndex(Player(name: "Player 5", points: 100)))
 print(repeatedSet.findIndex(Player(name: "Random Player", points: 100)))
 print(repeatedSet.findIndex(Player(name: "Player 5", points: 1000)))
-
-
-
 
 
 
