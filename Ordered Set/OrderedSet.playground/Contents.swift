@@ -72,7 +72,6 @@ public struct OrderedSet<T: Comparable> {
     }
     
     // inserts an item
-    // O(n log n)
     public mutating func insert(item: T){
         if exists(item) {
             return // don't add an item if it already exists
