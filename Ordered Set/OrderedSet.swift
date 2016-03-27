@@ -13,7 +13,7 @@ public struct OrderedSet<T: Comparable> {
     return internalSet.count
   }
 
-  // Inserts an item. Performance: O(n log n)
+  // Inserts an item. Performance: O(n)
   public mutating func insert(item: T){
     if exists(item) {
       return  // don't add an item if it already exists
@@ -31,7 +31,7 @@ public struct OrderedSet<T: Comparable> {
     internalSet.append(item)
   }
 
-  // Removes an item if it exists.
+  // Removes an item if it exists. Performance: O(n)
   public mutating func remove(item: T) {
     if let index = indexOf(item) {
       internalSet.removeAtIndex(index)

@@ -77,7 +77,7 @@ As we'll see later on, checking if the item is already in the set has an efficie
 
 To insert the new item, the `for` loop starts from the beginning of the array, and checks to see if each item is larger than the item we want to insert. Once we find such an item, we insert the new one into its place. This shifts the rest of the array over to the right by 1 position. This loop is at worst **O(n)**.
 
-The total performance of the `insert()` function is therefore **O(n log(n))**.
+The total performance of the `insert()` function is therefore **O(n)**.
 
 Next up is the `remove()` function:
 
@@ -89,7 +89,7 @@ Next up is the `remove()` function:
   }
 ```
 
-First this checks if the item exists and then removes it from the array. Because of the `removeAtIndex()` function, the efficiency for remove is **O(n log(n))**.
+First this checks if the item exists and then removes it from the array. Because of the `removeAtIndex()` function, the efficiency for remove is **O(n)**.
 
 The next function is `indexOf()`, which takes in an object of type `T` and returns the index of the corresponding item if it is in the set, or `nil` if it is not. Since our set is sorted, we can use a binary search to quickly search for the item. 
 
