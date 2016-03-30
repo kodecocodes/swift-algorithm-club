@@ -5,27 +5,22 @@ Goal: To sort an array from the lowest to highest value (or highest to lowest).
 You are given an array of unsorted values. The BubbleSort algorithm works as follows:
 
 ```swift
-   for var j = 0; j < array.count; j++ 
+   for in j = 0; j < array.count; j++ 
       {
-         for var i = 0; i < array.count; i++ 
+         for in i = 0; 0 < array.count - 1; i++ 
          {
-            var current = array[i]
             
-            if i + 1 < array.count
-            {
                if current > array[i + 1] 
                {
-                  array[i] = array[i + 1]
-                  
-                  array[i + 1] = current
+                  swap(&array[i], &array[j])
                }
-            }
+            
          }
       }
 ```
 This code can be tested with the following:
 ```swift
-var test: [Int] = [3, 2, 9, 6, 5]
+in test: [Int] = [3, 2, 9, 6, 5]
 bubbleSort(test)
 ```
 Here is how it works.
