@@ -304,7 +304,43 @@ combinations(28, 5)    // prints 98280
 
 Because this uses the `permutations()` and `factorial()` functions under the hood, you're still limited by how large these numbers can get. For example, `combinations(30, 15)` is "only" `155,117,520` but because the intermediate results don't fit into a 64-bit integer, you can't calculate it with the given function.
 
-Here is an algorithm that uses dynamic programming to overcome the need for calculating factorials. It is based on Pascal's triangle:
+There's a faster approach to calculate `C(n, k)` in **O(k)** time and **O(1)** extra space. The idea behind it is that the formula for `C(n, k)` is:
+
+                   n!                      n * (n - 1) * ... * 1
+    C(n, k) = ------------- = ------------------------------------------
+              (n - k)! * k!      (n - k) * (n - k - 1) * ... * 1 * k!
+
+After the reduction of fractions, we get the following formula:
+
+                   n * (n - 1) * ... * (n - k + 1)         (n - 0) * (n - 1) * ... * (n - k + 1)
+    C(n, k) = --------------------------------------- = -----------------------------------------
+                               k!                          (0 + 1) * (1 + 1) * ... * (k - 1 + 1)
+
+We can implement this formula as follows:
+
+```swift
+func quickBinomialCoefficient(n: Int, _ k: Int) -> Int {
+  var result = 1
+  for i in 0..<k {
+    result *= (n - i)
+    result /= (i + 1)
+  }
+  return result
+}
+```
+
+This algorithm can create larger numbers than the previous method. Instead of calculating the entire numerator (a potentially huge number) and then dividing it by the factorial (also a very large number), here we already divide in each step. That causes the temporary results to grow much less quickly.
+
+Here's how you can use this improved algorithm:
+
+```swift
+quickBinomialCoefficient(8, 2)     // prints 28
+quickBinomialCoefficient(30, 15)   // prints 155117520
+```
+
+This new method is quite fast but you're still limited in how large the numbers can get. You can calculate `C(30, 15)` without any problems, but something like `C(66, 33)` will still cause integer overflow in the numerator.
+
+Here is an algorithm that uses dynamic programming to overcome the need for calculating factorials and doing divisions. It is based on Pascal's triangle:
 
 	0:               1
 	1:             1   1
@@ -351,10 +387,9 @@ func binomialCoefficient(n: Int, _ k: Int) -> Int {
 
 This uses [Array2D](../Array2D/) as helper code because Swift doesn't have a built-in two-dimensional array. The algorithm itself is quite simple: the first loop fills in the 1s at the outer edges of the triangle. The other loops calculate each number in the triangle by adding up the two numbers from the previous row.
 
-Now you can calculate `C(30, 15)` without any problems:
+Now you can calculate `C(66, 33)` without any problems:
 
 ```swift
-binomialCoefficient(30, 15)   // prints 155117520
 binomialCoefficient(66, 33)   // prints a very large number
 ```
 
@@ -364,4 +399,4 @@ You may wonder what the point is in calculating these permutations and combinati
 
 Wirth's and Sedgewick's permutation algorithms and the code for counting permutations and combinations are based on the Algorithm Alley column from Dr.Dobb's Magazine, June 1993. The dynamic programming binomial coefficient algorithm is from The Algorithm Design Manual by Skiena.
 
-*Written for Swift Algorithm Club by Matthijs Hollemans*
+*Written for Swift Algorithm Club by Matthijs Hollemans and [Kanstantsin Linou](https://github.com/nuts23)*

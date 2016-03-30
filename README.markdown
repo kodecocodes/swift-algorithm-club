@@ -163,7 +163,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Bloom Filter](Bloom Filter/). A constant-memory data structure that probabilistically tests whether an element is in a set.
 - [Hash Set](Hash Set/). A set implemented using a hash table.
 - Multiset
-- Ordered Set
+- [Ordered Set](Ordered Set/). A set where the order of items matters.
 
 ### Graphs
 

@@ -81,6 +81,20 @@ func combinations(n: Int, _ k: Int) -> Int {
 /*
   Calculates C(n, k), or "n-choose-k", i.e. the number of ways to choose
   k things out of n possibilities.
+*/
+func quickBinomialCoefficient(n: Int, _ k: Int) -> Int {
+  var result = 1
+    
+  for i in 0..<k {
+    result *= (n - i)
+    result /= (i + 1)
+  }
+  return result
+}
+
+/*
+  Calculates C(n, k), or "n-choose-k", i.e. the number of ways to choose
+  k things out of n possibilities.
 
   Thanks to the dynamic programming, this algorithm from Skiena allows for
   the calculation of much larger numbers, at the cost of temporary storage

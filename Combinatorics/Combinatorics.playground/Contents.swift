@@ -117,6 +117,24 @@ for i in 1...20 {
 
 
 
+/*
+  Calculates C(n, k), or "n-choose-k", i.e. the number of ways to choose
+  k things out of n possibilities.
+*/
+func quickBinomialCoefficient(n: Int, _ k: Int) -> Int {
+  var result = 1
+    
+  for i in 0..<k {
+    result *= (n - i)
+    result /= (i + 1)
+  }
+  return result
+}
+
+quickBinomialCoefficient(8, 2)
+quickBinomialCoefficient(30, 15)
+
+
 
 /* Supporting code because Swift doesn't have a built-in 2D array. */
 struct Array2D<T> {
@@ -165,3 +183,4 @@ func binomialCoefficient(n: Int, _ k: Int) -> Int {
 
 binomialCoefficient(30, 15)
 binomialCoefficient(66, 33)
+
