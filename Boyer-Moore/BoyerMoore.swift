@@ -40,7 +40,7 @@ extension String {
           // pattern, we can skip ahead by the full pattern length. However, if
           // the character *is* present in the pattern, there may be a match up
           // ahead and we can't skip as far.
-          i = i.advancedBy(skipTable[c] ?? patternLength)
+          i = i.advancedBy(skipTable[c] ?? patternLength, limit: self.endIndex)
           break
         }
 

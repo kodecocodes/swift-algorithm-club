@@ -21,7 +21,7 @@ extension String {
         let c = self[i]
 
         if c != pattern[p] {
-          i = i.advancedBy(skipTable[c] ?? patternLength)
+          i = i.advancedBy(skipTable[c] ?? patternLength, limit: self.endIndex)
           break
         }
 
