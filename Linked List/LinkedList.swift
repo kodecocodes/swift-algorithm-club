@@ -159,9 +159,9 @@ extension LinkedList {
   public func reverse() {
     var node = head
     while let currentNode = node {
-        node = currentNode.next
-        swap(&currentNode.next, &currentNode.previous)
-        head = currentNode
+      node = currentNode.next
+      swap(&currentNode.next, &currentNode.previous)
+      head = currentNode
     }
   }
 }
