@@ -3,7 +3,7 @@
 public class LinkedListNode<T> {
   var value: T
   var next: LinkedListNode?
-  var previous: LinkedListNode?
+  weak var previous: LinkedListNode?
 
   public init(value: T) {
     self.value = value
@@ -155,10 +155,10 @@ extension LinkedList: CustomStringConvertible {
 extension LinkedList {
   public func reverse() {
     var node = head
-    while node != nil {
-      swap(&node!.next, &node!.previous)
-      head = node
-      node = node!.previous
+    while let currentNode = node {
+      node = currentNode.next
+      swap(&currentNode.next, &currentNode.previous)
+      head = currentNode
     }
   }
 }

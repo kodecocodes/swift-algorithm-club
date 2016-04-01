@@ -58,7 +58,7 @@ We'll start by defining a type to describe the nodes:
 public class LinkedListNode<T> {
   var value: T
   var next: LinkedListNode?
-  var previous: LinkedListNode?
+  weak var previous: LinkedListNode?
 
   public init(value: T) {
     self.value = value
@@ -69,6 +69,8 @@ public class LinkedListNode<T> {
 This is a generic type, so `T` can be any kind of data that you'd like to store in the node. We'll be using strings in the examples that follow.
 
 Ours is a doubly-linked list and each node has a `next` and `previous` pointer. These can be `nil` if there are no next or previous nodes, so these variables must be optionals. (In what follows, I'll point out which functions would need to change if this was just a singly- instead of a doubly-linked list.)
+
+> **Note:** To avoid ownership cycles, we declare the `previous` pointer to be weak. If you have a node `A` that is followed by node `B` in the list, then `A` points to `B` but also `B` points to `A`. In certain circumstances, this ownership cycle can cause nodes to be kept alive even after you deleted them. We don't want that, so we make one of the pointers `weak` to break the cycle.
 
 Let's start building `LinkedList`. Here's the first bit:
 
@@ -450,9 +452,9 @@ How about reversing a list, so that the head becomes the tail and vice versa? Th
   public func reverse() {
     var node = head
     while let currentNode = node {
+      node = currentNode.next
       swap(&currentNode.next, &currentNode.previous)
       head = currentNode
-      node = currentNode.previous
     }
   }
 ```
@@ -464,8 +466,6 @@ This loops through the entire list and simply swaps the `next` and `previous` po
 	         | node 0 |    | node 1 |    | node 2 |    | node 3 |
 	 nil <---|        |--->|        |--->|        |--->|        |<--- head
 	         +--------+    +--------+    +--------+    +--------+
-
-You may be wondering why the last statement says `node = currentNode.previous` to go to the next node instead of `currentNode.next` like you'd expect, but remember that we just swapped those pointers!
 
 Arrays have `map()` and `filter()` functions, and there's no reason why linked lists shouldn't either.
 
