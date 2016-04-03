@@ -138,3 +138,45 @@ The closer a character is to the end of the pattern, the smaller the skip amount
 Credits: This code is based on the article ["Faster String Searches" by Costas Menico](http://www.drdobbs.com/database/faster-string-searches/184408171) from Dr Dobb's magazine, July 1989 -- Yes, 1989! Sometimes it's useful to keep those old magazines around.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*
+
+## Boyer-Moore-Horspool Algorithm
+
+In addition to the above algorithm, there is also a revised one called [Boyer-Moore–Horspool algorithm](https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore%E2%80%93Horspool_algorithm), which always and only uses "bad-character shift" (`skipTable`) and not "good-suffix shift" (see [here](http://www.inf.fh-flensburg.de/lang/algorithmen/pattern/bmen.htm) for more information).
+
+Boyer–Moore–Horspool algorithm works as follows:
+
+```swift
+extension String {
+  public func indexOf(pattern: String) -> String.Index?
+  {
+    let patternLength = pattern.characters.count
+    assert(patternLength > 0)
+    assert(patternLength <= self.characters.count)
+
+    var skipTable = [Character: Int]()
+    for (i, c) in pattern.characters.dropLast().enumerate() {
+      skipTable[c] = patternLength - i - 1
+    }
+
+    var index = self.startIndex.advancedBy(patternLength - 1)
+
+    while index < self.endIndex {
+      var i = index
+      var p = pattern.endIndex.predecessor()
+
+      while self[i] == pattern[p] {
+        if p == pattern.startIndex { return i }
+        i = i.predecessor()
+        p = p.predecessor()
+      }
+
+      let advance = skipTable[self[index]] ?? patternLength
+      index = index.advancedBy(advance)
+    }
+
+    return nil
+  }
+}
+```
+
+Credits: This code is based on the paper: [R. N. Horspool (1980). "Practical fast searching in strings". Software - Practice & Experience 10 (6): 501–506.](http://www.cin.br/~paguso/courses/if767/bib/Horspool_1980.pdf)
