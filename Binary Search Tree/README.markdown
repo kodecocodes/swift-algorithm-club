@@ -428,7 +428,7 @@ We won't need it for deleting, but for completeness' sake, here is the opposite 
 
 It returns the rightmost descendent of the node. We find it by following `right` pointers until we get to the end. In the above example, the rightmost descendent of node `2` is `5`. The maximum value in the entire tree is `11`, because that is the rightmost descendent of the root node `7`.
 
-Finally, we can write the code the remove a node from the tree:
+Finally, we can write the code that removes a node from the tree:
 
 ```swift
   public func remove() -> BinarySearchTree? {
@@ -670,7 +670,7 @@ The enum has three cases:
 
 > **Note:** The nodes in this binary tree don't have a reference to their parent node. It's not a major impediment but it will make certain operations slightly more cumbersome to implement.
 
-A usual, we'll implement most functionality recursively. We'll treat each case of the enum slightly differently. For example, this is how you could calculate the number of nodes in the tree and the height of the tree:
+As usual, we'll implement most functionality recursively. We'll treat each case of the enum slightly differently. For example, this is how you could calculate the number of nodes in the tree and the height of the tree:
 
 ```swift
   public var count: Int {
