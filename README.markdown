@@ -145,11 +145,11 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [AVL Tree](AVL Tree/). A binary search tree that balances itself using rotations. :construction:
 - [Red-Black Tree](Red\ Black\ Tree/) :construction:
 - Splay Tree
-- Threaded Binary Tree
+- [Threaded Binary Tree](Threaded\ Binary\ Tree/) :construction:
 - [Segment Tree](Segment Tree/). Can quickly compute a function over a portion of an array.
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
-- Fibonacci Heap
+- [Fibonacci Heap](Fibonacci\ Heap/) :construction:
 - Trie
 - [B-Tree](B Tree/) :construction:
 
