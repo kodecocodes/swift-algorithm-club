@@ -73,8 +73,8 @@ Fast sorts:
 Special-purpose sorts:
 
 - Bucket Sort
-- Counting Sort
-- Radix Sort
+- [Counting Sort](Counting Sort) :construction:
+- [Radix Sort](Radix Sort/) :construction:
 - [Topological Sort](Topological Sort/)
 
 Bad sorting algorithms (don't use these!):
@@ -150,7 +150,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - [Fibonacci Heap](Fibonacci\ Heap/) :construction:
-- Trie
+- [Trie](Trie/) :construction:
 - [B-Tree](B Tree/) :construction:
 
 ### Hashing
