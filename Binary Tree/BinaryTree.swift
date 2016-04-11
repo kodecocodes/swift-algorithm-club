@@ -53,3 +53,13 @@ extension BinaryTree {
     }
   }
 }
+
+extension BinaryTree {
+  func invert() -> BinaryTree {
+    if case let .Node(left, value, right) = self {
+      return .Node(right.invert(), value, left.invert())
+    } else {
+      return .Empty
+    }
+  }
+}
