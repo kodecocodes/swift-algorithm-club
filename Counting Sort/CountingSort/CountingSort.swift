@@ -1,6 +1,11 @@
-//: Playground - noun: a place where people can play
+//
+//  Sort.swift
+//  test
+//
+//  Created by Kauserali on 11/04/16.
+//  Copyright © 2016 Ali Hafizji. All rights reserved.
+//
 
-import UIKit
 import Foundation
 
 enum CountingSortError: ErrorType {
@@ -40,5 +45,3 @@ func countingSort(array: [Int]) throws-> Array<Int> {
   }
   return sortedArray
 }
-
-try countingSort([10, 9, 8, 7, 1, 2, 3, 4, 5])
