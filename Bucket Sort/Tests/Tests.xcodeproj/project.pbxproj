@@ -7,16 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		761476CC1CB51A8400E00457 /* BucketSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761476CB1CB51A8400E00457 /* BucketSort.swift */; };
-		762141891CB538BC00CD552E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 762141871CB538BC00CD552E /* Info.plist */; };
-		7621418A1CB538BC00CD552E /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762141881CB538BC00CD552E /* Tests.swift */; };
+		768206991CBCEA94008B2B5A /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768206971CBCEA94008B2B5A /* Tests.swift */; };
+		7682069F1CBCEC82008B2B5A /* BucketSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7682069E1CBCEC82008B2B5A /* BucketSort.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		761476CB1CB51A8400E00457 /* BucketSort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BucketSort.swift; path = ../../BucketSort.swift; sourceTree = "<group>"; };
-		762141871CB538BC00CD552E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/Info.plist; sourceTree = SOURCE_ROOT; };
-		762141881CB538BC00CD552E /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tests.swift; path = Tests/Tests.swift; sourceTree = SOURCE_ROOT; };
-		7621418B1CB5390E00CD552E /* Tests.temp_caseinsensitive_rename.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Tests.temp_caseinsensitive_rename.xctest; path = "/Users/barbararodeker/Desktop/Projects/SwiftAlgorithms/swift-algorithm-club/Bucket Sort/Tests/build/Debug-iphoneos/Tests.temp_caseinsensitive_rename.xctest"; sourceTree = "<absolute>"; };
+		768206961CBCEA94008B2B5A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		768206971CBCEA94008B2B5A /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = SOURCE_ROOT; };
+		7682069D1CBCEC47008B2B5A /* Tests.temp_caseinsensitive_rename.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Tests.temp_caseinsensitive_rename.xctest; path = "/Users/barbararodeker/Desktop/Projects/SwiftAlgorithms/swift-algorithm-club/Bucket Sort/Tests/build/Debug-iphoneos/Tests.temp_caseinsensitive_rename.xctest"; sourceTree = "<absolute>"; };
+		7682069E1CBCEC82008B2B5A /* BucketSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BucketSort.swift; path = ../BucketSort.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,9 +39,9 @@
 		76CC7DB91CB41D07003398A8 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				761476CB1CB51A8400E00457 /* BucketSort.swift */,
-				762141881CB538BC00CD552E /* Tests.swift */,
-				762141871CB538BC00CD552E /* Info.plist */,
+				768206971CBCEA94008B2B5A /* Tests.swift */,
+				7682069E1CBCEC82008B2B5A /* BucketSort.swift */,
+				768206961CBCEA94008B2B5A /* Info.plist */,
 			);
 			name = Tests;
 			path = TestTests;
@@ -65,7 +64,7 @@
 			);
 			name = Tests;
 			productName = TestTests;
-			productReference = 7621418B1CB5390E00CD552E /* Tests.temp_caseinsensitive_rename.xctest */;
+			productReference = 7682069D1CBCEC47008B2B5A /* Tests.temp_caseinsensitive_rename.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -108,7 +107,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				762141891CB538BC00CD552E /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,8 +117,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7621418A1CB538BC00CD552E /* Tests.swift in Sources */,
-				761476CC1CB51A8400E00457 /* BucketSort.swift in Sources */,
+				768206991CBCEA94008B2B5A /* Tests.swift in Sources */,
+				7682069F1CBCEC82008B2B5A /* BucketSort.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,10 +212,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "";
-				INFOPLIST_FILE = Tests/Info.plist;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.algorithmsclub.Tests;
 				PRODUCT_NAME = Tests.temp_caseinsensitive_rename;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Test.app/Test";
 			};
 			name = Debug;
@@ -226,7 +226,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "";
-				INFOPLIST_FILE = Tests/Info.plist;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.algorithmsclub.Tests;
 				PRODUCT_NAME = Tests.temp_caseinsensitive_rename;
