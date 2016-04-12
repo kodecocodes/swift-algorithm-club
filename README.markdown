@@ -73,7 +73,7 @@ Fast sorts:
 Special-purpose sorts:
 
 - Bucket Sort
-- Counting Sort
+- [Counting Sort](Counting Sort/)
 - Radix Sort
 - [Topological Sort](Topological Sort/)
 
