@@ -136,7 +136,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 - [Linked List](Linked List/). A sequence of data items connected through links. Covers both singly and doubly linked lists.
 - Skip List
-- [Adjacency List](Adjacency List/) :construction:
+- [Adjacency List](Adjacency-List/) :construction:
 
 ### Trees
 
