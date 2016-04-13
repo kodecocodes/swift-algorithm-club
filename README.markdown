@@ -73,8 +73,8 @@ Fast sorts:
 Special-purpose sorts:
 
 - Bucket Sort
-- Counting Sort
-- Radix Sort
+- [Counting Sort](Counting-Sort/) :construction:
+- [Radix Sort](Radix-Sort/) :construction:
 - [Topological Sort](Topological Sort/)
 
 Bad sorting algorithms (don't use these!):
@@ -143,14 +143,14 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Binary Tree](Binary Tree/). A tree where each node has at most two children.
 - [Binary Search Tree (BST)](Binary Search Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
 - [AVL Tree](AVL Tree/). A binary search tree that balances itself using rotations. :construction:
-- Red-Black Tree
+- [Red-Black Tree](Red Black Trees/) :construction:
 - Splay Tree
-- Threaded Binary Tree
+- [Threaded Binary Tree](Threaded\ Binary\ Tree/) :construction:
 - [Segment Tree](Segment Tree/). Can quickly compute a function over a portion of an array.
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
-- Fibonacci Heap
-- Trie
+- [Fibonacci Heap](Fibonacci\ Heap/) :construction:
+- [Trie](Trie/) :construction:
 - [B-Tree](B Tree/) :construction:
 
 ### Hashing
