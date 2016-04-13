@@ -1,23 +1,23 @@
 public class Node {
-  var character: Character?
+  var character: String?
   var parent: Node?
   var children: [Node?]
   var isAWord: Bool = false
 
-  init(c: Character){
+  init(c: String){
     self.character = c
     self.children = [Node?]()
     }
 
   //Easier getter function, probably will make it more swift like
-  func char() -> Character {
+  func char() -> String {
     return self.character!
   }
 
-  func changeChar(c: Character) -> Void {
+  func changeChar(c: String) -> Void {
     self.character = c
   }
-  
+
   //For Testing purposes
   func getParent() -> Node {
     return parent!
@@ -38,7 +38,12 @@ public class Node {
   }
 }
 
+public class Trie {
+  var root: Node = Node(c: "")
 
+
+
+}
 
 print("tests")
 
