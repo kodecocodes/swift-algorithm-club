@@ -12,6 +12,18 @@ A more complete definition could be
 >
 Bucket sort, or bin sort, is a sorting algorithm that works by distributing the elements of an array into a number of buckets. Each bucket is then sorted individually, either using a different sorting algorithm, or by recursively applying the bucket sorting algorithm. It is a distribution sort, and is a cousin of radix sort in the most to least significant digit flavour. Bucket sort is a generalization of pigeonhole sort. Bucket sort can be implemented with comparisons and therefore can also be considered a comparison sort algorithm. The computational complexity estimates involve the number of buckets. [1](https://en.wikipedia.org/wiki/Bucket_sort)
 
+## Performance
+
+Performance for execution time:  
+  
+| Case  | Performance |
+|:-------------: |:---------------:|
+| Worst       |  O(n^2) |
+| Best      | 	Omega(n + k)        |
+|  Average | 	Theta(n + k)       | 
+  
+Where **n** = #elements and **k** = #buckets  
+
 
 ## Pseudocode
 
@@ -117,5 +129,73 @@ The algorithm is designed to sort integers, so all the elements to be sorted sho
         func distribute<T:Sortable>(element: T, inout buckets: [Bucket<T>])
     }
 
+### Custom Sorter and Distributor
 
+The current implementation make use of the following implementations for *Sorter* and *Distributor*.  
+
+*Sorter*  
+
+    public struct InsertionSorter: Sorter {
+    
+        public init() {}
+    
+        public func sort<T:Sortable>(items: [T]) -> [T] {
+            var results = items
+            for i in 0 ..< results.count {
+                var j = i
+                while ( j > 0 && results[j-1] > results[j]) {
+                
+                    let auxiliar = results[j-1]
+                    results[j-1] = results[j]
+                    results[j] = auxiliar
+                
+                    j -= 1
+                }
+            }
+            return results
+        }
+    }
+
+*Distributor*  
+
+    /*
+    * An example of a simple distribution function that send every elements to
+    * the bucket representing the range in which it fits.An
+    *
+    * If the range of values to sort is 0..<49 i.e, there could be 5 buckets of capacity = 10
+    * So every element will be classified by the ranges:
+    *
+    * -  0 ..< 10
+    * - 10 ..< 20
+    * - 20 ..< 30
+    * - 30 ..< 40
+    * - 40 ..< 50
+    *
+    * By following the formula: element / capacity = #ofBucket
+    */
+    public struct RangeDistributor: Distributor {
+    
+         public init() {}
+    
+         public func distribute<T:Sortable>(element: T, inout buckets: [Bucket<T>]) {
+         let value = element.toInt()
+         let bucketCapacity = buckets.first!.capacity
+        
+         let bucketIndex = value / bucketCapacity
+         buckets[bucketIndex].add(element)
+        }
+    }
+
+### Make your own version
+
+By reusing this code and implementing your own *Sorter* and *Distributor* you can experiment with different versions.
+
+## Other variations of Bucket Sort
+
+The following are some of the variation to the General Bucket Sort implemented here:
+
+- [Proxmap Sort](https://en.wikipedia.org/wiki/Bucket_sort#ProxmapSort)
+- [Histogram Sort](https://en.wikipedia.org/wiki/Bucket_sort#Histogram_sort)
+- [Postman Sort](https://en.wikipedia.org/wiki/Bucket_sort#Postman.27s_sort)
+- [Shuffle Sort](https://en.wikipedia.org/wiki/Bucket_sort#Shuffle_sort)
 
