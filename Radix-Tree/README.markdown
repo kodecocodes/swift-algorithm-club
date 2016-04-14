@@ -1,7 +1,7 @@
 # Radix Tree
 
 A radix tree is a tree where a node can have any number of children. Each edge leading from a node to a child has a label (usually a string). A radix tree is often used to store strings or IP addresses and by traversing from the root to any leaf in the tree, (by concatenating all the labels of edges along the way) you can find any string. This is a radix tree:
-![](/Images/radixtree.png)
+![](/Radix-Tree/Images/radixtree.png)
 
 ## Operations
 
