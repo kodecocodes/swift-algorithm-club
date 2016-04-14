@@ -50,7 +50,35 @@ One more random number to pick, let's say it is 4 again. We swap `"c"` with `"a"
 
 And that's it. Easy peasy. The performance of this function is **O(k)** because as soon as we've selected *k* elements, we're done.
 
-However, there is one downside: this algorithm does not keep the elements in the original order. In the input array `"a"` came before `"e"` but now it's the other way around. If that is an issue for your app, you can't use this particular method.
+Here is an alternative algorithm, called "reservoir sampling":
+
+```swift
+func reservoirSample<T>(from a: [T], count k: Int) -> [T] {
+  precondition(a.count >= k)
+
+  var result = [T]()      // 1
+  for i in 0..<k {
+    result.append(a[i])
+  }
+
+  for i in k..<a.count {  // 2
+    let j = random(min: 0, max: i)
+    if j < k {
+      result[j] = a[i]
+    }
+  }
+  return result
+}
+```
+
+This works in two steps:
+
+1. Fill the `result` array with the first `k` elements from the original array. This is called the "reservoir".
+2. Randomly replace elements in the reservoir with elements from the remaining pool.
+
+The performance of this algorithm is **O(n)**, so it's a little bit slower than the first algorithm. However, its big advantage is that it can be used for arrays that are too large to fit in memory, even if you don't know what the size of the array is (in Swift this might be something like a lazy generator that reads the elements from a file).
+
+There is one downside to the previous two algorithms: they do not keep the elements in the original order. In the input array `"a"` came before `"e"` but now it's the other way around. If that is an issue for your app, you can't use this particular method.
 
 Here is an alternative approach that does keep the original order intact, but is a little more involved:
 
