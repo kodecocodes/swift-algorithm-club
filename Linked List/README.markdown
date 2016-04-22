@@ -408,7 +408,7 @@ If you don't have a reference to the node, you can use `removeLast()` or `remove
   public func removeAtIndex(index: Int) -> T {
     let node = nodeAtIndex(index)
     assert(node != nil)
-    return removeNode(node)
+    return removeNode(node!)
   }
 ```
 
