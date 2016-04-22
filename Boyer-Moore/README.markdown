@@ -143,7 +143,7 @@ See also: [a detailed analysis](http://www.inf.fh-flensburg.de/lang/algorithmen/
 
 A variation on the above algorithm is the [Boyer-Moore-Horspool algorithm](https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore%E2%80%93Horspool_algorithm).
 
-Like the regular Boyer-Moore algorithm, it uses the `skipTable` to skip ahead a number of characters. The difference is in how we check partial matches. In the above version, it a partial match is found but it's not a complete match, we skip ahead by just one character. In this revised version, we also use the skip table in that situation.
+Like the regular Boyer-Moore algorithm, it uses the `skipTable` to skip ahead a number of characters. The difference is in how we check partial matches. In the above version, if a partial match is found but it's not a complete match, we skip ahead by just one character. In this revised version, we also use the skip table in that situation.
 
 Here's an implementation of the Boyer-Moore-Horspool algorithm:
 
