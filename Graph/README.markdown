@@ -234,7 +234,7 @@ public mutating func connect(sourceVertex: Vertex<T>, to destinationVertex: Vert
   adjacencyMatrix[sourceVertex.index][destinationVertex.index] = weight
 }
 
-public func weightFrom(sourceVertex: GraphVertex<T>, toDestinationVertex: GraphVertex<T>) -> Double? {
+public func weightFrom(sourceVertex: Vertex<T>, toDestinationVertex: Vertex<T>) -> Double? {
   return adjacencyMatrix[sourceVertex.index][toDestinationVertex.index]
 }
 ```
