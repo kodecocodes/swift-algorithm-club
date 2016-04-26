@@ -71,6 +71,18 @@ class Edge: Root {
 		}
 	}
 
+	func erase() {
+		print("Testing erase on: \(label)")
+		self.parent = nil
+		if children.count > 0 {
+			for _ in 0...children.count-1 {
+				children[0].erase()
+				children.remove(at: 0)
+			}
+		}
+		print("Removed: \(label)")
+	}
+
 	func printEdge() {
 		if children.count > 1 {
 			for c in 0...children.count/2-1 {
@@ -238,6 +250,10 @@ class RadixTree {
 				else if shared.characters.count == 0 {
 					continue
 				}
+				//If the shared string matches the search string, return true
+				else if shared == searchStr {
+					return true
+				}
 				//If the search string and the child's label only share some characters,
 				//  the string is not in the tree, return false
 				else if shared[shared.startIndex] == c.label[c.label.startIndex] &&
@@ -249,13 +265,58 @@ class RadixTree {
 				return false
 			}
 		}
-		//Start at the root
-			//If a child's label is a prefix of the search string
-			//  Cut the prefix off of the search string and 
-			//    start looking through that child's children
-			//If a child's label == searchStr, return true
+	}
 
-		//If none of the children's labels are a prefix of the search string
+	func remove(_ str: String) -> Bool {
+		print("Tryna remove: \(str)")
+		//You cannot remove the empty string from the tree
+		if str == "" {
+			return false
+		}
+		//If the tree is empty, you cannot remove anything
+		else if root.children.count == 0 {
+			return false
+		}
+		var searchStr = str
+		var currEdge = root
+		while (true) {
+			var found = false
+			print("Search string: \(searchStr)")
+			//If currEdge has no children, then the searchStr is not in the tree
+			if currEdge.children.count == 0 {
+				return false
+			}
+			for c in 0...currEdge.children.count-1 {
+				//If the child's label matches the search string, remove that child
+				//  and everything below it in the tree
+				print("Looking at: \(currEdge.children[c].label)")
+				if currEdge.children[c].label == searchStr {
+					print("MATCH FOUND")
+					currEdge.children[c].erase()
+					print("ERASED WORKED")
+					currEdge.children.remove(at: c)
+					print("EDGE LABEL MATCH REMOVE")
+					return true
+				}
+				//Find the shared string
+				var shared = sharedPrefix(searchStr, currEdge.children[c].label)
+				//If the shared string is equal to the child's string, go down a level
+				if shared == currEdge.children[c].label {
+					currEdge = currEdge.children[c]
+					var tempIndex = searchStr.startIndex
+					for _ in 1...shared.characters.count {
+						tempIndex = tempIndex.successor()
+					}
+					searchStr = searchStr.substringFromIndex(tempIndex)
+					found = true
+					break
+				}
+			}
+			//If there is no match, then the searchStr is not in the tree
+			if !found {
+				return false
+			}
+		}
 	}
 
 	func printTree() {

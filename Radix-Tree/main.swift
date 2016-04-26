@@ -29,6 +29,22 @@ radixWiki.insert("rubicunduses")
 radixWiki.printTree()
 
 print("FIND TESTS")
-print(radixWiki.find("courts"))
-print(radixWiki.find("rubicunduses"))
-print(radixWiki.find(""))
+print(radixWiki.find("courts")) // false
+print(radixWiki.find("r")) // true
+print(radixWiki.find("ro")) // true
+print(radixWiki.find("rom")) // true
+print(radixWiki.find("roma")) // true
+print(radixWiki.find("roman")) // true
+print(radixWiki.find("romane")) // true
+print(radixWiki.find("romans")) // false
+print(radixWiki.find("steve")) // true
+
+print("REMOVE TESTS")
+
+print(radixWiki.remove("c"))
+radixWiki.printTree()
+
+print(radixWiki.remove("rub"))
+radixWiki.printTree()
+
+print(radixWiki.remove("stevenson"))
