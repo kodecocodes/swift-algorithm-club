@@ -11,11 +11,11 @@ The RadixTree class itself has one member variable, root, of type Root. The Root
 
 Typical operations on a radix tree include lookup, insertion, deletion, find predecessor, find successor, and find all strings with common prefix. The running time of lookup, insertion, and deletion is O(k) where k is the length of the key. This is different from most trees because these operations usually run in O(logn) time where n is the number of nodes in the tree.
 
-### Find
+### Find(_ str: String) -> Bool
 
 The find function returns true if the String you are searching for is in the tree and false if it is not. Every RadixTree contains at the very least one String ("") so find("") will always return true. A String is considered "in the tree" if the String you are searching for is a concatenation of Edge labels while traversing downwards or a prefix of that concatenation. For example, if you look at the example tree above, find("roma") will return true because it is a prefix of the traversal "r"->"om"->"an". On the other hand, find("romans") will return false.
 
-### Insert
+### Insert(_ str: String) -> Bool
 
 The insert function returns true if the String you are trying to insert was successfully inserted into the RadixTree and false if the String is already in the tree. Similarly to find(""), insert("") will always return false because an empty RadixTree contains "" by default.
 
