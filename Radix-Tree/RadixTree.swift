@@ -1,123 +1,227 @@
 import Foundation
 
+class Root {
 
-public class RadixNode {
-	public var parent: RadixNode?
-	public var children = [(childNode: RadixNode, childEdgeLabel: String)]()
+	var children: [Edge]
 
-	public init() {
-
+	init() {
+		children = [Edge]()
 	}
 
-	public init(value: String) {
-		self.children.append((childNode: RadixNode(), childEdgeLabel: value))
-	}
-
-	public func addChild(_ node: RadixNode, _ label: String) {
-		children.append((node, label))
-		node.parent = self
-	}
-
-	public func getChildren() -> [(childNode: RadixNode, childEdgeLabel: String)] {
-		return children
-	}
-
-	public func getChildAt(i: Int) -> (RadixNode, String)? {
-		if i >= children.count {
-			return nil
+	func height() -> Int {
+		if children.count == 0 {
+			return 1
 		}
-		return children[i]
+		else {
+			var max = 1
+			for c in children {
+				if c.height() > max {
+					max = c.height()
+				}
+			}
+			return 1 + max
+		}
 	}
 
-	public func getParent() -> RadixNode? {
-		return parent
+	func level() -> Int {
+		return 0
 	}
 
-	public func isLeaf() -> Bool {
-		return children.count == 0
+	func printRoot() {
+		//print("children: \(children.count)")
+		//print("split at: \(children.count/2-1)")
+		if (children.count > 1) {
+			for c in 0...children.count/2-1 {
+				children[c].printEdge()
+				print("|")
+			}
+		}
+		else if children.count > 0 {
+			children[0].printEdge()
+		}
+		print("ROOT")
+		//print("second half starts at: \(children.count/2)")
+		if children.count > 1 {
+			for c in children.count/2...children.count-1 {
+				children[c].printEdge()
+				print("|")
+			}
+		}
+		print()
 	}
 }
 
-public class RadixTree {
-	public var root: RadixNode
+class Edge: Root {
 
-	//Construct an "empty" RadixTree with a single node
-	public init() {
-		root = RadixNode()
+	var parent: Root?
+	var label: String
+
+	init(_ label: String) {	//Edge(label: "label")
+		self.label = label
+		super.init()
 	}
 
-	public init(value: String) {
-		self.root = RadixNode(value: value)
-	}
-
-	public func find(str: String, node: RadixNode?) -> Bool {
-		var currNode: RadixNode
-		var search = str
-		if (node == nil) {
-			currNode = self.root
+	override
+	func level() -> Int {
+		if parent != nil {
+			return 1 + parent!.level()
 		}
 		else {
-			currNode = node!
+			return 1
 		}
-		if (str == "") {
+	}
+
+	func printEdge() {
+		if children.count > 1 {
+			for c in 0...children.count/2-1 {
+				children[c].printEdge()
+			}
+		}
+		else if children.count > 0 {
+			children[0].printEdge()
+		}
+		for x in 1...level() {
+			if x == level() {
+				print("|------>", terminator: "")
+			}
+			else if x == 1 {
+				print("|       ", terminator: "")
+			}
+			else if x == level()-1 {
+				print("|       ", terminator: "")
+			}
+			else {
+				print("|       ", terminator: "")
+			}
+		}
+		print(label)
+		if children.count == 0 {
+			for _ in 1...level() {
+				print("|       ", terminator: "")
+			}
+			print()
+		}
+		if children.count > 1 {
+			for c in children.count/2...children.count-1 {
+				children[c].printEdge()
+			}
+		}
+	}
+}
+
+class RadixTree {
+
+	var root: Root
+
+	init() {
+		root = Root()
+	}
+
+	func height() -> Int {
+		return root.height() - 1
+	}
+
+	func insert(_ str: String) -> Bool {
+		//Account for a blank input
+		if str == "" {
 			return true
-		} 
-		else {
-			for n in 0...currNode.children.count-1 {
-				if (str.hasPrefix(currNode.children[n].childEdgeLabel)) {
-					let elementsFound = currNode.children[n].childEdgeLabel.characters.count
-					search = search.substringFromIndex(search.startIndex.advanced(by: elementsFound))
-					currNode = currNode.children[n].childNode
-					find(str: search, node: currNode)
+		}
+		//Account for an empty tree
+		if root.children.count == 0 {
+			root.children.append( Edge(str) )
+			return true
+		}
+		var searchStr = str
+		var currEdge = root
+		while (true) {
+			var found = false
+			var i = 0
+			if currEdge.children.count == 0 {
+				let newEdge = Edge(searchStr)
+				currEdge.children.append(newEdge)
+				newEdge.parent = currEdge
+			}
+			for e in currEdge.children {
+				//Get the shared 
+				var shared = sharedPrefix(searchStr, e.label)
+				var index  = shared.startIndex
+				//The search string is equal to the shared string
+				//so the string already exists in the tree
+				if searchStr == shared {
+					return false
 				}
+				else if shared == e.label {
+					currEdge = e
+					var tempIndex = searchStr.startIndex
+					for _ in 1...shared.characters.count {
+						tempIndex = tempIndex.successor()
+					}
+					searchStr = searchStr.substringFromIndex(tempIndex)
+					found = true
+					break
+				}
+				//The child's label and the search string share a prefix
+				else if shared.characters.count > 0 {
+					//Cut the prefix off from both the search string and label
+					var labelIndex = e.label.characters.startIndex
+					//Create index objects and move them to after the shared prefix
+					for _ in 1...shared.characters.count {
+						index = index.successor()
+						labelIndex = labelIndex.successor()
+					}
+					//Substring both the search string and the label from the shared prefix
+					searchStr = searchStr.substringFromIndex(index)
+					e.label = e.label.substringFromIndex(labelIndex)
+					//Create 2 new edges and update parent/children values
+					let newEdge = Edge(e.label)
+					e.label = shared
+					for ec in e.children {
+						newEdge.children.append(ec)
+					}
+					newEdge.parent = e
+					e.children.removeAll()
+					for nec in newEdge.children {
+						nec.parent = newEdge
+					}
+					e.children.append(newEdge)
+					let newEdge2 = Edge(searchStr)
+					newEdge2.parent = e
+					e.children.append(newEdge2)
+					return true
+				}
+				//They don't share a prefix (go to next child)
+				i += 1
+			}
+			if (!found) {
+				//No children share a prefix, so create a new child
+				let newEdge = Edge(searchStr)
+				currEdge.children.append(newEdge)
+				newEdge.parent = currEdge
+				return true
 			}
 		}
-		return false
 	}
 
-	public func insert(str: String, node: RadixNode?) -> Bool {
-		var search = str
-		var currNode: RadixNode
-		if (node == nil) {
-			currNode = self.root
-		}
-		else {
-			currNode = node!
-		}
-		//Case 0: str == "" (it is already in the tree)
-		//			-> return false
-		if (str == "") {
-			return false
-		}
-		else {
-			for c in currNode.children {
-
-			//Temp is the string of the prefix that the label and the
-			//  search string have in common.
-			//let temp = currNode.children[c].childEdgeLabel.sharePrefix(str)
-
-			//Case 3: currNode has a child that shares some prefix with str
-			//			-> little bit more complicated
-			//if temp == 0 {
-
-				//Remove the shared characters from both the search string and
-				//  label
-				//currNode.children[c].childEdgeLabel.substringFromIndex(temp.count)
-				//str.substringFromIndex(temp.count)
-
-
-			//}
-			
-
-			//Case 1: currNode has no children that share a prefix with str
-			//			-> create a new child for currNode		
-
-
-			//Case 2: currNode has a child whose label is a prefix of str
-			//			-> recurse down
-
-			}
-		}
-		return false
+	func printTree() {
+		root.printRoot()
 	}
+}
+
+//Returns the prefix that is shared between the two input strings
+//i.e. sharedPrefix("court", "coral") -> "co"
+func sharedPrefix(_ str1: String, _ str2: String) -> String {
+	var temp = ""
+	var c1 = str1.characters.startIndex
+	var c2 = str2.characters.startIndex
+	for _ in 0...min(str1.characters.count-1, str2.characters.count-1) {
+		if str1[c1] == str2[c2] {
+			temp.append( str1[c1] )
+			c1 = c1.successor()
+			c2 = c2.successor()
+		}
+		else {
+			return temp
+		}
+	}
+	return temp
 }
