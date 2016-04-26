@@ -1,1 +1,0 @@
-Adjacency List README
