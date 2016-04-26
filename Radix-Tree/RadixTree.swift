@@ -124,7 +124,7 @@ class RadixTree {
 	func insert(_ str: String) -> Bool {
 		//Account for a blank input
 		if str == "" {
-			return true
+			return false
 		}
 		//Account for an empty tree
 		if root.children.count == 0 {
@@ -135,7 +135,6 @@ class RadixTree {
 		var currEdge = root
 		while (true) {
 			var found = false
-			var i = 0
 			if currEdge.children.count == 0 {
 				let newEdge = Edge(searchStr)
 				currEdge.children.append(newEdge)
@@ -190,7 +189,6 @@ class RadixTree {
 					return true
 				}
 				//They don't share a prefix (go to next child)
-				i += 1
 			}
 			if (!found) {
 				//No children share a prefix, so create a new child
@@ -200,6 +198,64 @@ class RadixTree {
 				return true
 			}
 		}
+	}
+
+	func find(_ str: String) -> Bool {
+		//A radix tree always contains the empty string
+		if str == "" {
+			return true
+		}
+		//If there are no children then the string cannot be in the tree
+		else if root.children.count == 0 {
+			return false
+		}
+		var searchStr = str
+		var currEdge = root
+		while (true) {
+			var found = false
+			for c in currEdge.children {
+				//First check if the search string and the child's label are equal
+				//  if so the string is in the tree, return true
+				if searchStr == c.label {
+					return true
+				}
+				//If that is not true, find the shared string b/t the search string
+				//  and the label
+				var shared = sharedPrefix(searchStr, c.label)
+				//If the shared string is equal to the label, update the curent node
+				//  and run it back
+				if shared == c.label {
+					currEdge = c
+					var tempIndex = searchStr.startIndex
+					for _ in 1...shared.characters.count {
+						tempIndex = tempIndex.successor()
+					}
+					searchStr = searchStr.substringFromIndex(tempIndex)
+					found = true
+					break
+				}
+				//If the shared string is empty, go to the next children
+				else if shared.characters.count == 0 {
+					continue
+				}
+				//If the search string and the child's label only share some characters,
+				//  the string is not in the tree, return false
+				else if shared[shared.startIndex] == c.label[c.label.startIndex] &&
+				  shared.characters.count < c.label.characters.count {
+				  	return false
+				}
+			}
+			if !found {
+				return false
+			}
+		}
+		//Start at the root
+			//If a child's label is a prefix of the search string
+			//  Cut the prefix off of the search string and 
+			//    start looking through that child's children
+			//If a child's label == searchStr, return true
+
+		//If none of the children's labels are a prefix of the search string
 	}
 
 	func printTree() {
