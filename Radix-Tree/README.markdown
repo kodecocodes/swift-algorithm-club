@@ -35,7 +35,7 @@ The height function returns an Int equal to the highest level in the Tree. An em
 
 The printTree function was used to visualize the tree itself. This function is a little buggy and not perfect yet but gets the job done thus far.
 
-### sharedPrefix(_ str1: String, _ str2: String) ->
+### sharedPrefix(_ str1: String, _ str2: String) -> String
 
 The sharedPrefix function is a non-member function in the RadixTree.swift file. It takes in two String objects and returns the shared prefix between them. For example,
 sharedPrefix("apples", "oranges") will return "" and sharedPrefix("court", "coral") will return "co". This function is used in the implementation of the find, insert, and remove functions.
