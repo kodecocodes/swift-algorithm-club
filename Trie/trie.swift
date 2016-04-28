@@ -46,6 +46,8 @@ public class Node {
 public class Trie {
   var root = Node(c: "")
   var nodes: [Node]
+  var wordList: [String]
+  var wordCount = 0
 
   init() {
     self.root = Node(c: "")
@@ -84,19 +86,27 @@ public class Trie {
       }
 
       currentNode.isWord()
+      wordList.append(w)
+      wordCount += 1
       return (w, true)
     }
 
     let choppedWord = String(w.characters.suffix(length))
 
-    print(choppedWord)
     for c in choppedWord.characters {
       currentNode.children[String(c)] = Node(c: String(c))
       currentNode = currentNode.children[String(c)]!
     }
 
     currentNode.isWord()
+    wordList.append(w)
+    wordCount += 1
     return (w, true)
+  }
+
+  func remove(w: String) {
+
+
   }
 
 }
