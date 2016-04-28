@@ -29,7 +29,7 @@ public class Node {
     return parent!
   }
 
-  func setParent(node: Node) -> Void {
+  func setParent(node: Node?) -> Void {
     self.parent = node
   }
 
@@ -154,6 +154,7 @@ public class Trie {
     var x = currentNode.char()
     while currentNode.getParent().numChildren() == 1 {
       currentNode = currentNode.getParent()
+      currentNode.children[x]!.setParent(nil)
       currentNode.children[x] = nil
       x = currentNode.char()
     }
