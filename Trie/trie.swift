@@ -118,8 +118,8 @@ public class Trie {
     }
 
     for c in word.characters {
-      if currentNode.children[String(c)] != nil {
-        currentNode = currentNode.children[String(c)]!
+      if let child = currentNode.children[String(c)] {
+        currentNode = child
         length -= 1
       }
     }
@@ -147,16 +147,16 @@ public class Trie {
     }
 
     for c in word.characters {
-      if currentNode.children[String(c)] != nil {
-        currentNode = currentNode.children[String(c)]!
+      if let child = currentNode.children[String(c)] {
+        currentNode = child
       }
     }
-    var x = currentNode.char()
+    var character = currentNode.char()
     while currentNode.getParent().numChildren() == 1 {
       currentNode = currentNode.getParent()
-      currentNode.children[x]!.setParent(nil)
-      currentNode.children[x] = nil
-      x = currentNode.char()
+      currentNode.children[character]!.setParent(nil)
+      currentNode.children[character] = nil
+      character = currentNode.char()
     }
 
     wordCount -= 1
