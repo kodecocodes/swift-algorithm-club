@@ -1,12 +1,12 @@
 public class Node {
   var character: String?
   var parent: Node?
-  var children: [Node?]
+  var children: [String:Node]
   var isAWord: Bool
 
   init(c: String){
     self.character = c
-    self.children = []
+    self.children = [String:Node]()
     self.isAWord = false
     }
 
@@ -44,7 +44,7 @@ public class Node {
 }
 
 public class Trie {
-  var root: Node
+  var root = Node(c: "")
   var nodes: [Node]
 
   init() {
@@ -53,17 +53,63 @@ public class Trie {
     self.nodes.append(self.root)
   }
 
+  func find(key: String) -> (key: String, found: Bool) {
+    var currentNode = self.root
 
-  func insertWord(w: String) -> Void {
+    for c in key.characters {
+      if currentNode.children[String(c)] == nil {
+        return(key, false)
+      }
+      currentNode = currentNode.children[String(c)]!
+    }
 
+    return(key, currentNode.isValidWord())
+  }
+
+  func insert(w: String) -> (word: String, inserted: Bool) {
+
+    var currentNode = self.root
+    var length = w.characters.count
+
+    for c in w.characters {
+      if currentNode.children[String(c)] != nil {
+        currentNode = currentNode.children[String(c)]!
+        length -= 1
+      }
+    }
+
+    if length == 0 {
+      if(currentNode.isValidWord()) {
+        return (w, false)
+      }
+
+      currentNode.isWord()
+      return (w, true)
+    }
+
+    let choppedWord = String(w.characters.suffix(length))
+
+    print(choppedWord)
+    for c in choppedWord.characters {
+      currentNode.children[String(c)] = Node(c: String(c))
+      currentNode = currentNode.children[String(c)]!
+    }
+
+    currentNode.isWord()
+    return (w, true)
   }
 
 }
 
 print("tests")
 
-var x: Node = Node(c: "c")
+/*var x: Node = Node(c: "c")
 print(x.char())
 print(x.isValidWord())
 x.isWord()
-print(x.isValidWord())
+print(x.isValidWord())*/
+
+
+var T: Trie = Trie()
+print(T.insert("Hello"))
+print(T.find("Hello"))
