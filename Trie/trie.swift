@@ -53,6 +53,7 @@ public class Trie {
     self.root = Node(c: "")
     self.nodes = []
     self.nodes.append(self.root)
+    self.wordList = []
   }
 
   func find(key: String) -> (key: String, found: Bool) {
@@ -104,11 +105,38 @@ public class Trie {
     return (w, true)
   }
 
-  func remove(w: String) {
+  func remove(w: String) -> (word: String, removed: Bool){
+    var currentNode = self.root
+
+    for c in w.characters {
+      if(currentNode.children[String(c)]) == nil{
+        return (w, false)
+      }
+
+      currentNode = currentNode.children[String(c)]!
+
+    }
+
+    return (w, false)
 
 
   }
 
+  func isEmpty() -> Bool {
+    return wordCount == 0
+  }
+
+  func count() -> Int {
+    return wordCount
+  }
+
+  func getWords() -> [String] {
+    return wordList
+  }
+
+  func contains(w: String) -> Bool {
+    return find(w).found
+  }
 }
 
 print("tests")
