@@ -19,6 +19,9 @@ public class Node {
     self.character = c
   }
 
+  func isLeaf() -> Bool{
+    return self.children.count == 0
+  }
   //For Testing purposes
   func getParent() -> Node {
     return parent!
@@ -137,6 +140,15 @@ public class Trie {
   func contains(w: String) -> Bool {
     return find(w).found
   }
+
+  func isPrefix(w: String) -> Bool {
+    return true
+  }
+
+  func findPrefix(w: String) -> (key: String, found: Bool) {
+    return (w, true)
+  }
+
 }
 
 print("tests")
