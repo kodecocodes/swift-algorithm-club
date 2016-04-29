@@ -21,7 +21,7 @@ The insert function returns true if the String you are trying to insert was succ
 
 ### RadixTree.remove(_ str: String) -> Bool
 
-THIS IS NOT IMPLEMENTED YET
+The remove function returns true if the String is removed and false if the String is not in the tree. When a string is removed, any other Strings that have a prefix of the removed String are removed as well. For example, remove("rom") will also remove "roman", "rome", and "romulus" if those Strings are in the tree as well. Calling remove("") will remove all Strings in the tree.
 
 ### Root.level() -> Int
 
