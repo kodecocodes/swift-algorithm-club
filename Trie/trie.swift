@@ -62,6 +62,28 @@ public class Node {
     return self.children
   }
 
+  func printNode(var indent: String, leaf: Bool) -> Void {
+
+    print(indent, terminator: "")
+    if(leaf) {
+      print("\\-", terminator: "")
+      indent += " "
+    }
+    else {
+      print("|-", terminator: "")
+      indent += "| "
+    }
+
+    print(self.char())
+
+    var i = 0
+    for (_, node) in self.children {
+      node.printNode(indent, leaf: i == self.getChildren().count-1)
+      i+=1
+    }
+
+  }
+
 }
 
 public class Trie {
@@ -103,8 +125,26 @@ public class Trie {
     return find(w.lowercaseString).found
   }
 
-  func isPrefix(w: String) -> Bool {
-    return true
+  func isPrefix(w: String) -> (node: Node?, found: Bool) {
+    var currentNode = self.root
+
+    let word = w.lowercaseString
+    if !self.contains(w) {
+      return (nil,false)
+    }
+
+    for c in word.characters {
+      if let child = currentNode.children[String(c)] {
+        print("I make it here")
+        currentNode = child
+      }
+    }
+
+    if currentNode.getChildren().count > 0 {
+      return (currentNode, true)
+    }
+
+    return (nil, false)
   }
 
   func insert(w: String) -> (word: String, inserted: Bool) {
@@ -118,7 +158,9 @@ public class Trie {
     }
 
     for c in word.characters {
+      print(c)
       if let child = currentNode.children[String(c)] {
+        print(child.char())
         currentNode = child
         length -= 1
       }
@@ -172,7 +214,51 @@ public class Trie {
     return (w, true)
   }
 
+  private func getChildrenWithPrefix(node: Node, var word: String, var words: [String]) -> [String] {
 
+    if node.isLeaf() {
+      word += node.char()
+
+      words.append(word)
+
+    }
+
+    for (child, n) in node.getChildren() {
+      word += child
+      getChildrenWithPrefix(n, word: word, words: words)
+    }
+
+    return words
+  }
+
+  func findPrefix(p: String) -> [String] {
+    if self.isPrefix(p).found {
+      print("here")
+      return getChildrenWithPrefix(self.isPrefix(p).node!, word: "", words: [])
+    }
+
+    return []
+  }
+
+
+  private func removeAllHelper(node: Node, w: String) {
+
+    if(node.getChildren().count == 0) {
+
+    }
+
+
+
+  }
+
+
+  func removeAll(w: String) {
+
+  }
+
+  func printTrie() {
+    self.root.printNode("", leaf: true)
+  }
 
 }
 
@@ -186,15 +272,25 @@ print(x.isValidWord())*/
 
 
 var T: Trie = Trie()
-T.insert("Hello")
+/*T.insert("Hello")
 T.insert("Hey")
 T.insert("YOLO")
 T.insert("Him")
 assert(T.count() == 4, "Count function failed")
 assert(T.contains("Hey") == true)
-assert(T.contains("Hello")==true)
+assert(T.contains("Hello") == true)
 print("trying remove")
 T.remove("Him")
 assert(T.count() == 3)
 assert(T.contains("Him") == false, "Test failed")
-assert(T.wordList.count == 3)
+assert(T.wordList.count == 3)*/
+
+
+//T.insert("Hello")
+//T.insert("Hi")
+T.insert("Hey")
+//T.insert("Hallo")
+T.insert("Henry")
+T.printTrie()
+//assert(T.contains("He") == true)
+//print(T.findPrefix("H"))
