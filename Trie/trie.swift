@@ -183,23 +183,29 @@ public class Trie {
   func remove(w: String) -> (word: String, removed: Bool){
 
     let word = w.lowercaseString
-    var currentNode = self.root
 
     if(!self.contains(w)) {
       return (w, false)
     }
+    var currentNode = self.root
 
     for c in word.characters {
-      if let child = currentNode.children[String(c)] {
-        currentNode = child
-      }
+      currentNode = currentNode.getChildAt(String(c))
     }
-    var character = currentNode.char()
-    while currentNode.getParent().numChildren() == 1 {
-      currentNode = currentNode.getParent()
-      currentNode.children[character]!.setParent(nil)
-      currentNode.children[character] = nil
-      character = currentNode.char()
+
+    if currentNode.numChildren() > 0 {
+      currentNode.isNotWord()
+    } else {
+      var character = currentNode.char()
+      while(currentNode.numChildren() < 1) {
+        currentNode = currentNode.getParent()
+        print(currentNode.char())
+        currentNode.children[character]!.setParent(nil)
+        currentNode.children[character]!.update(nil)
+        currentNode.children[character] = nil
+        character = currentNode.char()
+
+      }
     }
 
     wordCount -= 1
@@ -288,10 +294,15 @@ assert(T.wordList.count == 3)*/
 
 
 //T.insert("Hello")
-//T.insert("Hi")
+T.insert("Hi")
 T.insert("Hey")
 //T.insert("Hallo")
 T.insert("Henry")
 T.printTrie()
-//assert(T.contains("He") == true)
-//print(T.findPrefix("H"))
+assert(T.contains("Henry") == true)
+T.remove("Henry")
+assert(T.contains("Henry") == false)
+//assert(T.count() == 4)
+assert(T.isPrefix("Hen").found == false)
+T.printTrie()
+print(T.findPrefix("H"))
