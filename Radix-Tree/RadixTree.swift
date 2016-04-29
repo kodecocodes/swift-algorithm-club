@@ -251,6 +251,7 @@ class RadixTree {
 		var currEdge = root
 		while (true) {
 			var found = false
+			//Loop through currEdge's children
 			for c in currEdge.children {
 				//First check if the search string and the child's label are equal
 				//  if so the string is in the tree, return true
@@ -260,8 +261,8 @@ class RadixTree {
 				//If that is not true, find the shared string b/t the search string
 				//  and the label
 				var shared = sharedPrefix(searchStr, c.label)
-				//If the shared string is equal to the label, update the curent node
-				//  and run it back
+				//If the shared string is equal to the label, update the curent node,
+				//  break the loop, and run it back
 				if shared == c.label {
 					currEdge = c
 					var tempIndex = searchStr.startIndex
@@ -272,7 +273,7 @@ class RadixTree {
 					found = true
 					break
 				}
-				//If the shared string is empty, go to the next children
+				//If the shared string is empty, go to the next child
 				else if shared.characters.count == 0 {
 					continue
 				}
@@ -287,14 +288,16 @@ class RadixTree {
 				  	return false
 				}
 			}
+			//If nothing was found, return false
 			if !found {
 				return false
 			}
 		}
 	}
 
+	//Removes a string from the tree
 	func remove(_ str: String) -> Bool {
-		//You cannot remove the empty string from the tree
+		//Removing the empty string removes everything in the tree
 		if str == "" {
 			for c in root.children {
 				c.erase()
@@ -306,6 +309,7 @@ class RadixTree {
 		else if root.children.count == 0 {
 			return false
 		}
+		//searchStr and currEdge have the same functionality as in insert() and find()
 		var searchStr = str
 		var currEdge = root
 		while (true) {
@@ -314,6 +318,7 @@ class RadixTree {
 			if currEdge.children.count == 0 {
 				return false
 			}
+			//Loop through the children
 			for c in 0...currEdge.children.count-1 {
 				//If the child's label matches the search string, remove that child
 				//  and everything below it in the tree
@@ -343,6 +348,7 @@ class RadixTree {
 		}
 	}
 
+	//Prints the tree by calling the root's print function
 	func printTree() {
 		root.printRoot()
 	}
