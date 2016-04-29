@@ -28,8 +28,6 @@ class Root {
 	}
 
 	func printRoot() {
-		//print("children: \(children.count)")
-		//print("split at: \(children.count/2-1)")
 		if (children.count > 1) {
 			for c in 0...children.count/2-1 {
 				children[c].printEdge()
@@ -40,7 +38,6 @@ class Root {
 			children[0].printEdge()
 		}
 		print("ROOT")
-		//print("second half starts at: \(children.count/2)")
 		if children.count > 1 {
 			for c in children.count/2...children.count-1 {
 				children[c].printEdge()
@@ -72,7 +69,6 @@ class Edge: Root {
 	}
 
 	func erase() {
-		print("Testing erase on: \(label)")
 		self.parent = nil
 		if children.count > 0 {
 			for _ in 0...children.count-1 {
@@ -80,7 +76,6 @@ class Edge: Root {
 				children.remove(at: 0)
 			}
 		}
-		print("Removed: \(label)")
 	}
 
 	func printEdge() {
@@ -268,10 +263,13 @@ class RadixTree {
 	}
 
 	func remove(_ str: String) -> Bool {
-		print("Tryna remove: \(str)")
 		//You cannot remove the empty string from the tree
 		if str == "" {
-			return false
+			for c in root.children {
+				c.erase()
+				root.children.remove(at: 0)
+			}
+			return true
 		}
 		//If the tree is empty, you cannot remove anything
 		else if root.children.count == 0 {
@@ -281,7 +279,6 @@ class RadixTree {
 		var currEdge = root
 		while (true) {
 			var found = false
-			print("Search string: \(searchStr)")
 			//If currEdge has no children, then the searchStr is not in the tree
 			if currEdge.children.count == 0 {
 				return false
@@ -289,13 +286,9 @@ class RadixTree {
 			for c in 0...currEdge.children.count-1 {
 				//If the child's label matches the search string, remove that child
 				//  and everything below it in the tree
-				print("Looking at: \(currEdge.children[c].label)")
 				if currEdge.children[c].label == searchStr {
-					print("MATCH FOUND")
 					currEdge.children[c].erase()
-					print("ERASED WORKED")
 					currEdge.children.remove(at: c)
-					print("EDGE LABEL MATCH REMOVE")
 					return true
 				}
 				//Find the shared string

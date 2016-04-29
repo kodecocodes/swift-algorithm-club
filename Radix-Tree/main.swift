@@ -48,3 +48,6 @@ print(radixWiki.remove("rub"))
 radixWiki.printTree()
 
 print(radixWiki.remove("stevenson"))
+
+print(radixWiki.remove(""))
+radixWiki.printTree()
