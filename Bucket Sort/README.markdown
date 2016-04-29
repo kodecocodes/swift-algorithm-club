@@ -1,20 +1,16 @@
 # Bucket Sort
 
-## Definition
 [Bucket Sort or Bin Sort](https://en.wikipedia.org/wiki/Bucket_sort) is a distributed sorting algorithm, which sort elements from an array by performing these steps:  
 
-1) Distribute the elements into buckets or bin.  
+1) Distribute the elements into buckets or bins.  
 2) Sort each bucket individually.  
 3) Merge the buckets in order to produce a sort array as results.  
 
-A more complete definition could be
 
->
-Bucket sort, or bin sort, is a sorting algorithm that works by distributing the elements of an array into a number of buckets. Each bucket is then sorted individually, either using a different sorting algorithm, or by recursively applying the bucket sorting algorithm. It is a distribution sort, and is a cousin of radix sort in the most to least significant digit flavour. Bucket sort is a generalization of pigeonhole sort. Bucket sort can be implemented with comparisons and therefore can also be considered a comparison sort algorithm. The computational complexity estimates involve the number of buckets. [1](https://en.wikipedia.org/wiki/Bucket_sort)
+See the algorithm in action [here](https://www.cs.usfca.edu/~galles/visualization/BucketSort.html) and [here](http://www.algostructure.com/sorting/bucketsort.php).
 
-## Performance
 
-Performance for execution time:  
+The performance for execution time is:  
   
 | Case  | Performance |
 |:-------------: |:---------------:|
@@ -24,10 +20,13 @@ Performance for execution time:
   
 Where **n** = #elements and **k** = #buckets  
 
+On the **best case** the algorithm distributes the elements uniformily between buckets, a few elements are placed on each bucket and sorting the buckets is *O(1)*. Rearranging the elements is one more run through the initial list.  
+On the **worst case** the elements are sent all to the same bucket, making the process takes *O(n^2)*.  
+
 
 ## Pseudocode
 
-A [pseudocode](https://en.wikipedia.org/wiki/Bucket_sort#Pseudocode) of the algorithm is as follows:  
+A [pseudocode](https://en.wikipedia.org/wiki/Bucket_sort#Pseudocode) of the algorithm can be as follows:  
 
     function bucketSort(array, n) is
         buckets ← new array of n empty lists
@@ -47,6 +46,59 @@ A [pseudocode](https://en.wikipedia.org/wiki/Bucket_sort#Pseudocode) of the algo
 ###Sorting inside every bucket and merging  
 
 ![sorting each bucket and merge](https://upload.wikimedia.org/wikipedia/commons/3/39/Bucket_sort_2.png)
+
+##An example
+
+### Input  
+
+Suppose we have the following list of elements:  `[2, 56, 4, 77, 26, 98, 55]`.  
+And we define 10 buckets will be used. To determine the capacity of each bucket we need to know the `maximum element value`, in this case `98`.  
+
+So the buckets are:    
+* `bucket 1`: from 0 to 9
+* `bucket 2`: from 10 to 19
+* `bucket 3`: from 20 to 29
+*  and so on.
+
+### Distribution
+
+Now we need to choose a distribution function.  
+
+`bucketNumber = ( elementValue / totalNumberOfBuckets) + 1`  
+   
+Such that applying that function we distribute all the elements in the buckets.  
+In our example it is like following:  
+  
+1. Apply the distribution function to `2`. `bucketNumber = (2 / 10) + 1 = 1`
+2. Apply the distribution function to `56`. `bucketNumber = (56 / 10) + 1 = 6`
+3. Apply the distribution function to `4`. `bucketNumber = (4 / 10) + 1 = 1`
+4. Apply the distribution function to `77`. `bucketNumber = (77 / 10) + 1 = 8`
+5. Apply the distribution function to `26`. `bucketNumber = (26 / 10) + 1 = 3`
+6. Apply the distribution function to `98`. `bucketNumber = (98 / 10) + 1 = 10`
+7. Apply the distribution function to `55`. `bucketNumber = (55 / 10) + 1 = 6`
+
+Our buckets will be filled now:  
+
+**1**  <img src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" width="40">: `[2, 4]`  
+**2**  <img src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" width="40">: `[]`  
+**3**  <img src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" width="40">: `[26]`  
+**4**  <img src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" width="40">: `[]`  
+**5**  <img src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" width="40">: `[]`  
+**6**  <img src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" width="40">: `[55, 56]`  
+**7**  <img src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" width="40">: `[]`  
+**8**  <img src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" width="40">: `[77]`  
+**9**  <img src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" width="40">: `[]`  
+**10** <img src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" width="40">: `[98]`  
+
+We can choose to insert the elements in every bucket in order, or sort every bucket after distributing all the elements.  
+
+### Put the elements back in the list 
+
+Finally we go through all the buckets and put the elements back in the list:  
+  
+  `[2,  4,  26,  55,  56,  77,  98]`  
+  
+
 
 ##Swift implementation
 
