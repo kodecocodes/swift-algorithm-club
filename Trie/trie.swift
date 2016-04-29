@@ -135,7 +135,6 @@ public class Trie {
 
     for c in word.characters {
       if let child = currentNode.children[String(c)] {
-        print("I make it here")
         currentNode = child
       }
     }
@@ -199,7 +198,6 @@ public class Trie {
       var character = currentNode.char()
       while(currentNode.numChildren() < 1) {
         currentNode = currentNode.getParent()
-        print(currentNode.char())
         currentNode.children[character]!.setParent(nil)
         currentNode.children[character]!.update(nil)
         currentNode.children[character] = nil
