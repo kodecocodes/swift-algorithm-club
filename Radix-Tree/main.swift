@@ -13,6 +13,8 @@ radixWiki.insert("shoot")
 radixWiki.insert("shit")
 radixWiki.insert("starch")
 radixWiki.insert("steven")
+radixWiki.insert("shart")
+radixWiki.insert("shard")
 
 radixWiki.insert("compute")
 radixWiki.insert("compatible")

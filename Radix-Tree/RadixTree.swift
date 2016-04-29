@@ -1,5 +1,6 @@
 import Foundation
 
+//The root is the top of the Radix Tree
 class Root {
 
 	var children: [Edge]
@@ -8,10 +9,14 @@ class Root {
 		children = [Edge]()
 	}
 
+	//The height functions returns the length (in number of edges) of the longest
+	//  traversal down the tree
 	func height() -> Int {
+		//Base case: no children: the tree has a height of 1
 		if children.count == 0 {
 			return 1
 		}
+		//Recursion: find the max height of a root's child and return 1 + that max
 		else {
 			var max = 1
 			for c in children {
@@ -23,11 +28,16 @@ class Root {
 		}
 	}
 
+	//The level function returns how far down in the tree a Root/Edge is
+	//A root's level is always 0
 	func level() -> Int {
 		return 0
 	}
 
+	//printRoot is a recursive function that prints the tree for debugging/
+	//  visualization purposes
 	func printRoot() {
+		//Print the first half of the children
 		if (children.count > 1) {
 			for c in 0...children.count/2-1 {
 				children[c].printEdge()
@@ -37,7 +47,9 @@ class Root {
 		else if children.count > 0 {
 			children[0].printEdge()
 		}
+		//Then print the root
 		print("ROOT")
+		//Print the second half of the children
 		if children.count > 1 {
 			for c in children.count/2...children.count-1 {
 				children[c].printEdge()
@@ -48,6 +60,7 @@ class Root {
 	}
 }
 
+//Edges are what actually store the Strings in the tree
 class Edge: Root {
 
 	var parent: Root?
@@ -58,19 +71,25 @@ class Edge: Root {
 		super.init()
 	}
 
+	//The Edge class overrides root's level function
 	override
 	func level() -> Int {
+		//Recurse up the tree incrementing level by one until the root is reached
 		if parent != nil {
 			return 1 + parent!.level()
 		}
+		//If an edge has no parent, it's level is one
+		//  NOTE: THIS SHOULD NEVER HAPPEN AS THE ROOT IS ALWAYS THE TOP OF THE TREE
 		else {
 			return 1
 		}
 	}
 
+	//Erase erases a specific edge (and all edges below it in the tree)
 	func erase() {
 		self.parent = nil
 		if children.count > 0 {
+			//For each child, erase it, then remove it from the children array
 			for _ in 0...children.count-1 {
 				children[0].erase()
 				children.remove(at: 0)
@@ -78,7 +97,10 @@ class Edge: Root {
 		}
 	}
 
+	//printEdge is used in printRoot to print the tree
+	//  It follows a similar structure to printRoot
 	func printEdge() {
+		//Print the first half of the edge's children
 		if children.count > 1 {
 			for c in 0...children.count/2-1 {
 				children[c].printEdge()
@@ -87,21 +109,17 @@ class Edge: Root {
 		else if children.count > 0 {
 			children[0].printEdge()
 		}
+		//Tab over once up to the edge's level
 		for x in 1...level() {
 			if x == level() {
 				print("|------>", terminator: "")
-			}
-			else if x == 1 {
-				print("|       ", terminator: "")
-			}
-			else if x == level()-1 {
-				print("|       ", terminator: "")
 			}
 			else {
 				print("|       ", terminator: "")
 			}
 		}
 		print(label)
+		//Print the second half of the edge's children
 		if children.count == 0 {
 			for _ in 1...level() {
 				print("|       ", terminator: "")
@@ -124,38 +142,47 @@ class RadixTree {
 		root = Root()
 	}
 
+	//Returns the height of the tree by calling the root's height function
 	func height() -> Int {
 		return root.height() - 1
 	}
 
+	//Inserts a string into the tree
 	func insert(_ str: String) -> Bool {
 		//Account for a blank input
+		//  The empty string is already in the tree
 		if str == "" {
 			return false
 		}
-		//Account for an empty tree
-		if root.children.count == 0 {
-			root.children.append( Edge(str) )
-			return true
-		}
+		//searchStr is the parameter of the function
+		//  it will be substringed as the function traverses down the tree
 		var searchStr = str
+		//currEdge is the current Edge (or Root) in question
 		var currEdge = root
 		while (true) {
 			var found = false
+			//If the current Edge has no children then the remaining searchStr is
+			//  created as a child
 			if currEdge.children.count == 0 {
 				let newEdge = Edge(searchStr)
 				currEdge.children.append(newEdge)
 				newEdge.parent = currEdge
+				return true
 			}
+			//Loop through all of the children
 			for e in currEdge.children {
-				//Get the shared 
+				//Get the shared prefix betweeen the child in question and the
+				//  search string
 				var shared = sharedPrefix(searchStr, e.label)
 				var index  = shared.startIndex
-				//The search string is equal to the shared string
-				//so the string already exists in the tree
+				//If the search string is equal to the shared string,
+				//  the string already exists in the tree
 				if searchStr == shared {
 					return false
 				}
+				//If the child's label is equal to the shared string, you have to
+				//  traverse another level down the tree, so substring the search
+				//  string, break the loop, and run it back
 				else if shared == e.label {
 					currEdge = e
 					var tempIndex = searchStr.startIndex
@@ -166,16 +193,18 @@ class RadixTree {
 					found = true
 					break
 				}
-				//The child's label and the search string share a prefix
+				//If the child's label and the search string share a partial prefix,
+				//  then both the label and the search string need to be substringed
+				//  and a new branch needs to be created
 				else if shared.characters.count > 0 {
-					//Cut the prefix off from both the search string and label
 					var labelIndex = e.label.characters.startIndex
 					//Create index objects and move them to after the shared prefix
 					for _ in 1...shared.characters.count {
 						index = index.successor()
 						labelIndex = labelIndex.successor()
 					}
-					//Substring both the search string and the label from the shared prefix
+					//Substring both the search string and the label from the
+					//  shared prefix
 					searchStr = searchStr.substringFromIndex(index)
 					e.label = e.label.substringFromIndex(labelIndex)
 					//Create 2 new edges and update parent/children values
@@ -195,10 +224,10 @@ class RadixTree {
 					e.children.append(newEdge2)
 					return true
 				}
-				//They don't share a prefix (go to next child)
+				//If they don't share a prefix, go to next child
 			}
+			//If none of the children share a prefix, you have to create a new child
 			if (!found) {
-				//No children share a prefix, so create a new child
 				let newEdge = Edge(searchStr)
 				currEdge.children.append(newEdge)
 				newEdge.parent = currEdge
@@ -207,6 +236,7 @@ class RadixTree {
 		}
 	}
 
+	//Tells you if a string is in the tree
 	func find(_ str: String) -> Bool {
 		//A radix tree always contains the empty string
 		if str == "" {
@@ -216,6 +246,7 @@ class RadixTree {
 		else if root.children.count == 0 {
 			return false
 		}
+		//searchStr and currEdge have the same functionality as insert()
 		var searchStr = str
 		var currEdge = root
 		while (true) {
