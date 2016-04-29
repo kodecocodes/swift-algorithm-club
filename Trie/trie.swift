@@ -157,17 +157,18 @@ public class Trie {
       return (w, false)
     }
 
-    for c in word.characters {
-      print(c)
-      if let child = currentNode.children[String(c)] {
-        print(child.char())
-        currentNode = child
-        length -= 1
-      }
+    var index = 0
+    var c = Array(word.characters)[index]
+
+    while let child = currentNode.children[String(c)] {
+      currentNode = child
+      length -= 1
+      index += 1
+      c = Array(word.characters)[index]
     }
 
     let remainingChars = String(word.characters.suffix(length))
-
+    print(remainingChars)
     for c in remainingChars.characters {
       currentNode.children[String(c)] = Node(c: String(c), p: currentNode)
       currentNode = currentNode.children[String(c)]!
