@@ -62,6 +62,7 @@ public class Node {
     return self.children
   }
 
+
   func printNode(var indent: String, leaf: Bool) -> Void {
 
     print(indent, terminator: "")
@@ -96,17 +97,36 @@ public class Trie {
     self.wordList = []
   }
 
-  func find(key: String) -> (key: String, found: Bool) {
+  init(wordList: Set<String>) {
+
+    self.root = Node(c: "", p: nil)
+    self.wordList = []
+
+    for word in wordList {
+      let op = self.insert(word)
+      if(op.inserted){
+        self.wordList.append(word)
+      }
+    }
+  }
+
+  func merge(other: Trie) -> Trie{
+    let newWorldList = Set(self.getWords() + other.getWords())
+
+    return Trie(wordList: newWorldList)
+  }
+
+  func find(key: String) -> (node: Node?, found: Bool) {
     var currentNode = self.root
 
     for c in key.characters {
       if currentNode.children[String(c)] == nil {
-        return(key, false)
+        return(nil, false)
       }
       currentNode = currentNode.children[String(c)]!
     }
 
-    return(key, currentNode.isValidWord())
+    return(currentNode, currentNode.isValidWord())
   }
 
   func isEmpty() -> Bool {
@@ -125,21 +145,20 @@ public class Trie {
     return find(w.lowercaseString).found
   }
 
-  func isPrefix(w: String) -> (node: Node?, found: Bool) {
+  func isPrefix(p: String) -> (node: Node?, found: Bool) {
+    let prefixP = p.lowercaseString
+
     var currentNode = self.root
 
-    let word = w.lowercaseString
-    if !self.contains(w) {
-      return (nil,false)
-    }
-
-    for c in word.characters {
-      if let child = currentNode.children[String(c)] {
-        currentNode = child
+    for c in prefixP.characters {
+      if currentNode.children[String(c)] == nil{
+        return (nil, false)
       }
+
+      currentNode = currentNode.children[String(c)]!
     }
 
-    if currentNode.getChildren().count > 0 {
+    if currentNode.numChildren() > 0 {
       return (currentNode, true)
     }
 
@@ -167,7 +186,6 @@ public class Trie {
     }
 
     let remainingChars = String(word.characters.suffix(length))
-    print(remainingChars)
     for c in remainingChars.characters {
       currentNode.children[String(c)] = Node(c: String(c), p: currentNode)
       currentNode = currentNode.children[String(c)]!
@@ -196,7 +214,7 @@ public class Trie {
       currentNode.isNotWord()
     } else {
       var character = currentNode.char()
-      while(currentNode.numChildren() < 1) {
+      while(currentNode.numChildren() == 0) {
         currentNode = currentNode.getParent()
         currentNode.children[character]!.setParent(nil)
         currentNode.children[character]!.update(nil)
@@ -221,25 +239,32 @@ public class Trie {
 
   private func getChildrenWithPrefix(node: Node, var word: String, var words: [String]) -> [String] {
 
-    if node.isLeaf() {
-      word += node.char()
+    print(word)
 
+    if node.isLeaf() && node.isValidWord() {
       words.append(word)
+      print(words)
 
-    }
+    } else {
 
-    for (child, n) in node.getChildren() {
-      word += child
-      getChildrenWithPrefix(n, word: word, words: words)
+      for (child, n) in node.getChildren(){
+        print(child)
+        word += child
+        getChildrenWithPrefix(n, word: word, words: words)
+      }
     }
 
     return words
   }
 
   func findPrefix(p: String) -> [String] {
+    print("Entered")
+
+
+    //var (node, pFound: Bool) = self.isPrefix(p)
     if self.isPrefix(p).found {
-      print("here")
-      return getChildrenWithPrefix(self.isPrefix(p).node!, word: "", words: [])
+      print("I found the prefix!")
+      return getChildrenWithPrefix(self.isPrefix(p).node!, word: p.lowercaseString, words: [])
     }
 
     return []
@@ -277,6 +302,16 @@ print(x.isValidWord())*/
 
 
 var T: Trie = Trie()
+T.insert("Hello")
+T.insert("Hi")
+T.insert("Hey")
+T.insert("Hallo")
+T.insert("Henry")
+var U: Trie = Trie(wordList: Set(["Hey", "HO", "hello", "yolo"]))
+var V: Trie = T.merge(U)
+T.printTrie()
+U.printTrie()
+V.printTrie()
 /*T.insert("Hello")
 T.insert("Hey")
 T.insert("YOLO")
@@ -290,17 +325,6 @@ assert(T.count() == 3)
 assert(T.contains("Him") == false, "Test failed")
 assert(T.wordList.count == 3)*/
 
-
-//T.insert("Hello")
-T.insert("Hi")
-T.insert("Hey")
-//T.insert("Hallo")
-T.insert("Henry")
 T.printTrie()
-assert(T.contains("Henry") == true)
-T.remove("Henry")
-assert(T.contains("Henry") == false)
-//assert(T.count() == 4)
-assert(T.isPrefix("Hen").found == false)
-T.printTrie()
-print(T.findPrefix("H"))
+print(T.find(""))
+//print(T.findPrefix("H"))
