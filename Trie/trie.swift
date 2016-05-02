@@ -104,16 +104,12 @@ public class Trie {
 
     for word in wordList {
       let op = self.insert(word)
-      if(op.inserted){
-        self.wordList.append(word)
-      }
     }
   }
 
   func merge(other: Trie) -> Trie{
-    let newWorldList = Set(self.getWords() + other.getWords())
-
-    return Trie(wordList: newWorldList)
+    let newWordList = Set(self.getWords() + other.getWords())
+    return Trie(wordList: newWordList)
   }
 
   func find(key: String) -> (node: Node?, found: Bool) {
@@ -198,7 +194,6 @@ public class Trie {
   }
 
   func remove(w: String) -> (word: String, removed: Bool){
-
     let word = w.lowercaseString
 
     if(!self.contains(w)) {
@@ -210,17 +205,23 @@ public class Trie {
       currentNode = currentNode.getChildAt(String(c))
     }
 
+    print("I make it here " + w)
     if currentNode.numChildren() > 0 {
+      //print("Hello?")
       currentNode.isNotWord()
     } else {
       var character = currentNode.char()
-      while(currentNode.numChildren() == 0) {
+      var i = 0
+      while(currentNode.numChildren() == 0 && !currentNode.isRoot()) {
+        print("Do I die here?")
+        print(currentNode.getParent().char())
+        i+=1
         currentNode = currentNode.getParent()
         currentNode.children[character]!.setParent(nil)
         currentNode.children[character]!.update(nil)
         currentNode.children[character] = nil
         character = currentNode.char()
-
+        print(i)
       }
     }
 
@@ -267,24 +268,17 @@ public class Trie {
       return getChildrenWithPrefix(self.isPrefix(p).node!, word: p.lowercaseString, words: [])
     }
 
-    return []
+    return ["HE"]
   }
 
 
-  private func removeAllHelper(node: Node, w: String) {
-
-    if(node.getChildren().count == 0) {
-
+  func removeAll() -> Void {
+    for word in wordList {
+      self.remove(word)
     }
-
-
-
+    self.root.update(nil)
   }
 
-
-  func removeAll(w: String) {
-
-  }
 
   func printTrie() {
     self.root.printNode("", leaf: true)
@@ -309,9 +303,12 @@ T.insert("Hallo")
 T.insert("Henry")
 var U: Trie = Trie(wordList: Set(["Hey", "HO", "hello", "yolo"]))
 var V: Trie = T.merge(U)
-T.printTrie()
-U.printTrie()
-V.printTrie()
+//T.printTrie()
+//U.printTrie()
+//V.printTrie()
+print(V.getWords())
+V.removeAll()
+//V.printTrie()
 /*T.insert("Hello")
 T.insert("Hey")
 T.insert("YOLO")
@@ -325,6 +322,6 @@ assert(T.count() == 3)
 assert(T.contains("Him") == false, "Test failed")
 assert(T.wordList.count == 3)*/
 
-T.printTrie()
-print(T.find(""))
+//T.printTrie()
+//print(T.find(""))
 //print(T.findPrefix("H"))
