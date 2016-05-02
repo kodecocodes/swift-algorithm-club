@@ -103,7 +103,7 @@ public class Trie {
     self.wordList = []
 
     for word in wordList {
-      let op = self.insert(word)
+      self.insert(word)
     }
   }
 
@@ -205,23 +205,17 @@ public class Trie {
       currentNode = currentNode.getChildAt(String(c))
     }
 
-    print("I make it here " + w)
     if currentNode.numChildren() > 0 {
-      //print("Hello?")
       currentNode.isNotWord()
     } else {
       var character = currentNode.char()
-      var i = 0
       while(currentNode.numChildren() == 0 && !currentNode.isRoot()) {
-        print("Do I die here?")
         print(currentNode.getParent().char())
-        i+=1
         currentNode = currentNode.getParent()
         currentNode.children[character]!.setParent(nil)
         currentNode.children[character]!.update(nil)
         currentNode.children[character] = nil
         character = currentNode.char()
-        print(i)
       }
     }
 
