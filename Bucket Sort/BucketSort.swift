@@ -28,7 +28,7 @@ import Foundation
 
 
 /**
-    Perform buckets srot algorithm on the given input elements.
+    Performs bucket sort algorithm on the given input elements.
     [Bucket Sort Algorithm Reference](https://en.wikipedia.org/wiki/Bucket_sort)
  
     - Parameter elements:     Array of Sortable elements
