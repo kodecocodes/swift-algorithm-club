@@ -20,16 +20,18 @@ children last.
 
 In-order traversal of any binary tree generally goes as follows:
 
+```swift
+func traverse(n: Node?) {
+	if (n == nil) { return
+	} else {
+		traverse(n.left)
+		visit(n)
+		traverse(n.right)
+	}
+}
 ```
-traverse(n):
-	if (n == NULL) return
-	else:
-		traverse(n->left)
-		visit n
-		traverse(n->right)
-```
-Where `n` is a pointer to a node in the tree (or `NULL`), each node stores
-pointers to its children as `left` and `right`, and "visiting" a node can mean
+Where `n` is a a node in the tree (or `nil`), each node stores
+its children as `left` and `right`, and "visiting" a node can mean
 performing any desired action on it.  We would call this function by passing to
 it the root of the tree we wish to traverse.
 
@@ -48,9 +50,9 @@ A threaded binary tree fixes this problem.
 An in-order traversal of a tree yields a linear ordering of the nodes.  Thus
 each node has both a predecessor and a successor (except for the first and last
 nodes, which only have a successor or a predecessor respectively).  In a
-threaded binary tree, each left child pointer that would normally be `NULL`
+threaded binary tree, each left child pointer that would normally be `nil`
 instead points to the node's predecessor (if it exists), and each right child
-pointer that would normally be `NULL` instead points to the node's successor
+pointer that would normally be `nil` instead points to the node's successor
 (if it exists).  This is what separates threaded binary trees from standard
 binary trees.
 
@@ -80,31 +82,31 @@ threaded binary tree is much more efficient than the recursive algorithm
 outlined above.  We use these predecessor/successor attributes to great effect
 in this new algorithm (note that this is for a forward traversal):
 
-```
+```swift
 traverse(root):
-	if (root == NULL) return
+	if (root == nil) return
  
     // Find the leftmost Node
-    Node *n = root
-	while (n->left != NULL):
-		n = n->left
+    Node n = root
+	while (n.left != nil):
+		n = n.left
  
-    while (n != NULL):
+    while (n != nil):
 		visit n
 
         // If this Node is a thread Node, then go to its in-order successor
-        if (n->rightThread):
-            n = n->right
+        if (n.rightThread):
+            n = n.right
  
 		// Else go to the leftmost Node in its right subtree
         else:
-            n = n->right
-			while (n->left != NULL):
-				n = n->left
+            n = n.right
+			while (n.left != nil):
+				n = n.left
 ```
 Where:
-- `root` is a pointer to the root of the tree (or `NULL`).
-- Each node stores pointers to its children or predecessor/successor as `left`
+- `root` is the root of the tree (or `nil`).
+- Each node stores its children or predecessor/successor as `left`
   and `right`.
 - "Visiting" a node can mean performing any desired action on it.
 - The booleans `leftThread` and `rightThread` keep track of whether `left` and
@@ -113,8 +115,8 @@ Where:
 	- While `leftThread` is not used here, it would be used in a backwards
 	  traversal in a double threaded tree or a single threaded tree "pointing"
 	  the other direction.
-- The first node in the traversal has `leftThread = true` and `left = NULL`
-- The last node in the traversal has `rightThread = true` and `right = NULL`
+- The first node in the traversal has `leftThread = true` and `left = nil`
+- The last node in the traversal has `rightThread = true` and `right = nil`
 
 
 ## An example
