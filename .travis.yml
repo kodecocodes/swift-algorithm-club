@@ -23,3 +23,4 @@ script:
 - xcodebuild test -project ./Shell\ Sort/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Stack/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Longest\ Common\ Subsequence/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Bucket\ Sort/Tests/Tests.xcodeproj -scheme Tests
