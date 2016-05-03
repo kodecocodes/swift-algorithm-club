@@ -485,20 +485,24 @@ extension ThreadedBinaryTree: CustomDebugStringConvertible {
 */
 
 // Simple little debug function to make testing output pretty
-private func check(tree: ThreadedBinaryTree<Int>) {
-  print("\(tree.count) Total Nodes:");
-  print(tree)
-  print("Debug Info:")
-  print(tree.debugDescription)
-  print("In-Order Traversal:")
-  let myArray = tree.toArray()
-  for node in myArray {
-    print(node)
-  }
-  if tree.isThreaded() {
-    print("This threaded binary tree is VALID.")
+private func check(tree: ThreadedBinaryTree<Int>?) {
+  if let tree = tree {
+    print("\(tree.count) Total Nodes:");
+    print(tree)
+    print("Debug Info:")
+    print(tree.debugDescription)
+    print("In-Order Traversal:")
+    let myArray = tree.toArray()
+    for node in myArray {
+      print(node)
+    }
+    if tree.isThreaded() {
+      print("This threaded binary tree is VALID.")
+    } else {
+      print("This threaded binary tree is INVALID.")
+    }
   } else {
-    print("This threaded binary tree is INVALID.")
+    print("This tree is nil.")
   }
 }
 
@@ -530,20 +534,28 @@ print("\nInsert 4")
 tree.insert(4)
 check(tree)
 
-print("\nRemove 13 (Not in the Tree)")
-tree.remove(13)
+print("\nInsert 15")
+tree.insert(15)
 check(tree)
 
-print("\nRemove 5")
-tree.remove(5)
+print("\nRemove 13 (Not in the Tree)")
+tree.remove(13)
 check(tree)
 
 print("\nRemove 7")
 tree.remove(7)
 check(tree)
 
-print("\nRemove 10")
-tree.remove(10)
+print("\nRemove 5")
+tree.remove(5)
 check(tree)
+
+print("\nRemove 9 (root)")
+let newRoot = tree.remove(9)
+check(newRoot)
+
+print("\nRemove 12")
+newRoot?.remove(12)
+check(newRoot)
 
 print("\n\nDone with Tests!\n")

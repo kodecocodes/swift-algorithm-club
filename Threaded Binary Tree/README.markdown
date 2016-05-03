@@ -73,6 +73,26 @@ need to keep track of both.  For example, in a double threaded tree, if a node
 has a right child but no left child, it will track its predecessor in place of
 its left child.
 
+Here is a valid "full" threaded binary tree:
+
+![Full](/Images/Full.png)
+
+While the following threaded binary tree is not "full," it is still valid.  The
+structure of the tree does not matter as long as it follows the definition of a
+binary search tree:
+
+![Partial](/Images/Partial.png)
+
+The solid lines denote the links between parents and children, while the dotted
+lines denote the "threads."  The important thing to note here is how the
+children and thread edges interact with each other.  Every node besides the
+root has one entering edge (from its parent), and two leaving edges: one to the
+left and one to the right.  The left leaving edge goes to the node's left child
+if it exists, and to its in-order predecessor if it does not.  The right
+leaving edge goes to the node's right child if it exists, and to its in-order
+successor if it does not.  The exceptions are the left-most node and the
+right-most node, which do not have a predecessor or successor, respectively.
+
 
 ## Representation
 
@@ -174,6 +194,39 @@ continuously manage the `leftThread` and `rightThread` variables.  It is best
 to explain this with an example.  Please note that this requires knowledge of
 binary search trees, so make sure you have
 [read this first](../Binary Search Tree/).
+
+Base:
+
+![Base](/Images/Base.png)
+
+Insert1:
+
+![Insert1](/Images/Insert1.png)
+
+Insert2:
+
+![Insert2](/Images/Insert2.png)
+
+Insert3:
+
+![Insert3](/Images/Insert3.png)
+
+Remove1:
+
+![Remove1](/Images/Remove1.png)
+
+Remove2:
+
+![Remove2](/Images/Remove2.png)
+
+Remove3:
+
+![Remove3](/Images/Remove3.png)
+
+Remove4:
+
+![Remove4](/Images/Remove4.png)
+
 
 
 ### Still under construction.
