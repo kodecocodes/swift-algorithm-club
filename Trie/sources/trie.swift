@@ -233,10 +233,12 @@ public class Trie {
 
   func findPrefix(p: String) -> [String] {
 
+    var q: Queue = Queue<String>()
+    return []
   }
 
 
-  func removeAll() -> Void {
+  func removeAll()  {
     for word in wordList {
       self.remove(word)
     }
@@ -249,43 +251,3 @@ public class Trie {
   }
 
 }
-
-print("tests")
-
-/*var x: Node = Node(c: "c")
-print(x.char())
-print(x.isValidWord())
-x.isWord()
-print(x.isValidWord())*/
-
-
-var T: Trie = Trie()
-T.insert("Hello")
-T.insert("Hi")
-T.insert("Hey")
-T.insert("Hallo")
-T.insert("Henry")
-var U: Trie = Trie(wordList: Set(["Hey", "HO", "hello", "yolo"]))
-var V: Trie = T.merge(U)
-//T.printTrie()
-//U.printTrie()
-//V.printTrie()
-print(V.getWords())
-V.removeAll()
-//V.printTrie()
-/*T.insert("Hello")
-T.insert("Hey")
-T.insert("YOLO")
-T.insert("Him")
-assert(T.count() == 4, "Count function failed")
-assert(T.contains("Hey") == true)
-assert(T.contains("Hello") == true)
-print("trying remove")
-T.remove("Him")
-assert(T.count() == 3)
-assert(T.contains("Him") == false, "Test failed")
-assert(T.wordList.count == 3)*/
-
-//T.printTrie()
-//print(T.find(""))
-//print(T.findPrefix("H"))

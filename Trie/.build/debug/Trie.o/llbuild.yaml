@@ -1,0 +1,29 @@
+client:
+  name: swift-build
+
+tools: {}
+
+targets:
+  "": [<Trie>]
+  Trie: [<Trie>]
+
+commands:
+  <Trie-swiftc>:
+    tool: swift-compiler
+    executable: "/home/christian/swiftv2/usr/bin/swiftc"
+    inputs: ["/home/christian/Desktop/swift-algorithm-club/Trie/sources/main.swift","/home/christian/Desktop/swift-algorithm-club/Trie/sources/trie.swift","/home/christian/Desktop/swift-algorithm-club/Trie/sources/Queue.swift"]
+    outputs: ["<Trie-swiftc>","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.swiftmodule","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/main.swift.o","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/trie.swift.o","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/Queue.swift.o"]
+    module-name: "Trie"
+    module-output-path: "/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.swiftmodule"
+    is-library: false
+    sources: ["/home/christian/Desktop/swift-algorithm-club/Trie/sources/main.swift","/home/christian/Desktop/swift-algorithm-club/Trie/sources/trie.swift","/home/christian/Desktop/swift-algorithm-club/Trie/sources/Queue.swift"]
+    objects: ["/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/main.swift.o","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/trie.swift.o","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/Queue.swift.o"]
+    import-paths: ["/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug"]
+    temps-path: "/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/Trie"
+    other-args: ["-j8","-Onone","-g","-I","/usr/local/include"]
+  <Trie>:
+    tool: shell
+    inputs: ["<Trie-swiftc>","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/main.swift.o","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/trie.swift.o","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/Queue.swift.o"]
+    outputs: ["<Trie>","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie"]
+    args: ["/home/christian/swiftv2/usr/bin/swiftc","-o","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/main.swift.o","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/trie.swift.o","/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/Queue.swift.o","-g","-L/usr/local/lib"]
+    description: "Linking Executable:  .build/debug/Trie"
