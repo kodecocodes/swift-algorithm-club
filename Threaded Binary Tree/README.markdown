@@ -4,8 +4,8 @@ A threaded binary tree is a special kind of [binary tree](../Binary Tree/) (a
 tree in which each node has at most two children) that maintains a few extra
 variables to allow cheap and fast **in-order traversal** of the tree.
 
-If you don't know what a tree is or what it is for, then [read this
-first](../Tree/).
+If you don't know what a tree is or what it is for, then
+[read this first](../Tree/).
 
 
 ## In-order traversal
@@ -120,8 +120,8 @@ tree and find the correct node.
   }
 ```
 > Note: `maximum()` and `minimum()` are methods of `ThreadedBinaryTree` which
-return the largest/smallest node in a given sub-tree.  See [the
-implementation](ThreadedBinaryTree.swift) for more detail.
+return the largest/smallest node in a given sub-tree.  See
+[the implementation](ThreadedBinaryTree.swift) for more detail.
 
 Because these are `ThreadedBinaryTree` methods, we can call
 `node.predecessor()` or `node.successor()` to obtain the predecessor or
@@ -172,8 +172,8 @@ The quick in-order traversal that a threaded binary trees gives us comes at a
 small cost.  Inserting/deleting nodes becomes more complicated, as we have to
 continuously manage the `leftThread` and `rightThread` variables.  It is best
 to explain this with an example.  Please note that this requires knowledge of
-binary search trees, so make sure you have [read this first](../Binary Search
-Tree/).
+binary search trees, so make sure you have
+[read this first](../Binary Search Tree/).
 
 
 ### Still under construction.
@@ -182,5 +182,5 @@ Tree/).
 
 [Threaded Binary Tree on Wikipedia](https://en.wikipedia.org/wiki/Threaded_binary_tree).
 
-*Written for the Swift Algorithm Club by [Jayson
-Tung](https://github.com/JFTung)*
+*Written for the Swift Algorithm Club by
+[Jayson Tung](https://github.com/JFTung)*
