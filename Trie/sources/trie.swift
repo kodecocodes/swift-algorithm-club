@@ -3,13 +3,14 @@ public class Node {
   private var parent: Node?
   private var children: [String:Node]
   private var isAWord: Bool
-
+  private var visited: Bool  //only for findPrefix
 
   init(c: String?, p: Node?){
     self.character = c
     self.children = [String:Node]()
     self.isAWord = false
     self.parent = p
+    self.visited = false
     }
 
   //Easier getter function, probably will make it more swift like
@@ -233,8 +234,39 @@ public class Trie {
 
   func findPrefix(p: String) -> [String] {
 
-    var q: Queue = Queue<String>()
-    return []
+    if !self.isPrefix(p).found {
+      return []
+    }
+
+    var q: Queue = Queue<Node>()
+    var n: Node = self.isPrefix(p).node!
+
+    var wordsWithPrefix: [String] = []
+    var word = p
+    var tmp = ""
+    q.enqueue(n)
+
+    while let current = q.dequeue() {
+      for (char, child) in current.getChildren() {
+        if(!child.visited) {
+          q.enqueue(child)
+          child.visited = true
+          if(child.isValidWord()) {
+            var currentNode = child
+            while currentNode !== n {
+              tmp += currentNode.char()
+              currentNode = currentNode.getParent()
+            }
+            tmp = String(tmp.characters.reverse())
+            wordsWithPrefix.append(word + tmp)
+          }
+        }
+        tmp = ""
+      }
+    }
+
+
+    return wordsWithPrefix
   }
 
 

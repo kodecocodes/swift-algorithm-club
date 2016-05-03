@@ -9,29 +9,30 @@ provides-member:
 - ["C4Trie4Node", ""]
 - ["C4Trie4Trie", ""]
 depends-top-level:
-- "Int"
+- !private "StringLiteralType"
 - !private "UnicodeScalarType"
-- !private "Array"
+- !private "&&"
+- !private "-"
+- "String"
+- !private "BooleanLiteralType"
+- "Bool"
+- !private "-="
+- "Trie"
+- "FloatLiteralType"
+- "Int"
+- !private "+"
+- "IntegerLiteralType"
+- !private "!"
+- !private "+="
+- !private "print"
+- !private "!=="
+- "Set"
 - "Node"
 - "Void"
 - !private "=="
-- "IntegerLiteralType"
-- !private "+="
-- "Trie"
-- "FloatLiteralType"
-- "Set"
-- !private "BooleanLiteralType"
-- !private "-"
-- "Bool"
-- !private "print"
-- !private "-="
-- "String"
-- !private "&&"
-- !private "!"
 - !private "Queue"
-- !private "+"
-- !private "StringLiteralType"
 - !private ">"
+- !private "Array"
 depends-member:
 - !private ["Vs12AnyGenerator", "Element"]
 - !private ["Ps9AnyObject", "Array"]
@@ -53,6 +54,7 @@ depends-member:
 - !private ["Ps9AnyObject", "insert"]
 - !private ["Ps9AnyObject", "isAWord"]
 - !private ["Ps9AnyObject", "isNotWord"]
+- !private ["Ps9AnyObject", "isPrefix"]
 - !private ["Ps9AnyObject", "isRoot"]
 - !private ["Ps9AnyObject", "isValidWord"]
 - !private ["Ps9AnyObject", "isWord"]
@@ -64,6 +66,7 @@ depends-member:
 - !private ["Ps9AnyObject", "root"]
 - !private ["Ps9AnyObject", "setParent"]
 - !private ["Ps9AnyObject", "update"]
+- !private ["Ps9AnyObject", "visited"]
 - !private ["Ps9AnyObject", "wordCount"]
 - !private ["Ps9AnyObject", "wordList"]
 - ["Ps9AnyObject", ""]
@@ -92,6 +95,7 @@ depends-member:
 - !private ["Vs10ArraySlice", "Index"]
 - !private ["Ps22BidirectionalIndexType", "Distance"]
 - !private ["Ps22BidirectionalIndexType", "IntegerLiteralType"]
+- !private ["Ps22BidirectionalIndexType", "_DisabledRangeIndex"]
 - !private ["Ps21BitwiseOperationsType", "Distance"]
 - !private ["Ps21BitwiseOperationsType", "IntegerLiteralType"]
 - !private ["Sb", "_getBuiltinLogicValue"]
@@ -105,6 +109,7 @@ depends-member:
 - !private ["VSS13CharacterView", "_Element"]
 - !private ["VSS13CharacterView", "count"]
 - !private ["VSS13CharacterView", "deinit"]
+- !private ["VSS13CharacterView", "reverse"]
 - !private ["VSS13CharacterView", "suffix"]
 - !private ["Ps14CollectionType", "Element"]
 - !private ["Ps14CollectionType", "Generator"]
@@ -115,6 +120,7 @@ depends-member:
 - !private ["Ps14CollectionType", "count"]
 - !private ["Ps14CollectionType", "init"]
 - !private ["Ps14CollectionType", "removeAtIndex"]
+- !private ["Ps14CollectionType", "reverse"]
 - !private ["Ps14CollectionType", "subscript"]
 - !private ["Ps14CollectionType", "suffix"]
 - !private ["Ps10Comparable", "Distance"]
@@ -190,6 +196,8 @@ depends-member:
 - !private ["Ps8Hashable", "init"]
 - !private ["Ps8Hashable", "lowercaseString"]
 - !private ["VVSS13CharacterView5Index", "Distance"]
+- !private ["VVSS13CharacterView5Index", "_DisabledRangeIndex"]
+- !private ["VVSS13CharacterView5Index", "deinit"]
 - !private ["Ps9Indexable", "Element"]
 - !private ["Ps9Indexable", "Generator"]
 - !private ["Ps9Indexable", "Index"]
@@ -199,6 +207,7 @@ depends-member:
 - !private ["Ps9Indexable", "count"]
 - !private ["Ps9Indexable", "init"]
 - !private ["Ps9Indexable", "removeAtIndex"]
+- !private ["Ps9Indexable", "reverse"]
 - !private ["Ps9Indexable", "subscript"]
 - !private ["Ps9Indexable", "suffix"]
 - !private ["Vs17IndexingGenerator", "Element"]
@@ -268,11 +277,14 @@ depends-member:
 - ["C4Trie4Node", "printNode"]
 - ["C4Trie4Node", "setParent"]
 - ["C4Trie4Node", "update"]
+- !private ["C4Trie4Node", "visited"]
 - ["Sq", "Some"]
 - !private ["Sq", "deinit"]
 - !private ["Ps16OutputStreamType", "characters"]
 - !private ["Ps16OutputStreamType", "init"]
 - !private ["Ps16OutputStreamType", "lowercaseString"]
+- !private ["V4Trie5Queue", "dequeue"]
+- !private ["V4Trie5Queue", "enqueue"]
 - !private ["V4Trie5Queue", "init"]
 - !private ["Ps21RandomAccessIndexType", "Distance"]
 - !private ["Ps21RandomAccessIndexType", "IntegerLiteralType"]
@@ -285,8 +297,15 @@ depends-member:
 - !private ["Ps30RangeReplaceableCollectionType", "count"]
 - !private ["Ps30RangeReplaceableCollectionType", "init"]
 - !private ["Ps30RangeReplaceableCollectionType", "removeAtIndex"]
+- !private ["Ps30RangeReplaceableCollectionType", "reverse"]
 - !private ["Ps30RangeReplaceableCollectionType", "subscript"]
 - !private ["Ps30RangeReplaceableCollectionType", "suffix"]
+- !private ["Vs17ReverseCollection", "Generator"]
+- !private ["Vs17ReverseCollection", "Index"]
+- !private ["Vs17ReverseCollection", "_Element"]
+- !private ["Vs17ReverseCollection", "deinit"]
+- !private ["Vs12ReverseIndex", "Distance"]
+- !private ["Ps16ReverseIndexType", "Distance"]
 - !private ["Ps12SequenceType", "Element"]
 - !private ["Ps12SequenceType", "Generator"]
 - !private ["Ps12SequenceType", "Index"]
@@ -296,6 +315,7 @@ depends-member:
 - !private ["Ps12SequenceType", "count"]
 - !private ["Ps12SequenceType", "init"]
 - !private ["Ps12SequenceType", "removeAtIndex"]
+- !private ["Ps12SequenceType", "reverse"]
 - !private ["Ps12SequenceType", "subscript"]
 - !private ["Ps12SequenceType", "suffix"]
 - !private ["Vs3Set", "Generator"]
@@ -402,6 +422,7 @@ depends-member:
 - !private ["Ps12_Reflectable", "IntegerLiteralType"]
 - ["Ps12_Reflectable", "Some"]
 - !private ["Ps12_Reflectable", "SubSequence"]
+- !private ["Ps12_Reflectable", "_DisabledRangeIndex"]
 - !private ["Ps12_Reflectable", "_Element"]
 - !private ["Ps12_Reflectable", "_getBuiltinLogicValue"]
 - !private ["Ps12_Reflectable", "append"]
@@ -411,6 +432,9 @@ depends-member:
 - !private ["Ps12_Reflectable", "lowercaseString"]
 - !private ["Ps12_Reflectable", "removeAtIndex"]
 - !private ["Ps12_Reflectable", "subscript"]
+- !private ["Ps22_ReverseCollectionType", "Generator"]
+- !private ["Ps22_ReverseCollectionType", "Index"]
+- !private ["Ps22_ReverseCollectionType", "_Element"]
 - !private ["Ps18_SignedIntegerType", "Distance"]
 - !private ["Ps18_SignedIntegerType", "IntegerLiteralType"]
 depends-nominal:
@@ -458,6 +482,9 @@ depends-nominal:
 - !private "V4Trie5Queue"
 - !private "Ps21RandomAccessIndexType"
 - !private "Ps30RangeReplaceableCollectionType"
+- !private "Vs17ReverseCollection"
+- !private "Vs12ReverseIndex"
+- !private "Ps16ReverseIndexType"
 - !private "Ps12SequenceType"
 - !private "Vs3Set"
 - !private "Vs12SetGenerator"
@@ -485,6 +512,7 @@ depends-nominal:
 - !private "Vs26_OptionalNilComparisonType"
 - !private "Ps22_RandomAccessAmbiguity"
 - "Ps12_Reflectable"
+- !private "Ps22_ReverseCollectionType"
 - !private "Ps18_SignedIntegerType"
 depends-dynamic-lookup:
 depends-external:
@@ -501,4 +529,4 @@ depends-external:
 - "/home/christian/swiftv2/usr/lib/swift/shims/FoundationShims.h"
 - "/home/christian/swiftv2/usr/lib/swift/shims/CoreFoundationShims.h"
 - "/home/christian/swiftv2/usr/lib/swift/shims/module.map"
-interface-hash: "fd9fdb3a4bd3dfc789eaf1430eb72c67"
+interface-hash: "eefc37d55a335afd501967035d9090a5"

@@ -8,6 +8,7 @@ T.insert("Hi")
 T.insert("Hey")
 T.insert("Hallo")
 T.insert("Henry")
+T.insert("YELLO")
 var U: Trie = Trie(wordList: Set(["Hey", "HO", "hello", "yolo"]))
 var V: Trie = T.merge(U)
 //T.printTrie()
@@ -31,4 +32,4 @@ assert(T.wordList.count == 3)*/
 
 //T.printTrie()
 //print(T.find(""))
-//print(T.findPrefix("H"))
+print(T.findPrefix("H"))

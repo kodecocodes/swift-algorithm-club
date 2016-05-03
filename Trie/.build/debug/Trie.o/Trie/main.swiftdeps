@@ -6,15 +6,17 @@ provides-top-level:
 provides-nominal:
 provides-member:
 depends-top-level:
-- "StringLiteralType"
-- "Set"
-- "Array"
-- "print"
 - "Trie"
-- "V"
-- "T"
 - "U"
+- "Array"
+- "V"
+- "print"
+- "StringLiteralType"
+- "T"
+- "Set"
+- "UnicodeScalarType"
 depends-member:
+- ["Ps9AnyObject", "findPrefix"]
 - ["Ps9AnyObject", "getWords"]
 - ["Ps9AnyObject", "init"]
 - ["Ps9AnyObject", "insert"]
@@ -110,6 +112,7 @@ depends-member:
 - ["Ps16SignedNumberType", "IntegerLiteralType"]
 - ["Ps10Strideable", "Distance"]
 - ["Ps10Strideable", "IntegerLiteralType"]
+- ["C4Trie4Trie", "findPrefix"]
 - ["C4Trie4Trie", "getWords"]
 - ["C4Trie4Trie", "init"]
 - ["C4Trie4Trie", "insert"]
@@ -199,4 +202,4 @@ depends-external:
 - "/home/christian/swiftv2/usr/lib/swift/shims/FoundationShims.h"
 - "/home/christian/swiftv2/usr/lib/swift/shims/CoreFoundationShims.h"
 - "/home/christian/swiftv2/usr/lib/swift/shims/module.map"
-interface-hash: "80fed5d587327a0a97180685d884fa09"
+interface-hash: "57319b836b718d38040ac7809f4446f7"
