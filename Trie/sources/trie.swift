@@ -259,9 +259,9 @@ public class Trie {
             }
             tmp = String(tmp.characters.reverse())
             wordsWithPrefix.append(word + tmp)
+            tmp = ""
           }
         }
-        tmp = ""
       }
     }
 
