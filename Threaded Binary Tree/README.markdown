@@ -22,18 +22,18 @@ In-order traversal of any binary tree generally goes as follows:
 
 ```swift
 func traverse(n: Node?) {
-	if (n == nil) { return
-	} else {
-		traverse(n.left)
-		visit(n)
-		traverse(n.right)
-	}
+  if (n == nil) { return
+  } else {
+    traverse(n.left)
+    visit(n)
+    traverse(n.right)
+  }
 }
 ```
-Where `n` is a a node in the tree (or `nil`), each node stores
-its children as `left` and `right`, and "visiting" a node can mean
-performing any desired action on it.  We would call this function by passing to
-it the root of the tree we wish to traverse.
+Where `n` is a a node in the tree (or `nil`), each node stores its children as
+`left` and `right`, and "visiting" a node can mean performing any desired
+action on it.  We would call this function by passing to it the root of the
+tree we wish to traverse.
 
 While simple and understandable, this algorithm uses stack space proportional
 to the height of the tree due to its recursive nature.  If the tree has **n**
@@ -83,26 +83,19 @@ outlined above.  We use these predecessor/successor attributes to great effect
 in this new algorithm (note that this is for a forward traversal):
 
 ```swift
-traverse(root):
-	if (root == nil) return
- 
-    // Find the leftmost Node
-    Node n = root
-	while (n.left != nil):
-		n = n.left
- 
-    while (n != nil):
-		visit n
-
-        // If this Node is a thread Node, then go to its in-order successor
-        if (n.rightThread):
-            n = n.right
- 
-		// Else go to the leftmost Node in its right subtree
-        else:
-            n = n.right
-			while (n.left != nil):
-				n = n.left
+func traverse(root: Node) {
+  var n: ThreadedBinaryTree
+  // Start at the leftmost Node
+  n = root.minimum()
+  while true {
+    visit(n)
+    if let successor = n.successor() {
+      n = successor
+    } else {
+      break
+    }
+  }
+}
 ```
 Where:
 - `root` is the root of the tree (or `nil`).
