@@ -75,13 +75,13 @@ its left child.
 
 Here is a valid "full" threaded binary tree:
 
-![Full](/Images/Full.png)
+![Full](Images/Full.png)
 
 While the following threaded binary tree is not "full," it is still valid.  The
 structure of the tree does not matter as long as it follows the definition of a
 binary search tree:
 
-![Partial](/Images/Partial.png)
+![Partial](Images/Partial.png)
 
 The solid lines denote the links between parents and children, while the dotted
 lines denote the "threads."  The important thing to note here is how the
@@ -197,35 +197,35 @@ binary search trees, so make sure you have
 
 Base:
 
-![Base](/Images/Base.png)
+![Base](Images/Base.png)
 
 Insert1:
 
-![Insert1](/Images/Insert1.png)
+![Insert1](Images/Insert1.png)
 
 Insert2:
 
-![Insert2](/Images/Insert2.png)
+![Insert2](Images/Insert2.png)
 
 Insert3:
 
-![Insert3](/Images/Insert3.png)
+![Insert3](Images/Insert3.png)
 
 Remove1:
 
-![Remove1](/Images/Remove1.png)
+![Remove1](Images/Remove1.png)
 
 Remove2:
 
-![Remove2](/Images/Remove2.png)
+![Remove2](Images/Remove2.png)
 
 Remove3:
 
-![Remove3](/Images/Remove3.png)
+![Remove3](Images/Remove3.png)
 
 Remove4:
 
-![Remove4](/Images/Remove4.png)
+![Remove4](Images/Remove4.png)
 
 
 
