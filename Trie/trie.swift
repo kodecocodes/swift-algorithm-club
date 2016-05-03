@@ -210,7 +210,6 @@ public class Trie {
     } else {
       var character = currentNode.char()
       while(currentNode.numChildren() == 0 && !currentNode.isRoot()) {
-        print(currentNode.getParent().char())
         currentNode = currentNode.getParent()
         currentNode.children[character]!.setParent(nil)
         currentNode.children[character]!.update(nil)
@@ -232,37 +231,8 @@ public class Trie {
     return (w, true)
   }
 
-  private func getChildrenWithPrefix(node: Node, var word: String, var words: [String]) -> [String] {
-
-    print(word)
-
-    if node.isLeaf() && node.isValidWord() {
-      words.append(word)
-      print(words)
-
-    } else {
-
-      for (child, n) in node.getChildren(){
-        print(child)
-        word += child
-        getChildrenWithPrefix(n, word: word, words: words)
-      }
-    }
-
-    return words
-  }
-
   func findPrefix(p: String) -> [String] {
-    print("Entered")
 
-
-    //var (node, pFound: Bool) = self.isPrefix(p)
-    if self.isPrefix(p).found {
-      print("I found the prefix!")
-      return getChildrenWithPrefix(self.isPrefix(p).node!, word: p.lowercaseString, words: [])
-    }
-
-    return ["HE"]
   }
 
 
