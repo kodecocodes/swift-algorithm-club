@@ -2,7 +2,7 @@
 
 A threaded binary tree is a special kind of [binary tree](../Binary Tree/) (a
 tree in which each node has at most two children) that maintains a few extra
-pointers to allow cheap and fast **in-order traversal** of the tree.
+variables to allow cheap and fast **in-order traversal** of the tree.
 
 If you don't know what a tree is or what it is for, then [read this
 first](../Tree/).
@@ -50,11 +50,10 @@ A threaded binary tree fixes this problem.
 An in-order traversal of a tree yields a linear ordering of the nodes.  Thus
 each node has both a predecessor and a successor (except for the first and last
 nodes, which only have a successor or a predecessor respectively).  In a
-threaded binary tree, each left child pointer that would normally be `nil`
-instead points to the node's predecessor (if it exists), and each right child
-pointer that would normally be `nil` instead points to the node's successor
-(if it exists).  This is what separates threaded binary trees from standard
-binary trees.
+threaded binary tree, each left child that would normally be `nil` instead
+stores the node's predecessor (if it exists), and each right child that would
+normally be `nil` instead stores the node's successor (if it exists).  This is
+what separates threaded binary trees from standard binary trees.
 
 There are two types of threaded binary trees:  single threaded and double
 threaded:
@@ -75,20 +74,70 @@ has a right child but no left child, it will track its predecessor in place of
 its left child.
 
 
+## Representation
+
+Before we go into detail about the methods that we can apply to threaded binary
+trees, it might be a good idea to explain how we will be representing the tree.
+The core of this data structure is the `ThreadedBinaryTree<T: Comparable>`
+class.  Each instance of this class represents a node with six member
+variables:  `value`, `parent`, `left`, `right`, `leftThread`, and
+`rightThread`.  Of all of these, only `value` is required.  The other five are
+Swift *optionals*.
+- `value: T` is the value of this node (e.g. 1, 2, A, B, etc.)
+- `parent: ThreadedBinaryTree?` is the parent of this node (if it exists)
+- `left: ThreadedBinaryTree?` is the left child of this node (if it exists)
+- `right: ThreadedBinaryTree?` is the right child of this node (if it exists)
+- `leftThread: ThreadedBinaryTree?` is the in-order predecessor of this node
+- `rightThread: ThreadedBinaryTree?` is the in-order successor of this node
+
+Now we are ready to go over some of the member functions in our
+`ThreadedBinaryTree` class.
+
+
 ## Traversal algorithm
+
+Let's start with the main reason we're using a threaded binary tree.  It is now
+very easy to find the in-order predecessor and the in-order successor of any
+node in the tree.  If the node has no left/right child, we can simply return
+the node's leftThread/rightThread.  Otherwise, it is trivial to move down the
+tree and find the correct node.
+
+```swift
+  func predecessor() -> ThreadedBinaryTree<T>? {
+    if let left = left {
+      return left.maximum()
+    } else {
+      return leftThread
+    }
+  }
+
+  func successor() -> ThreadedBinaryTree<T>? {
+    if let right = right {
+      return right.minimum()
+    } else {
+      return rightThread
+    }
+  }
+```
+> Note: `maximum()` and `minimum()` are methods of `ThreadedBinaryTree` which
+return the largest/smallest node in a given sub-tree.  See [the
+implementation](ThreadedBinaryTree.swift) for more detail.
+
+Because these are `ThreadedBinaryTree` methods, we can call
+`node.predecessor()` or `node.successor()` to obtain the predecessor or
+successor of any `node`, provided that `node` is a `ThreadedBinaryTree` object.
 
 Because predecessors and/or successors are tracked, an in-order traversal of a
 threaded binary tree is much more efficient than the recursive algorithm
 outlined above.  We use these predecessor/successor attributes to great effect
-in this new algorithm (note that this is for a forward traversal):
+in this new algorithm for both forward and backward traversals:
 
 ```swift
-func traverse(root: Node) {
+func traverseInOrderForward(visit: T -> Void) {
   var n: ThreadedBinaryTree
-  // Start at the leftmost Node
-  n = root.minimum()
+  n = minimum()
   while true {
-    visit(n)
+    visit(n.value)
     if let successor = n.successor() {
       n = successor
     } else {
@@ -96,23 +145,35 @@ func traverse(root: Node) {
     }
   }
 }
+
+func traverseInOrderBackward(visit: T -> Void) {
+  var n: ThreadedBinaryTree
+  n = maximum()
+  while true {
+    visit(n.value)
+    if let predecessor = n.predecessor() {
+      n = predecessor
+    } else {
+      break
+    }
+  }
+}
 ```
-Where:
-- `root` is the root of the tree (or `nil`).
-- Each node stores its children or predecessor/successor as `left`
-  and `right`.
-- "Visiting" a node can mean performing any desired action on it.
-- The booleans `leftThread` and `rightThread` keep track of whether `left` and
-  `right` point to a child or a predecessor/successor.
-	- They are `true` for predecessors/successors, and `false` for children.
-	- While `leftThread` is not used here, it would be used in a backwards
-	  traversal in a double threaded tree or a single threaded tree "pointing"
-	  the other direction.
-- The first node in the traversal has `leftThread = true` and `left = nil`
-- The last node in the traversal has `rightThread = true` and `right = nil`
+Again, this a method of `ThreadedBinaryTree`, so we'd call it like
+`node.traverseInorderForward(visitFunction)`.  Note that we are able to specify
+a function that executes on each node as they are visited.  This function can
+be anything you want, as long as it accepts `T` (the type of the values of the
+nodes of the tree) and has no return value.
 
 
-## An example
+## Insertion and deletion
+
+The quick in-order traversal that a threaded binary trees gives us comes at a
+small cost.  Inserting/deleting nodes becomes more complicated, as we have to
+continuously manage the `leftThread` and `rightThread` variables.  It is best
+to explain this with an example.  Please note that this requires knowledge of
+binary search trees, so make sure you have [read this first](../Binary Search
+Tree/).
 
 
 ### Still under construction.
@@ -121,4 +182,5 @@ Where:
 
 [Threaded Binary Tree on Wikipedia](https://en.wikipedia.org/wiki/Threaded_binary_tree).
 
-*Written for the Swift Algorithm Club by Jayson Tung*
+*Written for the Swift Algorithm Club by [Jayson
+Tung](https://github.com/JFTung)*
