@@ -8,7 +8,7 @@
   Any nodes that lack either a left or right child instead keep track of their
   in-order predecessor and/or successor.
 
-  This tree allows duplicate elements.
+  This tree allows duplicate elements (we break ties by defaulting right).
 
   This tree does not automatically balance itself. To make sure it is balanced,
   you should insert new values in randomized order, not in sorted order.
@@ -18,8 +18,6 @@ public class ThreadedBinaryTree<T: Comparable> {
   private(set) public var parent: ThreadedBinaryTree?
   private(set) public var left: ThreadedBinaryTree?
   private(set) public var right: ThreadedBinaryTree?
-
-  //THREADED
   private(set) public var leftThread: ThreadedBinaryTree?
   private(set) public var rightThread: ThreadedBinaryTree?
 
@@ -92,9 +90,8 @@ extension ThreadedBinaryTree {
       } else {
         left = ThreadedBinaryTree(value: value)
         left?.parent = parent
-        //THREADED
-        left?.leftThread = leftThread
         left?.rightThread = parent
+        left?.leftThread = leftThread
         leftThread = nil
       }
     } else {
@@ -103,9 +100,8 @@ extension ThreadedBinaryTree {
       } else {
         right = ThreadedBinaryTree(value: value)
         right?.parent = parent
-        //THREADED
-        right?.rightThread = rightThread
         right?.leftThread = parent
+        right?.rightThread = rightThread
         rightThread = nil
       }
     }
@@ -124,7 +120,6 @@ extension ThreadedBinaryTree {
 
     Performance: runs in O(h) time, where h is the height of the tree.
   */
-  //THREADED
   public func remove(value: T) -> ThreadedBinaryTree? {
     return search(value)?.remove()
   }
@@ -138,7 +133,6 @@ extension ThreadedBinaryTree {
     if let left = left {
       if let right = right {
         replacement = removeNodeWithTwoChildren(left, right)
-        //THREADED
         replacement?.leftThread = leftThread
         replacement?.rightThread = rightThread
         left.maximum().rightThread = replacement
@@ -146,18 +140,15 @@ extension ThreadedBinaryTree {
       } else {
         // This node only has a left child. The left child replaces the node.
         replacement = left
-        //THREADED
         left.maximum().rightThread = rightThread
       }
     } else if let right = right {
       // This node only has a right child. The right child replaces the node.
       replacement = right
-      //THREADED
       right.minimum().leftThread = leftThread
     } else {
       // This node has no children. We just disconnect it from its parent.
       replacement = nil
-      //THREADED
       if isLeftChild {
         parent?.leftThread = leftThread
       } else {
@@ -171,7 +162,6 @@ extension ThreadedBinaryTree {
     parent = nil
     left = nil
     right = nil
-    //THREADED
     leftThread = nil
     rightThread = nil
 
@@ -312,7 +302,6 @@ extension ThreadedBinaryTree {
     if let left = left {
       return left.maximum()
     } else {
-      //THREADED
       return leftThread
     }
   }
@@ -324,7 +313,6 @@ extension ThreadedBinaryTree {
     if let right = right {
       return right.minimum()
     } else {
-      //THREADED
       return rightThread
     }
   }
@@ -333,7 +321,6 @@ extension ThreadedBinaryTree {
 // MARK: - Traversal
 
 extension ThreadedBinaryTree {
-  //THREADED
   public func traverseInOrderForward(@noescape visit: T -> Void) {
     var n: ThreadedBinaryTree
     n = minimum()
@@ -347,7 +334,6 @@ extension ThreadedBinaryTree {
     }
   }
 
-  //THREADED
   public func traverseInOrderBackward(@noescape visit: T -> Void) {
     var n: ThreadedBinaryTree
     n = maximum()
@@ -378,7 +364,6 @@ extension ThreadedBinaryTree {
   */
   public func map(@noescape formula: T -> T) -> [T] {
     var a = [T]()
-    //THREADED
     var n: ThreadedBinaryTree
     n = minimum()
     while true {
@@ -412,20 +397,17 @@ extension ThreadedBinaryTree {
     The first and last nodes in the in-order traversal are exempt from this,
     as the first has leftThread = nil, and the last has rightThread = nil.
   */
-  //THREADED
   public func isThreaded() -> Bool {
-    if self === minimum() {
-      if left != nil && leftThread != nil {
-        return false
-      }
-    } else if (left == nil && leftThread == nil) || (left != nil && leftThread != nil) {
+    if left == nil && leftThread == nil {
+      if self !== minimum() { return false }
+    }
+    if left != nil && leftThread != nil {
       return false
     }
-    if self === maximum() {
-      if right != nil && rightThread != nil {
-        return false
-      }
-    } else if (right == nil && rightThread == nil) || (right != nil && rightThread != nil) {
+    if right == nil && rightThread == nil {
+      if self !== maximum() { return false }
+    }
+    if right != nil && rightThread != nil {
       return false
     }
     let leftThreaded = left?.isThreaded() ?? true
@@ -456,18 +438,17 @@ extension ThreadedBinaryTree: CustomDebugStringConvertible {
     if let parent = parent {
       s += ", parent: \(parent.value)"
     }
-    if let left = left {
-      s += ", left = [" + left.debugDescription + "]"
-    }
-    if let right = right {
-      s += ", right = [" + right.debugDescription + "]"
-    }
-    //THREADED
     if let leftThread = leftThread {
       s += ", leftThread: \(leftThread.value)"
     }
     if let rightThread = rightThread {
       s += ", rightThread: \(rightThread.value)"
+    }
+    if let left = left {
+      s += ", left = [" + left.debugDescription + "]"
+    }
+    if let right = right {
+      s += ", right = [" + right.debugDescription + "]"
     }
     return s
   }
@@ -476,86 +457,3 @@ extension ThreadedBinaryTree: CustomDebugStringConvertible {
     return map { $0 }
   }
 }
-
-/*
-  TESTS
-  I don't have an Apple computer, so I can't make a Playground or any of that
-  fancy stuff.  Here's a simple demonstration of the ThreadedBinaryTree class.
-  It follows the examples in the README.
-*/
-
-// Simple little debug function to make testing output pretty
-private func check(tree: ThreadedBinaryTree<Int>?) {
-  if let tree = tree {
-    print("\(tree.count) Total Nodes:");
-    print(tree)
-    print("Debug Info:")
-    print(tree.debugDescription)
-    print("In-Order Traversal:")
-    let myArray = tree.toArray()
-    for node in myArray {
-      print(node)
-    }
-    if tree.isThreaded() {
-      print("This threaded binary tree is VALID.")
-    } else {
-      print("This threaded binary tree is INVALID.")
-    }
-  } else {
-    print("This tree is nil.")
-  }
-}
-
-
-print("\nTree with Single Node")
-let emptyTree = ThreadedBinaryTree<Int>(value: 1)
-check(emptyTree)
-
-print("\nFull Balanced Binary Tree with 7 Nodes")
-let fullTree = ThreadedBinaryTree<Int>(value: 4)
-fullTree.insert(2)
-fullTree.insert(6)
-fullTree.insert(1)
-fullTree.insert(3)
-fullTree.insert(5)
-fullTree.insert(7)
-check(fullTree)
-
-
-print("\n\nUnbalanced Binary Tree with 5 Nodes")
-let tree = ThreadedBinaryTree<Int>(array: [9, 5, 12, 2, 7])
-check(tree)
-
-print("\nInsert 10")
-tree.insert(10)
-check(tree)
-
-print("\nInsert 4")
-tree.insert(4)
-check(tree)
-
-print("\nInsert 15")
-tree.insert(15)
-check(tree)
-
-print("\nRemove 13 (Not in the Tree)")
-tree.remove(13)
-check(tree)
-
-print("\nRemove 7")
-tree.remove(7)
-check(tree)
-
-print("\nRemove 5")
-tree.remove(5)
-check(tree)
-
-print("\nRemove 9 (root)")
-let newRoot = tree.remove(9)
-check(newRoot)
-
-print("\nRemove 12")
-newRoot?.remove(12)
-check(newRoot)
-
-print("\n\nDone with Tests!\n")

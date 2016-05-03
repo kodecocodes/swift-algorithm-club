@@ -185,25 +185,56 @@ a function that executes on each node as they are visited.  This function can
 be anything you want, as long as it accepts `T` (the type of the values of the
 nodes of the tree) and has no return value.
 
+Let's walk through a forward traversal of a tree by hand to get a better idea
+of how a computer would do it.  For example, take this simple threaded tree:
+
+![Base](Images/Base.png)
+
+We start at the root of the tree, **9**.  Note that we don't `visit(9)` yet.
+From there we want to go to the `minimum()` node in the tree, which is **2** in
+this case.  We then `visit(2)` and see that it has a `rightThread`, and thus
+we immediately know what its `successor()` is.  We follow the thread to **5**,
+which does not have any leaving threads.  Therefore, after we `visit(5)`, we go
+to the `minimum()` node in its `right` subtree, which is **7**.  We then
+`visit(7)` and see that it has a `rightThread`, which we follow to get back to
+**9**.  *Now* we `visit(9)`, and after noticing that it has no `rightThread`,
+we go to the `minimum()` node in its `right` subtree, which is **12**.  This
+node has a `rightThread` that leads to `nil`, which signals that we have
+completed the traversal!  We visited the nodes in order **2, 5, 7, 9, 12**,
+which intuitively makes sense, as that is their natural increasing order.
+
+A backward traversal would be very similar, but you would replace `right`,
+`rightThread`, `minimum()`, and `successor()` with `left`, `leftThread`,
+`maximum()`, and `predecessor()`.
+
+
 
 ## Insertion and deletion
 
 The quick in-order traversal that a threaded binary trees gives us comes at a
 small cost.  Inserting/deleting nodes becomes more complicated, as we have to
-continuously manage the `leftThread` and `rightThread` variables.  It is best
-to explain this with an example.  Please note that this requires knowledge of
-binary search trees, so make sure you have
+continuously manage the `leftThread` and `rightThread` variables.  Rather than
+walking through some boring code, it is best to explain this with an example
+(although you can read through [the implementation](ThreadedBinaryTree.swift)
+if you want to know the finer details).  Please note that this requires
+knowledge of binary search trees, so make sure you have 
 [read this first](../Binary Search Tree/).
 
-Base:
+> Note: we do allow duplicate nodes in this implementation of a threaded binary
+> tree.  We break ties by defaulting insertion to the right.
+
+Let's start with the same tree that we used for the above traversal example:
 
 ![Base](Images/Base.png)
 
-Insert1:
+Suppose we `insert(10)` into this tree.  The resulting graph would look like
+this, with the changes highlighted in red:
 
 ![Insert1](Images/Insert1.png)
 
-Insert2:
+If you've done your homework and are familiar with binary search trees, the
+placement of the node should not surprise you.  What's new is how we maintain
+the threads between nodes.
 
 ![Insert2](Images/Insert2.png)
 
@@ -228,8 +259,15 @@ Remove4:
 ![Remove4](Images/Remove4.png)
 
 
+## Miscellaneous methods
 
-### Still under construction.
+There are many other smaller operations that a threaded binary tree can do,
+such as `searching()` for a node in the tree, finding the `depth()` or
+`height()` of a node, etc.  You can check
+[the implementation](ThreadedBinaryTree.swift) for the full technical details.
+Many of these methods are inherent to binary search trees as well, so you can
+find [further documentation here](../Binary Search Tree/).
+
 
 ## See also 
 
