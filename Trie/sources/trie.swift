@@ -3,13 +3,14 @@ public class Node {
   private var parent: Node?
   private var children: [String:Node]
   private var isAWord: Bool
-
+  private var visited: Bool  //only for findPrefix
 
   init(c: String?, p: Node?){
     self.character = c
     self.children = [String:Node]()
     self.isAWord = false
     self.parent = p
+    self.visited = false
     }
 
   //Easier getter function, probably will make it more swift like
@@ -210,7 +211,6 @@ public class Trie {
     } else {
       var character = currentNode.char()
       while(currentNode.numChildren() == 0 && !currentNode.isRoot()) {
-        print(currentNode.getParent().char())
         currentNode = currentNode.getParent()
         currentNode.children[character]!.setParent(nil)
         currentNode.children[character]!.update(nil)
@@ -232,41 +232,45 @@ public class Trie {
     return (w, true)
   }
 
-  private func getChildrenWithPrefix(node: Node, var word: String, var words: [String]) -> [String] {
+  func findPrefix(p: String) -> [String] {
 
-    print(word)
+    if !self.isPrefix(p).found {
+      return []
+    }
 
-    if node.isLeaf() && node.isValidWord() {
-      words.append(word)
-      print(words)
+    var q: Queue = Queue<Node>()
+    var n: Node = self.isPrefix(p).node!
 
-    } else {
+    var wordsWithPrefix: [String] = []
+    var word = p
+    var tmp = ""
+    q.enqueue(n)
 
-      for (child, n) in node.getChildren(){
-        print(child)
-        word += child
-        getChildrenWithPrefix(n, word: word, words: words)
+    while let current = q.dequeue() {
+      for (char, child) in current.getChildren() {
+        if(!child.visited) {
+          q.enqueue(child)
+          child.visited = true
+          if(child.isValidWord()) {
+            var currentNode = child
+            while currentNode !== n {
+              tmp += currentNode.char()
+              currentNode = currentNode.getParent()
+            }
+            tmp = String(tmp.characters.reverse())
+            wordsWithPrefix.append(word + tmp)
+            tmp = ""
+          }
+        }
       }
     }
 
-    return words
-  }
 
-  func findPrefix(p: String) -> [String] {
-    print("Entered")
-
-
-    //var (node, pFound: Bool) = self.isPrefix(p)
-    if self.isPrefix(p).found {
-      print("I found the prefix!")
-      return getChildrenWithPrefix(self.isPrefix(p).node!, word: p.lowercaseString, words: [])
-    }
-
-    return ["HE"]
+    return wordsWithPrefix
   }
 
 
-  func removeAll() -> Void {
+  func removeAll()  {
     for word in wordList {
       self.remove(word)
     }
@@ -279,43 +283,3 @@ public class Trie {
   }
 
 }
-
-print("tests")
-
-/*var x: Node = Node(c: "c")
-print(x.char())
-print(x.isValidWord())
-x.isWord()
-print(x.isValidWord())*/
-
-
-var T: Trie = Trie()
-T.insert("Hello")
-T.insert("Hi")
-T.insert("Hey")
-T.insert("Hallo")
-T.insert("Henry")
-var U: Trie = Trie(wordList: Set(["Hey", "HO", "hello", "yolo"]))
-var V: Trie = T.merge(U)
-//T.printTrie()
-//U.printTrie()
-//V.printTrie()
-print(V.getWords())
-V.removeAll()
-//V.printTrie()
-/*T.insert("Hello")
-T.insert("Hey")
-T.insert("YOLO")
-T.insert("Him")
-assert(T.count() == 4, "Count function failed")
-assert(T.contains("Hey") == true)
-assert(T.contains("Hello") == true)
-print("trying remove")
-T.remove("Him")
-assert(T.count() == 3)
-assert(T.contains("Him") == false, "Test failed")
-assert(T.wordList.count == 3)*/
-
-//T.printTrie()
-//print(T.find(""))
-//print(T.findPrefix("H"))

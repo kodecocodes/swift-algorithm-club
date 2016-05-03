@@ -1,0 +1,6 @@
+version: "Swift version 2.2-dev (LLVM 3ebdbb2c7e, Clang f66c5bb67b, Swift 0ddf238ad7)"
+options: "4b4cb3e8efe303c8a39bf9409934d3d3"
+build_time: [515615518, 682291000]
+inputs:
+  "/home/christian/Desktop/swift-algorithm-club/Trie/sources/trie.swift": !dirty [515615193, 0]
+  "/home/christian/Desktop/swift-algorithm-club/Trie/sources/Queue.swift": !dirty [512710161, 0]

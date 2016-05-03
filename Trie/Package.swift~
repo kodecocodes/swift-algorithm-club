@@ -1,0 +1,5 @@
+import PackageDescription
+
+let package = Package(
+    name: "package_name_here_and_keep_quote_marks"
+)
