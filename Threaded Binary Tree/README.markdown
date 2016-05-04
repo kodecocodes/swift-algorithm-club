@@ -2,7 +2,10 @@
 
 A threaded binary tree is a special kind of [binary tree](../Binary Tree/) (a
 tree in which each node has at most two children) that maintains a few extra
-variables to allow cheap and fast **in-order traversal** of the tree.
+variables to allow cheap and fast **in-order traversal** of the tree.  We will
+explore the general structure of threaded binary trees, as well as
+[the Swift implementation](ThreadedBinaryTree.swift) of a fully functioning
+threaded binary tree.
 
 If you don't know what a tree is or what it is for, then
 [read this first](../Tree/).
@@ -11,14 +14,15 @@ If you don't know what a tree is or what it is for, then
 ## In-order traversal
 
 The main motivation behind using a threaded binary tree over a simpler and
-smaller standard binary tree is to increase the speed of **in-order traversal**
+smaller standard binary tree is to increase the speed of in-order traversal
 of the tree.  An in-order traversal of a binary tree visits the nodes in the
 order in which they are stored, which matches the underlying ordering of a
 [binary search tree](../Binary Search Tree/).  The idea is to visit all the
 left children of a node first, then visit the node itself, and visit the left
 children last.
 
-In-order traversal of any binary tree generally goes as follows:
+In-order traversal of any binary tree generally goes as follows (using Swift
+syntax):
 
 ```swift
 func traverse(n: Node?) {
@@ -48,15 +52,15 @@ A threaded binary tree fixes this problem.
 ## Predecessors and successors
 
 An in-order traversal of a tree yields a linear ordering of the nodes.  Thus
-each node has both a predecessor and a successor (except for the first and last
-nodes, which only have a successor or a predecessor respectively).  In a
-threaded binary tree, each left child that would normally be `nil` instead
+each node has both a **predecessor** and a **successor** (except for the first
+and last nodes, which only have a successor or a predecessor respectively).  In
+a threaded binary tree, each left child that would normally be `nil` instead
 stores the node's predecessor (if it exists), and each right child that would
 normally be `nil` instead stores the node's successor (if it exists).  This is
 what separates threaded binary trees from standard binary trees.
 
-There are two types of threaded binary trees:  single threaded and double
-threaded:
+There are two types of threaded binary trees:  **single threaded** and **double
+threaded**:
 - A single threaded tree keeps track of **either** the in-order predecessor
   **or** successor (left **or** right).
 - A double threaded tree keeps track of **both** the in-order predecessor
@@ -110,7 +114,8 @@ Swift *optionals*.
 - `leftThread: ThreadedBinaryTree?` is the in-order predecessor of this node
 - `rightThread: ThreadedBinaryTree?` is the in-order successor of this node
 
-Now we are ready to go over some of the member functions in our
+As we are storing both `leftThread` and `rightThread`, this is a double
+threaded tree. Now we are ready to go over some of the member functions in our
 `ThreadedBinaryTree` class.
 
 
@@ -118,9 +123,9 @@ Now we are ready to go over some of the member functions in our
 
 Let's start with the main reason we're using a threaded binary tree.  It is now
 very easy to find the in-order predecessor and the in-order successor of any
-node in the tree.  If the node has no left/right child, we can simply return
-the node's leftThread/rightThread.  Otherwise, it is trivial to move down the
-tree and find the correct node.
+node in the tree.  If the node has no `left`/`right` child, we can simply
+return the node's `leftThread`/`rightThread`.  Otherwise, it is trivial to move
+down the tree and find the correct node.
 
 ```swift
   func predecessor() -> ThreadedBinaryTree<T>? {
@@ -227,36 +232,103 @@ Let's start with the same tree that we used for the above traversal example:
 
 ![Base](Images/Base.png)
 
-Suppose we `insert(10)` into this tree.  The resulting graph would look like
+Suppose we insert **10** into this tree.  The resulting graph would look like
 this, with the changes highlighted in red:
 
 ![Insert1](Images/Insert1.png)
 
 If you've done your homework and are familiar with binary search trees, the
-placement of the node should not surprise you.  What's new is how we maintain
-the threads between nodes.
+placement of this node should not surprise you.  What's new is how we maintain
+the threads between nodes.  So we know that we want to insert **10** as
+**12**'s `left` child.  The first thing we do is set **12**'s `left` child to
+**10**, and set **10**'s `parent` to **12**.  Because **10** is being inserted
+on the `left`, and **10** has no children of its own, we can safely set
+**10**'s `rightThread` to its `parent` **12**.  What about **10**'s
+`leftThread`?  Because we know that **10** < **12**, and **10** is the only
+`left` child of **12**, we can safely set **10**'s `leftThread` to **12**'s
+(now outdated) `leftThread`.  Finally we set **12**'s `leftThread = nil`, as it
+now has a `left` child.
+
+Let's now insert another node, **4**, into the tree:
 
 ![Insert2](Images/Insert2.png)
 
-Insert3:
+While we are inserting **4** as a `right` child, it follows the exact same
+process as above, but mirrored (swap `left` and `right`).  For the sake of
+completeness, we'll insert one final node, **15**:
 
 ![Insert3](Images/Insert3.png)
 
-Remove1:
+Now that we have a fairly crowded tree, let's try removing some nodes.
+Compared to insertion, deletion is a little more complicated.  Let's start with
+something simple, like removing **7**, which has no children:
 
 ![Remove1](Images/Remove1.png)
 
-Remove2:
+Before we can just throw **7** away, we have to perform some clean-up.  In this
+case, because **7** is a `right` child and has no children itself, we can
+simply set the `rightThread` of **7**'s `parent`(**5**) to **7**'s (now
+outdated) `rightThread`.  Then we can just set **7**'s `parent`, `left`,
+`right`, `leftThread`, and `rightThread` to `nil`, effectively removing it from
+the tree.
+
+Let's try something a little harder.  Say we remove **5** from the tree:
 
 ![Remove2](Images/Remove2.png)
 
-Remove3:
+This is a little trickier, as **5** has some children that we have to deal
+with.  The core idea is to replace **5** with its first child, **2**.  To
+accomplish this, we of course set **2**'s `parent` to **9** and set **9**'s
+`left` child to **2**.  Note that **4**'s `rightThread` used to be **5**, but
+we are removing **5**, so it needs to change.  It is now important to
+understand two important properties of threaded binary trees:
+
+1. For the rightmost node **m** in the `left` subtree of any node **n**,
+**m**'s `rightThread` is **n**.
+2. For the leftmost node **m** in the `right` subtree of any node **n**,
+**m**'s `leftThread` is **n**.
+
+Note how this property held true before the removal of **5**, as **4** was the
+rightmost node in **5**'s `left` subtree.  In order to maintain this property,
+we must set **4**'s `rightThread` to **9**, as **4** is now the rightmost node
+in **9**'s `left` subtree.  To completely remove **5**, all we now have to do
+is set **5**'s `parent`, `left`, `right`, `leftThread`, and `rightThread` to
+`nil`.
+
+How about we do something crazy?  What would happen if we tried to remove
+**9**, the root node?  This is the resulting tree:
 
 ![Remove3](Images/Remove3.png)
 
-Remove4:
+Whenever we want to remove a node that has two children, we take a slightly
+different approach than the above examples.  The basic idea is to replace the
+node that we want to remove with the leftmost node in its `right`  subtree,
+which we call the replacement node.
+
+> Note: we could also replace the node with the rightmost node in its `left`
+> subtree.  Choosing left or right is mostly an arbitrary decision.
+
+Once we find the replacement node, **10** in this case, we remove it from the
+tree using the algorithms outlined above.  This ensures that the edges in the
+`right` subtree remain correct.  From there it is easy to replace **9** with
+**10**, as we just have to update the edges leaving **10**.  Now all we have to
+do is fiddle with the threads in order to maintain the two properties outlined
+above.  In this case, **12**'s `leftThread` is now **10**. Node **9** is no
+longer needed, so we can finish teh removal process by setting all of its
+variables to `nil`.
+
+In order to illustrate how to remove a node that has only a `right` child,
+we'll remove one final node, **12** from the tree:
 
 ![Remove4](Images/Remove4.png)
+
+The process to remove **12** is identical to the process we used to remove
+**5**, but mirrored.  **5** had a `left` child, while **12** has a `right`
+child, but the core algorithm is the same.
+
+That is a quick overview of how insertion and deletion work in threaded binary
+trees.  More detail can of course be found in
+[the implementation](ThreadedBinaryTree.swift).
 
 
 ## Miscellaneous methods
@@ -271,7 +343,9 @@ find [further documentation here](../Binary Search Tree/).
 
 ## See also 
 
-[Threaded Binary Tree on Wikipedia](https://en.wikipedia.org/wiki/Threaded_binary_tree).
+[Threaded Binary Tree on Wikipedia](https://en.wikipedia.org/wiki/Threaded_binary_tree)
 
 *Written for the Swift Algorithm Club by
 [Jayson Tung](https://github.com/JFTung)*
+
+*Images made using www.draw.io*
