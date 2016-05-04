@@ -17,10 +17,10 @@ The main motivation behind using a threaded binary tree over a simpler and
 smaller standard binary tree is to increase the speed of an in-order traversal
 of the tree.  An in-order traversal of a binary tree visits the nodes in the
 order in which they are stored, which matches the underlying ordering of a
-[binary search tree](../Binary Search Tree/).  Thus threaded binary trees are
-almost always binary search trees too.  The idea is to visit all the left
-children of a node first, then visit the node itself, and visit the left
-children last.
+[binary search tree](../Binary Search Tree/).  This means most threaded binary
+trees are also binary search trees.  The idea is to visit all the left children
+of a node first, then visit the node itself, and then visit the right children
+last.
 
 An in-order traversal of any binary tree generally goes as follows (using Swift
 syntax):
@@ -89,25 +89,24 @@ binary search tree:
 ![Partial](Images/Partial.png)
 
 The solid lines denote the links between parents and children, while the dotted
-lines denote the "threads."  The important thing to note here is how the
-children and thread edges interact with each other.  Every node besides the
-root has one entering edge (from its parent), and two leaving edges: one to the
-left and one to the right.  The left leaving edge goes to the node's left child
-if it exists, and to its in-order predecessor if it does not.  The right
-leaving edge goes to the node's right child if it exists, and to its in-order
-successor if it does not.  The exceptions are the left-most node and the
-right-most node, which do not have a predecessor or successor, respectively.
+lines denote the "threads."  It is important to note how the children and
+thread edges interact with each other.  Every node besides the root has one
+entering edge (from its parent), and two leaving edges: one to the left and one
+to the right.  The left leaving edge goes to the node's left child if it
+exists, and to its in-order predecessor if it does not.  The right leaving edge
+goes to the node's right child if it exists, and to its in-order successor if
+it does not.  The exceptions are the left-most node and the right-most node,
+which do not have a predecessor or successor, respectively.
 
 
 ## Representation
 
-Before we go into detail about the methods that we can apply to threaded binary
-trees, it might be a good idea to explain how we will be representing the tree.
-The core of this data structure is the `ThreadedBinaryTree<T: Comparable>`
-class.  Each instance of this class represents a node with six member
-variables:  `value`, `parent`, `left`, `right`, `leftThread`, and
-`rightThread`.  Of all of these, only `value` is required.  The other five are
-Swift *optionals* (they may be `nil`).
+Before we go into detail about the methods of a threaded binary tree, we should
+first explain how the tree itself is represented.  The core of this data
+structure is the `ThreadedBinaryTree<T: Comparable>` class.  Each instance of
+this class represents a node with six member variables:  `value`, `parent`,
+`left`, `right`, `leftThread`, and `rightThread`.  Of all of these, only
+`value` is required.  The other five are Swift *optionals* (they may be `nil`).
 - `value: T` is the value of this node (e.g. 1, 2, A, B, etc.)
 - `parent: ThreadedBinaryTree?` is the parent of this node
 - `left: ThreadedBinaryTree?` is the left child of this node
@@ -185,7 +184,7 @@ func traverseInOrderBackward(visit: T -> Void) {
   }
 }
 ```
-Again, this a method of `ThreadedBinaryTree`, so we'd call it like
+Again, this a method of `ThreadedBinaryTree`, so we'd call it via
 `node.traverseInorderForward(visitFunction)`.  Note that we are able to specify
 a function that executes on each node as they are visited.  This function can
 be anything you want, as long as it accepts `T` (the type of the values of the
