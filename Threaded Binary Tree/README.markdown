@@ -14,14 +14,15 @@ If you don't know what a tree is or what it is for, then
 ## In-order traversal
 
 The main motivation behind using a threaded binary tree over a simpler and
-smaller standard binary tree is to increase the speed of in-order traversal
+smaller standard binary tree is to increase the speed of an in-order traversal
 of the tree.  An in-order traversal of a binary tree visits the nodes in the
 order in which they are stored, which matches the underlying ordering of a
-[binary search tree](../Binary Search Tree/).  The idea is to visit all the
-left children of a node first, then visit the node itself, and visit the left
+[binary search tree](../Binary Search Tree/).  Thus threaded binary trees are
+almost always binary search trees too.  The idea is to visit all the left
+children of a node first, then visit the node itself, and visit the left
 children last.
 
-In-order traversal of any binary tree generally goes as follows (using Swift
+An in-order traversal of any binary tree generally goes as follows (using Swift
 syntax):
 
 ```swift
@@ -68,8 +69,8 @@ threaded**:
 
 Using a single or double threaded tree depends on what we want to accomplish.
 If we only need to traverse the tree in one direction (either forward or
-backward), use a single threaded tree.  If we want to traverse in both
-directions, use a double threaded tree.
+backward), then we use a single threaded tree.  If we want to traverse in both
+directions, then we use a double threaded tree.
 
 It is important to note that each node stores either its predecessor or its
 left child, and either its successor or its right child.  The nodes do not
@@ -77,7 +78,7 @@ need to keep track of both.  For example, in a double threaded tree, if a node
 has a right child but no left child, it will track its predecessor in place of
 its left child.
 
-Here is a valid "full" threaded binary tree:
+Here is an example valid "full" threaded binary tree:
 
 ![Full](Images/Full.png)
 
@@ -106,11 +107,11 @@ The core of this data structure is the `ThreadedBinaryTree<T: Comparable>`
 class.  Each instance of this class represents a node with six member
 variables:  `value`, `parent`, `left`, `right`, `leftThread`, and
 `rightThread`.  Of all of these, only `value` is required.  The other five are
-Swift *optionals*.
+Swift *optionals* (they may be `nil`).
 - `value: T` is the value of this node (e.g. 1, 2, A, B, etc.)
-- `parent: ThreadedBinaryTree?` is the parent of this node (if it exists)
-- `left: ThreadedBinaryTree?` is the left child of this node (if it exists)
-- `right: ThreadedBinaryTree?` is the right child of this node (if it exists)
+- `parent: ThreadedBinaryTree?` is the parent of this node
+- `left: ThreadedBinaryTree?` is the left child of this node
+- `right: ThreadedBinaryTree?` is the right child of this node
 - `leftThread: ThreadedBinaryTree?` is the in-order predecessor of this node
 - `rightThread: ThreadedBinaryTree?` is the in-order successor of this node
 
@@ -213,7 +214,6 @@ A backward traversal would be very similar, but you would replace `right`,
 `maximum()`, and `predecessor()`.
 
 
-
 ## Insertion and deletion
 
 The quick in-order traversal that a threaded binary trees gives us comes at a
@@ -288,12 +288,12 @@ understand two important properties of threaded binary trees:
 2. For the leftmost node **m** in the `right` subtree of any node **n**,
 **m**'s `leftThread` is **n**.
 
-Note how this property held true before the removal of **5**, as **4** was the
-rightmost node in **5**'s `left` subtree.  In order to maintain this property,
-we must set **4**'s `rightThread` to **9**, as **4** is now the rightmost node
-in **9**'s `left` subtree.  To completely remove **5**, all we now have to do
-is set **5**'s `parent`, `left`, `right`, `leftThread`, and `rightThread` to
-`nil`.
+Note how these properties held true before the removal of **5**, as **4** was
+the rightmost node in **5**'s `left` subtree.  In order to maintain this
+property, we must set **4**'s `rightThread` to **9**, as **4** is now the
+rightmost node in **9**'s `left` subtree.  To completely remove **5**, all we
+now have to do is set **5**'s `parent`, `left`, `right`, `leftThread`, and
+`rightThread` to `nil`.
 
 How about we do something crazy?  What would happen if we tried to remove
 **9**, the root node?  This is the resulting tree:
@@ -314,7 +314,7 @@ tree using the algorithms outlined above.  This ensures that the edges in the
 **10**, as we just have to update the edges leaving **10**.  Now all we have to
 do is fiddle with the threads in order to maintain the two properties outlined
 above.  In this case, **12**'s `leftThread` is now **10**. Node **9** is no
-longer needed, so we can finish teh removal process by setting all of its
+longer needed, so we can finish the removal process by setting all of its
 variables to `nil`.
 
 In order to illustrate how to remove a node that has only a `right` child,
@@ -326,8 +326,10 @@ The process to remove **12** is identical to the process we used to remove
 **5**, but mirrored.  **5** had a `left` child, while **12** has a `right`
 child, but the core algorithm is the same.
 
-That is a quick overview of how insertion and deletion work in threaded binary
-trees.  More detail can of course be found in
+And that's it!  This was just a quick overview of how insertion and deletion
+work in threaded binary trees, but if you understood these examples, you should
+be able to insert or remove any node from any tree you want.  More detail can
+of course be found in
 [the implementation](ThreadedBinaryTree.swift).
 
 
