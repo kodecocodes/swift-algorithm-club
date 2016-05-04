@@ -37,6 +37,37 @@ public class  RBTNode{
         return self.parent!.left!
       }
   }
+  public func replaceNode(n1: RBTNode, n2: RBTNode){
+    var temp = n1.data
+    var temp_color = n1.color
+    n1.data = n2.data
+    n1.color = n2.color
+    n2.data = temp
+    n2.color = temp_color
+  }
+  public func minimum(var node: RBTNode)->RBTNode {
+    while node.left !== nil{
+      node = node.left
+    }
+    return node
+  }
+  public func successorOfNode(var node: RBTNode) -> RBTNode? {
+    if node.right !== nil {
+      return minimum(node.right)
+    }
+    var successor = node.parent
+    while successor !== nil && node === successor.right {
+      node = successor
+      successor = successor.parent
+    }
+    return successor
+  }
+  public func maximum(var rootNode: RBTNode) -> RBTNode{
+    while rootNode.right !== nil {
+      rootNode = rootNode.right
+    }
+    return rootNode
+  }
 }
 public class RBTree {
 
@@ -118,7 +149,7 @@ public func insertFixup(value: Int){
   print(inserted!.data)
   insertCase1(inserted)
 }
-public func insertCase1(inserted: RBTNode?){
+private func insertCase1(inserted: RBTNode?){
   let myroot = self.root!
   if myroot === inserted!{
     self.root!.color = false
@@ -127,14 +158,14 @@ public func insertCase1(inserted: RBTNode?){
   }
   insertCase2(inserted!)
 }
-public func insertCase2(inserted: RBTNode?){
+private func insertCase2(inserted: RBTNode?){
   if inserted!.parent!.color == false{
       print("Insert case 2: parent is black so nothing to change")
       return
   }
   insertCase3(inserted!)
 }
-public func insertCase3(inserted: RBTNode?){
+private func insertCase3(inserted: RBTNode?){
   if(inserted!.parent!.sibling() != nil && inserted!.parent!.sibling()!.color == true){
     print("insert case3: If both the parent P and the uncle U are red, then both of them can be repainted black and the grandparent G ")
     inserted!.parent!.color = false
@@ -148,7 +179,7 @@ public func insertCase3(inserted: RBTNode?){
   insertCase4(inserted)
 }
 //THIS ONE MAY BE BROKEN!?!?!?!?
-public func insertCase4(var inserted: RBTNode?){
+private func insertCase4(var inserted: RBTNode?){
   if((inserted! === inserted!.parent!.right) && (inserted!.grandparent()!.left === inserted!.parent!)){
     print("case 4")
     rightRotate(inserted!.parent)
@@ -161,7 +192,7 @@ public func insertCase4(var inserted: RBTNode?){
   }
   insertCase5(inserted)
 }
-public func insertCase5(inserted: RBTNode?){
+private func insertCase5(inserted: RBTNode?){
   if((inserted!.parent!.color == true && (inserted!.parent!.sibling()?.color == false || inserted!.parent!.sibling() == nil ))){
       if(inserted! === inserted!.parent!.left && inserted!.grandparent()!.left === inserted!.parent!){
         print("insert case 5: The parent P is red but the uncle U is black/nil, the current node N is the left child of P, and P is the left child of its parent G")
@@ -179,10 +210,8 @@ public func insertCase5(inserted: RBTNode?){
 
           print("Its on the right")
           leftRotate(inserted!.grandparent()!)
-
       }
   }
-
   print("weve reached the end boys")
 }
 
@@ -232,6 +261,17 @@ public func insertCase5(inserted: RBTNode?){
             return nil
           }
       }
+
+      //DELETION HELPER FUNCTIONS
+      public func remove(value: Int){
+          let toRemove = find(value)
+          if(toRemove == nil){
+            return
+          }
+      }
+
+
+
 }
 
 var tree = RBTree(rootData: 8)
@@ -242,7 +282,12 @@ tree.insert(4)
 tree.insert(40)
 tree.insert(400)
 tree.insert(430)
-
+var t = tree.root!
+var min = t.minimum(t)
+print("MIN: \(min.data)")
+var x = tree.root!.left
+tree.inOrder()
+t.replaceNode(t,n2:x)
 tree.inOrder()
 
 //print("_________________________")
@@ -264,7 +309,7 @@ tree.inOrder()
 //how you access certain elements
 //let root = tree.root!.left!
 //if(root.parent === nil){
-//  print("niggs")
+//  print("nil")
 //}
 //else{
 //  print(root.parent.data)
