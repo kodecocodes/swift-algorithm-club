@@ -51,12 +51,23 @@ public class  RBTNode{
     }
     return node
   }
-  public func successorOfNode(var node: RBTNode) -> RBTNode? {
+  public func successor(var node: RBTNode) -> RBTNode? {
     if node.right !== nil {
       return minimum(node.right)
     }
     var successor = node.parent
     while successor !== nil && node === successor.right {
+      node = successor
+      successor = successor.parent
+    }
+    return successor
+  }
+  public func predecessor(var node: RBTNode) -> RBTNode{
+    if node.left !== nil {
+      return minimum(node.left)
+    }
+    var successor = node.parent
+    while successor !== nil && node === successor.left {
       node = successor
       successor = successor.parent
     }
