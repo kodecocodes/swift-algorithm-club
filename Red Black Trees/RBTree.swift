@@ -13,10 +13,13 @@ public class  RBTNode{
   }
   init(rootData: Int){
     self.data = rootData
-    self.color = true //0is black 1 is red
+    self.color = true //0 is black 1 is red
     self.left = nil
     self.right = nil
     self.parent = nil
+  }
+  deinit{
+    print("Node: \(self.data) is bein deinitialized")
   }
   public func grandparent()->RBTNode?{
     if(self.parent === nil || self.parent.parent === nil){
@@ -37,48 +40,9 @@ public class  RBTNode{
         return self.parent!.left!
       }
   }
-  public func replaceNode(n1: RBTNode, n2: RBTNode){
-    var temp = n1.data
-    var temp_color = n1.color
-    n1.data = n2.data
-    n1.color = n2.color
-    n2.data = temp
-    n2.color = temp_color
-  }
-  public func minimum(var node: RBTNode)->RBTNode {
-    while node.left !== nil{
-      node = node.left
-    }
-    return node
-  }
-  public func successor(var node: RBTNode) -> RBTNode? {
-    if node.right !== nil {
-      return minimum(node.right)
-    }
-    var successor = node.parent
-    while successor !== nil && node === successor.right {
-      node = successor
-      successor = successor.parent
-    }
-    return successor
-  }
-  public func predecessor(var node: RBTNode) -> RBTNode{
-    if node.left !== nil {
-      return minimum(node.left)
-    }
-    var successor = node.parent
-    while successor !== nil && node === successor.left {
-      node = successor
-      successor = successor.parent
-    }
-    return successor
-  }
-  public func maximum(var rootNode: RBTNode) -> RBTNode{
-    while rootNode.right !== nil {
-      rootNode = rootNode.right
-    }
-    return rootNode
-  }
+
+
+
 }
 public class RBTree {
 
@@ -189,16 +153,16 @@ private func insertCase3(inserted: RBTNode?){
   }
   insertCase4(inserted)
 }
-//THIS ONE MAY BE BROKEN!?!?!?!?
+
 private func insertCase4(var inserted: RBTNode?){
   if((inserted! === inserted!.parent!.right) && (inserted!.grandparent()!.left === inserted!.parent!)){
     print("case 4")
-    rightRotate(inserted!.parent)
+    leftRotate(inserted!.parent)
     inserted! = inserted!.left
   }
   else if((inserted! === inserted!.parent!.left) && (inserted!.grandparent()!.right === inserted!.parent!)){
      print("case 4")
-    leftRotate(inserted!.parent)
+    rightRotate(inserted!.parent)
     inserted! = inserted!.right
   }
   insertCase5(inserted)
@@ -280,26 +244,174 @@ private func insertCase5(inserted: RBTNode?){
             return
           }
       }
+      public func replaceNode(n1: RBTNode, n2: RBTNode){
+        var temp = n1.data
+        var temp_color = n1.color
+        n1.data = n2.data
+        n1.color = n2.color
+        n2.data = temp
+        n2.color = temp_color
+      }
+      public func minimum(var node: RBTNode)->RBTNode {
+        while node.left !== nil{
+          node = node.left
+        }
+        return node
+      }
+      public func successor(var node: RBTNode) -> RBTNode? {
+        if node.right !== nil {
+          return minimum(node.right)
+        }
+        var successor = node.parent
+        while successor !== nil && node === successor.right {
+          node = successor
+          successor = successor.parent
+        }
+        return successor
+      }
+      public func predecessor(var node: RBTNode) -> RBTNode{
+        if node.left !== nil {
+          return minimum(node.left)
+        }
+        var successor = node.parent
+        while successor !== nil && node === successor.left {
+          node = successor
+          successor = successor.parent
+        }
+        return successor
+      }
+      public func maximum(var rootNode: RBTNode) -> RBTNode{
+        while rootNode.right !== nil {
+          rootNode = rootNode.right
+        }
+        return rootNode
+      }
+  private func deletionFixup(x: RBTNode) {}
 
+  public func delete(x: Int){
+    let toDel = find(x)
+    deleteNode(toDel!)
+  }
+  private func deleteNode(var toDel: RBTNode?){
+    print("DELETE CASE 0")
+    if(toDel!.left == nil && toDel!.right == nil && toDel!.color == true){
+      print("IM IN HERE")
+      //DEINIT NOT BEING CALLED AGAIN?
+      toDel = nil
+      return
+    }
+    if(toDel!.left !== nil && toDel!.right !== nil){
+      var pred = maximum(toDel!.left!)
+      toDel!.data = pred.data
+      toDel! = pred
+    }
+    var child: RBTNode? = nil
 
+    if(toDel!.right === nil){
+      child = toDel!.left
+    }
+    else{
+       child = toDel!.right
+    }
 
+    if(toDel!.color == false){
+      toDel!.color = child!.color
+      deleteCase1(toDel!)
+    }
+
+    if(child !== nil){
+      replaceNode(toDel!, n2: child!)
+
+      if(toDel!.parent === nil && child !== nil){
+        child!.color = false
+      }
+    }
+    print("This statement isnt actually deleting the object??? V")
+    toDel = nil
+  }
+  private func deleteCase1(var toDel: RBTNode?){
+      print("DELETE CASE 1")
+      if(toDel?.parent === nil){
+        return
+      }
+      else{
+        deleteCase2(toDel)
+      }
+  }
+  private func deleteCase2(var toDel: RBTNode?){
+    print("DELETE CASE 2")
+    var sibling = toDel!.sibling()
+    if(sibling?.color == true){
+       toDel!.parent.color = true;
+       sibling?.color = false
+       if(toDel! === toDel!.parent.left){
+         leftRotate(toDel!.parent)
+       }
+       else{
+         rightRotate(toDel!.parent)
+       }
+       deleteCase3(toDel!)
+    }
+  }
+  private func deleteCase3(var toDel: RBTNode?){
+    print("DELETE CASE 3")
+    if(toDel!.parent?.color == false && toDel!.sibling()?.color == false && toDel!.sibling()?.left!.color == false && toDel!.sibling()?.right!.color == false){
+        toDel!.sibling()?.color = true
+        toDel!.parent?.color = false
+    }
+    else{
+      deleteCase4(toDel)
+    }
+  }
+  private func deleteCase4(var toDel: RBTNode?){
+    print("DELETE CASE 4")
+    if(toDel!.parent?.color == true && toDel!.sibling()?.color == false && toDel!.sibling()?.left!.color == false && toDel!.sibling()?.right!.color == false){
+        toDel!.sibling()?.color = true
+        toDel!.parent.color = false
+    }
+    else{
+      deleteCase5(toDel)
+    }
+  }
+  private func deleteCase5(var toDel:RBTNode?){
+    print("DELETE CASE 5")
+    if(toDel! === toDel!.parent?.left && toDel!.sibling()?.color == false && toDel!.sibling()?.left.color == true && toDel!.sibling()?.right.color == false){
+      toDel!.sibling()?.color = true
+      toDel!.sibling()?.left?.color = false
+      rightRotate(toDel!.sibling()!)
+    }
+    else if(toDel! === toDel!.parent?.right && toDel!.sibling()?.color == false && toDel!.sibling()?.left.color == false && toDel!.sibling()?.right.color == true){
+      toDel!.sibling()?.color = true
+      toDel!.sibling()?.right?.color = false
+      leftRotate(toDel!.sibling()!)
+    }
+  }
+  private func deleteCase6(var toDel: RBTNode?){
+    print("DELETE CASE 6")
+    let color = toDel!.sibling()?.color
+    toDel!.parent?.color = color!
+    toDel!.parent?.color = false
+    if(toDel! === toDel!.parent.left){
+        toDel!.sibling()?.right?.color = false
+        leftRotate(toDel!.parent!)
+    }
+    else{
+      toDel!.sibling()?.left?.color = false
+      rightRotate(toDel!.parent!)
+    }
+  }
 }
 
+
+
 var tree = RBTree(rootData: 8)
-tree.insert(9)
+
 tree.insert(6)
-tree.insert(5)
-tree.insert(4)
-tree.insert(40)
-tree.insert(400)
-tree.insert(430)
-var t = tree.root!
-var min = t.minimum(t)
-print("MIN: \(min.data)")
-var x = tree.root!.left
+tree.delete(6)
 tree.inOrder()
-t.replaceNode(t,n2:x)
-tree.inOrder()
+print("_______")
+
+
 
 //print("_________________________")
 //let x = tree.root!
