@@ -204,7 +204,6 @@ Let n be the length of some key in the trie
 * Find(...) : In the Worst case O(n)
 * Insert(...) :  O(n)
 * Remove(...) :  O(n)
-* 
 
 ###Other Notable Operations
 
@@ -213,7 +212,7 @@ Let n be the length of some key in the trie
 * isEmpty:  Returns true f the trie is empty, false otherwise ( *O(1) )
 * contains:  Returns true if the trie has a given key, false otherwise ( O(n) )
 
-`
+`* denotes that running time may vary depending on implementation
 
 See also [Wikipedia entry for Trie](https://en.wikipedia.org/wiki/Trie).
 
