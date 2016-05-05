@@ -1,5 +1,5 @@
 # Red Black Tree
-![fig1](Images/fig1.png)
+![fig1](files/fig1.png)  
 Red-black trees are an evolution of binary search trees that aim to keep the tree balanced without affecting the complexity of the primitive operations. This is done by coloring each node in the tree with either red or black and preserving a set of properties that guarantee that the deepest path in the tree is not longer than twice the shortest one.  
 ## Motivation:
 * We want a balanced binary search tree    
@@ -28,7 +28,7 @@ Since an insertion or deletion may violate one of the invariant's of the red-bla
 
 #Rotation  
 To ensure that its color scheme and properties don’t get thrown off, red-black trees employ a key operation known as rotation. Rotation is a binary operation, between a parent node and one of its children, that swaps nodes and modifys their pointers while preserving the inorder traversal of the tree (so that elements are still sorted). There are two types of rotations: left rotation and right rotation. Left rotation swaps the parent node with its right child, while right rotation swaps the parent node with its left child.
-![fig2](Images/fig2.png)
+![fig2](files/fig2.png)
 ###Left-Rotation:  
 ```c++
 y ← x->right 
