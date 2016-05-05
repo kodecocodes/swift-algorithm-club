@@ -1,5 +1,5 @@
 # Red Black Tree
-
+![fig1](Images/fig1.png)
 Red-black trees are an evolution of binary search trees that aim to keep the tree balanced without affecting the complexity of the primitive operations. This is done by coloring each node in the tree with either red or black and preserving a set of properties that guarantee that the deepest path in the tree is not longer than twice the shortest one.  
 ## Motivation:
 * We want a balanced binary search tree    
@@ -28,8 +28,8 @@ Since an insertion or deletion may violate one of the invariant's of the red-bla
 
 #Rotation  
 To ensure that its color scheme and properties don’t get thrown off, red-black trees employ a key operation known as rotation. Rotation is a binary operation, between a parent node and one of its children, that swaps nodes and modifys their pointers while preserving the inorder traversal of the tree (so that elements are still sorted). There are two types of rotations: left rotation and right rotation. Left rotation swaps the parent node with its right child, while right rotation swaps the parent node with its left child.
-
-###Left-Rotation  
+![fig2](Images/fig2.png)
+###Left-Rotation:  
 ```c++
 y ← x->right 
 x->right ← y->left 
@@ -43,7 +43,7 @@ if 	x->p = Null
 y->left ← x 
 x->p ← y 
 ```
-###Right-Rotation
+###Right-Rotation:
 ```c++
 y ← x->left 
 x->left ← y->right 
@@ -57,10 +57,10 @@ if 	x->p = Null
 y->right ← x 
 x->p ← y 
 ```  
-###Insertion
+###Insertion:
 When adding a new node to a binary search tree, note that the new node will always be a leaf in the tree. To insert a new node, all we will do is navigate the BST starting from the root. If the new node value is smaller than the current node value, we go left – if it is larger, we go right. When we reach a leaf node, the last step is to attach the new node as a child to this leaf node in a way that preserves the BST constraint. We must recheck the RBTree invariants to see if any were violated  
 
-###Deletion
+###Deletion:
 The same concept behind red-black tree insertions applies here. Removing a node from a red-black tree makes use of the BST deletion procedure and then restores the red-black tree properties in O(log n). The total running time for the deletion process takes O(log n) time, then, which meets the complexity requirements for the primitive operations.  
 
 See also [Wikipedia](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree).  
