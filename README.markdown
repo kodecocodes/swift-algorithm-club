@@ -72,7 +72,7 @@ Fast sorts:
 
 Special-purpose sorts:
 
-- Bucket Sort
+- [Bucket Sort](Bucket Sort/) :construction:
 - [Counting Sort](Counting Sort/)
 - Radix Sort
 - [Topological Sort](Topological Sort/)
@@ -197,6 +197,7 @@ The following books are available for free online:
 - [Algorithms, Etc.](http://jeffe.cs.illinois.edu/teaching/algorithms/) by Erickson
 - [Algorithms + Data Structures = Programs](http://www.ethoberon.ethz.ch/WirthPubl/AD.pdf) by Wirth
 - Algorithms and Data Structures: The Basic Toolbox by Mehlhorn and Sanders
+- [Wikibooks: Algorithms and Implementations](https://en.wikibooks.org/wiki/Algorithm_Implementation)
 
 Other algorithm repositories:
 
