@@ -1,14 +1,23 @@
+/*
+
+  Sorting Algorithm that sorts an input array of integers digit by digit.
+
+*/
+
+
 func radixSort(inout arr: [Int] ) {
 
-  let radix = 10
+
+  let radix = 10  //Here we define our radix to be 10
   var done = false
   var index: Int
-  var digit = 1
+  var digit = 1  //Which digit are we on?
 
-  while !done {
-    done = true
 
-    var buckets: [[Int]] = []
+  while !done {  //While our  sorting is not completed
+    done = true  //Assume it is done for now
+
+    var buckets: [[Int]] = []  //Our sorting subroutine is bucket sort, so let us predefine our buckets
 
     for _ in 1...radix {
       buckets.append([])
@@ -16,9 +25,9 @@ func radixSort(inout arr: [Int] ) {
 
 
     for number in arr  {
-      index = number / digit
+      index = number / digit  //Which bucket will we access?
       buckets[index % radix].append(number)
-      if done && index > 0 {
+      if done && index > 0 {  //If we arent done, continue to finish, otherwise we are done
         done = false
       }
     }
@@ -33,10 +42,6 @@ func radixSort(inout arr: [Int] ) {
       }
     }
 
-    digit *= radix
+    digit *= radix  //Move to the next digit
   }
 }
-
-var a: [Int] = [0, 69, 28, 14, 32, 1, 1, 1111, 1111111, 55, 123, 236626456256, 9393, 23, 66]
-radixSort(&a)
-print(a)

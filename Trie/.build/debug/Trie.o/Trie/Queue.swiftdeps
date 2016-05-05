@@ -6,19 +6,19 @@ provides-nominal:
 provides-member:
 - ["V4Trie5Queue", ""]
 depends-top-level:
-- "FloatLiteralType"
-- "IntegerLiteralType"
 - "Queue"
-- "Bool"
-- !private "-"
-- !private "/"
-- !private "=="
-- !private "<"
-- "Int"
-- !private ">"
 - !private "Double"
 - !private "&&"
+- "Int"
+- "Bool"
+- "IntegerLiteralType"
+- !private "<"
+- !private "-"
+- !private "=="
 - !private "+="
+- !private ">"
+- !private "/"
+- "FloatLiteralType"
 depends-member:
 - !private ["Ps16AbsoluteValuable", "init"]
 - ["Sa", "Generator"]

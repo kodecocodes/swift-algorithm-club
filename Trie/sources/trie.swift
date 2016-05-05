@@ -1,3 +1,16 @@
+/*
+  A Trie (Pre-fix Tree)
+
+  Some of the functionality of the trie makes use of the Queue implementation for this project.
+
+
+  Every node in the Trie stores a bit of information pertainining to what it references:
+    -Character (letter of an inserted word)
+    -Parent  (Letter that comes before the current letter in some word)
+    -Children (Words that have more letters than available in the prefix)
+    -isAWord (Does the current letter mark the end of a known inserted word?)
+    -visited (Mainly for the findPrefix() function)
+*/
 public class Node {
   private var character: String?
   private var parent: Node?
@@ -13,58 +26,135 @@ public class Node {
     self.visited = false
     }
 
-  //Easier getter function, probably will make it more swift like
+  /*
+    Function Name:  char()
+    Input:  N/A
+    Output:  String
+    Functionality: Returns the associated value of the node
+  */
   func char() -> String {
     return self.character!
   }
 
-  func update(c: String?) -> Void {
+  /*
+    Function Name:  update
+    Input: String
+    Output: N/A
+    Functionality: Updates the associated value of the node
+  */
+  func update(c: String?) {
     self.character = c
   }
 
+  /*
+    Function Name:  isLeaf
+    Input:  N/A
+    Output:  Bool
+    Functionality: Returns true if the node is a leaf node, false otherwise
+  */
   func isLeaf() -> Bool{
     return self.children.count == 0
   }
-  //For Testing purposes
+
+  /*
+    Function Name:  getParent
+    Input:  N/A
+    Output:  Node
+    Functionality: Returns the parent node of the current node
+  */
   func getParent() -> Node {
     return parent!
   }
 
-  func setParent(node: Node?) -> Void {
+  /*
+    Function Name:  setParent
+    Input:  Node
+    Output:  N/A
+    Functionality: Changes the parent of the current node to the passed node
+  */
+
+  func setParent(node: Node?) {
     self.parent = node
   }
 
+  /*
+    Function Name:  getChildAt
+    Input:  String
+    Output:  Node
+    Functionality:  returns the child node that holds the specific passed letter
+  */
   func getChildAt(s: String) -> Node {
     return self.children[s]!
   }
-  //Is this node marked as the end of a word?
+
+  /*
+    Function Name:  isValidWord
+    Input:  N/A
+    Output:  Bool
+    Functionality: Returns whether or not the current node marks the end of a valid word
+  */
   func isValidWord() -> Bool{
     return self.isAWord
   }
 
-  //Setters
-  func isWord() -> Void {
+  /*
+    Function Name:  isWord
+    Input:  N/A
+    Output:  N/A
+    Functionality:  the current node is indeed a word
+  */
+  func isWord() {
     self.isAWord = true
   }
 
-  func isNotWord() -> Void {
+  /*
+    Function Name: isNotWord
+    Input:  N/A
+    Output:  N/A
+    Functionality:  marks the current node as not a word
+  */
+  func isNotWord() {
     self.isAWord = false
   }
 
+  /*
+    Function Name:  isRoot
+    Input: N/A
+    Output: Bool
+    Functionality:  Returns whether or not the current node is the root of the trie
+  */
   func isRoot() -> Bool {
     return self.character == ""
   }
 
+  /*
+    Function Name:  numChildren
+    Input:  N/A
+    Output:  Int
+    Functionality:  Returns the number of immediate letters that follow the current node
+  */
   func numChildren() -> Int {
     return self.children.count
   }
 
+  /*
+    Function Name:  getChildren
+    Input:  N/A
+    Output:  [String: Node]
+    Functionality:  Returns the letters that immediately follow the current node's value for possible word segments that follow
+  */
   func getChildren() -> [String: Node] {
     return self.children
   }
 
 
-  func printNode(var indent: String, leaf: Bool) -> Void {
+  /*
+    Function Name:  printNode
+    Input:  String, Bool
+    Output:  N/A
+    Functionality:  prints to the console a string representation of the current node in the trie
+  */
+  func printNode(var indent: String, leaf: Bool) {
 
     print(indent, terminator: "")
     if(leaf) {
@@ -88,6 +178,13 @@ public class Node {
 
 }
 
+
+/*
+  The Trie class has the following attributes:
+    -root (the root of the trie)
+    -wordList (the words that currently exist in the trie)
+    -wordCount (the number of words in the trie)
+*/
 public class Trie {
   private var root: Node
   private var wordList: [String]
@@ -108,11 +205,23 @@ public class Trie {
     }
   }
 
+  /*
+    Function Name: merge
+    Input:  Trie
+    Output:  Trie
+    Functionality:  Merges two tries into one and returns the merged trie
+  */
   func merge(other: Trie) -> Trie{
     let newWordList = Set(self.getWords() + other.getWords())
     return Trie(wordList: newWordList)
   }
 
+  /*
+    Function Name:  find
+    Input:  String
+    Output:  (Node?, Bool)
+    Functionality:  Looks for a specific key and returns a tuple that has a reference to the node(if found) and true/false depending on if it was found
+  */
   func find(key: String) -> (node: Node?, found: Bool) {
     var currentNode = self.root
 
@@ -126,22 +235,52 @@ public class Trie {
     return(currentNode, currentNode.isValidWord())
   }
 
+  /*
+    Function Name: isEmpty
+    Input:  N/A
+    Output:  Bool
+    Functionality:  returns true if the trie is empty, false otherwise
+  */
   func isEmpty() -> Bool {
     return wordCount == 0
   }
 
+  /*
+    Function Name:  count
+    Input:  N/A
+    Output:  Int
+    Functionality:  returns the number of words in the trie
+  */
   func count() -> Int {
     return wordCount
   }
 
+  /*
+    Function Name:  getWords
+    Input:  N/A
+    Output:  [String]
+    Functionality:  returns the list of words that exist in the trie
+  */
   func getWords() -> [String] {
     return wordList
   }
 
+  /*
+    Function Name:  contains
+    Input:  String
+    Output:  Bool
+    Functionality:  returns true if the tries has the word passed, false otherwise
+  */
   func contains(w: String) -> Bool {
     return find(w.lowercaseString).found
   }
 
+  /*
+    Function Name:  isPrefix
+    Input:  String
+    Output: (Node?, Bool)
+    Functionality:  returns a tuple containing a reference to the final node in the prefix (if it exists) and true/false depending on whether or not the prefix exists in the trie
+  */
   func isPrefix(p: String) -> (node: Node?, found: Bool) {
     let prefixP = p.lowercaseString
 
@@ -162,8 +301,15 @@ public class Trie {
     return (nil, false)
   }
 
+  /*
+    Function Name:  insert
+    Input:  String
+    Output:  (String, Bool)
+    Functionality:  Inserts a word int othe trie.  Returns a tuple containing the word attempted to be added, and true/false depending on whether or not the insertion was successful
+  */
   func insert(w: String) -> (word: String, inserted: Bool) {
 
+    print(w)
     let word = w.lowercaseString
     var currentNode = self.root
     var length = word.characters.count
@@ -182,6 +328,7 @@ public class Trie {
       c = Array(word.characters)[index]
     }
 
+    print(length)
     let remainingChars = String(word.characters.suffix(length))
     for c in remainingChars.characters {
       currentNode.children[String(c)] = Node(c: String(c), p: currentNode)
@@ -194,6 +341,12 @@ public class Trie {
     return (w, true)
   }
 
+  /*
+    Function Name:  remove
+    Input:  String
+    Output:  (String, Bool)
+    Functionality:  Removes the specified key from the trie if it exists, returns tuple containing the word attempted to be removed and true/false if the removal was succesful
+  */
   func remove(w: String) -> (word: String, removed: Bool){
     let word = w.lowercaseString
 
@@ -211,6 +364,7 @@ public class Trie {
     } else {
       var character = currentNode.char()
       while(currentNode.numChildren() == 0 && !currentNode.isRoot()) {
+        print("I make it here")
         currentNode = currentNode.getParent()
         currentNode.children[character]!.setParent(nil)
         currentNode.children[character]!.update(nil)
@@ -232,6 +386,12 @@ public class Trie {
     return (w, true)
   }
 
+  /*
+    Function Name: findPrefix
+    Input:  String
+    Output:  [String]
+    Functionality:  returns a list containing all words in the trie that have the specified prefix
+  */
   func findPrefix(p: String) -> [String] {
 
     if !self.isPrefix(p).found {
@@ -270,6 +430,12 @@ public class Trie {
   }
 
 
+  /*
+    Function Name:  removeAll
+    Input:  N/A
+    Output:  N/A
+    Functionality:  removes all nodes in the trie using remove as a subroutine
+  */
   func removeAll()  {
     for word in wordList {
       self.remove(word)
@@ -278,6 +444,12 @@ public class Trie {
   }
 
 
+  /*
+    Function Name:  printTrie
+    Input:  N/A
+    Output:  N/A
+    Functionality:  prints all the nodes of the trie to console in a nice and easy to understand format
+  */
   func printTrie() {
     self.root.printNode("", leaf: true)
   }

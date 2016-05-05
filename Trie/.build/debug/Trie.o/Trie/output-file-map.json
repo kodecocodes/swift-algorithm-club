@@ -2,12 +2,6 @@
   "": {
     "swift-dependencies": "/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/Trie/master.swiftdeps"
   },
-  "/home/christian/Desktop/swift-algorithm-club/Trie/sources/main.swift": {
-    "dependencies": "/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/Trie/main.d",
-    "object": "/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/main.swift.o",
-    "swiftmodule": "/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/Trie/main~partial.swiftmodule",
-    "swift-dependencies": "/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/Trie/main.swiftdeps"
-  },
   "/home/christian/Desktop/swift-algorithm-club/Trie/sources/trie.swift": {
     "dependencies": "/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/Trie/trie.d",
     "object": "/home/christian/Desktop/swift-algorithm-club/Trie/.build/debug/Trie.o/sources/trie.swift.o",
