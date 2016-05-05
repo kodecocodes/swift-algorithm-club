@@ -123,7 +123,78 @@ And the corresponding swift code:
 
 ```
 
+###Removal
+Removing keys from the trie is a little more tricky, as there a few more cases that we have to take into account the fact that keys may exist that are actually sub-strings of other valid keys.  That being said, it isn't as simple a process to just delete the nodes for a specific key, as we could be deleting references/nodes necessary for already exisitng keys!
 
+The algorithm would be as follows:
+
+```
+  
+  let word be the key to remove
+  let node be the root of the trie
+  
+  find(word)
+  if word was not found
+    return false
+  else
+  
+    for each character in word
+      node = child node with value character
+      
+      if node has more than just 1 child node
+        Mark node as an invalid key, since removing it would remove nodes still in use
+      else
+        while node has no valid children and node is not the root node
+          let character = node's value
+          node = the parent of node
+          delete node's child node with value character
+        return true
+```
+
+
+
+and the corresponding swift code:
+
+```swift
+  func remove(w: String) -> (word: String, removed: Bool){
+    let word = w.lowercaseString
+
+    if(!self.contains(w)) {
+      return (w, false)
+    }
+    var currentNode = self.root
+
+    for c in word.characters {
+      currentNode = currentNode.getChildAt(String(c))
+    }
+
+    if currentNode.numChildren() > 0 {
+      currentNode.isNotWord()
+    } else {
+      var character = currentNode.char()
+      while(currentNode.numChildren() == 0 && !currentNode.isRoot()) {
+        currentNode = currentNode.getParent()
+        currentNode.children[character]!.setParent(nil)
+        currentNode.children[character]!.update(nil)
+        currentNode.children[character] = nil
+        character = currentNode.char()
+      }
+    }
+
+    wordCount -= 1
+
+    var index = 0
+    for item in wordList{
+      if item == w {
+        wordList.removeAtIndex(index)
+      }
+      index += 1
+    }
+
+    return (w, true)
+  }
+
+```
 
 
 
