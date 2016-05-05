@@ -51,16 +51,16 @@ Let's walk through the algorithm:
 
 ```
   let S be the root node of our tree
-  let word be an array of characters of the input key
+  let word be the input key
   let length be the length of the key
   
   
-  find(key)
-  if the key was found
+  find(word)
+  if the word was found
     return false
   else
     
-    for each character in key
+    for each character in word
       if child node with value character does not exist
         break
       else
@@ -197,10 +197,25 @@ and the corresponding swift code:
 ```
 
 
+###Running Times
+
+Let n be the length of some key in the trie
+
+* Find(...) : In the Worst case O(n)
+* Insert(...) :  O(n)
+* Remove(...) :  O(n)
+* 
+
+###Other Notable Operations
+
+* Count:  Returns the number of keys in the trie ( O(1) )
+* getWords:  Returns a list containing all keys in the trie ( *O(1) )
+* isEmpty:  Returns true f the trie is empty, false otherwise ( *O(1) )
+* contains:  Returns true if the trie has a given key, false otherwise ( O(n) )
 
 `
 
-See also [Wikipedia](https://en.wikipedia.org/wiki/Trie).
+See also [Wikipedia entry for Trie](https://en.wikipedia.org/wiki/Trie).
 
 *Written for the Swift Algorithm Club by Christian Encarnacion*
 
