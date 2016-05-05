@@ -137,4 +137,51 @@ The closer a character is to the end of the pattern, the smaller the skip amount
 
 Credits: This code is based on the article ["Faster String Searches" by Costas Menico](http://www.drdobbs.com/database/faster-string-searches/184408171) from Dr Dobb's magazine, July 1989 -- Yes, 1989! Sometimes it's useful to keep those old magazines around.
 
+See also: [a detailed analysis](http://www.inf.fh-flensburg.de/lang/algorithmen/pattern/bmen.htm) of the algorithm.
+
+## Boyer-Moore-Horspool algorithm
+
+A variation on the above algorithm is the [Boyer-Moore-Horspool algorithm](https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore%E2%80%93Horspool_algorithm).
+
+Like the regular Boyer-Moore algorithm, it uses the `skipTable` to skip ahead a number of characters. The difference is in how we check partial matches. In the above version, if a partial match is found but it's not a complete match, we skip ahead by just one character. In this revised version, we also use the skip table in that situation.
+
+Here's an implementation of the Boyer-Moore-Horspool algorithm:
+
+```swift
+extension String {
+  public func indexOf(pattern: String) -> String.Index? {
+    let patternLength = pattern.characters.count
+    assert(patternLength > 0)
+    assert(patternLength <= self.characters.count)
+
+    var skipTable = [Character: Int]()
+    for (i, c) in pattern.characters.dropLast().enumerate() {
+      skipTable[c] = patternLength - i - 1
+    }
+
+    var index = self.startIndex.advancedBy(patternLength - 1)
+
+    while index < self.endIndex {
+      var i = index
+      var p = pattern.endIndex.predecessor()
+
+      while self[i] == pattern[p] {
+        if p == pattern.startIndex { return i }
+        i = i.predecessor()
+        p = p.predecessor()
+      }
+
+      let advance = skipTable[self[index]] ?? patternLength
+      index = index.advancedBy(advance)
+    }
+
+    return nil
+  }
+}
+```
+
+In practice, the Horspool version of the algorithm tends to perform a little better than the original. However, it depends on the tradeoffs you're willing to make.
+
+Credits: This code is based on the paper: [R. N. Horspool (1980). "Practical fast searching in strings". Software - Practice & Experience 10 (6): 501–506.](http://www.cin.br/~paguso/courses/if767/bib/Horspool_1980.pdf)
+
 *Written for Swift Algorithm Club by Matthijs Hollemans*

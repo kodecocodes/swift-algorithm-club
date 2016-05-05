@@ -6,7 +6,7 @@
 public class LinkedListNode<T> {
   var value: T
   var next: LinkedListNode?
-  var previous: LinkedListNode?
+  weak var previous: LinkedListNode?
   
   public init(value: T) {
     self.value = value
@@ -159,9 +159,9 @@ extension LinkedList {
   public func reverse() {
     var node = head
     while let currentNode = node {
-        swap(&currentNode.next, &currentNode.previous)
-        head = currentNode
-        node = currentNode.previous
+      node = currentNode.next
+      swap(&currentNode.next, &currentNode.previous)
+      head = currentNode
     }
   }
 }
