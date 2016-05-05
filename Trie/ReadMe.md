@@ -76,11 +76,51 @@ Let's walk through the algorithm:
       mark node as a valid key
     else
       mark node as valid key
-      
-      
-    
-  
-  
+```
+
+And the corresponding swift code:
+
+```swift
+  func insert(w: String) -> (word: String, inserted: Bool) {
+
+    let word = w.lowercaseString
+    var currentNode = self.root
+    var length = word.characters.count
+
+    if self.contains(word) {
+      return (w, false)
+    }
+
+    var index = 0
+    var c = Array(word.characters)[index]
+
+    while let child = currentNode.children[String(c)] {
+      currentNode = child
+      length -= 1
+      index += 1
+
+      if(length == 0) {
+        currentNode.isWord()
+        wordList.append(w)
+        wordCount += 1
+        return (w, true)
+      }
+
+      c = Array(word.characters)[index]
+    }
+
+    let remainingChars = String(word.characters.suffix(length))
+    for c in remainingChars.characters {
+      currentNode.children[String(c)] = Node(c: String(c), p: currentNode)
+      currentNode = currentNode.children[String(c)]!
+    }
+
+    currentNode.isWord()
+    wordList.append(w)
+    wordCount += 1
+    return (w, true)
+  }
+
 ```
 
 
