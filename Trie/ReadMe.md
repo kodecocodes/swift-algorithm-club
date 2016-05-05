@@ -61,7 +61,24 @@ Let's walk through the algorithm:
   else
     
     for each character in key
+      if child node with value character does not exist
+        break
+      else
+        node = child node with value character
+        decrement length
       
+    if length != 0
+      let suffix be the remaining characters in the key defined by the shortened length
+      
+      for each character in suffix
+        create a new node with value character and let it be the child of node
+        node = newly created child now
+      mark node as a valid key
+    else
+      mark node as valid key
+      
+      
+    
   
   
 ```
