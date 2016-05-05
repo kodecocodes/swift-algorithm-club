@@ -1,3 +1,4 @@
+
 /*
   A Trie (Pre-fix Tree)
 
@@ -325,10 +326,17 @@ public class Trie {
       currentNode = child
       length -= 1
       index += 1
+
+      if(length == 0) {
+        currentNode.isWord()
+        wordList.append(w)
+        wordCount += 1
+        return (w, true)
+      }
+
       c = Array(word.characters)[index]
     }
 
-    print(length)
     let remainingChars = String(word.characters.suffix(length))
     for c in remainingChars.characters {
       currentNode.children[String(c)] = Node(c: String(c), p: currentNode)
@@ -339,6 +347,23 @@ public class Trie {
     wordList.append(w)
     wordCount += 1
     return (w, true)
+  }
+
+  /*
+    Function Name:  insertWords
+    Input:  [String]
+    Output:  ([String], Bool)
+    Functionality:  attempts to insert all words from input array.  returns a tuple containing the input array and true if some of the words were succesffuly added, false if none were added
+  */
+
+  func insertWords(wordList: [String]) -> (wordList: [String], bool: inserted){
+
+    var successful: Bool = false
+    for word in wordList {
+      succesful |= self.insert(word).inserted
+    }
+
+    return(wordList, succesful)
   }
 
   /*
@@ -364,7 +389,6 @@ public class Trie {
     } else {
       var character = currentNode.char()
       while(currentNode.numChildren() == 0 && !currentNode.isRoot()) {
-        print("I make it here")
         currentNode = currentNode.getParent()
         currentNode.children[character]!.setParent(nil)
         currentNode.children[character]!.update(nil)
@@ -440,7 +464,6 @@ public class Trie {
     for word in wordList {
       self.remove(word)
     }
-    self.root.update(nil)
   }
 
 
