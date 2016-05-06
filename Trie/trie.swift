@@ -4,7 +4,7 @@
 public struct Queue<T> {
   private var array = [T?]()
   private var head = 0
-  
+
   public var isEmpty: Bool {
     return count == 0
   }
@@ -12,11 +12,11 @@ public struct Queue<T> {
   public var count: Int {
     return array.count - head
   }
-  
+
   public mutating func enqueue(element: T) {
     array.append(element)
   }
-  
+
   public mutating func dequeue() -> T? {
     guard head < array.count, let element = array[head] else { return nil }
 
@@ -28,7 +28,7 @@ public struct Queue<T> {
       array.removeFirst(head)
       head = 0
     }
-    
+
     return element
   }
 }
@@ -388,11 +388,11 @@ public class Trie {
     Functionality:  attempts to insert all words from input array.  returns a tuple containing the input array and true if some of the words were succesffuly added, false if none were added
   */
 
-  func insertWords(wordList: [String]) -> (wordList: [String], bool: inserted){
+  func insertWords(wordList: [String]) -> (wordList: [String], inserted: Bool){
 
-    var successful: Bool = false
+    var succesful: Bool = false
     for word in wordList {
-      succesful |= self.insert(word).inserted
+      succesful = self.insert(word).inserted || succesful
     }
 
     return(wordList, succesful)
