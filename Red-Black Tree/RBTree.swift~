@@ -450,7 +450,6 @@ public class RBTree {
             leftRotate(toDel!.sibling()!)
     }
   }
-  //final rotations to be done after deleting a black node from the tree
   private func deleteCase6(toDel: RBTNode?){
     let color = toDel!.sibling()?.color
     toDel!.parent?.color = color!
