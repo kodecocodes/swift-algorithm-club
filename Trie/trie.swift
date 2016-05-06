@@ -31,14 +31,6 @@ public struct Queue<T> {
     
     return element
   }
-  
-  public func peek() -> T? {
-    if isEmpty {
-      return nil
-    } else {
-      return array[head]
-    }
-  }
 }
 /*
   A Trie (Pre-fix Tree)
