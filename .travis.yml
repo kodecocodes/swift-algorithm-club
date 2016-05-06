@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode7.2
+osx_image: xcode7.3
 
 script:
 
@@ -24,3 +24,4 @@ script:
 - xcodebuild test -project ./Stack/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Longest\ Common\ Subsequence/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Bucket\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./All-Pairs\ Shortest\ Paths/APSP/APSP.xcodeproj -scheme APSPTests

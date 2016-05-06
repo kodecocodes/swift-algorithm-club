@@ -1,12 +1,19 @@
+import Foundation
+
 public struct Vertex<T> {
   public var data: T
-  private let index: Int
+  public let index: Int
 }
+
+
 
 public struct Graph<T> {
   // If adjacencyMatrix[i][j] is not nil, then there is an edge from
   // vertex i to vertex j.
-  private var adjacencyMatrix: [[Double?]] = []
+  var adjacencyMatrix: [[Double?]] = []
+  var vertices: [Vertex<T>] = []
+
+  public init() {}
   
   // Adds a new vertex to the matrix.
   // Performance: possibly O(n^2) because of the resizing of the matrix.
@@ -22,9 +29,34 @@ public struct Graph<T> {
     let newRow = [Double?](count: adjacencyMatrix.count + 1, repeatedValue: nil)
     adjacencyMatrix.append(newRow)
 
+    vertices.append(vertex)
     return vertex
   }
-  
+}
+
+extension Graph: CustomStringConvertible {
+  public var description: String {
+    get {
+      var grid = [String]()
+      let n = self.adjacencyMatrix.count
+      for i in 0..<n {
+        var row = ""
+        for j in 0..<n {
+          if let value = self.adjacencyMatrix[i][j] {
+            let number = NSString(format: "%.1f", value)
+            row += "\(value >= 0 ? " " : "")\(number) "
+          } else {
+            row += "  ø  "
+          }
+        }
+        grid.append(row)
+      }
+      return (grid as NSArray).componentsJoinedByString("\n")
+    }
+  }
+}
+
+extension Graph {
   // Creates a directed edge source -----> dest.
   public mutating func connect(sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>, withWeight weight: Double = 0) {
     adjacencyMatrix[sourceVertex.index][destinationVertex.index] = weight
