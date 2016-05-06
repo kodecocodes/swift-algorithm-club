@@ -310,7 +310,6 @@ public class Trie {
   */
   func insert(w: String) -> (word: String, inserted: Bool) {
 
-    print(w)
     let word = w.lowercaseString
     var currentNode = self.root
     var length = word.characters.count
