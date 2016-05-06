@@ -191,7 +191,7 @@ public class Node {
   func printNode(var indent: String, leaf: Bool) {
 
     print(indent, terminator: "")
-    if(leaf) {
+    if leaf {
       print("\\-", terminator: "")
       indent += " "
     }
@@ -359,7 +359,7 @@ public class Trie {
       length -= 1
       index += 1
 
-      if(length == 0) {
+      if length == 0 {
         currentNode.isWord()
         wordList.append(w)
         wordCount += 1
@@ -407,7 +407,7 @@ public class Trie {
   func remove(w: String) -> (word: String, removed: Bool){
     let word = w.lowercaseString
 
-    if(!self.contains(w)) {
+    if !self.contains(w) {
       return (w, false)
     }
     var currentNode = self.root
@@ -464,10 +464,10 @@ public class Trie {
 
     while let current = q.dequeue() {
       for (char, child) in current.getChildren() {
-        if(!child.visited) {
+        if !child.visited {
           q.enqueue(child)
           child.visited = true
-          if(child.isValidWord()) {
+          if child.isValidWord() {
             var currentNode = child
             while currentNode !== n {
               tmp += currentNode.char()
