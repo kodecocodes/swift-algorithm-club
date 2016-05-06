@@ -152,7 +152,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - Fibonacci Heap
 - Trie
 - [B-Tree](B Tree/) :construction:
-- [Radix Tree](Radix-Tree/) :construction:
+- [Radix Tree](Radix Tree/) :construction:
 
 ### Hashing
 

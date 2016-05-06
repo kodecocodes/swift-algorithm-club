@@ -30,7 +30,7 @@ radixWiki.insert("rubicunduses")
 
 radixWiki.printTree()
 
-print("FIND TESTS")
+print("\n\nFIND TESTS")
 print(radixWiki.find("courts")) // false
 print(radixWiki.find("r")) // true
 print(radixWiki.find("ro")) // true
@@ -41,7 +41,7 @@ print(radixWiki.find("romane")) // true
 print(radixWiki.find("romans")) // false
 print(radixWiki.find("steve")) // true
 
-print("REMOVE TESTS")
+print("\n\nREMOVE TESTS")
 
 print(radixWiki.remove("c"))
 radixWiki.printTree()
