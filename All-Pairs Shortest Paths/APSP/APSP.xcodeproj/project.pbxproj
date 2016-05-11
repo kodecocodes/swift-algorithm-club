@@ -1,0 +1,423 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		493D8DE31CDD2A1C0089795A /* APSPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8DE21CDD2A1C0089795A /* APSPTests.swift */; };
+		493D8DF41CDD5B960089795A /* APSP.h in Headers */ = {isa = PBXBuildFile; fileRef = 493D8DF31CDD5B960089795A /* APSP.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		493D8DF91CDD5B9B0089795A /* FloydWarshall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8DD81CDC38C60089795A /* FloydWarshall.swift */; };
+		493D8DFA1CDD5B9E0089795A /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8DDA1CDD29C80089795A /* Helpers.swift */; };
+		493D8DFB1CDD5BDE0089795A /* AdjacencyMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8DB91CDC34D00089795A /* AdjacencyMatrix.swift */; };
+		49BFA27A1CDD93F400522D66 /* APSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BFA2791CDD93F400522D66 /* APSP.swift */; };
+		49BFA2801CDE742900522D66 /* APSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 493D8DF11CDD5B960089795A /* APSP.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		49BFA27E1CDE742700522D66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 493D8D7E1CDC2DAE0089795A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 493D8DF01CDD5B960089795A;
+			remoteInfo = APSP;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		493D8DB91CDC34D00089795A /* AdjacencyMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjacencyMatrix.swift; sourceTree = "<group>"; };
+		493D8DD81CDC38C60089795A /* FloydWarshall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloydWarshall.swift; sourceTree = "<group>"; };
+		493D8DDA1CDD29C80089795A /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		493D8DE01CDD2A1C0089795A /* APSPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APSPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		493D8DE21CDD2A1C0089795A /* APSPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APSPTests.swift; sourceTree = "<group>"; };
+		493D8DE41CDD2A1C0089795A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		493D8DF11CDD5B960089795A /* APSP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APSP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		493D8DF31CDD5B960089795A /* APSP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APSP.h; sourceTree = "<group>"; };
+		493D8DF51CDD5B960089795A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49BFA2791CDD93F400522D66 /* APSP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APSP.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		493D8DDD1CDD2A1C0089795A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49BFA2801CDE742900522D66 /* APSP.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		493D8DED1CDD5B960089795A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		493D8D7D1CDC2DAE0089795A = {
+			isa = PBXGroup;
+			children = (
+				493D8DB71CDC34D00089795A /* Graph */,
+				493D8D881CDC2DAE0089795A /* APSP */,
+				493D8DE11CDD2A1C0089795A /* APSPTests */,
+				493D8D871CDC2DAE0089795A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		493D8D871CDC2DAE0089795A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				493D8DE01CDD2A1C0089795A /* APSPTests.xctest */,
+				493D8DF11CDD5B960089795A /* APSP.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		493D8D881CDC2DAE0089795A /* APSP */ = {
+			isa = PBXGroup;
+			children = (
+				493D8DF31CDD5B960089795A /* APSP.h */,
+				49BFA2791CDD93F400522D66 /* APSP.swift */,
+				493D8DD81CDC38C60089795A /* FloydWarshall.swift */,
+				493D8DDA1CDD29C80089795A /* Helpers.swift */,
+				493D8DF51CDD5B960089795A /* Info.plist */,
+			);
+			path = APSP;
+			sourceTree = "<group>";
+		};
+		493D8DB71CDC34D00089795A /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				493D8DB91CDC34D00089795A /* AdjacencyMatrix.swift */,
+			);
+			name = Graph;
+			path = ../../Graph;
+			sourceTree = "<group>";
+		};
+		493D8DE11CDD2A1C0089795A /* APSPTests */ = {
+			isa = PBXGroup;
+			children = (
+				493D8DE21CDD2A1C0089795A /* APSPTests.swift */,
+				493D8DE41CDD2A1C0089795A /* Info.plist */,
+			);
+			path = APSPTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		493D8DEE1CDD5B960089795A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				493D8DF41CDD5B960089795A /* APSP.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		493D8DDF1CDD2A1C0089795A /* APSPTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 493D8DE51CDD2A1C0089795A /* Build configuration list for PBXNativeTarget "APSPTests" */;
+			buildPhases = (
+				493D8DDC1CDD2A1C0089795A /* Sources */,
+				493D8DDD1CDD2A1C0089795A /* Frameworks */,
+				493D8DDE1CDD2A1C0089795A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				49BFA27F1CDE742700522D66 /* PBXTargetDependency */,
+			);
+			name = APSPTests;
+			productName = APSPTests;
+			productReference = 493D8DE01CDD2A1C0089795A /* APSPTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		493D8DF01CDD5B960089795A /* APSP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 493D8DF61CDD5B960089795A /* Build configuration list for PBXNativeTarget "APSP" */;
+			buildPhases = (
+				493D8DEC1CDD5B960089795A /* Sources */,
+				493D8DED1CDD5B960089795A /* Frameworks */,
+				493D8DEE1CDD5B960089795A /* Headers */,
+				493D8DEF1CDD5B960089795A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = APSP;
+			productName = APSP;
+			productReference = 493D8DF11CDD5B960089795A /* APSP.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		493D8D7E1CDC2DAE0089795A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Andrew McKnight";
+				TargetAttributes = {
+					493D8DDF1CDD2A1C0089795A = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					493D8DF01CDD5B960089795A = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 493D8D811CDC2DAE0089795A /* Build configuration list for PBXProject "APSP" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 493D8D7D1CDC2DAE0089795A;
+			productRefGroup = 493D8D871CDC2DAE0089795A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				493D8DDF1CDD2A1C0089795A /* APSPTests */,
+				493D8DF01CDD5B960089795A /* APSP */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		493D8DDE1CDD2A1C0089795A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		493D8DEF1CDD5B960089795A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		493D8DDC1CDD2A1C0089795A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				493D8DE31CDD2A1C0089795A /* APSPTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		493D8DEC1CDD5B960089795A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49BFA27A1CDD93F400522D66 /* APSP.swift in Sources */,
+				493D8DF91CDD5B9B0089795A /* FloydWarshall.swift in Sources */,
+				493D8DFA1CDD5B9E0089795A /* Helpers.swift in Sources */,
+				493D8DFB1CDD5BDE0089795A /* AdjacencyMatrix.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		49BFA27F1CDE742700522D66 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 493D8DF01CDD5B960089795A /* APSP */;
+			targetProxy = 49BFA27E1CDE742700522D66 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		493D8D8B1CDC2DAE0089795A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		493D8D8C1CDC2DAE0089795A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		493D8DE61CDD2A1C0089795A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = APSPTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.armcknight.APSPTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		493D8DE71CDD2A1C0089795A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = APSPTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.armcknight.APSPTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		493D8DF71CDD5B960089795A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = APSP/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.armcknight.APSP;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		493D8DF81CDD5B960089795A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = APSP/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.armcknight.APSP;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		493D8D811CDC2DAE0089795A /* Build configuration list for PBXProject "APSP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				493D8D8B1CDC2DAE0089795A /* Debug */,
+				493D8D8C1CDC2DAE0089795A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		493D8DE51CDD2A1C0089795A /* Build configuration list for PBXNativeTarget "APSPTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				493D8DE61CDD2A1C0089795A /* Debug */,
+				493D8DE71CDD2A1C0089795A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		493D8DF61CDD5B960089795A /* Build configuration list for PBXNativeTarget "APSP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				493D8DF71CDD5B960089795A /* Debug */,
+				493D8DF81CDD5B960089795A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 493D8D7E1CDC2DAE0089795A /* Project object */;
+}

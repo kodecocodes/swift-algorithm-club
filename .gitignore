@@ -8,7 +8,6 @@ DerivedData/
 *.perspectivev3
 *.xccheckout
 *.moved-aside
-*.xcworkspace
 *.xcuserstate
 
 xcuserdata

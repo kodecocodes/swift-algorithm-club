@@ -152,6 +152,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - Fibonacci Heap
 - Trie
 - [B-Tree](B Tree/) :construction:
+- [Radix Tree](Radix Tree/) :construction:
 
 ### Hashing
 
@@ -172,7 +173,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Depth-First Search (DFS)](Depth-First Search/)
 - [Shortest Path](Shortest Path %28Unweighted%29/) on an unweighted tree
 - [Minimum Spanning Tree](Minimum Spanning Tree %28Unweighted%29/) on an unweighted tree
-- All Paths
+- [All-Pairs Shortest Paths](All-Pairs Shortest Paths/)
 
 ## Puzzles
 
