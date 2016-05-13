@@ -97,6 +97,6 @@ This will output:
 	Node(label: d, distance: 2), Node(label: e, distance: 2), Node(label: f, distance: 2),
 	Node(label: g, distance: 2), Node(label: h, distance: 3)
 
-> **Note:** This version of `breadthFirstSearchShortestPath()` does not actually produce the tree, it only computes the distances. See [minimum spanning tree](../Minimum Spanning Tree/) on how you can convert the graph into a tree by removing edges.
+> **Note:** This version of `breadthFirstSearchShortestPath()` does not actually produce the tree, it only computes the distances. See [minimum spanning tree](../Minimum Spanning Tree (Unweighted)/) on how you can convert the graph into a tree by removing edges.
 
 *Written by [Chris Pilcher](https://github.com/chris-pilcher) and Matthijs Hollemans*
