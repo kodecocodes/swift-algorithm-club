@@ -170,7 +170,7 @@ extension BottomUpSegmentTree {
 	}
 }
 /*:
-Again, this is a recursive method. It checks four different possibilities.
+Again, this is a non-recursive method. It checks four different possibilities.
 
 ![](BUST2.png)
 ![](BUST3.png)

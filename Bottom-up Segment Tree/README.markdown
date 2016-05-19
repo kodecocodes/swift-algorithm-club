@@ -42,7 +42,7 @@ public class BottomUpSegmentTree<T: InitializeWithoutParametersable> {
 - `arrayCount` and `leavesCapacity` are the count of array and maximun count of the source array can appending elements without increaseing the result array capacity.
 - `value` is the result of applying the function `f(a[leftBound], a[leftBound+1], ..., a[rightBound-1], a[rightBound])`
 
-![](BUST1.png)
+![Structure](Images/BUST1.png)
 
 ### Bitwise Operators
 
@@ -167,10 +167,10 @@ extension BottomUpSegmentTree {
 	}
 }
 ```
-Again, this is a recursive method. It checks four different possibilities.
+Again, this is a non-recursive method. It checks four different possibilities.
 
-![](BUST2.png)
-![](BUST3.png)
+![](Images/BUST2.png)
+![](Images/BUST3.png)
 
 1) First, we check if the query interval is legal.
 
