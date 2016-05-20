@@ -7,16 +7,17 @@
 //
 
 import Foundation
+import Graph
 
 /**
  APSPAlgorithm is a protocol for encapsulating an All-Pairs Shortest Paths algorithm. It provides a single function `apply` that accepts a `Graph` and returns an object conforming to `APSPResult`.
  */
 protocol APSPAlgorithm {
 
-  associatedtype Q
+  associatedtype Q: Hashable
   associatedtype P: APSPResult
 
-  static func apply(graph: Graph<Q>) -> P
+  static func apply(graph: AbstractGraph<Q>) -> P
 
 }
 
@@ -25,9 +26,9 @@ protocol APSPAlgorithm {
  */
 protocol APSPResult {
 
-  associatedtype T
+  associatedtype T: Hashable
 
   func distance(fromVertex from: Vertex<T>, toVertex to: Vertex<T>) -> Double?
-  func path(fromVertex from: Vertex<T>, toVertex to: Vertex<T>, inGraph graph: Graph<T>) -> [T]?
+  func path(fromVertex from: Vertex<T>, toVertex to: Vertex<T>, inGraph graph: AbstractGraph<T>) -> [T]?
 
 }

@@ -7,9 +7,10 @@
 //
 
 import APSP
+import Graph
 import XCTest
 
-struct TestCase<T> {
+struct TestCase<T where T: Hashable> {
 
   var from: Vertex<T>
   var to: Vertex<T>
@@ -22,26 +23,26 @@ class APSPTests: XCTestCase {
 
   func testExampleFromBook() {
 
-    var graph = Graph<String>()
+    let graph = AdjacencyMatrixGraph<String>()
     let v1 = graph.createVertex("Montreal")
     let v2 = graph.createVertex("New York")
     let v3 = graph.createVertex("Boston")
     let v4 = graph.createVertex("Portland")
     let v5 = graph.createVertex("Portsmouth")
 
-    graph.connect(v1, to: v2, withWeight: 3)
-    graph.connect(v1, to: v5, withWeight: -4)
-    graph.connect(v1, to: v3, withWeight: 8)
+    graph.addDirectedEdge(v1, to: v2, withWeight: 3)
+    graph.addDirectedEdge(v1, to: v5, withWeight: -4)
+    graph.addDirectedEdge(v1, to: v3, withWeight: 8)
 
-    graph.connect(v2, to: v4, withWeight: 1)
-    graph.connect(v2, to: v5, withWeight: 7)
+    graph.addDirectedEdge(v2, to: v4, withWeight: 1)
+    graph.addDirectedEdge(v2, to: v5, withWeight: 7)
 
-    graph.connect(v3, to: v2, withWeight: 4)
+    graph.addDirectedEdge(v3, to: v2, withWeight: 4)
 
-    graph.connect(v4, to: v1, withWeight: 2)
-    graph.connect(v4, to: v3, withWeight: -5)
+    graph.addDirectedEdge(v4, to: v1, withWeight: 2)
+    graph.addDirectedEdge(v4, to: v3, withWeight: -5)
 
-    graph.connect(v5, to: v4, withWeight: 6)
+    graph.addDirectedEdge(v5, to: v4, withWeight: 6)
 
     let result = FloydWarshall<String>.apply(graph)
 
@@ -78,20 +79,20 @@ class APSPTests: XCTestCase {
 
   func testExampleFromReadme() {
 
-    var graph = Graph<Int>()
+    let graph = AdjacencyMatrixGraph<Int>()
     let v1 = graph.createVertex(1)
     let v2 = graph.createVertex(2)
     let v3 = graph.createVertex(3)
     let v4 = graph.createVertex(4)
 
-    graph.connect(v1, to: v2, withWeight: 4)
-    graph.connect(v1, to: v3, withWeight: 1)
-    graph.connect(v1, to: v4, withWeight: 3)
+    graph.addDirectedEdge(v1, to: v2, withWeight: 4)
+    graph.addDirectedEdge(v1, to: v3, withWeight: 1)
+    graph.addDirectedEdge(v1, to: v4, withWeight: 3)
 
-    graph.connect(v2, to: v3, withWeight: 8)
-    graph.connect(v2, to: v4, withWeight: -2)
+    graph.addDirectedEdge(v2, to: v3, withWeight: 8)
+    graph.addDirectedEdge(v2, to: v4, withWeight: -2)
 
-    graph.connect(v3, to: v4, withWeight: -5)
+    graph.addDirectedEdge(v3, to: v4, withWeight: -5)
 
     let result = FloydWarshall<Int>.apply(graph)
 

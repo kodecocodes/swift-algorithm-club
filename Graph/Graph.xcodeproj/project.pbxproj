@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		491AA3761CE6B81C00A2E2C5 /* AdjacencyListGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491AA3751CE6B81C00A2E2C5 /* AdjacencyListGraph.swift */; };
+		491AA3781CE6B82E00A2E2C5 /* AdjacencyMatrixGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491AA3771CE6B82E00A2E2C5 /* AdjacencyMatrixGraph.swift */; };
 		49BFA3011CDF886B00522D66 /* Graph.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BFA3001CDF886B00522D66 /* Graph.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49BFA3081CDF886B00522D66 /* Graph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BFA2FD1CDF886B00522D66 /* Graph.framework */; };
 		49BFA30D1CDF886B00522D66 /* GraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BFA30C1CDF886B00522D66 /* GraphTests.swift */; };
@@ -26,6 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		491AA3751CE6B81C00A2E2C5 /* AdjacencyListGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdjacencyListGraph.swift; sourceTree = "<group>"; };
+		491AA3771CE6B82E00A2E2C5 /* AdjacencyMatrixGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdjacencyMatrixGraph.swift; sourceTree = "<group>"; };
 		49BFA2FD1CDF886B00522D66 /* Graph.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Graph.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49BFA3001CDF886B00522D66 /* Graph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graph.h; sourceTree = "<group>"; };
 		49BFA3021CDF886B00522D66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 				49BFA3261CDF899400522D66 /* Edge.swift */,
 				49BFA32E1CDF89FC00522D66 /* Vertex.swift */,
 				49BFA3171CDF887E00522D66 /* Graph.swift */,
+				491AA3751CE6B81C00A2E2C5 /* AdjacencyListGraph.swift */,
+				491AA3771CE6B82E00A2E2C5 /* AdjacencyMatrixGraph.swift */,
 			);
 			path = Graph;
 			sourceTree = "<group>";
@@ -203,7 +209,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				491AA3761CE6B81C00A2E2C5 /* AdjacencyListGraph.swift in Sources */,
 				49BFA3271CDF899400522D66 /* Edge.swift in Sources */,
+				491AA3781CE6B82E00A2E2C5 /* AdjacencyMatrixGraph.swift in Sources */,
 				49BFA3181CDF887E00522D66 /* Graph.swift in Sources */,
 				49BFA32F1CDF89FC00522D66 /* Vertex.swift in Sources */,
 			);
@@ -396,6 +404,7 @@
 				49BFA3131CDF886B00522D66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		49BFA3141CDF886B00522D66 /* Build configuration list for PBXNativeTarget "GraphTests" */ = {
 			isa = XCConfigurationList;
@@ -404,6 +413,7 @@
 				49BFA3161CDF886B00522D66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
