@@ -32,12 +32,12 @@ Calculating the hash value of the pattern `abc`:
 
 Now we will break up the text into successive substrings matching the length of the pattern `abd` `bda` `dab` `abc` and calculate the hash value of each substring:
 
-| First Substring | Hash                      | Second Substring | Hash                      | Third Substring | Hash                      | Fourth Substring | Hash                      |
-| --------------- | -------------------------:| ---------------- | -------------------------:| --------------- | -------------------------:| ---------------- | -------------------------:|
-| a               | 97                        | b                | 98                        | d               | 100                       | a                | 97                        |
-| b               | 98 x 3<sup>1</sup> = 294  | d                | 100 x 3<sup>1</sup> = 300 | a               | 97 x 3<sup>1</sup> = 291  | b                | 98 x 3<sup>1</sup> = 294  |
-| d               | 100 x 3<sup>2</sup> = 900 | a                | 97 x 3<sup>2</sup> = 873  | b               | 98 x 3<sup>2</sup> = 882  | c                | 99 x 3<sup>2</sup> = 891  |
-|                 | **1291**                  |                  | **1271**                  |                 | **1273**                  |                  | **1282**                  |
+| Character | Hash                      | Character | Hash                      | Character | Hash                      | Character | Hash                      |
+| --------- | -------------------------:| --------- | -------------------------:| --------- | -------------------------:| --------- | -------------------------:|
+| a         | 97                        | b         | 98                        | d         | 100                       | a         | 97                        |
+| b         | 98 x 3<sup>1</sup> = 294  | d         | 100 x 3<sup>1</sup> = 300 | a         | 97 x 3<sup>1</sup> = 291  | b         | 98 x 3<sup>1</sup> = 294  |
+| d         | 100 x 3<sup>2</sup> = 900 | a         | 97 x 3<sup>2</sup> = 873  | b         | 98 x 3<sup>2</sup> = 882  | c         | 99 x 3<sup>2</sup> = 891  |
+|           | **1291**                  |           | **1271**                  |           | **1273**                  |           | **1282**                  |
 
 ### Comparing hashes
 
