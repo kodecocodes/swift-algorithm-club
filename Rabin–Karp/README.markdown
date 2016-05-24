@@ -23,16 +23,16 @@ Calculating the hash value of the pattern `abc`:
 
 | Character   | Hash                      |
 | ----------- | -------------------------:|
-| a           | 97                        |
-| b           | 98 x 3<sup>1</sup> = 294  |
-| c           | 99 x 3<sup>2</sup> = 891  |
+| a         | 97                        |
+| b         | 98 x 3<sup>1</sup> = 294  |
+| c         | 99 x 3<sup>2</sup> = 891  |
 |             | **1282**                  |
 
 ### Successive substrings hashes
 
 Now we will break up the text into successive substrings matching the length of the pattern `abd` `bda` `dab` `abc` and calculate the hash value of each substring:
 
-| Character | Hash                      | Character | Hash                      | Character | Hash                      | Character | Hash                      |
+| `abd`     | Hash                      | `bda`     | Hash                      | `dab`     | Hash                      | `abc`     | Hash                      |
 | --------- | -------------------------:| --------- | -------------------------:| --------- | -------------------------:| --------- | -------------------------:|
 | a         | 97                        | b         | 98                        | d         | 100                       | a         | 97                        |
 | b         | 98 x 3<sup>1</sup> = 294  | d         | 100 x 3<sup>1</sup> = 300 | a         | 97 x 3<sup>1</sup> = 291  | b         | 98 x 3<sup>1</sup> = 294  |
