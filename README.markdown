@@ -151,7 +151,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
 - Trie
-- [B-Tree](B Tree/) :construction:
+- B-Tree
 - [Radix Tree](Radix Tree/) :construction:
 
 ### Hashing
