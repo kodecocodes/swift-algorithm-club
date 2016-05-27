@@ -205,6 +205,7 @@ Other algorithm repositories:
 - [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). A great collection of algorithms in Objective-C.
 - [@lorentey](https://github.com/lorentey/). Production-quality Swift implementations of common algorithms and data structures.
 - [Rosetta Code](http://rosettacode.org). Implementations in pretty much any language you can think of.
+- [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). Visualize algorithms on your browser.
 
 ## License
 
