@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Timeline
+   version = "3.0">
+   <TimelineItems>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "file:///Users/andrew/Projects/Forks/swift-algorithm-club/Graph/Graph.playground/Pages/Graph.xcplaygroundpage#CharacterRangeLen=0&amp;CharacterRangeLoc=1421&amp;EndingLineNumber=43&amp;StartingLineNumber=43&amp;Timestamp=485223975.592935"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "#CharacterRangeLen=0&amp;CharacterRangeLoc=1421&amp;EndingColumnNumber=30&amp;EndingLineNumber=43&amp;StartingColumnNumber=3&amp;StartingLineNumber=43&amp;Timestamp=485223975.593128"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "#CharacterRangeLen=0&amp;CharacterRangeLoc=1421&amp;EndingColumnNumber=15&amp;EndingLineNumber=43&amp;StartingColumnNumber=3&amp;StartingLineNumber=43&amp;Timestamp=485223975.593322"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "#CharacterRangeLen=0&amp;CharacterRangeLoc=1421&amp;EndingColumnNumber=8&amp;EndingLineNumber=43&amp;StartingColumnNumber=3&amp;StartingLineNumber=43&amp;Timestamp=485223975.59343"
+         lockedSize = "{175, 155}"
+         selectedRepresentationIndex = "1"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "#CharacterRangeLen=0&amp;CharacterRangeLoc=1421&amp;EndingColumnNumber=48&amp;EndingLineNumber=43&amp;StartingColumnNumber=3&amp;StartingLineNumber=43&amp;Timestamp=485223975.59355"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+   </TimelineItems>
+</Timeline>
