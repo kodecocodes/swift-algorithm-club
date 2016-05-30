@@ -14,7 +14,7 @@ private typealias Predecessors = [[Int?]]
 private typealias StepResult = (distances: Distances, predecessors: Predecessors)
 
 /**
- Encapsulation of the Floyd-Warshall All-Pairs Shortest Paths algorithm, conforming to the APSPAlgorithm protocol.
+ Encapsulation of the Floyd-Warshall All-Pairs Shortest Paths algorithm, conforming to the `APSPAlgorithm` protocol.
 
  - note: In all complexity bounds, `V` is the number of vertices in the graph, and `E` is the number of edges.
  */
@@ -87,7 +87,7 @@ public struct FloydWarshall<T where T: Hashable>: APSPAlgorithm {
   }
 
   /** 
-   We need to convert the value system in Graph's adjacency matrix to the one we need to perform the algorithm. We need the actual weight between two vertices, or infinity if no edge exists, represented by nil in Graph.adjacencyMatrix. Also set the weight to 0 on the diagonal.
+   We need to map the graph's weight domain onto the one required by the algorithm: the graph stores either a weight as a `Double` or `nil` if no edge exists between two vertices, but the algorithm needs a lack of an edge represented as ∞ for the `min` comparison to work correctly.
    
    - complexity: `Θ(V^2)` time/space
    - returns: weighted adjacency matrix in form ready for processing with Floyd-Warshall
@@ -105,7 +105,7 @@ public struct FloydWarshall<T where T: Hashable>: APSPAlgorithm {
         let colIdx = col.index
         if rowIdx == colIdx {
           distances[rowIdx][colIdx] = 0.0
-        } else if let w = graph.weightFrom(row, toDestinationVertex: col) {
+        } else if let w = graph.weightFrom(row, to: col) {
           distances[rowIdx][colIdx] = w
         }
       }
@@ -165,7 +165,7 @@ public struct FloydWarshallResult<T where T: Hashable>: APSPResult {
    */
   public func path(fromVertex from: Vertex<T>, toVertex to: Vertex<T>, inGraph graph: AbstractGraph<T>) -> [T]? {
 
-    if let path = recursePathFrom(predecessors, fromVertex: from, toVertex: to, path: [ to ], inGraph: graph) {
+    if let path = recursePathFrom(fromVertex: from, toVertex: to, path: [ to ], inGraph: graph) {
       let pathValues = path.map() { vertex in
         vertex.data
       }
@@ -180,7 +180,7 @@ public struct FloydWarshallResult<T where T: Hashable>: APSPResult {
 
    - returns: the list of predecessors discovered so far
    */
-  private func recursePathFrom(predecessors: [[Int?]], fromVertex from: Vertex<T>, toVertex to: Vertex<T>, path: [Vertex<T>], inGraph graph: AbstractGraph<T>) -> [Vertex<T>]? {
+  private func recursePathFrom(fromVertex from: Vertex<T>, toVertex to: Vertex<T>, path: [Vertex<T>], inGraph graph: AbstractGraph<T>) -> [Vertex<T>]? {
 
     if from.index == to.index {
       return [ from, to ]
@@ -192,7 +192,7 @@ public struct FloydWarshallResult<T where T: Hashable>: APSPResult {
         let newPath = [ from, to ]
         return newPath
       } else {
-        let buildPath = recursePathFrom(predecessors, fromVertex: from, toVertex: predecessorVertex, path: path, inGraph: graph)
+        let buildPath = recursePathFrom(fromVertex: from, toVertex: predecessorVertex, path: path, inGraph: graph)
         let newPath = buildPath! + [ to ]
         return newPath
       }
