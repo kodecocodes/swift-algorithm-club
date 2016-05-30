@@ -7,16 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		491AA3821CE8C5F700A2E2C5 /* Graph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491AA37F1CE8C5C900A2E2C5 /* Graph.framework */; };
 		493D8DE31CDD2A1C0089795A /* APSPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8DE21CDD2A1C0089795A /* APSPTests.swift */; };
 		493D8DF41CDD5B960089795A /* APSP.h in Headers */ = {isa = PBXBuildFile; fileRef = 493D8DF31CDD5B960089795A /* APSP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		493D8DF91CDD5B9B0089795A /* FloydWarshall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8DD81CDC38C60089795A /* FloydWarshall.swift */; };
 		493D8DFA1CDD5B9E0089795A /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8DDA1CDD29C80089795A /* Helpers.swift */; };
-		493D8DFB1CDD5BDE0089795A /* AdjacencyMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8DB91CDC34D00089795A /* AdjacencyMatrix.swift */; };
 		49BFA27A1CDD93F400522D66 /* APSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BFA2791CDD93F400522D66 /* APSP.swift */; };
 		49BFA2801CDE742900522D66 /* APSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 493D8DF11CDD5B960089795A /* APSP.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		491AA37E1CE8C5C900A2E2C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 491AA3791CE8C5C900A2E2C5 /* Graph.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 49BFA2FD1CDF886B00522D66;
+			remoteInfo = Graph;
+		};
+		491AA3801CE8C5C900A2E2C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 491AA3791CE8C5C900A2E2C5 /* Graph.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 49BFA3071CDF886B00522D66;
+			remoteInfo = GraphTests;
+		};
+		491AA3831CE8C5F900A2E2C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 491AA3791CE8C5C900A2E2C5 /* Graph.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 49BFA2FC1CDF886B00522D66;
+			remoteInfo = Graph;
+		};
 		49BFA27E1CDE742700522D66 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 493D8D7E1CDC2DAE0089795A /* Project object */;
@@ -27,7 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		493D8DB91CDC34D00089795A /* AdjacencyMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjacencyMatrix.swift; sourceTree = "<group>"; };
+		491AA3791CE8C5C900A2E2C5 /* Graph.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Graph.xcodeproj; path = ../../Graph/Graph.xcodeproj; sourceTree = "<group>"; };
 		493D8DD81CDC38C60089795A /* FloydWarshall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloydWarshall.swift; sourceTree = "<group>"; };
 		493D8DDA1CDD29C80089795A /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		493D8DE01CDD2A1C0089795A /* APSPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APSPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,16 +73,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				491AA3821CE8C5F700A2E2C5 /* Graph.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		491AA37A1CE8C5C900A2E2C5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				491AA37F1CE8C5C900A2E2C5 /* Graph.framework */,
+				491AA3811CE8C5C900A2E2C5 /* GraphTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		493D8D7D1CDC2DAE0089795A = {
 			isa = PBXGroup;
 			children = (
-				493D8DB71CDC34D00089795A /* Graph */,
+				491AA3791CE8C5C900A2E2C5 /* Graph.xcodeproj */,
 				493D8D881CDC2DAE0089795A /* APSP */,
 				493D8DE11CDD2A1C0089795A /* APSPTests */,
 				493D8D871CDC2DAE0089795A /* Products */,
@@ -87,15 +118,6 @@
 				493D8DF51CDD5B960089795A /* Info.plist */,
 			);
 			path = APSP;
-			sourceTree = "<group>";
-		};
-		493D8DB71CDC34D00089795A /* Graph */ = {
-			isa = PBXGroup;
-			children = (
-				493D8DB91CDC34D00089795A /* AdjacencyMatrix.swift */,
-			);
-			name = Graph;
-			path = ../../Graph;
 			sourceTree = "<group>";
 		};
 		493D8DE11CDD2A1C0089795A /* APSPTests */ = {
@@ -151,6 +173,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				491AA3841CE8C5F900A2E2C5 /* PBXTargetDependency */,
 			);
 			name = APSP;
 			productName = APSP;
@@ -165,7 +188,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = "Andrew McKnight";
+				ORGANIZATIONNAME = "Swift Algorithm Club";
 				TargetAttributes = {
 					493D8DDF1CDD2A1C0089795A = {
 						CreatedOnToolsVersion = 7.3;
@@ -185,6 +208,12 @@
 			mainGroup = 493D8D7D1CDC2DAE0089795A;
 			productRefGroup = 493D8D871CDC2DAE0089795A /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 491AA37A1CE8C5C900A2E2C5 /* Products */;
+					ProjectRef = 491AA3791CE8C5C900A2E2C5 /* Graph.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				493D8DDF1CDD2A1C0089795A /* APSPTests */,
@@ -192,6 +221,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		491AA37F1CE8C5C900A2E2C5 /* Graph.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Graph.framework;
+			remoteRef = 491AA37E1CE8C5C900A2E2C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		491AA3811CE8C5C900A2E2C5 /* GraphTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GraphTests.xctest;
+			remoteRef = 491AA3801CE8C5C900A2E2C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		493D8DDE1CDD2A1C0089795A /* Resources */ = {
@@ -226,13 +272,17 @@
 				49BFA27A1CDD93F400522D66 /* APSP.swift in Sources */,
 				493D8DF91CDD5B9B0089795A /* FloydWarshall.swift in Sources */,
 				493D8DFA1CDD5B9E0089795A /* Helpers.swift in Sources */,
-				493D8DFB1CDD5BDE0089795A /* AdjacencyMatrix.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		491AA3841CE8C5F900A2E2C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Graph;
+			targetProxy = 491AA3831CE8C5F900A2E2C5 /* PBXContainerItemProxy */;
+		};
 		49BFA27F1CDE742700522D66 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 493D8DF01CDD5B960089795A /* APSP */;
@@ -329,7 +379,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = APSPTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.armcknight.APSPTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.swift-algorithm-club.APSPTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -340,7 +390,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = APSPTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.armcknight.APSPTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.swift-algorithm-club.APSPTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -358,7 +408,7 @@
 				INFOPLIST_FILE = APSP/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.armcknight.APSP;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.swift-algorithm-club.APSP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -379,7 +429,7 @@
 				INFOPLIST_FILE = APSP/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.armcknight.APSP;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.swift-algorithm-club.APSP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";

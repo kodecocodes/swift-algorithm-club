@@ -3,7 +3,6 @@
 //  APSP
 //
 //  Created by Andrew McKnight on 5/6/16.
-//  Copyright © 2016 Andrew McKnight. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
