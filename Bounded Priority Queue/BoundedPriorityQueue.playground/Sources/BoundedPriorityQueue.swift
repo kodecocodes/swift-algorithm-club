@@ -2,7 +2,7 @@ public class LinkedListNode<T: Comparable> {
   var value: T
   var next: LinkedListNode?
   var previous: LinkedListNode?
-
+  
   public init(value: T) {
     self.value = value
   }
@@ -61,7 +61,7 @@ public class BoundedPriorityQueue<T: Comparable> {
       previous.next = node
       node.previous = previous
       return node
-
+    
     } else if let first = head {
       // Have to insert at the head, so shift the existing head up once place.
       head = Node(value: value)
@@ -77,11 +77,11 @@ public class BoundedPriorityQueue<T: Comparable> {
   }
 
   /* Find the node after which to insert the new value. If this returns nil,
-   the new value should be inserted at the head of the list. */
+     the new value should be inserted at the head of the list. */
   private func findInsertionPoint(value: T) -> Node? {
     var node = head
     var prev: Node? = nil
-
+    
     while let current = node where value < current.value {
       prev = node
       node = current.next
