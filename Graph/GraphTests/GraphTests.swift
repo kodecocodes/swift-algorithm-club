@@ -11,7 +11,7 @@ import XCTest
 
 class GraphTests: XCTestCase {
     
-  func testGraph() {
+  func testAdjacencyMatrixGraphDescription() {
 
     let graph = AdjacencyMatrixGraph<String>()
 
@@ -26,7 +26,7 @@ class GraphTests: XCTestCase {
     XCTAssertEqual(graph.description, expectedValue)
   }
 
-  func testAdjacencyListDescription() {
+  func testAdjacencyListGraphDescription() {
 
     let graph = AdjacencyListGraph<String>()
 
