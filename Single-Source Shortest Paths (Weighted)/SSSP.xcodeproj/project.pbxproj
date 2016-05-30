@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49763FF21CF08FC500202EA9 /* Graph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49763FEF1CF08FB100202EA9 /* Graph.framework */; };
 		49BFA2971CDF86E100522D66 /* SSSP.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BFA2961CDF86E100522D66 /* SSSP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49BFA29E1CDF86E100522D66 /* SSSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BFA2931CDF86E100522D66 /* SSSP.framework */; };
 		49BFA2A31CDF86E100522D66 /* SSSPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BFA2A21CDF86E100522D66 /* SSSPTests.swift */; };
@@ -16,6 +17,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		49763FEE1CF08FB100202EA9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49763FE91CF08FB100202EA9 /* Graph.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 49BFA2FD1CDF886B00522D66;
+			remoteInfo = Graph;
+		};
+		49763FF01CF08FB100202EA9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49763FE91CF08FB100202EA9 /* Graph.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 49BFA3071CDF886B00522D66;
+			remoteInfo = GraphTests;
+		};
+		49763FF31CF08FC900202EA9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49763FE91CF08FB100202EA9 /* Graph.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 49BFA2FC1CDF886B00522D66;
+			remoteInfo = Graph;
+		};
 		49BFA29F1CDF86E100522D66 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 49BFA28A1CDF86E100522D66 /* Project object */;
@@ -26,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		49763FE91CF08FB100202EA9 /* Graph.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Graph.xcodeproj; path = ../Graph/Graph.xcodeproj; sourceTree = "<group>"; };
 		49BFA2931CDF86E100522D66 /* SSSP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SSSP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49BFA2961CDF86E100522D66 /* SSSP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSSP.h; sourceTree = "<group>"; };
 		49BFA2981CDF86E100522D66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49763FF21CF08FC500202EA9 /* Graph.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,9 +80,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49763FEA1CF08FB100202EA9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				49763FEF1CF08FB100202EA9 /* Graph.framework */,
+				49763FF11CF08FB100202EA9 /* GraphTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		49BFA2891CDF86E100522D66 = {
 			isa = PBXGroup;
 			children = (
+				49763FE91CF08FB100202EA9 /* Graph.xcodeproj */,
 				49BFA2951CDF86E100522D66 /* SSSP */,
 				49BFA2A11CDF86E100522D66 /* SSSPTests */,
 				49BFA2941CDF86E100522D66 /* Products */,
@@ -121,6 +155,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				49763FF41CF08FC900202EA9 /* PBXTargetDependency */,
 			);
 			name = SSSP;
 			productName = SSSP;
@@ -173,6 +208,12 @@
 			mainGroup = 49BFA2891CDF86E100522D66;
 			productRefGroup = 49BFA2941CDF86E100522D66 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 49763FEA1CF08FB100202EA9 /* Products */;
+					ProjectRef = 49763FE91CF08FB100202EA9 /* Graph.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				49BFA2921CDF86E100522D66 /* SSSP */,
@@ -180,6 +221,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		49763FEF1CF08FB100202EA9 /* Graph.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Graph.framework;
+			remoteRef = 49763FEE1CF08FB100202EA9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		49763FF11CF08FB100202EA9 /* GraphTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GraphTests.xctest;
+			remoteRef = 49763FF01CF08FB100202EA9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		49BFA2911CDF86E100522D66 /* Resources */ = {
@@ -220,6 +278,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		49763FF41CF08FC900202EA9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Graph;
+			targetProxy = 49763FF31CF08FC900202EA9 /* PBXContainerItemProxy */;
+		};
 		49BFA2A01CDF86E100522D66 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 49BFA2921CDF86E100522D66 /* SSSP */;
@@ -396,6 +459,7 @@
 				49BFA2A91CDF86E100522D66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		49BFA2AA1CDF86E100522D66 /* Build configuration list for PBXNativeTarget "SSSPTests" */ = {
 			isa = XCConfigurationList;
@@ -404,6 +468,7 @@
 				49BFA2AC1CDF86E100522D66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
