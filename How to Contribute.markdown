@@ -28,7 +28,7 @@ Just so you know, I will probably edit your text and code for grammar etc, just 
 
 For the unit tests:
 
-- Add the unit test project to `.travis.yml` so they it be run on [Travis-CI](https://travis-ci.org/hollance/swift-algorithm-club). Add a line to `.travis.yml` like this:
+- Add the unit test project to `.travis.yml` so they will be run on [Travis-CI](https://travis-ci.org/hollance/swift-algorithm-club). Add a line to `.travis.yml` like this:
 
 ```
 - xcodebuild test -project ./Algorithm/Tests/Tests.xcodeproj -scheme Tests
