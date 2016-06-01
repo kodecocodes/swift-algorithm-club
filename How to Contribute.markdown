@@ -28,7 +28,7 @@ Just so you know, I will probably edit your text and code for grammar etc, just 
 
 For the unit tests:
 
-- Add the unit test project to `.travis.yml` so they will be run on [Travis-CI](https://travis-ci.org/hollance/swift-algorithm-club). Add a line to `.travis.yml` like this:
+- Add the unit test project to `.travis.yml` so they will be run on [Travis-CI](https://travis-ci.org/raywenderlich/swift-algorithm-club). Add a line to `.travis.yml` like this:
 
 ```
 - xcodebuild test -project ./Algorithm/Tests/Tests.xcodeproj -scheme Tests
@@ -43,4 +43,4 @@ For the unit tests:
 
 ## Want to chat?
 
-This isn't just a repo with a bunch of code... If you want to learn more about how an algorithm works or want to discuss better ways of solving problems, then open a [Github issue](https://github.com/hollance/swift-algorithm-club/issues) and we'll talk!
+This isn't just a repo with a bunch of code... If you want to learn more about how an algorithm works or want to discuss better ways of solving problems, then open a [Github issue](https://github.com/raywenderlich/swift-algorithm-club/issues) and we'll talk!
