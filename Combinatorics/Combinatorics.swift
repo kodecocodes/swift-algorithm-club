@@ -100,21 +100,22 @@ func quickBinomialCoefficient(n: Int, _ k: Int) -> Int {
   the calculation of much larger numbers, at the cost of temporary storage
   space for the cached values.
 */
+
 func binomialCoefficient(n: Int, _ k: Int) -> Int {
-  var bc = Array2D(columns: n + 1, rows: n + 1, initialValue: 0)
-  
-  for i in 0...n {
-    bc[i, 0] = 1
-    bc[i, i] = 1
-  }
-  
-  if n > 0 {
-    for i in 1...n {
-      for j in 1..<i {
-        bc[i, j] = bc[i - 1, j - 1] + bc[i - 1, j]
-      }
+    var bc = Array(count: n + 1, repeatedValue: Array(count: n + 1, repeatedValue: 0))
+    
+    for i in 0...n {
+        bc[i][0] = 1
+        bc[i][i] = 1
     }
-  }
-  
-  return bc[n, k]
+    
+    if n > 0 {
+        for i in 1...n {
+            for j in 1..<i {
+                bc[i][j] = bc[i - 1][j - 1] + bc[i - 1][j]
+            }
+        }
+    }
+    
+    return bc[n][k]
 }
