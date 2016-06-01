@@ -366,22 +366,22 @@ The following code calculates Pascal's triangle in order to find the `C(n, k)` y
 
 ```swift
 func binomialCoefficient(n: Int, _ k: Int) -> Int {
-    var bc = Array(count: n + 1, repeatedValue: Array(count: n + 1, repeatedValue: 0))
-    
-    for i in 0...n {
-        bc[i][0] = 1
-        bc[i][i] = 1
+  var bc = Array(count: n + 1, repeatedValue: Array(count: n + 1, repeatedValue: 0))
+
+  for i in 0...n {
+    bc[i][0] = 1
+    bc[i][i] = 1
+  }
+
+  if n > 0 {
+    for i in 1...n {
+      for j in 1..<i {
+        bc[i][j] = bc[i - 1][j - 1] + bc[i - 1][j]
+      }
     }
-    
-    if n > 0 {
-        for i in 1...n {
-            for j in 1..<i {
-                bc[i][j] = bc[i - 1][j - 1] + bc[i - 1][j]
-            }
-        }
-    }
-    
-    return bc[n][k]
+  }
+
+  return bc[n][k]
 }
 ```
 
