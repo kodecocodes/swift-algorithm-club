@@ -1,3 +1,5 @@
+![Swift Algorithm Club](https://raw.githubusercontent.com/chris-pilcher/swift-algorithm-club/logo/Images/SwiftAlgorithm-1024-transp.png)
+
 # Welcome to the Swift Algorithm Club!
 
 Here you'll find implementations of popular algorithms and data structures in everyone's favorite new language Swift, with detailed explanations of how they work.
