@@ -1,4 +1,4 @@
-![Swift Algorithm Club](https://raw.githubusercontent.com/chris-pilcher/swift-algorithm-club/logo/Images/SwiftAlgorithm-410-transp.png)
+![Swift Algorithm Club](https://raw.githubusercontent.com/raywenderlich/swift-algorithm-club/logo/Images/SwiftAlgorithm-410-transp.png)
 
 # Welcome to the Swift Algorithm Club!
 
