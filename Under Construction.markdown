@@ -1,6 +1,6 @@
 # Under Construction :construction:
 
-Here you'll find algorithms that are currently under construction. Suggestions and feedback are welcome!
+Here you'll find algorithms that are currently under construction. Suggestions and feedback is welcome!
 
 ### Special-purpose sorts:
 
