@@ -1,10 +1,10 @@
 # Under Construction :construction:
 
-Here you'll find algorithms that are under construction. 
+Here you'll find algorithms that are currently under construction. 
 
 **Suggestions and feedback are welcome!**
 
-Special-purpose sorts:
+### Special-purpose sorts:
 
 - [Bucket Sort](Bucket Sort/)
 
