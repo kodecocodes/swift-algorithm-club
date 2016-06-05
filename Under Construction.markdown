@@ -19,3 +19,4 @@ Here you'll find algorithms that are currently under construction. Suggestions a
 ### Miscellaneous
 
 - [Minimum Edit Distance](Minimum Edit Distance/). Measure the similarity of two strings by counting the number of operations required to transform one string into the other.
+- [Treap](Treap/)
