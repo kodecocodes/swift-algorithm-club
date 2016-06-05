@@ -13,6 +13,7 @@ Here you'll find algorithms that are currently under construction. Suggestions a
 ### Trees
 
 - [AVL Tree](AVL Tree/). A binary search tree that balances itself using rotations.
+- [Ternary Search Tree](Ternary Search Tree/)
 - [Radix Tree](Radix Tree/)
 
 ### Miscellaneous
