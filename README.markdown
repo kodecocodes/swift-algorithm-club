@@ -1,3 +1,5 @@
+![Swift Algorithm Club](/Images/SwiftAlgorithm-410-transp.png)
+
 # Welcome to the Swift Algorithm Club!
 
 Here you'll find implementations of popular algorithms and data structures in everyone's favorite new language Swift, with detailed explanations of how they work.
@@ -23,6 +25,8 @@ This is a work in progress. More algorithms will be added soon. :-)
 [Algorithm design techniques](Algorithm Design.markdown). How do you create your own algorithms?
 
 [How to contribute](How to Contribute.markdown). Report an issue to leave feedback, or submit a pull request.
+
+[Under construction](Under Construction.markdown). Algorithms that are under construction. 
 
 ## Where to start?
 
@@ -72,7 +76,6 @@ Fast sorts:
 
 Special-purpose sorts:
 
-- [Bucket Sort](Bucket Sort/) :construction:
 - [Counting Sort](Counting Sort/)
 - Radix Sort
 - [Topological Sort](Topological Sort/)
@@ -129,7 +132,6 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Queue](Queue/). First-in, first-out!
 - [Deque](Deque/). A double-ended queue.
 - [Priority Queue](Priority Queue). A queue where the most important element is always at the front.
-- [Bounded Priority Queue](Bounded Priority Queue). A queue that is bounded to have a limited number of elements. :construction:
 - [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Lists
@@ -142,7 +144,6 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Tree](Tree/). A general-purpose tree structure.
 - [Binary Tree](Binary Tree/). A tree where each node has at most two children.
 - [Binary Search Tree (BST)](Binary Search Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
-- [AVL Tree](AVL Tree/). A binary search tree that balances itself using rotations. :construction:
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
@@ -152,7 +153,6 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - Fibonacci Heap
 - Trie
 - B-Tree
-- [Radix Tree](Radix Tree/) :construction:
 
 ### Hashing
 
@@ -172,6 +172,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Breadth-First Search (BFS)](Breadth-First Search/)
 - [Depth-First Search (DFS)](Depth-First Search/)
 - [Shortest Path](Shortest Path %28Unweighted%29/) on an unweighted tree
+- [Single-Source Shortest Paths](Single-Source Shortest Paths (Weighted)/)
 - [Minimum Spanning Tree](Minimum Spanning Tree %28Unweighted%29/) on an unweighted tree
 - [All-Pairs Shortest Paths](All-Pairs Shortest Paths/)
 
@@ -205,6 +206,7 @@ Other algorithm repositories:
 - [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). A great collection of algorithms in Objective-C.
 - [@lorentey](https://github.com/lorentey/). Production-quality Swift implementations of common algorithms and data structures.
 - [Rosetta Code](http://rosettacode.org). Implementations in pretty much any language you can think of.
+- [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). Visualize algorithms on your browser.
 
 ## License
 

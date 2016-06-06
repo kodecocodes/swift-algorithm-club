@@ -366,26 +366,26 @@ The following code calculates Pascal's triangle in order to find the `C(n, k)` y
 
 ```swift
 func binomialCoefficient(n: Int, _ k: Int) -> Int {
-  var bc = Array2D(columns: n + 1, rows: n + 1, initialValue: 0)
+  var bc = Array(count: n + 1, repeatedValue: Array(count: n + 1, repeatedValue: 0))
 
   for i in 0...n {
-    bc[i, 0] = 1
-    bc[i, i] = 1
+    bc[i][0] = 1
+    bc[i][i] = 1
   }
 
   if n > 0 {
     for i in 1...n {
       for j in 1..<i {
-        bc[i, j] = bc[i - 1, j - 1] + bc[i - 1, j]
+        bc[i][j] = bc[i - 1][j - 1] + bc[i - 1][j]
       }
     }
   }
 
-  return bc[n, k]
+  return bc[n][k]
 }
 ```
 
-This uses [Array2D](../Array2D/) as helper code because Swift doesn't have a built-in two-dimensional array. The algorithm itself is quite simple: the first loop fills in the 1s at the outer edges of the triangle. The other loops calculate each number in the triangle by adding up the two numbers from the previous row.
+The algorithm itself is quite simple: the first loop fills in the 1s at the outer edges of the triangle. The other loops calculate each number in the triangle by adding up the two numbers from the previous row.
 
 Now you can calculate `C(66, 33)` without any problems:
 

@@ -17,9 +17,9 @@ factorial(20)
 
 
 /*
-  Calculates P(n, k), the number of permutations of n distinct symbols
-  in groups of size k.
-*/
+ Calculates P(n, k), the number of permutations of n distinct symbols
+ in groups of size k.
+ */
 func permutations(n: Int, _ k: Int) -> Int {
   var n = n
   var answer = n
@@ -37,10 +37,10 @@ permutations(9, 4)
 
 
 /*
-  Prints out all the permutations of the given array.
-  Original algorithm by Niklaus Wirth.
-  See also Dr.Dobb's Magazine June 1993, Algorithm Alley
-*/
+ Prints out all the permutations of the given array.
+ Original algorithm by Niklaus Wirth.
+ See also Dr.Dobb's Magazine June 1993, Algorithm Alley
+ */
 func permuteWirth<T>(a: [T], _ n: Int) {
   if n == 0 {
     print(a)   // display the current permutation
@@ -66,15 +66,15 @@ permuteWirth(xyz, 2)
 
 
 /*
-  Prints out all the permutations of an n-element collection.
+ Prints out all the permutations of an n-element collection.
 
-  The initial array must be initialized with all zeros. The algorithm
-  uses 0 as a flag that indicates more work to be done on each level
-  of the recursion.
+ The initial array must be initialized with all zeros. The algorithm
+ uses 0 as a flag that indicates more work to be done on each level
+ of the recursion.
 
-  Original algorithm by Robert Sedgewick.
-  See also Dr.Dobb's Magazine June 1993, Algorithm Alley
-*/
+ Original algorithm by Robert Sedgewick.
+ See also Dr.Dobb's Magazine June 1993, Algorithm Alley
+ */
 func permuteSedgewick(a: [Int], _ n: Int, inout _ pos: Int) {
   var a = a
   pos += 1
@@ -100,9 +100,9 @@ permuteSedgewick(numbers, 0, &pos)
 
 
 /*
-  Calculates C(n, k), or "n-choose-k", i.e. how many different selections
-  of size k out of a total number of distinct elements (n) you can make.
-*/
+ Calculates C(n, k), or "n-choose-k", i.e. how many different selections
+ of size k out of a total number of distinct elements (n) you can make.
+ */
 func combinations(n: Int, _ k: Int) -> Int {
   return permutations(n, k) / factorial(k)
 }
@@ -118,12 +118,12 @@ for i in 1...20 {
 
 
 /*
-  Calculates C(n, k), or "n-choose-k", i.e. the number of ways to choose
-  k things out of n possibilities.
-*/
+ Calculates C(n, k), or "n-choose-k", i.e. the number of ways to choose
+ k things out of n possibilities.
+ */
 func quickBinomialCoefficient(n: Int, _ k: Int) -> Int {
   var result = 1
-    
+
   for i in 0..<k {
     result *= (n - i)
     result /= (i + 1)
@@ -141,13 +141,13 @@ struct Array2D<T> {
   let columns: Int
   let rows: Int
   private var array: [T]
-  
+
   init(columns: Int, rows: Int, initialValue: T) {
     self.columns = columns
     self.rows = rows
     array = .init(count: rows*columns, repeatedValue: initialValue)
   }
-  
+
   subscript(column: Int, row: Int) -> T {
     get { return array[row*columns + column] }
     set { array[row*columns + column] = newValue }
@@ -155,30 +155,31 @@ struct Array2D<T> {
 }
 
 /*
-  Calculates C(n, k), or "n-choose-k", i.e. the number of ways to choose
-  k things out of n possibilities.
+ Calculates C(n, k), or "n-choose-k", i.e. the number of ways to choose
+ k things out of n possibilities.
 
-  Thanks to the dynamic programming, this algorithm from Skiena allows for
-  the calculation of much larger numbers, at the cost of temporary storage
-  space for the cached values.
-*/
+ Thanks to the dynamic programming, this algorithm from Skiena allows for
+ the calculation of much larger numbers, at the cost of temporary storage
+ space for the cached values.
+ */
+
 func binomialCoefficient(n: Int, _ k: Int) -> Int {
-  var bc = Array2D(columns: n + 1, rows: n + 1, initialValue: 0)
-  
+  var bc = Array(count: n + 1, repeatedValue: Array(count: n + 1, repeatedValue: 0))
+
   for i in 0...n {
-    bc[i, 0] = 1
-    bc[i, i] = 1
+    bc[i][0] = 1
+    bc[i][i] = 1
   }
-  
+
   if n > 0 {
     for i in 1...n {
       for j in 1..<i {
-        bc[i, j] = bc[i - 1, j - 1] + bc[i - 1, j]
+        bc[i][j] = bc[i - 1][j - 1] + bc[i - 1][j]
       }
     }
   }
-  
-  return bc[n, k]
+
+  return bc[n][k]
 }
 
 binomialCoefficient(30, 15)
