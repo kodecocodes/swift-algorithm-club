@@ -80,11 +80,13 @@ There are two main strategies: adjacency list and adjacency matrix.
 
 ![Adjacency list](Images/AdjacencyList.png)
 
-The adjacency list describes outgoing edges. A has an edge to B but B does not have an edge back to A, so A does not appear in B's adjacency list.
+The adjacency list describes outgoing edges. A has an edge to B but B does not have an edge back to A, so A does not appear in B's adjacency list. Finding an edge or weight between two vertices can be expensive because there is no random access to edges–you must traverse the adjacency lists until it is found.
 
 **Adjacency Matrix.** In an adjacency matrix implementation, a matrix with rows and columns representing vertices stores a weight to indicate if vertices are connected, and by what weight. For example, if there is a directed edge of weight 5.6 from vertex A to vertex B, then the entry with row for vertex A, column for vertex B would have value 5.6:
 
 ![Adjacency matrix](Images/AdjacencyMatrix.png)
+
+Adding another vertex to the graph is expensive, because a new matrix structure must be created with enough space to hold the new row/column, and the existing structure must be copied into the new one.
 
 So which one should you use? Most of the time, the adjacency list is the right approach. What follows is a more detailed comparison between the two.
 
@@ -103,157 +105,165 @@ In the case of a *sparse* graph, where each vertex is connected to only a handfu
 
 We'll show you sample implementations of both adjacency list and adjacency matrix.
 
-## The code: adjacency list
+## The code: edges and vertices
 
 The adjacency list for each vertex consists of `Edge` objects:
 
 ```swift
-public struct Edge<T> {
+public struct Edge<T where T: Equatable, T: Hashable>: Equatable {
+  
   public let from: Vertex<T>
   public let to: Vertex<T>
-  public let weight: Double
+
+  public let weight: Double?
 }
 ```
 
-This struct describes the "from" and "to" vertices and a weight value. Note that an `Edge` object is always directed, a one-way connection (shown as arrows in the illustrations above). If you want the connection to go both ways, you also need to add an `Edge` object to the adjacency list of the destination vertex.
+This struct describes the "from" and "to" vertices and a weight value. Note that an `Edge` object is always directed, a one-way connection (shown as arrows in the illustrations above). If you want an undirected connection, you also need to add an `Edge` object in the opposite direction. Each `Edge` optionally stores a weight, so they can be used to describe both weighted and unweighted graphs.
 
 The `Vertex` looks like this:
 
 ```swift
-private var uniqueIDCounter = 0
+public struct Vertex<T where T: Equatable, T: Hashable>: Equatable {
 
-public struct Vertex<T> {
   public var data: T
-  public let uniqueID: Int
-  
-  private(set) public var edges: [Edge<T>] = []
-  
-  public init(data: T) {
-    self.data = data
-    uniqueID = uniqueIDCounter
-    uniqueIDCounter += 1
-  }
+  public let index: Int
+
+}
 ```
 
-It stores arbitrary data with a generic type `T`. The vertex also has a unique identifier, which we use to compare equality later. The `edges` array is the adjacency list.
+It stores arbitrary data with a generic type `T`, which is `Hashable` to enforce uniqueness, and also `Equatable`. Vertices themselves are also `Equatable`.
 
-To connect two vertices using a directed edge:
+## The code: graphs
 
-```swift
-  public mutating func connectTo(destinationVertex: Vertex<T>, withWeight weight: Double = 0) {
-    edges.append(Edge(from: self, to: destinationVertex, weight: weight))
-  }
-```
-
-As mentioned, to create an undirected edge you need to make two directed edges:
-
-```
-  public mutating func connectBetween(inout otherVertex: Vertex<T>, withWeight weight: Double = 0) {
-    connectTo(otherVertex, withWeight: weight)
-    otherVertex.connectTo(self, withWeight: weight)
-  }
-```
-
-There is also a method for checking adjacency, i.e. to determine if there is an edge between two vertices:
-
-```swift
-  public func edgeTo(otherVertex: Vertex<T>) -> Edge<T>? {
-    for e in edges where e.to.uniqueID == otherVertex.uniqueID {
-      return e
-    }
-    return nil
-  }
-```
+> **Note:** There are many, many ways to implement graphs. The code given here is just one possible implementation. You probably want to tailor the graph code to each individual problem you're trying to solve. For instance, your edges may not need a `weight` property, or you may not have the need to distinguish between directed and undirected edges.
 
 Here's an example of a very simple graph:
 
 ![Demo](Images/Demo1.png)
 
-This is how you'd create it using `Vertex` objects:
+We can represent it as an adjacency matrix or adjacency list. The classes implementing those concept both inherit a common API from `AbstractGraph`, so they can be created in an identical fashion, with different optimized data structures behind the scenes.
+
+Let's create some directed, weighted graphs, using each representation, to store the example:
 
 ```swift
-var v1 = Vertex(data: 1)
-var v2 = Vertex(data: 2)
-var v3 = Vertex(data: 3)
-var v4 = Vertex(data: 4)
-var v5 = Vertex(data: 5)
+var adjacencyMatrixGraph = AdjacencyMatrixGraph<Int>()
+var adjacencyListGraph = AdjacencyListGraph<Int>()
 
-v1.connectTo(v2, withWeight: 1.0)
-v2.connectTo(v3, withWeight: 1.0)
-v3.connectTo(v4, withWeight: 4.5)
-v4.connectTo(v1, withWeight: 2.8)
-v2.connectTo(v5, withWeight: 3.2)
-```
+for graph in [ adjacencyMatrixGraph, adjacencyListGraph ] {
 
-> **Note:** There are many, many ways to implement graphs. The code given here is just one possible implementation. You probably want to tailor the graph code to each individual problem you're trying to solve. For instance, your edges may not need a `weight` property, or you may not have the need to distinguish between directed and undirected edges.
+  let v1 = graph.createVertex(1)
+  let v2 = graph.createVertex(2)
+  let v3 = graph.createVertex(3)
+  let v4 = graph.createVertex(4)
+  let v5 = graph.createVertex(5)
 
-## The code: adjacency matrix
-
-We'll keep track of the adjacency matrix in a two-dimensional `[[Double?]]` array. An entry of `nil` indicates no edge, while any other value indicates an edge of the given weight.
-
-```swift
-public struct Graph<T> {
-  private var adjacencyMatrix: [[Double?]] = []
+  graph.addDirectedEdge(v1, to: v2, withWeight: 1.0)
+  graph.addDirectedEdge(v2, to: v3, withWeight: 1.0)
+  graph.addDirectedEdge(v3, to: v4, withWeight: 4.5)
+  graph.addDirectedEdge(v4, to: v1, withWeight: 2.8)
+  graph.addDirectedEdge(v2, to: v5, withWeight: 3.2)
 }
+
 ```
 
-If `adjacencyMatrix[i][j]` is not nil, then there is an edge from vertex `i` to vertex `j`.
-
-To index into the matrix using vertices, we give each `Vertex` a unique integer index:
+As mentioned earlier, to create an undirected edge you need to make two directed edges. If we wanted undirected graphs, we'd call this method instead, which takes care of that work for us:
 
 ```swift
-public struct Vertex<T> {
-  public var data: T
-  private let index: Int
+  graph.addUndirectedEdge(v1, to: v2, withWeight: 1.0)
+  graph.addUndirectedEdge(v2, to: v3, withWeight: 1.0)
+  graph.addUndirectedEdge(v3, to: v4, withWeight: 4.5)
+  graph.addUndirectedEdge(v4, to: v1, withWeight: 2.8)
+  graph.addUndirectedEdge(v2, to: v5, withWeight: 3.2)
+```
+
+We could provide `nil` as the values for the `withWeight` parameter in either case to make unweighted graphs.
+
+## The code: adjacency list
+
+To maintain the adjacency list, there is a class that maps a list of edges to a vertex. The graph simply maintains an array of such objects and modifies them as necessary.
+
+```swift
+private class EdgeList<T where T: Equatable, T: Hashable> {
+
+  var vertex: Vertex<T>
+  var edges: [Edge<T>]? = nil
+
+  init(vertex: Vertex<T>) {
+    self.vertex = vertex
+  }
+
+  func addEdge(edge: Edge<T>) {
+    edges?.append(edge)
+  }
+
 }
-```
+``` 
 
-To create a new vertex, the graph must resize the matrix:
+They are implemented as a class as opposed to structs so we can modify them by reference, in place, like when adding an edge to a new vertex, where the source vertex already has an edge list:
 
 ```swift
-  public mutating func createVertex(data: T) -> Vertex<T> {
-    let vertex = Vertex(data: data, index: adjacencyMatrix.count)
-    
-    // Expand each existing row to the right one column.
-    for i in 0..<adjacencyMatrix.count {
-      adjacencyMatrix[i].append(nil)
+  public override func createVertex(data: T) -> Vertex<T> {
+    // check if the vertex already exists
+    let matchingVertices = vertices.filter() { vertex in
+      return vertex.data == data
     }
-    
-    // Add one new row at the bottom.
-    let newRow = [Double?](count: adjacencyMatrix.count + 1, repeatedValue: nil)
-    adjacencyMatrix.append(newRow)
 
+    if matchingVertices.count > 0 {
+      return matchingVertices.last!
+    }
+
+    // if the vertex doesn't exist, create a new one
+    let vertex = Vertex(data: data, index: adjacencyList.count)
+    adjacencyList.append(EdgeList(vertex: vertex))
     return vertex
   }
 ```
 
-Once we have the matrix properly configured, adding edges and querying for edges are simple indexing operations into the matrix:
+The adjacency list for the example looks like this: 
 
-```swift
-public mutating func connect(sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>, withWeight weight: Double = 0) {
-  adjacencyMatrix[sourceVertex.index][destinationVertex.index] = weight
-}
-
-public func weightFrom(sourceVertex: Vertex<T>, toDestinationVertex: Vertex<T>) -> Double? {
-  return adjacencyMatrix[sourceVertex.index][toDestinationVertex.index]
-}
+```
+v1 -> [(v2: 1.0)]
+v2 -> [(v3: 1.0), (v5: 3.2)]
+v3 -> [(v4: 4.5)]
+v4 -> [(v1: 2.8)]
 ```
 
-You use these objects as follows:
+where the general form `a -> [(b: w), ...]` means an edge exists from `a` to `b` with weight `w` (with possibly more edges connecting `a` to other vertices as well).
+
+## The code: adjacency matrix
+
+We'll keep track of the adjacency matrix in a two-dimensional `[[Double?]]` array. An entry of `nil` indicates no edge, while any other value indicates an edge of the given weight. If `adjacencyMatrix[i][j]` is not nil, then there is an edge from vertex `i` to vertex `j`.
+
+To index into the matrix using vertices, we use the `index` property in `Vertex`, which is assigned when creating the vertex through the graph object. When creating a new vertex, the graph must resize the matrix:
 
 ```swift
-var graph = Graph<Int>()
-let v1 = graph.createVertex(1)
-let v2 = graph.createVertex(2)
-let v3 = graph.createVertex(3)
-let v4 = graph.createVertex(4)
-let v5 = graph.createVertex(5)
+  public override func createVertex(data: T) -> Vertex<T> {
+    // check if the vertex already exists
+    let matchingVertices = vertices.filter() { vertex in
+      return vertex.data == data
+    }
 
-graph.connect(v1, to: v2, withWeight: 1.0)
-graph.connect(v2, to: v3, withWeight: 1.0)
-graph.connect(v3, to: v4, withWeight: 4.5)
-graph.connect(v4, to: v1, withWeight: 2.8)
-graph.connect(v2, to: v5, withWeight: 3.2)
+    if matchingVertices.count > 0 {
+      return matchingVertices.last!
+    }
+
+    // if the vertex doesn't exist, create a new one
+    let vertex = Vertex(data: data, index: adjacencyMatrix.count)
+
+    // Expand each existing row to the right one column.
+    for i in 0 ..< adjacencyMatrix.count {
+      adjacencyMatrix[i].append(nil)
+    }
+
+    // Add one new row at the bottom.
+    let newRow = [Double?](count: adjacencyMatrix.count + 1, repeatedValue: nil)
+    adjacencyMatrix.append(newRow)
+
+    _vertices.append(vertex)
+
+    return vertex
+  }
 ```
 
 Then the adjacency matrix looks like this:
