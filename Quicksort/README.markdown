@@ -8,15 +8,14 @@ Here's an implementation in Swift that should be easy to understand:
 
 ```swift
 func quicksort<T: Comparable>(a: [T]) -> [T] {
-  if a.count <= 1 {
-    return a
-  } else {
-    let pivot = a[a.count/2]
-    let less = a.filter { $0 < pivot }
-    let equal = a.filter { $0 == pivot }
-    let greater = a.filter { $0 > pivot }
-    return quicksort(less) + equal + quicksort(greater)
-  }
+  guard a.count > 1 else { return a }
+
+  let pivot = a[a.count/2]
+  let less = a.filter { $0 < pivot }
+  let equal = a.filter { $0 == pivot }
+  let greater = a.filter { $0 > pivot }
+  
+  return quicksort(less) + equal + quicksort(greater)
 }
 ```
 
