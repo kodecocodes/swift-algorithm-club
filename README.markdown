@@ -208,6 +208,14 @@ Other algorithm repositories:
 - [Rosetta Code](http://rosettacode.org). Implementations in pretty much any language you can think of.
 - [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). Visualize algorithms on your browser.
 
+## Credits
+
+The Swift Algorithm Club was originally created by [Matthijs Hollemans](https://github.com/hollance).
+
+It is now maintained by [Chris Pilcher](https://github.com/chris-pilcher) and [Kelvin Lau](https://github.com/kelvinlauKL).
+
+The Swift Algorithm Club is a a collaborative effort from the [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](How to Contribute.markdown)? :]
+
 ## License
 
 All content is licensed under the terms of the MIT open source license.
