@@ -51,12 +51,16 @@ public struct FloydWarshall<T where T: Hashable>: APSPAlgorithm {
   }
 
   /**
-   For each iteration of `intermediateIdx`, perform the comparison for the dynamic algorith, checking for each pair of start/end vertices, whether a path taken through another vertex produces a shorter path.
+   For each iteration of `intermediateIdx`, perform the comparison for the dynamic algorith,
+   checking for each pair of start/end vertices, whether a path taken through another vertex
+   produces a shorter path.
 
    - complexity: `Θ(V^2)` time/space
-   - returns: a tuple containing the next distance matrix with weights of currently known shortest paths and the corresponding predecessor matrix
+   - returns: a tuple containing the next distance matrix with weights of currently known
+   shortest paths and the corresponding predecessor matrix
    */
-  static private func nextStep<T>(intermediateIdx: Int, previousDistances: Distances, previousPredecessors: Predecessors, graph: AbstractGraph<T>) -> StepResult {
+  static private func nextStep<T>(intermediateIdx: Int, previousDistances: Distances,
+                               previousPredecessors: Predecessors, graph: AbstractGraph<T>) -> StepResult {
 
     let vertexCount = graph.vertices.count
     var nextDistances = Array(count: vertexCount, repeatedValue: Array(count: vertexCount, repeatedValue: Double.infinity))
@@ -85,9 +89,11 @@ public struct FloydWarshall<T where T: Hashable>: APSPAlgorithm {
 
   }
 
-  /** 
-   We need to map the graph's weight domain onto the one required by the algorithm: the graph stores either a weight as a `Double` or `nil` if no edge exists between two vertices, but the algorithm needs a lack of an edge represented as ∞ for the `min` comparison to work correctly.
-   
+  /**
+   We need to map the graph's weight domain onto the one required by the algorithm: the graph
+   stores either a weight as a `Double` or `nil` if no edge exists between two vertices, but
+   the algorithm needs a lack of an edge represented as ∞ for the `min` comparison to work correctly.
+
    - complexity: `Θ(V^2)` time/space
    - returns: weighted adjacency matrix in form ready for processing with Floyd-Warshall
    */
@@ -116,7 +122,7 @@ public struct FloydWarshall<T where T: Hashable>: APSPAlgorithm {
 
   /**
    Make the initial predecessor index matrix. Initially each value is equal to it's row index, it's "from" index when querying into it.
-   
+
    - complexity: `Θ(V^2)` time/space
   */
   static private func constructInitialPredecessorMatrix(distances: Distances) -> Predecessors {
@@ -139,9 +145,11 @@ public struct FloydWarshall<T where T: Hashable>: APSPAlgorithm {
 }
 
 /**
- `FloydWarshallResult` encapsulates the result of the computation, namely the minimized distance adjacency matrix, and the matrix of predecessor indices.
- 
- It conforms to the `APSPResult` procotol which provides methods to retrieve distances and paths between given pairs of start and end nodes.
+ `FloydWarshallResult` encapsulates the result of the computation, namely the
+ minimized distance adjacency matrix, and the matrix of predecessor indices.
+
+ It conforms to the `APSPResult` procotol which provides methods to retrieve
+ distances and paths between given pairs of start and end nodes.
  */
 public struct FloydWarshallResult<T where T: Hashable>: APSPResult {
 
@@ -149,7 +157,8 @@ public struct FloydWarshallResult<T where T: Hashable>: APSPResult {
   private var predecessors: Predecessors
 
   /**
-   - returns: the total weight of the path from a starting vertex to a destination. This value is the minimal connected weight between the two vertices, or `nil` if no path exists
+   - returns: the total weight of the path from a starting vertex to a destination.
+   This value is the minimal connected weight between the two vertices, or `nil` if no path exists
    - complexity: `Θ(1)` time/space
    */
   public func distance(fromVertex from: Vertex<T>, toVertex to: Vertex<T>) -> Double? {
@@ -159,7 +168,8 @@ public struct FloydWarshallResult<T where T: Hashable>: APSPResult {
   }
 
   /**
-   - returns: the reconstructed path from a starting vertex to a destination, as an array containing the data property of each vertex, or `nil` if no path exists
+   - returns: the reconstructed path from a starting vertex to a destination,
+   as an array containing the data property of each vertex, or `nil` if no path exists
    - complexity: `Θ(V)` time, `Θ(V^2)` space
    */
   public func path(fromVertex from: Vertex<T>, toVertex to: Vertex<T>, inGraph graph: AbstractGraph<T>) -> [T]? {
@@ -175,11 +185,13 @@ public struct FloydWarshallResult<T where T: Hashable>: APSPResult {
   }
 
   /**
-   The recursive component to rebuilding the shortest path between two vertices using the predecessor matrix.
+   The recursive component to rebuilding the shortest path between
+   two vertices using the predecessor matrix.
 
    - returns: the list of predecessors discovered so far
    */
-  private func recursePathFrom(fromVertex from: Vertex<T>, toVertex to: Vertex<T>, path: [Vertex<T>], inGraph graph: AbstractGraph<T>) -> [Vertex<T>]? {
+  private func recursePathFrom(fromVertex from: Vertex<T>, toVertex to: Vertex<T>, path: [Vertex<T>],
+                                          inGraph graph: AbstractGraph<T>) -> [Vertex<T>]? {
 
     if from.index == to.index {
       return [ from, to ]
@@ -198,7 +210,6 @@ public struct FloydWarshallResult<T where T: Hashable>: APSPResult {
     }
 
     return nil
-    
   }
 
 }

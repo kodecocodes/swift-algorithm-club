@@ -4,7 +4,7 @@
 
   Each node stores a value and two children. The left child contains a smaller
   value; the right a larger (or equal) value.
-  
+
   Any nodes that lack either a left or right child instead keep track of their
   in-order predecessor and/or successor.
 
@@ -82,7 +82,7 @@ extension ThreadedBinaryTree {
   public func insert(value: T) {
     insert(value, parent: self)
   }
-  
+
   private func insert(value: T, parent: ThreadedBinaryTree) {
     if value < self.value {
       if let left = left {
@@ -242,7 +242,7 @@ extension ThreadedBinaryTree {
     }
   }
   */
-  
+
   public func contains(value: T) -> Bool {
     return search(value) != nil
   }
@@ -257,7 +257,7 @@ extension ThreadedBinaryTree {
     }
     return node
   }
-  
+
   /*
     Returns the rightmost descendent. O(h) time.
   */
@@ -268,7 +268,7 @@ extension ThreadedBinaryTree {
     }
     return node
   }
-  
+
   /*
     Calculates the depth of this node, i.e. the distance to the root.
     Takes O(h) time.
@@ -282,7 +282,7 @@ extension ThreadedBinaryTree {
     }
     return edges
   }
-  
+
   /*
     Calculates the height of this node, i.e. the distance to the lowest leaf.
     Since this looks at all children of this node, performance is O(n).
@@ -346,13 +346,13 @@ extension ThreadedBinaryTree {
       }
     }
   }
-  
+
   public func traversePreOrder(@noescape visit: T -> Void) {
     visit(value)
     left?.traversePreOrder(visit)
     right?.traversePreOrder(visit)
   }
-  
+
   public func traversePostOrder(@noescape visit: T -> Void) {
     left?.traversePostOrder(visit)
     right?.traversePostOrder(visit)

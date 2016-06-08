@@ -6,7 +6,7 @@
 extension Graph {
   public func topologicalSortAlternative() -> [Node] {
     var stack = [Node]()
-    
+
     var visited = [Node: Bool]()
     for (node, _) in adjacencyLists {
       visited[node] = false

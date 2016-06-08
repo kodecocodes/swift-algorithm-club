@@ -12,15 +12,15 @@ private struct Message: Comparable {
   let priority: Int
 }
 
-private func ==(m1: Message, m2: Message) -> Bool {
+private func == (m1: Message, m2: Message) -> Bool {
   return m1.priority == m2.priority
 }
 
-private func <(m1: Message, m2: Message) -> Bool {
+private func < (m1: Message, m2: Message) -> Bool {
   return m1.priority < m2.priority
 }
 
-private func >(m1: Message, m2: Message) -> Bool {
+private func > (m1: Message, m2: Message) -> Bool {
   return m1.priority > m2.priority
 }
 

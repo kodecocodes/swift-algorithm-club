@@ -7,25 +7,25 @@ public struct Deque<T> {
   private var array: [T?]
   private var head: Int
   private var capacity: Int
-  
+
   public init(capacity: Int = 10) {
     self.capacity = max(capacity, 1)
     array = .init(count: capacity, repeatedValue: nil)
     head = capacity
   }
-  
+
   public var isEmpty: Bool {
     return count == 0
   }
-  
+
   public var count: Int {
     return array.count - head
   }
-  
+
   public mutating func enqueue(element: T) {
     array.append(element)
   }
-  
+
   public mutating func enqueueFront(element: T) {
     if head == 0 {
       capacity *= 2
@@ -52,7 +52,7 @@ public struct Deque<T> {
     }
     return element
   }
-  
+
   public mutating func dequeueBack() -> T? {
     if isEmpty {
       return nil
@@ -60,7 +60,7 @@ public struct Deque<T> {
       return array.removeLast()
     }
   }
-  
+
   public func peekFront() -> T? {
     if isEmpty {
       return nil
@@ -68,7 +68,7 @@ public struct Deque<T> {
       return array[head]
     }
   }
-  
+
   public func peekBack() -> T? {
     if isEmpty {
       return nil

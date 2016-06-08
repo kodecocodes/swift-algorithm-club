@@ -3,7 +3,7 @@
 func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
   var i = 0
   var j = a.count - 1
-  
+
   while i < j {
     let sum = a[i] + a[j]
     if sum == k {

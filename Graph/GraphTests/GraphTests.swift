@@ -9,7 +9,7 @@ import XCTest
 @testable import Graph
 
 class GraphTests: XCTestCase {
-    
+
   func testAdjacencyMatrixGraphDescription() {
 
     let graph = AdjacencyMatrixGraph<String>()
@@ -53,5 +53,5 @@ class GraphTests: XCTestCase {
       XCTAssertEqual(graph.vertices.count, 1, "Graph should only contain one vertex after trying to create two vertices with identical data")
     }
   }
-    
+
 }

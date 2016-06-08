@@ -7,7 +7,7 @@ public enum BinarySearchTree<T: Comparable> {
   case Empty
   case Leaf(T)
   indirect case Node(BinarySearchTree, T, BinarySearchTree)
-  
+
   /* How many nodes are in this subtree. Performance: O(n). */
   public var count: Int {
     switch self {
@@ -16,7 +16,7 @@ public enum BinarySearchTree<T: Comparable> {
     case let .Node(left, _, right): return left.count + 1 + right.count
     }
   }
-  
+
   /* Distance of this node to its lowest leaf. Performance: O(n). */
   public var height: Int {
     switch self {
@@ -25,7 +25,7 @@ public enum BinarySearchTree<T: Comparable> {
     case let .Node(left, _, right): return 1 + max(left.height, right.height)
     }
   }
-  
+
   /*
     Inserts a new element into the tree.
     Performance: runs in O(h) time, where h is the height of the tree.
@@ -34,14 +34,14 @@ public enum BinarySearchTree<T: Comparable> {
     switch self {
     case .Empty:
       return .Leaf(newValue)
-      
+
     case .Leaf(let value):
       if newValue < value {
         return .Node(.Leaf(newValue), value, .Empty)
       } else {
         return .Node(.Empty, value, .Leaf(newValue))
       }
-      
+
     case .Node(let left, let value, let right):
       if newValue < value {
         return .Node(left.insert(newValue), value, right)
@@ -50,7 +50,7 @@ public enum BinarySearchTree<T: Comparable> {
       }
     }
   }
-  
+
   /*
     Finds the "highest" node with the specified value.
     Performance: runs in O(h) time, where h is the height of the tree.
@@ -71,11 +71,11 @@ public enum BinarySearchTree<T: Comparable> {
       }
     }
   }
-  
+
   public func contains(x: T) -> Bool {
     return search(x) != nil
   }
-  
+
   /*
     Returns the leftmost descendent. O(h) time.
   */
@@ -91,7 +91,7 @@ public enum BinarySearchTree<T: Comparable> {
     }
     return prev
   }
-  
+
   /*
     Returns the rightmost descendent. O(h) time.
   */

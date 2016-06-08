@@ -76,7 +76,7 @@ extension BinarySearchTree {
   public func insert(value: T) {
     insert(value, parent: self)
   }
-  
+
   private func insert(value: T, parent: BinarySearchTree) {
     if value < self.value {
       if let left = left {
@@ -209,7 +209,7 @@ extension BinarySearchTree {
     }
   }
   */
-  
+
   public func contains(value: T) -> Bool {
     return search(value) != nil
   }
@@ -224,7 +224,7 @@ extension BinarySearchTree {
     }
     return node
   }
-  
+
   /*
     Returns the rightmost descendent. O(h) time.
   */
@@ -235,7 +235,7 @@ extension BinarySearchTree {
     }
     return node
   }
-  
+
   /*
     Calculates the depth of this node, i.e. the distance to the root.
     Takes O(h) time.
@@ -249,7 +249,7 @@ extension BinarySearchTree {
     }
     return edges
   }
-  
+
   /*
     Calculates the height of this node, i.e. the distance to the lowest leaf.
     Since this looks at all children of this node, performance is O(n).
@@ -303,13 +303,13 @@ extension BinarySearchTree {
     process(value)
     right?.traverseInOrder(process)
   }
-  
+
   public func traversePreOrder(@noescape process: T -> Void) {
     process(value)
     left?.traversePreOrder(process)
     right?.traversePreOrder(process)
   }
-  
+
   public func traversePostOrder(@noescape process: T -> Void) {
     left?.traversePostOrder(process)
     right?.traversePostOrder(process)

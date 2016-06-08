@@ -25,13 +25,13 @@ func select<T>(from a: [T], count requested: Int) -> [T] {
   var examined = 0
   var selected = 0
   var b = [T]()
-  
+
   while selected < requested {
     examined += 1
-    
+
     // Calculate random variable 0.0 <= r < 1.0 (exclusive!).
     let r = Double(arc4random()) / 0x100000000
-    
+
     let leftToExamine = a.count - examined + 1
     let leftToAdd = requested - selected
 
