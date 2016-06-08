@@ -1,7 +1,13 @@
 language: objective-c
 osx_image: xcode7.3
 
+install:
+
+- ./install_swiftlint.sh
+
 script:
+
+- swiftlint
 
 - xcodebuild test -project ./All-Pairs\ Shortest\ Paths/APSP/APSP.xcodeproj -scheme APSPTests
 - xcodebuild test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests
