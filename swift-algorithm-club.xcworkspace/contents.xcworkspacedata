@@ -1,0 +1,2103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:README.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:LICENSE.txt">
+   </FileRef>
+   <FileRef
+      location = "group:Algorithm Design.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:Big-O Notation.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:How to Contribute.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:Under Construction.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:What are Algorithms.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:Why Algorithms.markdown">
+   </FileRef>
+   <Group
+      location = "group:All-Pairs Shortest Paths"
+      name = "All-Pairs Shortest Paths">
+      <Group
+         location = "group:APSP"
+         name = "APSP">
+         <Group
+            location = "group:APSP"
+            name = "APSP">
+            <FileRef
+               location = "group:APSP.h">
+            </FileRef>
+            <FileRef
+               location = "group:APSP.swift">
+            </FileRef>
+            <FileRef
+               location = "group:FloydWarshall.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Helpers.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:APSP.playground">
+         </FileRef>
+         <FileRef
+            location = "group:APSP.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:APSP.xcworkspace">
+         </FileRef>
+         <Group
+            location = "group:APSPTests"
+            name = "APSPTests">
+            <FileRef
+               location = "group:APSPTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+         </Group>
+      </Group>
+      <Group
+         location = "group:img"
+         name = "img">
+         <FileRef
+            location = "group:d0.png">
+         </FileRef>
+         <FileRef
+            location = "group:d1.png">
+         </FileRef>
+         <FileRef
+            location = "group:d2.png">
+         </FileRef>
+         <FileRef
+            location = "group:d3.png">
+         </FileRef>
+         <FileRef
+            location = "group:example_graph.png">
+         </FileRef>
+         <FileRef
+            location = "group:original_adjacency_matrix.png">
+         </FileRef>
+         <FileRef
+            location = "group:pi0.png">
+         </FileRef>
+         <FileRef
+            location = "group:pi1.png">
+         </FileRef>
+         <FileRef
+            location = "group:pi2.png">
+         </FileRef>
+         <FileRef
+            location = "group:pi3.png">
+         </FileRef>
+         <FileRef
+            location = "group:weight_comparison_formula.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Array2D"
+      name = "Array2D">
+      <FileRef
+         location = "group:Array2D.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Array2D.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Array2DTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:AVL Tree"
+      name = "AVL Tree">
+      <FileRef
+         location = "group:AVLTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:AVLTree.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:Balanced.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Balanced.png">
+         </FileRef>
+         <FileRef
+            location = "group:BalanceNotOK.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:BalanceNotOK.png">
+         </FileRef>
+         <FileRef
+            location = "group:BalanceOK.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:BalanceOK.png">
+         </FileRef>
+         <FileRef
+            location = "group:Height.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Height.png">
+         </FileRef>
+         <FileRef
+            location = "group:Unbalanced.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Unbalanced.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:AVLTreeTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:TreeNodeTests.swift">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Binary Search"
+      name = "Binary Search">
+      <FileRef
+         location = "group:BinarySearch.playground">
+      </FileRef>
+      <FileRef
+         location = "group:BinarySearch.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:BinarySearchTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Binary Search Tree"
+      name = "Binary Search Tree">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:DeleteLeaf.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:DeleteLeaf.png">
+         </FileRef>
+         <FileRef
+            location = "group:DeleteOneChild.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:DeleteOneChild.png">
+         </FileRef>
+         <FileRef
+            location = "group:DeleteTwoChildren.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:DeleteTwoChildren.png">
+         </FileRef>
+         <FileRef
+            location = "group:MinimumMaximum.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:MinimumMaximum.png">
+         </FileRef>
+         <FileRef
+            location = "group:Searching.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Searching.png">
+         </FileRef>
+         <FileRef
+            location = "group:Traversing.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Traversing.png">
+         </FileRef>
+         <FileRef
+            location = "group:Tree1.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Tree1.png">
+         </FileRef>
+         <FileRef
+            location = "group:Tree2.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Tree2.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Solution 1"
+         name = "Solution 1">
+         <FileRef
+            location = "group:BinarySearchTree.playground">
+         </FileRef>
+         <FileRef
+            location = "group:BinarySearchTree.swift">
+         </FileRef>
+         <Group
+            location = "group:Tests"
+            name = "Tests">
+            <FileRef
+               location = "group:BinarySearchTreeTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+            <FileRef
+               location = "group:Tests.xcodeproj">
+            </FileRef>
+         </Group>
+      </Group>
+      <Group
+         location = "group:Solution 2"
+         name = "Solution 2">
+         <FileRef
+            location = "group:BinarySearchTree.playground">
+         </FileRef>
+         <FileRef
+            location = "group:BinarySearchTree.swift">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Binary Tree"
+      name = "Binary Tree">
+      <FileRef
+         location = "group:BinaryTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:BinaryTree.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:BinaryTree.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:BinaryTree.png">
+         </FileRef>
+         <FileRef
+            location = "group:Operations.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Operations.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Bit Set"
+      name = "Bit Set">
+      <FileRef
+         location = "group:BitSet.playground">
+      </FileRef>
+      <FileRef
+         location = "group:BitSet.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Bloom Filter"
+      name = "Bloom Filter">
+      <FileRef
+         location = "group:BloomFilter.playground">
+      </FileRef>
+      <FileRef
+         location = "group:BloomFilter.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:BloomFilterTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Bounded Priority Queue"
+      name = "Bounded Priority Queue">
+      <FileRef
+         location = "group:BoundedPriorityQueue.playground">
+      </FileRef>
+      <FileRef
+         location = "group:BoundedPriorityQueue.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:BoundedPriorityQueueTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Boyer-Moore"
+      name = "Boyer-Moore">
+      <FileRef
+         location = "group:BoyerMoore.playground">
+      </FileRef>
+      <FileRef
+         location = "group:BoyerMoore.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Breadth-First Search"
+      name = "Breadth-First Search">
+      <FileRef
+         location = "group:BreadthFirstSearch.playground">
+      </FileRef>
+      <FileRef
+         location = "group:BreadthFirstSearch.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:AnimatedExample.gif">
+         </FileRef>
+         <FileRef
+            location = "group:AnimatedExample.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:AnimatedExample.psd">
+         </FileRef>
+         <FileRef
+            location = "group:TraversalTree.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:TraversalTree.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:BreadthFirstSearchTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Graph.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Queue.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Brute-Force String Search"
+      name = "Brute-Force String Search">
+      <FileRef
+         location = "group:BruteForceStringSearch.playground">
+      </FileRef>
+      <FileRef
+         location = "group:BruteForceStringSearch.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Bubble Sort"
+      name = "Bubble Sort">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Bucket Sort"
+      name = "Bucket Sort">
+      <FileRef
+         location = "group:BucketSort.playground">
+      </FileRef>
+      <FileRef
+         location = "group:BucketSort.swift">
+      </FileRef>
+      <Group
+         location = "group:Docs"
+         name = "Docs">
+         <FileRef
+            location = "group:BucketSort.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Combinatorics"
+      name = "Combinatorics">
+      <FileRef
+         location = "group:Combinatorics.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Combinatorics.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Count Occurrences"
+      name = "Count Occurrences">
+      <FileRef
+         location = "group:CountOccurrences.playground">
+      </FileRef>
+      <FileRef
+         location = "group:CountOccurrences.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Counting Sort"
+      name = "Counting Sort">
+      <FileRef
+         location = "group:CountingSort.playground">
+      </FileRef>
+      <FileRef
+         location = "group:CountingSort.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:CountingSortTest.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Depth-First Search"
+      name = "Depth-First Search">
+      <FileRef
+         location = "group:DepthFirstSearch.playground">
+      </FileRef>
+      <FileRef
+         location = "group:DepthFirstSearch.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:AnimatedExample.gif">
+         </FileRef>
+         <FileRef
+            location = "group:AnimatedExample.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:AnimatedExample.psd">
+         </FileRef>
+         <FileRef
+            location = "group:TraversalTree.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:TraversalTree.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:DepthFirstSearchTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Graph.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Deque"
+      name = "Deque">
+      <FileRef
+         location = "group:Deque-Optimized.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Deque-Simple.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Deque.playground">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Fixed Size Array"
+      name = "Fixed Size Array">
+      <FileRef
+         location = "group:FixedSizeArray.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:append.png">
+         </FileRef>
+         <FileRef
+            location = "group:array.png">
+         </FileRef>
+         <FileRef
+            location = "group:delete-no-copy.png">
+         </FileRef>
+         <FileRef
+            location = "group:delete.png">
+         </FileRef>
+         <FileRef
+            location = "group:FixedSizeArrays.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:indexing.png">
+         </FileRef>
+         <FileRef
+            location = "group:insert.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Fizz Buzz"
+      name = "Fizz Buzz">
+      <FileRef
+         location = "group:FizzBuzz.playground">
+      </FileRef>
+      <FileRef
+         location = "group:FizzBuzz.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:GCD"
+      name = "GCD">
+      <FileRef
+         location = "group:GCD.playground">
+      </FileRef>
+      <FileRef
+         location = "group:GCD.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Graph"
+      name = "Graph">
+      <Group
+         location = "group:Graph"
+         name = "Graph">
+         <FileRef
+            location = "group:AdjacencyListGraph.swift">
+         </FileRef>
+         <FileRef
+            location = "group:AdjacencyMatrixGraph.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Edge.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Graph.h">
+         </FileRef>
+         <FileRef
+            location = "group:Graph.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Vertex.swift">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:Graph.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Graph.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Graph.xcworkspace">
+      </FileRef>
+      <Group
+         location = "group:GraphTests"
+         name = "GraphTests">
+         <FileRef
+            location = "group:GraphTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:AdjacencyList.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:AdjacencyList.png">
+         </FileRef>
+         <FileRef
+            location = "group:AdjacencyMatrix.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:AdjacencyMatrix.png">
+         </FileRef>
+         <FileRef
+            location = "group:ChordMap.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:ChordMap.png">
+         </FileRef>
+         <FileRef
+            location = "group:CoreData.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:CoreData.png">
+         </FileRef>
+         <FileRef
+            location = "group:DAG.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:DAG.png">
+         </FileRef>
+         <FileRef
+            location = "group:Demo1.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Demo1.png">
+         </FileRef>
+         <FileRef
+            location = "group:Flights.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Flights.png">
+         </FileRef>
+         <FileRef
+            location = "group:FlightsDirected.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:FlightsDirected.png">
+         </FileRef>
+         <FileRef
+            location = "group:Graph.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Graph.png">
+         </FileRef>
+         <FileRef
+            location = "group:SocialNetwork.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:SocialNetwork.png">
+         </FileRef>
+         <FileRef
+            location = "group:StateMachine.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:StateMachine.png">
+         </FileRef>
+         <FileRef
+            location = "group:Tasks.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Tasks.png">
+         </FileRef>
+         <FileRef
+            location = "group:TreeAndList.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:TreeAndList.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Hash Set"
+      name = "Hash Set">
+      <FileRef
+         location = "group:HashSet.playground">
+      </FileRef>
+      <FileRef
+         location = "group:HashSet.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:CombineSets.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:CombineSets.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Hash Table"
+      name = "Hash Table">
+      <FileRef
+         location = "group:HashTable.playground">
+      </FileRef>
+      <FileRef
+         location = "group:HashTable.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Heap"
+      name = "Heap">
+      <FileRef
+         location = "group:Heap.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:Array.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Array.png">
+         </FileRef>
+         <FileRef
+            location = "group:Heap1.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Heap1.png">
+         </FileRef>
+         <FileRef
+            location = "group:HeapShape.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:HeapShape.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert1.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Insert1.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert2.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Insert2.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert3.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Insert3.png">
+         </FileRef>
+         <FileRef
+            location = "group:LargeHeap.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:LargeHeap.png">
+         </FileRef>
+         <FileRef
+            location = "group:RegularTree.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:RegularTree.png">
+         </FileRef>
+         <FileRef
+            location = "group:Remove1.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Remove1.png">
+         </FileRef>
+         <FileRef
+            location = "group:Remove2.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Remove2.png">
+         </FileRef>
+         <FileRef
+            location = "group:Remove3.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Remove3.png">
+         </FileRef>
+         <FileRef
+            location = "group:Remove4.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Remove4.png">
+         </FileRef>
+         <FileRef
+            location = "group:Remove5.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Remove5.png">
+         </FileRef>
+         <FileRef
+            location = "group:SortedArray.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:SortedArray.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:HeapTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Heap Sort"
+      name = "Heap Sort">
+      <FileRef
+         location = "group:HeapSort.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:MaxHeap.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:MaxHeap.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:HeapSortTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Huffman Coding"
+      name = "Huffman Coding">
+      <FileRef
+         location = "group:Huffman.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Huffman.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:BuildTree.gif">
+         </FileRef>
+         <FileRef
+            location = "group:BuildTree.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:BuildTree.psd">
+         </FileRef>
+         <FileRef
+            location = "group:Compression.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Compression.png">
+         </FileRef>
+         <FileRef
+            location = "group:Decompression.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Decompression.png">
+         </FileRef>
+         <FileRef
+            location = "group:Tree.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Tree.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:NSData+Bits.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Images"
+      name = "Images">
+      <FileRef
+         location = "group:scheme-settings-for-travis.png">
+      </FileRef>
+      <FileRef
+         location = "group:SwiftAlgorithm-410-transp.png">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Insertion Sort"
+      name = "Insertion Sort">
+      <FileRef
+         location = "group:InsertionSort.playground">
+      </FileRef>
+      <FileRef
+         location = "group:InsertionSort.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:InsertionSortTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:K-Means"
+      name = "K-Means">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:k_means_bad1.png">
+         </FileRef>
+         <FileRef
+            location = "group:k_means_bad2.png">
+         </FileRef>
+         <FileRef
+            location = "group:k_means_good.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:KMeans.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:KMeansTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:Vector.swift">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Kth Largest Element"
+      name = "Kth Largest Element">
+      <FileRef
+         location = "group:kthLargest.playground">
+      </FileRef>
+      <FileRef
+         location = "group:kthLargest.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Linear Search"
+      name = "Linear Search">
+      <FileRef
+         location = "group:LinearSearch.playground">
+      </FileRef>
+      <FileRef
+         location = "group:LinearSearch.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Linked List"
+      name = "Linked List">
+      <FileRef
+         location = "group:LinkedList.playground">
+      </FileRef>
+      <FileRef
+         location = "group:LinkedList.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:LinkedListTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Longest Common Subsequence"
+      name = "Longest Common Subsequence">
+      <FileRef
+         location = "group:LongestCommonSubsequence.playground">
+      </FileRef>
+      <FileRef
+         location = "group:LongestCommonSubsequence.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:LongestCommonSubsequenceTests.swift">
+         </FileRef>
+         <Group
+            location = "group:Tests"
+            name = "Tests">
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Merge Sort"
+      name = "Merge Sort">
+      <FileRef
+         location = "group:MergeSort.playground">
+      </FileRef>
+      <FileRef
+         location = "group:MergeSort.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Minimum Edit Distance"
+      name = "Minimum Edit Distance">
+      <FileRef
+         location = "group:MinimumEditDistance.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Minimum Spanning Tree (Unweighted)"
+      name = "Minimum Spanning Tree (Unweighted)">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:Graph.png">
+         </FileRef>
+         <FileRef
+            location = "group:Graph.sketch">
+         </FileRef>
+         <FileRef
+            location = "group:MinimumSpanningTree.png">
+         </FileRef>
+         <FileRef
+            location = "group:MinimumSpanningTree.sketch">
+         </FileRef>
+         <FileRef
+            location = "group:Tree.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Tree.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:MinimumSpanningTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:MinimumSpanningTree.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Graph.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:MinimumSpanningTreeTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Queue.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Monty Hall Problem"
+      name = "Monty Hall Problem">
+      <FileRef
+         location = "group:MontyHall.playground">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Ordered Array"
+      name = "Ordered Array">
+      <FileRef
+         location = "group:OrderedArray.playground">
+      </FileRef>
+      <FileRef
+         location = "group:OrderedArray.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Ordered Set"
+      name = "Ordered Set">
+      <FileRef
+         location = "group:OrderedSet.playground">
+      </FileRef>
+      <FileRef
+         location = "group:OrderedSet.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Priority Queue"
+      name = "Priority Queue">
+      <FileRef
+         location = "group:PriorityQueue.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:PriorityQueueTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Queue"
+      name = "Queue">
+      <FileRef
+         location = "group:Queue-Optimized.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Queue-Simple.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Queue.playground">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:QueueTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Quicksort"
+      name = "Quicksort">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:Example.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Example.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:Quicksort.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Quicksort.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:QuicksortTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:SortingTestHelpers.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Radix Sort"
+      name = "Radix Sort">
+      <FileRef
+         location = "group:radixSort.swift">
+      </FileRef>
+      <FileRef
+         location = "group:ReadMe.md">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Radix Tree"
+      name = "Radix Tree">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:radixtree.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:RadixTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:RadixTree.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Red-Black Tree"
+      name = "Red-Black Tree">
+      <Group
+         location = "group:files"
+         name = "files">
+         <FileRef
+            location = "group:fig1.png">
+         </FileRef>
+         <FileRef
+            location = "group:fig2.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:RBTree.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Ring Buffer"
+      name = "Ring Buffer">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:RingBuffer.playground">
+      </FileRef>
+      <FileRef
+         location = "group:RingBuffer.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Run-Length Encoding"
+      name = "Run-Length Encoding">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:RLE.playground">
+      </FileRef>
+      <FileRef
+         location = "group:RLE.swift">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:RLETests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Segment Tree"
+      name = "Segment Tree">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:EqualSegments.png">
+         </FileRef>
+         <FileRef
+            location = "group:LeftSegment.png">
+         </FileRef>
+         <FileRef
+            location = "group:MixedSegment.png">
+         </FileRef>
+         <FileRef
+            location = "group:RightSegment.png">
+         </FileRef>
+         <FileRef
+            location = "group:Structure.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:SegmentTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:SegmentTree.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Select Minimum Maximum"
+      name = "Select Minimum Maximum">
+      <FileRef
+         location = "group:Maximum.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Minimum.swift">
+      </FileRef>
+      <FileRef
+         location = "group:MinimumMaximumPairs.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:SelectMinimumMaximum.playground">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:MaximumTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:MinimumMaximumPairsTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:MinimumTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:TestHelper.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Selection Sampling"
+      name = "Selection Sampling">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:SelectionSampling.playground">
+      </FileRef>
+      <FileRef
+         location = "group:SelectionSampling.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Selection Sort"
+      name = "Selection Sort">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:SelectionSort.playground">
+      </FileRef>
+      <FileRef
+         location = "group:SelectionSort.swift">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:SelectionSortTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Shell Sort"
+      name = "Shell Sort">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:shellsort.swift">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:ShellSortTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Shortest Path (Unweighted)"
+      name = "Shortest Path (Unweighted)">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:Graph.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Graph.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:ShortestPath.playground">
+      </FileRef>
+      <FileRef
+         location = "group:ShortestPath.swift">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Graph.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Queue.swift">
+         </FileRef>
+         <FileRef
+            location = "group:ShortestPathTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Shuffle"
+      name = "Shuffle">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:Shuffle.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Shuffle.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Shunting Yard"
+      name = "Shunting Yard">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:ShuntingYard.playground">
+      </FileRef>
+      <FileRef
+         location = "group:ShuntingYard.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Single-Source Shortest Paths (Weighted)"
+      name = "Single-Source Shortest Paths (Weighted)">
+      <Group
+         location = "group:img"
+         name = "img">
+         <FileRef
+            location = "group:example_graph.png">
+         </FileRef>
+         <FileRef
+            location = "group:negative_cycle_example.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:SSSP"
+         name = "SSSP">
+         <FileRef
+            location = "group:BellmanFord.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:SSSP.h">
+         </FileRef>
+         <FileRef
+            location = "group:SSSP.swift">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:SSSP.playground">
+      </FileRef>
+      <FileRef
+         location = "group:SSSP.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:SSSP.xcworkspace">
+      </FileRef>
+      <Group
+         location = "group:SSSPTests"
+         name = "SSSPTests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:SSSPTests.swift">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Stack"
+      name = "Stack">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:Stack.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Stack.swift">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:StackTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Ternary Search Tree"
+      name = "Ternary Search Tree">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:TernarySearchTree.swift">
+      </FileRef>
+      <FileRef
+         location = "group:TST.playground">
+      </FileRef>
+      <FileRef
+         location = "group:TSTNode.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Threaded Binary Tree"
+      name = "Threaded Binary Tree">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:Base.png">
+         </FileRef>
+         <FileRef
+            location = "group:Full.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert1.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert2.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert3.png">
+         </FileRef>
+         <FileRef
+            location = "group:Partial.png">
+         </FileRef>
+         <FileRef
+            location = "group:Remove1.png">
+         </FileRef>
+         <FileRef
+            location = "group:Remove2.png">
+         </FileRef>
+         <FileRef
+            location = "group:Remove3.png">
+         </FileRef>
+         <FileRef
+            location = "group:Remove4.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:ThreadedBinaryTree.swift">
+      </FileRef>
+      <FileRef
+         location = "group:ThreadedBinaryTreeTests.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Topological Sort"
+      name = "Topological Sort">
+      <FileRef
+         location = "group:Graph.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:Algorithms.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Algorithms.png">
+         </FileRef>
+         <FileRef
+            location = "group:Example.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Example.png">
+         </FileRef>
+         <FileRef
+            location = "group:Graph.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Graph.png">
+         </FileRef>
+         <FileRef
+            location = "group:GraphResult.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:GraphResult.png">
+         </FileRef>
+         <FileRef
+            location = "group:InvalidSort.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:InvalidSort.png">
+         </FileRef>
+         <FileRef
+            location = "group:TopologicalSort.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:TopologicalSort.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:TopologicalSortTests.swift">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:Topological Sort.playground">
+      </FileRef>
+      <FileRef
+         location = "group:TopologicalSort1.swift">
+      </FileRef>
+      <FileRef
+         location = "group:TopologicalSort2.swift">
+      </FileRef>
+      <FileRef
+         location = "group:TopologicalSort3.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Treap"
+      name = "Treap">
+      <Group
+         location = "group:Treap"
+         name = "Treap">
+         <Group
+            location = "group:Treap"
+            name = "Treap">
+            <FileRef
+               location = "group:AppDelegate.swift">
+            </FileRef>
+            <Group
+               location = "group:Assets.xcassets"
+               name = "Assets.xcassets">
+               <Group
+                  location = "group:AppIcon.appiconset"
+                  name = "AppIcon.appiconset">
+                  <FileRef
+                     location = "group:Contents.json">
+                  </FileRef>
+               </Group>
+            </Group>
+            <Group
+               location = "group:Base.lproj"
+               name = "Base.lproj">
+               <FileRef
+                  location = "group:MainMenu.xib">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:Treap.xcodeproj">
+         </FileRef>
+         <Group
+            location = "group:TreapTests"
+            name = "TreapTests">
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+            <FileRef
+               location = "group:TreapTests.swift">
+            </FileRef>
+         </Group>
+      </Group>
+      <FileRef
+         location = "group:Treap.swift">
+      </FileRef>
+      <FileRef
+         location = "group:TreapCollectionType.swift">
+      </FileRef>
+      <FileRef
+         location = "group:TreapMergeSplit.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Tree"
+      name = "Tree">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:Cycles.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Cycles.png">
+         </FileRef>
+         <FileRef
+            location = "group:Example.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Example.png">
+         </FileRef>
+         <FileRef
+            location = "group:ParentChildren.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:ParentChildren.png">
+         </FileRef>
+         <FileRef
+            location = "group:Tree.graffle">
+         </FileRef>
+         <FileRef
+            location = "group:Tree.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:Tree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Tree.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Trie"
+      name = "Trie">
+      <FileRef
+         location = "group:ReadMe.md">
+      </FileRef>
+      <FileRef
+         location = "group:trie.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Two-Sum Problem"
+      name = "Two-Sum Problem">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Solution 1"
+         name = "Solution 1">
+         <FileRef
+            location = "group:2Sum.playground">
+         </FileRef>
+         <FileRef
+            location = "group:2Sum.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:Solution 2"
+         name = "Solution 2">
+         <FileRef
+            location = "group:2Sum.playground">
+         </FileRef>
+         <FileRef
+            location = "group:2Sum.swift">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Union-Find"
+      name = "Union-Find">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:AfterFind.png">
+         </FileRef>
+         <FileRef
+            location = "group:AfterUnion.png">
+         </FileRef>
+         <FileRef
+            location = "group:BeforeFind.png">
+         </FileRef>
+         <FileRef
+            location = "group:BeforeUnion.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:UnionFind.playground">
+      </FileRef>
+      <FileRef
+         location = "group:UnionFind.swift">
+      </FileRef>
+   </Group>
+</Workspace>
