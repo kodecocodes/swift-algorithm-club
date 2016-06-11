@@ -14,7 +14,7 @@ script:
 - xctool test -project ./Breadth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Bucket\ Sort/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Counting\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xctool test -project ./Depth-First Search/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Depth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Graph/Graph.xcodeproj -scheme GraphTests
 - xctool test -project ./Heap/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Heap\ Sort/Tests/Tests.xcodeproj -scheme Tests
