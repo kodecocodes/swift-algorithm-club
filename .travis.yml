@@ -34,4 +34,3 @@ script:
 - xctool test -project ./Single-Source\ Shortest\ Paths\ \(Weighted\)/SSSP.xcodeproj -scheme SSSPTests
 - xctool test -project ./Stack/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Topological\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xctool test -project ./Treap/Treap/Treap.xcodeproj -scheme Tests
