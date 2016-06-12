@@ -1629,6 +1629,13 @@
       </Group>
    </Group>
    <Group
+      location = "container:"
+      name = "Set Cover (Unweighted)">
+      <FileRef
+         location = "group:SetCover.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Shell Sort"
       name = "Shell Sort">
       <FileRef
