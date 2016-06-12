@@ -1632,10 +1632,13 @@
       location = "container:"
       name = "Set Cover (Unweighted)">
       <FileRef
-         location = "group:SetCover.swift">
+         location = "group:Set Cover (Unweighted)/README.markdown">
       </FileRef>
       <FileRef
-         location = "group:SetCover.playground">
+         location = "group:Set Cover (Unweighted)/SetCover.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Set Cover (Unweighted)/SetCover.swift">
       </FileRef>
    </Group>
    <Group
