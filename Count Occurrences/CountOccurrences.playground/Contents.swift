@@ -14,7 +14,7 @@ func countOccurrencesOfKey(key: Int, inArray a: [Int]) -> Int {
     }
     return low
   }
-  
+
   func rightBoundary() -> Int {
     var low = 0
     var high = a.count
@@ -28,7 +28,7 @@ func countOccurrencesOfKey(key: Int, inArray a: [Int]) -> Int {
     }
     return low
   }
-  
+
   return rightBoundary() - leftBoundary()
 }
 

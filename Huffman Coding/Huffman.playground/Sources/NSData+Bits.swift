@@ -5,7 +5,7 @@ public class BitWriter {
   public var data = NSMutableData()
   var outByte: UInt8 = 0
   var outCount = 0
-  
+
   public func writeBit(bit: Bool) {
     if outCount == 8 {
       data.appendBytes(&outByte, length: 1)
@@ -31,11 +31,11 @@ public class BitReader {
   var ptr: UnsafePointer<UInt8>
   var inByte: UInt8 = 0
   var inCount = 8
-  
+
   public init(data: NSData) {
     ptr = UnsafePointer<UInt8>(data.bytes)
   }
-  
+
   public func readBit() -> Bool {
     if inCount == 8 {
       inByte = ptr.memory    // load the next byte

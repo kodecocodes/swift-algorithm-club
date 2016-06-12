@@ -9,15 +9,15 @@
 import XCTest
 
 class AVLTreeTests: XCTestCase {
-  
-  var tree : AVLTree<Int, String>?
+
+  var tree: AVLTree<Int, String>?
 
   override func setUp() {
     super.setUp()
-    
+
     tree = AVLTree()
   }
-  
+
   override func tearDown() {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     super.tearDown()
@@ -60,8 +60,8 @@ class AVLTreeTests: XCTestCase {
   }
 
   func testEmptyInitialization() {
-    let tree = AVLTree<Int,String>()
-    
+    let tree = AVLTree<Int, String>()
+
     XCTAssertEqual(tree.size, 0)
     XCTAssertNil(tree.root)
   }
@@ -71,45 +71,45 @@ class AVLTreeTests: XCTestCase {
       self.tree?.insert(5, "E")
     }
   }
-  
+
   func testMultipleInsertionsPerformance() {
     self.measureBlock {
       self.tree?.autopopulateWithNodes(50)
     }
   }
-  
+
   func testSearchExistentOnSmallTreePerformance() {
     self.measureBlock {
       self.tree?.search(2)
     }
   }
-  
+
   func testSearchExistentElementOnLargeTreePerformance() {
     self.measureBlock {
       self.tree?.autopopulateWithNodes(500)
       self.tree?.search(400)
     }
   }
-  
+
   func testMinimumOnPopulatedTree() {
     self.tree?.autopopulateWithNodes(500)
     let min = self.tree?.root?.minimum()
     XCTAssertNotNil(min, "Minimum function not working")
   }
-  
+
   func testMinimumOnSingleTreeNode() {
     let treeNode = TreeNode(key: 1, payload: "A")
     let min = treeNode.minimum()
-    
+
     XCTAssertNotNil(min, "Minimum on single node should be returned")
-    XCTAssertEqual(min?.payload,treeNode.payload)
+    XCTAssertEqual(min?.payload, treeNode.payload)
   }
-  
+
   func testDeleteExistentKey() {
     self.tree?.delete(1)
     XCTAssertNil(self.tree?.search(1), "Key should not exist anymore")
   }
-  
+
   func testDeleteNotExistentKey() {
     self.tree?.delete(1056)
     XCTAssertNil(self.tree?.search(1056), "Key should not exist")
@@ -122,7 +122,7 @@ class AVLTreeTests: XCTestCase {
       XCTAssertEqual(tree.size, i + 1, "Insert didn't update size correctly!")
     }
   }
-  
+
   func testDelete() {
     let permutations = [
       [5, 1, 4, 2, 3],
@@ -130,7 +130,7 @@ class AVLTreeTests: XCTestCase {
       [4, 5, 3, 2, 1],
       [3, 2, 5, 4, 1],
     ]
-    
+
     for p in permutations {
       let tree = AVLTree<Int, String>()
 
@@ -151,8 +151,8 @@ class AVLTreeTests: XCTestCase {
 }
 
 extension AVLTree where Key : SignedIntegerType {
-  func autopopulateWithNodes(count : Int) {
-    var k : Key = 1
+  func autopopulateWithNodes(count: Int) {
+    var k: Key = 1
     for _ in 0...count {
       self.insert(k)
       k = k + 1
@@ -185,5 +185,3 @@ extension AVLTree where Key : SignedIntegerType {
     }
   }
 }
-
-

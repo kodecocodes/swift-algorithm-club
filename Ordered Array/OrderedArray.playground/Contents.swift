@@ -2,7 +2,7 @@
 
 public struct OrderedArray<T: Comparable> {
   private var array = [T]()
-  
+
   public init(array: [T]) {
     self.array = array.sort()
   }
@@ -10,23 +10,23 @@ public struct OrderedArray<T: Comparable> {
   public var isEmpty: Bool {
     return array.isEmpty
   }
-  
+
   public var count: Int {
     return array.count
   }
-  
+
   public subscript(index: Int) -> T {
     return array[index]
   }
-  
+
   public mutating func removeAtIndex(index: Int) -> T {
     return array.removeAtIndex(index)
   }
-  
+
   public mutating func removeAll() {
     array.removeAll()
   }
-  
+
   public mutating func insert(newElement: T) -> Int {
     let i = findInsertionPoint(newElement)
     array.insert(newElement, atIndex: i)
@@ -79,4 +79,3 @@ a              // [-1, 1, 3, 4, 5, 7, 9]
 a.insert(-2)   // inserted at index 0
 a.insert(10)   // inserted at index 8
 a              // [-2, -1, 1, 3, 4, 5, 7, 9, 10]
-

@@ -184,4 +184,3 @@ func binomialCoefficient(n: Int, _ k: Int) -> Int {
 
 binomialCoefficient(30, 15)
 binomialCoefficient(66, 33)
-

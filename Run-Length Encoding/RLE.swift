@@ -9,12 +9,12 @@ extension NSData {
     if length > 0 {
       var ptr = UnsafePointer<UInt8>(bytes)
       let end = ptr + length
-      
+
       while ptr < end {
         var count = 0
         var byte = ptr.memory
         var next = byte
-        
+
         // Is the next byte the same? Keep reading until we find a different
         // value, or we reach the end of the data, or the run is 64 bytes.
         while next == byte && ptr < end && count < 64 {
@@ -34,7 +34,7 @@ extension NSData {
     }
     return data
   }
-  
+
   /*
     Converts a run-length encoded NSData back to the original.
   */
@@ -45,11 +45,11 @@ extension NSData {
       let end = ptr + length
 
       while ptr < end {
-        // Read the next byte. This is either a single value less than 192, 
+        // Read the next byte. This is either a single value less than 192,
         // or the start of a byte run.
         var byte = ptr.memory
         ptr = ptr.advancedBy(1)
-        
+
         if byte < 192 {                       // single value
           data.appendBytes(&byte, length: 1)
 

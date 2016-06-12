@@ -25,8 +25,7 @@ func maximum<T: Comparable>(var array: [T]) -> T? {
 }
 
 // Compare in pairs to find minimum and maximum
-func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)?
-{
+func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)? {
   guard !array.isEmpty else {
     return nil
   }

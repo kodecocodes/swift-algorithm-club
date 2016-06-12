@@ -6,10 +6,10 @@
 public struct Heap<T> {
   /** The array that stores the heap's nodes. */
   var elements = [T]()
-  
+
   /** Determines whether this is a max-heap (>) or min-heap (<). */
   private var isOrderedBefore: (T, T) -> Bool
- 
+
   /**
    * Creates an empty heap.
    * The sort function determines whether this is a min-heap or max-heap.
@@ -38,7 +38,7 @@ public struct Heap<T> {
     }
   }
   */
-  
+
   /**
    * Converts an array to a max-heap or min-heap in a bottom-up manner.
    * Performance: This runs pretty much in O(n).
@@ -53,11 +53,11 @@ public struct Heap<T> {
   public var isEmpty: Bool {
     return elements.isEmpty
   }
-  
+
   public var count: Int {
     return elements.count
   }
-  
+
   /**
    * Returns the index of the parent of the element at index i.
    * The element at index 0 is the root of the tree and has no parent.
@@ -83,7 +83,7 @@ public struct Heap<T> {
   @inline(__always) func indexOfRightChild(i: Int) -> Int {
     return 2*i + 2
   }
-  
+
   /**
    * Returns the maximum value in the heap (for a max-heap) or the minimum
    * value (for a min-heap).
@@ -100,13 +100,13 @@ public struct Heap<T> {
     elements.append(value)
     shiftUp(index: elements.count - 1)
   }
-  
-  public mutating func insert<S : SequenceType where S.Generator.Element == T>(sequence: S) {
+
+  public mutating func insert<S: SequenceType where S.Generator.Element == T>(sequence: S) {
     for value in sequence {
       insert(value)
     }
   }
-  
+
   /**
    * Allows you to change an element. In a max-heap, the new element should be
    * larger than the old one; in a min-heap it should be smaller.
@@ -135,7 +135,7 @@ public struct Heap<T> {
       return value
     }
   }
-  
+
   /**
    * Removes an arbitrary node from the heap. Performance: O(log n). You need
    * to know the node's index, which may actually take O(n) steps to find.
@@ -149,9 +149,9 @@ public struct Heap<T> {
     }
     return elements.removeLast()
   }
-  
+
   /**
-   * Takes a child node and looks at its parents; if a parent is not larger 
+   * Takes a child node and looks at its parents; if a parent is not larger
    * (max-heap) or not smaller (min-heap) than the child, we exchange them.
    */
   mutating func shiftUp(index index: Int) {
@@ -167,7 +167,7 @@ public struct Heap<T> {
 
     elements[childIndex] = child
   }
-  
+
   mutating func shiftDown() {
     shiftDown(index: 0, heapSize: elements.count)
   }

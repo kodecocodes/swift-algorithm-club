@@ -2,6 +2,10 @@ language: objective-c
 osx_image: xcode7.3
 sudo: false
 
+install:
+
+- ./install_swiftlint.sh
+
 script:
 
 - xctool test -project ./All-Pairs\ Shortest\ Paths/APSP/APSP.xcodeproj -scheme APSPTests
