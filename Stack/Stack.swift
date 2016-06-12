@@ -19,11 +19,7 @@ public struct Stack<T> {
   }
 
   public mutating func pop() -> T? {
-    if isEmpty {
-      return nil
-    } else {
-      return array.removeLast()
-    }
+    return array.popLast()
   }
 
   public func peek() -> T? {
@@ -34,7 +30,7 @@ public struct Stack<T> {
 extension Stack: SequenceType {
     public func generate() -> AnyGenerator<T> {
         var curr = self
-        return anyGenerator {
+        return AnyGenerator {
             _ -> T? in
             return curr.pop()
         }

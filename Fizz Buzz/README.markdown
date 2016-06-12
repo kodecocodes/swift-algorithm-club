@@ -18,7 +18,7 @@ The modulus operator returns the remainder after an integer division. Here is an
 
 | Division      | Division Result            | Modulus         | Modulus Result  |
 | ------------- | -------------------------- | --------------- | ---------------:|
-| 1 / 3       | 0 with a remainder of 3  | 1 % 3         | 3             |
+| 1 / 3       | 0 with a remainder of 3  | 1 % 3         | 1             |
 | 5 / 3       | 1 with a remainder of 2  | 5 % 3         | 2             |
 | 16 / 3      | 5 with a remainder of 1  | 16 % 3        | 1             |
 

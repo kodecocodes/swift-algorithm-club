@@ -1,5 +1,6 @@
 language: objective-c
 osx_image: xcode7.3
+sudo: false
 
 install:
 
@@ -7,28 +8,33 @@ install:
 
 script:
 
-- swiftlint
-
-- xcodebuild test -project ./All-Pairs\ Shortest\ Paths/APSP/APSP.xcodeproj -scheme APSPTests
-- xcodebuild test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./AVL\ Tree/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Binary\ Search/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Binary\ Search\ Tree/Solution\ 1/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Bloom\ Filter/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Breadth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Bucket\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Heap/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Heap\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Insertion\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./K-Means/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Linked\ List/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Longest\ Common\ Subsequence/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Queue/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Quicksort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Run-Length\ Encoding/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Select\ Minimum\ Maximum/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Selection\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Shell\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Single-Source\ Shortest\ Paths\ \(Weighted\)/SSSP.xcodeproj -scheme SSSPTests
-- xcodebuild test -project ./Stack/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./All-Pairs\ Shortest\ Paths/APSP/APSP.xcodeproj -scheme APSPTests
+- xctool test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./AVL\ Tree/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Binary\ Search/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Binary\ Search\ Tree/Solution\ 1/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Bloom\ Filter/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Bounded\ Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Breadth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Bucket\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Counting\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Depth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Graph/Graph.xcodeproj -scheme GraphTests
+- xctool test -project ./Heap/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Heap\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Insertion\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./K-Means/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Linked\ List/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Longest\ Common\ Subsequence/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Minimum\ Spanning\ Tree\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Queue/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Quicksort/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Run-Length\ Encoding/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Select\ Minimum\ Maximum/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Selection\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Shell\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Shortest\ Path\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Single-Source\ Shortest\ Paths\ \(Weighted\)/SSSP.xcodeproj -scheme SSSPTests
+- xctool test -project ./Stack/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Topological\ Sort/Tests/Tests.xcodeproj -scheme Tests

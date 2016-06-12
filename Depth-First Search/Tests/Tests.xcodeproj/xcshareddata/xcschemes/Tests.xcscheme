@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0720"
+   LastUpgradeVersion = "0730"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4716C7A61C93750500F6C1C0"
+               BlueprintIdentifier = "7B2BBC7F1C779D720067B71D"
                BuildableName = "Tests.xctest"
                BlueprintName = "Tests"
                ReferencedContainer = "container:Tests.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4716C7A61C93750500F6C1C0"
+               BlueprintIdentifier = "7B2BBC7F1C779D720067B71D"
                BuildableName = "Tests.xctest"
                BlueprintName = "Tests"
                ReferencedContainer = "container:Tests.xcodeproj">
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4716C7A61C93750500F6C1C0"
+            BlueprintIdentifier = "7B2BBC7F1C779D720067B71D"
             BuildableName = "Tests.xctest"
             BlueprintName = "Tests"
             ReferencedContainer = "container:Tests.xcodeproj">
@@ -64,7 +64,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4716C7A61C93750500F6C1C0"
+            BlueprintIdentifier = "7B2BBC7F1C779D720067B71D"
             BuildableName = "Tests.xctest"
             BlueprintName = "Tests"
             ReferencedContainer = "container:Tests.xcodeproj">
@@ -82,7 +82,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4716C7A61C93750500F6C1C0"
+            BlueprintIdentifier = "7B2BBC7F1C779D720067B71D"
             BuildableName = "Tests.xctest"
             BlueprintName = "Tests"
             ReferencedContainer = "container:Tests.xcodeproj">
