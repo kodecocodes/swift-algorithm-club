@@ -1634,6 +1634,9 @@
       <FileRef
          location = "group:SetCover.swift">
       </FileRef>
+      <FileRef
+         location = "group:SetCover.playground">
+      </FileRef>
    </Group>
    <Group
       location = "group:Shell Sort"
