@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0720"
+   LastUpgradeVersion = "0730"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4716C7A61C93750500F6C1C0"
-               BuildableName = "Tests.xctest"
-               BlueprintName = "Tests"
-               ReferencedContainer = "container:Tests.xcodeproj">
+               BlueprintIdentifier = "E1E34DD11C7670250023AF4D"
+               BuildableName = "TreapTests.xctest"
+               BlueprintName = "TreapTests"
+               ReferencedContainer = "container:Treap.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,22 +32,13 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4716C7A61C93750500F6C1C0"
-               BuildableName = "Tests.xctest"
-               BlueprintName = "Tests"
-               ReferencedContainer = "container:Tests.xcodeproj">
+               BlueprintIdentifier = "E1E34DD11C7670250023AF4D"
+               BuildableName = "TreapTests.xctest"
+               BlueprintName = "TreapTests"
+               ReferencedContainer = "container:Treap.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4716C7A61C93750500F6C1C0"
-            BuildableName = "Tests.xctest"
-            BlueprintName = "Tests"
-            ReferencedContainer = "container:Tests.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -64,10 +55,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4716C7A61C93750500F6C1C0"
-            BuildableName = "Tests.xctest"
-            BlueprintName = "Tests"
-            ReferencedContainer = "container:Tests.xcodeproj">
+            BlueprintIdentifier = "E1E34DD11C7670250023AF4D"
+            BuildableName = "TreapTests.xctest"
+            BlueprintName = "TreapTests"
+            ReferencedContainer = "container:Treap.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -82,10 +73,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4716C7A61C93750500F6C1C0"
-            BuildableName = "Tests.xctest"
-            BlueprintName = "Tests"
-            ReferencedContainer = "container:Tests.xcodeproj">
+            BlueprintIdentifier = "E1E34DD11C7670250023AF4D"
+            BuildableName = "TreapTests.xctest"
+            BlueprintName = "TreapTests"
+            ReferencedContainer = "container:Treap.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
