@@ -9,9 +9,9 @@ import Foundation
 
 public class AbstractGraph<T where T: Equatable, T: Hashable>: CustomStringConvertible {
 
-  public init() {}
+  public required init() {}
 
-  public init(fromGraph graph: AbstractGraph<T>) {
+  public required init(fromGraph graph: AbstractGraph<T>) {
     for edge in graph.edges {
       let from = createVertex(edge.from.data)
       let to = createVertex(edge.to.data)
@@ -56,4 +56,7 @@ public class AbstractGraph<T where T: Equatable, T: Hashable>: CustomStringConve
     fatalError("abstract function called")
   }
 
+  public func edgesFrom(sourceVertex: Vertex<T>) -> [Edge<T>] {
+    fatalError("abstract function called")
+  }
 }
