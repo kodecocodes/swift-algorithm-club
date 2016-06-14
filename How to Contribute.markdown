@@ -31,7 +31,7 @@ For the unit tests:
 - Add the unit test project to `.travis.yml` so they will be run on [Travis-CI](https://travis-ci.org/raywenderlich/swift-algorithm-club). Add a line to `.travis.yml` like this:
 
 ```
-- xcodebuild test -project ./Algorithm/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Algorithm/Tests/Tests.xcodeproj -scheme Tests
 ```
 
 - Configure the Test project's scheme to run on Travis-CI:
