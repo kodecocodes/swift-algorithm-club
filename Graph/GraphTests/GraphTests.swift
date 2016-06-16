@@ -53,5 +53,106 @@ class GraphTests: XCTestCase {
       XCTAssertEqual(graph.vertices.count, 1, "Graph should only contain one vertex after trying to create two vertices with identical data")
     }
   }
-    
+
+  func testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedGraphWithType(graphType: AbstractGraph<Int>.Type) {
+    let graph = graphType.init()
+
+    let a = graph.createVertex(1)
+    let b = graph.createVertex(2)
+
+    graph.addDirectedEdge(a, to: b, withWeight: 1.0)
+
+    let edgesFromA = graph.edgesFrom(a)
+    let edgesFromB = graph.edgesFrom(b)
+
+    XCTAssertEqual(edgesFromA.count, 1)
+    XCTAssertEqual(edgesFromB.count, 0)
+
+    XCTAssertEqual(edgesFromA.first?.to, b)
+  }
+
+  func testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedGraphWithType(graphType: AbstractGraph<Int>.Type) {
+    let graph = graphType.init()
+
+    let a = graph.createVertex(1)
+    let b = graph.createVertex(2)
+
+    graph.addUndirectedEdge((a, b), withWeight: 1.0)
+
+    let edgesFromA = graph.edgesFrom(a)
+    let edgesFromB = graph.edgesFrom(b)
+
+    XCTAssertEqual(edgesFromA.count, 1)
+    XCTAssertEqual(edgesFromB.count, 1)
+
+    XCTAssertEqual(edgesFromA.first?.to, b)
+    XCTAssertEqual(edgesFromB.first?.to, a)
+  }
+
+  func testEdgesFromReturnsNoEdgesInNoEdgeGraphWithType(graphType: AbstractGraph<Int>.Type) {
+    let graph = graphType.init()
+
+    let a = graph.createVertex(1)
+    let b = graph.createVertex(2)
+
+    XCTAssertEqual(graph.edgesFrom(a).count, 0)
+    XCTAssertEqual(graph.edgesFrom(b).count, 0)
+  }
+
+  func testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedGraphWithType(graphType: AbstractGraph<Int>.Type) {
+    let graph = graphType.init()
+    let verticesCount = 100
+    var vertices: [Vertex<Int>] = []
+
+    for i in 0..<verticesCount {
+      vertices.append(graph.createVertex(i))
+    }
+
+    for i in 0..<verticesCount {
+      for j in i+1..<verticesCount {
+        graph.addDirectedEdge(vertices[i], to: vertices[j], withWeight: 1)
+      }
+    }
+
+    for i in 0..<verticesCount {
+      let outEdges = graph.edgesFrom(vertices[i])
+      let toVertices = outEdges.map {return $0.to}
+      XCTAssertEqual(outEdges.count, verticesCount - i - 1)
+      for j in i+1..<verticesCount {
+        XCTAssertTrue(toVertices.contains(vertices[j]))
+      }
+    }
+  }
+
+  func testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedMatrixGraph() {
+    testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedGraphWithType(AdjacencyMatrixGraph<Int>)
+  }
+
+  func testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedMatrixGraph() {
+    testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedGraphWithType(AdjacencyMatrixGraph<Int>)
+  }
+
+  func testEdgesFromReturnsNoInNoEdgeMatrixGraph() {
+    testEdgesFromReturnsNoEdgesInNoEdgeGraphWithType(AdjacencyMatrixGraph<Int>)
+  }
+
+  func testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedMatrixGraph() {
+    testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedGraphWithType(AdjacencyMatrixGraph<Int>)
+  }
+
+  func testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedListGraph() {
+    testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedGraphWithType(AdjacencyListGraph<Int>)
+  }
+
+  func testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedListGraph() {
+    testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedGraphWithType(AdjacencyListGraph<Int>)
+  }
+
+  func testEdgesFromReturnsNoInNoEdgeListGraph() {
+    testEdgesFromReturnsNoEdgesInNoEdgeGraphWithType(AdjacencyListGraph<Int>)
+  }
+
+  func testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedListGraph() {
+    testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedGraphWithType(AdjacencyListGraph<Int>)
+  }
 }

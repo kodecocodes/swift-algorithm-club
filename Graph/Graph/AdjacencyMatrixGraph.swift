@@ -14,11 +14,11 @@ public class AdjacencyMatrixGraph<T where T: Equatable, T: Hashable>: AbstractGr
   private var adjacencyMatrix: [[Double?]] = []
   private var _vertices: [Vertex<T>] = []
 
-  public override init() {
+  public required init() {
     super.init()
   }
 
-  public override init(fromGraph graph: AbstractGraph<T>) {
+  public required init(fromGraph graph: AbstractGraph<T>) {
     super.init(fromGraph: graph)
   }
 
@@ -82,6 +82,17 @@ public class AdjacencyMatrixGraph<T where T: Equatable, T: Hashable>: AbstractGr
 
   public override func weightFrom(sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>) -> Double? {
     return adjacencyMatrix[sourceVertex.index][destinationVertex.index]
+  }
+
+  public override func edgesFrom(sourceVertex: Vertex<T>) -> [Edge<T>] {
+    var outEdges = [Edge<T>]()
+    let fromIndex = sourceVertex.index
+    for column in 0..<adjacencyMatrix.count {
+      if let weight = adjacencyMatrix[fromIndex][column] {
+        outEdges.append(Edge(from: sourceVertex, to: vertices[column], weight: weight))
+      }
+    }
+    return outEdges
   }
 
   public override var description: String {

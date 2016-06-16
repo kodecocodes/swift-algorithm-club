@@ -26,11 +26,11 @@ public class AdjacencyListGraph<T where T: Equatable, T: Hashable>: AbstractGrap
 
   private var adjacencyList: [EdgeList<T>] = []
 
-  public override init() {
+  public required init() {
     super.init()
   }
 
-  public override init(fromGraph graph: AbstractGraph<T>) {
+  public required init(fromGraph graph: AbstractGraph<T>) {
     super.init(fromGraph: graph)
   }
 
@@ -105,6 +105,10 @@ public class AdjacencyListGraph<T where T: Equatable, T: Hashable>: AbstractGrap
     }
 
     return nil
+  }
+
+  public override func edgesFrom(sourceVertex: Vertex<T>) -> [Edge<T>] {
+    return adjacencyList[sourceVertex.index].edges ?? []
   }
 
   public override var description: String {
