@@ -6,20 +6,18 @@ import Foundation
 // *** Simple but inefficient version of quicksort ***
 
 func quicksort<T: Comparable>(a: [T]) -> [T] {
-  if a.count <= 1 {
-    return a
-  } else {
-    let pivot = a[a.count/2]
-    let less = a.filter { $0 < pivot }
-    let equal = a.filter { $0 == pivot }
-    let greater = a.filter { $0 > pivot }
+  guard a.count > 1 else { return a }
+  
+  let pivot = a[a.count/2]
+  let less = a.filter { $0 < pivot }
+  let equal = a.filter { $0 == pivot }
+  let greater = a.filter { $0 > pivot }
+  
+  // Uncomment this following line to see in detail what the
+  // pivot is in each step and how the subarrays are partitioned.
+  //print(pivot, less, equal, greater)  return quicksort(less) + equal + quicksort(greater)
     
-    // Uncomment this following line to see in detail what the 
-    // pivot is in each step and how the subarrays are partitioned.
-    //print(pivot, less, equal, greater)
-    
-    return quicksort(less) + equal + quicksort(greater)
-  }
+  return quicksort(less) + equal + quicksort(greater)
 }
 
 let list1 = [ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]

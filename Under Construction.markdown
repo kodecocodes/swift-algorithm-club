@@ -2,6 +2,11 @@
 
 Here you'll find algorithms that are currently under construction. Suggestions and feedback is welcome!
 
+### Sorting
+
+Special-purpose sorts:
+ - [Radix Sort](Radix Sort/)
+
 ### Special-purpose sorts:
 
 - [Bucket Sort](Bucket Sort/)
@@ -13,7 +18,10 @@ Here you'll find algorithms that are currently under construction. Suggestions a
 ### Trees
 
 - [AVL Tree](AVL Tree/). A binary search tree that balances itself using rotations.
+- [Red-Black Tree](Red-Black Tree/)
+- [Threaded Binary Tree](Threaded Binary Tree/)
 - [Ternary Search Tree](Ternary Search Tree/)
+- [Trie](Trie/)
 - [Radix Tree](Radix Tree/)
 
 ### Miscellaneous
