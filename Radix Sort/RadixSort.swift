@@ -1,12 +1,5 @@
-/*
-
-  Sorting Algorithm that sorts an input array of integers digit by digit.
-
-*/
-
-
-func radixSort(inout arr: [Int] ) {
-
+/// Sorting Algorithm that sorts an input array of integers digit by digit.
+public func radixSort(inout arr: [Int]) {
 
   let radix = 10  //Here we define our radix to be 10
   var done = false

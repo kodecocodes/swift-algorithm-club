@@ -26,6 +26,7 @@ script:
 - xctool test -project ./Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Queue/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Quicksort/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./Radix\ Sort/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Run-Length\ Encoding/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Select\ Minimum\ Maximum/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Selection\ Sort/Tests/Tests.xcodeproj -scheme Tests
