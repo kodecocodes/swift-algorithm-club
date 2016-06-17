@@ -112,9 +112,6 @@ class BTreeTests: XCTestCase {
     } catch {
       XCTFail("BTree is not balanced")
     }
-    
-    XCTAssertEqual(bTree.description,
-                   "[4, 8, 12, 16][1, 2, 3][5, 6, 7][9, 10, 11][13, 14, 15][17, 18, 19, 20]")
   }
   
   // MARK: - Removal
@@ -163,9 +160,6 @@ class BTreeTests: XCTestCase {
     } catch {
       XCTFail("BTree is not balanced")
     }
-    
-    XCTAssertEqual(bTree.description,
-                   "[7, 12, 16][1, 2, 3, 4, 5][8, 10, 11][13, 14, 15][17, 18, 19, 20]")
   }
   
   func testRemoveSomeFrom2ndOrder() {
@@ -183,9 +177,6 @@ class BTreeTests: XCTestCase {
     } catch {
       XCTFail("BTree is not balanced")
     }
-    
-    XCTAssertEqual(bTree.description,
-                   "[12][4, 8][1, 2, 3][5, 7][10, 11][15, 18][13, 14][16, 17][19, 20]")
   }
   
   func testRemoveAll() {
