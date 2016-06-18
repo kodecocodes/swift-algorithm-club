@@ -1,17 +1,17 @@
 struct Message: Comparable, CustomStringConvertible {
   let name: String
   let priority: Int
-  
+
   var description: String {
     return "\(name):\(priority)"
   }
 }
 
-func ==(m1: Message, m2: Message) -> Bool {
+func == (m1: Message, m2: Message) -> Bool {
   return m1.priority == m2.priority
 }
 
-func <(m1: Message, m2: Message) -> Bool {
+func < (m1: Message, m2: Message) -> Bool {
   return m1.priority < m2.priority
 }
 
@@ -63,7 +63,7 @@ queue.count
 queue.peek()
 print(queue)
 
-// Try to insert an item with very high priority. This gets added and the 
+// Try to insert an item with very high priority. This gets added and the
 // lowest priority item is removed.
 queue.enqueue(Message(name: "!!!", priority: 500))
 queue.count

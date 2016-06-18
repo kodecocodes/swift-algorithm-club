@@ -9,7 +9,7 @@ import XCTest
 @testable import Graph
 
 class GraphTests: XCTestCase {
-    
+
   func testAdjacencyMatrixGraphDescription() {
 
     let graph = AdjacencyMatrixGraph<String>()

@@ -35,13 +35,12 @@ public class Root {
 	// Prints the tree for debugging/visualization purposes.
 	public func printRoot() {
 		// Print the first half of the children
-		if (children.count > 1) {
+		if children.count > 1 {
 			for c in 0...children.count/2-1 {
 				children[c].printEdge()
 				print("|")
 			}
-		}
-		else if children.count > 0 {
+		} else if children.count > 0 {
 			children[0].printEdge()
 		}
 		// Then print the root
@@ -98,16 +97,14 @@ public class Edge: Root {
 			for c in 0...children.count/2-1 {
 				children[c].printEdge()
 			}
-		}
-		else if children.count > 0 {
+		} else if children.count > 0 {
 			children[0].printEdge()
 		}
 		// Tab over once up to the edge's level
 		for x in 1...level() {
 			if x == level() {
 				print("|------>", terminator: "")
-			}
-			else {
+			} else {
 				print("|       ", terminator: "")
 			}
 		}
@@ -153,7 +150,7 @@ public class RadixTree {
 		// currEdge is the current Edge (or Root) in question
 		var currEdge = root
 
-		while (true) {
+		while true {
 			var found = false
 
 			// If the current Edge has no children then the remaining searchStr is
@@ -250,7 +247,7 @@ public class RadixTree {
 		}
 		var searchStr = str
 		var currEdge = root
-		while (true) {
+		while true {
 			var found = false
 			// Loop through currEdge's children
 			for c in currEdge.children {
@@ -319,7 +316,7 @@ public class RadixTree {
 
 		var searchStr = str
 		var currEdge = root
-		while (true) {
+		while true {
 			var found = false
 			// If currEdge has no children, then the searchStr is not in the tree
 			if currEdge.children.count == 0 {
@@ -376,8 +373,7 @@ public func sharedPrefix(str1: String, _ str2: String) -> String {
 			temp.append( str1[c1] )
 			c1 = c1.successor()
 			c2 = c2.successor()
-		}
-		else {
+		} else {
 			return temp
 		}
 	}

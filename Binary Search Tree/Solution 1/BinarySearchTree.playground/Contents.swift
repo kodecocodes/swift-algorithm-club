@@ -49,7 +49,7 @@ if let node9 = tree.search(9) {
 }
 
 if let node1 = tree.search(1) {
-  // This makes it an invalid binary search tree because 100 is greater 
+  // This makes it an invalid binary search tree because 100 is greater
   // than the root, 7, and so must be in the right branch not in the left.
   tree.isBST(minValue: Int.min, maxValue: Int.max)  // true
   node1.insert(100)

@@ -1,4 +1,4 @@
-public class Graph : CustomStringConvertible, Equatable {
+public class Graph: CustomStringConvertible, Equatable {
   public private(set) var nodes: [Node]
 
   public init() {
@@ -21,14 +21,14 @@ public class Graph : CustomStringConvertible, Equatable {
 
     for node in nodes {
       if !node.neighbors.isEmpty {
-        description += "[node: \(node.label) edges: \(node.neighbors.map{ $0.neighbor.label})]"
+        description += "[node: \(node.label) edges: \(node.neighbors.map { $0.neighbor.label})]"
       }
     }
     return description
   }
 
   public func findNodeWithLabel(label: String) -> Node {
-    return nodes.filter{ $0.label == label }.first!
+    return nodes.filter { $0.label == label }.first!
   }
 
   public func duplicate() -> Graph {
@@ -50,6 +50,6 @@ public class Graph : CustomStringConvertible, Equatable {
   }
 }
 
-public func ==(lhs: Graph, rhs: Graph) -> Bool {
+public func == (lhs: Graph, rhs: Graph) -> Bool {
   return lhs.nodes == rhs.nodes
 }

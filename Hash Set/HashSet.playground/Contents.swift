@@ -2,27 +2,27 @@
 
 public struct HashSet<T: Hashable> {
   private var dictionary = Dictionary<T, Bool>()
-  
+
   public mutating func insert(element: T) {
     dictionary[element] = true
   }
-  
+
   public mutating func remove(element: T) {
     dictionary[element] = nil
   }
-  
+
   public func contains(element: T) -> Bool {
     return dictionary[element] != nil
   }
-  
+
   public func allElements() -> [T] {
     return Array(dictionary.keys)
   }
-  
+
   public var count: Int {
     return dictionary.count
   }
-  
+
   public var isEmpty: Bool {
     return dictionary.isEmpty
   }

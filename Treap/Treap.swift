@@ -46,7 +46,7 @@ public indirect enum Treap<Key: Comparable, Element> {
             return nil
         }
     }
-    
+
     public func contains(key: Key) -> Bool {
         switch self {
         case .Empty:
@@ -61,7 +61,7 @@ public indirect enum Treap<Key: Comparable, Element> {
             return false
         }
     }
-    
+
     public var depth: Int {
         get {
             switch self {
@@ -76,43 +76,39 @@ public indirect enum Treap<Key: Comparable, Element> {
                 let rightDepth = right.depth
                 return 1 + max(leftDepth, rightDepth)
             }
-            
+
         }
     }
-    
+
     public var count: Int {
         get {
             return Treap.countHelper(self)
         }
     }
-    
-    private static func countHelper(treap: Treap<Key, Element>) -> Int
-    {
-        if case let .Node(_, _, _, left, right) = treap
-        {
+
+    private static func countHelper(treap: Treap<Key, Element>) -> Int {
+        if case let .Node(_, _, _, left, right) = treap {
             return countHelper(left) + 1 + countHelper(right)
         }
-        
+
         return 0
     }
 }
 
 internal func leftRotate<Key: Comparable, Element>(tree: Treap<Key, Element>) -> Treap<Key, Element> {
     if case let .Node(key, val, p, .Node(leftKey, leftVal, leftP, leftLeft, leftRight), right) = tree {
-        return .Node(key: leftKey, val: leftVal, p: leftP, left: leftLeft, right: Treap.Node(key: key, val: val, p: p, left: leftRight, right: right))
-    }
-    else
-    {
+        return .Node(key: leftKey, val: leftVal, p: leftP, left: leftLeft,
+                     right: Treap.Node(key: key, val: val, p: p, left: leftRight, right: right))
+    } else {
         return .Empty
     }
 }
 
 internal func rightRotate<Key: Comparable, Element>(tree: Treap<Key, Element>) -> Treap<Key, Element> {
     if case let .Node(key, val, p, left, .Node(rightKey, rightVal, rightP, rightLeft, rightRight)) = tree {
-        return .Node(key: rightKey, val: rightVal, p: rightP, left: Treap.Node(key: key, val: val, p: p, left: left, right: rightLeft), right: rightRight)
-    }
-    else
-    {
+        return .Node(key: rightKey, val: rightVal, p: rightP,
+                     left: Treap.Node(key: key, val: val, p: p, left: left, right: rightLeft), right: rightRight)
+    } else {
         return .Empty
     }
 }
@@ -129,10 +125,11 @@ public extension Treap {
         default: // should never happen
             return .Empty
         }
-        
+
     }
-    
-    private func insertAndBalance(nodeKey: Key, _ nodeVal: Element, _ nodeP: Int, _ left: Treap, _ right: Treap, _ key: Key, _ val: Element, _ p: Int) -> Treap {
+
+    private func insertAndBalance(nodeKey: Key, _ nodeVal: Element, _ nodeP: Int, _ left: Treap,
+                                  _ right: Treap, _ key: Key, _ val: Element, _ p: Int) -> Treap {
         let newChild: Treap<Key, Element>
         let newNode: Treap<Key, Element>
         let rotate: (Treap) -> Treap
@@ -140,27 +137,24 @@ public extension Treap {
             newChild = left.set(key, val: val, p: p)
             newNode = .Node(key: nodeKey, val: nodeVal, p: nodeP, left: newChild, right: right)
             rotate = leftRotate
-        }
-        else if key > nodeKey {
+        } else if key > nodeKey {
             newChild = right.set(key, val: val, p: p)
             newNode = .Node(key: nodeKey, val: nodeVal, p: nodeP, left: left, right: newChild)
             rotate = rightRotate
-        }
-        else {
+        } else {
             // It should be impossible to reach here
             newChild = .Empty
             newNode = .Empty
             return newNode
         }
-        
+
         if case let .Node(_, _, newChildP, _, _) = newChild where newChildP < nodeP {
             return rotate(newNode)
-        }
-        else {
+        } else {
             return newNode
         }
     }
-    
+
     internal func delete(key: Key) throws -> Treap {
         switch self {
         case .Empty:

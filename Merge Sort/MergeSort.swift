@@ -1,6 +1,6 @@
 //
 //  Mergesort.swift
-//  
+//
 //
 //  Created by Kelvin Lau on 2016-02-03.
 //
@@ -63,20 +63,20 @@ func mergeSortBottomUp<T>(a: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
   let n = a.count
   var z = [a, a]   // the two working arrays
   var d = 0        // z[d] is used for reading, z[1 - d] for writing
-  
+
   var width = 1
   while width < n {
-    
+
     var i = 0
     while i < n {
-      
+
       var j = i
       var l = i
       var r = i + width
-      
+
       let lmax = min(l + width, n)
       let rmax = min(r + width, n)
-      
+
       while l < lmax && r < rmax {
         if isOrderedBefore(z[d][l], z[d][r]) {
           z[1 - d][j] = z[d][l]
@@ -97,10 +97,10 @@ func mergeSortBottomUp<T>(a: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
         j += 1
         r += 1
       }
-      
+
       i += width*2
     }
-    
+
     width *= 2   // in each step, the subarray to merge becomes larger
     d = 1 - d    // swap active array
   }

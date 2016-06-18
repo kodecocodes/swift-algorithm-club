@@ -2,14 +2,14 @@
 
 public class TreeNode<T> {
   public var value: T
-  
+
   public var parent: TreeNode?
   public var children = [TreeNode<T>]()
 
   public init(value: T) {
     self.value = value
   }
-  
+
   public func addChild(node: TreeNode<T>) {
     children.append(node)
     node.parent = self

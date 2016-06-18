@@ -4,11 +4,11 @@ public struct RingBuffer<T> {
   private var array: [T?]
   private var readIndex = 0
   private var writeIndex = 0
-  
+
   public init(count: Int) {
     array = [T?](count: count, repeatedValue: nil)
   }
-  
+
   public mutating func write(element: T) -> Bool {
     if !isFull {
       array[writeIndex % array.count] = element
@@ -18,7 +18,7 @@ public struct RingBuffer<T> {
       return false
     }
   }
-  
+
   public mutating func read() -> T? {
     if !isEmpty {
       let element = array[readIndex % array.count]
@@ -32,7 +32,7 @@ public struct RingBuffer<T> {
   private var availableSpaceForReading: Int {
     return writeIndex - readIndex
   }
-  
+
   public var isEmpty: Bool {
     return availableSpaceForReading == 0
   }

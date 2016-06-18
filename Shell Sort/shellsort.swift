@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 public func insertionSort(inout list: [Int], start: Int, gap: Int) {
-  for i in (start + gap).stride(to: list.count, by: gap){
+  for i in (start + gap).stride(to: list.count, by: gap) {
     let currentValue = list[i]
     var pos = i
     while pos >= gap && list[pos - gap] > currentValue {
