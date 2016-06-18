@@ -7,7 +7,7 @@ public class LinkedListNode<T> {
   var value: T
   var next: LinkedListNode?
   weak var previous: LinkedListNode?
-  
+
   public init(value: T) {
     self.value = value
   }
@@ -15,17 +15,17 @@ public class LinkedListNode<T> {
 
 public class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
-  
+
   private var head: Node?
-  
+
   public var isEmpty: Bool {
     return head == nil
   }
-  
+
   public var first: Node? {
     return head
   }
-  
+
   public var last: Node? {
     if var node = head {
       while case let next? = node.next {
@@ -36,7 +36,7 @@ public class LinkedList<T> {
       return nil
     }
   }
-  
+
   public var count: Int {
     if var node = head {
       var c = 1
@@ -49,7 +49,7 @@ public class LinkedList<T> {
       return 0
     }
   }
-  
+
   public func nodeAtIndex(index: Int) -> Node? {
     if index >= 0 {
       var node = head
@@ -62,13 +62,13 @@ public class LinkedList<T> {
     }
     return nil
   }
-  
+
   public subscript(index: Int) -> T {
     let node = nodeAtIndex(index)
     assert(node != nil)
     return node!.value
   }
-  
+
   public func append(value: T) {
     let newNode = Node(value: value)
     if let lastNode = last {
@@ -78,63 +78,63 @@ public class LinkedList<T> {
       head = newNode
     }
   }
-  
+
   private func nodesBeforeAndAfter(index: Int) -> (Node?, Node?) {
     assert(index >= 0)
-    
+
     var i = index
     var next = head
     var prev: Node?
-    
+
     while next != nil && i > 0 {
       i -= 1
       prev = next
       next = next!.next
     }
     assert(i == 0)  // if > 0, then specified index was too large
-    
+
     return (prev, next)
   }
-  
+
   public func insert(value: T, atIndex index: Int) {
     let (prev, next) = nodesBeforeAndAfter(index)
-    
+
     let newNode = Node(value: value)
     newNode.previous = prev
     newNode.next = next
     prev?.next = newNode
     next?.previous = newNode
-    
+
     if prev == nil {
       head = newNode
     }
   }
-  
+
   public func removeAll() {
     head = nil
   }
-  
+
   public func removeNode(node: Node) -> T {
     let prev = node.previous
     let next = node.next
-    
+
     if let prev = prev {
       prev.next = next
     } else {
       head = next
     }
     next?.previous = prev
-    
+
     node.previous = nil
     node.next = nil
     return node.value
   }
-  
+
   public func removeLast() -> T {
     assert(!isEmpty)
     return removeNode(last!)
   }
-  
+
   public func removeAtIndex(index: Int) -> T {
     let node = nodeAtIndex(index)
     assert(node != nil)
@@ -176,7 +176,7 @@ extension LinkedList {
     }
     return result
   }
-  
+
   public func filter(predicate: T -> Bool) -> LinkedList<T> {
     let result = LinkedList<T>()
     var node = head

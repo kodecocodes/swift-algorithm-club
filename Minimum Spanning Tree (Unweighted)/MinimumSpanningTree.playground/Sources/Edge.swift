@@ -1,4 +1,4 @@
-public class Edge : Equatable {
+public class Edge: Equatable {
   public var neighbor: Node
 
   public init(neighbor: Node) {
@@ -6,6 +6,6 @@ public class Edge : Equatable {
   }
 }
 
-public func ==(lhs: Edge, rhs: Edge) -> Bool {
+public func == (lhs: Edge, rhs: Edge) -> Bool {
   return lhs.neighbor == rhs.neighbor
 }

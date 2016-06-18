@@ -9,7 +9,9 @@ import Foundation
 import Graph
 
 /**
- `APSPAlgorithm` is a protocol for encapsulating an All-Pairs Shortest Paths algorithm. It provides a single function `apply` that accepts a subclass of `AbstractGraph` and returns an object conforming to `APSPResult`.
+ `APSPAlgorithm` is a protocol for encapsulating an All-Pairs Shortest Paths algorithm.
+ It provides a single function `apply` that accepts a subclass of `AbstractGraph` and
+ returns an object conforming to `APSPResult`.
  */
 public protocol APSPAlgorithm {
 
@@ -21,7 +23,8 @@ public protocol APSPAlgorithm {
 }
 
 /**
- `APSPResult` is a protocol defining functions `distance` and `path`, allowing for opaque queries into the actual data structures that represent the APSP solution according to the algorithm used.
+ `APSPResult` is a protocol defining functions `distance` and `path`, allowing for opaque
+ queries into the actual data structures that represent the APSP solution according to the algorithm used.
  */
 public protocol APSPResult {
 

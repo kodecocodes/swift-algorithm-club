@@ -8,7 +8,7 @@
 // Simple little debug function to make testing output pretty
 func check(tree: ThreadedBinaryTree<Int>?) {
   if let tree = tree {
-    print("\(tree.count) Total Nodes:");
+    print("\(tree.count) Total Nodes:")
     print(tree)
     print("Debug Info:")
     print(tree.debugDescription)

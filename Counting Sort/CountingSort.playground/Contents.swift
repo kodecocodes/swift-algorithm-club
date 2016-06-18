@@ -8,11 +8,11 @@ func countingSort(array: [Int]) throws -> [Int] {
   guard array.count > 0 else {
     throw CountingSortError.ArrayEmpty
   }
-  
+
   // Step 1
   // Create an array to store the count of each element
   let maxElement = array.maxElement() ?? 0
-  
+
   var countArray = [Int](count: Int(maxElement + 1), repeatedValue: 0)
   for element in array {
     countArray[element] += 1

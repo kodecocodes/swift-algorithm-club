@@ -1,7 +1,7 @@
 /*
   Queue
 
-  A queue is a list where you can only insert new items at the back and 
+  A queue is a list where you can only insert new items at the back and
   remove items from the front. This ensures that the first item you enqueue
   is also the first item you dequeue. First come, first serve!
 
