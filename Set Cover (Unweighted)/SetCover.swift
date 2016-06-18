@@ -1,5 +1,5 @@
 extension Set {
-  func cover(from array: Array<Set<Element>>) -> Array<Set<Element>>? {
+  func cover(within array: Array<Set<Element>>) -> Array<Set<Element>>? {
     var result: [Set<Element>]? = [Set<Element>]()
     var remainingSet = self
     
