@@ -18,7 +18,7 @@ public enum OperatorType: CustomStringConvertible {
   case Multiply
   case Percent
   case Exponent
-  
+
   public var description: String {
     switch self {
       case Add:
@@ -42,7 +42,7 @@ public enum TokenType: CustomStringConvertible {
   case CloseBracket
   case Operator(OperatorToken)
   case Operand(Double)
-  
+
   public var description: String {
     switch self {
       case OpenBracket:
@@ -59,11 +59,11 @@ public enum TokenType: CustomStringConvertible {
 
 public struct OperatorToken: CustomStringConvertible {
   let operatorType: OperatorType
-  
+
   init(operatorType: OperatorType) {
     self.operatorType = operatorType
   }
-  
+
   var precedence: Int {
     switch operatorType {
       case .Add, .Subtract:
@@ -74,44 +74,44 @@ public struct OperatorToken: CustomStringConvertible {
         return 10
     }
   }
-  
+
   var associativity: OperatorAssociativity {
     switch operatorType {
       case .Add, .Subtract, .Divide, .Multiply, .Percent:
-        return .LeftAssociative;
+        return .LeftAssociative
       case .Exponent:
         return .RightAssociative
     }
   }
-  
+
   public var description: String {
     return operatorType.description
   }
 }
 
-func <=(left: OperatorToken, right: OperatorToken) -> Bool {
+func <= (left: OperatorToken, right: OperatorToken) -> Bool {
   return left.precedence <= right.precedence
 }
 
-func <(left: OperatorToken, right: OperatorToken) -> Bool {
+func < (left: OperatorToken, right: OperatorToken) -> Bool {
   return left.precedence < right.precedence
 }
 
 public struct Token: CustomStringConvertible {
   let tokenType: TokenType
-  
+
   init(tokenType: TokenType) {
     self.tokenType = tokenType
   }
-  
+
   init(operand: Double) {
     tokenType = .Operand(operand)
   }
-  
+
   init(operatorType: OperatorType) {
     tokenType = .Operator(OperatorToken(operatorType: operatorType))
   }
-  
+
   var isOpenBracket: Bool {
     switch tokenType {
       case .OpenBracket:
@@ -120,7 +120,7 @@ public struct Token: CustomStringConvertible {
         return false
     }
   }
-  
+
   var isOperator: Bool {
     switch tokenType {
       case .Operator(_):
@@ -129,7 +129,7 @@ public struct Token: CustomStringConvertible {
         return false
     }
   }
-  
+
   var operatorToken: OperatorToken? {
     switch tokenType {
       case .Operator(let operatorToken):
@@ -138,7 +138,7 @@ public struct Token: CustomStringConvertible {
         return nil
     }
   }
-  
+
   public var description: String {
     return tokenType.description
   }
@@ -146,27 +146,27 @@ public struct Token: CustomStringConvertible {
 
 public class InfixExpressionBuilder {
   private var expression = [Token]()
-  
+
   public func addOperator(operatorType: OperatorType) -> InfixExpressionBuilder {
     expression.append(Token(operatorType: operatorType))
     return self
   }
-  
+
   public func addOperand(operand: Double) -> InfixExpressionBuilder {
     expression.append(Token(operand: operand))
     return self
   }
-  
+
   public func addOpenBracket() -> InfixExpressionBuilder {
     expression.append(Token(tokenType: .OpenBracket))
     return self
   }
-  
+
   public func addCloseBracket() -> InfixExpressionBuilder {
     expression.append(Token(tokenType: .CloseBracket))
     return self
   }
-  
+
   public func build() -> [Token] {
     // Maybe do some validation here
     return expression
@@ -178,7 +178,7 @@ public func reversePolishNotation(expression: [Token]) -> String {
 
   var tokenStack = Stack<Token>()
   var reversePolishNotation = [Token]()
-  
+
   for token in expression {
     switch token.tokenType {
       case .Operand(_):
@@ -197,7 +197,7 @@ public func reversePolishNotation(expression: [Token]) -> String {
           if !tempToken.isOperator {
             break
           }
-          
+
           if let tempOperatorToken = tempToken.operatorToken {
             if operatorToken.associativity == .LeftAssociative && operatorToken <= tempOperatorToken
                 || operatorToken.associativity == .RightAssociative && operatorToken < tempOperatorToken {
@@ -210,10 +210,10 @@ public func reversePolishNotation(expression: [Token]) -> String {
         tokenStack.push(token)
     }
   }
-  
+
   while tokenStack.count > 0 {
     reversePolishNotation.append(tokenStack.pop()!)
   }
-  
+
   return reversePolishNotation.map({token in token.description}).joinWithSeparator(" ")
 }

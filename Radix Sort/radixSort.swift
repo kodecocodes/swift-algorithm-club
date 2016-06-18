@@ -24,7 +24,7 @@ func radixSort(inout arr: [Int] ) {
     }
 
 
-    for number in arr  {
+    for number in arr {
       index = number / digit  //Which bucket will we access?
       buckets[index % radix].append(number)
       if done && index > 0 {  //If we arent done, continue to finish, otherwise we are done

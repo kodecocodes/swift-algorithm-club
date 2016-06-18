@@ -45,7 +45,7 @@ public func swap<T>(inout a: [T], _ i: Int, _ j: Int) {
 
 public func randomizedSelect<T: Comparable>(array: [T], order k: Int) -> T {
   var a = array
-  
+
   func randomPivot<T: Comparable>(inout a: [T], _ low: Int, _ high: Int) -> T {
     let pivotIndex = random(min: low, max: high)
     swap(&a, pivotIndex, high)
@@ -79,7 +79,7 @@ public func randomizedSelect<T: Comparable>(array: [T], order k: Int) -> T {
       return a[low]
     }
   }
-  
+
   precondition(a.count > 0)
   return randomizedSelect(&a, 0, a.count - 1, k)
 }

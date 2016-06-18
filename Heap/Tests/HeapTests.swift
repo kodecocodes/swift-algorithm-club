@@ -6,7 +6,7 @@
 import XCTest
 
 class HeapTests: XCTestCase {
-  
+
   private func verifyMaxHeap(h: Heap<Int>) -> Bool {
     for i in 0..<h.count {
       let left = h.indexOfLeftChild(i)
@@ -62,7 +62,7 @@ class HeapTests: XCTestCase {
     heap.remove()
     XCTAssertTrue(heap.isEmpty)
   }
-  
+
   func testCount() {
     var heap = Heap<Int>(sort: >)
     XCTAssertEqual(0, heap.count)

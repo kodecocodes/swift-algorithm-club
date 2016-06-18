@@ -14,15 +14,15 @@ public class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
 
   private var head: Node?
-  
+
   public var isEmpty: Bool {
     return head == nil
   }
-  
+
   public var first: Node? {
     return head
   }
-  
+
   public var last: Node? {
     if var node = head {
       while case let next? = node.next {
@@ -33,7 +33,7 @@ public class LinkedList<T> {
       return nil
     }
   }
-  
+
   public var count: Int {
     if var node = head {
       var c = 1
@@ -46,7 +46,7 @@ public class LinkedList<T> {
       return 0
     }
   }
-  
+
   public func nodeAtIndex(index: Int) -> Node? {
     if index >= 0 {
       var node = head
@@ -59,7 +59,7 @@ public class LinkedList<T> {
     }
     return nil
   }
-  
+
   public subscript(index: Int) -> T {
     let node = nodeAtIndex(index)
     assert(node != nil)
@@ -75,10 +75,10 @@ public class LinkedList<T> {
       head = newNode
     }
   }
-  
+
   private func nodesBeforeAndAfter(index: Int) -> (Node?, Node?) {
     assert(index >= 0)
-    
+
     var i = index
     var next = head
     var prev: Node?
@@ -92,10 +92,10 @@ public class LinkedList<T> {
 
     return (prev, next)
   }
-  
+
   public func insert(value: T, atIndex index: Int) {
     let (prev, next) = nodesBeforeAndAfter(index)
-    
+
     let newNode = Node(value: value)
     newNode.previous = prev
     newNode.next = next
@@ -106,7 +106,7 @@ public class LinkedList<T> {
       head = newNode
     }
   }
-  
+
   public func removeAll() {
     head = nil
   }
@@ -114,24 +114,24 @@ public class LinkedList<T> {
   public func removeNode(node: Node) -> T {
     let prev = node.previous
     let next = node.next
-    
+
     if let prev = prev {
       prev.next = next
     } else {
       head = next
     }
     next?.previous = prev
-    
+
     node.previous = nil
     node.next = nil
     return node.value
   }
-  
+
   public func removeLast() -> T {
     assert(!isEmpty)
     return removeNode(last!)
   }
-  
+
   public func removeAtIndex(index: Int) -> T {
     let node = nodeAtIndex(index)
     assert(node != nil)

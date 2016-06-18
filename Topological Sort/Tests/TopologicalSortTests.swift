@@ -17,7 +17,7 @@ extension Graph {
 }
 
 class TopologicalSort: XCTestCase {
-  
+
   // The topological sort is valid if a node does not have any of its
   // predecessors in its adjacency list.
   func checkIsValidTopologicalSort(graph: Graph, _ a: [Graph.Node]) {
@@ -29,10 +29,10 @@ class TopologicalSort: XCTestCase {
       }
     }
   }
-  
+
   func testTopologicalSort() {
     let graph = Graph()
-    
+
     let node5 = graph.addNode("5")
     let node7 = graph.addNode("7")
     let node3 = graph.addNode("3")
@@ -41,7 +41,7 @@ class TopologicalSort: XCTestCase {
     let node2 = graph.addNode("2")
     let node9 = graph.addNode("9")
     let node10 = graph.addNode("10")
-    
+
     graph.addEdge(fromNode: node5, toNode: node11)
     graph.addEdge(fromNode: node7, toNode: node11)
     graph.addEdge(fromNode: node7, toNode: node8)

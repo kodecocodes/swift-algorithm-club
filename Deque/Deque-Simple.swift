@@ -2,7 +2,7 @@
   Deque (pronounced "deck"), a double-ended queue
 
   This particular implementation is simple but not very efficient. Several
-  operations are O(n). A more efficient implementation would use a doubly 
+  operations are O(n). A more efficient implementation would use a doubly
   linked list or a circular buffer.
 */
 public struct Deque<T> {

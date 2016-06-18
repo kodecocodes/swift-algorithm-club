@@ -52,7 +52,7 @@ public class Node {
   private var isAWord: Bool
   private var visited: Bool  //only for findPrefix
 
-  init(c: String?, p: Node?){
+  init(c: String?, p: Node?) {
     self.character = c
     self.children = [String:Node]()
     self.isAWord = false
@@ -86,7 +86,7 @@ public class Node {
     Output:  Bool
     Functionality: Returns true if the node is a leaf node, false otherwise
   */
-  func isLeaf() -> Bool{
+  func isLeaf() -> Bool {
     return self.children.count == 0
   }
 
@@ -127,7 +127,7 @@ public class Node {
     Output:  Bool
     Functionality: Returns whether or not the current node marks the end of a valid word
   */
-  func isValidWord() -> Bool{
+  func isValidWord() -> Bool {
     return self.isAWord
   }
 
@@ -194,8 +194,7 @@ public class Node {
     if leaf {
       print("\\-", terminator: "")
       indent += " "
-    }
-    else {
+    } else {
       print("|-", terminator: "")
       indent += "| "
     }
@@ -245,7 +244,7 @@ public class Trie {
     Output:  Trie
     Functionality:  Merges two tries into one and returns the merged trie
   */
-  func merge(other: Trie) -> Trie{
+  func merge(other: Trie) -> Trie {
     let newWordList = Set(self.getWords() + other.getWords())
     return Trie(wordList: newWordList)
   }
@@ -254,7 +253,9 @@ public class Trie {
     Function Name:  find
     Input:  String
     Output:  (Node?, Bool)
-    Functionality:  Looks for a specific key and returns a tuple that has a reference to the node(if found) and true/false depending on if it was found
+    Functionality:  Looks for a specific key and returns a tuple that
+                    has a reference to the node(if found) and true/false
+                    depending on if it was found
   */
   func find(key: String) -> (node: Node?, found: Bool) {
     var currentNode = self.root
@@ -313,7 +314,9 @@ public class Trie {
     Function Name:  isPrefix
     Input:  String
     Output: (Node?, Bool)
-    Functionality:  returns a tuple containing a reference to the final node in the prefix (if it exists) and true/false depending on whether or not the prefix exists in the trie
+    Functionality:  returns a tuple containing a reference to the final
+                    node in the prefix (if it exists) and true/false
+                    depending on whether or not the prefix exists in the trie
   */
   func isPrefix(p: String) -> (node: Node?, found: Bool) {
     let prefixP = p.lowercaseString
@@ -321,7 +324,7 @@ public class Trie {
     var currentNode = self.root
 
     for c in prefixP.characters {
-      if currentNode.children[String(c)] == nil{
+      if currentNode.children[String(c)] == nil {
         return (nil, false)
       }
 
@@ -339,7 +342,9 @@ public class Trie {
     Function Name:  insert
     Input:  String
     Output:  (String, Bool)
-    Functionality:  Inserts a word int othe trie.  Returns a tuple containing the word attempted to be added, and true/false depending on whether or not the insertion was successful
+    Functionality:  Inserts a word int othe trie.  Returns a tuple containing
+                    the word attempted to be added, and true/false depending on
+                    whether or not the insertion was successful
   */
   func insert(w: String) -> (word: String, inserted: Bool) {
 
@@ -385,10 +390,12 @@ public class Trie {
     Function Name:  insertWords
     Input:  [String]
     Output:  ([String], Bool)
-    Functionality:  attempts to insert all words from input array.  returns a tuple containing the input array and true if some of the words were succesffuly added, false if none were added
+    Functionality:  attempts to insert all words from input array.  returns a tuple
+                    containing the input array and true if some of the words were
+                    succesffuly added, false if none were added
   */
 
-  func insertWords(wordList: [String]) -> (wordList: [String], inserted: Bool){
+  func insertWords(wordList: [String]) -> (wordList: [String], inserted: Bool) {
 
     var succesful: Bool = false
     for word in wordList {
@@ -402,9 +409,11 @@ public class Trie {
     Function Name:  remove
     Input:  String
     Output:  (String, Bool)
-    Functionality:  Removes the specified key from the trie if it exists, returns tuple containing the word attempted to be removed and true/false if the removal was succesful
+    Functionality:  Removes the specified key from the trie if it exists, returns
+                    tuple containing the word attempted to be removed and true/false
+                    if the removal was succesful
   */
-  func remove(w: String) -> (word: String, removed: Bool){
+  func remove(w: String) -> (word: String, removed: Bool) {
     let word = w.lowercaseString
 
     if !self.contains(w) {
@@ -420,7 +429,7 @@ public class Trie {
       currentNode.isNotWord()
     } else {
       var character = currentNode.char()
-      while(currentNode.numChildren() == 0 && !currentNode.isRoot()) {
+      while currentNode.numChildren() == 0 && !currentNode.isRoot() {
         currentNode = currentNode.getParent()
         currentNode.children[character]!.setParent(nil)
         currentNode.children[character]!.update(nil)
@@ -432,7 +441,7 @@ public class Trie {
     wordCount -= 1
 
     var index = 0
-    for item in wordList{
+    for item in wordList {
       if item == w {
         wordList.removeAtIndex(index)
       }
@@ -492,7 +501,7 @@ public class Trie {
     Output:  N/A
     Functionality:  removes all nodes in the trie using remove as a subroutine
   */
-  func removeAll()  {
+  func removeAll() {
     for word in wordList {
       self.remove(word)
     }

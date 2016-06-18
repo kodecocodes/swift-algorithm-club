@@ -36,17 +36,17 @@ class RLETests: XCTestCase {
     let bytes: [UInt8] = []
     encodeAndDecode(bytes)
   }
-  
+
   func testOneByteWithLowValue() {
     let bytes: [UInt8] = [ 0x80 ]
     encodeAndDecode(bytes)
   }
-  
+
   func testOneByteWithHighValue() {
     let bytes: [UInt8] = [ 0xD0 ]
     encodeAndDecode(bytes)
   }
-  
+
   func testSimpleCases() {
     let bytes: [UInt8] = [
       0x00,
@@ -96,7 +96,7 @@ class RLETests: XCTestCase {
     bufferWithSpans(66)
     bufferWithSpans(80)
   }
-  
+
   func testRandomBytes() {
     for _ in 0..<10 {
       let length = 1 + Int(arc4random_uniform(2048))

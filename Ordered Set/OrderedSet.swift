@@ -1,4 +1,4 @@
-/* 
+/*
   An Ordered Set is a collection where all items in the set follow an ordering,
   usually ordered from 'least' to 'most'. The way you value and compare items
   can be user-defined.
@@ -14,7 +14,7 @@ public struct OrderedSet<T: Comparable> {
   }
 
   // Inserts an item. Performance: O(n)
-  public mutating func insert(item: T){
+  public mutating func insert(item: T) {
     if exists(item) {
       return  // don't add an item if it already exists
     }
@@ -60,7 +60,7 @@ public struct OrderedSet<T: Comparable> {
       } else {
         // When we get here, we've landed on an item whose value is equal to the
         // value of the item we're looking for, but the items themselves are not
-        // equal. We need to check the items with the same value to the right 
+        // equal. We need to check the items with the same value to the right
         // and to the left in order to find an exact match.
 
         // Check to the right.
@@ -86,7 +86,7 @@ public struct OrderedSet<T: Comparable> {
     return nil
   }
 
-  // Returns the item at the given index. 
+  // Returns the item at the given index.
   // Assertion fails if the index is out of the range of [0, count).
   public subscript(index: Int) -> T {
     assert(index >= 0 && index < count)
@@ -103,7 +103,7 @@ public struct OrderedSet<T: Comparable> {
     return count == 0 ? nil : internalSet[0]
   }
 
-  // Returns the k-th largest element in the set, if k is in the range 
+  // Returns the k-th largest element in the set, if k is in the range
   // [1, count]. Returns nil otherwise.
   public func kLargest(k: Int) -> T? {
     return k > count || k <= 0 ? nil : internalSet[count - k]

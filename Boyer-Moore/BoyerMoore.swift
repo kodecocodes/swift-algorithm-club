@@ -12,24 +12,24 @@ extension String {
     let patternLength = pattern.characters.count
     assert(patternLength > 0)
     assert(patternLength <= self.characters.count)
-    
+
     // Make the skip table. This table determines how far we skip ahead
     // when a character from the pattern is found.
     var skipTable = [Character: Int]()
     for (i, c) in pattern.characters.enumerate() {
       skipTable[c] = patternLength - i - 1
     }
-    
+
     // This points at the last character in the pattern.
     let p = pattern.endIndex.predecessor()
     let lastChar = pattern[p]
-    
+
     // The pattern is scanned right-to-left, so skip ahead in the string by
     // the length of the pattern. (Minus 1 because startIndex already points
     // at the first character in the source string.)
     var i = self.startIndex.advancedBy(patternLength - 1)
-    
-    // This is a helper function that steps backwards through both strings 
+
+    // This is a helper function that steps backwards through both strings
     // until we find a character that doesn’t match, or until we’ve reached
     // the beginning of the pattern.
     func backwards() -> String.Index? {
@@ -42,17 +42,17 @@ extension String {
       }
       return j
     }
-    
+
     // The main loop. Keep going until the end of the string is reached.
     while i < self.endIndex {
       let c = self[i]
-      
+
       // Does the current character match the last character from the pattern?
       if c == lastChar {
-        
+
         // There is a possible match. Do a brute-force search backwards.
         if let k = backwards() { return k }
-        
+
         // If no match, we can only safely skip one character ahead.
         i = i.successor()
       } else {

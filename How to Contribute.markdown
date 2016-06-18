@@ -23,6 +23,15 @@ To keep this a high quality repo, please follow this process when submitting you
 3. Write an explanation of how the algorithm works. Include **plenty of examples** for readers to follow along. Pictures are good. Take a look at [the explanation of quicksort](Quicksort/) to get an idea.
 4. Include your name in the explanation, something like *Written by Your Name* at the end of the document. If you wrote it, you deserve the credit and fame.
 5. Add a playground and/or unit tests.
+6. Run [SwiftLint](https://github.com/realm/SwiftLint)  
+  - [Install](https://github.com/realm/SwiftLint#installation)
+  - Open terminal and run the `swiftlint` command:
+
+```
+cd path/to/swift-algorithm-club
+swiftlint
+```
+
 
 Just so you know, I will probably edit your text and code for grammar etc, just to ensure a certain level of polish.
 
