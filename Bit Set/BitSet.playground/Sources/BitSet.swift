@@ -112,7 +112,7 @@ public struct BitSet {
       while x != 0 {
         let y = x & ~(x - 1)  // find lowest 1-bit
         x = x ^ y             // and erase it
-        ++count
+        count += 1
       }
     }
     return count
@@ -148,7 +148,7 @@ public struct BitSet {
 extension BitSet: Equatable {
 }
 
-public func ==(lhs: BitSet, rhs: BitSet) -> Bool {
+public func == (lhs: BitSet, rhs: BitSet) -> Bool {
   return lhs.words == rhs.words
 }
 
@@ -184,7 +184,7 @@ private func copyLargest(lhs: BitSet, _ rhs: BitSet) -> BitSet {
   That will strip off the higher bits from the larger BitSet when doing &.
 */
 
-public func &(lhs: BitSet, rhs: BitSet) -> BitSet {
+public func & (lhs: BitSet, rhs: BitSet) -> BitSet {
   let m = max(lhs.size, rhs.size)
   var out = BitSet(size: m)
   let n = min(lhs.words.count, rhs.words.count)
@@ -194,7 +194,7 @@ public func &(lhs: BitSet, rhs: BitSet) -> BitSet {
   return out
 }
 
-public func |(lhs: BitSet, rhs: BitSet) -> BitSet {
+public func | (lhs: BitSet, rhs: BitSet) -> BitSet {
   var out = copyLargest(lhs, rhs)
   let n = min(lhs.words.count, rhs.words.count)
   for i in 0..<n {
@@ -203,7 +203,7 @@ public func |(lhs: BitSet, rhs: BitSet) -> BitSet {
   return out
 }
 
-public func ^(lhs: BitSet, rhs: BitSet) -> BitSet {
+public func ^ (lhs: BitSet, rhs: BitSet) -> BitSet {
   var out = copyLargest(lhs, rhs)
   let n = min(lhs.words.count, rhs.words.count)
   for i in 0..<n {
@@ -212,7 +212,7 @@ public func ^(lhs: BitSet, rhs: BitSet) -> BitSet {
   return out
 }
 
-prefix public func ~(rhs: BitSet) -> BitSet {
+prefix public func ~ (rhs: BitSet) -> BitSet {
   var out = BitSet(size: rhs.size)
   for i in 0..<rhs.words.count {
     out.words[i] = ~rhs.words[i]

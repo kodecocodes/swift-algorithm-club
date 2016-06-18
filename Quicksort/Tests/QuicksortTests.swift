@@ -4,9 +4,9 @@ class QuicksortTests: XCTestCase {
   func testQuicksort() {
     checkSortAlgorithm(quicksort)
   }
-  
+
   private typealias QuicksortFunction = (inout [Int], low: Int, high: Int) -> Void
-  
+
   private func checkQuicksort(function: QuicksortFunction) {
     checkSortAlgorithm { (a: [Int]) -> [Int] in
       var b = a

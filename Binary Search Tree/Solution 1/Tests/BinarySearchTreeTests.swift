@@ -302,9 +302,9 @@ class BinarySearchTreeTest: XCTestCase {
 
   func testRemoveRoot() {
     let tree = BinarySearchTree(array: [8, 5, 10, 4, 9, 20, 11, 15, 13])
-    
+
     let node9 = tree.search(9)!
-    
+
     let newRoot = tree.remove()
     XCTAssertTrue(newRoot === node9)
     XCTAssertEqual(newRoot!.value, 9)

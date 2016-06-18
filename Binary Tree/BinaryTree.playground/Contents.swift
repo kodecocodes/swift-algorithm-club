@@ -36,8 +36,8 @@ let node3 = BinaryTree.Node(.Empty, "3", .Empty)
 let nodeB = BinaryTree.Node(.Empty, "b", .Empty)
 
 // intermediate nodes on the left
-let Aminus10 = BinaryTree.Node(nodeA, "-", node10)
-let timesLeft = BinaryTree.Node(node5, "*", Aminus10)
+let aMinus10 = BinaryTree.Node(nodeA, "-", node10)
+let timesLeft = BinaryTree.Node(node5, "*", aMinus10)
 
 // intermediate nodes on the right
 let minus4 = BinaryTree.Node(.Empty, "-", node4)
@@ -60,7 +60,7 @@ extension BinaryTree {
       right.traverseInOrder(process)
     }
   }
-  
+
   public func traversePreOrder(@noescape process: T -> Void) {
     if case let .Node(left, value, right) = self {
       process(value)
@@ -68,7 +68,7 @@ extension BinaryTree {
       right.traversePreOrder(process)
     }
   }
-  
+
   public func traversePostOrder(@noescape process: T -> Void) {
     if case let .Node(left, value, right) = self {
       left.traversePostOrder(process)

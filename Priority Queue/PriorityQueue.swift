@@ -3,7 +3,7 @@
   the queue.
 
   The heap is a natural data structure for a priority queue, so this object
-  simply wraps the Heap struct. 
+  simply wraps the Heap struct.
 
   All operations are O(lg n).
 

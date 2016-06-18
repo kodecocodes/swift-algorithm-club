@@ -22,21 +22,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
+// swiftlint:disable force_try
+
 import XCTest
 @testable import Treap
 
 class TreapTests: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testSanity() {
         var treap = Treap<Int, String>.Empty
         treap = treap.set(5, val: "a").set(7, val: "b")
@@ -62,12 +64,11 @@ class TreapTests: XCTestCase {
 
     func testFairlyBalancedCollection() {
         var treap = Treap<Int, Int?>()
-        for i in 0..<1000
-        {
+        for i in 0..<1000 {
             treap[i] = Optional<Int>.None
         }
         let depth = treap.depth
         XCTAssert(depth > 0 && depth < 30)
     }
-    
+
 }

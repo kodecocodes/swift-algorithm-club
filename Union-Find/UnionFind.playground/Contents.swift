@@ -4,13 +4,13 @@ public struct UnionFind<T: Hashable> {
   private var index = [T: Int]()
   private var parent = [Int]()
   private var size = [Int]()
-  
+
   public mutating func addSetWith(element: T) {
     index[element] = parent.count
     parent.append(parent.count)
     size.append(1)
   }
-  
+
   private mutating func setByIndex(index: Int) -> Int {
     if parent[index] == index {
       return index
@@ -19,7 +19,7 @@ public struct UnionFind<T: Hashable> {
       return parent[index]
     }
   }
-  
+
   public mutating func setOf(element: T) -> Int? {
     if let indexOfElement = index[element] {
       return setByIndex(indexOfElement)
@@ -27,7 +27,7 @@ public struct UnionFind<T: Hashable> {
       return nil
     }
   }
-  
+
   public mutating func unionSetsContaining(firstElement: T, and secondElement: T) {
     if let firstSet = setOf(firstElement), secondSet = setOf(secondElement) {
       if firstSet != secondSet {
@@ -41,7 +41,7 @@ public struct UnionFind<T: Hashable> {
       }
     }
   }
-  
+
   public mutating func inSameSet(firstElement: T, and secondElement: T) -> Bool {
     if let firstSet = setOf(firstElement), secondSet = setOf(secondElement) {
       return firstSet == secondSet
@@ -114,7 +114,3 @@ print(dsuForStrings.inSameSet("border", and: "best"))
 
 print(dsuForStrings.inSameSet("amazing", and: "boy"))
 print(dsuForStrings.inSameSet("all", and: "border"))
-
-
-
-

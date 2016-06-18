@@ -21,27 +21,27 @@ class KMeansTests: XCTestCase {
     }
     return points
   }
-  
+
   func testSmall_2D() {
     let points = genPoints(10, numDimensions: 2)
-    
+
     print("\nCenters")
     let kmm = KMeans<Character>(labels: ["A", "B", "C"])
     kmm.trainCenters(points, convergeDistance: 0.01)
-    
+
     for (label, centroid) in zip(kmm.labels, kmm.centroids) {
       print("\(label): \(centroid)")
     }
-    
+
     print("\nClassifications")
     for (label, point) in zip(kmm.fit(points), points) {
       print("\(label): \(point)")
     }
   }
-  
+
   func testSmall_10D() {
     let points = genPoints(10, numDimensions: 10)
-    
+
     print("\nCenters")
     let kmm = KMeans<Int>(labels: [1, 2, 3])
     kmm.trainCenters(points, convergeDistance: 0.01)
@@ -49,23 +49,23 @@ class KMeansTests: XCTestCase {
       print(c)
     }
   }
-  
+
   func testLarge_2D() {
     let points = genPoints(10000, numDimensions: 2)
-    
+
     print("\nCenters")
-    let kmm = KMeans<Character>(labels: ["A","B","C","D","E"])
+    let kmm = KMeans<Character>(labels: ["A", "B", "C", "D", "E"])
     kmm.trainCenters(points, convergeDistance: 0.01)
     for c in kmm.centroids {
       print(c)
     }
   }
-  
+
   func testLarge_10D() {
     let points = genPoints(10000, numDimensions: 10)
-    
+
     print("\nCenters")
-    let kmm = KMeans<Int>(labels: [1,2,3,4,5])
+    let kmm = KMeans<Int>(labels: [1, 2, 3, 4, 5])
     kmm.trainCenters(points, convergeDistance: 0.01)
     for c in kmm.centroids {
       print(c)
