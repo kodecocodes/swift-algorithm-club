@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        performPrimesGeneration()
+        self.performPrimesGeneration()
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,27 +25,31 @@ class ViewController: UIViewController {
     
     func performPrimesGeneration() {
         
-        let primesTo = 1_000
+        let eraMax = 1_000_000  // max integer for Eratosthenes primes
+        let atMax = 1_000       // max integer for Atkins prime
         
         let primeGenerator = PrimeGenerator.sharedInstance
         
-        var startDate = Date()
-        var endDate = Date()
+        let eraStartDate = Date()
         var era_sieve = [Int]()
-        primeGenerator.eratosthenesPrimes(primesTo) { (primesArray) in
+        primeGenerator.eratosthenesPrimes(eraMax) { (primesArray) in
             era_sieve = primesArray
-            endDate = Date()
-            print("Found \(era_sieve.count) primes in : \(endDate.timeIntervalSince(startDate) * 1000) ms.")
-            self.eraSieveTextView.text = era_sieve.description
+            let eraEndDate = Date()
+            print("Found \(era_sieve.count) primes in : \(eraEndDate.timeIntervalSince(eraStartDate) * 1000) ms.")
+            DispatchQueue.main.async(execute: {
+                self.eraSieveTextView.text = era_sieve.description
+            })
         }
         
-        startDate = Date()
+        let atStartDate = Date()
         var at_sieve = [Int]()
-        primeGenerator.atkinsPrimes(primesTo) { (primesArray) in
+        primeGenerator.atkinsPrimes(atMax) { (primesArray) in
             at_sieve = primesArray
-            endDate = Date()
-            print("Found \(at_sieve.count) primes in : \(endDate.timeIntervalSince(startDate) * 1000) ms.")
-            self.atSieveTextView.text = at_sieve.description
+            let atEndDate = Date()
+            print("Found \(at_sieve.count) primes in : \(atEndDate.timeIntervalSince(atStartDate) * 1000) ms.")
+            DispatchQueue.main.async(execute: {
+                self.atSieveTextView.text = at_sieve.description
+            })
         }
     }
 }

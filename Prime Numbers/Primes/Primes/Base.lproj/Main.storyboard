@@ -20,13 +20,13 @@
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bQv-Df-Olo">
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Getting primes using the sieve of Eratosthenes" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4V8-CM-o6m">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Getting primes using the sieve of Eratosthenes..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4V8-CM-o6m">
                                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Getting primes using Atkin's sieve" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FSt-V7-5y0">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Getting primes using Atkin's sieve..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FSt-V7-5y0">
                                         <color key="backgroundColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
