@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         performPrimesGeneration()
         return true
@@ -25,15 +25,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let primeGenerator = PrimeGenerator.sharedInstance
         
-        var startDate = NSDate().timeIntervalSince1970 * 1000
+        var startDate = Date()
         let era_sieve = primeGenerator.eratosthenesPrimes(primesTo)
-        var endDate = NSDate().timeIntervalSince1970 * 1000
-        print("Prime generation time for sieve of eratosthenes: \(endDate - startDate) ms.")
+        var endDate = Date()
+        print("Prime generation time for sieve of eratosthenes: \(endDate.timeIntervalSince(startDate) * 1000) ms.")
         
-        startDate = NSDate().timeIntervalSince1970 * 1000
+        startDate = Date()
         let at_sieve = primeGenerator.atkinsPrimes(primesTo)
-        endDate = NSDate().timeIntervalSince1970 * 1000
-        print("Prime generation time for atkins sieve: \(endDate - startDate) ms.")
+        endDate = Date()
+        print("Prime generation time for atkins sieve: \(endDate.timeIntervalSince(startDate) * 1000) ms.")
         print("they are equal \(era_sieve == at_sieve)")
     }
     

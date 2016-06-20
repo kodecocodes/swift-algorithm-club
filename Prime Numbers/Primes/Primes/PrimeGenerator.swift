@@ -20,29 +20,29 @@ func ..<T: Strideable>(left: T, right: T.Stride) -> (T, T.Stride) {
 }
 
 func ..<T: Strideable>(left: (T, T.Stride), right: T) -> [T] {
-    return [T](left.0.stride(through: right, by: left.1))
+    return [T](stride(from: left.0, through: right, by: left.1))
 }
 
 class PrimeGenerator {
     
     static let sharedInstance = PrimeGenerator()
     
-    func eratosthenesPrimes(max: Int) -> [Int] {
+    func eratosthenesPrimes(_ max: Int) -> [Int] {
         let m = Int(sqrt(ceil(Double(max))))
         let set = NSMutableSet(array: 3..2..max)
-        set.addObject(2)
+        set.add(2)
         for i in (2..1..m) {
-            if (set.containsObject(i)) {
+            if (set.contains(i)) {
                 for j in i^^2..i..max {
-                    set.removeObject(j)
+                    set.remove(j)
                 }
             }
         }
-        return set.sortedArrayUsingDescriptors([NSSortDescriptor(key: "integerValue", ascending: true)]) as! [Int]
+        return set.sortedArray(using: [SortDescriptor(key: "integerValue", ascending: true)]) as! [Int]
     }
     
-    func atkinsPrimes(max: Int) -> [Int] {
-        var is_prime = [Bool](count: max + 1, repeatedValue: false)
+    func atkinsPrimes(_ max: Int) -> [Int] {
+        var is_prime = [Bool](repeating: false, count: max + 1)
         is_prime[2] = true
         is_prime[3] = true
         let limit = Int(ceil(sqrt(Double(max))))
@@ -74,7 +74,7 @@ class PrimeGenerator {
             }
         }
         var primesArray = [Int]()
-        for (idx, val) in is_prime.enumerate() {
+        for (idx, val) in is_prime.enumerated() {
             if val == true { primesArray.append(idx) }
         }
         return primesArray
