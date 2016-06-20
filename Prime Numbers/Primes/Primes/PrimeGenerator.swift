@@ -27,7 +27,10 @@ class PrimeGenerator {
     
     static let sharedInstance = PrimeGenerator()
     
-    func eratosthenesPrimes(_ max: Int) -> [Int] {
+    
+    
+    
+    func eratosthenesPrimes(_ max: Int, completion:([Int]) -> ()){
         let m = Int(sqrt(ceil(Double(max))))
         let set = NSMutableSet(array: 3..2..max)
         set.add(2)
@@ -38,10 +41,10 @@ class PrimeGenerator {
                 }
             }
         }
-        return set.sortedArray(using: [SortDescriptor(key: "integerValue", ascending: true)]) as! [Int]
+        completion(set.sortedArray(using: [SortDescriptor(key: "integerValue", ascending: true)]) as! [Int])
     }
     
-    func atkinsPrimes(_ max: Int) -> [Int] {
+    func atkinsPrimes(_ max: Int, completion:([Int]) -> ()) {
         var is_prime = [Bool](repeating: false, count: max + 1)
         is_prime[2] = true
         is_prime[3] = true
@@ -77,7 +80,7 @@ class PrimeGenerator {
         for (idx, val) in is_prime.enumerated() {
             if val == true { primesArray.append(idx) }
         }
-        return primesArray
+        completion(primesArray)
     }
     
 }
