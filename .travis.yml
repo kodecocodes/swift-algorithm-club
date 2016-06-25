@@ -17,6 +17,7 @@ script:
 - xctool test -project ./Bounded\ Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Breadth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Bucket\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xctool test -project ./B-Tree/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Counting\ Sort/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Depth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
 - xctool test -project ./Graph/Graph.xcodeproj -scheme GraphTests
