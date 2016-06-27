@@ -7,7 +7,7 @@ A B-Tree is a self-balancing search tree, in which nodes can have more than two 
 A B-Tree of order *n* satisfies the following properties:
  - Every node has at most *2n* keys.
  - Every node (except root) has at least *n* keys.
- - Eyery non-leaf node with *k* keys has *k+1* children.
+ - Every non-leaf node with *k* keys has *k+1* children.
  - The keys in all nodes are sorted in increasing order. 
  - The subtree between two keys *k* and *l* of a non-leaf node contains all the keys between *k* and *l*.
  - All leaves appear at the same level.
@@ -47,10 +47,10 @@ This is necessary because nodes have to know the order of the tree.
    or reach the end of the array.
 3. If `k == l` then we have found the key.
 4. If `k < l`: 
-    - If the node we are on is not a leaf, then we go to the left child of `l`, and perform the steps 3.-5. again.
+    - If the node we are on is not a leaf, then we go to the left child of `l`, and perform the steps 3 - 5 again.
     - If we are on a leaf, then `k` is not in the tree.
 5. If we have reached the end of the array:
-    - If we are on a non-leaf node, then we go to the last child of the node, and perform the steps 3.-5. again.
+    - If we are on a non-leaf node, then we go to the last child of the node, and perform the steps 3 - 5 again.
     - If we are on a leaf, then `k` is not in the tree.
 
 ### The code
