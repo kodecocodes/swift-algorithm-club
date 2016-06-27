@@ -152,7 +152,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
 - Trie
-- B-Tree
+- [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
 
 ### Hashing
 
