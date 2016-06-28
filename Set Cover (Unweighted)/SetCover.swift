@@ -18,13 +18,13 @@ extension Set {
       return largestSet
     }
 
-    while remainingSet.count != 0 {
+    while !remainingSet.isEmpty {
       guard let largestSet = largestIntersectingSet() else { break }
       result!.append(largestSet)
       remainingSet = remainingSet.subtract(largestSet)
     }
 
-    if remainingSet.count != 0 || self.count == 0 {
+    if !remainingSet.isEmpty || isEmpty {
       result = nil
     }
 
