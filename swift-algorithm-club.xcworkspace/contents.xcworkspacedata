@@ -1629,6 +1629,19 @@
       </Group>
    </Group>
    <Group
+      location = "container:"
+      name = "Set Cover (Unweighted)">
+      <FileRef
+         location = "group:Set Cover (Unweighted)/README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:Set Cover (Unweighted)/SetCover.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Set Cover (Unweighted)/SetCover.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Shell Sort"
       name = "Shell Sort">
       <FileRef
