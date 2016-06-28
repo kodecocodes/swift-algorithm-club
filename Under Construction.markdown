@@ -28,3 +28,4 @@ Special-purpose sorts:
 
 - [Minimum Edit Distance](Minimum Edit Distance/). Measure the similarity of two strings by counting the number of operations required to transform one string into the other.
 - [Treap](Treap/)
+- [Set Cover (Unweighted)](Set Cover (Unweighted)/)
