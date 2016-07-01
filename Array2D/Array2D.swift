@@ -19,6 +19,9 @@ public struct Array2D<T> {
       return array[row*columns + column]
     }
     set {
+      precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
+      precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
+        
       array[row*columns + column] = newValue
     }
   }
