@@ -152,7 +152,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
 - Trie
-- B-Tree
+- [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
 
 ### Hashing
 
@@ -214,7 +214,7 @@ The Swift Algorithm Club was originally created by [Matthijs Hollemans](https://
 
 It is now maintained by [Chris Pilcher](https://github.com/chris-pilcher) and [Kelvin Lau](https://github.com/kelvinlauKL).
 
-The Swift Algorithm Club is a a collaborative effort from the [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](How to Contribute.markdown)? :]
+The Swift Algorithm Club is a collaborative effort from the [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](How to Contribute.markdown)? :]
 
 ## License
 
