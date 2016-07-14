@@ -25,7 +25,7 @@ original String.
 
 Here is a recursive implementation of this in Swift: 
 
-``swift
+```swift
 func palindromeCheck (text: String?) -> Bool {
   if let text = text {
     let mutableText = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).lowercaseString
@@ -45,7 +45,7 @@ func palindromeCheck (text: String?) -> Bool {
 
   return false
 }
-``
+```
 
 
 This code can be tested in a playground using the following: 
