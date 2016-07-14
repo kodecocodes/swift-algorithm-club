@@ -50,9 +50,9 @@ func palindromeCheck (text: String?) -> Bool {
 
 This code can be tested in a playground using the following: 
 
-``swift
+```swift
 palindromeCheck("Race car")
-``
+```
 
 Since the phrase "Race car" is a palindrome, this will return true. 
 
