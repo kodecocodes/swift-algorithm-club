@@ -38,7 +38,8 @@ Goal: To quickly get an array of prime numbers with a specified limit using the 
 
 The Sieve of Atkin is an algorithm that finds all primes numbers up to any given limit.
 
---*write some introduction to the Sieve of Atkin*--
+In mathematics, the sieve of Atkin is a modern algorithm for finding all prime numbers up to a specified integer. Compared with the ancient sieve of Eratosthenes, which marks off multiples of primes, it does some preliminary work and then marks off multiples of squares of primes, thus achieving a better theoretical asymptotic complexity.[1][id]
+[id]: https://en.wikipedia.org/wiki/Sieve_of_Atkin
 
 ### Implementation
 
