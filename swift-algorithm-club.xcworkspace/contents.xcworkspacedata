@@ -1020,6 +1020,13 @@
       </Group>
    </Group>
    <Group
+      location = "container:"
+      name = "Slow Sort">
+      <FileRef
+         location = "group:Slow Sort/SlowSort.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Huffman Coding"
       name = "Huffman Coding">
       <FileRef
