@@ -15,6 +15,7 @@ removes a worst-case scenario of Bubble Sort, and greatly improves on the time c
 A step-by-step example of how Comb Sort works, and differs from Bubble Sort, can be seen [here](http://www.exforsys.com/tutorials/c-algorithms/comb-sort.html). 
 
 Here is a visual to see Comb Sort in effect: 
+
 ![](https://upload.wikimedia.org/wikipedia/commons/4/46/Comb_sort_demo.gif)
 
 ## Algorithm 
