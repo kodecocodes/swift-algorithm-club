@@ -112,6 +112,8 @@ public struct Heap<T> {
    * larger than the old one; in a min-heap it should be smaller.
    */
   public mutating func replace(index i: Int, value: T) {
+    guard i < elements.count else { return }
+    
     assert(isOrderedBefore(value, elements[i]))
     elements[i] = value
     shiftUp(index: i)
@@ -141,6 +143,8 @@ public struct Heap<T> {
    * to know the node's index, which may actually take O(n) steps to find.
    */
   public mutating func removeAtIndex(i: Int) -> T? {
+    guard i < elements.count else { return nil }
+    
     let size = elements.count - 1
     if i != size {
       swap(&elements[i], &elements[size])
