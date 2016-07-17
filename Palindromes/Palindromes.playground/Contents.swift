@@ -2,10 +2,10 @@ import Cocoa
 
 public func palindromeCheck (text: String?) -> Bool {
   if let text = text {
-    let mutableText = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).lowercaseString
+    let mutableText = text.stringByTrimmingCharactersInSet(.whitespaceCharacterSet()).lowercaseString
     let length: Int = mutableText.characters.count
     
-    if length < 1 {
+    guard length >= 1 else {
       return false
     }
     

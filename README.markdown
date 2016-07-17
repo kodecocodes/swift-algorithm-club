@@ -183,6 +183,7 @@ A lot of software developer interview questions consist of algorithmic puzzles. 
 - [Two-Sum Problem](Two-Sum Problem/)
 - [Fizz Buzz](Fizz Buzz/)
 - [Monty Hall Problem](Monty Hall Problem/)
+- [Finding Palindromes](Palindromes/)
 
 ## Learn more!
 
