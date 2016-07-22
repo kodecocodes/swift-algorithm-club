@@ -19,7 +19,7 @@ Assume you're given an array of *n* numbers and you need to put them in the righ
 
 Let's say the numbers to sort are `[2, 1, 5, 4, 9]`. This is your unsorted pile. The goal is to keep splitting the pile until you can't split anymore. 
 
-First, split the array into two halves: `[2, 1,]` and `[5, 4, 9]`. Can you keep splitting them? Yes you can!
+First, split the array into two halves: `[2, 1]` and `[5, 4, 9]`. Can you keep splitting them? Yes you can!
 
 Focus on the left pile. `[2, 1]` will split into `[2]` and `[1]`. Can you keep splitting them? No. Time to check the other pile.
 
