@@ -13,12 +13,12 @@ func predictedCarPrice(carAge: Double) -> Double {
 
 // An iterative approach
 
-let numberOfCarAdvertsWeSaw = carPrice.count - 1
+let numberOfCarAdvertsWeSaw = carPrice.count
 let numberOfIterations = 100
 let alpha = 0.0001
 
 for n in 1...numberOfIterations {
-    for i in 0...numberOfCarAdvertsWeSaw {
+    for i in 0..<numberOfCarAdvertsWeSaw {
         let difference = carPrice[i] - predictedCarPrice(carAge[i])
         intercept += alpha * difference
         slope += alpha * difference * carAge[i]
