@@ -25,7 +25,7 @@ extension TreeNode: CustomStringConvertible {
 }
 
 extension TreeNode where T: Equatable {
-  func search(value: T) -> TreeNode? {
+  public func search(value: T) -> TreeNode? {
     if value == self.value {
       return self
     }
