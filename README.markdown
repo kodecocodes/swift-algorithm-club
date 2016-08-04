@@ -92,6 +92,7 @@ Bad sorting algorithms (don't use these!):
 ### Miscellaneous
 
 - [Shuffle](Shuffle/). Randomly rearranges the contents of an array.
+- [Comb Sort](Comb Sort/). An improve upon the Bubble Sort algorithm.
 
 ### Mathematics
 
