@@ -45,11 +45,11 @@ The selection of initial centroids was fortuitous! We found the lower left clust
 
 #### Bad clustering
 
-The next two examples highlight the unpredictability of k-Means and how it not always finds the best clustering.
+The next two examples highlight the unpredictability of k-Means and how it does not always find the best clustering.
 
 ![Bad Clustering 1](Images/k_means_bad1.png)
 
-As you can see in this one, the initial centroids were all a little too close to one another, and the blue one didn't quite get to a good place. By adjusting the convergence distance we should be able to get it better.
+As you can see in this example, the initial centroids were all a little too close to one another, and the blue one didn't quite get to a good place. By adjusting the convergence distance we should be able to improve the fit of our centroids to the data.
 
 ![Bad Clustering 1](Images/k_means_bad2.png)
 

@@ -55,6 +55,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 
 - [Brute-Force String Search](Brute-Force String Search/). A naive method.
 - [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
+- Knuth-Morris-Pratt
 - Rabin-Karp
 - [Longest Common Subsequence](Longest Common Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
 
@@ -92,6 +93,7 @@ Bad sorting algorithms (don't use these!):
 ### Miscellaneous
 
 - [Shuffle](Shuffle/). Randomly rearranges the contents of an array.
+- [Comb Sort](Comb Sort/). An improve upon the Bubble Sort algorithm.
 
 ### Mathematics
 
