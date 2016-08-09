@@ -90,33 +90,29 @@ This was a description of the inner loop of the insertion sort algorithm, which 
 Here is an implementation of insertion sort in Swift:
 
 ```swift
-func insertionSort(array: [Int]) -> [Int] {
-  var a = array                             // 1
-  for x in 1..<a.count {                    // 2
-    var y = x
-    while y > 0 && a[y] < a[y - 1] {        // 3
-      swap(&a[y - 1], &a[y])
-      y -= 1
+func insertionSort(inout array: [Int]) {
+    for x in 1..<array.count {                          // 1
+        var y = x
+        while y > 0 && array[y] < array[y - 1] {        // 2
+            swap(&array[y - 1], &array[y])
+            y -= 1
+        }
     }
-  }
-  return a
 }
 ```
 
 Put this code in a playground and test it like so:
 
 ```swift
-let list = [ 10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26 ]
-insertionSort(list)
+var list = [ 10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26 ]
+insertionSort(&list)
 ```
 
 Here is how the code works.
 
-1. Make a copy of the array. This is necessary because we cannot modify the contents of the `array` parameter directly. Like Swift's own `sort()`, the `insertionSort()` function will return a sorted *copy* of the original array.
+1. There are two loops inside this function. The outer loop looks at each of the elements in the array in turn; this is what picks the top-most number from the pile. The variable `x` is the index of where the sorted portion ends and the pile begins (the position of the `|` bar). Remember, at any given moment the beginning of the array -- from index 0 up to `x` -- is always sorted. The rest, from index `x` until the last element, is the unsorted pile.
 
-2. There are two loops inside this function. The outer loop looks at each of the elements in the array in turn; this is what picks the top-most number from the pile. The variable `x` is the index of where the sorted portion ends and the pile begins (the position of the `|` bar). Remember, at any given moment the beginning of the array -- from index 0 up to `x` -- is always sorted. The rest, from index `x` until the last element, is the unsorted pile.
-
-3. The inner loop looks at the element at position `x`. This is the number at the top of the pile, and it may be smaller than any of the previous elements. The inner loop steps backwards through the sorted array; every time it finds a previous number that is larger, it swaps them. When the inner loop completes, the beginning of the array is sorted again, and the sorted portion has grown by one element.
+2. The inner loop looks at the element at position `x`. This is the number at the top of the pile, and it may be smaller than any of the previous elements. The inner loop steps backwards through the sorted array; every time it finds a previous number that is larger, it swaps them. When the inner loop completes, the beginning of the array is sorted again, and the sorted portion has grown by one element.
 
 > **Note:** The outer loop starts at index 1, not 0. Moving the very first element from the pile to the sorted portion doesn't actually change anything, so we might as well skip it. 
 
@@ -151,18 +147,16 @@ Instead of swapping with each of the previous elements, we can just shift all th
 In code that looks like this:
 
 ```swift
-func insertionSort(array: [Int]) -> [Int] {
-  var a = array
-  for x in 1..<a.count {
-    var y = x
-    let temp = a[y]
-    while y > 0 && temp < a[y - 1] {
-      a[y] = a[y - 1]                // 1
-      y -= 1
+func insertionSort(inout array: [Int]) {
+    for x in 1..<array.count {
+        var y = x
+        let temp = array[y]
+        while y > 0 && temp < array[y - 1] {
+            array[y] = array[y - 1]                 // 1
+            y -= 1
+        }
+        array[y] = temp                             // 2
     }
-    a[y] = temp                      // 2
-  }
-  return a
 }
 ```
 
@@ -175,7 +169,7 @@ It would be nice to sort other things than just numbers. We can make the datatyp
 The function signature becomes:
 
 ```swift
-func insertionSort<T>(array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
+func insertionSort<T>(inout array: [T], _ isOrderedBefore: (T, T) -> Bool) {
 ```
 
 The array has type `[T]` where `T` is the placeholder type for the generics. Now `insertionSort()` will accept any kind of array, whether it contains numbers, strings, or something else.
@@ -185,17 +179,17 @@ The new parameter `isOrderedBefore: (T, T) -> Bool` is a function that takes two
 The only other change is in the inner loop, which now becomes:
 
 ```swift
-      while y > 0 && isOrderedBefore(temp, a[y - 1]) {
+      while y > 0 && isOrderedBefore(temp, array[y - 1]) {
 ```
 
-Instead of writing `temp < a[y - 1]`, we call the `isOrderedBefore()` function. It does the exact same thing, except we can now compare any kind of object, not just numbers.
+Instead of writing `temp < array[y - 1]`, we call the `isOrderedBefore()` function. It does the exact same thing, except we can now compare any kind of object, not just numbers.
 
 To test this in a playground, do:
 
 ```swift
-let numbers = [ 10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26 ]
-insertionSort(numbers, <)
-insertionSort(numbers, >)
+var numbers = [ 10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26 ]
+insertionSort(&numbers, <)
+insertionSort(&numbers, >)
 ```
 
 The `<` and `>` determine the sort order, low-to-high and high-to-low, respectively.
@@ -203,15 +197,15 @@ The `<` and `>` determine the sort order, low-to-high and high-to-low, respectiv
 Of course, you can also sort other things such as strings,
 
 ```swift
-let strings = [ "b", "a", "d", "c", "e" ]
-insertionSort(strings, <)
+var strings = [ "b", "a", "d", "c", "e" ]
+insertionSort(&strings, <)
 ```
 
 or even more complex objects:
 
 ```swift
-let objects = [ obj1, obj2, obj3, ... ]
-insertionSort(objects) { $0.priority < $1.priority }
+var objects = [ obj1, obj2, obj3, ... ]
+insertionSort(&objects) { $0.priority < $1.priority }
 ```
 
 The closure tells `insertionSort()` to sort on the `priority` property of the objects.
