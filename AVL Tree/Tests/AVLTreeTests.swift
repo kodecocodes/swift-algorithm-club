@@ -67,25 +67,25 @@ class AVLTreeTests: XCTestCase {
   }
 
   func testSingleInsertionPerformance() {
-    self.measureBlock {
+    self.measure {
       self.tree?.insert(5, "E")
     }
   }
 
   func testMultipleInsertionsPerformance() {
-    self.measureBlock {
+    self.measure {
       self.tree?.autopopulateWithNodes(50)
     }
   }
 
   func testSearchExistentOnSmallTreePerformance() {
-    self.measureBlock {
+    self.measure {
       self.tree?.search(2)
     }
   }
 
   func testSearchExistentElementOnLargeTreePerformance() {
-    self.measureBlock {
+    self.measure {
       self.tree?.autopopulateWithNodes(500)
       self.tree?.search(400)
     }
@@ -150,8 +150,8 @@ class AVLTreeTests: XCTestCase {
   }
 }
 
-extension AVLTree where Key : SignedIntegerType {
-  func autopopulateWithNodes(count: Int) {
+extension AVLTree where Key : SignedInteger {
+  func autopopulateWithNodes(_ count: Int) {
     var k: Key = 1
     for _ in 0...count {
       self.insert(k)
@@ -160,12 +160,12 @@ extension AVLTree where Key : SignedIntegerType {
   }
 }
 
-enum AVLTreeError: ErrorType {
-  case NotBalanced
+enum AVLTreeError: Error {
+  case notBalanced
 }
 
-extension AVLTree where Key : SignedIntegerType {
-  func height(node: Node?) -> Int {
+extension AVLTree where Key : SignedInteger {
+  func height(_ node: Node?) -> Int {
     if let node = node {
       let lHeight = height(node.leftChild)
       let rHeight = height(node.rightChild)
@@ -175,10 +175,10 @@ extension AVLTree where Key : SignedIntegerType {
     return 0
   }
 
-  func inOrderCheckBalanced(node: Node?) throws {
+  func inOrderCheckBalanced(_ node: Node?) throws {
     if let node = node {
       guard abs(height(node.leftChild) - height(node.rightChild)) <= 1 else {
-        throw AVLTreeError.NotBalanced
+        throw AVLTreeError.notBalanced
       }
       try inOrderCheckBalanced(node.leftChild)
       try inOrderCheckBalanced(node.rightChild)
