@@ -4,7 +4,7 @@ sudo: false
 
 install:
 
-- ./install_swiftlint.sh
+# - ./install_swiftlint.sh
 
 script:
 
