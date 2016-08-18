@@ -80,14 +80,14 @@ class AVLTreeTests: XCTestCase {
 
   func testSearchExistentOnSmallTreePerformance() {
     self.measure {
-      self.tree?.search(input: 2)
+      print(self.tree?.search(input: 2))
     }
   }
 
   func testSearchExistentElementOnLargeTreePerformance() {
     self.measure {
       self.tree?.autopopulateWithNodes(500)
-      self.tree?.search(input: 400)
+      print(self.tree?.search(input: 400))
     }
   }
 
