@@ -37,7 +37,7 @@ class AVLTreeTests: XCTestCase {
     self.tree?.autopopulateWithNodes(5)
 
     for i in 6...10 {
-      self.tree?.insert(i)
+      self.tree?.insert(key: i)
       do {
         try self.tree?.inOrderCheckBalanced(self.tree?.root)
       } catch _ {
@@ -50,7 +50,7 @@ class AVLTreeTests: XCTestCase {
     self.tree?.autopopulateWithNodes(5)
 
     for i in 1...6 {
-      self.tree?.delete(i)
+      self.tree?.delete(key: i)
       do {
         try self.tree?.inOrderCheckBalanced(self.tree?.root)
       } catch _ {
@@ -68,7 +68,7 @@ class AVLTreeTests: XCTestCase {
 
   func testSingleInsertionPerformance() {
     self.measure {
-      self.tree?.insert(5, "E")
+      self.tree?.insert(key: 5, payload: "E")
     }
   }
 
@@ -80,14 +80,14 @@ class AVLTreeTests: XCTestCase {
 
   func testSearchExistentOnSmallTreePerformance() {
     self.measure {
-      self.tree?.search(2)
+      self.tree?.search(input: 2)
     }
   }
 
   func testSearchExistentElementOnLargeTreePerformance() {
     self.measure {
       self.tree?.autopopulateWithNodes(500)
-      self.tree?.search(400)
+      self.tree?.search(input: 400)
     }
   }
 
@@ -106,19 +106,19 @@ class AVLTreeTests: XCTestCase {
   }
 
   func testDeleteExistentKey() {
-    self.tree?.delete(1)
-    XCTAssertNil(self.tree?.search(1), "Key should not exist anymore")
+    self.tree?.delete(key: 1)
+    XCTAssertNil(self.tree?.search(input: 1), "Key should not exist anymore")
   }
 
   func testDeleteNotExistentKey() {
-    self.tree?.delete(1056)
-    XCTAssertNil(self.tree?.search(1056), "Key should not exist")
+    self.tree?.delete(key: 1056)
+    XCTAssertNil(self.tree?.search(input: 1056), "Key should not exist")
   }
 
   func testInsertSize() {
     let tree = AVLTree<Int, String>()
     for i in 0...5 {
-      tree.insert(i, "")
+      tree.insert(key: i, payload: "")
       XCTAssertEqual(tree.size, i + 1, "Insert didn't update size correctly!")
     }
   }
@@ -134,15 +134,15 @@ class AVLTreeTests: XCTestCase {
     for p in permutations {
       let tree = AVLTree<Int, String>()
 
-      tree.insert(1, "five")
-      tree.insert(2, "four")
-      tree.insert(3, "three")
-      tree.insert(4, "two")
-      tree.insert(5, "one")
+      tree.insert(key: 1, payload: "five")
+      tree.insert(key: 2, payload: "four")
+      tree.insert(key: 3, payload: "three")
+      tree.insert(key: 4, payload: "two")
+      tree.insert(key: 5, payload: "one")
 
       var count = tree.size
       for i in p {
-        tree.delete(i)
+        tree.delete(key: i)
         count -= 1
         XCTAssertEqual(tree.size, count, "Delete didn't update size correctly!")
       }
@@ -154,7 +154,7 @@ extension AVLTree where Key : SignedInteger {
   func autopopulateWithNodes(_ count: Int) {
     var k: Key = 1
     for _ in 0...count {
-      self.insert(k)
+      self.insert(key: k)
       k = k + 1
     }
   }
