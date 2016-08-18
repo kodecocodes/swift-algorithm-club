@@ -10,7 +10,7 @@ script:
 
 # - xctool test -project ./All-Pairs\ Shortest\ Paths/APSP/APSP.xcodeproj -scheme APSPTests
 # - xctool test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests
- - xctool test -project ./AVL\ Tree/Tests/Tests.xcodeproj -scheme Tests
+ - xcodebuild test -project ./AVL\ Tree/Tests/Tests.xcodeproj -scheme Tests
 # - xctool test -project ./Binary\ Search/Tests/Tests.xcodeproj -scheme Tests
 # - xctool test -project ./Binary\ Search\ Tree/Solution\ 1/Tests/Tests.xcodeproj -scheme Tests
 # - xctool test -project ./Bloom\ Filter/Tests/Tests.xcodeproj -scheme Tests
