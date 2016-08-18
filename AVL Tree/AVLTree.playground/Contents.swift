@@ -2,26 +2,26 @@
 
 let tree = AVLTree<Int, String>()
 
-tree.insert(5, "five")
+tree.insert(key: 5, payload: "five")
 print(tree)
 
-tree.insert(4, "four")
+tree.insert(key: 4, payload: "four")
 print(tree)
 
-tree.insert(3, "three")
+tree.insert(key: 3, payload: "three")
 print(tree)
 
-tree.insert(2, "two")
+tree.insert(key: 2, payload: "two")
 print(tree)
 
-tree.insert(1, "one")
+tree.insert(key: 1, payload: "one")
 print(tree)
 print(tree.debugDescription)
 
-let node = tree.search(2)   // "two"
+let node = tree.search(input: 2)   // "two"
 
-tree.delete(5)
-tree.delete(2)
-tree.delete(1)
-tree.delete(4)
-tree.delete(3)
+tree.delete(key: 5)
+tree.delete(key: 2)
+tree.delete(key: 1)
+tree.delete(key: 4)
+tree.delete(key: 3)
