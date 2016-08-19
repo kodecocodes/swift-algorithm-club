@@ -102,7 +102,7 @@ It might be useful to look at how the algorithm works in detail.
 
 The array from the above example consists of 19 numbers and looks like this when sorted:
 
-[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
+	[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
 
 We're trying to determine if the number `43` is in this array.
 
@@ -116,8 +116,8 @@ Initially, the range has `lowerBound = 0` and `upperBound = 19`. Filling in thes
 
 In the next figure, the `*` shows the middle item. As you can see, the number of items on each side is the same, so we're split right down the middle.
 
-[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
-*
+	[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
+                                      *
 
 Now binary search will determine which half to use. The relevant section from the code is:
 
@@ -135,35 +135,35 @@ In this case, `a[midIndex] = 29`. That's less than the search key, so we can saf
 
 Now we can simply repeat the binary search, but on the array interval from `midIndex + 1` to `range.upperBound`:
 
-[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
+	[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
 
 Since we no longer need to concern ourselves with the left half of the array, I've marked that with `x`'s. From now on we'll only look at the right half, which starts at array index 10.
 
 We calculate the index of the new middle element: `midIndex = 10 + (19 - 10)/2 = 14`, and split the array down the middle again.
 
-[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
-*
+	[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
+	                                                 *
 
 As you can see, `a[14]` is indeed the middle element of the array's right half.
 
 Is the search key greater or smaller than `a[14]`? It's smaller because `43 < 47`. This time we're taking the left half and ignore the larger numbers on the right:
 
-[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43 | x, x, x, x, x ]
+	[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43 | x, x, x, x, x ]
 
 The new `midIndex` is here:
 
-[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43 | x, x, x, x, x ]
-*
+	[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43 | x, x, x, x, x ]
+	                                     *
 
 The search key is greater than `37`, so continue with the right side:
 
-[ x, x, x, x, x, x, x, x, x, x | x, x | 41, 43 | x, x, x, x, x ]
-*
+	[ x, x, x, x, x, x, x, x, x, x | x, x | 41, 43 | x, x, x, x, x ]
+	                                        *
 
 Again, the search key is greater, so split once more and take the right side:
 
-[ x, x, x, x, x, x, x, x, x, x | x, x | x | 43 | x, x, x, x, x ]
-*
+	[ x, x, x, x, x, x, x, x, x, x | x, x | x | 43 | x, x, x, x, x ]
+	                                            *
 
 And now we're done. The search key equals the array element we're looking at, so we've finally found what we were searching for: number `43` is at array index `13`. w00t!
 
