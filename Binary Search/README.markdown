@@ -16,12 +16,12 @@ The built-in `indexOf()` function performs a [linear search](../Linear Search/).
 
 ```swift
 func linearSearch<T: Equatable>(a: [T], _ key: T) -> Int? {
-for i in 0 ..< a.count {
-if a[i] == key {
-return i
-}
-}
-return nil
+    for i in 0 ..< a.count {
+        if a[i] == key {
+            return i
+        }
+    }
+    return nil
 }
 ```
 
@@ -58,27 +58,27 @@ Here is a recursive implementation of binary search in Swift:
 
 ```swift
 func binarySearch<T: Comparable>(a: [T], key: T, range: Range<Int>) -> Int? {
-if range.lowerBound >= range.upperBound {
-// If we get here, then the search key is not present in the array.
-return nil
+    if range.lowerBound >= range.upperBound {
+        // If we get here, then the search key is not present in the array.
+        return nil
 
-} else {
-// Calculate where to split the array.
-let midIndex = range.lowerBound + (range.upperBound - range.lowerBound) / 2
+    } else {
+        // Calculate where to split the array.
+        let midIndex = range.lowerBound + (range.upperBound - range.lowerBound) / 2
 
-// Is the search key in the left half?
-if a[midIndex] > key {
-return binarySearch(a, key: key, range: range.lowerBound ..< midIndex)
+        // Is the search key in the left half?
+        if a[midIndex] > key {
+            return binarySearch(a, key: key, range: range.lowerBound ..< midIndex)
 
-// Is the search key in the right half?
-} else if a[midIndex] < key {
-return binarySearch(a, key: key, range: midIndex + 1 ..< range.upperBound)
+        // Is the search key in the right half?
+        } else if a[midIndex] < key {
+            return binarySearch(a, key: key, range: midIndex + 1 ..< range.upperBound)
 
-// If we get here, then we've found the search key!
-} else {
-return midIndex
-}
-}
+        // If we get here, then we've found the search key!
+        } else {
+            return midIndex
+        }
+    }
 }
 ```
 
@@ -123,11 +123,11 @@ Now binary search will determine which half to use. The relevant section from th
 
 ```swift
 if a[midIndex] > key {
-// use left half
+    // use left half
 } else if a[midIndex] < key {
-// use right half
+    // use right half
 } else {
-return midIndex
+    return midIndex
 }
 ```
 
@@ -181,19 +181,19 @@ Here is an iterative implementation of binary search in Swift:
 
 ```swift
 func binarySearch<T: Comparable>(a: [T], key: T) -> Int? {
-var lowerBound = 0
-var upperBound = a.count
-while lowerBound < upperBound {
-let midIndex = lowerBound + (upperBound - lowerBound) / 2
-if a[midIndex] == key {
-return midIndex
-} else if a[midIndex] < key {
-lowerBound = midIndex + 1
-} else {
-upperBound = midIndex
-}
-}
-return nil
+    var lowerBound = 0
+    var upperBound = a.count
+    while lowerBound < upperBound {
+        let midIndex = lowerBound + (upperBound - lowerBound) / 2
+        if a[midIndex] == key {
+            return midIndex
+        } else if a[midIndex] < key {
+            lowerBound = midIndex + 1
+        } else {
+            upperBound = midIndex
+        }
+    }
+    return nil
 }
 ```
 
