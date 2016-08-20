@@ -7,13 +7,13 @@ let numbers = [11, 59, 3, 2, 53, 17, 31, 7, 19, 67, 47, 13, 37, 61, 29, 43, 5, 4
 let sorted = numbers.sorted()
 
 // Using recursive solution
-binarySearch(a: sorted, key: 2, range: 0 ..< sorted.count)   // gives 0
-binarySearch(a: sorted, key: 67, range: 0 ..< sorted.count)  // gives 18
-binarySearch(a: sorted, key: 43, range: 0 ..< sorted.count)  // gives 13
-binarySearch(a: sorted, key: 42, range: 0 ..< sorted.count)  // nil
+binarySearch(sorted, key: 2, range: 0 ..< sorted.count)   // gives 0
+binarySearch(sorted, key: 67, range: 0 ..< sorted.count)  // gives 18
+binarySearch(sorted, key: 43, range: 0 ..< sorted.count)  // gives 13
+binarySearch(sorted, key: 42, range: 0 ..< sorted.count)  // nil
 
 // Using iterative solution
-binarySearch(a: sorted, key: 2)   // gives 0
-binarySearch(a: sorted, key: 67)  // gives 18
-binarySearch(a: sorted, key: 43)  // gives 13
-binarySearch(a: sorted, key: 42)  // nil
+binarySearch(sorted, key: 2)   // gives 0
+binarySearch(sorted, key: 67)  // gives 18
+binarySearch(sorted, key: 43)  // gives 13
+binarySearch(sorted, key: 42)  // nil

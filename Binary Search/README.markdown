@@ -15,7 +15,7 @@ numbers.indexOf(43)  // returns 15
 The built-in `indexOf()` function performs a [linear search](../Linear Search/). In code that looks something like this:
 
 ```swift
-func linearSearch<T: Equatable>(a: [T], _ key: T) -> Int? {
+func linearSearch<T: Equatable>(_ a: [T], _ key: T) -> Int? {
     for i in 0 ..< a.count {
         if a[i] == key {
             return i
@@ -45,7 +45,7 @@ Sounds great, but there is a downside to using binary search: the array must be 
 
 Here's how binary search works:
 
-- Split the array in half and determine whether the thing you're looking for, known as the *search key*, is in the left half or in the right half. 
+- Split the array in half and determine whether the thing you're looking for, known as the *search key*, is in the left half or in the right half.
 - How do you determine in which half the search key is? This is why you sorted the array first, so you can do a simple `<` or `>` comparison.
 - If the search key is in the left half, you repeat the process there: split the left half into two even smaller pieces and look in which piece the search key must lie. (Likewise for when it's the right half.)
 - This repeats until the search key is found. If the array cannot be split up any further, you must regrettably conclude that the search key is not present in the array.
@@ -57,7 +57,7 @@ Now you know why it's called a "binary" search: in every step it splits the arra
 Here is a recursive implementation of binary search in Swift:
 
 ```swift
-func binarySearch<T: Comparable>(a: [T], key: T, range: Range<Int>) -> Int? {
+func binarySearch<T: Comparable>(_ a: [T], key: T, range: Range<Int>) -> Int? {
     if range.lowerBound >= range.upperBound {
         // If we get here, then the search key is not present in the array.
         return nil
@@ -180,7 +180,7 @@ Binary search is recursive in nature because you apply the same logic over and o
 Here is an iterative implementation of binary search in Swift:
 
 ```swift
-func binarySearch<T: Comparable>(a: [T], key: T) -> Int? {
+func binarySearch<T: Comparable>(_ a: [T], key: T) -> Int? {
     var lowerBound = 0
     var upperBound = a.count
     while lowerBound < upperBound {
