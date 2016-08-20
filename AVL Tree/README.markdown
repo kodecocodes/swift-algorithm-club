@@ -56,11 +56,7 @@ Most of the code in [AVLTree.swift](AVLTree.swift) is just regular [binary searc
 
 > **Note:** If you're a bit fuzzy on the regular operations of a binary search tree, I suggest you [catch up on those first](../Binary Search Tree/). It will make the rest of the AVL tree easier to understand.
 
-The interesting bits are in the following methods:
-
-- `updateBalance()`. Called after inserting a new node. This may cause the node's parent to be rebalanced.
-- `rebalance()`. Figures out how to rotate the nodes to restore the balance.
-- `rotateRight()` and `rotateLeft()` perform the actual rotations.
+The interesting bits are in the `balance()` method which is called after inserting or deleting a node. 
 
 ## See also
 

@@ -23,13 +23,13 @@
 public class TreeNode<Key: Comparable, Payload> {
   public typealias Node = TreeNode<Key, Payload>
 
-  public var payload: Payload?
+  var payload: Payload?
 
-  private var key: Key
+  fileprivate var key: Key
   internal var leftChild: Node?
   internal var rightChild: Node?
-  private var height: Int
-  weak private var parent: Node?
+  fileprivate var height: Int
+  weak fileprivate var parent: Node?
 
   public init(key: Key, payload: Payload?, leftChild: Node?, rightChild: Node?, parent: Node?, height: Int) {
     self.key = key
@@ -51,46 +51,46 @@ public class TreeNode<Key: Comparable, Payload> {
     self.init(key: key, payload: nil)
   }
 
-  public var isRoot: Bool {
+  var isRoot: Bool {
     return parent == nil
   }
 
-  public var isLeaf: Bool {
+  var isLeaf: Bool {
     return rightChild == nil && leftChild == nil
   }
 
-  public var isLeftChild: Bool {
+  var isLeftChild: Bool {
     return parent?.leftChild === self
   }
 
-  public var isRightChild: Bool {
+  var isRightChild: Bool {
     return parent?.rightChild === self
   }
 
-  public var hasLeftChild: Bool {
+  var hasLeftChild: Bool {
     return leftChild != nil
   }
 
-  public var hasRightChild: Bool {
+  var hasRightChild: Bool {
     return rightChild != nil
   }
 
-  public var hasAnyChild: Bool {
+  var hasAnyChild: Bool {
     return leftChild != nil || rightChild != nil
   }
 
-  public var hasBothChildren: Bool {
+  var hasBothChildren: Bool {
     return leftChild != nil && rightChild != nil
   }
 }
 
 // MARK: - The AVL tree
 
-public class AVLTree<Key: Comparable, Payload> {
+open class AVLTree<Key: Comparable, Payload> {
   public typealias Node = TreeNode<Key, Payload>
 
-  private(set) public var root: Node?
-  private(set) public var size = 0
+  fileprivate(set) var root: Node?
+  fileprivate(set) var size = 0
 
   public init() { }
 }
@@ -115,26 +115,26 @@ extension TreeNode {
 
 extension AVLTree {
   subscript(key: Key) -> Payload? {
-    get { return search(key) }
-    set { insert(key, newValue) }
+    get { return search(input: key) }
+    set { insert(key: key, payload: newValue) }
   }
 
   public func search(input: Key) -> Payload? {
-    if let result = search(input, root) {
+    if let result = search(key: input, node: root) {
       return result.payload
     } else {
       return nil
     }
   }
 
-  private func search(key: Key, _ node: Node?) -> Node? {
+  fileprivate func search(key: Key, node: Node?) -> Node? {
     if let node = node {
       if key == node.key {
         return node
       } else if key < node.key {
-        return search(key, node.leftChild)
+        return search(key: key, node: node.leftChild)
       } else {
-        return search(key, node.rightChild)
+        return search(key: key, node: node.rightChild)
       }
     }
     return nil
@@ -144,31 +144,31 @@ extension AVLTree {
 // MARK: - Inserting new items
 
 extension AVLTree {
-  public func insert(key: Key, _ payload: Payload? = nil) {
+  public func insert(key: Key, payload: Payload? = nil) {
     if let root = root {
-      insert(key, payload, root)
+      insert(input: key, payload: payload, node: root)
     } else {
       root = Node(key: key, payload: payload)
     }
     size += 1
   }
 
-  private func insert(input: Key, _ payload: Payload?, _ node: Node) {
+  private func insert(input: Key, payload: Payload?, node: Node) {
     if input < node.key {
       if let child = node.leftChild {
-        insert(input, payload, child)
+        insert(input: input, payload: payload, node: child)
       } else {
         let child = Node(key: input, payload: payload, leftChild: nil, rightChild: nil, parent: node, height: 1)
         node.leftChild = child
-        balance(child)
+        balance(node: child)
       }
     } else {
       if let child = node.rightChild {
-        insert(input, payload, child)
+        insert(input: input, payload: payload, node: child)
       } else {
         let child = Node(key: input, payload: payload, leftChild: nil, rightChild: nil, parent: node, height: 1)
         node.rightChild = child
-        balance(child)
+        balance(node: child)
       }
     }
   }
@@ -177,37 +177,37 @@ extension AVLTree {
 // MARK: - Balancing tree
 
 extension AVLTree {
-  private func updateHeightUpwards(node: Node?) {
+  fileprivate func updateHeightUpwards(node: Node?) {
     if let node = node {
       let lHeight = node.leftChild?.height ?? 0
       let rHeight = node.rightChild?.height ?? 0
       node.height = max(lHeight, rHeight) + 1
-      updateHeightUpwards(node.parent)
+      updateHeightUpwards(node: node.parent)
     }
   }
 
-  private func lrDifference(node: Node?) -> Int {
+  fileprivate func lrDifference(node: Node?) -> Int {
     let lHeight = node?.leftChild?.height ?? 0
     let rHeight = node?.rightChild?.height ?? 0
     return lHeight - rHeight
   }
 
-  private func balance(node: Node?) {
+  fileprivate func balance(node: Node?) {
     guard let node = node else {
       return
     }
 
-    updateHeightUpwards(node.leftChild)
-    updateHeightUpwards(node.rightChild)
+    updateHeightUpwards(node: node.leftChild)
+    updateHeightUpwards(node: node.rightChild)
 
-    var nodes = [Node?](count: 3, repeatedValue: nil)
-    var subtrees = [Node?](count: 4, repeatedValue: nil)
+    var nodes = [Node?](repeating: nil, count: 3)
+    var subtrees = [Node?](repeating: nil, count: 4)
     let nodeParent = node.parent
 
-    let lrFactor = lrDifference(node)
+    let lrFactor = lrDifference(node: node)
     if lrFactor > 1 {
       // left-left or left-right
-      if lrDifference(node.leftChild) > 0 {
+      if lrDifference(node: node.leftChild) > 0 {
         // left-left
         nodes[0] = node
         nodes[2] = node.leftChild
@@ -230,7 +230,7 @@ extension AVLTree {
       }
     } else if lrFactor < -1 {
       // right-left or right-right
-      if lrDifference(node.rightChild) < 0 {
+      if lrDifference(node: node.rightChild) < 0 {
         // right-right
         nodes[1] = node
         nodes[2] = node.rightChild
@@ -253,7 +253,7 @@ extension AVLTree {
       }
     } else {
       // Don't need to balance 'node', go for parent
-      balance(node.parent)
+      balance(node: node.parent)
       return
     }
 
@@ -285,19 +285,19 @@ extension AVLTree {
     nodes[0]?.rightChild = subtrees[3]
     subtrees[3]?.parent = nodes[0]
 
-    updateHeightUpwards(nodes[1])    // Update height from left
-    updateHeightUpwards(nodes[0])    // Update height from right
+    updateHeightUpwards(node: nodes[1])    // Update height from left
+    updateHeightUpwards(node: nodes[0])    // Update height from right
 
-    balance(nodes[2]?.parent)
+    balance(node: nodes[2]?.parent)
   }
 }
 
 // MARK: - Displaying tree
 
 extension AVLTree {
-  private func display(node: Node?, level: Int) {
+  fileprivate func display(node: Node?, level: Int) {
     if let node = node {
-      display(node.rightChild, level: level + 1)
+      display(node: node.rightChild, level: level + 1)
       print("")
       if node.isRoot {
         print("Root -> ", terminator: "")
@@ -306,12 +306,12 @@ extension AVLTree {
         print("        ", terminator:  "")
       }
       print("(\(node.key):\(node.height))", terminator: "")
-      display(node.leftChild, level: level + 1)
+      display(node: node.leftChild, level: level + 1)
     }
   }
 
   public func display(node: Node) {
-    display(node, level: 0)
+    display(node: node, level: 0)
     print("")
   }
 }
@@ -323,8 +323,8 @@ extension AVLTree {
     if size == 1 {
       root = nil
       size -= 1
-    } else if let node = search(key, root) {
-      delete(node)
+    } else if let node = search(key: key, node: root) {
+      delete(node: node)
       size -= 1
     }
   }
@@ -344,21 +344,21 @@ extension AVLTree {
           parent.rightChild = nil
         }
 
-        balance(parent)
+        balance(node: parent)
       } else {
         // at root
         root = nil
       }
     } else {
       // Handle stem cases
-      if let replacement = node.leftChild?.maximum() where replacement !== node {
+      if let replacement = node.leftChild?.maximum() , replacement !== node {
         node.key = replacement.key
         node.payload = replacement.payload
-        delete(replacement)
-      } else if let replacement = node.rightChild?.minimum() where replacement !== node {
+        delete(node: replacement)
+      } else if let replacement = node.rightChild?.minimum() , replacement !== node {
         node.key = replacement.key
         node.payload = replacement.payload
-        delete(replacement)
+        delete(node: replacement)
       }
     }
   }
