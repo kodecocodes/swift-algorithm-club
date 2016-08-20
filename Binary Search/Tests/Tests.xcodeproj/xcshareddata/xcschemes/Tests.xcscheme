@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7B2BBC7F1C779D720067B71D"
-               BuildableName = "BinarySearchTests.xctest"
-               BlueprintName = "BinarySearchTests"
-               ReferencedContainer = "container:BinarySearchTests.xcodeproj">
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
+               ReferencedContainer = "container:Tests.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7B2BBC7F1C779D720067B71D"
-               BuildableName = "BinarySearchTests.xctest"
-               BlueprintName = "BinarySearchTests"
-               ReferencedContainer = "container:BinarySearchTests.xcodeproj">
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
+               ReferencedContainer = "container:Tests.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7B2BBC7F1C779D720067B71D"
-            BuildableName = "BinarySearchTests.xctest"
-            BlueprintName = "BinarySearchTests"
-            ReferencedContainer = "container:BinarySearchTests.xcodeproj">
+            BuildableName = "Tests.xctest"
+            BlueprintName = "Tests"
+            ReferencedContainer = "container:Tests.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -74,9 +74,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7B2BBC7F1C779D720067B71D"
-            BuildableName = "BinarySearchTests.xctest"
-            BlueprintName = "BinarySearchTests"
-            ReferencedContainer = "container:BinarySearchTests.xcodeproj">
+            BuildableName = "Tests.xctest"
+            BlueprintName = "Tests"
+            ReferencedContainer = "container:Tests.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
