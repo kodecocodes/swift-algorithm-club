@@ -12,7 +12,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7B2BBC801C779D720067B71D /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B2BBC801C779D720067B71D /* BinarySearchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BinarySearchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B2BBC941C779E7B0067B71D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		7B80C3CD1C77A256003CECC7 /* BinarySearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearchTests.swift; sourceTree = SOURCE_ROOT; };
 		7B80C3CF1C77A263003CECC7 /* BinarySearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BinarySearch.swift; path = ../BinarySearch.swift; sourceTree = SOURCE_ROOT; };
@@ -40,7 +40,7 @@
 		7B2BBC721C779D710067B71D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7B2BBC801C779D720067B71D /* Tests.xctest */,
+				7B2BBC801C779D720067B71D /* BinarySearchTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -59,9 +59,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7B2BBC7F1C779D720067B71D /* Tests */ = {
+		7B2BBC7F1C779D720067B71D /* BinarySearchTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7B2BBC8C1C779D720067B71D /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildConfigurationList = 7B2BBC8C1C779D720067B71D /* Build configuration list for PBXNativeTarget "BinarySearchTests" */;
 			buildPhases = (
 				7B2BBC7C1C779D720067B71D /* Sources */,
 				7B2BBC7D1C779D720067B71D /* Frameworks */,
@@ -71,9 +71,9 @@
 			);
 			dependencies = (
 			);
-			name = Tests;
+			name = BinarySearchTests;
 			productName = TestsTests;
-			productReference = 7B2BBC801C779D720067B71D /* Tests.xctest */;
+			productReference = 7B2BBC801C779D720067B71D /* BinarySearchTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -83,15 +83,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Swift Algorithm Club";
 				TargetAttributes = {
 					7B2BBC7F1C779D720067B71D = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
-			buildConfigurationList = 7B2BBC6C1C779D710067B71D /* Build configuration list for PBXProject "Tests" */;
+			buildConfigurationList = 7B2BBC6C1C779D710067B71D /* Build configuration list for PBXProject "BinarySearchTests" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -104,7 +105,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7B2BBC7F1C779D720067B71D /* Tests */,
+				7B2BBC7F1C779D720067B71D /* BinarySearchTests */,
 			);
 		};
 /* End PBXProject section */
@@ -145,8 +146,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -189,8 +192,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -209,6 +214,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -220,6 +226,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = swift.algorithm.club.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -231,13 +238,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = swift.algorithm.club.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7B2BBC6C1C779D710067B71D /* Build configuration list for PBXProject "Tests" */ = {
+		7B2BBC6C1C779D710067B71D /* Build configuration list for PBXProject "BinarySearchTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7B2BBC871C779D720067B71D /* Debug */,
@@ -246,7 +254,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7B2BBC8C1C779D720067B71D /* Build configuration list for PBXNativeTarget "Tests" */ = {
+		7B2BBC8C1C779D720067B71D /* Build configuration list for PBXNativeTarget "BinarySearchTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7B2BBC8D1C779D720067B71D /* Debug */,
