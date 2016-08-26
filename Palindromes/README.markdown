@@ -28,7 +28,7 @@ Here is a recursive implementation of this in Swift:
 ```swift
 func palindromeCheck (text: String?) -> Bool {
   if let text = text {
-    let mutableText = text.trimmingCharacters(in: NSCharacterSet.whitespaces())
+    let mutableText = text.trimmingCharacters(in: NSCharacterSet.whitespaces()).lowercased()
     let length: Int = mutableText.characters.count
     
     guard length >= 1 else {
