@@ -2,7 +2,7 @@ import Cocoa
 
 public func palindromeCheck (text: String?) -> Bool {
   if let text = text {
-    let mutableText = text.stringByTrimmingCharactersInSet(.whitespaceCharacterSet()).lowercaseString
+    let mutableText = text.trimmingCharacters(in: NSCharacterSet.whitespaces()).lowercased()
     let length: Int = mutableText.characters.count
     
     guard length >= 1 else {
@@ -11,9 +11,9 @@ public func palindromeCheck (text: String?) -> Bool {
     
     if length == 1 {
       return true
-    } else if mutableText[mutableText.startIndex] == mutableText[mutableText.endIndex.predecessor()] {
-      let range = Range<String.Index>(mutableText.startIndex.successor()..<mutableText.endIndex.predecessor())
-      return palindromeCheck(mutableText.substringWithRange(range))
+    } else if mutableText[mutableText.startIndex] == mutableText[mutableText.index(mutableText.endIndex, offsetBy: -1)] {
+      let range = Range<String.Index>(mutableText.index(mutableText.startIndex, offsetBy: 1)..<mutableText.index(mutableText.endIndex, offsetBy: -1))
+      return palindromeCheck(text: mutableText.substring(with: range))
     }
   }
   
