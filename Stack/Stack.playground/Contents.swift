@@ -12,7 +12,7 @@
 */
 
 public struct Stack<T> {
-  fileprivate var array = [T]()
+  private var array = [T]()
 
   public var count: Int {
     return array.count
@@ -36,10 +36,10 @@ public struct Stack<T> {
 }
 
 // Create a stack and put some elements on it already.
-var stackOfNames = Stack(array:["Carl", "Lisa", "Stephanie", "Jeff", "Wade"])
+var stackOfNames = Stack(array: ["Carl", "Lisa", "Stephanie", "Jeff", "Wade"])
 
 // Add an element to the top of the stack.
-stackOfNames.push(element: "Mike")
+stackOfNames.push("Mike")
 
 // The stack is now ["Carl", "Lisa", "Stephanie", "Jeff", "Wade", "Mike"]
 print(stackOfNames.array)

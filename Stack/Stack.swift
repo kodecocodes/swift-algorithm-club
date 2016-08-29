@@ -4,7 +4,7 @@
   Push and pop are O(1) operations.
 */
 public struct Stack<T> {
-  fileprivate var array = [T]()
+  private var array = [T]()
 
   public var isEmpty: Bool {
     return array.isEmpty
@@ -14,7 +14,7 @@ public struct Stack<T> {
     return array.count
   }
 
-  public mutating func push(_ element: T) {
+  public mutating func push(element: T) {
     array.append(element)
   }
 
@@ -27,10 +27,10 @@ public struct Stack<T> {
   }
 }
 
-extension Stack: Sequence {
-    public func makeIterator() -> AnyIterator<T> {
+extension Stack: SequenceType {
+    public func generate() -> AnyGenerator<T> {
         var curr = self
-        return AnyIterator {
+        return AnyGenerator {
             _ -> T? in
             return curr.pop()
         }
