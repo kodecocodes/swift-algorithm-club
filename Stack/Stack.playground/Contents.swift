@@ -12,7 +12,7 @@
 */
 
 public struct Stack<T> {
-  private var array = [T]()
+  fileprivate var array = [T]()
 
   public var count: Int {
     return array.count
@@ -22,7 +22,7 @@ public struct Stack<T> {
     return array.isEmpty
   }
 
-  public mutating func push(element: T) {
+  public mutating func push(_ element: T) {
     array.append(element)
   }
 
