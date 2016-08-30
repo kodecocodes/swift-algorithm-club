@@ -1,6 +1,6 @@
 import Cocoa
 
-public func palindromeCheck (text: String?) -> Bool {
+public func palindromeCheck(text: String?) -> Bool {
   if let text = text {
     let mutableText = text.trimmingCharacters(in: NSCharacterSet.whitespaces).lowercased()
     let length: Int = mutableText.characters.count
