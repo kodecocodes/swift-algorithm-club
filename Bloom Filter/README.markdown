@@ -58,11 +58,11 @@ Performance of a Bloom Filter is **O(k)** where **k** is the number of hashing f
 
 ## The code
 
-The code is quite straightforward. The internal bit array is set to a fixed length on initialization, which cannot be mutated once it is initialized. 
+The code is quite straightforward. The internal bit array is set to a fixed length on initialization, which cannot be mutated once it is initialized.
 
 ```swift
-public init(size: Int = 1024, hashFunctions: [T -> Int]) {
-  self.array = .init(count: size, repeatedValue: false)
+public init(size: Int = 1024, hashFunctions: [(T) -> Int]) {
+	self.array = [Bool](repeating: false, count: size)
   self.hashFunctions = hashFunctions
 }
 ```
@@ -72,7 +72,7 @@ Several hash functions should be specified at initialization. Which hash functio
 Insertion just flips the required bits to `true`:
 
 ```swift
-public func insert(element: T) {
+public func insert(_ element: T) {
   for hashValue in computeHashes(element) {
     array[hashValue] = true
   }
@@ -82,7 +82,7 @@ public func insert(element: T) {
 This uses the `computeHashes()` function, which loops through the specified `hashFunctions` and returns an array of indices:
 
 ```swift
-private func computeHashes(value: T) -> [Int] {
+private func computeHashes(_ value: T) -> [Int] {
   return hashFunctions.map() { hashFunc in abs(hashFunc(value) % array.count) }
 }
 ```
@@ -90,14 +90,14 @@ private func computeHashes(value: T) -> [Int] {
 And querying checks to make sure the bits at the hashed values are `true`:
 
 ```swift
-public func query(value: T) -> Bool {
+public func query(_ value: T) -> Bool {
   let hashValues = computeHashes(value)
   let results = hashValues.map() { hashValue in array[hashValue] }
-  let exists = results.reduce(true, combine: { $0 && $1 })
+	let exists = results.reduce(true, { $0 && $1 })
   return exists
 }
 ```
 
-If you're coming from another imperative language, you might notice the unusual syntax in the `exists` assignment. Swift makes use of functional paradigms when it makes code more consise and readable, and in this case `reduce` is a much more consise way to check if all the required bits are `true` than a `for` loop. 
+If you're coming from another imperative language, you might notice the unusual syntax in the `exists` assignment. Swift makes use of functional paradigms when it makes code more consise and readable, and in this case `reduce` is a much more consise way to check if all the required bits are `true` than a `for` loop.
 
 *Written for Swift Algorithm Club by Jamil Dhanani. Edited by Matthijs Hollemans.*
