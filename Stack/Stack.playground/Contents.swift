@@ -22,7 +22,7 @@ public struct Stack<T> {
     return array.isEmpty
   }
 
-  public mutating func push(element: T) {
+  public mutating func push(_ element: T) {
     array.append(element)
   }
 
@@ -39,7 +39,7 @@ public struct Stack<T> {
 var stackOfNames = Stack(array: ["Carl", "Lisa", "Stephanie", "Jeff", "Wade"])
 
 // Add an element to the top of the stack.
-stackOfNames.push(element: "Mike")
+stackOfNames.push("Mike")
 
 // The stack is now ["Carl", "Lisa", "Stephanie", "Jeff", "Wade", "Mike"]
 print(stackOfNames.array)
