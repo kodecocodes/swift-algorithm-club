@@ -11,7 +11,7 @@ public struct BitSet {
   */
   private let N = 64
   public typealias Word = UInt64
-  private(set) public var words: [Word]
+  fileprivate(set) public var words: [Word]
 
   private let allOnes = ~Word()
 
@@ -22,11 +22,11 @@ public struct BitSet {
 
     // Round up the count to the next multiple of 64.
     let n = (size + (N-1)) / N
-    words = .init(count: n, repeatedValue: 0)
+    words = [Word](repeating: 0, count: n)
   }
 
   /* Converts a bit index into an array index and a mask inside the word. */
-  private func indexOf(i: Int) -> (Int, Word) {
+  private func indexOf(_ i: Int) -> (Int, Word) {
     precondition(i >= 0)
     precondition(i < size)
     let o = i / N
@@ -52,7 +52,7 @@ public struct BitSet {
     that we're not using, or bitwise operations between two differently sized
     BitSets will go wrong.
   */
-  private mutating func clearUnusedBits() {
+  fileprivate mutating func clearUnusedBits() {
     words[words.count - 1] &= lastWordMask()
   }
 
@@ -63,7 +63,7 @@ public struct BitSet {
   }
 
   /* Sets the bit at the specified index to 1. */
-  public mutating func set(i: Int) {
+  public mutating func set(_ i: Int) {
     let (j, m) = indexOf(i)
     words[j] |= m
   }
@@ -77,7 +77,7 @@ public struct BitSet {
   }
 
   /* Sets the bit at the specified index to 0. */
-  public mutating func clear(i: Int) {
+  public mutating func clear(_ i: Int) {
     let (j, m) = indexOf(i)
     words[j] &= ~m
   }
@@ -90,14 +90,14 @@ public struct BitSet {
   }
 
   /* Changes 0 into 1 and 1 into 0. Returns the new value of the bit. */
-  public mutating func flip(i: Int) -> Bool {
+  public mutating func flip(_ i: Int) -> Bool {
     let (j, m) = indexOf(i)
     words[j] ^= m
     return (words[j] & m) != 0
   }
 
   /* Determines whether the bit at the specific index is 1 (true) or 0 (false). */
-  public func isSet(i: Int) -> Bool {
+  public func isSet(_ i: Int) -> Bool {
     let (j, m) = indexOf(i)
     return (words[j] & m) != 0
   }
@@ -158,7 +158,7 @@ extension BitSet: Hashable {
   /* Based on the hashing code from Java's BitSet. */
   public var hashValue: Int {
     var h = Word(1234)
-    for i in words.count.stride(to: 0, by: -1) {
+    for i in stride(from: words.count, to: 0, by: -1) {
       h ^= words[i - 1] &* Word(i)
     }
     return Int((h >> 32) ^ h)
@@ -167,13 +167,13 @@ extension BitSet: Hashable {
 
 // MARK: - Bitwise operations
 
-extension BitSet: BitwiseOperationsType {
+extension BitSet: BitwiseOperations {
   public static var allZeros: BitSet {
     return BitSet(size: 64)
   }
 }
 
-private func copyLargest(lhs: BitSet, _ rhs: BitSet) -> BitSet {
+private func copyLargest(_ lhs: BitSet, _ rhs: BitSet) -> BitSet {
   return (lhs.words.count > rhs.words.count) ? lhs : rhs
 }
 
