@@ -10,7 +10,7 @@ Nodes have links to their children and usually to their parent as well. The chil
 
 ![A tree](Images/ParentChildren.png)
 
-A node without a parent is the *root* node. A node without children is a *leaf* node. 
+A node without a parent is the *root* node. A node without children is a *leaf* node.
 
 The pointers in a tree do not form cycles. This is not a tree:
 
@@ -25,15 +25,15 @@ Here's a basic implementation in Swift:
 ```swift
 public class TreeNode<T> {
   public var value: T
-  
+
   public var parent: TreeNode?
   public var children = [TreeNode<T>]()
 
   public init(value: T) {
     self.value = value
   }
-  
-  public func addChild(node: TreeNode<T>) {
+
+  public func addChild(_ node: TreeNode<T>) {
     children.append(node)
     node.parent = self
   }
@@ -49,7 +49,7 @@ extension TreeNode: CustomStringConvertible {
   public var description: String {
     var s = "\(value)"
     if !children.isEmpty {
-      s += " {" + children.map { $0.description }.joinWithSeparator(", ") + "}"
+      s += " {" + children.map { $0.description }.joined(separator: ", ") + "}"
     }
     return s
   }
@@ -129,7 +129,7 @@ Here's the code:
 
 ```swift
 extension TreeNode where T: Equatable {
-  func search(value: T) -> TreeNode? {
+  func search(_ value: T) -> TreeNode? {
     if value == self.value {
       return self
     }
