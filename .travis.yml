@@ -29,7 +29,7 @@ script:
 # - xcodebuild test -project ./Longest\ Common\ Subsequence/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Minimum\ Spanning\ Tree\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
-# - xcodebuild test -project ./Queue/Tests/Tests.xcodeproj -scheme Tests
+  - xcodebuild test -project ./Queue/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Quicksort/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Run-Length\ Encoding/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Select\ Minimum\ Maximum/Tests/Tests.xcodeproj -scheme Tests
