@@ -6,12 +6,12 @@
 public struct Array2D<T> {
   public let columns: Int
   public let rows: Int
-  private var array: [T]
+  fileprivate var array: [T]
 
   public init(columns: Int, rows: Int, initialValue: T) {
     self.columns = columns
     self.rows = rows
-    array = .init(count: rows*columns, repeatedValue: initialValue)
+    array = .init(repeating: initialValue, count: rows*columns)
   }
 
   public subscript(column: Int, row: Int) -> T {

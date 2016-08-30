@@ -43,7 +43,7 @@ class Array2DTest: XCTestCase {
   }
 
   func testPerformanceOnSmallArray() {
-    self.measureBlock {
+    self.measure {
       self.printArrayWith(columns: 2, rows: 2, inititalValue: 1)
     }
   }
@@ -54,7 +54,7 @@ class Array2DTest: XCTestCase {
   //        }
   //    }
 
-  private func printArrayWith(columns columns: Int, rows: Int, inititalValue: Int) {
+  fileprivate func printArrayWith(columns: Int, rows: Int, inititalValue: Int) {
     let array = Array2D(columns: columns, rows: rows, initialValue: 4)
     for r in 0..<array.rows {
       for c in 0..<array.columns {
