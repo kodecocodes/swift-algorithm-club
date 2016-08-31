@@ -1,6 +1,6 @@
 //: Playground - noun: a place where people can play
 
-func countOccurrencesOfKey(key: Int, inArray a: [Int]) -> Int {
+func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
   func leftBoundary() -> Int {
     var low = 0
     var high = a.count
@@ -53,7 +53,7 @@ func createArray() -> [Int] {
       }
     }
   }
-  return a.sort(<)
+  return a.sorted()
 }
 
 for _ in 0..<10 {

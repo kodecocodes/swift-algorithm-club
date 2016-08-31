@@ -2,7 +2,7 @@
   Counts the number of times a value appears in an array in O(lg n) time.
   The array must be sorted from low to high.
 */
-func countOccurrencesOfKey(key: Int, inArray a: [Int]) -> Int {
+func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
   func leftBoundary() -> Int {
     var low = 0
     var high = a.count
