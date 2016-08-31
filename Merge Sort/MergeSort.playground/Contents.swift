@@ -1,6 +1,6 @@
 /* Top-down recursive version */
 
-func mergeSort(array: [Int]) -> [Int] {
+func mergeSort(_ array: [Int]) -> [Int] {
   guard array.count > 1 else { return array }
   let middleIndex = array.count / 2
   let leftArray = mergeSort(Array(array[0..<middleIndex]))
@@ -8,7 +8,7 @@ func mergeSort(array: [Int]) -> [Int] {
   return merge(leftPile: leftArray, rightPile: rightArray)
 }
 
-func merge(leftPile leftPile: [Int], rightPile: [Int]) -> [Int] {
+func merge(leftPile: [Int], rightPile: [Int]) -> [Int] {
   var leftIndex = 0
   var rightIndex = 0
   var orderedPile = [Int]()
@@ -48,7 +48,7 @@ let sortedArray = mergeSort(array)
 
 /* Bottom-up iterative version */
 
-func mergeSortBottomUp<T>(a: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
+func mergeSortBottomUp<T>(_ a: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
   let n = a.count
   var z = [a, a]   // the two working arrays
   var d = 0        // z[d] is used for reading, z[1 - d] for writing
