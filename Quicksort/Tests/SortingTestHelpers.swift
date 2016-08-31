@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 
-func randomArray(size: Int) -> [Int] {
+func randomArray(_ size: Int) -> [Int] {
   var a = [Int]()
   for _ in 1...size {
     a.append(Int(arc4random_uniform(1000)))
@@ -9,16 +9,16 @@ func randomArray(size: Int) -> [Int] {
   return a
 }
 
-func arrayIsSortedLowToHigh(a: [Int]) -> Bool {
+func arrayIsSortedLowToHigh(_ a: [Int]) -> Bool {
   for x in 1..<a.count {
     if a[x - 1] > a[x] { return false }
   }
   return true
 }
 
-typealias SortFunction = [Int] -> [Int]
+typealias SortFunction = ([Int]) -> [Int]
 
-func checkSortingRandomArray(sortFunction: SortFunction) {
+func checkSortingRandomArray(_ sortFunction: SortFunction) {
   let numberOfIterations = 100
   for _ in 1...numberOfIterations {
     let a = randomArray(Int(arc4random_uniform(100)) + 1)
@@ -28,73 +28,73 @@ func checkSortingRandomArray(sortFunction: SortFunction) {
   }
 }
 
-func checkSortingEmptyArray(sortFunction: SortFunction) {
+func checkSortingEmptyArray(_ sortFunction: SortFunction) {
   let a = [Int]()
   let s = sortFunction(a)
   XCTAssertEqual(s.count, 0)
 }
 
-func checkSortingArrayOneElement(sortFunction: SortFunction) {
+func checkSortingArrayOneElement(_ sortFunction: SortFunction) {
   let a = [123]
   let s = sortFunction(a)
   XCTAssertEqual(s, [123])
 }
 
-func checkSortingArrayTwoElementsInOrder(sortFunction: SortFunction) {
+func checkSortingArrayTwoElementsInOrder(_ sortFunction: SortFunction) {
   let a = [123, 456]
   let s = sortFunction(a)
   XCTAssertEqual(s, [123, 456])
 }
 
-func checkSortingArrayTwoElementsOutOfOrder(sortFunction: SortFunction) {
+func checkSortingArrayTwoElementsOutOfOrder(_ sortFunction: SortFunction) {
   let a = [456, 123]
   let s = sortFunction(a)
   XCTAssertEqual(s, [123, 456])
 }
 
-func checkSortingArrayTwoEqualElements(sortFunction: SortFunction) {
+func checkSortingArrayTwoEqualElements(_ sortFunction: SortFunction) {
   let a = [123, 123]
   let s = sortFunction(a)
   XCTAssertEqual(s, [123, 123])
 }
 
-func checkSortingArrayThreeElementsABC(sortFunction: SortFunction) {
+func checkSortingArrayThreeElementsABC(_ sortFunction: SortFunction) {
   let a = [2, 4, 6]
   let s = sortFunction(a)
   XCTAssertEqual(s, [2, 4, 6])
 }
 
-func checkSortingArrayThreeElementsACB(sortFunction: SortFunction) {
+func checkSortingArrayThreeElementsACB(_ sortFunction: SortFunction) {
   let a = [2, 6, 4]
   let s = sortFunction(a)
   XCTAssertEqual(s, [2, 4, 6])
 }
 
-func checkSortingArrayThreeElementsBAC(sortFunction: SortFunction) {
+func checkSortingArrayThreeElementsBAC(_ sortFunction: SortFunction) {
   let a = [4, 2, 6]
   let s = sortFunction(a)
   XCTAssertEqual(s, [2, 4, 6])
 }
 
-func checkSortingArrayThreeElementsBCA(sortFunction: SortFunction) {
+func checkSortingArrayThreeElementsBCA(_ sortFunction: SortFunction) {
   let a = [4, 6, 2]
   let s = sortFunction(a)
   XCTAssertEqual(s, [2, 4, 6])
 }
 
-func checkSortingArrayThreeElementsCAB(sortFunction: SortFunction) {
+func checkSortingArrayThreeElementsCAB(_ sortFunction: SortFunction) {
   let a = [6, 2, 4]
   let s = sortFunction(a)
   XCTAssertEqual(s, [2, 4, 6])
 }
 
-func checkSortingArrayThreeElementsCBA(sortFunction: SortFunction) {
+func checkSortingArrayThreeElementsCBA(_ sortFunction: SortFunction) {
   let a = [6, 4, 2]
   let s = sortFunction(a)
   XCTAssertEqual(s, [2, 4, 6])
 }
 
-func checkSortAlgorithm(sortFunction: SortFunction) {
+func checkSortAlgorithm(_ sortFunction: SortFunction) {
   checkSortingEmptyArray(sortFunction)
   checkSortingArrayOneElement(sortFunction)
   checkSortingArrayTwoElementsInOrder(sortFunction)
@@ -109,6 +109,6 @@ func checkSortAlgorithm(sortFunction: SortFunction) {
   checkSortingRandomArray(sortFunction)
 }
 
-func checkSortAlgorithm(sortFunction: ([Int], (Int, Int) -> Bool) -> [Int]) {
+func checkSortAlgorithm(_ sortFunction: @escaping ([Int], (Int, Int) -> Bool) -> [Int]) {
   checkSortAlgorithm { a in sortFunction(a, <) }
 }
