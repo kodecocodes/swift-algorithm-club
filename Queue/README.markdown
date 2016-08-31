@@ -46,7 +46,7 @@ Here is a very simplistic implementation of a queue in Swift. It's just a wrappe
 
 ```swift
 public struct Queue<T> {
-  private var array = [T]()
+  fileprivate var array = [T]()
 
   public var isEmpty: Bool {
     return array.isEmpty
@@ -56,7 +56,7 @@ public struct Queue<T> {
     return array.count
   }
 
-  public mutating func enqueue(element: T) {
+  public mutating func enqueue(_ element: T) {
     array.append(element)
   }
   
@@ -136,8 +136,8 @@ Here is how you could implement this version of `Queue`:
 
 ```swift
 public struct Queue<T> {
-  private var array = [T?]()
-  private var head = 0
+  fileprivate var array = [T?]()
+  fileprivate var head = 0
   
   public var isEmpty: Bool {
     return count == 0
@@ -147,7 +147,7 @@ public struct Queue<T> {
     return array.count - head
   }
   
-  public mutating func enqueue(element: T) {
+  public mutating func enqueue(_ element: T) {
     array.append(element)
   }
   
