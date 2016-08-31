@@ -1,4 +1,4 @@
-func insertionSort<T>(array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
+func insertionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
   guard array.count > 1 else { return array }
 
   var a = array

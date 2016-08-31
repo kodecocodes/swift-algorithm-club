@@ -1,6 +1,6 @@
 //: Playground - noun: a place where people can play
 
-func insertionSort<T>(array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
+func insertionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
   var a = array
   for x in 1..<a.count {
     var y = x
