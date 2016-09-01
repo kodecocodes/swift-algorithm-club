@@ -136,7 +136,7 @@ extension BTreeNode {
     } else {
       children![index].insert(value, for: key)
       if children![index].numberOfKeys > owner.order * 2 {
-        split(children![index], at: index)
+        split(child: children![index], atIndex: index)
       }
     }
   }
@@ -150,7 +150,7 @@ extension BTreeNode {
    *    - child: the child to be split
    *    - index: the index of the key, which will be moved up to the parent
    */
-  private func split(_ child: BTreeNode, at index: Int) {
+  private func split(child: BTreeNode, atIndex index: Int) {
     let middleIndex = child.numberOfKeys / 2
     keys.insert(child.keys[middleIndex], at: index)
     values.insert(child.values[middleIndex], at: index)
@@ -224,7 +224,7 @@ extension BTreeNode {
         values[index] = predecessor.values.last!
         children![index].remove(keys[index])
         if children![index].numberOfKeys < owner.order {
-          fix(child: children![index], at: index)
+          fix(childWithTooFewKeys: children![index], atIndex: index)
         }
       }
     } else if key < keys[index] {
@@ -233,7 +233,7 @@ extension BTreeNode {
       if let leftChild = children?[index] {
         leftChild.remove(key)
         if leftChild.numberOfKeys < owner.order {
-          fix(child: leftChild, at: index)
+          fix(childWithTooFewKeys: leftChild, atIndex: index)
         }
       } else {
         print("The key:\(key) is not in the tree.")
@@ -244,7 +244,7 @@ extension BTreeNode {
       if let rightChild = children?[(index + 1)] {
         rightChild.remove(key)
         if rightChild.numberOfKeys < owner.order {
-          fix(child: rightChild, at: (index + 1))
+          fix(childWithTooFewKeys: rightChild, atIndex: (index + 1))
         }
       } else {
         print("The key:\(key) is not in the tree")
@@ -253,16 +253,17 @@ extension BTreeNode {
   }
   
   /**
-   *  Fixes the `child` at `index`.
-   *  If `child` contains too many children then it moves a child to one of 
-   *  `child`'s neighbouring nodes.
-   *  If `child` contains too few children then it merges it with one of its neighbours.
+   *  Fixes `childWithTooFewKeys` by either moving a key to it from 
+   *  one of its neighbouring nodes, or by merging.
+   *
+   *  - Precondition:
+   *    `childWithTooFewKeys` must have less keys than the order of the tree.
    *
    *  - Parameters:
    *    - child: the child to be fixed
    *    - index: the index of the child to be fixed in the current node
    */
-  private func fix(child: BTreeNode, at index: Int) {
+  private func fix(childWithTooFewKeys child: BTreeNode, atIndex index: Int) {
     
     if (index - 1) >= 0 && children![(index - 1)].numberOfKeys > owner.order {
       move(keyAtIndex: (index - 1), to: child, from: children![(index - 1)], at: .left)

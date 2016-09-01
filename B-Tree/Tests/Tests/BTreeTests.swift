@@ -108,7 +108,7 @@ class BTreeTests: XCTestCase {
     }
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -126,7 +126,7 @@ class BTreeTests: XCTestCase {
     XCTAssertNil(bTree[20])
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -140,7 +140,7 @@ class BTreeTests: XCTestCase {
     XCTAssertNil(bTree[1])
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -156,7 +156,7 @@ class BTreeTests: XCTestCase {
     XCTAssertNil(bTree[9])
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -173,7 +173,7 @@ class BTreeTests: XCTestCase {
     XCTAssertNil(bTree[9])
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -189,7 +189,7 @@ class BTreeTests: XCTestCase {
     }
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -215,7 +215,7 @@ enum BTreeError: Error {
 }
 
 extension BTreeNode {
-  func checkBalanced(isRoot root: Bool) throws {
+  func checkBalance(isRoot root: Bool) throws {
     if numberOfKeys > owner.order * 2 {
       throw BTreeError.tooManyNodes
     } else if !root && numberOfKeys < owner.order {
@@ -224,7 +224,7 @@ extension BTreeNode {
     
     if !isLeaf {
       for child in children! {
-        try child.checkBalanced(isRoot: false)
+        try child.checkBalance(isRoot: false)
       }
     }
   }
@@ -242,7 +242,7 @@ extension BTree where Key: SignedInteger, Value: SignedInteger {
     }
   }
   
-  func checkBalanced() throws {
-    try rootNode.checkBalanced(isRoot: true)
+  func checkBalance() throws {
+    try rootNode.checkBalance(isRoot: true)
   }
 }
