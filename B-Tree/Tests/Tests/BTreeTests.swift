@@ -45,7 +45,7 @@ class BTreeTests: XCTestCase {
   }
   
   func testInsertToEmptyTree() {
-    bTree.insertValue(1, forKey: 1)
+    bTree.insert(1, for: 1)
     
     XCTAssertEqual(bTree[1]!, 1)
   }
@@ -56,7 +56,7 @@ class BTreeTests: XCTestCase {
   }
   
   func testInorderArrayFromEmptyTree() {
-    XCTAssertEqual(bTree.inorderArrayFromKeys(), [Int]())
+    XCTAssertEqual(bTree.inorderArrayFromKeys, [Int]())
   }
   
   func testDescriptionOfEmptyTree() {
@@ -67,7 +67,7 @@ class BTreeTests: XCTestCase {
   
   func testInorderTravelsal() {
     for i in 1...20 {
-      bTree.insertValue(i, forKey: i)
+      bTree.insert(i, for: i)
     }
     
     var j = 1
@@ -82,7 +82,7 @@ class BTreeTests: XCTestCase {
   
   func testSearchForMaximum() {
     for i in 1...20 {
-      bTree.insertValue(i, forKey: i)
+      bTree.insert(i, for: i)
     }
     
     XCTAssertEqual(bTree.valueForKey(20)!, 20)
@@ -90,7 +90,7 @@ class BTreeTests: XCTestCase {
   
   func testSearchForMinimum() {
     for i in 1...20 {
-      bTree.insertValue(i, forKey: i)
+      bTree.insert(i, for: i)
     }
     
     XCTAssertEqual(bTree.valueForKey(1)!, 1)
@@ -118,7 +118,7 @@ class BTreeTests: XCTestCase {
   
   func testRemoveMaximum() {
     for i in 1...20 {
-      bTree.insertValue(i, forKey: i)
+      bTree.insert(i, for: i)
     }
     
     bTree.removeKey(20)
@@ -184,7 +184,7 @@ class BTreeTests: XCTestCase {
     
     XCTAssertEqual(bTree.numberOfKeys, 20)
     
-    for i in (1...20).reverse() {
+    for i in (1...20).reversed() {
       bTree.removeKey(i)
     }
     
@@ -202,24 +202,24 @@ class BTreeTests: XCTestCase {
 	func testInorderArray() {
     bTree.insertKeysUpTo(20)
 		
-		let returnedArray = bTree.inorderArrayFromKeys()
+		let returnedArray = bTree.inorderArrayFromKeys
 		let targetArray = Array<Int>(1...20)
 		
 		XCTAssertEqual(returnedArray, targetArray)
 	}
 }
 
-enum BTreeError: ErrorType {
-  case TooManyNodes
-  case TooFewNodes
+enum BTreeError: Error {
+  case tooManyNodes
+  case tooFewNodes
 }
 
 extension BTreeNode {
   func checkBalanced(isRoot root: Bool) throws {
-    if numberOfKeys > ownerTree.order * 2 {
-      throw BTreeError.TooManyNodes
-    } else if !root && numberOfKeys < ownerTree.order {
-      throw BTreeError.TooFewNodes
+    if numberOfKeys > owner.order * 2 {
+      throw BTreeError.tooManyNodes
+    } else if !root && numberOfKeys < owner.order {
+      throw BTreeError.tooFewNodes
     }
     
     if !isLeaf {
@@ -230,13 +230,13 @@ extension BTreeNode {
   }
 }
 
-extension BTree where Key: SignedIntegerType, Value: SignedIntegerType {
-  func insertKeysUpTo(to: Int) {
+extension BTree where Key: SignedInteger, Value: SignedInteger {
+  func insertKeysUpTo(_ to: Int) {
     var k: Key = 1
     var v: Value = 1
     
     for _ in 1...to {
-      insertValue(v, forKey: k)
+      insert(v, for: k)
       k = k + 1
       v = v + 1
     }

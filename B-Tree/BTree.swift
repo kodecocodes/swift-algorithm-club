@@ -21,17 +21,17 @@
 // SOFTWARE.
 
 /*
- B-Tree
-	
- A B-Tree is a self-balancing search tree, in which nodes can have more than two children.
+ *  B-Tree
+ *
+ *  A B-Tree is a self-balancing search tree, in which nodes can have more than two children.
  */
 
 // MARK: - BTreeNode class
 
 class BTreeNode<Key: Comparable, Value> {
-  unowned var ownerTree: BTree<Key, Value>
+  unowned var owner: BTree<Key, Value>
   
-  private var keys = [Key]()
+  fileprivate var keys = [Key]()
   var values = [Value]()
   var children: [BTreeNode]?
   
@@ -43,13 +43,13 @@ class BTreeNode<Key: Comparable, Value> {
     return keys.count
   }
   
-  init(ownerTree: BTree<Key, Value>) {
-    self.ownerTree = ownerTree
+  init(owner: BTree<Key, Value>) {
+    self.owner = owner
   }
   
-  convenience init(ownerTree: BTree<Key, Value>, keys: [Key],
+  convenience init(owner: BTree<Key, Value>, keys: [Key],
                    values: [Value], children: [BTreeNode]? = nil) {
-    self.init(ownerTree: ownerTree)
+    self.init(owner: owner)
     self.keys += keys
     self.values += values
     self.children = children
@@ -59,19 +59,26 @@ class BTreeNode<Key: Comparable, Value> {
 // MARK: BTreeNode extesnion: Searching
 
 extension BTreeNode {
- func valueForKey(key: Key) -> Value? {
+  
+  /**
+   *  Returns the value for a given `key`, returns nil if the `key` is not found.
+   *  
+   *  - Parameters:
+   *    - key: the key of the value to be returned
+   */
+  func value(for key: Key) -> Value? {
     var index = keys.startIndex
     
-    while index.successor() < keys.endIndex && keys[index] < key {
-      index = index.successor()
+    while (index + 1) < keys.endIndex && keys[index] < key {
+      index = (index + 1)
     }
     
     if key == keys[index] {
       return values[index]
     } else if key < keys[index] {
-      return children?[index].valueForKey(key)
+      return children?[index].value(for: key)
     } else {
-      return children?[index.successor()].valueForKey(key)
+      return children?[(index + 1)].value(for: key)
     }
   }
 }
@@ -79,7 +86,14 @@ extension BTreeNode {
 // MARK: BTreeNode extension: Travelsals
 
 extension BTreeNode {
-  func traverseKeysInOrder(@noescape process: Key -> Void) {
+  
+  /**
+   *  Traverses the keys in order, executes `process` for every key.
+   * 
+   *  - Parameters:
+   *    - process: the closure to be executed for every key
+   */
+  func traverseKeysInOrder(_ process: (Key) -> Void) {
     for i in 0..<numberOfKeys {
       children?[i].traverseKeysInOrder(process)
       process(keys[i])
@@ -92,11 +106,19 @@ extension BTreeNode {
 // MARK: BTreeNode extension: Insertion
 
 extension BTreeNode {
-  func insertValue(value: Value, forKey key: Key) {
+  
+  /**
+   *  Inserts `value` for `key` to the node, or to one if its descendants.
+   *  
+   *  - Parameters:
+   *    - value: the value to be inserted for `key`
+   *    - key: the key for the `value`
+   */
+  func insert(_ value: Value, for key: Key) {
     var index = keys.startIndex
     
     while index < keys.endIndex && keys[index] < key {
-      index = index.successor()
+      index = (index + 1)
     }
     
     if index < keys.endIndex && keys[index] == key {
@@ -105,52 +127,68 @@ extension BTreeNode {
     }
     
     if isLeaf {
-      keys.insert(key, atIndex: index)
-      values.insert(value, atIndex: index)
-      ownerTree.numberOfKeys += 1
+      keys.insert(key, at: index)
+      values.insert(value, at: index)
+      owner.numberOfKeys += 1
     } else {
-      children![index].insertValue(value, forKey: key)
-      if children![index].numberOfKeys > ownerTree.order * 2 {
-        splitChild(children![index], atIndex: index)
+      children![index].insert(value, for: key)
+      if children![index].numberOfKeys > owner.order * 2 {
+        split(children![index], at: index)
       }
     }
   }
   
-  private func splitChild(child: BTreeNode, atIndex index: Int) {
+  /**
+   *  Splits `child` at `index`.
+   *  The key-value pair at `index` gets moved up to the parent node,
+   *  or if there is not an parent node, then a new parent node is created.
+   *  
+   *  - Parameters:
+   *    - child: the child to be split
+   *    - index: the index of the key, which will be moved up to the parent
+   */
+  fileprivate func split(_ child: BTreeNode, at index: Int) {
     let middleIndex = child.numberOfKeys / 2
-    keys.insert(child.keys[middleIndex], atIndex: index)
-    values.insert(child.values[middleIndex], atIndex: index)
-    child.keys.removeAtIndex(middleIndex)
-    child.values.removeAtIndex(middleIndex)
+    keys.insert(child.keys[middleIndex], at: index)
+    values.insert(child.values[middleIndex], at: index)
+    child.keys.remove(at: middleIndex)
+    child.values.remove(at: middleIndex)
     
     let rightSibling = BTreeNode(
-      ownerTree: ownerTree,
-      keys: Array(child.keys[middleIndex..<child.keys.endIndex]),
-      values: Array(child.values[middleIndex..<child.values.endIndex])
+      owner: owner,
+      keys: Array(child.keys[child.keys.indices.suffix(from: middleIndex)]),
+      values: Array(child.values[child.values.indices.suffix(from: middleIndex)])
     )
-    child.keys.removeRange(middleIndex..<child.keys.endIndex)
-    child.values.removeRange(middleIndex..<child.values.endIndex)
+    child.keys.removeSubrange(child.keys.indices.suffix(from: middleIndex))
+    child.values.removeSubrange(child.values.indices.suffix(from: middleIndex))
     
-    children!.insert(rightSibling, atIndex: index.successor())
+    children!.insert(rightSibling, at: (index + 1))
     
     if child.children != nil {
       rightSibling.children = Array(
-        child.children![middleIndex.successor()..<child.children!.endIndex]
+        child.children![child.children!.indices.suffix(from: (middleIndex + 1))]
       )
-      child.children!.removeRange(middleIndex.successor()..<child.children!.endIndex)
+      child.children!.removeSubrange(child.children!.indices.suffix(from: (middleIndex + 1)))
     }
   }
 }
 
 // MARK: BTreeNode extension: Removal
 
+/**
+ *  An enumeration to indicate a node's position according to another node.
+ *  
+ *  Possible values:
+ *    - left
+ *    - right
+ */
 private enum BTreeNodePosition {
-  case Left
-  case Right
+  case left
+  case right
 }
 
 extension BTreeNode {
-  private var inorderPredecessor: BTreeNode {
+  fileprivate var inorderPredecessor: BTreeNode {
     if isLeaf {
       return self
     } else {
@@ -158,34 +196,41 @@ extension BTreeNode {
     }
   }
   
-  func removeKey(key: Key) {
+  /**
+   *  Removes `key` and the value associated with it from the node
+   *  or one of its descendants.
+   *  
+   *  - Parameters:
+   *    - key: the key to be removed
+   */
+  func remove(_ key: Key) {
     var index = keys.startIndex
     
-    while index.successor() < keys.endIndex && keys[index] < key {
-      index = index.successor()
+    while (index + 1) < keys.endIndex && keys[index] < key {
+      index = (index + 1)
     }
     
     if keys[index] == key {
       if isLeaf {
-        keys.removeAtIndex(index)
-        values.removeAtIndex(index)
-        ownerTree.numberOfKeys -= 1
+        keys.remove(at: index)
+        values.remove(at: index)
+        owner.numberOfKeys -= 1
       } else {
         let predecessor = children![index].inorderPredecessor
         keys[index] = predecessor.keys.last!
         values[index] = predecessor.values.last!
-        children![index].removeKey(keys[index])
-        if children![index].numberOfKeys < ownerTree.order {
-          fixChildWithLessNodesThanOrder(children![index], atIndex: index)
+        children![index].remove(keys[index])
+        if children![index].numberOfKeys < owner.order {
+          fix(children![index], at: index)
         }
       }
     } else if key < keys[index] {
       // We should go to left child...
       
       if let leftChild = children?[index] {
-        leftChild.removeKey(key)
-        if leftChild.numberOfKeys < ownerTree.order {
-          fixChildWithLessNodesThanOrder(leftChild, atIndex: index)
+        leftChild.remove(key)
+        if leftChild.numberOfKeys < owner.order {
+          fix(leftChild, at: index)
         }
       } else {
         print("The key:\(key) is not in the tree.")
@@ -193,10 +238,10 @@ extension BTreeNode {
     } else {
       // We should go to right child...
       
-      if let rightChild = children?[index.successor()] {
-        rightChild.removeKey(key)
-        if rightChild.numberOfKeys < ownerTree.order {
-          fixChildWithLessNodesThanOrder(rightChild, atIndex: index.successor())
+      if let rightChild = children?[(index + 1)] {
+        rightChild.remove(key)
+        if rightChild.numberOfKeys < owner.order {
+          fix(rightChild, at: (index + 1))
         }
       } else {
         print("The key:\(key) is not in the tree")
@@ -204,112 +249,136 @@ extension BTreeNode {
     }
   }
   
-  private func fixChildWithLessNodesThanOrder(child: BTreeNode, atIndex index: Int) {
+  /**
+   *  Fixes the `child` at `index`.
+   *  If `child` contains too many children then it moves a child to one of 
+   *  `child`'s neighbouring nodes.
+   *  If `child` contains too few children then it merges it with one of its neighbours.
+   *
+   *  - Parameters:
+   *    - child: the child to be fixed
+   *    - index: the index of the child to be fixed in the current node
+   */
+  fileprivate func fix(_ child: BTreeNode, at index: Int) {
     
-    if index.predecessor() >= 0 &&
-       children![index.predecessor()].numberOfKeys > ownerTree.order {
-      
-      moveKeyAtIndex(index.predecessor(), toNode: child,
-                     fromNode: children![index.predecessor()], atPosition: .Left)
-      
-    } else if index.successor() < children!.count &&
-              children![index.successor()].numberOfKeys > ownerTree.order {
-      
-      moveKeyAtIndex(index, toNode: child,
-                     fromNode: children![index.successor()], atPosition: .Right)
-      
-    } else if index.predecessor() >= 0 {
-      mergeChild(child, withIndex: index, toNodeAtPosition: .Left)
+    if (index - 1) >= 0 && children![(index - 1)].numberOfKeys > owner.order {
+      move(keyAt: (index - 1), to: child, from: children![(index - 1)], at: .left)
+    } else if (index + 1) < children!.count && children![(index + 1)].numberOfKeys > owner.order {
+      move(keyAt: index, to: child, from: children![(index + 1)], at: .right)
+    } else if (index - 1) >= 0 {
+      merge(child, at: index, to: .left)
     } else {
-      mergeChild(child, withIndex: index, toNodeAtPosition: .Right)
+      merge(child, at: index, to: .right)
     }
   }
   
-  private func moveKeyAtIndex(keyIndex: Int, toNode targetNode: BTreeNode,
-                             fromNode: BTreeNode, atPosition position: BTreeNodePosition) {
+  /**
+   *  Moves the key at the specified `index` from `node` to
+   *  the `targetNode` at `position`
+   *  
+   *  - Parameters:
+   *    - index: the index of the key to be moved in `node`
+   *    - targetNode: the node to move the key into
+   *    - node: the node to move the key from
+   *    - position: the position of the from node relative to the targetNode
+   */
+  fileprivate func move(keyAt index: Int, to targetNode: BTreeNode,
+                                  from node: BTreeNode, at position: BTreeNodePosition) {
     switch position {
-    case .Left:
-      targetNode.keys.insert(keys[keyIndex], atIndex: targetNode.keys.startIndex)
-      targetNode.values.insert(values[keyIndex], atIndex: targetNode.values.startIndex)
-      keys[keyIndex] = fromNode.keys.last!
-      values[keyIndex] = fromNode.values.last!
-      fromNode.keys.removeLast()
-      fromNode.values.removeLast()
+    case .left:
+      targetNode.keys.insert(keys[index], at: targetNode.keys.startIndex)
+      targetNode.values.insert(values[index], at: targetNode.values.startIndex)
+      keys[index] = node.keys.last!
+      values[index] = node.values.last!
+      node.keys.removeLast()
+      node.values.removeLast()
       if !targetNode.isLeaf {
-        targetNode.children!.insert(fromNode.children!.last!,
-                                    atIndex: targetNode.children!.startIndex)
-        fromNode.children!.removeLast()
+        targetNode.children!.insert(node.children!.last!,
+                                    at: targetNode.children!.startIndex)
+        node.children!.removeLast()
       }
       
-    case .Right:
-      targetNode.keys.insert(keys[keyIndex], atIndex: targetNode.keys.endIndex)
-      targetNode.values.insert(values[keyIndex], atIndex: targetNode.values.endIndex)
-      keys[keyIndex] = fromNode.keys.first!
-      values[keyIndex] = fromNode.values.first!
-      fromNode.keys.removeFirst()
-      fromNode.values.removeFirst()
+    case .right:
+      targetNode.keys.insert(keys[index], at: targetNode.keys.endIndex)
+      targetNode.values.insert(values[index], at: targetNode.values.endIndex)
+      keys[index] = node.keys.first!
+      values[index] = node.values.first!
+      node.keys.removeFirst()
+      node.values.removeFirst()
       if !targetNode.isLeaf {
-        targetNode.children!.insert(fromNode.children!.first!,
-                                    atIndex: targetNode.children!.endIndex)
-        fromNode.children!.removeFirst()
+        targetNode.children!.insert(node.children!.first!,
+                                    at: targetNode.children!.endIndex)
+        node.children!.removeFirst()
       }
     }
   }
   
-  private func mergeChild(child: BTreeNode, withIndex index: Int, toNodeAtPosition position: BTreeNodePosition) {
+  /**
+   *  Merges `child` at `position` to the node at the `position`.
+   *  
+   *  - Parameters:
+   *    - child: the child to be merged
+   *    - index: the index of the child in the current node
+   *    - position: the position of the node to merge into
+   */
+  fileprivate func merge(_ child: BTreeNode, at index: Int, to position: BTreeNodePosition) {
     switch position {
-    case .Left:
+    case .left:
       // We can merge to the left sibling
       
-      children![index.predecessor()].keys = children![index.predecessor()].keys +
-        [keys[index.predecessor()]] + child.keys
+      children![(index - 1)].keys = children![(index - 1)].keys +
+        [keys[(index - 1)]] + child.keys
       
-      children![index.predecessor()].values = children![index.predecessor()].values +
-        [values[index.predecessor()]] + child.values
+      children![(index - 1)].values = children![(index - 1)].values +
+        [values[(index - 1)]] + child.values
       
-      keys.removeAtIndex(index.predecessor())
-      values.removeAtIndex(index.predecessor())
+      keys.remove(at: (index - 1))
+      values.remove(at: (index - 1))
       
       if !child.isLeaf {
-        children![index.predecessor()].children =
-          children![index.predecessor()].children! + child.children!
+        children![(index - 1)].children =
+          children![(index - 1)].children! + child.children!
       }
       
-    case .Right:
+    case .right:
       // We should merge to the right sibling
       
-      children![index.successor()].keys = child.keys + [keys[index]] +
-        children![index.successor()].keys
+      children![(index + 1)].keys = child.keys + [keys[index]] +
+        children![(index + 1)].keys
       
-      children![index.successor()].values = child.values + [values[index]] +
-        children![index.successor()].values
+      children![(index + 1)].values = child.values + [values[index]] +
+        children![(index + 1)].values
       
-      keys.removeAtIndex(index)
-      values.removeAtIndex(index)
+      keys.remove(at: index)
+      values.remove(at: index)
       
       if !child.isLeaf {
-        children![index.successor()].children =
-          child.children! + children![index.successor()].children!
+        children![(index + 1)].children =
+          child.children! + children![(index + 1)].children!
       }
     }
-    children!.removeAtIndex(index)
+    children!.remove(at: index)
   }
 }
 
 // MARK: BTreeNode extension: Conversion
 
 extension BTreeNode {
-  func inorderArrayFromKeys() -> [Key] {
+  /**
+   *  Returns an array which contains the keys from the current node
+   *  and its descendants in order.
+   */
+  var inorderArrayFromKeys: [Key] {
     var array = [Key] ()
     
     for i in 0..<numberOfKeys {
-      if let returnedArray = children?[i].inorderArrayFromKeys() {
+      if let returnedArray = children?[i].inorderArrayFromKeys {
         array += returnedArray
       }
       array += [keys[i]]
     }
     
-    if let returnedArray = children?.last?.inorderArrayFromKeys() {
+    if let returnedArray = children?.last?.inorderArrayFromKeys {
       array += returnedArray
     }
     
@@ -320,6 +389,9 @@ extension BTreeNode {
 // MARK: BTreeNode extension: Description
 
 extension BTreeNode: CustomStringConvertible {
+  /**
+   *  Returns a String containing the preorder representation of the nodes.
+   */
   var description: String {
     var str = "\(keys)"
     
@@ -335,26 +407,27 @@ extension BTreeNode: CustomStringConvertible {
 
 // MARK: - BTree class
 
-public class BTree<Key: Comparable, Value> {
-  
+open class BTree<Key: Comparable, Value> {
   /**
-   The order of the B-Tree
-   
-   The number of keys in every node should be in the [order, 2*order] range,
-   except the root node which is allowed to contain less keys than the value of order.
+   *  The order of the B-Tree
+   *
+   *  The number of keys in every node should be in the [order, 2*order] range,
+   *  except the root node which is allowed to contain less keys than the value of order.
    */
-  public let order: Int
+  open let order: Int
   
-  /// The root node of the tree
+  /** 
+   *  The root node of the tree
+   */
   var rootNode: BTreeNode<Key, Value>!
   
-  private(set) public var numberOfKeys = 0
+  fileprivate(set) open var numberOfKeys = 0
   
   /**
-   Designated initializer for the tree
-   
-   - parameters:
-   - order: The order of the tree.
+   *  Designated initializer for the tree
+   *
+   *  - Parameters:
+   *    - order: The order of the tree.
    */
   public init?(order: Int) {
     guard order > 0 else {
@@ -362,14 +435,20 @@ public class BTree<Key: Comparable, Value> {
       return nil
     }
     self.order = order
-    rootNode = BTreeNode<Key, Value>(ownerTree: self)
+    rootNode = BTreeNode<Key, Value>(owner: self)
   }
 }
 
 // MARK: BTree extension: Travelsals
 
 extension BTree {
-  public func traverseKeysInOrder(@noescape process: Key -> Void) {
+  /**
+   *  Traverses the keys in order, executes `process` for every key.
+   *
+   *  - Parameters:
+   *    - process: the closure to be executed for every key
+   */
+  public func traverseKeysInOrder(_ process: (Key) -> Void) {
     rootNode.traverseKeysInOrder(process)
   }
 }
@@ -377,6 +456,12 @@ extension BTree {
 // MARK: BTree extension: Subscript
 
 extension BTree {
+  /**
+   *  Returns the value for a given `key`, returns nil if the `key` is not found.
+   *
+   *  - Parameters:
+   *    - key: the key of the value to be returned
+   */
   public subscript (key: Key) -> Value? {
     return valueForKey(key)
   }
@@ -385,52 +470,71 @@ extension BTree {
 // MARK: BTree extension: Value for Key
 
 extension BTree {
-  public func valueForKey(key: Key) -> Value? {
+  /**
+   *  Returns the value for a given `key`, returns nil if the `key` is not found.
+   *
+   *  - Parameters:
+   *    - key: the key of the value to be returned
+   */
+  public func valueForKey(_ key: Key) -> Value? {
     guard rootNode.numberOfKeys > 0 else {
       return nil
     }
     
-    return rootNode.valueForKey(key)
+    return rootNode.value(for: key)
   }
 }
 
 // MARK: BTree extension: Insertion
 
 extension BTree {
-  public func insertValue(value: Value, forKey key: Key) {
-    rootNode.insertValue(value, forKey: key)
+  /**
+   *  Inserts the `value` for the `key` into the tree.
+   *
+   *  - Parameters:
+   *    - value: the value to be inserted for `key`
+   *    - key: the key for the `value`
+   */
+  public func insert(_ value: Value, for key: Key) {
+    rootNode.insert(value, for: key)
     
     if rootNode.numberOfKeys > order * 2 {
       splitRoot()
     }
   }
   
-  private func splitRoot() {
+  /**
+   *  Splits the root node of the tree.
+   *  
+   *  - Precondition:
+   *    The root node of the tree contains `order` * 2 keys.
+   */
+  fileprivate func splitRoot() {
     let middleIndexOfOldRoot = rootNode.numberOfKeys / 2
     
     let newRoot = BTreeNode<Key, Value>(
-      ownerTree: self,
+      owner: self,
       keys: [rootNode.keys[middleIndexOfOldRoot]],
       values: [rootNode.values[middleIndexOfOldRoot]],
       children: [rootNode]
     )
-    rootNode.keys.removeAtIndex(middleIndexOfOldRoot)
-    rootNode.values.removeAtIndex(middleIndexOfOldRoot)
+    rootNode.keys.remove(at: middleIndexOfOldRoot)
+    rootNode.values.remove(at: middleIndexOfOldRoot)
     
     let newRightChild = BTreeNode<Key, Value>(
-      ownerTree: self,
-      keys: Array(rootNode.keys[middleIndexOfOldRoot..<rootNode.keys.endIndex]),
-      values: Array(rootNode.values[middleIndexOfOldRoot..<rootNode.values.endIndex])
+      owner: self,
+      keys: Array(rootNode.keys[rootNode.keys.indices.suffix(from: middleIndexOfOldRoot)]),
+      values: Array(rootNode.values[rootNode.values.indices.suffix(from: middleIndexOfOldRoot)])
     )
-    rootNode.keys.removeRange(middleIndexOfOldRoot..<rootNode.keys.endIndex)
-    rootNode.values.removeRange(middleIndexOfOldRoot..<rootNode.values.endIndex)
+    rootNode.keys.removeSubrange(rootNode.keys.indices.suffix(from: middleIndexOfOldRoot))
+    rootNode.values.removeSubrange(rootNode.values.indices.suffix(from: middleIndexOfOldRoot))
     
     if rootNode.children != nil {
       newRightChild.children = Array(
-        rootNode.children![middleIndexOfOldRoot.successor()..<rootNode.children!.endIndex]
+        rootNode.children![rootNode.children!.indices.suffix(from: (middleIndexOfOldRoot + 1))]
       )
-      rootNode.children!.removeRange(
-        middleIndexOfOldRoot.successor()..<rootNode.children!.endIndex
+      rootNode.children!.removeSubrange(
+        rootNode.children!.indices.suffix(from: (middleIndexOfOldRoot + 1))
       )
     }
     
@@ -442,12 +546,18 @@ extension BTree {
 // MARK: BTree extension: Removal
 
 extension BTree {
-  public func removeKey(key: Key) {
+  /**
+   *  Removes `key` and the value associated with it from the tree.
+   *  
+   *  - Parameters:
+   *    - key: the key to remove
+   */
+  public func removeKey(_ key: Key) {
     guard rootNode.numberOfKeys > 0 else {
       return
     }
     
-    rootNode.removeKey(key)
+    rootNode.remove(key)
     
     if rootNode.numberOfKeys == 0 && !rootNode.isLeaf {
       rootNode = rootNode.children!.first!
@@ -458,15 +568,20 @@ extension BTree {
 // MARK: BTree extension: Conversion
 
 extension BTree {
-  public func inorderArrayFromKeys() -> [Key] {
-    return rootNode.inorderArrayFromKeys()
+  /**
+   *  The keys of the tree in order.
+   */
+  public var inorderArrayFromKeys: [Key] {
+    return rootNode.inorderArrayFromKeys
   }
 }
 
 // MARK: BTree extension: Decription
 
 extension BTree: CustomStringConvertible {
-  // Returns a String containing the preorder representation of the nodes
+  /** 
+   *  Returns a String containing the preorder representation of the nodes.
+   */
   public var description: String {
     return rootNode.description
   }
