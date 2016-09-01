@@ -41,7 +41,7 @@ class BTreeTests: XCTestCase {
   }
   
   func testSearchEmptyTree() {
-    XCTAssertEqual(bTree.valueForKey(1), nil)
+    XCTAssertEqual(bTree.value(for: 1), nil)
   }
   
   func testInsertToEmptyTree() {
@@ -51,7 +51,7 @@ class BTreeTests: XCTestCase {
   }
   
   func testRemoveFromEmptyTree() {
-    bTree.removeKey(1)
+    bTree.remove(1)
     XCTAssertEqual(bTree.description, "[]")
   }
   
@@ -85,7 +85,7 @@ class BTreeTests: XCTestCase {
       bTree.insert(i, for: i)
     }
     
-    XCTAssertEqual(bTree.valueForKey(20)!, 20)
+    XCTAssertEqual(bTree.value(for: 20)!, 20)
   }
   
   func testSearchForMinimum() {
@@ -93,7 +93,7 @@ class BTreeTests: XCTestCase {
       bTree.insert(i, for: i)
     }
     
-    XCTAssertEqual(bTree.valueForKey(1)!, 1)
+    XCTAssertEqual(bTree.value(for: 1)!, 1)
   }
   
   // MARK: - Insertion
@@ -121,7 +121,7 @@ class BTreeTests: XCTestCase {
       bTree.insert(i, for: i)
     }
     
-    bTree.removeKey(20)
+    bTree.remove(20)
     
     XCTAssertNil(bTree[20])
     
@@ -135,7 +135,7 @@ class BTreeTests: XCTestCase {
   func testRemoveMinimum() {
     bTree.insertKeysUpTo(20)
     
-    bTree.removeKey(1)
+    bTree.remove(1)
     
     XCTAssertNil(bTree[1])
     
@@ -149,8 +149,8 @@ class BTreeTests: XCTestCase {
   func testRemoveSome() {
     bTree.insertKeysUpTo(20)
     
-    bTree.removeKey(6)
-    bTree.removeKey(9)
+    bTree.remove(6)
+    bTree.remove(9)
     
     XCTAssertNil(bTree[6])
     XCTAssertNil(bTree[9])
@@ -166,8 +166,8 @@ class BTreeTests: XCTestCase {
     bTree = BTree<Int, Int>(order: 2)!
     bTree.insertKeysUpTo(20)
     
-    bTree.removeKey(6)
-    bTree.removeKey(9)
+    bTree.remove(6)
+    bTree.remove(9)
     
     XCTAssertNil(bTree[6])
     XCTAssertNil(bTree[9])
@@ -185,7 +185,7 @@ class BTreeTests: XCTestCase {
     XCTAssertEqual(bTree.numberOfKeys, 20)
     
     for i in (1...20).reversed() {
-      bTree.removeKey(i)
+      bTree.remove(i)
     }
     
     do {

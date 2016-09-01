@@ -29,10 +29,13 @@
 // MARK: - BTreeNode class
 
 class BTreeNode<Key: Comparable, Value> {
+  /**
+   * The tree that owns the node.
+   */
   unowned var owner: BTree<Key, Value>
   
   fileprivate var keys = [Key]()
-  var values = [Value]()
+  fileprivate var values = [Value]()
   var children: [BTreeNode]?
   
   var isLeaf: Bool {
@@ -147,7 +150,7 @@ extension BTreeNode {
    *    - child: the child to be split
    *    - index: the index of the key, which will be moved up to the parent
    */
-  fileprivate func split(_ child: BTreeNode, at index: Int) {
+  private func split(_ child: BTreeNode, at index: Int) {
     let middleIndex = child.numberOfKeys / 2
     keys.insert(child.keys[middleIndex], at: index)
     values.insert(child.values[middleIndex], at: index)
@@ -188,7 +191,7 @@ private enum BTreeNodePosition {
 }
 
 extension BTreeNode {
-  fileprivate var inorderPredecessor: BTreeNode {
+  private var inorderPredecessor: BTreeNode {
     if isLeaf {
       return self
     } else {
@@ -221,7 +224,7 @@ extension BTreeNode {
         values[index] = predecessor.values.last!
         children![index].remove(keys[index])
         if children![index].numberOfKeys < owner.order {
-          fix(children![index], at: index)
+          fix(child: children![index], at: index)
         }
       }
     } else if key < keys[index] {
@@ -230,7 +233,7 @@ extension BTreeNode {
       if let leftChild = children?[index] {
         leftChild.remove(key)
         if leftChild.numberOfKeys < owner.order {
-          fix(leftChild, at: index)
+          fix(child: leftChild, at: index)
         }
       } else {
         print("The key:\(key) is not in the tree.")
@@ -241,7 +244,7 @@ extension BTreeNode {
       if let rightChild = children?[(index + 1)] {
         rightChild.remove(key)
         if rightChild.numberOfKeys < owner.order {
-          fix(rightChild, at: (index + 1))
+          fix(child: rightChild, at: (index + 1))
         }
       } else {
         print("The key:\(key) is not in the tree")
@@ -259,16 +262,16 @@ extension BTreeNode {
    *    - child: the child to be fixed
    *    - index: the index of the child to be fixed in the current node
    */
-  fileprivate func fix(_ child: BTreeNode, at index: Int) {
+  private func fix(child: BTreeNode, at index: Int) {
     
     if (index - 1) >= 0 && children![(index - 1)].numberOfKeys > owner.order {
-      move(keyAt: (index - 1), to: child, from: children![(index - 1)], at: .left)
+      move(keyAtIndex: (index - 1), to: child, from: children![(index - 1)], at: .left)
     } else if (index + 1) < children!.count && children![(index + 1)].numberOfKeys > owner.order {
-      move(keyAt: index, to: child, from: children![(index + 1)], at: .right)
+      move(keyAtIndex: index, to: child, from: children![(index + 1)], at: .right)
     } else if (index - 1) >= 0 {
-      merge(child, at: index, to: .left)
+      merge(child: child, atIndex: index, to: .left)
     } else {
-      merge(child, at: index, to: .right)
+      merge(child: child, atIndex: index, to: .right)
     }
   }
   
@@ -282,7 +285,7 @@ extension BTreeNode {
    *    - node: the node to move the key from
    *    - position: the position of the from node relative to the targetNode
    */
-  fileprivate func move(keyAt index: Int, to targetNode: BTreeNode,
+  private func move(keyAtIndex index: Int, to targetNode: BTreeNode,
                                   from node: BTreeNode, at position: BTreeNodePosition) {
     switch position {
     case .left:
@@ -321,7 +324,7 @@ extension BTreeNode {
    *    - index: the index of the child in the current node
    *    - position: the position of the node to merge into
    */
-  fileprivate func merge(_ child: BTreeNode, at index: Int, to position: BTreeNodePosition) {
+  private func merge(child: BTreeNode, atIndex index: Int, to position: BTreeNodePosition) {
     switch position {
     case .left:
       // We can merge to the left sibling
@@ -407,21 +410,21 @@ extension BTreeNode: CustomStringConvertible {
 
 // MARK: - BTree class
 
-open class BTree<Key: Comparable, Value> {
+public class BTree<Key: Comparable, Value> {
   /**
    *  The order of the B-Tree
    *
    *  The number of keys in every node should be in the [order, 2*order] range,
    *  except the root node which is allowed to contain less keys than the value of order.
    */
-  open let order: Int
+  public let order: Int
   
-  /** 
+  /**
    *  The root node of the tree
    */
   var rootNode: BTreeNode<Key, Value>!
   
-  fileprivate(set) open var numberOfKeys = 0
+  fileprivate(set) public var numberOfKeys = 0
   
   /**
    *  Designated initializer for the tree
@@ -463,7 +466,7 @@ extension BTree {
    *    - key: the key of the value to be returned
    */
   public subscript (key: Key) -> Value? {
-    return valueForKey(key)
+    return value(for: key)
   }
 }
 
@@ -476,7 +479,7 @@ extension BTree {
    *  - Parameters:
    *    - key: the key of the value to be returned
    */
-  public func valueForKey(_ key: Key) -> Value? {
+  public func value(for key: Key) -> Value? {
     guard rootNode.numberOfKeys > 0 else {
       return nil
     }
@@ -509,7 +512,7 @@ extension BTree {
    *  - Precondition:
    *    The root node of the tree contains `order` * 2 keys.
    */
-  fileprivate func splitRoot() {
+  private func splitRoot() {
     let middleIndexOfOldRoot = rootNode.numberOfKeys / 2
     
     let newRoot = BTreeNode<Key, Value>(
@@ -552,7 +555,7 @@ extension BTree {
    *  - Parameters:
    *    - key: the key to remove
    */
-  public func removeKey(_ key: Key) {
+  public func remove(_ key: Key) {
     guard rootNode.numberOfKeys > 0 else {
       return
     }
