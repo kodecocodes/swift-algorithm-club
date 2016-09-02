@@ -1,8 +1,6 @@
 # Skip List
 
-Skip List is a probablistic data-structure with same efficiency as AVL tree or Red-Black tree. Fast searching is possible by building a hierarchy of sorted linked-lists acting as an express lane to the layer underneath. Layers are created on top of the base layer ( regular sorted linked-list ) probablisticly by coin-flipping.
-
-A layer consists of a Head node, holding reference to the next and the node below. Each node also holds references similar to the Head node.
+Skip List is a probablistic data-structure with same efficiency as AVL tree or Red-Black tree. The building blocks are hierarchy of layers (regular sorted linked-lists), created probablisticly by coin flipping, each acting as an express lane to the layer underneath, therefore making fast O(log n) search possible by skipping lanes. A layer consists of a Head node, holding reference to the subsequent and the node below. Each node also holds similar references as the Head node.
 
 #TODO
  - finish readme
