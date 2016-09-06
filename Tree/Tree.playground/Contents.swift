@@ -10,7 +10,7 @@ public class TreeNode<T> {
     self.value = value
   }
 
-  public func addChild(node: TreeNode<T>) {
+  public func addChild(_ node: TreeNode<T>) {
     children.append(node)
     node.parent = self
   }
@@ -20,7 +20,7 @@ extension TreeNode: CustomStringConvertible {
   public var description: String {
     var s = "\(value)"
     if !children.isEmpty {
-      s += " {" + children.map { $0.description }.joinWithSeparator(", ") + "}"
+      s += " {" + children.map { $0.description }.joined(separator: ", ") + "}"
     }
     return s
   }
@@ -71,7 +71,7 @@ teaNode.parent
 teaNode.parent!.parent
 
 extension TreeNode where T: Equatable {
-  func search(value: T) -> TreeNode? {
+  func search(_ value: T) -> TreeNode? {
     if value == self.value {
       return self
     }
