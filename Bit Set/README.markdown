@@ -18,7 +18,7 @@ public struct BitSet {
 
   private let N = 64
   public typealias Word = UInt64
-  private(set) public var words: [Word]
+  fileprivate(set) public var words: [Word]
 
   public init(size: Int) {
     precondition(size > 0)
@@ -26,7 +26,7 @@ public struct BitSet {
 
     // Round up the count to the next multiple of 64.
     let n = (size + (N-1)) / N
-    words = .init(count: n, repeatedValue: 0)
+    words = [Word](repeating: 0, count: n)
   }
 ```
 
@@ -47,7 +47,7 @@ then the `BitSet` allocates an array of three words. Each word has 64 bits and t
 Most of the operations on `BitSet` take the index of the bit as a parameter, so it's useful to have a way to find which word contains that bit.
 
 ```swift
-  private func indexOf(i: Int) -> (Int, Word) {
+  private func indexOf(_ i: Int) -> (Int, Word) {
     precondition(i >= 0)
     precondition(i < size)
     let o = i / N
@@ -77,7 +77,7 @@ Note that the mask is always 64 bits because we look at the data one word at a t
 Now that we know where to find a bit, setting it to 1 is easy:
 
 ```swift
-  public mutating func set(i: Int) {
+  public mutating func set(_ i: Int) {
     let (j, m) = indexOf(i)
     words[j] |= m
   }
@@ -88,7 +88,7 @@ This looks up the word index and the mask, then performs a bitwise OR between th
 Clearing the bit -- i.e. changing it to 0 -- is just as easy:
 
 ```swift
-  public mutating func clear(i: Int) {
+  public mutating func clear(_ i: Int) {
     let (j, m) = indexOf(i)
     words[j] &= ~m
   }
@@ -99,7 +99,7 @@ Instead of a bitwise OR we now do a bitwise AND with the inverse of the mask. So
 To see if a bit is set we also use the bitwise AND but without inverting:
 
 ```swift
-  public func isSet(i: Int) -> Bool {
+  public func isSet(_ i: Int) -> Bool {
     let (j, m) = indexOf(i)
     return (words[j] & m) != 0
   }
@@ -127,15 +127,15 @@ print(bits)
 This will print the three words that the 140-bit `BitSet` uses to store everything:
 
 ```swift
-0010000000000000000000000000000000000000000000000000000000000000 
-0000000000000000000000000000000000010000000000000000000000000000 
-1000000000000000000000000000000000000000000000000000000000000000 
+0010000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000010000000000000000000000000000
+1000000000000000000000000000000000000000000000000000000000000000
 ```
 
 Something else that's fun to do with bits is flipping them. This changes 0 into 1 and 1 into 0. Here's `flip()`:
 
 ```swift
-  public mutating func flip(i: Int) -> Bool {
+  public mutating func flip(_ i: Int) -> Bool {
     let (j, m) = indexOf(i)
     words[j] ^= m
     return (words[j] & m) != 0
@@ -170,17 +170,17 @@ There is also `setAll()` to make all the bits 1. However, this has to deal with 
 First, we copy ones into all the words in our array. The array is now:
 
 ```swift
-1111111111111111111111111111111111111111111111111111111111111111 
-1111111111111111111111111111111111111111111111111111111111111111 
-1111111111111111111111111111111111111111111111111111111111111111 
+1111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111111111111111111111111111111
 ```
 
 But this is incorrect... Since we don't use most of the last word, we should leave those bits at 0:
 
 ```swift
-1111111111111111111111111111111111111111111111111111111111111111 
-1111111111111111111111111111111111111111111111111111111111111111 
-1111111111110000000000000000000000000000000000000000000000000000 
+1111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111111111111111111111111111111
+1111111111110000000000000000000000000000000000000000000000000000
 ```
 
 Instead of 192 one-bits we now have only 140 one-bits. The fact that the last word may not be completely filled up means that we always have to treat this last word specially.
@@ -189,7 +189,7 @@ Setting those "leftover" bits to 0 is what the `clearUnusedBits()` helper functi
 
 This uses some advanced bit manipulation, so pay close attention:
 
-```swift 
+```swift
   private func lastWordMask() -> Word {
     let diff = words.count*N - size       // 1
     if diff > 0 {
@@ -199,7 +199,7 @@ This uses some advanced bit manipulation, so pay close attention:
       return ~Word()
     }
   }
-  
+
   private mutating func clearUnusedBits() {
     words[words.count - 1] &= lastWordMask()   // 4
   }  
@@ -211,15 +211,15 @@ Here's what it does, step-by-step:
 
 2) Create a mask that is all 0's, except the highest bit that's still valid is a 1. In our example, that would be:
 
-	0000000000010000000000000000000000000000000000000000000000000000 
+	0000000000010000000000000000000000000000000000000000000000000000
 
 3) Subtract 1 to turn it into:
 
-	1111111111100000000000000000000000000000000000000000000000000000 
+	1111111111100000000000000000000000000000000000000000000000000000
 
 and add the high bit back in to get:
 
-	1111111111110000000000000000000000000000000000000000000000000000 
+	1111111111110000000000000000000000000000000000000000000000000000
 
 There are now 12 one-bits in this word because `140 - 2*64 = 12`.
 
@@ -236,7 +236,7 @@ The first one only uses the first 4 bits; the second one uses 8 bits. The first 
 	00100011  
 	-------- OR
 	10101111
-	
+
 That is wrong since two of those 1-bits aren't supposed to be here. The correct way to do it is:
 
 	10000000       unused bits set to 0 first!
