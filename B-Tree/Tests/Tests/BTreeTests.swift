@@ -41,22 +41,22 @@ class BTreeTests: XCTestCase {
   }
   
   func testSearchEmptyTree() {
-    XCTAssertEqual(bTree.valueForKey(1), nil)
+    XCTAssertEqual(bTree.value(for: 1), nil)
   }
   
   func testInsertToEmptyTree() {
-    bTree.insertValue(1, forKey: 1)
+    bTree.insert(1, for: 1)
     
     XCTAssertEqual(bTree[1]!, 1)
   }
   
   func testRemoveFromEmptyTree() {
-    bTree.removeKey(1)
+    bTree.remove(1)
     XCTAssertEqual(bTree.description, "[]")
   }
   
   func testInorderArrayFromEmptyTree() {
-    XCTAssertEqual(bTree.inorderArrayFromKeys(), [Int]())
+    XCTAssertEqual(bTree.inorderArrayFromKeys, [Int]())
   }
   
   func testDescriptionOfEmptyTree() {
@@ -67,7 +67,7 @@ class BTreeTests: XCTestCase {
   
   func testInorderTravelsal() {
     for i in 1...20 {
-      bTree.insertValue(i, forKey: i)
+      bTree.insert(i, for: i)
     }
     
     var j = 1
@@ -82,18 +82,18 @@ class BTreeTests: XCTestCase {
   
   func testSearchForMaximum() {
     for i in 1...20 {
-      bTree.insertValue(i, forKey: i)
+      bTree.insert(i, for: i)
     }
     
-    XCTAssertEqual(bTree.valueForKey(20)!, 20)
+    XCTAssertEqual(bTree.value(for: 20)!, 20)
   }
   
   func testSearchForMinimum() {
     for i in 1...20 {
-      bTree.insertValue(i, forKey: i)
+      bTree.insert(i, for: i)
     }
     
-    XCTAssertEqual(bTree.valueForKey(1)!, 1)
+    XCTAssertEqual(bTree.value(for: 1)!, 1)
   }
   
   // MARK: - Insertion
@@ -108,7 +108,7 @@ class BTreeTests: XCTestCase {
     }
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -118,15 +118,15 @@ class BTreeTests: XCTestCase {
   
   func testRemoveMaximum() {
     for i in 1...20 {
-      bTree.insertValue(i, forKey: i)
+      bTree.insert(i, for: i)
     }
     
-    bTree.removeKey(20)
+    bTree.remove(20)
     
     XCTAssertNil(bTree[20])
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -135,12 +135,12 @@ class BTreeTests: XCTestCase {
   func testRemoveMinimum() {
     bTree.insertKeysUpTo(20)
     
-    bTree.removeKey(1)
+    bTree.remove(1)
     
     XCTAssertNil(bTree[1])
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -149,14 +149,14 @@ class BTreeTests: XCTestCase {
   func testRemoveSome() {
     bTree.insertKeysUpTo(20)
     
-    bTree.removeKey(6)
-    bTree.removeKey(9)
+    bTree.remove(6)
+    bTree.remove(9)
     
     XCTAssertNil(bTree[6])
     XCTAssertNil(bTree[9])
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -166,14 +166,14 @@ class BTreeTests: XCTestCase {
     bTree = BTree<Int, Int>(order: 2)!
     bTree.insertKeysUpTo(20)
     
-    bTree.removeKey(6)
-    bTree.removeKey(9)
+    bTree.remove(6)
+    bTree.remove(9)
     
     XCTAssertNil(bTree[6])
     XCTAssertNil(bTree[9])
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -184,12 +184,12 @@ class BTreeTests: XCTestCase {
     
     XCTAssertEqual(bTree.numberOfKeys, 20)
     
-    for i in (1...20).reverse() {
-      bTree.removeKey(i)
+    for i in (1...20).reversed() {
+      bTree.remove(i)
     }
     
     do {
-      try bTree.checkBalanced()
+      try bTree.checkBalance()
     } catch {
       XCTFail("BTree is not balanced")
     }
@@ -202,47 +202,47 @@ class BTreeTests: XCTestCase {
 	func testInorderArray() {
     bTree.insertKeysUpTo(20)
 		
-		let returnedArray = bTree.inorderArrayFromKeys()
+		let returnedArray = bTree.inorderArrayFromKeys
 		let targetArray = Array<Int>(1...20)
 		
 		XCTAssertEqual(returnedArray, targetArray)
 	}
 }
 
-enum BTreeError: ErrorType {
-  case TooManyNodes
-  case TooFewNodes
+enum BTreeError: Error {
+  case tooManyNodes
+  case tooFewNodes
 }
 
 extension BTreeNode {
-  func checkBalanced(isRoot root: Bool) throws {
-    if numberOfKeys > ownerTree.order * 2 {
-      throw BTreeError.TooManyNodes
-    } else if !root && numberOfKeys < ownerTree.order {
-      throw BTreeError.TooFewNodes
+  func checkBalance(isRoot root: Bool) throws {
+    if numberOfKeys > owner.order * 2 {
+      throw BTreeError.tooManyNodes
+    } else if !root && numberOfKeys < owner.order {
+      throw BTreeError.tooFewNodes
     }
     
     if !isLeaf {
       for child in children! {
-        try child.checkBalanced(isRoot: false)
+        try child.checkBalance(isRoot: false)
       }
     }
   }
 }
 
-extension BTree where Key: SignedIntegerType, Value: SignedIntegerType {
-  func insertKeysUpTo(to: Int) {
+extension BTree where Key: SignedInteger, Value: SignedInteger {
+  func insertKeysUpTo(_ to: Int) {
     var k: Key = 1
     var v: Value = 1
     
     for _ in 1...to {
-      insertValue(v, forKey: k)
+      insert(v, for: k)
       k = k + 1
       v = v + 1
     }
   }
   
-  func checkBalanced() throws {
-    try rootNode.checkBalanced(isRoot: true)
+  func checkBalance() throws {
+    try rootNode.checkBalance(isRoot: true)
   }
 }

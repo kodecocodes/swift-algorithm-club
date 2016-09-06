@@ -10,7 +10,7 @@ import XCTest
 
 class BTreeNodeTests: XCTestCase {
   
-  let ownerTree = BTree<Int, Int>(order: 2)!
+  let owner = BTree<Int, Int>(order: 2)!
   var root: BTreeNode<Int, Int>!
   var leftChild: BTreeNode<Int, Int>!
   var rightChild: BTreeNode<Int, Int>!
@@ -18,11 +18,11 @@ class BTreeNodeTests: XCTestCase {
   override func setUp() {
     super.setUp()
     
-    root = BTreeNode(ownerTree: ownerTree)
-    leftChild = BTreeNode(ownerTree: ownerTree)
-    rightChild = BTreeNode(ownerTree: ownerTree)
+    root = BTreeNode(owner: owner)
+    leftChild = BTreeNode(owner: owner)
+    rightChild = BTreeNode(owner: owner)
     
-    root.insertValue(1, forKey: 1)
+    root.insert(1, for: 1)
     root.children = [leftChild, rightChild]
   }
   
@@ -36,9 +36,9 @@ class BTreeNodeTests: XCTestCase {
   }
   
   func testOwner() {
-    XCTAssert(root.ownerTree === ownerTree)
-    XCTAssert(leftChild.ownerTree === ownerTree)
-    XCTAssert(rightChild.ownerTree === ownerTree)
+    XCTAssert(root.owner === owner)
+    XCTAssert(leftChild.owner === owner)
+    XCTAssert(rightChild.owner === owner)
   }
   
   func testNumberOfKeys() {
