@@ -17,8 +17,8 @@ We compare the number `2` from the array to our number `2` and notice they are e
 Here is a simple implementation of linear search in Swift:
 
 ```swift
-func linearSearch<T: Equatable>(array: [T], _ object: T) -> Int? {
-  for (index, obj) in array.enumerate() where obj == object {
+func linearSearch<T: Equatable>(_ array: [T], _ object: T) -> Int? {
+  for (index, obj) in array.enumerated() where obj == object {
     return index
   }
   return nil
