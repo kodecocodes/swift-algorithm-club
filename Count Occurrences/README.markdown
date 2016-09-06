@@ -22,7 +22,7 @@ The trick is to use two binary searches, one to find where the `3`s start (the l
 In code this looks as follows:
 
 ```swift
-func countOccurrencesOfKey(key: Int, inArray a: [Int]) -> Int {
+func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
   func leftBoundary() -> Int {
     var low = 0
     var high = a.count
