@@ -7,11 +7,11 @@ import XCTest
 
 class HeapTests: XCTestCase {
 
-  private func verifyMaxHeap(h: Heap<Int>) -> Bool {
+  fileprivate func verifyMaxHeap(_ h: Heap<Int>) -> Bool {
     for i in 0..<h.count {
-      let left = h.indexOfLeftChild(i)
-      let right = h.indexOfRightChild(i)
-      let parent = h.indexOfParent(i)
+      let left = h.leftChildIndex(ofIndex: i)
+      let right = h.rightChildIndex(ofIndex: i)
+      let parent = h.parentIndex(ofIndex: i)
       if left < h.count && h.elements[i] < h.elements[left] { return false }
       if right < h.count && h.elements[i] < h.elements[right] { return false }
       if i > 0 && h.elements[parent] < h.elements[i] { return false }
@@ -19,11 +19,11 @@ class HeapTests: XCTestCase {
     return true
   }
 
-  private func verifyMinHeap(h: Heap<Int>) -> Bool {
+  fileprivate func verifyMinHeap(_ h: Heap<Int>) -> Bool {
     for i in 0..<h.count {
-      let left = h.indexOfLeftChild(i)
-      let right = h.indexOfRightChild(i)
-      let parent = h.indexOfParent(i)
+      let left = h.leftChildIndex(ofIndex: i)
+      let right = h.rightChildIndex(ofIndex: i)
+      let parent = h.parentIndex(ofIndex: i)
       if left < h.count && h.elements[i] > h.elements[left] { return false }
       if right < h.count && h.elements[i] > h.elements[right] { return false }
       if i > 0 && h.elements[parent] > h.elements[i] { return false }
@@ -31,14 +31,14 @@ class HeapTests: XCTestCase {
     return true
   }
 
-  private func isPermutation(array1: [Int], _ array2: [Int]) -> Bool {
+  fileprivate func isPermutation(_ array1: [Int], _ array2: [Int]) -> Bool {
     var a1 = array1
     var a2 = array2
     if a1.count != a2.count { return false }
     while a1.count > 0 {
-      if let i = a2.indexOf(a1[0]) {
-        a1.removeAtIndex(0)
-        a2.removeAtIndex(i)
+      if let i = a2.index(of: a1[0]) {
+        a1.remove(at: 0)
+        a2.remove(at: i)
       } else {
         return false
       }
@@ -161,7 +161,7 @@ class HeapTests: XCTestCase {
     XCTAssertEqual(heap.elements, [1, 1, 1, 1, 1])
   }
 
-  private func randomArray(n: Int) -> [Int] {
+  fileprivate func randomArray(_ n: Int) -> [Int] {
     var a = [Int]()
     for _ in 0..<n {
       a.append(Int(arc4random()))
@@ -197,27 +197,27 @@ class HeapTests: XCTestCase {
     XCTAssertEqual(h.elements, [100, 50, 70, 10, 20, 60, 65])
 
     //test index out of bounds
-    let v = h.removeAtIndex(10)
+    let v = h.removeAt(index: 10)
     XCTAssertEqual(v, nil)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [100, 50, 70, 10, 20, 60, 65])
     
-    let v1 = h.removeAtIndex(5)
+    let v1 = h.removeAt(index: 5)
     XCTAssertEqual(v1, 60)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [100, 50, 70, 10, 20, 65])
 
-    let v2 = h.removeAtIndex(4)
+    let v2 = h.removeAt(index: 4)
     XCTAssertEqual(v2, 20)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [100, 65, 70, 10, 50])
 
-    let v3 = h.removeAtIndex(4)
+    let v3 = h.removeAt(index: 4)
     XCTAssertEqual(v3, 50)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [100, 65, 70, 10])
 
-    let v4 = h.removeAtIndex(0)
+    let v4 = h.removeAt(index: 0)
     XCTAssertEqual(v4, 100)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [70, 65, 10])
@@ -270,9 +270,9 @@ class HeapTests: XCTestCase {
       let m = (n + 1)/2
       for k in 1...m {
         let i = Int(arc4random_uniform(UInt32(n - k + 1)))
-        let v = h.removeAtIndex(i)!
-        let j = a.indexOf(v)!
-        a.removeAtIndex(j)
+        let v = h.removeAt(index: i)!
+        let j = a.index(of: v)!
+        a.remove(at: j)
 
         XCTAssertTrue(verifyMaxHeap(h))
         XCTAssertEqual(h.count, a.count)

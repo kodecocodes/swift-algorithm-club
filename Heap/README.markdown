@@ -260,7 +260,7 @@ It can be convenient to convert an array into a heap. This just shuffles the arr
 In code it would look like this:
 
 ```swift
-  private mutating func buildHeap(array: [T]) {
+  private mutating func buildHeap(fromArray array: [T]) {
     for value in array {
       insert(value)
     }
@@ -274,7 +274,7 @@ If you didn't gloss over the math section, you'd have seen that for any heap the
 In code:
 
 ```swift
-  private mutating func buildHeap(array: [T]) {
+  private mutating func buildHeap(fromArray array: [T]) {
     elements = array
     for i in (elements.count/2 - 1).stride(through: 0, by: -1) {
       shiftDown(index: i, heapSize: elements.count)

@@ -8,14 +8,14 @@ public struct Heap<T> {
   var elements = [T]()
 
   /** Determines whether this is a max-heap (>) or min-heap (<). */
-  private var isOrderedBefore: (T, T) -> Bool
+  fileprivate var isOrderedBefore: (T, T) -> Bool
 
   /**
    * Creates an empty heap.
    * The sort function determines whether this is a min-heap or max-heap.
    * For integers, > makes a max-heap, < makes a min-heap.
    */
-  public init(sort: (T, T) -> Bool) {
+  public init(sort: @escaping (T, T) -> Bool) {
     self.isOrderedBefore = sort
   }
 
@@ -24,9 +24,9 @@ public struct Heap<T> {
    * the elements are inserted into the heap in the order determined by the
    * sort function.
    */
-  public init(array: [T], sort: (T, T) -> Bool) {
+  public init(array: [T], sort: @escaping (T, T) -> Bool) {
     self.isOrderedBefore = sort
-    buildHeap(array)
+    buildHeap(fromArray: array)
   }
 
   /*
@@ -43,9 +43,9 @@ public struct Heap<T> {
    * Converts an array to a max-heap or min-heap in a bottom-up manner.
    * Performance: This runs pretty much in O(n).
    */
-  private mutating func buildHeap(array: [T]) {
+  fileprivate mutating func buildHeap(fromArray array: [T]) {
     elements = array
-    for i in (elements.count/2 - 1).stride(through: 0, by: -1) {
+    for i in stride(from: (elements.count/2 - 1), through: 0, by: -1) {
       shiftDown(index: i, heapSize: elements.count)
     }
   }
@@ -62,7 +62,7 @@ public struct Heap<T> {
    * Returns the index of the parent of the element at index i.
    * The element at index 0 is the root of the tree and has no parent.
    */
-  @inline(__always) func indexOfParent(i: Int) -> Int {
+  @inline(__always) func parentIndex(ofIndex i: Int) -> Int {
     return (i - 1) / 2
   }
 
@@ -71,7 +71,7 @@ public struct Heap<T> {
    * Note that this index can be greater than the heap size, in which case
    * there is no left child.
    */
-  @inline(__always) func indexOfLeftChild(i: Int) -> Int {
+  @inline(__always) func leftChildIndex(ofIndex i: Int) -> Int {
     return 2*i + 1
   }
 
@@ -80,7 +80,7 @@ public struct Heap<T> {
    * Note that this index can be greater than the heap size, in which case
    * there is no right child.
    */
-  @inline(__always) func indexOfRightChild(i: Int) -> Int {
+  @inline(__always) func rightChildIndex(ofIndex i: Int) -> Int {
     return 2*i + 2
   }
 
@@ -96,12 +96,12 @@ public struct Heap<T> {
    * Adds a new value to the heap. This reorders the heap so that the max-heap
    * or min-heap property still holds. Performance: O(log n).
    */
-  public mutating func insert(value: T) {
+  public mutating func insert(_ value: T) {
     elements.append(value)
     shiftUp(index: elements.count - 1)
   }
 
-  public mutating func insert<S: SequenceType where S.Generator.Element == T>(sequence: S) {
+  public mutating func insert<S: Sequence>(_ sequence: S) where S.Iterator.Element == T {
     for value in sequence {
       insert(value)
     }
@@ -123,7 +123,7 @@ public struct Heap<T> {
    * Removes the root node from the heap. For a max-heap, this is the maximum
    * value; for a min-heap it is the minimum value. Performance: O(log n).
    */
-  public mutating func remove() -> T? {
+  @discardableResult public mutating func remove() -> T? {
     if elements.isEmpty {
       return nil
     } else if elements.count == 1 {
@@ -142,14 +142,14 @@ public struct Heap<T> {
    * Removes an arbitrary node from the heap. Performance: O(log n). You need
    * to know the node's index, which may actually take O(n) steps to find.
    */
-  public mutating func removeAtIndex(i: Int) -> T? {
-    guard i < elements.count else { return nil }
+  public mutating func removeAt(index: Int) -> T? {
+    guard index < elements.count else { return nil }
     
     let size = elements.count - 1
-    if i != size {
-      swap(&elements[i], &elements[size])
-      shiftDown(index: i, heapSize: size)
-      shiftUp(index: i)
+    if index != size {
+      swap(&elements[index], &elements[size])
+      shiftDown(index: index, heapSize: size)
+      shiftUp(index: index)
     }
     return elements.removeLast()
   }
@@ -158,15 +158,15 @@ public struct Heap<T> {
    * Takes a child node and looks at its parents; if a parent is not larger
    * (max-heap) or not smaller (min-heap) than the child, we exchange them.
    */
-  mutating func shiftUp(index index: Int) {
+  mutating func shiftUp(index: Int) {
     var childIndex = index
     let child = elements[childIndex]
-    var parentIndex = indexOfParent(childIndex)
+    var parentIndex = self.parentIndex(ofIndex: childIndex)
 
     while childIndex > 0 && isOrderedBefore(child, elements[parentIndex]) {
       elements[childIndex] = elements[parentIndex]
       childIndex = parentIndex
-      parentIndex = indexOfParent(childIndex)
+      parentIndex = self.parentIndex(ofIndex: childIndex)
     }
 
     elements[childIndex] = child
@@ -180,11 +180,11 @@ public struct Heap<T> {
    * Looks at a parent node and makes sure it is still larger (max-heap) or
    * smaller (min-heap) than its childeren.
    */
-  mutating func shiftDown(index index: Int, heapSize: Int) {
+  mutating func shiftDown(index: Int, heapSize: Int) {
     var parentIndex = index
 
     while true {
-      let leftChildIndex = indexOfLeftChild(parentIndex)
+      let leftChildIndex = self.leftChildIndex(ofIndex: parentIndex)
       let rightChildIndex = leftChildIndex + 1
 
       // Figure out which comes first if we order them by the sort function:
@@ -212,16 +212,16 @@ extension Heap where T: Equatable {
   /**
    * Searches the heap for the given element. Performance: O(n).
    */
-  public func indexOf(element: T) -> Int? {
-    return indexOf(element, 0)
+  public func index(of element: T) -> Int? {
+    return index(of: element, 0)
   }
 
-  private func indexOf(element: T, _ i: Int) -> Int? {
+  fileprivate func index(of element: T, _ i: Int) -> Int? {
     if i >= count { return nil }
     if isOrderedBefore(element, elements[i]) { return nil }
     if element == elements[i] { return i }
-    if let j = indexOf(element, indexOfLeftChild(i)) { return j }
-    if let j = indexOf(element, indexOfRightChild(i)) { return j }
+    if let j = index(of: element, self.leftChildIndex(ofIndex: i)) { return j }
+    if let j = index(of: element, self.rightChildIndex(ofIndex: i)) { return j }
     return nil
   }
 }
