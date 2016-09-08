@@ -44,9 +44,9 @@ public enum BinarySearchTree<T: Comparable> {
 
     case .Node(let left, let value, let right):
       if newValue < value {
-        return .Node(left.insert(newValue), value, right)
+        return .Node(left.insert(newValue: newValue), value, right)
       } else {
-        return .Node(left, value, right.insert(newValue))
+        return .Node(left, value, right.insert(newValue: newValue))
       }
     }
   }
@@ -63,9 +63,9 @@ public enum BinarySearchTree<T: Comparable> {
       return (x == y) ? self : nil
     case let .Node(left, y, right):
       if x < y {
-        return left.search(x)
+        return left.search(x: x)
       } else if y < x {
-        return right.search(x)
+        return right.search(x: x)
       } else {
         return self
       }
@@ -73,7 +73,7 @@ public enum BinarySearchTree<T: Comparable> {
   }
 
   public func contains(x: T) -> Bool {
-    return search(x) != nil
+    return search(x: x) != nil
   }
 
   /*
