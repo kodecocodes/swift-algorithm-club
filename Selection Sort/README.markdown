@@ -59,7 +59,7 @@ As you can see, selection sort is an *in-place* sort because everything happens 
 Here is an implementation of selection sort in Swift:
 
 ```swift
-func selectionSort(array: [Int]) -> [Int] {
+func selectionSort(_ array: [Int]) -> [Int] {
   guard array.count > 1 else { return array }  // 1
 
   var a = array                    // 2

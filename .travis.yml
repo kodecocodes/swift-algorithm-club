@@ -33,7 +33,7 @@ script:
 # - xcodebuild test -project ./Quicksort/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Run-Length\ Encoding/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Select\ Minimum\ Maximum/Tests/Tests.xcodeproj -scheme Tests
-# - xcodebuild test -project ./Selection\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Selection\ Sort/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Shell\ Sort/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Shortest\ Path\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Single-Source\ Shortest\ Paths\ \(Weighted\)/SSSP.xcodeproj -scheme SSSPTests
