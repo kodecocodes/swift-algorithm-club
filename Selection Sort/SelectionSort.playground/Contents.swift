@@ -1,6 +1,6 @@
 //: Playground - noun: a place where people can play
 
-func selectionSort<T>(array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
+func selectionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
   guard array.count > 1 else { return array }
   var a = array
   for x in 0 ..< a.count - 1 {
