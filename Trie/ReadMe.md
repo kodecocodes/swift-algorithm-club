@@ -4,7 +4,7 @@
 
 A `Trie`, (also known as a prefix tree, or radix tree in some other implementations) is a special type of tree used to store associative data structures. A `Trie` for a dictionary might look like this:
 
-![A Trie](Images/trie.png)
+![A Trie](images/trie.png)
 
 Storing the English language is a primary use case for a `Trie`. Each node in the `Trie` would representing a single character of a word. A series of nodes then make up a word.
 
