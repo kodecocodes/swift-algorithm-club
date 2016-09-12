@@ -30,11 +30,11 @@ func contains(word: String) -> Bool {
 	// 1
 	var currentNode = root
   
-  // 2
+	// 2
 	var characters = Array(word.lowercased().characters)
 	var currentIndex = 0
  
-  // 3
+	// 3
 	while currentIndex < characters.count, 
 	  let child = currentNode.children[character[currentIndex]] {
 
@@ -42,7 +42,7 @@ func contains(word: String) -> Bool {
 	  currentIndex += 1
 	}
 
-  // 4
+	// 4
 	if currentIndex == characters.count && currentNode.isTerminating {
 	  return true
 	} else {
@@ -69,15 +69,15 @@ func insert(word: String) {
   // 1
   var currentNode = root
   
-  // 2
+	// 2
   var characters = Array(word.lowercased().characters)
   var currentIndex = 0
   
-  // 3
+	// 3
   while currentIndex < characters.count {
     let character = characters[currentIndex]
 
-    // 4
+		// 4
     if let child = currentNode.children[character] {
       currentNode = child
     } else {
@@ -87,7 +87,7 @@ func insert(word: String) {
     
     currentIndex += 1
 
-    // 5
+		// 5
     if currentIndex == characters.count {
       currentNode.isTerminating = true
     }
@@ -111,14 +111,14 @@ If you'd like to remove "Apple", you'll need to take care to leave the "App" cha
 func remove(word: String) {
   guard !word.isEmpty else { return }
 
-  // 1
+	// 1
   var currentNode = root
   
-  // 2
+	// 2
   var characters = Array(word.lowercased().characters)
   var currentIndex = 0
   
-  // 3
+	// 3
   while currentIndex < characters.count {
     let character = characters[currentIndex]
     guard let child = currentNode.children[character] else { return }
@@ -126,7 +126,7 @@ func remove(word: String) {
     currentIndex += 1
   }
   
-  // 4
+	// 4
   if currentNode.children.count > 0 {
     currentNode.isTerminating = false
   } else {
