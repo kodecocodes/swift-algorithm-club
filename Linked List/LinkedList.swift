@@ -50,7 +50,7 @@ public class LinkedList<T> {
     }
   }
 
-  public func nodeAtIndex(index: Int) -> Node? {
+  public func nodeAt(index: Int) -> Node? {
     if index >= 0 {
       var node = head
       var i = index
@@ -64,7 +64,7 @@ public class LinkedList<T> {
   }
 
   public subscript(index: Int) -> T {
-    let node = nodeAtIndex(index: index)
+    let node = nodeAt(index: index)
     assert(node != nil)
     return node!.value
   }
@@ -114,7 +114,7 @@ public class LinkedList<T> {
     head = nil
   }
 
-  public func removeNode(node: Node) -> T {
+  public func remove(node: Node) -> T {
     let prev = node.previous
     let next = node.next
 
@@ -132,13 +132,13 @@ public class LinkedList<T> {
 
   public func removeLast() -> T {
     assert(!isEmpty)
-    return removeNode(node: last!)
+    return remove(node: last!)
   }
 
-  public func removeAtIndex(index: Int) -> T {
-    let node = nodeAtIndex(index: index)
+  public func removeAt(index: Int) -> T {
+    let node = nodeAt(index: index)
     assert(node != nil)
-    return removeNode(node: node!)
+    return remove(node: node!)
   }
 }
 

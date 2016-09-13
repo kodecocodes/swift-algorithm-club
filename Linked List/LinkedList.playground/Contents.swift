@@ -47,7 +47,7 @@ public class LinkedList<T> {
     }
   }
 
-  public func nodeAtIndex(index: Int) -> Node? {
+  public func nodeAt(index: Int) -> Node? {
     if index >= 0 {
       var node = head
       var i = index
@@ -61,7 +61,7 @@ public class LinkedList<T> {
   }
 
   public subscript(index: Int) -> T {
-    let node = nodeAtIndex(index: index)
+    let node = nodeAt(index: index)
     assert(node != nil)
     return node!.value
   }
@@ -111,7 +111,7 @@ public class LinkedList<T> {
     head = nil
   }
 
-  public func removeNode(node: Node) -> T {
+  public func remove(node: Node) -> T {
     let prev = node.previous
     let next = node.next
 
@@ -129,13 +129,13 @@ public class LinkedList<T> {
 
   public func removeLast() -> T {
     assert(!isEmpty)
-    return removeNode(node: last!)
+    return remove(node: last!)
   }
 
-  public func removeAtIndex(index: Int) -> T {
-    let node = nodeAtIndex(index: index)
+  public func removeAt(index: Int) -> T {
+    let node = nodeAt(index: index)
     assert(node != nil)
-    return removeNode(node: node!)
+    return remove(node: node!)
   }
 }
 
@@ -211,9 +211,9 @@ list.first!.next!.value       // "World"
 list.last!.previous!.value    // "Hello"
 list.last!.next               // nil
 
-list.nodeAtIndex(index: 0)!.value    // "Hello"
-list.nodeAtIndex(index: 1)!.value    // "World"
-list.nodeAtIndex(index: 2)           // nil
+list.nodeAt(index: 0)!.value    // "Hello"
+list.nodeAt(index: 1)!.value    // "World"
+list.nodeAt(index: 2)           // nil
 
 list[0]     // "Hello"
 list[1]     // "World"
@@ -227,8 +227,8 @@ print(list)
 
 list.reverse()   // [World, Swift, Hello]
 
-list.nodeAtIndex(index: 0)!.value = "Universe"
-list.nodeAtIndex(index: 1)!.value = "Swifty"
+list.nodeAt(index: 0)!.value = "Universe"
+list.nodeAt(index: 1)!.value = "Swifty"
 let m = list.map { s in s.characters.count }
 m    // [8, 6, 5]
 let f = list.filter { s in s.characters.count > 5 }
@@ -237,7 +237,7 @@ f    // [Universe, Swifty]
 //list.removeAll()
 //list.isEmpty
 
-list.removeNode(node: list.first!)   // "Hello"
+list.remove(node: list.first!)   // "Hello"
 list.count                     // 2
 list[0]                        // "Swift"
 list[1]                        // "World"
@@ -246,5 +246,5 @@ list.removeLast()              // "World"
 list.count                     // 1
 list[0]                        // "Swift"
 
-list.removeAtIndex(index: 0)          // "Swift"
+list.removeAt(index: 0)          // "Swift"
 list.count                     // 0
