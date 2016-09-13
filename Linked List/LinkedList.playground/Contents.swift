@@ -47,7 +47,7 @@ public class LinkedList<T> {
     }
   }
 
-  public func nodeAt(index: Int) -> Node? {
+  public func nodeAt(_ index: Int) -> Node? {
     if index >= 0 {
       var node = head
       var i = index
@@ -61,7 +61,7 @@ public class LinkedList<T> {
   }
 
   public subscript(index: Int) -> T {
-    let node = nodeAt(index: index)
+    let node = nodeAt(index)
     assert(node != nil)
     return node!.value
   }
@@ -132,8 +132,8 @@ public class LinkedList<T> {
     return remove(node: last!)
   }
 
-  public func removeAt(index: Int) -> T {
-    let node = nodeAt(index: index)
+  public func removeAt(_ index: Int) -> T {
+    let node = nodeAt(index)
     assert(node != nil)
     return remove(node: node!)
   }
@@ -211,9 +211,9 @@ list.first!.next!.value       // "World"
 list.last!.previous!.value    // "Hello"
 list.last!.next               // nil
 
-list.nodeAt(index: 0)!.value    // "Hello"
-list.nodeAt(index: 1)!.value    // "World"
-list.nodeAt(index: 2)           // nil
+list.nodeAt(0)!.value    // "Hello"
+list.nodeAt(1)!.value    // "World"
+list.nodeAt(2)           // nil
 
 list[0]     // "Hello"
 list[1]     // "World"
@@ -227,8 +227,8 @@ print(list)
 
 list.reverse()   // [World, Swift, Hello]
 
-list.nodeAt(index: 0)!.value = "Universe"
-list.nodeAt(index: 1)!.value = "Swifty"
+list.nodeAt(0)!.value = "Universe"
+list.nodeAt(1)!.value = "Swifty"
 let m = list.map { s in s.characters.count }
 m    // [8, 6, 5]
 let f = list.filter { s in s.characters.count > 5 }
@@ -246,5 +246,5 @@ list.removeLast()              // "World"
 list.count                     // 1
 list[0]                        // "Swift"
 
-list.removeAt(index: 0)          // "Swift"
+list.removeAt(0)          // "Swift"
 list.count                     // 0
