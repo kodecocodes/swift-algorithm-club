@@ -216,7 +216,7 @@ It loops through the list in the same manner but this time increments a counter 
 What if we wanted to find the node at a specific index in the list? With an array we can just write `array[index]` and it's an **O(1)** operation. It's a bit more involved with linked lists, but again the code follows a similar pattern:
 
 ```swift
-  public func nodeAtIndex(index: Int) -> Node? {
+  public func nodeAt(_ index: Int) -> Node? {
     if index >= 0 {
       var node = head
       var i = index
@@ -235,16 +235,16 @@ The loop looks a little different but it does the same thing: it starts at `head
 Try it out:
 
 ```swift
-list.nodeAtIndex(0)!.value    // "Hello"
-list.nodeAtIndex(1)!.value    // "World"
-list.nodeAtIndex(2)           // nil
+list.nodeAt(0)!.value    // "Hello"
+list.nodeAt(1)!.value    // "World"
+list.nodeAt(2)           // nil
 ```
 
 For fun we can implement a `subscript` method too:
 
 ```swift
   public subscript(index: Int) -> T {
-    let node = nodeAtIndex(index)
+    let node = nodeAt(index)
     assert(node != nil)
     return node!.value
   }
@@ -367,7 +367,7 @@ If you had a tail pointer, you'd set it to `nil` here too.
 Next we'll add some functions that let you remove individual nodes. If you already have a reference to the node, then using `removeNode()` is the most optimal because you don't need to iterate through the list to find the node first. 
 
 ```swift
-  public func removeNode(node: Node) -> T {
+  public func remove(node: Node) -> T {
     let prev = node.previous
     let next = node.next
     
@@ -391,24 +391,24 @@ Don't forget the `head` pointer! If this was the first node in the list then `he
 Try it out:
 
 ```swift
-list.removeNode(list.first!)   // "Hello"
+list.remove(list.first!)   // "Hello"
 list.count                     // 2
 list[0]                        // "Swift"
 list[1]                        // "World"
 ```
 
-If you don't have a reference to the node, you can use `removeLast()` or `removeAtIndex()`:
+If you don't have a reference to the node, you can use `removeLast()` or `removeAt()`:
 
 ```swift
   public func removeLast() -> T {
     assert(!isEmpty)
-    return removeNode(last!)
+    return remove(node: last!)
   }
 
-  public func removeAtIndex(index: Int) -> T {
-    let node = nodeAtIndex(index)
+  public func removeAt(_ index: Int) -> T {
+    let node = nodeAt(index)
     assert(node != nil)
-    return removeNode(node!)
+    return remove(node: node!)
   }
 ```
 
@@ -419,7 +419,7 @@ list.removeLast()              // "World"
 list.count                     // 1
 list[0]                        // "Swift"
 
-list.removeAtIndex(0)          // "Swift"
+list.removeAt(0)          // "Swift"
 list.count                     // 0
 ```
 
