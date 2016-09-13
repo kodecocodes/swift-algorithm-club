@@ -16,7 +16,7 @@ public class LinkedListNode<T> {
 public class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
 
-  fileprivate var head: Node?
+  private var head: Node?
 
   public var isEmpty: Bool {
     return head == nil
@@ -64,7 +64,7 @@ public class LinkedList<T> {
   }
 
   public subscript(index: Int) -> T {
-    let node = nodeAtIndex(index: index)
+    let node = nodeAtIndex(index)
     assert(node != nil)
     return node!.value
   }
@@ -97,7 +97,7 @@ public class LinkedList<T> {
   }
 
   public func insert(value: T, atIndex index: Int) {
-    let (prev, next) = nodesBeforeAndAfter(index: index)
+    let (prev, next) = nodesBeforeAndAfter(index)
 
     let newNode = Node(value: value)
     newNode.previous = prev
@@ -132,13 +132,13 @@ public class LinkedList<T> {
 
   public func removeLast() -> T {
     assert(!isEmpty)
-    return removeNode(node: last!)
+    return removeNode(last!)
   }
 
   public func removeAtIndex(index: Int) -> T {
-    let node = nodeAtIndex(index: index)
+    let node = nodeAtIndex(index)
     assert(node != nil)
-    return removeNode(node: node!)
+    return removeNode(node!)
   }
 }
 
@@ -167,22 +167,22 @@ extension LinkedList {
 }
 
 extension LinkedList {
-  public func map<U>(transform: (T)-> U) -> LinkedList<U> {
+  public func map<U>(transform: T -> U) -> LinkedList<U> {
     let result = LinkedList<U>()
     var node = head
     while node != nil {
-        result.append(value: transform(node!.value))
+      result.append(transform(node!.value))
       node = node!.next
     }
     return result
   }
 
-  public func filter(predicate: (T)-> Bool) -> LinkedList<T> {
+  public func filter(predicate: T -> Bool) -> LinkedList<T> {
     let result = LinkedList<T>()
     var node = head
     while node != nil {
       if predicate(node!.value) {
-        result.append(value: node!.value)
+        result.append(node!.value)
       }
       node = node!.next
     }
