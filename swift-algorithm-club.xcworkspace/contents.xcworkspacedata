@@ -869,9 +869,6 @@
          location = "group:HashTable.playground">
       </FileRef>
       <FileRef
-         location = "group:HashTable.swift">
-      </FileRef>
-      <FileRef
          location = "group:README.markdown">
       </FileRef>
    </Group>

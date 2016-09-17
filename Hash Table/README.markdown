@@ -115,17 +115,15 @@ Let's look at a basic implementation of a hash table in Swift. We'll build it up
 public struct HashTable<Key: Hashable, Value> {
   private typealias Element = (key: Key, value: Value)
   private typealias Bucket = [Element]
-  
   private var buckets: [Bucket]
-  private(set) var count = 0
+
+  private(set) public var count = 0
   
+  public var isEmpty: Bool { return count == 0 }
+
   public init(capacity: Int) {
     assert(capacity > 0)
-    buckets = .init(count: capacity, repeatedValue: [])
-  }
-  
-  public var isEmpty: Bool {
-    return count == 0
+    buckets = Array<Bucket>(repeatElement([], count: capacity))
   }
 ```
 
@@ -142,7 +140,7 @@ var hashTable = HashTable<String, String>(capacity: 5)
 Currently the hash table doesn't do anything yet, so let's add the remaining functionality. First, add a helper method that calculates the array index for a given key:
 
 ```swift
-  private func indexForKey(key: Key) -> Int {
+  private func index(forKey key: Key) -> Int {
     return abs(key.hashValue) % buckets.count
   }
 ```
@@ -170,24 +168,23 @@ We can do all these things with a `subscript` function:
 ```swift
   public subscript(key: Key) -> Value? {
     get {
-      return valueForKey(key)
+      return value(forKey: key)
     }
     set {
       if let value = newValue {
         updateValue(value, forKey: key)
       } else {
-        removeValueForKey(key)
+        removeValue(forKey: key)
       }
     }
   }
 ```
 
-This calls three helper functions to do the actual work. Let's take a look at `valueForKey()` first, which retrieves an object from the hash table.
+This calls three helper functions to do the actual work. Let's take a look at `value(forKey:)` first, which retrieves an object from the hash table.
 
 ```swift
-  public func valueForKey(key: Key) -> Value? {
-    let index = indexForKey(key)
-
+  public func value(forKey key: Key) -> Value? {
+    let index = self.index(forKey: key)
     for element in buckets[index] {
       if element.key == key {
         return element.value
@@ -197,13 +194,13 @@ This calls three helper functions to do the actual work. Let's take a look at `v
   }
 ```
 
-First it calls `indexForKey()` to convert the key into an array index. That gives us the bucket number, but if there were collisions this bucket may be used by more than one key. So `valueForKey()` loops through the chain from that bucket and compares the keys one-by-one. If found, it returns the corresponding value, otherwise it returns `nil`.
+First it calls `index(forKey:)` to convert the key into an array index. That gives us the bucket number, but if there were collisions this bucket may be used by more than one key. So `value(forKey:)` loops through the chain from that bucket and compares the keys one-by-one. If found, it returns the corresponding value, otherwise it returns `nil`.
 
-The code to insert a new element or update an existing element lives in `updateValue(forKey)`. It's a little bit more complicated:
+The code to insert a new element or update an existing element lives in `updateValue(_:forKey:)`. It's a little bit more complicated:
 
 ```swift
-  public mutating func updateValue(value: Value, forKey key: Key) -> Value? {
-    let index = indexForKey(key)
+  public mutating func updateValue(_ value: Value, forKey key: Key) -> Value? {
+    let index = self.index(forKey: key)
     
     // Do we already have this key in the bucket?
     for (i, element) in buckets[index].enumerate() {
@@ -228,13 +225,13 @@ As you can see, it's important that chains are kept short (by making the hash ta
 Removing is similar in that again it loops through the chain:
 
 ```swift
-  public mutating func removeValueForKey(key: Key) -> Value? {
-    let index = indexForKey(key)
+  public mutating func removeValue(forKey key: Key) -> Value? {
+    let index = self.index(forKey: key)
 
     // Find the element in the bucket's chain and remove it.
-    for (i, element) in buckets[index].enumerate() {
+    for (i, element) in buckets[index].enumerated() {
       if element.key == key {
-        buckets[index].removeAtIndex(i)
+        buckets[index].remove(at: i)
         count -= 1
         return element.value
       }
