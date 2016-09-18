@@ -22,7 +22,7 @@ For a skip list *S*:
    items in *Li-1*
 3. Height is determined by coin-flipping.
 
-![Schematic view](Images/Search.png)
+![Schematic view](Images/Search1.png)
 Figure 1
 
 
