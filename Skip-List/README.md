@@ -102,7 +102,7 @@ Inserting 13. with coin flips (0)
 Inserting 20. with 4 times coin flips (1) 
 ![Inserting first element](Images/Insert9.png)
 ![Inserting first element](Images/Insert10.png)
-![Inserting first element](Images/insert11.png)
+![Inserting first element](Images/Insert11.png)
 ![Inserting first element](Images/Insert12.png)
 
 #Removing
