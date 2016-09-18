@@ -22,7 +22,7 @@ For a skip list *S*:
    items in *Li-1*
 3. Height is determined by coin-flipping.
 
-![Schematic view](Images/Search1.png)
+![Schematic view](Images/Intro.png)
 Figure 1
 
 
@@ -42,7 +42,7 @@ is *L0* and item doesn't exists.
 
 ###Example:
 
-![Inserting first element](Images/Insert5.png)
+![Inserting first element](Images/Search1.png)
 
 #Inserting
 
