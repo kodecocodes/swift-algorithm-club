@@ -33,7 +33,7 @@ Searching for  element *N* starts by  traversing from top most  layer *Ln* until
 
 Our objective  is to find an  element *K* such  that its value at  the rightmost
 position of current layer, is less-than  target item and its subsequent node has
-a greater-equal  value or nil (  * K.key < N.key  <= (K.next.key or nil)*  ). if
+a greater-equal  value or nil (  *K.key < N.key  <= (K.next.key or nil)*  ). if
 value of *K.next* is equal to *N*,  search is terminated and we return *K.next*,
 otherwise drop underneath using *K.down* to the node below ( at layer Ln-1 ) and
 repeat the process until *L0* where *K.down* is `nil` which indicates that level
@@ -54,7 +54,7 @@ it.
 
 Our objective  is to find  a element  *K* such that  its value at  the rightmost
 position of  layer *Ln*,  is less-than new  item and its  subsequent node  has a
-greater-equal value  or nil (  * K.key  < N.key <  (K.next.key or nil)*  ). Push
+greater-equal value  or nil (  *K.key  < N.key <  (K.next.key or nil)*  ). Push
 element *K*  to the stack and  with element *K*,  go down using *K.down*  to the
 node below  ( at layer Ln-1  ) and repeat the  process ( forward searching  ) up
 until  *L0* where  *K.down* is  `nil`  which indicates  that level  is *L0*.  We
@@ -68,7 +68,7 @@ layers.
 When  coin flip  function returns  0,  the whole  process is  finished but  when
 returns 1, there are two possibilities:
 
-1. Stack is empty ( Level is *L0* / -*Ln* or at uninitialized stage)
+1. Stack is empty ( Level is *L0* /- *Ln* or at uninitialized stage)
 2. Stack has items ( traversing upward is possible )
 
 In case 1:
