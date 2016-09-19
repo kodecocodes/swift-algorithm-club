@@ -55,13 +55,11 @@ public class RBTNode<T: Comparable>: CustomStringConvertible {
         return parent.parent
     }
     
-    public var sibling: RBTNode<T>! {
+    public var sibling: RBTNode<T> {
         if isLeftChild {
             return self.parent.right
-        } else if isRightChild {
-            return self.parent.left
         } else {
-            return nil
+            return self.parent.left
         }
     }
     
@@ -245,6 +243,8 @@ public class RBTree<T: Comparable>: CustomStringConvertible {
         } else if n.parent.isRightChild && n.isLeftChild { // right left case
             rightRotate(n: n.parent)
             insertCase5(n: n.right)
+        } else {
+            insertCase5(n: n)
         }
     }
     
@@ -320,81 +320,91 @@ public class RBTree<T: Comparable>: CustomStringConvertible {
             child.color = .doubleBlack
             
             while child.isDoubleBlack || (child.parent !== nullLeaf && child.parent != nil) {
-                if sibling!.isBlack {
+                if sibling.isBlack {
                     
                     var leftRedChild: RBTNode<T>! = nil
-                    if sibling!.left.isRed {
-                        leftRedChild = sibling!.left
+                    if sibling.left.isRed {
+                        leftRedChild = sibling.left
                     }
                     var rightRedChild: RBTNode<T>! = nil
-                    if sibling!.right.isRed {
-                        rightRedChild = sibling!.right
+                    if sibling.right.isRed {
+                        rightRedChild = sibling.right
                     }
                     
                     if leftRedChild != nil || rightRedChild != nil { // at least one of sibling's children are red
                         child.color = .black
-                        if sibling!.isLeftChild {
+                        if sibling.isLeftChild {
                             if leftRedChild != nil { // left left case
-                                sibling!.left.color = .black
-                                let tempColor = sibling!.parent.color
-                                sibling!.parent.color = sibling!.color
-                                sibling!.color = tempColor
-                                rightRotate(n: sibling!.parent)
+                                sibling.left.color = .black
+                                let tempColor = sibling.parent.color
+                                sibling.parent.color = sibling.color
+                                sibling.color = tempColor
+                                rightRotate(n: sibling.parent)
                             } else { // left right case
-                                if sibling!.parent.isRed {
-                                    sibling!.parent.color = .black
+                                if sibling.parent.isRed {
+                                    sibling.parent.color = .black
                                 } else {
-                                    sibling!.right.color = .black
+                                    sibling.right.color = .black
                                 }
-                                leftRotate(n: sibling!)
-                                rightRotate(n: sibling!.grandparent)
+                                leftRotate(n: sibling)
+                                rightRotate(n: sibling.grandparent)
                             }
                         } else {
                             if rightRedChild != nil { // right right case
-                                sibling!.right.color = .black
-                                let tempColor = sibling!.parent.color
-                                sibling!.parent.color = sibling!.color
-                                sibling!.color = tempColor
-                                leftRotate(n: sibling!.parent)
+                                sibling.right.color = .black
+                                let tempColor = sibling.parent.color
+                                sibling.parent.color = sibling.color
+                                sibling.color = tempColor
+                                leftRotate(n: sibling.parent)
                             } else { // right left case
-                                if sibling!.parent.isRed {
-                                    sibling!.parent.color = .black
+                                if sibling.parent.isRed {
+                                    sibling.parent.color = .black
                                 } else {
-                                    sibling!.left.color = .black
+                                    sibling.left.color = .black
                                 }
-                                rightRotate(n: sibling!)
-                                leftRotate(n: sibling!.grandparent)
+                                rightRotate(n: sibling)
+                                leftRotate(n: sibling.grandparent)
                             }
                         }
                         break
                     } else { // both sibling's children are black
                         child.color = .black
-                        sibling!.color = .red
-                        if sibling!.parent.isRed {
-                            sibling!.parent.color = .black
+                        sibling.color = .red
+                        if sibling.parent.isRed {
+                            sibling.parent.color = .black
                             break
                         }
-                        sibling!.parent.color = .doubleBlack
-                        child = sibling!.parent
+                        /*
+                        sibling.parent.color = .doubleBlack
+                        child = sibling.parent
                         sibling = child.sibling
+                        */
+                        if sibling.parent.parent === nullLeaf { // parent of child is root
+                            break
+                        } else {
+                            sibling.parent.color = .doubleBlack
+                            child = sibling.parent
+                            sibling = child.sibling // can become nill if child is root as parent is nullLeaf
+                        }
+                        //---------------
                     }
                 } else { // sibling is red
-                    sibling!.color = .black
+                    sibling.color = .black
                     
-                    if sibling!.isLeftChild { // left case
-                        rightRotate(n: sibling!.parent)
-                        sibling = sibling!.right.left
-                        sibling!.parent.color = .red
+                    if sibling.isLeftChild { // left case
+                        rightRotate(n: sibling.parent)
+                        sibling = sibling.right.left
+                        sibling.parent.color = .red
                     } else { // right case
-                        leftRotate(n: sibling!.parent)
-                        sibling = sibling!.left.right
-                        sibling!.parent.color = .red
+                        leftRotate(n: sibling.parent)
+                        sibling = sibling.left.right
+                        sibling.parent.color = .red
                     }
                 }
                 
                 // sibling check is here for when child is a nullLeaf and thus does not have a parent.
                 // child is here as sibling can become nil when child is the root
-                if (sibling != nil && sibling!.parent === nullLeaf) || (child !== nullLeaf && child.parent === nullLeaf) {
+                if (sibling.parent === nullLeaf) || (child !== nullLeaf && child.parent === nullLeaf) {
                     child.color = .black
                 }
             }
