@@ -17,7 +17,7 @@ where `a % b` calculates the remainder of `a` divided by `b`.
 Here is an implementation of this idea in Swift:
 
 ```swift
-func gcd(a: Int, _ b: Int) -> Int {
+func gcd(_ a: Int, _ b: Int) -> Int {
   let r = a % b
   if r != 0 {
     return gcd(b, r)
@@ -68,7 +68,7 @@ gcd(841, 299)     // 1
 Here is a slightly different implementation of Euclid's algorithm. Unlike the first version this doesn't use recursion but only a basic `while` loop.
 
 ```swift
-func gcd(m: Int, _ n: Int) -> Int {
+func gcd(_ m: Int, _ n: Int) -> Int {
   var a = 0
   var b = max(m, n)
   var r = min(m, n)
@@ -101,7 +101,7 @@ We can calculate the LCM using Euclid's algorithm too:
 In code:
 
 ```swift
-func lcm(m: Int, _ n: Int) -> Int {
+func lcm(_ m: Int, _ n: Int) -> Int {
   return m*n / gcd(m, n)
 }
 ```

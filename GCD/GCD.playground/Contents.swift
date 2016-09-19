@@ -1,7 +1,7 @@
 //: Playground - noun: a place where people can play
 
 // Recursive version
-func gcd(a: Int, _ b: Int) -> Int {
+func gcd(_ a: Int, _ b: Int) -> Int {
   let r = a % b
   if r != 0 {
     return gcd(b, r)
@@ -26,7 +26,7 @@ func gcd(m: Int, _ n: Int) -> Int {
 }
 */
 
-func lcm(m: Int, _ n: Int) -> Int {
+func lcm(_ m: Int, _ n: Int) -> Int {
   return m*n / gcd(m, n)
 }
 
