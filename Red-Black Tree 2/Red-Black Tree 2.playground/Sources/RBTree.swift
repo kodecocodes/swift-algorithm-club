@@ -5,12 +5,33 @@ private enum RBTColor {
     case doubleBlack
 }
 
-public class RBTNode<T: Comparable> {
+public class RBTNode<T: Comparable>: CustomStringConvertible {
     fileprivate var color: RBTColor = .red
     public var value: T! = nil
     public var right:  RBTNode<T>!
     public var left:  RBTNode<T>!
     public var parent:  RBTNode<T>!
+    
+    public var description: String {
+        if self.value == nil {
+            return "null"
+        } else {
+            var nodeValue: String
+            
+            // If the value is encapsulated by parentheses it is red
+            // If the value is encapsulated by pipes it is black
+            // If the value is encapsulated by double pipes it is double black (This should not occur in a verified RBTree)
+            if self.isRed {
+                nodeValue = "(\(self.value!))"
+            } else if self.isBlack{
+                nodeValue = "|\(self.value!)|"
+            } else {
+                nodeValue = "||\(self.value!)||"
+            }
+            
+            return "(\(self.left.description)<-\(nodeValue)->\(self.right.description))"
+        }
+    }
     
     init(tree: RBTree<T>) {
         right = tree.nullLeaf
@@ -61,9 +82,13 @@ public class RBTNode<T: Comparable> {
     }
 }
 
-public class RBTree<T: Comparable> {
+public class RBTree<T: Comparable>: CustomStringConvertible {
     public var root: RBTNode<T>
     fileprivate let nullLeaf: RBTNode<T>
+    
+    public var description: String {
+        return root.description
+    }
     
     public init() {
         nullLeaf = RBTNode<T>()
