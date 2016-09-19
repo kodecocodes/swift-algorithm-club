@@ -1,12 +1,12 @@
 
 private enum RBTColor {
-    case Red
-    case Black
-    case DoubleBlack
+    case red
+    case black
+    case doubleBlack
 }
 
 public class RBTNode<T: Comparable> {
-    fileprivate var color: RBTColor = .Red
+    fileprivate var color: RBTColor = .red
     public var value: T! = nil
     public var right:  RBTNode<T>!
     public var left:  RBTNode<T>!
@@ -49,15 +49,15 @@ public class RBTNode<T: Comparable> {
     }
     
     fileprivate var isRed: Bool {
-        return color == .Red
+        return color == .red
     }
     
     fileprivate var isBlack: Bool {
-        return color == .Black
+        return color == .black
     }
     
     fileprivate var isDoubleBlack: Bool {
-        return color == .DoubleBlack
+        return color == .doubleBlack
     }
 }
 
@@ -67,7 +67,7 @@ public class RBTree<T: Comparable> {
     
     public init() {
         nullLeaf = RBTNode<T>()
-        nullLeaf.color = .Black
+        nullLeaf.color = .black
         root = nullLeaf
     }
     
@@ -175,7 +175,7 @@ public class RBTree<T: Comparable> {
     // if node is root change color to black, else move on
     private func insertCase1(n: RBTNode<T>) {
         if n === root {
-            n.color = .Black
+            n.color = .black
         } else {
             insertCase2(n: n)
         }
@@ -192,9 +192,9 @@ public class RBTree<T: Comparable> {
     private func insertCase3(n: RBTNode<T>) {
         if n.uncle.isRed { // node must have grandparent as children of root have a black parent
             // both parent and uncle are red, so grandparent must be black.
-            n.parent.color = .Black
-            n.uncle.color = .Black
-            n.grandparent.color = .Red
+            n.parent.color = .black
+            n.uncle.color = .black
+            n.grandparent.color = .red
             // now both parent and uncle are black and grandparent is red.
             // we repeat for the grandparent
             insertCase1(n: n.grandparent)
@@ -226,8 +226,8 @@ public class RBTree<T: Comparable> {
     private func insertCase5(n: RBTNode<T>) {
         // swap color of parent and grandparent
         // parent is red grandparent is black
-        n.parent.color = .Black
-        n.grandparent.color = .Red
+        n.parent.color = .black
+        n.grandparent.color = .red
         
         if n.isLeftChild { // left left case
             rightRotate(n: n.grandparent)
@@ -269,7 +269,7 @@ public class RBTree<T: Comparable> {
         }
         
         if toDel.isRed || child.isRed {
-            child.color = .Black
+            child.color = .black
             
             if toDel.isLeftChild {
                 toDel.parent.left = child
@@ -292,7 +292,7 @@ public class RBTree<T: Comparable> {
             if child !== nullLeaf {
                 child.parent = toDel.parent
             }
-            child.color = .DoubleBlack
+            child.color = .doubleBlack
             
             while child.isDoubleBlack || (child.parent !== nullLeaf && child.parent != nil) {
                 if sibling!.isBlack {
@@ -307,35 +307,35 @@ public class RBTree<T: Comparable> {
                     }
                     
                     if leftRedChild != nil || rightRedChild != nil { // at least one of sibling's children are red
-                        child.color = .Black
+                        child.color = .black
                         if sibling!.isLeftChild {
                             if leftRedChild != nil { // left left case
-                                sibling!.left.color = .Black
+                                sibling!.left.color = .black
                                 let tempColor = sibling!.parent.color
                                 sibling!.parent.color = sibling!.color
                                 sibling!.color = tempColor
                                 rightRotate(n: sibling!.parent)
                             } else { // left right case
                                 if sibling!.parent.isRed {
-                                    sibling!.parent.color = .Black
+                                    sibling!.parent.color = .black
                                 } else {
-                                    sibling!.right.color = .Black
+                                    sibling!.right.color = .black
                                 }
                                 leftRotate(n: sibling!)
                                 rightRotate(n: sibling!.grandparent)
                             }
                         } else {
                             if rightRedChild != nil { // right right case
-                                sibling!.right.color = .Black
+                                sibling!.right.color = .black
                                 let tempColor = sibling!.parent.color
                                 sibling!.parent.color = sibling!.color
                                 sibling!.color = tempColor
                                 leftRotate(n: sibling!.parent)
                             } else { // right left case
                                 if sibling!.parent.isRed {
-                                    sibling!.parent.color = .Black
+                                    sibling!.parent.color = .black
                                 } else {
-                                    sibling!.left.color = .Black
+                                    sibling!.left.color = .black
                                 }
                                 rightRotate(n: sibling!)
                                 leftRotate(n: sibling!.grandparent)
@@ -343,34 +343,34 @@ public class RBTree<T: Comparable> {
                         }
                         break
                     } else { // both sibling's children are black
-                        child.color = .Black
-                        sibling!.color = .Red
+                        child.color = .black
+                        sibling!.color = .red
                         if sibling!.parent.isRed {
-                            sibling!.parent.color = .Black
+                            sibling!.parent.color = .black
                             break
                         }
-                        sibling!.parent.color = .DoubleBlack
+                        sibling!.parent.color = .doubleBlack
                         child = sibling!.parent
                         sibling = child.sibling
                     }
                 } else { // sibling is red
-                    sibling!.color = .Black
+                    sibling!.color = .black
                     
                     if sibling!.isLeftChild { // left case
                         rightRotate(n: sibling!.parent)
                         sibling = sibling!.right.left
-                        sibling!.parent.color = .Red
+                        sibling!.parent.color = .red
                     } else { // right case
                         leftRotate(n: sibling!.parent)
                         sibling = sibling!.left.right
-                        sibling!.parent.color = .Red
+                        sibling!.parent.color = .red
                     }
                 }
                 
                 // sibling check is here for when child is a nullLeaf and thus does not have a parent.
                 // child is here as sibling can become nil when child is the root
                 if (sibling != nil && sibling!.parent === nullLeaf) || (child !== nullLeaf && child.parent === nullLeaf) {
-                    child.color = .Black
+                    child.color = .black
                 }
             }
         }
