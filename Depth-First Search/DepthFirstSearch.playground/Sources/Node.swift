@@ -1,3 +1,4 @@
+
 public class Node: CustomStringConvertible, Equatable {
   public var neighbors: [Edge]
 
@@ -23,7 +24,7 @@ public class Node: CustomStringConvertible, Equatable {
   }
 
   public func remove(edge: Edge) {
-    neighbors.removeAtIndex(neighbors.indexOf { $0 === edge }!)
+    neighbors.remove(at: neighbors.index { $0 === edge }!)
   }
 }
 
