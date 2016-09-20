@@ -116,4 +116,4 @@ We now have to go through a lot of steps in order to remove this doubleBlack col
 
 Important to note is that GeeksforGeeks doesn't mention a few deletion cases that do occur. The code however does implement these.
 
-*Written for Swift Algorithm Club by Jaap Wijnen*
+*Written for Swift Algorithm Club by Jaap Wijnen. Updated from Ashwin Raghuraman's contribution.*
