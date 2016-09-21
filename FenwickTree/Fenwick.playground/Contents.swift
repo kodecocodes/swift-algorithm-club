@@ -18,7 +18,7 @@ public class FenwickTree<T> {
 	fileprivate(set) var fenwickTree: [T]
 	/// Holds real values after updates
 	fileprivate(set) var array: [T]
-	fileprivate(set) let zero: T
+	let zero: T
 	fileprivate let addFunction: (T, T) -> T
 	fileprivate let subFunction: (T, T) -> T
 	
