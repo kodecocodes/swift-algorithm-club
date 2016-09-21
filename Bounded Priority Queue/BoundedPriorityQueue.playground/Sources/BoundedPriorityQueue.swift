@@ -12,7 +12,7 @@ public class BoundedPriorityQueue<T: Comparable> {
   private typealias Node = LinkedListNode<T>
 
   private(set) public var count = 0
-  private var head: Node?
+  fileprivate var head: Node?
   private var tail: Node?
   private var maxElements: Int
 
@@ -28,7 +28,7 @@ public class BoundedPriorityQueue<T: Comparable> {
     return head?.value
   }
 
-  public func enqueue(value: T) {
+  public func enqueue(_ value: T) {
     if let node = insert(value, after: findInsertionPoint(value)) {
       // If the newly inserted node is the last one in the list, then update
       // the tail pointer.
@@ -44,7 +44,7 @@ public class BoundedPriorityQueue<T: Comparable> {
     }
   }
 
-  private func insert(value: T, after: Node?) -> Node? {
+  private func insert(_ value: T, after: Node?) -> Node? {
     if let previous = after {
 
       // If the queue is full and we have to insert at the end of the list,
@@ -78,11 +78,11 @@ public class BoundedPriorityQueue<T: Comparable> {
 
   /* Find the node after which to insert the new value. If this returns nil,
      the new value should be inserted at the head of the list. */
-  private func findInsertionPoint(value: T) -> Node? {
+  private func findInsertionPoint(_ value: T) -> Node? {
     var node = head
     var prev: Node? = nil
 
-    while let current = node where value < current.value {
+    while let current = node, value < current.value {
       prev = node
       node = current.next
     }

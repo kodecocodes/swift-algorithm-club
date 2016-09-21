@@ -7,7 +7,7 @@ Quicksort is one of the most famous algorithms in history. It was invented way b
 Here's an implementation in Swift that should be easy to understand:
 
 ```swift
-func quicksort<T: Comparable>(a: [T]) -> [T] {
+func quicksort<T: Comparable>(_ a: [T]) -> [T] {
   guard a.count > 1 else { return a }
 
   let pivot = a[a.count/2]
@@ -131,7 +131,7 @@ In the first example of quicksort I showed you, partitioning was done by calling
 Here's an implementation of Lomuto's partitioning scheme in Swift:
 
 ```swift
-func partitionLomuto<T: Comparable>(inout a: [T], low: Int, high: Int) -> Int {
+func partitionLomuto<T: Comparable>(_ a: inout [T], low: Int, high: Int) -> Int {
   let pivot = a[high]
   
   var i = low
@@ -250,7 +250,7 @@ And we return `i`, the index of the pivot element.
 Let's use this partitioning scheme to build quicksort. Here's the code:
 
 ```swift
-func quicksortLomuto<T: Comparable>(inout a: [T], low: Int, high: Int) {
+func quicksortLomuto<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
   if low < high {
     let p = partitionLomuto(&a, low: low, high: high)
     quicksortLomuto(&a, low: low, high: p - 1)
@@ -277,7 +277,7 @@ This partitioning scheme is by Hoare, the inventor of quicksort.
 Here is the code:
 
 ```Swift
-func partitionHoare<T: Comparable>(inout a: [T], low: Int, high: Int) -> Int {
+func partitionHoare<T: Comparable>(_ a: inout [T], low: Int, high: Int) -> Int {
   let pivot = a[low]
   var i = low - 1
   var j = high + 1
@@ -318,7 +318,7 @@ The pivot is placed somewhere inside one of the two partitions, but the algorith
 Because of these differences, the implementation of Hoare's quicksort is slightly different:
 
 ```swift
-func quicksortHoare<T: Comparable>(inout a: [T], low: Int, high: Int) {
+func quicksortHoare<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
   if low < high {
     let p = partitionHoare(&a, low: low, high: high)
     quicksortHoare(&a, low: low, high: p)
@@ -380,7 +380,7 @@ Another common solution is to choose the pivot randomly. Sometimes this may resu
 Here is how you can do quicksort with a randomly chosen pivot:
 
 ```swift
-func quicksortRandom<T: Comparable>(inout a: [T], low: Int, high: Int) {
+func quicksortRandom<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
   if low < high {
     let pivotIndex = random(min: low, max: high)         // 1
 
@@ -412,7 +412,7 @@ But as you've seen with the Lomuto partitioning scheme, if the pivot occurs more
 The code for this scheme is:
 
 ```swift
-func partitionDutchFlag<T: Comparable>(inout a: [T], low: Int, high: Int, pivotIndex: Int) -> (Int, Int) {
+func partitionDutchFlag<T: Comparable>(_ a: inout [T], low: Int, high: Int, pivotIndex: Int) -> (Int, Int) {
   let pivot = a[pivotIndex]
 
   var smaller = low
@@ -461,7 +461,7 @@ Notice how the two `8`s are in the middle now. The return value from `partitionD
 Here is how you would use it in quicksort:
 
 ```swift
-func quicksortDutchFlag<T: Comparable>(inout a: [T], low: Int, high: Int) {
+func quicksortDutchFlag<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
   if low < high {
     let pivotIndex = random(min: low, max: high)
     let (p, q) = partitionDutchFlag(&a, low: low, high: high, pivotIndex: pivotIndex)
