@@ -25,11 +25,11 @@ public class FenwickTree<T> {
 		Order: O(n)
 	
 	- Parameters:
-	- size: size of array (not changable)
-	- zero: array is filled with `.zero` values at the beginning. also this value will be returned
-	when given intervals contain no elements.
-	- addFunction: function used for adding elements. usually `+`
-	- subFunction: function used for subtracting elements. usually `-`
+		- size: size of array (not changable)
+		- zero: array is filled with `.zero` values at the beginning. also this value will be returned
+						when given intervals contain no elements.
+		- addFunction: function used for adding elements. usually `+`
+		- subFunction: function used for subtracting elements. usually `-`
 	*/
 	public required init(size: Int, zero: T, addFunction: @escaping (T, T) -> T, subFunction:  @escaping (T, T) -> T) {
 		
@@ -44,11 +44,11 @@ public class FenwickTree<T> {
 		Order: O(n * log n)
 	
 	- Parameters:
-	- array: initial array to build fenwick tree based on them
-	- zero: array is filled with `.zero` values at the beginning. also this value will be returned
-	when given intervals contain no elements.
-	- addFunction: function used for adding elements. usually `+`
-	- subFunction: function used for subtracting elements. usually `-`
+		- array: initial array to build fenwick tree based on them
+		- zero: array is filled with `.zero` values at the beginning. also this value will be returned
+						when given intervals contain no elements.
+		- addFunction: function used for adding elements. usually `+`
+		- subFunction: function used for subtracting elements. usually `-`
 	*/
 	public convenience init(array: [T], zero: T, addFunction: @escaping (T, T) -> T, subFunction:  @escaping (T, T) -> T) {
 		
@@ -90,8 +90,8 @@ public class FenwickTree<T> {
 		Order: O(log n)
 	
 	- Parameters:
-	- from: zero based index on array
-	- to: zero based index on array
+		- from: zero based index on array
+		- to: zero based index on array
 	
 	
 	- Returns: sum of all elements `from...to`
@@ -108,8 +108,8 @@ public class FenwickTree<T> {
 		Order: O(log n)
 	
 	- Parameters:
-	- itemAt: zero based index on array
-	- with: given value to add to current element
+		- itemAt: zero based index on array
+		- with: given value to add to current element
 	*/
 	func add(itemAt index: Int, with value: T) {
 		array[index] = addFunction(array[index], value)
@@ -129,7 +129,7 @@ extension FenwickTree where T: Comparable {
 		Order: O(log n)
 	
 	- Parameters:
-	- minimumSum: minimum sum to serach for
+		- minimumSum: minimum sum to serach for
 	
 	- Returns: zero based index which sum of all elements in `0...returnedValue` is at least `minimumSum`
 	*/
