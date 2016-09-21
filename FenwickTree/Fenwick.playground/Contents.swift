@@ -26,7 +26,7 @@ public class FenwickTree<T> {
 	
 	
 	/**
-	- Order: O(n)
+		Order: O(n)
 	
 	- Parameters:
 	- size: size of array (not changable)
@@ -45,7 +45,7 @@ public class FenwickTree<T> {
 	}
 	
 	/**
-	- Order: O(n * log n)
+		Order: O(n * log n)
 	
 	- Parameters:
 	- array: initial array to build fenwick tree based on them
@@ -66,7 +66,7 @@ public class FenwickTree<T> {
 	/**
 	If `to` is out of bound, method return `.zero`. results are added together using `addFunction`
 	
-	Order: O(log n)
+		Order: O(log n)
 	
 	- Parameter to: zero based index on array
 	
@@ -91,7 +91,7 @@ public class FenwickTree<T> {
 	If `from >= to` method will return `.zero`. method finds two subranges `0...from-1` and `0...to` using
 	`addFunction` and will subtract them using `subFunction`
 	
-	Order: O(log n)
+		Order: O(log n)
 	
 	- Parameters:
 	- from: zero based index on array
@@ -130,7 +130,7 @@ extension FenwickTree where T: Comparable {
 	/**
 	Searchs for first index in fenwick tree which sum of all elements in `0...index` is less or equal to `minimumSum`
 	
-	Order: O(log n)
+		Order: O(log n)
 	
 	- Parameters:
 	- minimumSum: minimum sum to serach for
@@ -154,11 +154,10 @@ extension FenwickTree where T: Comparable {
 	}
 }
 
-let fen = FenwickTree(array: [1, 1, 1, 1, 1, 1, 1, 1, 1], zero: 0, addFunction: +, subFunction: -)
-/* or initialize it and add values one by one
-	let fen = FenwickTree(size: 9, zero: 0, addFunction: +, subFunction: -)
-	(0 ..< fen.array.count).forEach { fen.add(itemAt: $0, with: 1) }
-*/
+//let fen = FenwickTree(array: [1, 1, 1, 1, 1, 1, 1, 1, 1], zero: 0, addFunction: +, subFunction: -)
+// or initialize it and add values one by one
+//	let fen = FenwickTree(size: 9, zero: 0, addFunction: +, subFunction: -)
+//	(0 ..< fen.array.count).forEach { fen.add(itemAt: $0, with: 1) }
 
 
 print(fen.fenwickTree)
