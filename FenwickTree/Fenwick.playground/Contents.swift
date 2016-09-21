@@ -154,7 +154,7 @@ extension FenwickTree where T: Comparable {
 	}
 }
 
-//let fen = FenwickTree(array: [1, 1, 1, 1, 1, 1, 1, 1, 1], zero: 0, addFunction: +, subFunction: -)
+let fen = FenwickTree(array: [1, 1, 1, 1, 1, 1, 1, 1, 1], zero: 0, addFunction: +, subFunction: -)
 // or initialize it and add values one by one
 //	let fen = FenwickTree(size: 9, zero: 0, addFunction: +, subFunction: -)
 //	(0 ..< fen.array.count).forEach { fen.add(itemAt: $0, with: 1) }
