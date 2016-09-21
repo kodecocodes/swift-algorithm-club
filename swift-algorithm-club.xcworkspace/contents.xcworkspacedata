@@ -646,6 +646,19 @@
       </FileRef>
    </Group>
    <Group
+      location = "container:"
+      name = "FenwickTree">
+      <FileRef
+         location = "group:FenwickTree/README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:FenwickTree/Fenwick.playground">
+      </FileRef>
+      <FileRef
+         location = "group:FenwickTree/Fenwick.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Fixed Size Array"
       name = "Fixed Size Array">
       <FileRef
