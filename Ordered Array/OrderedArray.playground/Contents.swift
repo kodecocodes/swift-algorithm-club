@@ -28,7 +28,7 @@ public struct OrderedArray<T: Comparable> {
   }
 
   public mutating func insert(_ newElement: T) -> Int {
-    let i = findInsertionPoint(newElement: newElement)
+    let i = findInsertionPoint(newElement)
     array.insert(newElement, at: i)
     return i
   }
@@ -46,7 +46,7 @@ public struct OrderedArray<T: Comparable> {
   */
 
   // Fast version that uses a binary search.
-  private func findInsertionPoint(newElement: T) -> Int {
+  private func findInsertionPoint(_ newElement: T) -> Int {
     var startIndex = 0
     var endIndex = array.count
     
