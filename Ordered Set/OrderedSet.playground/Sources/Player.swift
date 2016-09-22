@@ -6,7 +6,7 @@ public struct Player: Comparable {
 
   public init() {
     self.name = String.random()
-    self.points = random(0, max: 5000)
+    self.points = random(min: 0, max: 5000)
   }
 
   public init(name: String, points: Int) {
