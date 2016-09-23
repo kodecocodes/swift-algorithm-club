@@ -1,10 +1,10 @@
 //: Playground - noun: a place where people can play
 
 public struct OrderedArray<T: Comparable> {
-  private var array = [T]()
+  fileprivate var array = [T]()
 
   public init(array: [T]) {
-    self.array = array.sort()
+    self.array = array.sorted()
   }
 
   public var isEmpty: Bool {
@@ -20,16 +20,16 @@ public struct OrderedArray<T: Comparable> {
   }
 
   public mutating func removeAtIndex(index: Int) -> T {
-    return array.removeAtIndex(index)
+    return array.remove(at: index)
   }
 
   public mutating func removeAll() {
     array.removeAll()
   }
 
-  public mutating func insert(newElement: T) -> Int {
+  public mutating func insert(_ newElement: T) -> Int {
     let i = findInsertionPoint(newElement)
-    array.insert(newElement, atIndex: i)
+    array.insert(newElement, at: i)
     return i
   }
 
@@ -46,19 +46,21 @@ public struct OrderedArray<T: Comparable> {
   */
 
   // Fast version that uses a binary search.
-  private func findInsertionPoint(newElement: T) -> Int {
-    var range = 0..<array.count
-    while range.startIndex < range.endIndex {
-      let midIndex = range.startIndex + (range.endIndex - range.startIndex) / 2
-      if array[midIndex] == newElement {
-        return midIndex
-      } else if array[midIndex] < newElement {
-        range.startIndex = midIndex + 1
-      } else {
-        range.endIndex = midIndex
-      }
+  private func findInsertionPoint(_ newElement: T) -> Int {
+    var startIndex = 0
+    var endIndex = array.count
+    
+    while startIndex < endIndex {
+        let midIndex = startIndex + (endIndex - startIndex) / 2
+        if array[midIndex] == newElement {
+            return midIndex
+        } else if array[midIndex] < newElement {
+            startIndex = midIndex + 1
+        } else {
+            endIndex = midIndex
+        }
     }
-    return range.startIndex
+    return startIndex
   }
 }
 
