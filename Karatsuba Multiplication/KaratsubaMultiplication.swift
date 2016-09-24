@@ -8,7 +8,18 @@
 
 import Foundation
 
-func karatsuba(num1: Int, _ num2: Int) -> Int {
+precedencegroup ExponentiativePrecedence {
+  higherThan: MultiplicationPrecedence
+  lowerThan: BitwiseShiftPrecedence
+  associativity: left
+}
+
+infix operator ^^: ExponentiativePrecedence
+func ^^ (radix: Int, power: Int) -> Int {
+  return Int(pow(Double(radix), Double(power)))
+}
+
+func karatsuba(_ num1: Int, by num2: Int) -> Int {
   let num1Array = String(num1).characters
   let num2Array = String(num2).characters
   
@@ -24,9 +35,9 @@ func karatsuba(num1: Int, _ num2: Int) -> Int {
   let c = num2 / 10^^nBy2
   let d = num2 % 10^^nBy2
   
-  let ac = karatsuba(a, c)
-  let bd = karatsuba(b, d)
-  let adPluscd = karatsuba(a+b, c+d) - ac - bd
+  let ac = karatsuba(a, by: c)
+  let bd = karatsuba(b, by: d)
+  let adPluscd = karatsuba(a+b, by: c+d) - ac - bd
   
   let product = ac * 10^^(2 * nBy2) + adPluscd * 10^^nBy2 + bd
   
