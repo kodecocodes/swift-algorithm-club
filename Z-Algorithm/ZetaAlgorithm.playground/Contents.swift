@@ -10,7 +10,7 @@ func ZetaAlgorithm(ptrn: String) -> [Int]? {
         return nil
     }
 
-    var zeta: [Int] = [Int](count: patternLength, repeatedValue: 0)
+    var zeta: [Int] = [Int](repeating: 0, count: patternLength)
 
     var left: Int = 0
     var right: Int = 0
@@ -63,7 +63,7 @@ extension String {
 
     func indexesOf(pattern: String) -> [Int]? {
         let patternLength: Int = pattern.characters.count
-        let zeta = ZetaAlgorithm(pattern + "💲" + self)
+        let zeta = ZetaAlgorithm(ptrn: pattern + "💲" + self)
 
         guard zeta != nil else {
             return nil
@@ -89,7 +89,7 @@ extension String {
 /* Examples */
 
 let str = "Hello, playground!"
-str.indexesOf("ground")   // [11]
+str.indexesOf(pattern: "ground")   // [11]
 
 let traffic = "🚗🚙🚌🚕🚑🚐🚗🚒🚚🚎🚛🚐🏎🚜🚗🏍🚒🚲🚕🚓🚌🚑"
-traffic.indexesOf("🚑") // [4, 21]
+traffic.indexesOf(pattern: "🚑") // [4, 21]

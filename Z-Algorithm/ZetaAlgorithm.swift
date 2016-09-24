@@ -9,24 +9,28 @@
 import Foundation
 
 extension String {
-
+    
     func indexesOf(pattern: String) -> [Int]? {
         let patternLength: Int = pattern.characters.count
-        let zeta = ZetaAlgorithm(pattern + "💲" + self)
-
+        let zeta = ZetaAlgorithm(ptrn: pattern + "💲" + self)
+        
+        guard zeta != nil else {
+            return nil
+        }
+        
         var indexes: [Int] = [Int]()
-
+        
         /* Scan the zeta array to find matched patterns */
-        for index in indexes {
-            if index == patternLength {
-                indexes.append(index)
+        for i in 0 ..< zeta!.count {
+            if zeta![i] == patternLength {
+                indexes.append(i - patternLength - 1)
             }
         }
-
+        
         guard !indexes.isEmpty else {
             return nil
         }
-
+        
         return indexes
     }
 }

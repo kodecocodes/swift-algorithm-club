@@ -10,7 +10,7 @@ func ZetaAlgorithm(ptnr: String) -> [Int]? {
         return nil
     }
 
-    var zeta: [Int] = [Int](count: patternLength, repeatedValue: 0)
+    var zeta: [Int] = [Int](repeating: 0, count: patternLength)
 
     var left: Int = 0
     var right: Int = 0
@@ -71,15 +71,15 @@ extension String {
             return nil
         }
 
-        var suffixPrefix: [Int] = [Int](count: patternLength, repeatedValue: 0)
+        var suffixPrefix: [Int] = [Int](repeating: 0, count: patternLength)
         var textIndex: Int = 0
         var patternIndex: Int = 0
         var indexes: [Int] = [Int]()
 
         /* Pre-processing stage: computing the table for the shifts (through Z-Algorithm) */
-        let zeta = ZetaAlgorithm(ptnr)
+        let zeta = ZetaAlgorithm(ptnr: ptnr)
 
-        for patternIndex in (1 ..< patternLength).reverse() {
+        for patternIndex in (1 ..< patternLength).reversed() {
             textIndex = patternIndex + zeta![patternIndex] - 1
             suffixPrefix[textIndex] = zeta![patternIndex]
         }
@@ -116,7 +116,7 @@ extension String {
 /* Examples */
 
 let dna = "ACCCGGTTTTAAAGAACCACCATAAGATATAGACAGATATAGGACAGATATAGAGACAAAACCCCATACCCCAATATTTTTTTGGGGAGAAAAACACCACAGATAGATACACAGACTACACGAGATACGACATACAGCAGCATAACGACAACAGCAGATAGACGATCATAACAGCAATCAGACCGAGCGCAGCAGCTTTTAAGCACCAGCCCCACAAAAAACGACAATFATCATCATATACAGACGACGACACGACATATCACACGACAGCATA"
-dna.indexesOf("CATA")   // [20, 64, 130, 140, 166, 234, 255, 270]
+dna.indexesOf(ptnr: "CATA")   // [20, 64, 130, 140, 166, 234, 255, 270]
 
 let concert = "🎼🎹🎹🎸🎸🎻🎻🎷🎺🎤👏👏👏"
-concert.indexesOf("🎻🎷")   // [6]
+concert.indexesOf(ptnr: "🎻🎷")   // [6]
