@@ -27,7 +27,7 @@ The parent of a node is the one that "discovered" that node. The root of the tre
 Simple recursive implementation of depth-first search:
 
 ```swift
-func depthFirstSearch(graph: Graph, source: Node) -> [String] {
+func depthFirstSearch(_ graph: Graph, source: Node) -> [String] {
   var nodesExplored = [source.label]
   source.visited = true
 
