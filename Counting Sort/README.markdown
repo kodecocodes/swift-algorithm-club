@@ -20,9 +20,9 @@ Count 0 1 1 1 0 0 0 2 1 1 1
 Here is the code to accomplish this:
 
 ```swift
-  let maxElement = array.maxElement() ?? 0
-  
-  var countArray = [Int](count: Int(maxElement + 1), repeatedValue: 0)
+  let maxElement = array.max() ?? 0
+
+  var countArray = [Int](repeating: 0, count: Int(maxElement + 1))
   for element in array {
     countArray[element] += 1
   }
@@ -62,7 +62,7 @@ Output 1 2 3 7 7 8 9 10
 Here is the code for this final step:
 
 ```swift
-  var sortedArray = [Int](count: array.count, repeatedValue: 0)
+  var sortedArray = [Int](repeating: 0, count: array.count)
   for element in array {
     countArray[element] -= 1
     sortedArray[countArray[element]] = element

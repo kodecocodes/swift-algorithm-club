@@ -90,7 +90,7 @@ For an unweighted graph, this tree defines a shortest path from the starting nod
 Simple implementation of breadth-first search using a queue:
 
 ```swift
-func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
+func breadthFirstSearch(_ graph: Graph, source: Node) -> [String] {
   var queue = Queue<Node>()
   queue.enqueue(source)
 

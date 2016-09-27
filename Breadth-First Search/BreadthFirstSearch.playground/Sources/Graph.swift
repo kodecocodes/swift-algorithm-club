@@ -5,14 +5,14 @@ public class Graph: CustomStringConvertible, Equatable {
     self.nodes = []
   }
 
-  public func addNode(label: String) -> Node {
-    let node = Node(label: label)
+  public func addNode(_ label: String) -> Node {
+    let node = Node(label)
     nodes.append(node)
     return node
   }
 
-  public func addEdge(source: Node, neighbor: Node) {
-    let edge = Edge(neighbor: neighbor)
+  public func addEdge(_ source: Node, neighbor: Node) {
+    let edge = Edge(neighbor)
     source.neighbors.append(edge)
   }
 
@@ -27,7 +27,7 @@ public class Graph: CustomStringConvertible, Equatable {
     return description
   }
 
-  public func findNodeWithLabel(label: String) -> Node {
+  public func findNodeWithLabel(_ label: String) -> Node {
     return nodes.filter { $0.label == label }.first!
   }
 
@@ -50,6 +50,6 @@ public class Graph: CustomStringConvertible, Equatable {
   }
 }
 
-public func == (lhs: Graph, rhs: Graph) -> Bool {
+public func == (_ lhs: Graph, rhs: Graph) -> Bool {
   return lhs.nodes == rhs.nodes
 }

@@ -8,7 +8,7 @@ The queue can be a *max-priority* queue (largest element first) or a *min-priori
 
 Priority queues are useful for algorithms that need to process a (large) number of items and where you repeatedly need to identify which one is now the biggest or smallest -- or however you define "most important".
 
-Examples of algorithms that can benefit from a priority queue: 
+Examples of algorithms that can benefit from a priority queue:
 
 - Event-driven simulations. Each event is given a timestamp and you want events to be performed in order of their timestamps. The priority queue makes it easy to find the next event that needs to be simulated.
 - Dijkstra's algorithm for graph searching uses a priority queue to calculate the minimum cost.
@@ -39,7 +39,7 @@ Here's a Swift priority queue based on a heap:
 
 ```swift
 public struct PriorityQueue<T> {
-  private var heap: Heap<T>
+  fileprivate var heap: Heap<T>
 
   public init(sort: (T, T) -> Bool) {
     heap = Heap(sort: sort)
