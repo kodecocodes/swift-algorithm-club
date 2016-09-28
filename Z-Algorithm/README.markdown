@@ -26,8 +26,7 @@ The definition of the Z-Algorithm is inductive and it computes the elements of t
 This a simple description of the idea that is behind this algorithm. There are a few cases to manage when the use of pre-computed values cannot be directly applied and some comparisons are to be made.
 
 Here is the code of the function that computes the Z-array:
-```
-swift
+```swift
 func ZetaAlgorithm(ptrn: String) -> [Int]? {
 
     let pattern = Array(ptrn.characters)
