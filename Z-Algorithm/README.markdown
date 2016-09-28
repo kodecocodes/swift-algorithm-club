@@ -86,7 +86,7 @@ func ZetaAlgorithm(ptrn: String) -> [Int]? {
 }
 ```
 
-Let's make an example reasoning with the code above. Let's consider the string `P = “abababab"`. The algorithm begins with `k = 1`, `left = right = 0`. So, no Z-box is "active" and thus, because `k > right` we start with the character comparisons beetwen `P[1]` and `P[0]`.
+Let's make an example reasoning with the code above. Let's consider the string `P = “abababbb"`. The algorithm begins with `k = 1`, `left = right = 0`. So, no Z-box is "active" and thus, because `k > right` we start with the character comparisons beetwen `P[1]` and `P[0]`.
   
     
        01234567
@@ -171,6 +171,6 @@ We scan the Z-array and at position `10` we find `Z[10] = 4 = n`. So we can repo
 As said before, the complexity of this algorithm is linear. Defining `n` and `m` as pattern and text lengths, the final complexity we obtain is `O(n + m + 1) = O(n + m)`.
 
 
-Credits: This code is based on the handbook ["Algorithm on String, Trees and Sequences: Computer Science and Computational Biology"]() by Dan Gusfield, Cambridge University Press, 1997. 
+Credits: This code is based on the handbook ["Algorithm on String, Trees and Sequences: Computer Science and Computational Biology"](https://books.google.it/books/about/Algorithms_on_Strings_Trees_and_Sequence.html?id=Ofw5w1yuD8kC&redir_esc=y) by Dan Gusfield, Cambridge University Press, 1997. 
 
 *Written for Swift Algorithm Club by Matteo Dunnhofer*
