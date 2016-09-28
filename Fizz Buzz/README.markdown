@@ -58,7 +58,7 @@ Finding numbers divisible by five:
 Here is a simple implementation in Swift:
 
 ```swift
-func fizzBuzz(numberOfTurns: Int) {
+func fizzBuzz(_ numberOfTurns: Int) {
   for i in 1...numberOfTurns {
     var result = ""
 

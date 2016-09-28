@@ -1,4 +1,4 @@
-func fizzBuzz(numberOfTurns: Int) {
+func fizzBuzz(_ numberOfTurns: Int) {
   for i in 1...numberOfTurns {
     var result = ""
 

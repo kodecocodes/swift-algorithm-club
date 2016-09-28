@@ -53,26 +53,26 @@ tree.count  // 12
 
 
 extension BinaryTree {
-  public func traverseInOrder(@noescape process: T -> Void) {
+  public func traverseInOrder(process: (T) -> Void) {
     if case let .Node(left, value, right) = self {
-      left.traverseInOrder(process)
+      left.traverseInOrder(process: process)
       process(value)
-      right.traverseInOrder(process)
+      right.traverseInOrder(process: process)
     }
   }
 
-  public func traversePreOrder(@noescape process: T -> Void) {
+  public func traversePreOrder(process: (T) -> Void) {
     if case let .Node(left, value, right) = self {
       process(value)
-      left.traversePreOrder(process)
-      right.traversePreOrder(process)
+      left.traversePreOrder(process: process)
+      right.traversePreOrder(process: process)
     }
   }
 
-  public func traversePostOrder(@noescape process: T -> Void) {
+  public func traversePostOrder(process: (T) -> Void) {
     if case let .Node(left, value, right) = self {
-      left.traversePostOrder(process)
-      right.traversePostOrder(process)
+      left.traversePostOrder(process: process)
+      right.traversePostOrder(process: process)
       process(value)
     }
   }

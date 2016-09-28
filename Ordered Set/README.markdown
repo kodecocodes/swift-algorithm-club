@@ -1,6 +1,6 @@
 # Ordered Set
 
-An Ordered Set is a collection of unique items in sorted order. Items are usually sorted from least to greatest. 
+An Ordered Set is a collection of unique items in sorted order. Items are usually sorted from least to greatest.
 
 The Ordered Set data type is a hybrid of:
 
@@ -11,7 +11,7 @@ It's important to keep in mind that two items can have the same *value* but stil
 
 ## Why use an ordered set?
 
-Ordered Sets should be considered when you need to keep your collection sorted at all times, and you do lookups on the collection much more frequently than inserting or deleting items. Many of the lookup operations for an Ordered Set are **O(1)**. 
+Ordered Sets should be considered when you need to keep your collection sorted at all times, and you do lookups on the collection much more frequently than inserting or deleting items. Many of the lookup operations for an Ordered Set are **O(1)**.
 
 A good example would be keeping track of the rankings of players in a scoreboard (see example 2 below).
 
@@ -55,7 +55,7 @@ public struct OrderedSet<T: Comparable> {
 Lets take a look at the `insert()` function first. This first checks if the item already exists in the collection. If so, it returns and does not insert the item.  Otherwise, it will insert the item through straightforward iteration.
 
 ```swift
-  public mutating func insert(item: T){
+  public mutating func insert(_ item: T){
     if exists(item) {
       return  // don't add an item if it already exists
     }
@@ -63,7 +63,7 @@ Lets take a look at the `insert()` function first. This first checks if the item
     // Insert new the item just before the one that is larger.
     for i in 0..<count {
       if internalSet[i] > item {
-        internalSet.insert(item, atIndex: i)
+        internalSet.insert(item, at: i)
         return
       }
     }
@@ -82,19 +82,19 @@ The total performance of the `insert()` function is therefore **O(n)**.
 Next up is the `remove()` function:
 
 ```swift
-  public mutating func remove(item: T) {
-    if let index = indexOf(item) {
-      internalSet.removeAtIndex(index)
+  public mutating func remove(_ item: T) {
+    if let index = index(of: item) {
+      internalSet.remove(at: index)
     }
   }
 ```
 
 First this checks if the item exists and then removes it from the array. Because of the `removeAtIndex()` function, the efficiency for remove is **O(n)**.
 
-The next function is `indexOf()`, which takes in an object of type `T` and returns the index of the corresponding item if it is in the set, or `nil` if it is not. Since our set is sorted, we can use a binary search to quickly search for the item. 
+The next function is `indexOf()`, which takes in an object of type `T` and returns the index of the corresponding item if it is in the set, or `nil` if it is not. Since our set is sorted, we can use a binary search to quickly search for the item.
 
 ```swift
-  public func indexOf(item: T) -> Int? {
+  public func index(of item: T) -> Int? {
     var leftBound = 0
     var rightBound = count - 1
 
@@ -115,9 +115,9 @@ The next function is `indexOf()`, which takes in an object of type `T` and retur
   }
 ```
 
-> **Note:** If you are not familiar with the concept of binary search, we have an [article that explains all about it](../Binary Search). 
+> **Note:** If you are not familiar with the concept of binary search, we have an [article that explains all about it](../Binary Search).
 
-However, there is an important issue to deal with here. Recall that two objects can be unequal yet still have the same "value" for the purposes of comparing them. Since a set can contain multiple items with the same value, it is important to check that the binary search has landed on the correct item. 
+However, there is an important issue to deal with here. Recall that two objects can be unequal yet still have the same "value" for the purposes of comparing them. Since a set can contain multiple items with the same value, it is important to check that the binary search has landed on the correct item.
 
 For example, consider this ordered set of `Player` objects. Each `Player` has a name and a number of points:
 
@@ -147,13 +147,13 @@ Therefore, we also need to check the items with the same value to the right and 
             break
           }
         }
-        
+
         return nil
 ```
 
 These loops start at the current `mid` value and then look at the neighboring values until we've found the correct object.
 
-The combined runtime for `indexOf()` is **O(log(n) + k)** where **n** is the length of the set, and **k** is the number of items with the same *value* as the one that is being searched for. 
+The combined runtime for `indexOf()` is **O(log(n) + k)** where **n** is the length of the set, and **k** is the number of items with the same *value* as the one that is being searched for.
 
 Since the set is sorted, the following operations are all **O(1)**:
 
@@ -168,15 +168,15 @@ Since the set is sorted, the following operations are all **O(1)**:
     return count == 0 ? nil : internalSet[0]
   }
 
-  // Returns the k-th largest element in the set, if k is in the range 
+  // Returns the k-th largest element in the set, if k is in the range
   // [1, count]. Returns nil otherwise.
-  public func kLargest(k: Int) -> T? {
+  public func kLargest(_ k: Int) -> T? {
     return k > count || k <= 0 ? nil : internalSet[count - k]
   }
 
   // Returns the k-th smallest element in the set, if k is in the range
   // [1, count]. Returns nil otherwise.
-  public func kSmallest(k: Int) -> T? {
+  public func kSmallest(_ k: Int) -> T? {
     return k > count || k <= 0 ? nil : internalSet[k - 1]
   }
 ```
@@ -228,7 +228,7 @@ public struct Player: Comparable {
 The `Player` also gets its own `==` and `<` operators. The `<` operator is used to determine the sort order of the set, while `==` determines whether two objects are really equal.
 
 Note that `==` compares both the name and the points:  
-  
+
 ```swifr
 func ==(x: Player, y: Player) -> Bool {
   return x.name == y.name && x.points == y.points
@@ -272,7 +272,7 @@ print("\(anotherPlayer.name) is ranked at level \(level) with \(anotherPlayer.po
 
 ### Example 3
 
-The final example demonstrates the need to look for the right item even after the binary search has completed. 
+The final example demonstrates the need to look for the right item even after the binary search has completed.
 
 We insert 9 players into the set:
 
@@ -299,7 +299,7 @@ The set looks something like this:
 The next line looks for `Player 2`:
 
 ```swift
-print(repeatedSet.indexOf(Player(name: "Player 2", points: 100)))
+print(repeatedSet.index(of: Player(name: "Player 2", points: 100)))
 ```
 
 After the binary search finishes, the value of `mid` is at index 5:
@@ -312,7 +312,7 @@ However, this is not `Player 2`. Both `Player 4` and `Player 2` have the same po
 But we do know that `Player 2` must be either to the immediate left or the right of `Player 4`, so we check both sides of `mid`. We only need to look at the objects with the same value as `Player 4`. The others are replaced by `X`:
 
 	[X, X, Player 1, Player 2, Player 3, Player 4, Player 5, X, X]
-	                                       mid 
+	                                       mid
 
 The code then first checks on the right of `mid` (where the `*` is):
 

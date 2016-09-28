@@ -1,4 +1,4 @@
-func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
+func breadthFirstSearch(_ graph: Graph, source: Node) -> [String] {
   var queue = Queue<Node>()
   queue.enqueue(source)
 

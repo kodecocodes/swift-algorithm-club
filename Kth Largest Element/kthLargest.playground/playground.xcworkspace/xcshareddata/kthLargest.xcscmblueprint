@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "CF309AABC690F91A443043D5C69EECB0069B5411",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "CF309AABC690F91A443043D5C69EECB0069B5411" : 9223372036854775807,
+    "FA0506A44181383605977F2A9C8020B861F7CE04" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6CCD70DA-EE44-4E31-98F0-6DA8B083772A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "CF309AABC690F91A443043D5C69EECB0069B5411" : "swift-algorithm-club\/",
+    "FA0506A44181383605977F2A9C8020B861F7CE04" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "kthLargest",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Kth Largest Element\/kthLargest.playground",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Deeer\/swift-algorithm-club.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CF309AABC690F91A443043D5C69EECB0069B5411"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Deeer\/CuteSticker.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FA0506A44181383605977F2A9C8020B861F7CE04"
+    }
+  ]
+}
