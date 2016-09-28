@@ -37,9 +37,9 @@ func karatsuba(_ num1: Int, by num2: Int) -> Int {
   
   let ac = karatsuba(a, by: c)
   let bd = karatsuba(b, by: d)
-  let adPluscd = karatsuba(a+b, by: c+d) - ac - bd
+  let adPlusbc = karatsuba(a+b, by: c+d) - ac - bd
   
-  let product = ac * 10^^(2 * nBy2) + adPluscd * 10^^nBy2 + bd
+  let product = ac * 10^^(2 * nBy2) + adPlusbc * 10^^nBy2 + bd
   
   return product
 }
