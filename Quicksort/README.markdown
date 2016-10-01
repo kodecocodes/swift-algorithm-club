@@ -44,7 +44,7 @@ First, we pick the pivot element. That is `8` because it's in the middle of the 
 	equal:   [ 8, 8 ]
 	greater: [ 10, 9, 14, 27, 26 ]
 
-This is a good split because `less` and `equal` roughly contain the same number of elements. So we've picked a good pivot that chopped the array right down the middle.
+This is a good split because `less` and `greater` roughly contain the same number of elements. So we've picked a good pivot that chopped the array right down the middle.
 
 Note that the `less` and `greater` arrays aren't sorted yet, so we call `quicksort()` again to sort those two subarrays. That does the exact same thing: pick a pivot and split the subarray into three even smaller parts.
 
