@@ -30,7 +30,7 @@ extension String {
       let c = self[i]
       if c == lastChar {
         if let k = backwards() { return k }
-          i = index(after: i)
+        i = index(after: i)
       } else {
         i = index(i, offsetBy: skipTable[c] ?? patternLength)
       }
