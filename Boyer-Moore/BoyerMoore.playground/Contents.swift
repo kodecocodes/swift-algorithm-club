@@ -45,4 +45,4 @@ let s = "Hello, World"
 s.indexOf(pattern: "World")  // 7
 
 let animals = "🐶🐔🐷🐮🐱"
-//animals.indexOf(pattern: "🐮")  // 6
+animals.indexOf(pattern: "🐮")  // 6
