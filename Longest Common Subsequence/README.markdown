@@ -18,9 +18,9 @@ To determine the length of the LCS between all combinations of substrings of `a`
 
 > **Note:** During the following explanation, `n` is the length of string `a`, and `m` is the length of string `b`.
 
-To find the lengths of all possible subsequences, we use a helper function, `lcsLength()`. This creates a matrix of size `(n+1)` by `(m+1)`, where `matrix[x][y]` is the length of the LCS between the substrings `a[0...x-1]` and `b[0...y-1]`.
+To find the lengths of all possible subsequences, we use a helper function, `lcsLength(_:)`. This creates a matrix of size `(n+1)` by `(m+1)`, where `matrix[x][y]` is the length of the LCS between the substrings `a[0...x-1]` and `b[0...y-1]`.
 
-Given strings `"ABCBX"` and `"ABDCAB"`, the output matrix of `lcsLength()` is the following:
+Given strings `"ABCBX"` and `"ABDCAB"`, the output matrix of `lcsLength(_:)` is the following:
 
 ```
 |   | Ø | A | B | D | C | A | B |
@@ -34,16 +34,15 @@ Given strings `"ABCBX"` and `"ABDCAB"`, the output matrix of `lcsLength()` is th
 
 In this example, if we look at `matrix[3][4]` we find the value `3`. This means the length of the LCS between `a[0...2]` and `b[0...3]`, or between `"ABC"` and `"ABDC"`, is 3. That is correct, because these two substrings have the subsequence `ABC` in common. (Note: the first row and column of the matrix are always filled with zeros.)
 
-Here is the source code for `lcsLength()`; this lives in an extension on `String`:
+Here is the source code for `lcsLength(_:)`; this lives in an extension on `String`:
 
 ```swift
-func lcsLength(other: String) -> [[Int]] {
+func lcsLength(_ other: String) -> [[Int]] {
 
-  var matrix = [[Int]](count: self.characters.count+1, 
-                       repeatedValue: [Int](count: other.characters.count+1, repeatedValue: 0))
+  var matrix = [[Int]](repeating: [Int](repeating: 0, count: other.characters.count+1), count: self.characters.count+1)
 
-  for (i, selfChar) in self.characters.enumerate() {
-	for (j, otherChar) in other.characters.enumerate() {
+  for (i, selfChar) in self.characters.enumerated() {
+	for (j, otherChar) in other.characters.enumerated() {
 	  if otherChar == selfChar {
 		// Common char found, add 1 to highest lcs found so far.
 		matrix[i+1][j+1] = matrix[i][j] + 1
@@ -96,7 +95,7 @@ Now we compare `C` with `C`. These are equal, and we increment the length to `3`
 | X | 0 |   |   |   |   |   |   |
 ```
 
-And so on... this is how `lcsLength()` fills in the entire matrix.
+And so on... this is how `lcsLength(_:)` fills in the entire matrix.
 
 ## Backtracking to find the actual subsequence
 
@@ -125,7 +124,7 @@ One thing to notice is, as it's running backwards, the LCS is built in reverse o
 Here is the backtracking code:
 
 ```swift
-func backtrack(matrix: [[Int]]) -> String {
+func backtrack(_ matrix: [[Int]]) -> String {
   var i = self.characters.count
   var j = other.characters.count
   
@@ -141,14 +140,14 @@ func backtrack(matrix: [[Int]]) -> String {
 	// Indicates propagation without change: no new char was added to lcs.
 	else if matrix[i][j] == matrix[i - 1][j] {
 	  i -= 1
-	  charInSequence = charInSequence.predecessor()
+	  charInSequence = self.index(before: charInSequence)
 	}
 	// Value on the left and above are different than current cell.
 	// This means 1 was added to lcs length.
 	else {
 	  i -= 1
 	  j -= 1
-	  charInSequence = charInSequence.predecessor()
+	  charInSequence = self.index(before: charInSequence)
 	  lcs.append(self[charInSequence])
 	}
   }
@@ -165,17 +164,17 @@ Due to backtracking, characters are added in reverse order, so at the end of the
 
 ## Putting it all together
 
-To find the LCS between two strings, we first call `lcsLength()` and then `backtrack()`:
+To find the LCS between two strings, we first call `lcsLength(_:)` and then `backtrack(_:)`:
 
 ```swift
 extension String {
-  public func longestCommonSubsequence(other: String) -> String {
+  public func longestCommonSubsequence(_ other: String) -> String {
 
-    func lcsLength(other: String) -> [[Int]] {
+    func lcsLength(_ other: String) -> [[Int]] {
       ...
     }
     
-    func backtrack(matrix: [[Int]]) -> String {
+    func backtrack(_ matrix: [[Int]]) -> String {
       ...
     }
 
