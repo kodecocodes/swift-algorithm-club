@@ -4,9 +4,9 @@ Goal: To quickly multiply two numbers together
 
 ## Long Multiplication
 
-In grade school we all learned how to multiply two numbers together via Long Multiplication. So let's try that first!
+In grade school we learned how to multiply two numbers together via Long Multiplication. Let's try that first!
 
-Example 1: Multiply 1234 by 5678 using Long Multiplication
+### Example 1: Multiply 1234 by 5678 using Long Multiplication
 
 	    5678
 	   *1234
@@ -18,9 +18,9 @@ Example 1: Multiply 1234 by 5678 using Long Multiplication
 	--------
 	 7006652
 
-So what's the problem with long multiplication? Speed. Long Multiplication runs in **O(n^2)**. 
+So what's the problem with Long Multiplication? Well remember the first part of our goal. To *quickly* multiply two numbers together. Long Multiplication is slow! (**O(n^2)**) 
 
-You can see where the **O(n^2)** comes from in the implementation for Long Multiplication:
+You can see where the **O(n^2)** comes from in the implementation of Long Multiplication:
 
 ```swift
 // Long Multiplication
@@ -44,7 +44,7 @@ func multiply(_ num1: Int, by num2: Int, base: Int = 10) -> Int {
 }
 ```
 
-The double for loop is the culprit! So Long Multiplication might not be the best algorithm after all. Can we do better?
+The double for loop is the culprit! By comparing each of the digits (as is necessary!) we set ourselves up for an **O(n^2)** running time. So Long Multiplication might not be the best algorithm after all. Can we do better?
 
 ## Karatsuba Multiplication
 
@@ -57,24 +57,17 @@ For two numbers x, y, where m <= n:
 
 Now, we can say:
 
-	x*y = a*c*10^(2m) + (a*d + b*c)*10^(m) + b*d
+	x*y = (a*10^m + b) * (c*10^m + d)
+	    = a*c*10^(2m) + (a*d + b*c)*10^(m) + b*d
 
-We can compute this function recursively, and that's what makes Karatsuba Multiplication fast.
+This had been know since the 19th century. The problem is that the method requires 4 multiplications (`a*c`, `a*d`, `b*c`, `b*d`). Karatsuba's insight was that you only need three! (`a*c`, `b*d`, `(a+b)*(c+d)`). Now a perfectly valid question right now would be "How is that possible!?!" Here's the math:
 
-```swift
-let ac = karatsuba(a, by: c)
-let bd = karatsuba(b, by: d)
-let adPlusbc = karatsuba(a+b, by: c+d) - ac - bd
-```
-
-The last recursion is interesting. Normally, you'd think we would have to run four recursions to find the product `x*y` (`a*c`, `a*d`, `b*c`, `b*d`). However, Karatsuba realized that you only need three recursions, and some addition and subtraction. Here's the math:
-
-	(a+b)*(c+d) - a*c - b*c  = (a*c + a*d + b*c + b*d) - a*c - b*c
-		    		 = (a*d + b*c)
+        (a+b)*(c+d) - a*c - b*c  = (a*c + a*d + b*c + b*d) - a*c - b*c
+                                 = (a*d + b*c)
 
 Pretty cool, huh?
 
-Here's the full implementation
+Here's the full implementation. Note that the recursive algorithm is most efficient at m = n/2.
 
 ```swift
 // Karatsuba Multiplication
@@ -104,9 +97,9 @@ func karatsuba(_ num1: Int, by num2: Int) -> Int {
 }
 ```
 
-The run time for this algorithm is about **O(n^1.56)** which is better than the **O(n^2)** for Long Multiplication. 
+What about the running time of this algorithm? Is all this extra work worth it? We can use the Master Theorem to answer this question. This leads us to `T(n) = 3*T(n/2) + c*n + d` where c & d are some constants. It follows (because 3 > 2^1) that the running time is **O(n^log2(3))** which is roughly **O(n^1.56)**. Much better! 
 
-Example 2: Multiply 1234 by 5678 using Karatsuba Multiplication
+### Example 2: Multiply 1234 by 5678 using Karatsuba Multiplication
 
 	m = 2
 	x = 1234 = a*10^2 + b = 12*10^2 + 34
@@ -125,5 +118,7 @@ Example 2: Multiply 1234 by 5678 using Karatsuba Multiplication
 [Wikipedia] (https://en.wikipedia.org/wiki/Karatsuba_algorithm)
 
 [WolframMathWorld] (http://mathworld.wolfram.com/KaratsubaMultiplication.html) 
+
+[Master Theorem] (https://en.wikipedia.org/wiki/Master_theorem)
 
 *Written for Swift Algorithm Club by Richard Ash*
