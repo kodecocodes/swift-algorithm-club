@@ -33,7 +33,7 @@ func multiply(_ num1: Int, by num2: Int, base: Int = 10) -> Int {
   return Int(product.reversed().map{ String($0) }.reduce("", +))!
 }
 
-// Karatsuba Multiplication - O(nlogn)
+// Karatsuba Multiplication - O(n^log2(3))
 func karatsuba(_ num1: Int, by num2: Int) -> Int {
   let num1Array = String(num1).characters
   let num2Array = String(num2).characters
