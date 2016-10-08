@@ -46,3 +46,6 @@ s.indexOf(pattern: "World")  // 7
 
 let animals = "🐶🐔🐷🐮🐱"
 animals.indexOf(pattern: "🐮")  // 6
+
+
+
