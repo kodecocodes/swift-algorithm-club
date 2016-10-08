@@ -150,34 +150,42 @@ Here's an implementation of the Boyer-Moore-Horspool algorithm:
 
 ```swift
 extension String {
-  public func indexOf(pattern: String) -> String.Index? {
+    func indexOf(pattern: String) -> String.Index? {
     let patternLength = pattern.characters.count
     assert(patternLength > 0)
     assert(patternLength <= self.characters.count)
 
     var skipTable = [Character: Int]()
-    for (i, c) in pattern.characters.dropLast().enumerate() {
-      skipTable[c] = patternLength - i - 1
+    for (i, c) in pattern.characters.enumerated() {
+    skipTable[c] = patternLength - i - 1
     }
 
-    var index = self.startIndex.advancedBy(patternLength - 1)
+    let p = pattern.index(before: pattern.endIndex)
+    let lastChar = pattern[p]
+    var i = self.index(startIndex, offsetBy: patternLength - 1)
 
-    while index < self.endIndex {
-      var i = index
-      var p = pattern.endIndex.predecessor()
-
-      while self[i] == pattern[p] {
-        if p == pattern.startIndex { return i }
-        i = i.predecessor()
-        p = p.predecessor()
-      }
-
-      let advance = skipTable[self[index]] ?? patternLength
-      index = index.advancedBy(advance)
+    func backwards() -> String.Index? {
+    var q = p
+    var j = i
+    while q > pattern.startIndex {
+    j = index(before: j)
+    q = index(before: q)
+    if self[j] != pattern[q] { return nil }
+    }
+    return j
     }
 
+    while i < self.endIndex {
+    let c = self[i]
+    if c == lastChar {
+    if let k = backwards() { return k }
+    i = index(after: i)
+    } else {
+    i = index(i, offsetBy: skipTable[c] ?? patternLength)
+    }
+    }
     return nil
-  }
+    }
 }
 ```
 
