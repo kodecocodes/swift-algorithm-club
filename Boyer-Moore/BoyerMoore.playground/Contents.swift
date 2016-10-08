@@ -39,6 +39,7 @@ extension String {
   }
 }
 
+
 // A few simple tests
 
 let s = "Hello, World"
