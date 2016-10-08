@@ -39,3 +39,4 @@ script:
 # - xcodebuild test -project ./Single-Source\ Shortest\ Paths\ \(Weighted\)/SSSP.xcodeproj -scheme SSSPTests
 - xcodebuild test -project ./Stack/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Topological\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Treap/Treap/Treap.xcodeproj -scheme Tests
