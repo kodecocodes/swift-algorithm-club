@@ -7,7 +7,7 @@ extension Array {
     Time complexity: O(n)
   */
   public mutating func shuffle() {
-    for i in (count - 1).stride(through: 1, by: -1) {
+    for i in stride(from: count - 1, through: 1, by: -1) {
       let j = random(i + 1)
       if i != j {
         swap(&self[i], &self[j])
@@ -20,7 +20,7 @@ extension Array {
   Simultaneously initializes an array with the values 0...n-1 and shuffles it.
 */
 public func shuffledArray(n: Int) -> [Int] {
-  var a = [Int](count: n, repeatedValue: 0)
+  var a = [Int](repeating: 0, count: n)
   for i in 0..<n {
     let j = random(i + 1)
     if i != j {
