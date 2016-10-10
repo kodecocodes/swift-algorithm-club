@@ -9,11 +9,11 @@
   This tree does not automatically balance itself. To make sure it is balanced,
   you should insert new values in randomized order, not in sorted order.
 */
-public class BinarySearchTree<T: Comparable> {
-  private(set) public var value: T
-  private(set) public var parent: BinarySearchTree?
-  private(set) public var left: BinarySearchTree?
-  private(set) public var right: BinarySearchTree?
+open class BinarySearchTree<T: Comparable> {
+  fileprivate(set) open var value: T
+  fileprivate(set) open var parent: BinarySearchTree?
+  fileprivate(set) open var left: BinarySearchTree?
+  fileprivate(set) open var right: BinarySearchTree?
 
   public init(value: T) {
     self.value = value
@@ -27,40 +27,40 @@ public class BinarySearchTree<T: Comparable> {
     }
   }
 
-  public var isRoot: Bool {
+  open var isRoot: Bool {
     return parent == nil
   }
 
-  public var isLeaf: Bool {
+  open var isLeaf: Bool {
     return left == nil && right == nil
   }
 
-  public var isLeftChild: Bool {
+  open var isLeftChild: Bool {
     return parent?.left === self
   }
 
-  public var isRightChild: Bool {
+  open var isRightChild: Bool {
     return parent?.right === self
   }
 
-  public var hasLeftChild: Bool {
+  open var hasLeftChild: Bool {
     return left != nil
   }
 
-  public var hasRightChild: Bool {
+  open var hasRightChild: Bool {
     return right != nil
   }
 
-  public var hasAnyChild: Bool {
+  open var hasAnyChild: Bool {
     return hasLeftChild || hasRightChild
   }
 
-  public var hasBothChildren: Bool {
+  open var hasBothChildren: Bool {
     return hasLeftChild && hasRightChild
   }
 
   /* How many nodes are in this subtree. Performance: O(n). */
-  public var count: Int {
+  open var count: Int {
     return (left?.count ?? 0) + 1 + (right?.count ?? 0)
   }
 }
@@ -73,11 +73,11 @@ extension BinarySearchTree {
     at the root, to make to sure this remains a valid binary tree!
     Performance: runs in O(h) time, where h is the height of the tree.
   */
-  public func insert(value: T) {
+  public func insert(_ value: T) {
     insert(value, parent: self)
   }
 
-  private func insert(value: T, parent: BinarySearchTree) {
+  fileprivate func insert(_ value: T, parent: BinarySearchTree) {
     if value < self.value {
       if let left = left {
         left.insert(value, parent: left)
@@ -136,7 +136,7 @@ extension BinarySearchTree {
     return replacement
   }
 
-  private func removeNodeWithTwoChildren(left: BinarySearchTree, _ right: BinarySearchTree) -> BinarySearchTree {
+  fileprivate func removeNodeWithTwoChildren(_ left: BinarySearchTree, _ right: BinarySearchTree) -> BinarySearchTree {
     // This node has two children. It must be replaced by the smallest
     // child that is larger than this node's value, which is the leftmost
     // descendent of the right child.
@@ -164,7 +164,7 @@ extension BinarySearchTree {
     return successor
   }
 
-  private func reconnectParentToNode(node: BinarySearchTree?) {
+  fileprivate func reconnectParentToNode(_ node: BinarySearchTree?) {
     if let parent = parent {
       if isLeftChild {
         parent.left = node
@@ -183,7 +183,7 @@ extension BinarySearchTree {
     Finds the "highest" node with the specified value.
     Performance: runs in O(h) time, where h is the height of the tree.
   */
-  public func search(value: T) -> BinarySearchTree? {
+  public func search(_ value: T) -> BinarySearchTree? {
     var node: BinarySearchTree? = self
     while case let n? = node {
       if value < n.value {
@@ -210,7 +210,7 @@ extension BinarySearchTree {
   }
   */
 
-  public func contains(value: T) -> Bool {
+  public func contains(_ value: T) -> Bool {
     return search(value) != nil
   }
 
@@ -298,19 +298,19 @@ extension BinarySearchTree {
 // MARK: - Traversal
 
 extension BinarySearchTree {
-  public func traverseInOrder(@noescape process: T -> Void) {
+  public func traverseInOrder(_ process: (T) -> Void) {
     left?.traverseInOrder(process)
     process(value)
     right?.traverseInOrder(process)
   }
 
-  public func traversePreOrder(@noescape process: T -> Void) {
+  public func traversePreOrder(_ process: (T) -> Void) {
     process(value)
     left?.traversePreOrder(process)
     right?.traversePreOrder(process)
   }
 
-  public func traversePostOrder(@noescape process: T -> Void) {
+  public func traversePostOrder(_ process: (T) -> Void) {
     left?.traversePostOrder(process)
     right?.traversePostOrder(process)
     process(value)
@@ -319,7 +319,7 @@ extension BinarySearchTree {
   /*
     Performs an in-order traversal and collects the results in an array.
   */
-  public func map(@noescape formula: T -> T) -> [T] {
+  public func map(_ formula: (T) -> T) -> [T] {
     var a = [T]()
     if let left = left { a += left.map(formula) }
     a.append(formula(value))
@@ -332,7 +332,7 @@ extension BinarySearchTree {
   Is this binary tree a valid binary search tree?
 */
 extension BinarySearchTree {
-  public func isBST(minValue minValue: T, maxValue: T) -> Bool {
+  public func isBST(minValue: T, maxValue: T) -> Bool {
     if value < minValue || value > maxValue { return false }
     let leftBST = left?.isBST(minValue: minValue, maxValue: value) ?? true
     let rightBST = right?.isBST(minValue: value, maxValue: maxValue) ?? true

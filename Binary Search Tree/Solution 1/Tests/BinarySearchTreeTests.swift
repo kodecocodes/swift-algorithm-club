@@ -108,7 +108,7 @@ class BinarySearchTreeTest: XCTestCase {
   }
 
   func testInsertSorted() {
-    let tree = BinarySearchTree(array: [8, 5, 10, 3, 12, 9, 6, 16].sort(<))
+    let tree = BinarySearchTree(array: [8, 5, 10, 3, 12, 9, 6, 16].sorted(by: <))
     XCTAssertEqual(tree.count, 8)
     XCTAssertEqual(tree.toArray(), [3, 5, 6, 8, 9, 10, 12, 16])
 
