@@ -21,3 +21,5 @@ The function contains 3 closures in order to make the code more readable and com
 3. `dToR` a closure converting degrees to radians.
 
 The result of `haversineDistance` is returned in meters.
+
+*Written for Swift Algorithm Club by Jaap Wijnen.*
