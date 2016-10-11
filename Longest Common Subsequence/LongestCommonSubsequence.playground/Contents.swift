@@ -1,11 +1,11 @@
 extension String {
-  public func longestCommonSubsequence(other: String) -> String {
+  public func longestCommonSubsequence(_ other: String) -> String {
 
-    func lcsLength(other: String) -> [[Int]] {
-      var matrix = [[Int]](count: self.characters.count+1, repeatedValue: [Int](count: other.characters.count+1, repeatedValue: 0))
+    func lcsLength(_ other: String) -> [[Int]] {
+      var matrix = [[Int]](repeating: [Int](repeating: 0, count: other.characters.count+1), count: self.characters.count+1)
 
-      for (i, selfChar) in self.characters.enumerate() {
-        for (j, otherChar) in other.characters.enumerate() {
+      for (i, selfChar) in self.characters.enumerated() {
+        for (j, otherChar) in other.characters.enumerated() {
           if otherChar == selfChar {
             matrix[i+1][j+1] = matrix[i][j] + 1
           } else {
@@ -16,7 +16,7 @@ extension String {
       return matrix
     }
 
-    func backtrack(matrix: [[Int]]) -> String {
+    func backtrack(_ matrix: [[Int]]) -> String {
       var i = self.characters.count
       var j = other.characters.count
       var charInSequence = self.endIndex
@@ -28,15 +28,15 @@ extension String {
           j -= 1
         } else if matrix[i][j] == matrix[i - 1][j] {
           i -= 1
-          charInSequence = charInSequence.predecessor()
+          charInSequence = self.index(before: charInSequence)
         } else {
           i -= 1
           j -= 1
-          charInSequence = charInSequence.predecessor()
+          charInSequence = self.index(before: charInSequence)
           lcs.append(self[charInSequence])
         }
       }
-      return String(lcs.characters.reverse())
+      return String(lcs.characters.reversed())
     }
 
     return backtrack(lcsLength(other))
