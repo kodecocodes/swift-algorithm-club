@@ -7,7 +7,7 @@ public class Graph: CustomStringConvertible {
     adjacencyLists = [Node : [Node]]()
   }
 
-  public func addNode(value: Node) -> Node {
+  public func addNode(_ value: Node) -> Node {
     adjacencyLists[value] = []
     return value
   }

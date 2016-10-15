@@ -1,10 +1,10 @@
 extension Graph {
-  private func depthFirstSearch(source: Node, inout visited: [Node : Bool]) -> [Node] {
+  private func depthFirstSearch(_ source: Node, visited: inout [Node : Bool]) -> [Node] {
     var result = [Node]()
 
     if let adjacencyList = adjacencyList(forNode: source) {
       for nodeInAdjacencyList in adjacencyList {
-        if let seen = visited[nodeInAdjacencyList] where !seen {
+        if let seen = visited[nodeInAdjacencyList], !seen {
           result = depthFirstSearch(nodeInAdjacencyList, visited: &visited) + result
         }
       }
