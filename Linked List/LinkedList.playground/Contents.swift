@@ -187,6 +187,16 @@ extension LinkedList {
   }
 }
 
+extension LinkedList {
+  convenience init(array: Array<T>) {
+    self.init()
+        
+    for element in array {
+      self.append(element)
+    }
+  }
+}
+
 let list = LinkedList<String>()
 list.isEmpty                  // true
 list.first                    // nil
