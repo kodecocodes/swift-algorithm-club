@@ -26,6 +26,13 @@
       location = "group:Why Algorithms.markdown">
    </FileRef>
    <Group
+      location = "group:Miller-Rabin Primality Test"
+      name = "Miller-Rabin Primality Test">
+      <FileRef
+         location = "group:MRPrimality.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:All-Pairs Shortest Paths"
       name = "All-Pairs Shortest Paths">
       <Group
