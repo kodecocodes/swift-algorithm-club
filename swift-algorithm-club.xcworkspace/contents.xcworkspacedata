@@ -31,6 +31,9 @@
       <FileRef
          location = "group:MRPrimality.swift">
       </FileRef>
+      <FileRef
+         location = "group:MRPrimality.playground">
+      </FileRef>
    </Group>
    <Group
       location = "group:All-Pairs Shortest Paths"
