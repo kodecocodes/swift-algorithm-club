@@ -34,14 +34,14 @@ func ** (radix: Double, power: Int) -> Double {
 }
 
 extension Character {
-    var asInt:Int {
+    var asInt: Int {
         let s = String(self).unicodeScalars
         return Int(s[s.startIndex].value)
     }
 }
 
 // Find first position of pattern in the text using Rabin Karp algorithm
-public func search(text: String , pattern: String) -> Int {
+public func search(text: String, pattern: String) -> Int {
     // convert to array of ints
     let patternArray = pattern.characters.flatMap { $0.asInt }
     let textArray = text.characters.flatMap { $0.asInt }
@@ -55,7 +55,7 @@ public func search(text: String , pattern: String) -> Int {
     let firstChars = Array(textArray[0...endIdx])
     let firstHash = hash(array: firstChars)
 
-    if (patternHash == firstHash) {
+    if patternHash == firstHash {
         // Verify this was not a hash collison
         if firstChars == patternArray {
             return 0
@@ -67,7 +67,12 @@ public func search(text: String , pattern: String) -> Int {
     for idx in 1...(textArray.count - patternArray.count) {
         endIdx = idx + (patternArray.count - 1)
         let window = Array(textArray[idx...endIdx])
-        let windowHash = nextHash(prevHash: prevHash, dropped: textArray[idx - 1], added: textArray[endIdx], patternSize: patternArray.count - 1)
+        let windowHash = nextHash(
+          prevHash: prevHash,
+          dropped: textArray[idx - 1],
+          added: textArray[endIdx],
+          patternSize: patternArray.count - 1
+        )
 
         if windowHash == patternHash {
             if patternArray == window {
@@ -82,7 +87,7 @@ public func search(text: String , pattern: String) -> Int {
 }
 
 public func hash(array: Array<Int>) -> Double {
-    var total : Double = 0
+    var total: Double = 0
     var exponent = array.count - 1
     for i in array {
         total += Double(i) * (Double(Constants.hashMultiplier) ** exponent)
@@ -93,11 +98,17 @@ public func hash(array: Array<Int>) -> Double {
 }
 
 public func nextHash(prevHash: Double, dropped: Int, added: Int, patternSize: Int) -> Double {
-    let oldHash = prevHash - (Double(dropped) * (Double(Constants.hashMultiplier) ** patternSize))
+    let oldHash = prevHash - (Double(dropped) *
+      (Double(Constants.hashMultiplier) ** patternSize))
     return Double(Constants.hashMultiplier) * oldHash + Double(added)
 }
 
 // TESTS
-assert(search(text:"The big dog jumped over the fox", pattern:"ump") == 13, "Invalid index returned")
-assert(search(text:"The big dog jumped over the fox", pattern:"missed") == -1, "Invalid index returned")
-assert(search(text:"The big dog jumped over the fox", pattern:"T") == 0, "Invalid index returned")
+assert(search(text:"The big dog jumped over the fox",
+  pattern:"ump") == 13, "Invalid index returned")
+
+assert(search(text:"The big dog jumped over the fox",
+  pattern:"missed") == -1, "Invalid index returned")
+
+assert(search(text:"The big dog jumped over the fox",
+  pattern:"T") == 0, "Invalid index returned")
