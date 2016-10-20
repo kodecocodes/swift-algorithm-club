@@ -2,7 +2,7 @@
 
 The Rabin-Karp string search alogrithm is used to search text for a pattern.
 
-Algorithms that check for palindromes are a common programming interview question.
+A practical application of the algorithm is detecting plagiarism. Given source material, the algorithm can rapidly search through a paper for instances of sentences from the source material, ignoring details such as case and punctuation. Because of the abundance of the sought strings, single-string searching algorithms are impractical.
 
 ## Example
 
