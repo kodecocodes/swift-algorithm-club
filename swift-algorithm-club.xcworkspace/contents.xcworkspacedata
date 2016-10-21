@@ -28,11 +28,21 @@
    <Group
       location = "group:Miller-Rabin Primality Test"
       name = "Miller-Rabin Primality Test">
+      <Group
+         location = "container:Miller-Rabin Primality Test/Images"
+         name = "Images">
+         <FileRef
+            location = "group:img_pseudo.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:MRPrimality.playground">
+      </FileRef>
       <FileRef
          location = "group:MRPrimality.swift">
       </FileRef>
       <FileRef
-         location = "group:MRPrimality.playground">
+         location = "group:README.markdown">
       </FileRef>
    </Group>
    <Group
