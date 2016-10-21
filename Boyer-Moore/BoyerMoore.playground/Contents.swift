@@ -7,20 +7,20 @@ extension String {
     assert(patternLength <= self.characters.count)
 
     var skipTable = [Character: Int]()
-    for (i, c) in pattern.characters.enumerate() {
+    for (i, c) in pattern.characters.enumerated() {
       skipTable[c] = patternLength - i - 1
     }
 
-    let p = pattern.endIndex.predecessor()
+    let p = pattern.index(before: pattern.endIndex)
     let lastChar = pattern[p]
-    var i = self.startIndex.advancedBy(patternLength - 1)
+    var i = self.index(startIndex, offsetBy: patternLength - 1)
 
     func backwards() -> String.Index? {
       var q = p
       var j = i
       while q > pattern.startIndex {
-        j = j.predecessor()
-        q = q.predecessor()
+        j = index(before: j)
+        q = index(before: q)
         if self[j] != pattern[q] { return nil }
       }
       return j
@@ -30,21 +30,19 @@ extension String {
       let c = self[i]
       if c == lastChar {
         if let k = backwards() { return k }
-        i = i.successor()
+        i = index(after: i)
       } else {
-        i = i.advancedBy(skipTable[c] ?? patternLength)
+        i = index(i, offsetBy: skipTable[c] ?? patternLength)
       }
     }
     return nil
   }
 }
 
-
-
 // A few simple tests
 
 let s = "Hello, World"
-s.indexOf("World")  // 7
+s.indexOf(pattern: "World")  // 7
 
 let animals = "🐶🐔🐷🐮🐱"
-animals.indexOf("🐮")  // 6
+animals.indexOf(pattern: "🐮")  // 6
