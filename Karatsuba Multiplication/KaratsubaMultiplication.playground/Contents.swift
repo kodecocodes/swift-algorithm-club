@@ -58,4 +58,3 @@ func karatsuba(_ num1: Int, by num2: Int) -> Int {
   
   return product
 }
-

@@ -84,6 +84,7 @@ Special-purpose sorts:
 Bad sorting algorithms (don't use these!):
 
 - [Bubble Sort](Bubble Sort/)
+- [Slow Sort](Slow Sort/)
 
 ### Compression
 
@@ -101,6 +102,7 @@ Bad sorting algorithms (don't use these!):
 - [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
 - [Shunting Yard Algorithm](Shunting Yard/). Convert infix expressions to postfix.
 - Statistics
+- [Karatsuba Multiplication](Karatsuba Multiplication/). Another take on elementary multiplication.
 
 ### Machine learning
 
