@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public func insertionSort(inout list: [Int], start: Int, gap: Int) {
-  for i in (start + gap).stride(to: list.count, by: gap) {
+public func insertionSort(_ list: inout [Int], start: Int, gap: Int) {
+  for i in stride(from: (start + gap), to: list.count, by: gap) {
     let currentValue = list[i]
     var pos = i
     while pos >= gap && list[pos - gap] > currentValue {
@@ -32,7 +32,7 @@ public func insertionSort(inout list: [Int], start: Int, gap: Int) {
   }
 }
 
-public func shellSort(inout list: [Int]) {
+public func shellSort(_ list: inout [Int]) {
   var sublistCount = list.count / 2
   while sublistCount > 0 {
     for pos in 0..<sublistCount {
