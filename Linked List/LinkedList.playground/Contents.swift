@@ -47,7 +47,7 @@ public class LinkedList<T> {
     }
   }
 
-  public func nodeAt(_ index: Int) -> Node? {
+  public func node(atIndex index: Int) -> Node? {
     if index >= 0 {
       var node = head
       var i = index
@@ -61,12 +61,12 @@ public class LinkedList<T> {
   }
 
   public subscript(index: Int) -> T {
-    let node = nodeAt(index)
+    let node = self.node(atIndex: index)
     assert(node != nil)
     return node!.value
   }
 
-  public func append(value: T) {
+  public func append(_ value: T) {
     let newNode = Node(value: value)
     if let lastNode = last {
       newNode.previous = lastNode
@@ -93,7 +93,7 @@ public class LinkedList<T> {
     return (prev, next)
   }
 
-  public func insert(value: T, atIndex index: Int) {
+  public func insert(_ value: T, atIndex index: Int) {
     let (prev, next) = nodesBeforeAndAfter(index: index)
 
     let newNode = Node(value: value)
@@ -132,8 +132,8 @@ public class LinkedList<T> {
     return remove(node: last!)
   }
 
-  public func removeAt(_ index: Int) -> T {
-    let node = nodeAt(index)
+  public func remove(atIndex index: Int) -> T {
+    let node = self.node(atIndex: index)
     assert(node != nil)
     return remove(node: node!)
   }
@@ -168,7 +168,7 @@ extension LinkedList {
     let result = LinkedList<U>()
     var node = head
     while node != nil {
-      result.append(value: transform(node!.value))
+      result.append(transform(node!.value))
       node = node!.next
     }
     return result
@@ -179,7 +179,7 @@ extension LinkedList {
     var node = head
     while node != nil {
       if predicate(node!.value) {
-        result.append(value: node!.value)
+        result.append(node!.value)
       }
       node = node!.next
     }
@@ -187,21 +187,28 @@ extension LinkedList {
   }
 }
 
-
-
+extension LinkedList {
+  convenience init(array: Array<T>) {
+    self.init()
+        
+    for element in array {
+      self.append(element)
+    }
+  }
+}
 
 let list = LinkedList<String>()
 list.isEmpty                  // true
 list.first                    // nil
 list.last                     // nil
 
-list.append(value: "Hello")
+list.append("Hello")
 list.isEmpty
 list.first!.value             // "Hello"
 list.last!.value              // "Hello"
 list.count                    // 1
 
-list.append(value: "World")
+list.append("World")
 list.first!.value             // "Hello"
 list.last!.value              // "World"
 list.count                    // 2
@@ -211,15 +218,15 @@ list.first!.next!.value       // "World"
 list.last!.previous!.value    // "Hello"
 list.last!.next               // nil
 
-list.nodeAt(0)!.value    // "Hello"
-list.nodeAt(1)!.value    // "World"
-list.nodeAt(2)           // nil
+list.node(atIndex: 0)!.value    // "Hello"
+list.node(atIndex: 1)!.value    // "World"
+list.node(atIndex: 2)           // nil
 
 list[0]     // "Hello"
 list[1]     // "World"
 //list[2]   // crash!
 
-list.insert(value: "Swift", atIndex: 1)
+list.insert("Swift", atIndex: 1)
 list[0]
 list[1]
 list[2]
@@ -227,8 +234,8 @@ print(list)
 
 list.reverse()   // [World, Swift, Hello]
 
-list.nodeAt(0)!.value = "Universe"
-list.nodeAt(1)!.value = "Swifty"
+list.node(atIndex: 0)!.value = "Universe"
+list.node(atIndex: 1)!.value = "Swifty"
 let m = list.map { s in s.characters.count }
 m    // [8, 6, 5]
 let f = list.filter { s in s.characters.count > 5 }
@@ -237,7 +244,7 @@ f    // [Universe, Swifty]
 //list.removeAll()
 //list.isEmpty
 
-list.remove(node: list.first!)   // "Hello"
+list.remove(node: list.first!) // "Hello"
 list.count                     // 2
 list[0]                        // "Swift"
 list[1]                        // "World"
@@ -246,5 +253,5 @@ list.removeLast()              // "World"
 list.count                     // 1
 list[0]                        // "Swift"
 
-list.removeAt(0)          // "Swift"
+list.remove(atIndex: 0)        // "Swift"
 list.count                     // 0
