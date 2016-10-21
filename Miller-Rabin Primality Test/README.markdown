@@ -4,9 +4,9 @@ In 1976, Gray Miller introduced an algorithm, through his ph.d thesis[1], which 
 
 ## Probabilistic
 
-The result of the test is simply a boolean. However, `true` does not implicate *the number is prime*. In fact, it means *the number is **probably** prime*. But `false` does mean *the number is composite*.
+The result of the test is simply a boolean. However, `true` does not implicate _the number is prime_. In fact, it means _the number is **probably** prime_. But `false` does mean _the number is composite_.
 
-In order to increase the accuracy of the test, it needs to be iterated few times. If it returns `true` in every single iteration, than we can say with confidence that *the number is pro......bably prime*.
+In order to increase the accuracy of the test, it needs to be iterated few times. If it returns `true` in every single iteration, than we can say with confidence that _the number is pro......bably prime_.
 
 ## Algorithm
 
@@ -16,7 +16,7 @@ Now make a sequence, in modulo `n`, as following:
 
 > a^d, a^(2·d), a^(4·d), ... , a^((2^(s-1))·d), a^((2^s)·d) = a^(n-1)
 
-And we say the number `n` passes the test, *probably prime*, if 1) `a^d` is congruence to `1` in modulo `n`, or 2) `a^((2^k)·d)` is congruence to `-1` for some `k = 1, 2, ..., s-1`.
+And we say the number `n` passes the test, _probably prime_, if 1) `a^d` is congruence to `1` in modulo `n`, or 2) `a^((2^k)·d)` is congruence to `-1` for some `k = 1, 2, ..., s-1`.
 
 ### Pseudo Code
 
@@ -32,11 +32,11 @@ mrPrimalityTest(7, iteration: 10)       // test if 7 is prime & iterate 10 times
 ```
 
 ## Reference
-1. G. L. Miller, "Riemann's Hypothesis and Tests for Primality". *J. Comput. System Sci.* 13 (1976), 300-317.
-2. M. O. Rabin, "Probabilistic algorithm for testing primality". *Journal of Number Theory.* 12 (1980), 128-138.
+1. G. L. Miller, "Riemann's Hypothesis and Tests for Primality". _J. Comput. System Sci._ 13 (1976), 300-317.
+2. M. O. Rabin, "Probabilistic algorithm for testing primality". _Journal of Number Theory._ 12 (1980), 128-138.
 3. Miller–Rabin primality test - Wikipedia, the free encyclopedia
 
-*Written for Swift Algorithm Club by **Sahn Cha**, @scha00*
+_Written for Swift Algorithm Club by **Sahn Cha**, @scha00_
 
 [1]: https://cs.uwaterloo.ca/research/tr/1975/CS-75-27.pdf
 [2]: http://www.sciencedirect.com/science/article/pii/0022314X80900840
