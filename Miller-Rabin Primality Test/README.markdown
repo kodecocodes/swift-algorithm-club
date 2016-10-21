@@ -6,11 +6,11 @@ In 1976, Gray Miller introduced an algorithm, through his ph.d thesis[1], which 
 
 The result of the test is simply a boolean. However, `true` does not implicate _the number is prime_. In fact, it means _the number is **probably** prime_. But `false` does mean _the number is composite_.
 
-In order to increase the accuracy of the test, it needs to be iterated few times. If it returns `true` in every single iteration, than we can say with confidence that _the number is pro......bably prime_.
+In order to increase the accuracy of the test, it needs to be iterated few times. If it returns `true` in every single iteration, then we can say with confidence that _the number is pro......bably prime_.
 
 ## Algorithm
 
-Let `n` be the given number, and write `n-1` as `2^s·d`, where d is odd. And choose a random number `a` within the range from `2` to `n - 1`.
+Let `n` be the given number, and write `n-1` as `2^s·d`, where `d` is odd. And choose a random number `a` within the range from `2` to `n - 1`.
 
 Now make a sequence, in modulo `n`, as following:
 
@@ -28,7 +28,7 @@ The following pseudo code is excerpted from Wikipedia[3]:
 
 ```swift
 mrPrimalityTest(7)                      // test if 7 is prime. (default iteration = 1)
-mrPrimalityTest(7, iteration: 10)       // test if 7 is prime & iterate 10 times.
+mrPrimalityTest(7, iteration: 10)       // test if 7 is prime && iterate 10 times.
 ```
 
 ## Reference
