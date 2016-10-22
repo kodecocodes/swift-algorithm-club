@@ -26,7 +26,7 @@ import Foundation
 
 // Stack from : https://github.com/raywenderlich/swift-algorithm-club/tree/master/Stack
 public struct Stack<T> {
-  fileprivate var array = [T]()
+  fileprivate var array: [T] = []
 
   public var isEmpty: Bool {
     return array.isEmpty
@@ -62,53 +62,48 @@ extension Stack: Sequence {
 
 private func coinFlip() -> Bool {
   #if os(Linux)
-   return random() % 2 == 0
+      return random() % 2 == 0
   #elseif os(OSX)
-   return arc4random_uniform(2) == 1
+      return arc4random_uniform(2) == 1
   #endif
 }
 
-
-// MARK: - Node
 
 public class DataNode<Key: Comparable, Payload> {
   public typealias Node = DataNode<Key, Payload>
   
   var data            : Payload?  
   fileprivate var key : Key?
-  internal var next   : Node?
-  internal var down   : Node?
+  var next            : Node?
+  var down            : Node?
   
   public init(key: Key, data: Payload) {
     self.key  = key
     self.data = data
   }
 
-  public init(asHead head: Bool){
-  }
+  public init(asHead head: Bool){}
   
 }
 
-
-// MARK: - Skip List
 
 open class SkipList<Key: Comparable, Payload> {
   public typealias Node = DataNode<Key, Payload>
   
   fileprivate(set) var head: Node?
 
-  public init() { }
+  public init() {}
   
 }
 
 
 
-// MARK: - Searching
+// MARK: - Search lanes for a node with a given key
 
 extension SkipList {
   
-  internal func findNode(key: Key) -> Node? {
-    var currentNode : Node? = self.head
+  func findNode(key: Key) -> Node? {
+    var currentNode : Node? = head
     var isFound     : Bool  = false
 
     while !isFound {
@@ -117,7 +112,7 @@ extension SkipList {
         switch node.next {
         case .none:
           
-          currentNode = node.down
+          currentNode = node.down          
         case .some(let value) where value.key != nil:
 
           if value.key == key {
@@ -149,26 +144,26 @@ extension SkipList {
     
   }
 
-  internal func search(key: Key) -> Payload? {
-    guard let node = self.findNode(key: key) else {
+  func search(key: Key) -> Payload? {
+    guard let node = findNode(key: key) else {
       return nil
     }
 
     return node.next!.data    
   }    
- 
+  
 }
 
 
 
-// MARK: - Inserting
+// MARK: - Insert a node into lanes depending on skip list status ( bootstrap base-layer if head is empty / start insertion from current head ).
 
 extension SkipList {
-  private func bootstrapBaseLayer(key: Key, data: Payload) -> Void {    
-    self.head          = Node(asHead: true)    
-    var node           = Node(key: key, data: data)
+  private func bootstrapBaseLayer(key: Key, data: Payload) {    
+    head       = Node(asHead: true)    
+    var node   = Node(key: key, data: data)
 
-    self.head!.next    = node
+    head!.next = node
     
     var currentTopNode = node
 
@@ -177,17 +172,17 @@ extension SkipList {
       node           = Node(key: key, data: data)
       node.down      = currentTopNode
       newHead.next   = node
-      newHead.down   = self.head
-      self.head      = newHead
+      newHead.down   = head
+      head           = newHead
       currentTopNode = node
     }
     
   }
 
 
-  private func insertItem(key: Key, data: Payload) -> Void {
+  private func insertItem(key: Key, data: Payload) {
     var stack              = Stack<Node>()
-    var currentNode: Node? = self.head
+    var currentNode: Node? = head
 
     while currentNode != nil {
 
@@ -219,8 +214,8 @@ extension SkipList {
         node           = Node(key: key, data: data)
         node.down      = currentTopNode
         newHead.next   = node
-        newHead.down   = self.head
-        self.head      = newHead
+        newHead.down   = head
+        head           = newHead
         currentTopNode = node
         
       } else {        
@@ -236,32 +231,32 @@ extension SkipList {
   }
 
 
-  internal func insert(key: Key, data: Payload) {
-    if self.head != nil {
-      if let node = self.findNode(key: key) {
-        // replace in case key already exists
+  func insert(key: Key, data: Payload) {
+    if head != nil {
+      if let node = findNode(key: key) {
+        // replace, in case of key already exists. 
         var currentNode = node.next        
         while currentNode != nil && currentNode!.key == key {
           currentNode!.data = data
           currentNode       = currentNode!.down
         }
       } else {
-        self.insertItem(key: key, data: data)
+        insertItem(key: key, data: data)
       }
       
     } else {
-      self.bootstrapBaseLayer(key: key, data: data)
+      bootstrapBaseLayer(key: key, data: data)
     }
   }
   
 }
 
 
-// MARK: - Removing
+// MARK: - Remove a node with a given key. First, find its position in layers at the top, then remove it from each lane by traversing down to the base layer.
 
 extension SkipList {
-  public func remove(key: Key) -> Void {
-    guard let item = self.findNode(key: key) else {
+  public func remove(key: Key) {
+    guard let item = findNode(key: key) else {
       return
     }
     
@@ -285,9 +280,12 @@ extension SkipList {
   }  
 }
 
+
+// MARK: - Get associated payload from a node with a given key.
+
 extension SkipList {
   
   public func get(key:Key) -> Payload?{
-    return self.search(key: key)
+    return search(key: key)
   }
 }
