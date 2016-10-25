@@ -1,6 +1,6 @@
 //: Playground - noun: a place where people can play
 
-func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
+func twoSumProblem(_ a: [Int], k: Int) -> ((Int, Int))? {
   var i = 0
   var j = a.count - 1
 
