@@ -152,7 +152,7 @@ func backtrack(_ matrix: [[Int]]) -> String {
 	}
   }
   
-  return String(lcs.characters.reverse())
+  return String(lcs.characters.reversed())
 }
 ```  
 
@@ -160,7 +160,7 @@ This backtracks from `matrix[n+1][m+1]` (bottom-right corner) to `matrix[1][1]` 
 
 The `charInSequence` variable is an index into the string given by `self`. Initially this points to the last character of the string. Each time we decrement `i`, we also move back `charInSequence`. When the two characters are found to be equal, we add the character at `self[charInSequence]` to the new `lcs` string. (We can't just write `self[i]` because `i` may not map to the current position inside the Swift string.)
 
-Due to backtracking, characters are added in reverse order, so at the end of the function we call `reverse()` to put the string in the right order. (Appending new characters to the end of the string and then reversing it once is faster than always inserting the characters at the front of the string.)
+Due to backtracking, characters are added in reverse order, so at the end of the function we call `reversed()` to put the string in the right order. (Appending new characters to the end of the string and then reversing it once is faster than always inserting the characters at the front of the string.)
 
 ## Putting it all together
 
