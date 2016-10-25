@@ -12,7 +12,9 @@ public class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
   
   fileprivate var head: Node?
-  
+    
+  public init() {}
+    
   public var isEmpty: Bool {
     return head == nil
   }
@@ -182,5 +184,15 @@ extension LinkedList {
       node = node!.next
     }
     return result
+  }
+}
+
+extension LinkedList {
+  convenience init(array: Array<T>) {
+    self.init()
+        
+    for element in array {
+      self.append(element)
+    }
   }
 }

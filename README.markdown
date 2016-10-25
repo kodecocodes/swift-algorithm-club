@@ -10,7 +10,7 @@ The goal of this project is to **explain how algorithms work**. The focus is on 
 
 All code is compatible with **Xcode 7.3** and **Swift 2.2**. We'll keep this updated with the latest version of Swift.
 
-This is a work in progress. More algorithms will be added soon. :-) 
+This is a work in progress. More algorithms will be added soon. :-)
 
 :heart_eyes: **Suggestions and contributions are welcome!** :heart_eyes:
 
@@ -26,7 +26,7 @@ This is a work in progress. More algorithms will be added soon. :-)
 
 [How to contribute](How to Contribute.markdown). Report an issue to leave feedback, or submit a pull request.
 
-[Under construction](Under Construction.markdown). Algorithms that are under construction. 
+[Under construction](Under Construction.markdown). Algorithms that are under construction.
 
 ## Where to start?
 
@@ -84,6 +84,7 @@ Special-purpose sorts:
 Bad sorting algorithms (don't use these!):
 
 - [Bubble Sort](Bubble Sort/)
+- [Slow Sort](Slow Sort/)
 
 ### Compression
 
@@ -101,6 +102,7 @@ Bad sorting algorithms (don't use these!):
 - [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
 - [Shunting Yard Algorithm](Shunting Yard/). Convert infix expressions to postfix.
 - Statistics
+- [Karatsuba Multiplication](Karatsuba Multiplication/). Another take on elementary multiplication.
 
 ### Machine learning
 
@@ -210,6 +212,7 @@ Other algorithm repositories:
 - [@lorentey](https://github.com/lorentey/). Production-quality Swift implementations of common algorithms and data structures.
 - [Rosetta Code](http://rosettacode.org). Implementations in pretty much any language you can think of.
 - [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). Visualize algorithms on your browser.
+- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) Data Structures with directions on how to use them [here](http://waynewbishop.com/swift)
 
 ## Credits
 
