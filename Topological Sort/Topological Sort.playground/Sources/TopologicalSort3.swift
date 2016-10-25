@@ -12,10 +12,10 @@ extension Graph {
       visited[node] = false
     }
 
-    func depthFirstSearch(source: Node) {
+    func depthFirstSearch(_ source: Node) {
       if let adjacencyList = adjacencyList(forNode: source) {
         for neighbor in adjacencyList {
-          if let seen = visited[neighbor] where !seen {
+          if let seen = visited[neighbor], !seen {
             depthFirstSearch(neighbor)
           }
         }
@@ -25,11 +25,11 @@ extension Graph {
     }
 
     for (node, _) in visited {
-      if let seen = visited[node] where !seen {
+      if let seen = visited[node], !seen {
         depthFirstSearch(node)
       }
     }
 
-    return stack.reverse()
+    return stack.reversed()
   }
 }
