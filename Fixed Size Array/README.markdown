@@ -1,11 +1,11 @@
 # Fixed-Size Arrays
 
-Early programming languages didn't have very fancy arrays. You'd create the array with a specific size and from that moment on it would never grow or shrink. Even the standard arrays in C and Objective-C are still of this type. 
+Early programming languages didn't have very fancy arrays. You'd create the array with a specific size and from that moment on it would never grow or shrink. Even the standard arrays in C and Objective-C are still of this type.
 
 When you define an array like so,
 
 	int myArray[10];
-	
+
 the compiler allocates one contiguous block of memory that can hold 40 bytes (assuming an `int` is 4 bytes):
 
 ![An array with room for 10 elements](Images/array.png)
@@ -42,7 +42,7 @@ The expensive operations are inserting and deleting. When you insert an element 
 
 ![Insert requires a memory copy](Images/insert.png)
 
-If your code was using any indexes into the array beyond the insertion point, these indexes are now referring to the wrong objects. 
+If your code was using any indexes into the array beyond the insertion point, these indexes are now referring to the wrong objects.
 
 Deleting requires a copy the other way around:
 
@@ -95,38 +95,45 @@ Here is an implementation in Swift:
 
 ```swift
 struct FixedSizeArray<T> {
-  private var maxSize: Int
-  private var defaultValue: T
-  private var array: [T]
-  private (set) var count = 0
+    private var maxSize: Int
+    private var defaultValue: T
+    private var array: [T]
+    private (set) var count = 0
 
-  init(maxSize: Int, defaultValue: T) {
-    self.maxSize = maxSize
-    self.defaultValue = defaultValue
-    self.array = [T](count: maxSize, repeatedValue: defaultValue)
-  }
+    init(maxSize: Int, defaultValue: T) {
+        self.maxSize = maxSize
+        self.defaultValue = defaultValue
+        self.array = [T](repeating: defaultValue, count: maxSize)
+    }
 
-  subscript(index: Int) -> T {
-    assert(index >= 0)
-    assert(index < count)
-    return array[index]
-  }
+    subscript(index: Int) -> T {
+        assert(index >= 0)
+        assert(index < count)
+        return array[index]
+    }
 
-  mutating func append(newElement: T) {
-    assert(count < maxSize)
-    array[count] = newElement
-    count += 1
-  }
+    mutating func append(newElement: T) {
+        assert(count < maxSize)
+        array[count] = newElement
+        count += 1
+    }
 
-  mutating func removeAtIndex(index: Int) -> T {
-    assert(index >= 0)
-    assert(index < count)
-    count -= 1
-    let result = array[index]
-    array[index] = array[count]
-    array[count] = defaultValue
-    return result
-  }
+    mutating func removeAtIndex(index: Int) -> T {
+        assert(index >= 0)
+        assert(index < count)
+        count -= 1
+        let result = array[index]
+        array[index] = array[count]
+        array[count] = defaultValue
+        return result
+    }
+
+    mutating func removeAll() {
+        for i in 0..<count {
+            array[i] = defaultValue
+        }
+        count = 0
+    }
 }
 ```
 
