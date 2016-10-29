@@ -19,7 +19,7 @@ extension Array {
 /*
   Simultaneously initializes an array with the values 0...n-1 and shuffles it.
 */
-public func shuffledArray(n: Int) -> [Int] {
+public func shuffledArray(_ n: Int) -> [Int] {
   var a = [Int](repeating: 0, count: n)
   for i in 0..<n {
     let j = random(i + 1)
