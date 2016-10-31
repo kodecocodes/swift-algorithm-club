@@ -12,7 +12,7 @@ extension Array {
     var temp = [Element]()
     while !isEmpty {
       let i = random(count)
-      let obj = removeAtIndex(i)
+      let obj = remove(at: i)
       temp.append(obj)
     }
     self = temp
@@ -44,7 +44,7 @@ Here is a much improved version of the shuffle algorithm:
 ```swift
 extension Array {
   public mutating func shuffle() {
-    for i in (count - 1).stride(through: 1, by: -1) {
+    for i in stride(from: count - 1, through: 1, by: -1) {
       let j = random(i + 1)
       if i != j {
         swap(&self[i], &self[j])
@@ -96,8 +96,8 @@ There is a slight variation on this algorithm that is useful for when you want t
 Here is the code:
 
 ```swift
-public func shuffledArray(n: Int) -> [Int] {
-  var a = [Int](count: n, repeatedValue: 0)
+public func shuffledArray(_ n: Int) -> [Int] {
+  var a = [Int](repeating: 0, count: n)
   for i in 0..<n {
     let j = random(i + 1)
     if i != j {

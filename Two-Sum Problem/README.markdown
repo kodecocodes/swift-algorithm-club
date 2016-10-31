@@ -8,10 +8,10 @@ There are a variety of solutions to this problem (some better than others). The 
 
 This solution uses a dictionary to store differences between each element in the array and the sum `k` that we're looking for. The dictionary also stores the indices of each element.
 
-With this approach, each key in the dictionary corresponds to a new target value. If one of the successive numbers from the array is equal to one of the dictionary's keys, then we know there exist two numbers that sum to `k`. 
+With this approach, each key in the dictionary corresponds to a new target value. If one of the successive numbers from the array is equal to one of the dictionary's keys, then we know there exist two numbers that sum to `k`.
 
 ```swift
-func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
+func twoSumProblem(_ a: [Int], k: Int) -> ((Int, Int))? {
   var dict = [Int: Int]()
 
   for i in 0 ..< a.count {
@@ -69,7 +69,7 @@ The running time of this algorithm is **O(n)** because it potentially may need t
 Here is the code in Swift:
 
 ```swift
-func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
+func twoSumProblem(_ a: [Int], k: Int) -> ((Int, Int))? {
   var i = 0
   var j = a.count - 1
 
@@ -78,9 +78,9 @@ func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
     if sum == k {
       return (i, j)
     } else if sum < k {
-      ++i
+      i += 1
     } else {
-      --j
+      j -= 1
     }
   }
   return nil
