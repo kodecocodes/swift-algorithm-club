@@ -103,6 +103,7 @@ Bad sorting algorithms (don't use these!):
 - [Shunting Yard Algorithm](Shunting Yard/). Convert infix expressions to postfix.
 - Statistics
 - [Karatsuba Multiplication](Karatsuba Multiplication/). Another take on elementary multiplication.
+- [Haversine Distance](HaversineDistance/). Calculating the distance between 2 points from a sphere.
 
 ### Machine learning
 
