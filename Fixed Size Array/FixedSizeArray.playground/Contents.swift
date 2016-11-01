@@ -23,13 +23,13 @@ struct FixedSizeArray<T> {
         return array[index]
     }
     
-    mutating func append(newElement: T) {
+    mutating func append(_ newElement: T) {
         assert(count < maxSize)
         array[count] = newElement
         count += 1
     }
     
-    mutating func removeAtIndex(index: Int) -> T {
+    mutating func removeAt(index: Int) -> T {
         assert(index >= 0)
         assert(index < count)
         count -= 1
@@ -48,9 +48,9 @@ struct FixedSizeArray<T> {
 }
 
 var array = FixedSizeArray(maxSize: 5, defaultValue: 0)
-array.append(newElement: 4)
-array.append(newElement: 2)
+array.append(4)
+array.append(2)
 array[1]
-array.removeAtIndex(index: 0)
+array.removeAt(index: 0)
 array.removeAll()
 
