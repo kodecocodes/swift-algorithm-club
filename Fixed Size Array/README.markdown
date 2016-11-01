@@ -55,12 +55,12 @@ Fixed-size arrays are a good solution when:
 1. You know beforehand the maximum number of elements you'll need. In a game this could be the number of sprites that can be active at a time. It's not unreasonable to put a limit on this. (For games it's a good idea to allocate all the objects you need in advance anyway.)
 2. It is not necessary to have a sorted version of the array, i.e. the order of the elements does not matter.
 
-If the array does not need to be sorted, then an `insertAtIndex()` operation is not needed. You can simply append any new elements to the end, until the array is full.
+If the array does not need to be sorted, then an `insertAt(index)` operation is not needed. You can simply append any new elements to the end, until the array is full.
 
 The code for adding an element becomes:
 
 ```swift
-func append(newElement) {
+func append(_ newElement: T) {
   if count < maxSize {
     array[count] = newElement
     count += 1
@@ -75,7 +75,7 @@ Determining the number of elements in the array is just a matter of reading the 
 The code for removing an element is equally simple:
 
 ```swift
-func removeAtIndex(index) {
+func removeAt(index: Int) {
   count -= 1
   array[index] = array[count]
 }
@@ -95,45 +95,45 @@ Here is an implementation in Swift:
 
 ```swift
 struct FixedSizeArray<T> {
-    private var maxSize: Int
-    private var defaultValue: T
-    private var array: [T]
-    private (set) var count = 0
-
-    init(maxSize: Int, defaultValue: T) {
-        self.maxSize = maxSize
-        self.defaultValue = defaultValue
-        self.array = [T](repeating: defaultValue, count: maxSize)
+  private var maxSize: Int
+  private var defaultValue: T
+  private var array: [T]
+  private (set) var count = 0
+  
+  init(maxSize: Int, defaultValue: T) {
+    self.maxSize = maxSize
+    self.defaultValue = defaultValue
+    self.array = [T](repeating: defaultValue, count: maxSize)
+  }
+  
+  subscript(index: Int) -> T {
+    assert(index >= 0)
+    assert(index < count)
+    return array[index]
+  }
+  
+  mutating func append(_ newElement: T) {
+    assert(count < maxSize)
+    array[count] = newElement
+    count += 1
+  }
+  
+  mutating func removeAt(index: Int) -> T {
+    assert(index >= 0)
+    assert(index < count)
+    count -= 1
+    let result = array[index]
+    array[index] = array[count]
+    array[count] = defaultValue
+    return result
+  }
+  
+  mutating func removeAll() {
+    for i in 0..<count {
+      array[i] = defaultValue
     }
-
-    subscript(index: Int) -> T {
-        assert(index >= 0)
-        assert(index < count)
-        return array[index]
-    }
-
-    mutating func append(newElement: T) {
-        assert(count < maxSize)
-        array[count] = newElement
-        count += 1
-    }
-
-    mutating func removeAtIndex(index: Int) -> T {
-        assert(index >= 0)
-        assert(index < count)
-        count -= 1
-        let result = array[index]
-        array[index] = array[count]
-        array[count] = defaultValue
-        return result
-    }
-
-    mutating func removeAll() {
-        for i in 0..<count {
-            array[i] = defaultValue
-        }
-        count = 0
-    }
+    count = 0
+  }
 }
 ```
 
@@ -143,6 +143,6 @@ When creating the array, you specify the maximum size and a default value:
 var a = FixedSizeArray(maxSize: 10, defaultValue: 0)
 ```
 
-Note that `removeAtIndex()` overwrites the last element with this `defaultValue` to clean up the "junk" object that gets left behind. Normally it wouldn't matter to leave that duplicate object in the array, but if it's a class or a struct it may have strong references to other objects and it's good boyscout practice to zero those out.
+Note that `removeAt(index: Int)` overwrites the last element with this `defaultValue` to clean up the "junk" object that gets left behind. Normally it wouldn't matter to leave that duplicate object in the array, but if it's a class or a struct it may have strong references to other objects and it's good boyscout practice to zero those out.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*
