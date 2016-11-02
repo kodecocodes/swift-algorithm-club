@@ -1,11 +1,11 @@
 # Fixed-Size Arrays
 
-Early programming languages didn't have very fancy arrays. You'd create the array with a specific size and from that moment on it would never grow or shrink. Even the standard arrays in C and Objective-C are still of this type. 
+Early programming languages didn't have very fancy arrays. You'd create the array with a specific size and from that moment on it would never grow or shrink. Even the standard arrays in C and Objective-C are still of this type.
 
 When you define an array like so,
 
 	int myArray[10];
-	
+
 the compiler allocates one contiguous block of memory that can hold 40 bytes (assuming an `int` is 4 bytes):
 
 ![An array with room for 10 elements](Images/array.png)
@@ -42,7 +42,7 @@ The expensive operations are inserting and deleting. When you insert an element 
 
 ![Insert requires a memory copy](Images/insert.png)
 
-If your code was using any indexes into the array beyond the insertion point, these indexes are now referring to the wrong objects. 
+If your code was using any indexes into the array beyond the insertion point, these indexes are now referring to the wrong objects.
 
 Deleting requires a copy the other way around:
 
@@ -55,12 +55,12 @@ Fixed-size arrays are a good solution when:
 1. You know beforehand the maximum number of elements you'll need. In a game this could be the number of sprites that can be active at a time. It's not unreasonable to put a limit on this. (For games it's a good idea to allocate all the objects you need in advance anyway.)
 2. It is not necessary to have a sorted version of the array, i.e. the order of the elements does not matter.
 
-If the array does not need to be sorted, then an `insertAtIndex()` operation is not needed. You can simply append any new elements to the end, until the array is full.
+If the array does not need to be sorted, then an `insertAt(index)` operation is not needed. You can simply append any new elements to the end, until the array is full.
 
 The code for adding an element becomes:
 
 ```swift
-func append(newElement) {
+func append(_ newElement: T) {
   if count < maxSize {
     array[count] = newElement
     count += 1
@@ -75,7 +75,7 @@ Determining the number of elements in the array is just a matter of reading the 
 The code for removing an element is equally simple:
 
 ```swift
-func removeAtIndex(index) {
+func removeAt(index: Int) {
   count -= 1
   array[index] = array[count]
 }
@@ -99,26 +99,26 @@ struct FixedSizeArray<T> {
   private var defaultValue: T
   private var array: [T]
   private (set) var count = 0
-
+  
   init(maxSize: Int, defaultValue: T) {
     self.maxSize = maxSize
     self.defaultValue = defaultValue
-    self.array = [T](count: maxSize, repeatedValue: defaultValue)
+    self.array = [T](repeating: defaultValue, count: maxSize)
   }
-
+  
   subscript(index: Int) -> T {
     assert(index >= 0)
     assert(index < count)
     return array[index]
   }
-
-  mutating func append(newElement: T) {
+  
+  mutating func append(_ newElement: T) {
     assert(count < maxSize)
     array[count] = newElement
     count += 1
   }
-
-  mutating func removeAtIndex(index: Int) -> T {
+  
+  mutating func removeAt(index: Int) -> T {
     assert(index >= 0)
     assert(index < count)
     count -= 1
@@ -126,6 +126,13 @@ struct FixedSizeArray<T> {
     array[index] = array[count]
     array[count] = defaultValue
     return result
+  }
+  
+  mutating func removeAll() {
+    for i in 0..<count {
+      array[i] = defaultValue
+    }
+    count = 0
   }
 }
 ```
@@ -136,6 +143,6 @@ When creating the array, you specify the maximum size and a default value:
 var a = FixedSizeArray(maxSize: 10, defaultValue: 0)
 ```
 
-Note that `removeAtIndex()` overwrites the last element with this `defaultValue` to clean up the "junk" object that gets left behind. Normally it wouldn't matter to leave that duplicate object in the array, but if it's a class or a struct it may have strong references to other objects and it's good boyscout practice to zero those out.
+Note that `removeAt(index: Int)` overwrites the last element with this `defaultValue` to clean up the "junk" object that gets left behind. Normally it wouldn't matter to leave that duplicate object in the array, but if it's a class or a struct it may have strong references to other objects and it's good boyscout practice to zero those out.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*
