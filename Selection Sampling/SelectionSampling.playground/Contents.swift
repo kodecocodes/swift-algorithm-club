@@ -3,7 +3,7 @@
 import Foundation
 
 /* Returns a random integer in the range min...max, inclusive. */
-public func random(min min: Int, max: Int) -> Int {
+public func random(min: Int, max: Int) -> Int {
   assert(min < max)
   return min + Int(arc4random_uniform(UInt32(max - min + 1)))
 }
@@ -43,7 +43,6 @@ func select<T>(from a: [T], count requested: Int) -> [T] {
   }
   return b
 }
-
 
 
 let poem = [
