@@ -1,4 +1,6 @@
 import Graph
+import AdjacencyListGraph
+import AdjacencyMatrixGraph
 
 // Create the vertices
 var adjacencyMatrixGraph = AdjacencyMatrixGraph<Int>()

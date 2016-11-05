@@ -18,7 +18,7 @@ func twoSumProblem(_ a: [Int], k: Int) -> ((Int, Int))? {
 }
 
 let a = [2, 3, 4, 4, 7, 8, 9, 10, 12, 14, 21, 22, 100]
-if let (i, j) = twoSumProblem(a, k: 33) {
+if let (i, j) = twoSumProblem(a: a, k: 33) {
   i            // 8
   a[i]         // 12
   j            // 10
@@ -26,4 +26,4 @@ if let (i, j) = twoSumProblem(a, k: 33) {
   a[i] + a[j]  // 33
 }
 
-twoSumProblem(a, k: 37)  // nil
+twoSumProblem(a: a, k: 37)  // nil
