@@ -1,11 +1,7 @@
 import Graph
 
-// Create the vertices
-var adjacencyMatrixGraph = AdjacencyMatrixGraph<Int>()
-var adjacencyListGraph = AdjacencyListGraph<Int>()
-
-for graph in [ adjacencyMatrixGraph, adjacencyListGraph ] {
-
+for graph in [AdjacencyMatrixGraph<Int>(), AdjacencyListGraph<Int>()] {
+    
   let v1 = graph.createVertex(1)
   let v2 = graph.createVertex(2)
   let v3 = graph.createVertex(3)

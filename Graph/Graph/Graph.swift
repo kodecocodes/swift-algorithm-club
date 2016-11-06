@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class AbstractGraph<T where T: Equatable, T: Hashable>: CustomStringConvertible {
+open class AbstractGraph<T>: CustomStringConvertible where T: Equatable, T: Hashable {
 
   public required init() {}
 
@@ -20,19 +20,19 @@ public class AbstractGraph<T where T: Equatable, T: Hashable>: CustomStringConve
     }
   }
 
-  public var description: String {
+  open var description: String {
     get {
       fatalError("abstract property accessed")
     }
   }
 
-  public var vertices: [Vertex<T>] {
+  open var vertices: [Vertex<T>] {
     get {
       fatalError("abstract property accessed")
     }
   }
 
-  public var edges: [Edge<T>] {
+  open var edges: [Edge<T>] {
     get {
       fatalError("abstract property accessed")
     }
@@ -40,23 +40,23 @@ public class AbstractGraph<T where T: Equatable, T: Hashable>: CustomStringConve
 
   // Adds a new vertex to the matrix.
   // Performance: possibly O(n^2) because of the resizing of the matrix.
-  public func createVertex(data: T) -> Vertex<T> {
+  open func createVertex(_ data: T) -> Vertex<T> {
     fatalError("abstract function called")
   }
 
-  public func addDirectedEdge(from: Vertex<T>, to: Vertex<T>, withWeight weight: Double?) {
+  open func addDirectedEdge(_ from: Vertex<T>, to: Vertex<T>, withWeight weight: Double?) {
     fatalError("abstract function called")
   }
 
-  public func addUndirectedEdge(vertices: (Vertex<T>, Vertex<T>), withWeight weight: Double?) {
+  open func addUndirectedEdge(_ vertices: (Vertex<T>, Vertex<T>), withWeight weight: Double?) {
     fatalError("abstract function called")
   }
 
-  public func weightFrom(sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>) -> Double? {
+  open func weightFrom(_ sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>) -> Double? {
     fatalError("abstract function called")
   }
 
-  public func edgesFrom(sourceVertex: Vertex<T>) -> [Edge<T>] {
+  open func edgesFrom(_ sourceVertex: Vertex<T>) -> [Edge<T>] {
     fatalError("abstract function called")
   }
 }
