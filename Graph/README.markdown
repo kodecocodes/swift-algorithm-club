@@ -42,7 +42,7 @@ Like a tree this does not have any cycles in it (no matter where you start, ther
 
 Maybe you're shrugging your shoulders and thinking, what's the big deal? Well, it turns out that graphs are an extremely useful data structure.
 
-If you have some programming problem where you can represent some of your data as vertices and some of it as edges between those vertices, then you can draw your problem as a graph and use well-known graph algorithms such as [breadth-first search](../Breadth-First Search/) or [depth-first search](../Depth-First Search) to find a solution. 
+If you have some programming problem where you can represent some of your data as vertices and some of it as edges between those vertices, then you can draw your problem as a graph and use well-known graph algorithms such as [breadth-first search](../Breadth-First Search/) or [depth-first search](../Depth-First Search) to find a solution.
 
 For example, let's say you have a list of tasks where some tasks have to wait on others before they can begin. You can model this using an acyclic directed graph:
 
@@ -110,12 +110,13 @@ We'll show you sample implementations of both adjacency list and adjacency matri
 The adjacency list for each vertex consists of `Edge` objects:
 
 ```swift
-public struct Edge<T where T: Equatable, T: Hashable>: Equatable {
-  
+public struct Edge<T>: Equatable where T: Equatable, T: Hashable {
+
   public let from: Vertex<T>
   public let to: Vertex<T>
 
   public let weight: Double?
+
 }
 ```
 
@@ -124,7 +125,7 @@ This struct describes the "from" and "to" vertices and a weight value. Note that
 The `Vertex` looks like this:
 
 ```swift
-public struct Vertex<T where T: Equatable, T: Hashable>: Equatable {
+public struct Vertex<T>: Equatable where T: Equatable, T: Hashable {
 
   public var data: T
   public let index: Int
@@ -147,10 +148,7 @@ We can represent it as an adjacency matrix or adjacency list. The classes implem
 Let's create some directed, weighted graphs, using each representation, to store the example:
 
 ```swift
-var adjacencyMatrixGraph = AdjacencyMatrixGraph<Int>()
-var adjacencyListGraph = AdjacencyListGraph<Int>()
-
-for graph in [ adjacencyMatrixGraph, adjacencyListGraph ] {
+for graph in [AdjacencyMatrixGraph<Int>(), AdjacencyListGraph<Int>()] {
 
   let v1 = graph.createVertex(1)
   let v2 = graph.createVertex(2)
@@ -163,8 +161,8 @@ for graph in [ adjacencyMatrixGraph, adjacencyListGraph ] {
   graph.addDirectedEdge(v3, to: v4, withWeight: 4.5)
   graph.addDirectedEdge(v4, to: v1, withWeight: 2.8)
   graph.addDirectedEdge(v2, to: v5, withWeight: 3.2)
-}
 
+}
 ```
 
 As mentioned earlier, to create an undirected edge you need to make two directed edges. If we wanted undirected graphs, we'd call this method instead, which takes care of that work for us:
@@ -184,7 +182,7 @@ We could provide `nil` as the values for the `withWeight` parameter in either ca
 To maintain the adjacency list, there is a class that maps a list of edges to a vertex. The graph simply maintains an array of such objects and modifies them as necessary.
 
 ```swift
-private class EdgeList<T where T: Equatable, T: Hashable> {
+private class EdgeList<T> where T: Equatable, T: Hashable {
 
   var vertex: Vertex<T>
   var edges: [Edge<T>]? = nil
@@ -193,34 +191,34 @@ private class EdgeList<T where T: Equatable, T: Hashable> {
     self.vertex = vertex
   }
 
-  func addEdge(edge: Edge<T>) {
+  func addEdge(_ edge: Edge<T>) {
     edges?.append(edge)
   }
 
 }
-``` 
+```
 
 They are implemented as a class as opposed to structs so we can modify them by reference, in place, like when adding an edge to a new vertex, where the source vertex already has an edge list:
 
 ```swift
-  public override func createVertex(data: T) -> Vertex<T> {
-    // check if the vertex already exists
-    let matchingVertices = vertices.filter() { vertex in
-      return vertex.data == data
-    }
-
-    if matchingVertices.count > 0 {
-      return matchingVertices.last!
-    }
-
-    // if the vertex doesn't exist, create a new one
-    let vertex = Vertex(data: data, index: adjacencyList.count)
-    adjacencyList.append(EdgeList(vertex: vertex))
-    return vertex
+open override func createVertex(_ data: T) -> Vertex<T> {
+  // check if the vertex already exists
+  let matchingVertices = vertices.filter() { vertex in
+    return vertex.data == data
   }
+
+  if matchingVertices.count > 0 {
+    return matchingVertices.last!
+  }
+
+  // if the vertex doesn't exist, create a new one
+  let vertex = Vertex(data: data, index: adjacencyList.count)
+  adjacencyList.append(EdgeList(vertex: vertex))
+  return vertex
+}
 ```
 
-The adjacency list for the example looks like this: 
+The adjacency list for the example looks like this:
 
 ```
 v1 -> [(v2: 1.0)]
@@ -238,32 +236,32 @@ We'll keep track of the adjacency matrix in a two-dimensional `[[Double?]]` arra
 To index into the matrix using vertices, we use the `index` property in `Vertex`, which is assigned when creating the vertex through the graph object. When creating a new vertex, the graph must resize the matrix:
 
 ```swift
-  public override func createVertex(data: T) -> Vertex<T> {
-    // check if the vertex already exists
-    let matchingVertices = vertices.filter() { vertex in
-      return vertex.data == data
-    }
-
-    if matchingVertices.count > 0 {
-      return matchingVertices.last!
-    }
-
-    // if the vertex doesn't exist, create a new one
-    let vertex = Vertex(data: data, index: adjacencyMatrix.count)
-
-    // Expand each existing row to the right one column.
-    for i in 0 ..< adjacencyMatrix.count {
-      adjacencyMatrix[i].append(nil)
-    }
-
-    // Add one new row at the bottom.
-    let newRow = [Double?](count: adjacencyMatrix.count + 1, repeatedValue: nil)
-    adjacencyMatrix.append(newRow)
-
-    _vertices.append(vertex)
-
-    return vertex
+open override func createVertex(_ data: T) -> Vertex<T> {
+  // check if the vertex already exists
+  let matchingVertices = vertices.filter() { vertex in
+    return vertex.data == data
   }
+
+  if matchingVertices.count > 0 {
+    return matchingVertices.last!
+  }
+
+  // if the vertex doesn't exist, create a new one
+  let vertex = Vertex(data: data, index: adjacencyMatrix.count)
+
+  // Expand each existing row to the right one column.
+  for i in 0 ..< adjacencyMatrix.count {
+    adjacencyMatrix[i].append(nil)
+  }
+
+  // Add one new row at the bottom.
+  let newRow = [Double?](repeating: nil, count: adjacencyMatrix.count + 1)
+  adjacencyMatrix.append(newRow)
+
+  _vertices.append(vertex)
+
+  return vertex
+}
 ```
 
 Then the adjacency matrix looks like this:
@@ -273,7 +271,7 @@ Then the adjacency matrix looks like this:
 	 [nil, nil, nil, 4.5, nil]    v3
 	 [2.8, nil, nil, nil, nil]    v4
 	 [nil, nil, nil, nil, nil]]   v5
-	 
+
 	  v1   v2   v3   v4   v5
 
 
