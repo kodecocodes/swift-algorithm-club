@@ -1521,6 +1521,16 @@
       </Group>
    </Group>
    <Group
+      location = "group:Rootish Array Stack"
+      name = "Rootish Array Stack">
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <FileRef
+         location = "group:RootishArrayStack.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Segment Tree"
       name = "Segment Tree">
       <Group
