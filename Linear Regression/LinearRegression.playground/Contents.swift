@@ -7,7 +7,7 @@ let carPrice: [Double] = [500, 400, 7000, 8500, 11000, 10500]
 var intercept = 0.0
 var slope = 0.0
 
-func predictedCarPrice(carAge: Double) -> Double {
+func predictedCarPrice(_ carAge: Double) -> Double {
     return intercept + slope * carAge
 }
 
@@ -19,13 +19,13 @@ let alpha = 0.0001
 
 for n in 1...numberOfIterations {
     for i in 0..<numberOfCarAdvertsWeSaw {
-        let difference = carPrice[i] - predictedCarPrice(carAge: carAge[i])
+        let difference = carPrice[i] - predictedCarPrice(carAge[i])
         intercept += alpha * difference
         slope += alpha * difference * carAge[i]
     }
 }
 
-print("A car age of 4 years is predicted to be worth £\(Int(predictedCarPrice(carAge: 4)))")
+print("A car age of 4 years is predicted to be worth £\(Int(predictedCarPrice(4)))")
 
 // A closed form solution
 
