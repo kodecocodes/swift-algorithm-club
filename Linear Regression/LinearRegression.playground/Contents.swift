@@ -37,11 +37,11 @@ func multiply(_ a: [Double], _ b: [Double]) -> [Double] {
     return zip(a,b).map { $0.0 * $0.1 }
 }
 
-func linearRegression(_ xVariable: [Double], _ yVariable: [Double]) -> ((Double) -> Double) {
-    let sum1 = average(multiply(yVariable, xVariable)) - average(xVariable) * average(yVariable)
-    let sum2 = average(multiply(xVariable, xVariable)) - pow(average(xVariable), 2)
+func linearRegression(_ xs: [Double], _ ys: [Double]) -> ((Double) -> Double) {
+    let sum1 = average(multiply(ys, xs)) - average(xs) * average(ys)
+    let sum2 = average(multiply(xs, xs)) - pow(average(xs), 2)
     let slope = sum1 / sum2
-    let intercept = average(yVariable) - slope * average(xVariable)
+    let intercept = average(ys) - slope * average(xs)
     return { intercept + slope * $0 }
 }
 
