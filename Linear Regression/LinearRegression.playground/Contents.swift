@@ -33,8 +33,8 @@ func average(_ input: [Double]) -> Double {
     return input.reduce(0, +) / Double(input.count)
 }
 
-func multiply(_ input1: [Double], _ input2: [Double]) -> [Double] {
-    return zip(input1, input2).map { $0.0 * $0.1 }
+func multiply(_ a: [Double], _ b: [Double]) -> [Double] {
+    return zip(a,b).map { $0.0 * $0.1 }
 }
 
 func linearRegression(_ xVariable: [Double], _ yVariable: [Double]) -> ((Double) -> Double) {
