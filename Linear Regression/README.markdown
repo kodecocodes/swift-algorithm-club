@@ -115,7 +115,7 @@ We also need to be able to multiply each element in an array by the correspondin
 
 ```swift
 func multiply(_ a: [Double], _ b: [Double]) -> [Double] {
-    return zip(a,b).map { $0.0 * $0.1 }
+    return zip(a,b).map(*)
 }
 ```
 
