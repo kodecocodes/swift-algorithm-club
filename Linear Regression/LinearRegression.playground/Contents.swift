@@ -37,7 +37,7 @@ func multiply(_ a: [Double], _ b: [Double]) -> [Double] {
     return zip(a,b).map { $0.0 * $0.1 }
 }
 
-func linearRegression(_ xs: [Double], _ ys: [Double]) -> ((Double) -> Double) {
+func linearRegression(_ xs: [Double], _ ys: [Double]) -> (Double) -> Double {
     let sum1 = average(multiply(ys, xs)) - average(xs) * average(ys)
     let sum2 = average(multiply(xs, xs)) - pow(average(xs), 2)
     let slope = sum1 / sum2

@@ -123,7 +123,7 @@ We are using the ```map``` function to multiply each element.
 Finally, the function which fits the line to the data:
 
 ```swift
-func linearRegression(_ xs: [Double], _ ys: [Double]) -> ((Double) -> Double) {
+func linearRegression(_ xs: [Double], _ ys: [Double]) -> (Double) -> Double {
     let sum1 = average(multiply(ys, xs)) - average(xs) * average(ys)
     let sum2 = average(multiply(xs, xs)) - pow(average(xs), 2)
     let slope = sum1 / sum2
