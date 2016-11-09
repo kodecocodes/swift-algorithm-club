@@ -113,8 +113,8 @@ We are using the ```reduce``` Swift function to sum up all the elements of the a
 We also need to be able to multiply each element in an array by the corresponding element in another array, to create a new array. Here is a function which will do this:
 
 ```swift
-func multiply(input1: [Double], _ input2: [Double]) -> [Double] {
-    return input1.enumerate().map({ (index, element) in return element*input2[index] })
+func multiply(_ a: [Double], _ b: [Double]) -> [Double] {
+    return zip(a,b).map { $0.0 * $0.1 }
 }
 ```
 
