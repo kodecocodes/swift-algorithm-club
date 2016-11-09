@@ -50,9 +50,10 @@ This is how we can represent our straight line:
 ```swift
 var intercept = 0.0
 var slope = 0.0
-func predictedCarPrice(carAge: Double) -> Double {
+func predictedCarPrice(_ carAge: Double) -> Double {
     return intercept + slope * carAge
 }
+
 ```
 Now for the code which will perform the iterations:
 
@@ -63,7 +64,7 @@ let alpha = 0.0001
 
 for n in 1...numberOfIterations {
     for i in 0..<numberOfCarAdvertsWeSaw {
-        let difference = carPrice[i] - predictedCarPrice(carAge: carAge[i])
+        let difference = carPrice[i] - predictedCarPrice(carAge[i])
         intercept += alpha * difference
         slope += alpha * difference * carAge[i]
     }
