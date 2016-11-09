@@ -58,12 +58,12 @@ Now for the code which will perform the iterations:
 
 ```swift
 let numberOfCarAdvertsWeSaw = carPrice.count
-let iterations = 2000
+let numberOfIterations = 100
 let alpha = 0.0001
 
-for n in 1...iterations {
+for n in 1...numberOfIterations {
     for i in 0..<numberOfCarAdvertsWeSaw {
-        let difference = carPrice[i] - predictedCarPrice(carAge[i])
+        let difference = carPrice[i] - predictedCarPrice(carAge: carAge[i])
         intercept += alpha * difference
         slope += alpha * difference * carAge[i]
     }
