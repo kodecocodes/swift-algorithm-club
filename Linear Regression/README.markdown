@@ -104,8 +104,8 @@ There is another way we can calculate the line of best fit, without having to do
 First we need some helper functions. This one calculates the average (the mean) of an array of Doubles:
 
 ```swift
-func average(input: [Double]) -> Double {
-    return input.reduce(0, combine: +) / Double(input.count)
+func average(_ input: [Double]) -> Double {
+    return input.reduce(0, +) / Double(input.count)
 }
 ```
 We are using the ```reduce``` Swift function to sum up all the elements of the array, and then divide that by the number of elements. This gives us the mean value.
@@ -123,7 +123,7 @@ We are using the ```map``` function to multiply each element.
 Finally, the function which fits the line to the data:
 
 ```swift
-func linearRegression(xs: [Double], _ ys: [Double]) -> (Double -> Double) {
+func linearRegression(_ xs: [Double], _ ys: [Double]) -> (Double -> Double) {
     let sum1 = average(multiply(xs, ys)) - average(xs) * average(ys)
     let sum2 = average(multiply(xs, xs)) - pow(average(xs), 2)
     let slope = sum1 / sum2
