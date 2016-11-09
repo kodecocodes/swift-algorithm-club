@@ -34,7 +34,7 @@ func average(_ input: [Double]) -> Double {
 }
 
 func multiply(_ input1: [Double], _ input2: [Double]) -> [Double] {
-    return input1.enumerated().map({ (index, element) in return element*input2[index] })
+    return zip(input1, input2).map { $0.0 * $0.1 }
 }
 
 func linearRegression(_ xVariable: [Double], _ yVariable: [Double]) -> ((Double) -> Double) {
