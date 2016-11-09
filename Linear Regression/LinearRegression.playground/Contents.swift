@@ -42,7 +42,7 @@ func linearRegression(_ xs: [Double], _ ys: [Double]) -> ((Double) -> Double) {
     let sum2 = average(multiply(xs, xs)) - pow(average(xs), 2)
     let slope = sum1 / sum2
     let intercept = average(ys) - slope * average(xs)
-    return { intercept + slope * $0 }
+    return { x in intercept + slope * x }
 }
 
 let result = linearRegression(carAge, carPrice)(4)
