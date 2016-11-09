@@ -123,12 +123,12 @@ We are using the ```map``` function to multiply each element.
 Finally, the function which fits the line to the data:
 
 ```swift
-func linearRegression(_ xs: [Double], _ ys: [Double]) -> (Double -> Double) {
-    let sum1 = average(multiply(xs, ys)) - average(xs) * average(ys)
+func linearRegression(_ xs: [Double], _ ys: [Double]) -> ((Double) -> Double) {
+    let sum1 = average(multiply(ys, xs)) - average(xs) * average(ys)
     let sum2 = average(multiply(xs, xs)) - pow(average(xs), 2)
     let slope = sum1 / sum2
     let intercept = average(ys) - slope * average(xs)
-    return { intercept + slope * $0 }
+    return { x in intercept + slope * x }
 }
 ```
 This function takes as arguments two arrays of Doubles, and returns a function which is the line of best fit. The formulas to calculate the slope and the intercept can be derived from our definition of the function J. Let's see how the output from this line fits our data:
