@@ -30,7 +30,7 @@ We can describe the straight line in terms of two variables:
 
 This is the equation for our line:
 
-carPrice = slope * carAge + intercept 
+`carPrice = slope * carAge + intercept`
 
 
 How can we find the best values for the intercept and the slope? Let's look at two different ways to do this.
@@ -75,7 +75,7 @@ for n in 1...numberOfIterations {
 
 The program loops through each data point (each car age and car price). For each data point it adjusts the intercept and the slope to bring them closer to the correct values. The equations used in the code to adjust the intercept and the slope are based on moving in the direction of the maximal reduction of these variables. This is a *gradient descent*.
 
-We want to minimse the square of the distance between the line and the points. We define a function J which represents this distance - for simplicity we consider only one point here. This function J is proprotional to  ((slope.carAge+intercept) - carPrice))^2
+We want to minimse the square of the distance between the line and the points. We define a function J which represents this distance - for simplicity we consider only one point here. This function J is proprotional to `((slope.carAge+intercept) - carPrice))^2`.
 
 In order to move in the direction of maximal reduction, we take the partial derivative of this function with respect to the slope, and similarly for the intercept. We multiply these derivatives by our factor alpha and then use them to adjust the values of slope and intercept on each iteration.
 
