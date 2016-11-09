@@ -19,26 +19,26 @@ let alpha = 0.0001
 
 for n in 1...numberOfIterations {
     for i in 0..<numberOfCarAdvertsWeSaw {
-        let difference = carPrice[i] - predictedCarPrice(carAge[i])
+        let difference = carPrice[i] - predictedCarPrice(carAge: carAge[i])
         intercept += alpha * difference
         slope += alpha * difference * carAge[i]
     }
 }
 
-print("A car age of 4 years is predicted to be worth £\(Int(predictedCarPrice(4)))")
+print("A car age of 4 years is predicted to be worth £\(Int(predictedCarPrice(carAge: 4)))")
 
 // A closed form solution
 
-func average(input: [Double]) -> Double {
-    return input.reduce(0, combine: +) / Double(input.count)
+func average(_ input: [Double]) -> Double {
+    return input.reduce(0, +) / Double(input.count)
 }
 
-func multiply(input1: [Double], _ input2: [Double]) -> [Double] {
-    return input1.enumerate().map({ (index, element) in return element*input2[index] })
+func multiply(_ input1: [Double], _ input2: [Double]) -> [Double] {
+    return input1.enumerated().map({ (index, element) in return element*input2[index] })
 }
 
-func linearRegression(xVariable: [Double], _ yVariable: [Double]) -> (Double -> Double) {
-    let sum1 = average(multiply(xVariable, yVariable)) - average(xVariable) * average(yVariable)
+func linearRegression(_ xVariable: [Double], _ yVariable: [Double]) -> ((Double) -> Double) {
+    let sum1 = average(multiply(yVariable, xVariable)) - average(xVariable) * average(yVariable)
     let sum2 = average(multiply(xVariable, xVariable)) - pow(average(xVariable), 2)
     let slope = sum1 / sum2
     let intercept = average(yVariable) - slope * average(xVariable)
