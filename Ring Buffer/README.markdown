@@ -17,7 +17,7 @@ Initially, the array is empty and the read (`r`) and write (`w`) pointers are at
 Let's add some data to this array. We'll write, or "enqueue", the number `123`:
 
 	[ 123,    ,    ,    ,     ]
-	  r 
+	  r
 	  ---> w
 
 Each time we add data, the write pointer moves one step forward. Let's add a few more elements:
@@ -46,7 +46,7 @@ Whoops, the write pointer has reached the end of the array, so there is no more 
 	[ 555, 456, 789, 666, 333 ]
 	  ---> w         r        
 
-We can now read the remaining three items, `666`, `333`, and `555`. 
+We can now read the remaining three items, `666`, `333`, and `555`.
 
 	[ 555, 456, 789, 666, 333 ]
 	       w         --------> r        
@@ -63,16 +63,15 @@ Here is a very basic implementation in Swift:
 
 ```swift
 public struct RingBuffer<T> {
-  private var array: [T?]
-  private var readIndex = 0
-  private var writeIndex = 0
-  
+  fileprivate var array: [T?]
+  fileprivate var readIndex = 0
+  fileprivate var writeIndex = 0
+
   public init(count: Int) {
-    array = [T?](count: count, repeatedValue: nil)
+    array = [T?](repeating: nil, count: count)
   }
-  
-  /* Returns false if out of space. */
-  public mutating func write(element: T) -> Bool {
+
+  public mutating func write(_ element: T) -> Bool {
     if !isFull {
       array[writeIndex % array.count] = element
       writeIndex += 1
@@ -81,8 +80,7 @@ public struct RingBuffer<T> {
       return false
     }
   }
-  
-  /* Returns nil if the buffer is empty. */
+
   public mutating func read() -> T? {
     if !isEmpty {
       let element = array[readIndex % array.count]
@@ -92,19 +90,19 @@ public struct RingBuffer<T> {
       return nil
     }
   }
-  
-  private var availableSpaceForReading: Int {
+
+  fileprivate var availableSpaceForReading: Int {
     return writeIndex - readIndex
   }
-  
+
   public var isEmpty: Bool {
     return availableSpaceForReading == 0
   }
-  
-  private var availableSpaceForWriting: Int {
+
+  fileprivate var availableSpaceForWriting: Int {
     return array.count - availableSpaceForReading
   }
-  
+
   public var isFull: Bool {
     return availableSpaceForWriting == 0
   }
@@ -130,7 +128,7 @@ In other words, we take the modulo (or the remainder) of the read index and writ
 The reason this is a bit controversial is that `writeIndex` and `readIndex` always increment, so in theory these values could become too large to fit into an integer and the app will crash. However, a quick back-of-the-napkin calculation should take away those fears.
 
 Both `writeIndex` and `readIndex` are 64-bit integers. If we assume that they are incremented 1000 times per second, which is a lot, then doing this continuously for one year requires `ceil(log_2(365 * 24 * 60 * 60 * 1000)) = 35` bits. That leaves 28 bits to spare, so that should give you about 2^28 years before running into problems. That's a long time. :-)
-  
+
 To play with this ring buffer, copy the code to a playground and do the following to mimic the example above:
 
 ```swift

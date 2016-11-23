@@ -1,15 +1,15 @@
 //: Playground - noun: a place where people can play
 
 public struct RingBuffer<T> {
-  private var array: [T?]
-  private var readIndex = 0
-  private var writeIndex = 0
+  fileprivate var array: [T?]
+  fileprivate var readIndex = 0
+  fileprivate var writeIndex = 0
 
   public init(count: Int) {
-    array = [T?](count: count, repeatedValue: nil)
+    array = [T?](repeating: nil, count: count)
   }
 
-  public mutating func write(element: T) -> Bool {
+  public mutating func write(_ element: T) -> Bool {
     if !isFull {
       array[writeIndex % array.count] = element
       writeIndex += 1
@@ -29,7 +29,7 @@ public struct RingBuffer<T> {
     }
   }
 
-  private var availableSpaceForReading: Int {
+  fileprivate var availableSpaceForReading: Int {
     return writeIndex - readIndex
   }
 
@@ -37,7 +37,7 @@ public struct RingBuffer<T> {
     return availableSpaceForReading == 0
   }
 
-  private var availableSpaceForWriting: Int {
+  fileprivate var availableSpaceForWriting: Int {
     return array.count - availableSpaceForReading
   }
 
