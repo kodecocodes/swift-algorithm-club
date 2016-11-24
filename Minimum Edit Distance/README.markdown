@@ -6,7 +6,7 @@ The minimum edit distance is a possibility to measure the similarity of two stri
 
 A common distance measure is given by the *Levenshtein distance*, which allows the following three transformation operations:
 
-* **Inseration** (*ε→x*) of a single symbol *x* with **cost 1**,
+* **Insertion** (*ε→x*) of a single symbol *x* with **cost 1**,
 * **Deletion** (*x→ε*) of a single symbol *x* with **cost 1**, and
 * **Substitution** (*x→y*) of two single symbols *x, y* with **cost 1** if *x≠y* and with **cost 0** otherwise.
 
