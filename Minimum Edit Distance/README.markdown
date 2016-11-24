@@ -23,14 +23,16 @@ already computed minimal edit distances of prefixes of *w* and *u* (of length *m
 ```swift
 // initialize matrix
 for index in 1...m {
-    // the distance of any prefix of the first string to an empty second string
-    matrix[index][0]=index
+// the distance of any first string to an empty second string
+matrix[index][0]=index
 }
+
 for index in 1...n {
-    // the distance of any prefix of the second string to an empty first string
-    matrix[0][index]=index
+// the distance of any second string to an empty first string
+matrix[0][index]=index
 }
 ```
+
 Then in each cell the minimum of the cost of insertion, deletion, or substitution added to the already computed costs in the corresponding cells is chosen. In this way the matrix is filled iteratively:
 
 ```swift
