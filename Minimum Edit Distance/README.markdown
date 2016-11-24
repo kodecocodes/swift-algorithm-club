@@ -15,7 +15,7 @@ When transforming a string by a sequence of operations, the costs of the single 
 To avoid exponential time complexity, the minimum edit distance of two strings in the usual is computed using *dynamic programming*. For this in a matrix
 
 ```swift
-var matrix = [[Int]](repeating: [Int](repeating: 0, count: n+1), count: m+1)
+var matrix = [[Int]](repeating: [Int](repeating: 0, count: n + 1), count: m + 1)
 ```
 
 already computed minimal edit distances of prefixes of *w* and *u* (of length *m* and *n*, respectively) are used to fill the matrix. In a first step the matrix is initialized by filling the first row and the first column as follows:
@@ -24,12 +24,12 @@ already computed minimal edit distances of prefixes of *w* and *u* (of length *m
 // initialize matrix
 for index in 1...m {
     // the distance of any first string to an empty second string
-    matrix[index][0]=index
+    matrix[index][0] = index
 }
 
 for index in 1...n {
     // the distance of any second string to an empty first string
-    matrix[0][index]=index
+    matrix[0][index] = index
 }
 ```
 
@@ -41,10 +41,10 @@ for (i, selfChar) in self.characters.enumerated() {
     for (j, otherChar) in other.characters.enumerated() {
         if otherChar == selfChar {
             // substitution of equal symbols with cost 0
-            matrix[i+1][j+1] = matrix[i][j]
+            matrix[i + 1][j + 1] = matrix[i][j]
         } else {
             // minimum of the cost of insertion, deletion, or substitution added to the already computed costs in the corresponding cells
-            matrix[i+1][j+1] = min(matrix[i][j]+1, matrix[i+1][j]+1, matrix[i][j+1]+1)
+            matrix[i + 1][j + 1] = min(matrix[i][j] + 1, matrix[i + 1][j] + 1, matrix[i][j + 1] + 1)
         } 
     }
 }
