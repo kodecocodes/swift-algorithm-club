@@ -15,7 +15,7 @@ When transforming a string by a sequence of operations, the costs of the single 
 To avoid exponential time complexity, the minimum edit distance of two strings in the usual is computed using *dynamic programming*. For this in a matrix
 
 ```swift
-var matrix = [[Int]](count: m+1, repeatedValue: [Int](count: n+1, repeatedValue: 0))
+var matrix = [[Int]](repeating: [Int](repeating: 0, count: n+1), count: m+1)
 ```
 
 already computed minimal edit distances of prefixes of *w* and *u* (of length *m* and *n*, respectively) are used to fill the matrix. In a first step the matrix is initialized by filling the first row and the first column as follows:
