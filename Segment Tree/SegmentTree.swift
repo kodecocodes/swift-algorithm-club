@@ -35,7 +35,7 @@ public class SegmentTree<T> {
 		self.init(array: array, leftBound: 0, rightBound: array.count-1, function: function)
 	}
 	
-	public func query(withLeftBound: Int, rightBound: Int) -> T {
+	public func query(leftBound: Int, rightBound: Int) -> T {
 		if self.leftBound == leftBound && self.rightBound == rightBound {
 			return self.value
 		}
@@ -44,12 +44,12 @@ public class SegmentTree<T> {
 		guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
 		
 		if leftChild.rightBound < leftBound {
-			return rightChild.query(withLeftBound: leftBound, rightBound: rightBound)
+			return rightChild.query(leftBound: leftBound, rightBound: rightBound)
 		} else if rightChild.leftBound > rightBound {
-			return leftChild.query(withLeftBound: leftBound, rightBound: rightBound)
+			return leftChild.query(leftBound: leftBound, rightBound: rightBound)
 		} else {
-			let leftResult = leftChild.query(withLeftBound: leftBound, rightBound: leftChild.rightBound)
-			let rightResult = rightChild.query(withLeftBound:rightChild.leftBound, rightBound: rightBound)
+			let leftResult = leftChild.query(leftBound: leftBound, rightBound: leftChild.rightBound)
+			let rightResult = rightChild.query(leftBound:rightChild.leftBound, rightBound: rightBound)
 			return function(leftResult, rightResult)
 		}
 	}

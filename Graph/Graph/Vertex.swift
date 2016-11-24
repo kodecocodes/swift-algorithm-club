@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Vertex<T where T: Equatable, T: Hashable>: Equatable {
+public struct Vertex<T>: Equatable where T: Equatable, T: Hashable {
 
   public var data: T
   public let index: Int
