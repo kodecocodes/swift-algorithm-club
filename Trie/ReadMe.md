@@ -6,7 +6,7 @@ A `Trie`, (also known as a prefix tree, or radix tree in some other implementati
 
 ![A Trie](images/trie.png)
 
-Storing the English language is a primary use case for a `Trie`. Each node in the `Trie` would representing a single character of a word. A series of nodes then make up a word.
+Storing the English language is a primary use case for a `Trie`. Each node in the `Trie` would represent a single character of a word. A series of nodes then make up a word.
 
 ## Why a Trie?
 

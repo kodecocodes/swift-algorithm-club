@@ -34,7 +34,7 @@ public struct Queue<T> {
     }
   }
 
-  public func peek() -> T? {
+  public var peek: T? {
     return array.first
   }
 }
@@ -56,7 +56,7 @@ queueOfNames.dequeue()
 
 // Return the first element in the queue.
 // Returns "Lisa" since "Carl" was dequeued on the previous line.
-queueOfNames.peek()
+queueOfNames.peek
 
 // Check to see if the queue is empty.
 // Returns "false" since the queue still has elements in it.
