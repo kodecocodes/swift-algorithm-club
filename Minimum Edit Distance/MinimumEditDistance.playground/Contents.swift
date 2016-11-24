@@ -31,3 +31,5 @@ extension String {
         return matrix[m][n]
     }
 }
+
+"Door".minimumEditDistance(other: "Dolls")
