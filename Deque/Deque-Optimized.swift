@@ -10,7 +10,7 @@ public struct Deque<T> {
 
   public init(_ capacity: Int = 10) {
     self.capacity = max(capacity, 1)
-    array = .init(count: capacity, repeatedValue: nil)
+    array = [T?](repeating: nil, count: capacity)
     head = capacity
   }
 
@@ -29,7 +29,7 @@ public struct Deque<T> {
   public mutating func enqueueFront(_ element: T) {
     if head == 0 {
       capacity *= 2
-      let emptySpace = [T?](count: capacity, repeatedValue: nil)
+      let emptySpace = [T?](repeating: nil, count: capacity)
       array.insertContentsOf(emptySpace, at: 0)
       head = capacity
     }
