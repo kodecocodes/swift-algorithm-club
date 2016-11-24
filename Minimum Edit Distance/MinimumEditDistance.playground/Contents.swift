@@ -5,7 +5,6 @@ extension String {
         let n = other.characters.count
         var matrix = [[Int]](repeating: [Int](repeating: 0, count: n+1), count: m+1)
         
-        
         // initialize matrix
         for index in 1...m {
             // the distance of any first string to an empty second string
