@@ -59,8 +59,6 @@ return matrix[m][n]
 
 This algorithm has a time complexity of Θ(*mn*).
 
-### Other distance measures
-
-**todo**
+**TODO**: Other distance measures.
 
 *Written for Swift Algorithm Club by Luisa Herrmann*
