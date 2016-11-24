@@ -23,13 +23,13 @@ already computed minimal edit distances of prefixes of *w* and *u* (of length *m
 ```swift
 // initialize matrix
 for index in 1...m {
-// the distance of any first string to an empty second string
-matrix[index][0]=index
+    // the distance of any first string to an empty second string
+    matrix[index][0]=index
 }
 
 for index in 1...n {
-// the distance of any second string to an empty first string
-matrix[0][index]=index
+    // the distance of any second string to an empty first string
+    matrix[0][index]=index
 }
 ```
 
