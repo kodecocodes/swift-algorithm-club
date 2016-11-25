@@ -108,3 +108,4 @@ lcm(10, 8)    // 40
 You probably won't need to use the GCD or LCM in any real-world problems, but it's cool to play around with this ancient algorithm. It was first described by Euclid in his [Elements](http://publicdomainreview.org/collections/the-first-six-books-of-the-elements-of-euclid-1847/) around 300 BC. Rumor has it that he discovered this algorithm while he was hacking on his Commodore 64.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*
+*Fixed the bug of zero division by DingHub*
