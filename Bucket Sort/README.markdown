@@ -9,16 +9,16 @@ Bucket Sort, also known as Bin Sort, is a distributed sorting algorithm, which s
 See the algorithm in action [here](https://www.cs.usfca.edu/~galles/visualization/BucketSort.html) and [here](http://www.algostructure.com/sorting/bucketsort.php).
 
 The performance for execution time is:  
-  
+
 | Case  | Performance |
 |:-------------: |:---------------:|
 | Worst       |  O(n^2) |
 | Best      | 	Omega(n + k)        |
-|  Average | 	Theta(n + k)       | 
-  
+|  Average | 	Theta(n + k)       |
+
 Where **n** = the number of elements and **k** is the number of buckets.
 
-In the *best case*, the algorithm distributes the elements uniformily between buckets, a few elements are placed on each bucket and sorting the buckets is **O(1)**. Rearranging the elements is one more run through the initial list.  
+In the *best case*, the algorithm distributes the elements uniformly between buckets, a few elements are placed on each bucket and sorting the buckets is **O(1)**. Rearranging the elements is one more run through the initial list.  
 
 In the *worst case*, the elements are sent all to the same bucket, making the process take **O(n^2)**.
 
@@ -63,11 +63,11 @@ So the buckets are:
 Now we need to choose a distribution function.  
 
 `bucketNumber = (elementValue / totalNumberOfBuckets) + 1`  
-   
+
 Such that by applying that function we distribute all the elements in the buckets.  
 
 In our example it is like the following:  
-  
+
 1. Apply the distribution function to `2`. `bucketNumber = (2 / 10) + 1 = 1`
 2. Apply the distribution function to `56`. `bucketNumber = (56 / 10) + 1 = 6`
 3. Apply the distribution function to `4`. `bucketNumber = (4 / 10) + 1 = 1`
@@ -91,12 +91,12 @@ Our buckets will be filled now:
 
 We can choose to insert the elements in every bucket in order, or sort every bucket after distributing all the elements.  
 
-### Put the elements back in the list 
+### Put the elements back in the list
 
 Finally we go through all the buckets and put the elements back in the list:  
-  
+
   `[2,  4,  26,  55,  56,  77,  98]`  
-  
+
 
 ## Swift implementation
 
@@ -109,9 +109,9 @@ Here is a diagram that shows the functions, data structures and protocols for ou
 `bucketSort()` is a generic function that can apply the algorithm to any element of type `T`, as long as `T` is `Sortable`.
 
 ```swift
-public func bucketSort<T:Sortable>(elements: [T], 
-                                distributor: Distributor, 
-                                     sorter: Sorter, 
+public func bucketSort<T:Sortable>(elements: [T],
+                                distributor: Distributor,
+                                     sorter: Sorter,
                                     buckets: [Bucket<T>]) -> [T] {
 	precondition(allPositiveNumbers(elements))
 	precondition(enoughSpaceInBuckets(buckets, elements: elements))
@@ -201,11 +201,11 @@ public struct InsertionSorter: Sorter {
 		for i in 0 ..< results.count {
 			var j = i
 			while ( j > 0 && results[j-1] > results[j]) {
-			
+
 				let auxiliar = results[j-1]
 				results[j-1] = results[j]
 				results[j] = auxiliar
-			
+
 				j -= 1
 			}
 		}
@@ -236,7 +236,7 @@ public struct RangeDistributor: Distributor {
 	 public func distribute<T:Sortable>(element: T, inout buckets: [Bucket<T>]) {
 	 let value = element.toInt()
 	 let bucketCapacity = buckets.first!.capacity
-	
+
 	 let bucketIndex = value / bucketCapacity
 	 buckets[bucketIndex].add(element)
 	}
