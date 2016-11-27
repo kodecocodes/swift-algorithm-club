@@ -27,16 +27,15 @@ import Foundation
 //////////////////////////////////////
 
 
-public func bucketSort<T: Sortable>(elements: [T], distributor: Distributor, sorter: Sorter, buckets: [Bucket<T>]) -> [T] {
-  var bucketsCopy = buckets
+public func bucketSort<T: Sortable>(elements: [T], distributor: Distributor, sorter: Sorter, buckets: inout [Bucket<T>]) -> [T] {
   for elem in elements {
-    distributor.distribute(elem, buckets: &bucketsCopy)
+    distributor.distribute(element: elem, buckets: &buckets)
   }
 
   var results = [T]()
 
   for bucket in buckets {
-    results += bucket.sort(sorter)
+    results += bucket.sort(algorithm: sorter)
   }
 
   return results
@@ -48,7 +47,7 @@ public func bucketSort<T: Sortable>(elements: [T], distributor: Distributor, sor
 
 
 public protocol Distributor {
-  func distribute<T: Sortable>(element: T, inout buckets: [Bucket<T>])
+  func distribute<T: Sortable>(element: T, buckets: inout [Bucket<T>])
 }
 
 /*
@@ -70,12 +69,12 @@ public struct RangeDistributor: Distributor {
 
   public init() {}
 
-  public func distribute<T: Sortable>(element: T, inout buckets: [Bucket<T>]) {
+  public func distribute<T: Sortable>(element: T, buckets: inout [Bucket<T>]) {
     let value = element.toInt()
     let bucketCapacity = buckets.first!.capacity
 
     let bucketIndex = value / bucketCapacity
-    buckets[bucketIndex].add(element)
+    buckets[bucketIndex].add(item: element)
   }
 }
 
@@ -139,6 +138,6 @@ public struct Bucket<T:Sortable> {
   }
 
   public func sort(algorithm: Sorter) -> [T] {
-    return algorithm.sort(elements)
+    return algorithm.sort(items: elements)
   }
 }
