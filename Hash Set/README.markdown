@@ -38,31 +38,35 @@ Here are the beginnings of `HashSet` in Swift:
 
 ```swift
 public struct HashSet<T: Hashable> {
-  private var dictionary = Dictionary<T, Bool>()
-  
-  public mutating func insert(element: T) {
-    dictionary[element] = true
-  }
-  
-  public mutating func remove(element: T) {
-    dictionary[element] = nil
-  }
-  
-  public func contains(element: T) -> Bool {
-    return dictionary[element] != nil
-  }
-  
-  public func allElements() -> [T] {
-    return Array(dictionary.keys)
-  }
-  
-  public var count: Int {
-    return dictionary.count
-  }
-  
-  public var isEmpty: Bool {
-    return dictionary.isEmpty
-  }
+    fileprivate var dictionary = Dictionary<T, Bool>()
+
+    public init() {
+
+    }
+
+    public mutating func insert(_ element: T) {
+        dictionary[element] = true
+    }
+
+    public mutating func remove(_ element: T) {
+        dictionary[element] = nil
+    }
+
+    public func contains(_ element: T) -> Bool {
+        return dictionary[element] != nil
+    }
+
+    public func allElements() -> [T] {
+        return Array(dictionary.keys)
+    }
+
+    public var count: Int {
+        return dictionary.count
+    }
+
+    public var isEmpty: Bool {
+        return dictionary.isEmpty
+    }
 }
 ```
 
@@ -101,16 +105,16 @@ Here is the code for the union operation:
 
 ```swift
 extension HashSet {
-  public func union(otherSet: HashSet<T>) -> HashSet<T> {
-    var combined = HashSet<T>()
-    for obj in dictionary.keys {
-      combined.insert(obj)
+    public func union(_ otherSet: HashSet<T>) -> HashSet<T> {
+        var combined = HashSet<T>()
+        for obj in self.dictionary.keys {
+            combined.insert(obj)
+        }
+        for obj in otherSet.dictionary.keys {
+            combined.insert(obj)
+        }
+        return combined
     }
-    for obj in otherSet.dictionary.keys {
-      combined.insert(obj)
-    }
-    return combined
-  }
 }
 ```
 
@@ -141,15 +145,15 @@ The *intersection* of two sets contains only the elements that they have in comm
 
 ```swift
 extension HashSet {
-  public func intersect(otherSet: HashSet<T>) -> HashSet<T> {
-    var common = HashSet<T>()
-    for obj in dictionary.keys {
-      if otherSet.contains(obj) {
-        common.insert(obj)
-      }
+    public func intersect(_ otherSet: HashSet<T>) -> HashSet<T> {
+        var common = HashSet<T>()
+        for obj in dictionary.keys {
+            if otherSet.contains(obj) {
+                common.insert(obj)
+            }
+        }
+        return common
     }
-    return common
-  }
 }
 ```
 
@@ -166,15 +170,15 @@ Finally, the *difference* between two sets removes the elements they have in com
 
 ```swift
 extension HashSet {
-  public func difference(otherSet: HashSet<T>) -> HashSet<T> {
-    var diff = HashSet<T>()
-    for obj in dictionary.keys {
-      if !otherSet.contains(obj) {
-        diff.insert(obj)
-      }
+    public func difference(_ otherSet: HashSet<T>) -> HashSet<T> {
+        var diff = HashSet<T>()
+        for obj in dictionary.keys {
+            if !otherSet.contains(obj) {
+                diff.insert(obj)
+            }
+        }
+        return diff
     }
-    return diff
-  }
 }
 ```
 
