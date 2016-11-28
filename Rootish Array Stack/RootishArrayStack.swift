@@ -21,9 +21,22 @@ public struct RootishArrayStack<T> {
 		return blocks.count * (blocks.count + 1) / 2
 	}
 
-	fileprivate static func toBlock(index: Int) -> Int {
+	fileprivate func toBlock(index: Int) -> Int {
 		let block = Int(ceil((-3.0 + sqrt(9.0 + 8.0 * Double(index))) / 2))
 		return block
+	}
+
+	public subscript(index: Int) -> T {
+		get {
+			let block = toBlock(index: index)
+			let blockIndex = index - block * (block + 1) / 2
+			return blocks[block][blockIndex]!
+		}
+		set(newValue) {
+			let block = toBlock(index: index)
+			let blockIndex = index - block * (block + 1) / 2
+			blocks[block][blockIndex] = newValue
+		}
 	}
 
 	fileprivate mutating func grow() {
@@ -39,21 +52,8 @@ public struct RootishArrayStack<T> {
 		}
 	}
 
-	public subscript(index: Int) -> T {
-		get {
-			let block = RootishArrayStack.toBlock(index: index)
-			let blockIndex = index - block * (block + 1) / 2
-			return blocks[block][blockIndex]!
-		}
-		set(newValue) {
-			let block = RootishArrayStack.toBlock(index: index)
-			let blockIndex = index - block * (block + 1) / 2
-			blocks[block][blockIndex] = newValue
-		}
-	}
-
 	public mutating func insert(element: T, atIndex index: Int) {
-		if capacity < count + 1 {
+		if capacity - blocks.count < count + 1 {
 			grow()
 		}
 		internalCount += 1
@@ -70,7 +70,7 @@ public struct RootishArrayStack<T> {
 	}
 
 	fileprivate mutating func makeNil(atIndex index: Int) {
-		let block = RootishArrayStack.toBlock(index: index)
+		let block = toBlock(index: index)
 		let blockIndex = index - block * (block + 1) / 2
 		blocks[block][blockIndex] = nil
 	}
@@ -82,22 +82,22 @@ public struct RootishArrayStack<T> {
 		}
 		internalCount -= 1
 		makeNil(atIndex: count)
-		if capacity >= count {
+		if capacity + blocks.count >= count {
 			shrink()
 		}
 		return element
 	}
 
 	public var memoryDescription: String {
-		var s = "{\n"
-		for i in blocks {
-			s += "\t["
-			for j in i {
-				s += "\(j), "
+		var description = "{\n"
+		for block in blocks {
+			description += "\t["
+			for rawElement in block {
+				description += "\(rawElement), "
 			}
-			s += "]\n"
+			description += "]\n"
 		}
-		return s + "}"
+		return description + "}"
 	}
 }
 
@@ -112,4 +112,9 @@ extension RootishArrayStack: CustomStringConvertible {
 		}
 		return s + "]"
 	}
+}
+
+var list = RootishArrayStack<Int>()
+for i in 0...10 {
+	list.append(element: i)
 }

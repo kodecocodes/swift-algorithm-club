@@ -110,11 +110,24 @@ var capacity: Int {
 }
 ```
 
-To determine which block an index map to:
+Next lets build what we need to get/set elements:
 ```swift
-fileprivate static func toBlock(index: Int) -> Int {
+fileprivate func toBlock(index: Int) -> Int {
   let block = Int(ceil((-3.0 + sqrt(9.0 + 8.0 * Double(index))) / 2))
   return block
 }
+
+public subscript(index: Int) -> T {
+  get {
+    let block = toBlock(index: index)
+    let blockIndex = index - block * (block + 1) / 2
+    return blocks[block][blockIndex]!
+  }
+  set(newValue) {
+    let block = toBlock(index: index)
+    let blockIndex = index - block * (block + 1) / 2
+    blocks[block][blockIndex] = newValue
+  }
+}
 ```
-This comes straight from the equations derived earlier. As mentioned `sqrt()`, and `ceil()` were imported from `Darwin`.
+`toBlock` is really just wrapping the `block` equation derived earlier. `superscript` lets us have `get/set` access to the structure with the familiar `[index]` syntax.
