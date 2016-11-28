@@ -10,8 +10,9 @@ A resizable array holds references to blocks (arrays of fixed size). A block's c
 
 Here you can see how insert/remove operations would behave (very similar to how a Swift array handles such operations).
 
-## The Math
-The data structure is based on Gauss's summation technique:
+## Gauss's Summation Trick
+<!-- TODO: Gaussian flavour text -->
+This data structure is based on Gauss's summation technique:
 ```
 sum from 1...n = n * (n + 1) / 2
 ```
@@ -51,10 +52,10 @@ But we only want to calculate the amount of `x`s, not the amount of `o`s. Since 
 ```
 area of only x = n * (n + 1) / 2
 ```
-And voila! We have an interesting new way to arrange our data!
+And voila! A super fast way to take a sum of all the blocks! This equation is useful for deriving fast `block` and `inner block index` equations.
 
 ## Get/Set with Speed
-Next we want to find an efficient way to access a random index. For example which block does `rootishArrayStack[12]` point to? To answer this we will need MORE MATH!
+Next we want to find an efficient and accurate way to access an element at a random index. For example which block does `rootishArrayStack[12]` point to? To answer this we will need more math!
 Determining the inner block `index` turns out to be easy. If `index` is in some `block` then:
 ```
 inner block index = index - block * (block + 1) / 2
@@ -81,13 +82,39 @@ Now we can figure out that `rootishArrayStack[12]` would point to the block at i
 ![Rootish Array Stack Intro](images/RootishArrayStackExample2.png)
 
 # The Code
+Lets start with instance variables and struct declaration:
+```swift
+import Darwin
 
-To get the `capacity` of the structure we can use the equation we figured out above:
+public struct RootishArrayStack<T> {
+	fileprivate var blocks = [Array<T?>]()
+	fileprivate var internalCount = 0
+
+	public init() { }
+
+	var count: Int {
+		return internalCount
+	}
+
+
+```
+The elements are of generic type `T`, so data of any kind can be stored in the list. `blocks` will be a resizable array to hold fixed sized arrays that take type `T?`.
+> The reason for the fixed size arrays taking type `T?` is so that references to elements aren't retained after they've been removed. Eg: if you remove the last element, the last index must be set to `nil` to prevent the last element being held in memory at an inaccessible index.
+
+`internalCount` is an internal mutable counter that keeps track of the number of elements. `count` is a read only variables that gives the `internalCount` value. `Darwin` is imported here to provide simple math functions such as `ceil()` and `sqrt()`.
+
+The `capacity` of the structure is simply the Gaussian summation trick:
 ```swift
 var capacity: Int {
   return blocks.count * (blocks.count + 1) / 2
 }
 ```
-Since Swift arrays check `count` in `O(1)` time, this capacity lookup is also `O(1)`.
 
-To solve the problem of which block holds the block holds the element we are looking for we need
+To determine which block an index map to:
+```swift
+fileprivate static func toBlock(index: Int) -> Int {
+  let block = Int(ceil((-3.0 + sqrt(9.0 + 8.0 * Double(index))) / 2))
+  return block
+}
+```
+This comes straight from the equations derived earlier. As mentioned `sqrt()`, and `ceil()` were imported from `Darwin`.
