@@ -26,6 +26,23 @@ public struct RootishArrayStack<T> {
 		return block
 	}
 
+	fileprivate mutating func growIfNeeded() {
+		if capacity - blocks.count < count + 1 {
+			let newArray = [T?](repeating: nil, count: blocks.count + 1)
+			blocks.append(newArray)
+		}
+	}
+
+	fileprivate mutating func shrinkIfNeeded() {
+		if capacity + blocks.count >= count {
+			var numberOfBlocks = blocks.count
+			while numberOfBlocks > 0 && (numberOfBlocks - 2) * (numberOfBlocks - 1) / 2 >= count {
+				blocks.remove(at: blocks.count - 1)
+				numberOfBlocks -= 1
+			}
+		}
+	}
+
 	public subscript(index: Int) -> T {
 		get {
 			let block = toBlock(index: index)
@@ -39,23 +56,8 @@ public struct RootishArrayStack<T> {
 		}
 	}
 
-	fileprivate mutating func grow() {
-		let newArray = [T?](repeating: nil, count: blocks.count + 1)
-		blocks.append(newArray)
-	}
-
-	fileprivate mutating func shrink() {
-		var numberOfBlocks = blocks.count
-		while numberOfBlocks > 0 && (numberOfBlocks - 2) * (numberOfBlocks - 1) / 2 >= count {
-			blocks.remove(at: blocks.count - 1)
-			numberOfBlocks -= 1
-		}
-	}
-
 	public mutating func insert(element: T, atIndex index: Int) {
-		if capacity - blocks.count < count + 1 {
-			grow()
-		}
+		growIfNeeded()
 		internalCount += 1
 		var i = count - 1
 		while i > index {
@@ -82,9 +84,7 @@ public struct RootishArrayStack<T> {
 		}
 		internalCount -= 1
 		makeNil(atIndex: count)
-		if capacity + blocks.count >= count {
-			shrink()
-		}
+		shrinkIfNeeded()
 		return element
 	}
 
@@ -112,9 +112,4 @@ extension RootishArrayStack: CustomStringConvertible {
 		}
 		return s + "]"
 	}
-}
-
-var list = RootishArrayStack<Int>()
-for i in 0...10 {
-	list.append(element: i)
 }

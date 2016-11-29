@@ -96,6 +96,9 @@ public struct RootishArrayStack<T> {
 		return internalCount
 	}
 
+	...
+
+}
 
 ```
 The elements are of generic type `T`, so data of any kind can be stored in the list. `blocks` will be a resizable array to hold fixed sized arrays that take type `T?`.
@@ -110,7 +113,7 @@ var capacity: Int {
 }
 ```
 
-Next lets build what we need to get/set elements:
+Next lets look at we would `get` and `set` elements:
 ```swift
 fileprivate func toBlock(index: Int) -> Int {
   let block = Int(ceil((-3.0 + sqrt(9.0 + 8.0 * Double(index))) / 2))
@@ -130,4 +133,66 @@ public subscript(index: Int) -> T {
   }
 }
 ```
-`toBlock` is really just wrapping the `block` equation derived earlier. `superscript` lets us have `get/set` access to the structure with the familiar `[index]` syntax.
+`toBlock(index:)` is really just wrapping the `block` equation derived earlier to return the block that an index maps to. `superscript` lets us have `get` and `set` access to the structure with the familiar `[index:]` syntax. For both `get` and `set` in superscript we use the same logic:
+ 	1. determine the block that the index points to
+	2. determine the inner block index
+	3. `get`/`set` the value
+
+Next lets look at how we would `growIfNeeded()` and `shrinkIfNeeded()` the structure.
+```swift
+fileprivate mutating func growIfNeeded() {
+	if capacity - blocks.count < count + 1 {
+		let newArray = [T?](repeating: nil, count: blocks.count + 1)
+		blocks.append(newArray)
+	}
+}
+
+fileprivate mutating func shrinkIfNeeded() {
+	if capacity + blocks.count >= count {
+		var numberOfBlocks = blocks.count
+		while numberOfBlocks > 0 && (numberOfBlocks - 2) * (numberOfBlocks - 1) / 2 >= count {
+			blocks.remove(at: blocks.count - 1)
+			numberOfBlocks -= 1
+		}
+	}
+}
+```
+If our data set grows or shrinks in size, we want our data structure to accommodate the change.
+Just like a Swift array when a capacity threshold is met we will `grow` or `shrink` the size of our structure. For the Rootish Array Stack we want to `grow` if the second last block is full on an `insert` operation, and `shrink` if the two last blocks are empty.
+
+Now to the more familiar Swift array behaviour.  
+```swift
+public mutating func insert(element: T, atIndex index: Int) {
+	growIfNeeded()
+	internalCount += 1
+	var i = count - 1
+	while i > index {
+		self[i] = self[i - 1]
+		i -= 1
+	}
+	self[index] = element
+}
+
+public mutating func append(element: T) {
+	insert(element: element, atIndex: count)
+}
+
+public mutating func remove(atIndex index: Int) -> T {
+	let element = self[index]
+	for i in index..<count - 1 {
+		self[i] = self[i + 1]
+	}
+	internalCount -= 1
+	makeNil(atIndex: count)
+	shrinkIfNeeded()
+	return element
+}
+
+fileprivate mutating func makeNil(atIndex index: Int) {
+	let block = toBlock(index: index)
+	let blockIndex = index - block * (block + 1) / 2
+	blocks[block][blockIndex] = nil
+}
+```
+To `insert(element:, atIndex:)` we move all elements after the `index` to the right by 1. After space has been made for the element we set the value using the `subscript` convenience. `append(element:)` is just a convenience method to add to the end. To `remove(atIndex:)` we move all the elements after the `index` to the left by 1. After the removed value is covered by it's proceeding value, we set the last value in the structure to `nil`. `makeNil(atIndex:)` uses the same logic as our `subscript` method but is used to set the root optional at a particular index to `nil` (because setting it's wrapped value to `nil` is something only the user of the data structure should do).
+> Setting a optionals value to `nil` is different than setting it's wrapped value to `nil`. An optionals wrapped value is an embedded type within the optional reference. This means that a `nil` wrapped value is actually `.some(.none)` wheres setting the root reference to `nil` is `.none`. To better understand Swift optionals I recommend checking out @SebastianBoldt's article [Swift! Optionals?](https://medium.com/ios-os-x-development/swift-optionals-78dafaa53f3#.rvjobhuzs).
