@@ -10,9 +10,8 @@ A resizable array holds references to blocks (arrays of fixed size). A block's c
 
 Here you can see how insert/remove operations would behave (very similar to how a Swift array handles such operations).
 
-## Gauss's Summation Trick
-<!-- TODO: Gaussian flavour text -->
-This data structure is based on Gauss's summation technique:
+## Gauss' Summation Trick
+One of the most well known legends about famous mathematician [Carl Friedrich Gauss](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss) goes back to when he was in primary school. One day Gauss' teacher asked his class to add up all the numbers from 1 to 100, hoping that the task would take long enough for the teacher to step out for a smoke break. The teacher was shocked when young Gauss had his hand up with the answer `5050`. So soon? The teacher suspected a cheat, but no. Gauss had found a formula to sidestep the problem of manual adding up all the number 1 by 1. His formula:
 ```
 sum from 1...n = n * (n + 1) / 2
 ```
@@ -42,9 +41,9 @@ x x x          o o o  =>  x x x o o o
 x x x x      o o o o      x x x x o o
 x x x x x  o o o o o      x x x x x o
 ```
-Here we have `n` rows and `n + 1` columns of units. _5 rows and 6 columns_.
+Here we have `n` rows and `n + 1` columns. _5 rows and 6 columns_.
 
-We could calculate sum just as we would an area! Lets also express width and hight in terms of `n`:
+We could calculate sum just as we would an area! Lets also express the width and hight in terms of `n`:
 ```
 area of a rectangle = height * width = n * (n + 1)
 ```
@@ -78,10 +77,26 @@ A negative block doesn't make sense so we take the positive root instead. In gen
 block = ⌈(-3 + √(9 + 8 * index)) / 2⌉
 ```
 
-Now we can figure out that `rootishArrayStack[12]` would point to the block at index `4` and at inner block index `2`.
+Now we can figure out that `rootishArrayStack[12]` points to! First lets see which block the `12` points to:
+```
+block = ⌈(-3 + √(9 + 8 * (12))) / 2⌉
+block = ⌈(-3 + √105) / 2⌉
+block = ⌈(-3 + (10.246950766)) / 2⌉
+block = ⌈(7.246950766) / 2⌉
+block = ⌈3.623475383⌉
+block = 4
+```
+Next lets see which `innerBlockIndex` `12` points to:
+```
+inner block index = (12) - (4) * ((4) + 1) / 2
+inner block index = (12) - (4) * (5) / 2
+inner block index = (12) - 10
+inner block index = 2
+```
+Therefore `rootishArrayStack[12]` points to the block at index `4` and at inner block index `2`.
 ![Rootish Array Stack Intro](images/RootishArrayStackExample2.png)
 
-# The Code
+# Implementation Details
 Lets start with instance variables and struct declaration:
 ```swift
 import Darwin
@@ -149,10 +164,8 @@ fileprivate mutating func growIfNeeded() {
 
 fileprivate mutating func shrinkIfNeeded() {
 	if capacity + blocks.count >= count {
-		var numberOfBlocks = blocks.count
-		while numberOfBlocks > 0 && (numberOfBlocks - 2) * (numberOfBlocks - 1) / 2 >= count {
+		while blocks.count > 0 && (blocks.count - 2) * (blocks.count - 1) / 2 >= count {
 			blocks.remove(at: blocks.count - 1)
-			numberOfBlocks -= 1
 		}
 	}
 }
@@ -196,3 +209,6 @@ fileprivate mutating func makeNil(atIndex index: Int) {
 ```
 To `insert(element:, atIndex:)` we move all elements after the `index` to the right by 1. After space has been made for the element we set the value using the `subscript` convenience. `append(element:)` is just a convenience method to add to the end. To `remove(atIndex:)` we move all the elements after the `index` to the left by 1. After the removed value is covered by it's proceeding value, we set the last value in the structure to `nil`. `makeNil(atIndex:)` uses the same logic as our `subscript` method but is used to set the root optional at a particular index to `nil` (because setting it's wrapped value to `nil` is something only the user of the data structure should do).
 > Setting a optionals value to `nil` is different than setting it's wrapped value to `nil`. An optionals wrapped value is an embedded type within the optional reference. This means that a `nil` wrapped value is actually `.some(.none)` wheres setting the root reference to `nil` is `.none`. To better understand Swift optionals I recommend checking out @SebastianBoldt's article [Swift! Optionals?](https://medium.com/ios-os-x-development/swift-optionals-78dafaa53f3#.rvjobhuzs).
+
+# Runtime Analysis
+<!-- TODO: fin runtime explanation -->

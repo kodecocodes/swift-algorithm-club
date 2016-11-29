@@ -35,10 +35,8 @@ public struct RootishArrayStack<T> {
 
 	fileprivate mutating func shrinkIfNeeded() {
 		if capacity + blocks.count >= count {
-			var numberOfBlocks = blocks.count
-			while numberOfBlocks > 0 && (numberOfBlocks - 2) * (numberOfBlocks - 1) / 2 >= count {
+			while blocks.count > 0 && (blocks.count - 2) * (blocks.count - 1) / 2 >= count {
 				blocks.remove(at: blocks.count - 1)
-				numberOfBlocks -= 1
 			}
 		}
 	}
