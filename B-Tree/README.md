@@ -123,13 +123,13 @@ If the child `c2` at index `i-1` has more keys than the order of the tree:
 
 1. We move the key at index `i-1` from the parent node to the child `c1`'s keys array at index `0`.
 2. We move the last key from `c2` to the parent's keys array at index `i-1`.
-3. (If `c1` is non-leaf) We move the last children from `c1` to `c2`'s children array at index 0.
+3. (If `c1` is non-leaf) We move the last child from `c2` to `c1`'s children array at index 0.
 
 Else:  
 
 1. We move the key at index `i` from the parent node to the end of child `c1`'s keys array.
 2. We move the first key from `c2` to the parent's keys array at index `i`.
-3. (If `c1` isn't a leaf) We move the first children from `c2` to the end of `c1`'s children array. 
+3. (If `c1` isn't a leaf) We move the first child from `c2` to the end of `c1`'s children array. 
 
 ![Moving Key](Images/MovingKey.png)
 
@@ -141,13 +141,13 @@ If `c1` has a left sibling `c2`:
 
 1. We move the key from the parent at index `i-1` to the end of `c2`'s keys array.
 2. We move the keys and the children(if it's a non-leaf) from `c1` to the end of `c2`'s keys and children array.
-3. We remove the children at index `i` from the parent node.
+3. We remove the child at index `i-1` from the parent node.
 
 Else if `c1` only has a right sibling `c2`:
 
 1. We move the key from the parent at index `i` to the beginning of `c2`'s keys array.
 2. We move the keys and the children(if it's a non-leaf) from `c1` to the beginning of `c2`'s keys and children array.
-3. We remove the children at index `i` from the parent node.
+3. We remove the child at index `i` from the parent node.
 
 After merging it is possible that now the parent node contains too few keys,  
 so in the worst case merging also can go up to the root, in which case the height of the tree decreases.
