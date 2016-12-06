@@ -62,7 +62,7 @@ Now, we can say:
 
 This had been know since the 19th century. The problem is that the method requires 4 multiplications (`a*c`, `a*d`, `b*c`, `b*d`). Karatsuba's insight was that you only need three! (`a*c`, `b*d`, `(a+b)*(c+d)`). Now a perfectly valid question right now would be "How is that possible!?!" Here's the math:
 
-        (a+b)*(c+d) - a*c - b*c  = (a*c + a*d + b*c + b*d) - a*c - b*c
+        (a+b)*(c+d) - a*c - b*d  = (a*c + a*d + b*c + b*d) - a*c - b*d
                                  = (a*d + b*c)
 
 Pretty cool, huh?
