@@ -1,28 +1,20 @@
 /*
   Euclid's algorithm for finding the greatest common divisor
 */
-func gcd(_ m: Int, _ n: Int) -> Int {
-  var a = 0
-  var b = max(m, n)
-  var r = min(m, n)
-
-  while r != 0 {
-    a = b
-    b = r
-    r = a % b
-  }
-  return b
+func gcd(_ a: Int, _ b: Int) -> Int {
+    var x = a, y = b
+    while y != 0 {
+        let r = x % y
+        x = y
+        y = r
+    }
+    return x
 }
-
 /*
 // Recursive version
 func gcd(_ a: Int, _ b: Int) -> Int {
-  let r = a % b
-  if r != 0 {
-    return gcd(b, r)
-  } else {
-    return b
-  }
+    guard b != 0 else { return a }
+    return gcd(b, a % b)
 }
 */
 

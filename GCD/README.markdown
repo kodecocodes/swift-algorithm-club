@@ -18,12 +18,8 @@ Here is an implementation of this idea in Swift:
 
 ```swift
 func gcd(_ a: Int, _ b: Int) -> Int {
-  let r = a % b
-  if r != 0 {
-    return gcd(b, r)
-  } else {
-    return b
-  }
+    guard b != 0 else { return a }
+    return gcd(b, a % b)
 }
 ```
 
@@ -68,17 +64,14 @@ gcd(841, 299)     // 1
 Here is a slightly different implementation of Euclid's algorithm. Unlike the first version this doesn't use recursion but only a basic `while` loop.
 
 ```swift
-func gcd(_ m: Int, _ n: Int) -> Int {
-  var a = 0
-  var b = max(m, n)
-  var r = min(m, n)
-
-  while r != 0 {
-    a = b
-    b = r
-    r = a % b
-  }
-  return b
+func gcd(_ a: Int, _ b: Int) -> Int {
+    var x = a, y = b
+    while y != 0 {
+        let r = x % y
+        x = y
+        y = r
+    }
+    return x
 }
 ```
 
@@ -114,4 +107,5 @@ lcm(10, 8)    // 40
 
 You probably won't need to use the GCD or LCM in any real-world problems, but it's cool to play around with this ancient algorithm. It was first described by Euclid in his [Elements](http://publicdomainreview.org/collections/the-first-six-books-of-the-elements-of-euclid-1847/) around 300 BC. Rumor has it that he discovered this algorithm while he was hacking on his Commodore 64.
 
-*Written for Swift Algorithm Club by Matthijs Hollemans*
+*Written for Swift Algorithm Club by Matthijs Hollemans*<br>
+*Fixed the bug of zero division by DingHub*
