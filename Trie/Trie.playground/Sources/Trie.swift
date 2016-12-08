@@ -73,8 +73,16 @@ public extension Trie {
       currentNode.isTerminating = false
     } else {
       var character = currentNode.value
-      currentNode.parent?.children[character!] = nil
-      character = currentNode.value
+      
+      while currentNode.children.count == 0, let parent = currentNode.parent {
+        currentNode = parent
+        currentNode.children[character!] = nil
+        character = currentNode.value
+        
+        if currentNode.isTerminating {
+          break
+        }
+      }
     }
   }
 }
