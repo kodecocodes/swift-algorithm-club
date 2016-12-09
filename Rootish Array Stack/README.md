@@ -102,16 +102,17 @@ Lets start with instance variables and struct declaration:
 import Darwin
 
 public struct RootishArrayStack<T> {
-	fileprivate var blocks = [Array<T?>]()
-	fileprivate var internalCount = 0
 
-	public init() { }
+  fileprivate var blocks = [Array<T?>]()
+  fileprivate var internalCount = 0
 
-	var count: Int {
-		return internalCount
-	}
+    public init() { }
 
-	...
+    var count: Int {
+  	return internalCount
+  }
+
+  ...
 
 }
 
@@ -149,7 +150,7 @@ public subscript(index: Int) -> T {
 }
 ```
 `toBlock(index:)` is really just wrapping the `block` equation derived earlier to return the block that an index maps to. `superscript` lets us have `get` and `set` access to the structure with the familiar `[index:]` syntax. For both `get` and `set` in superscript we use the same logic:
- 	1. determine the block that the index points to
+	1. determine the block that the index points to
 	2. determine the inner block index
 	3. `get`/`set` the value
 
@@ -210,5 +211,11 @@ fileprivate mutating func makeNil(atIndex index: Int) {
 To `insert(element:, atIndex:)` we move all elements after the `index` to the right by 1. After space has been made for the element we set the value using the `subscript` convenience. `append(element:)` is just a convenience method to add to the end. To `remove(atIndex:)` we move all the elements after the `index` to the left by 1. After the removed value is covered by it's proceeding value, we set the last value in the structure to `nil`. `makeNil(atIndex:)` uses the same logic as our `subscript` method but is used to set the root optional at a particular index to `nil` (because setting it's wrapped value to `nil` is something only the user of the data structure should do).
 > Setting a optionals value to `nil` is different than setting it's wrapped value to `nil`. An optionals wrapped value is an embedded type within the optional reference. This means that a `nil` wrapped value is actually `.some(.none)` wheres setting the root reference to `nil` is `.none`. To better understand Swift optionals I recommend checking out @SebastianBoldt's article [Swift! Optionals?](https://medium.com/ios-os-x-development/swift-optionals-78dafaa53f3#.rvjobhuzs).
 
-# Runtime Analysis
-<!-- TODO: fin runtime explanation -->
+# Performance
+* An internal counter keeps track of the number of elements in the structure. `count` is executed in **O(1)** time.
+
+* `capacity` can be calculated using Gauss' summation trick in an equation which takes **O(1)** time to execute.
+
+* Since `subcript[index:]` uses the `block` and `inner block index` equations, which can be executed in **O(1)** time, all get and set operations take **O(1)**.
+
+* Ignoring the time cost to `grow()` and `shrink()`, `insert()` and `remove()` operations shift all elements right of the specified index resulting in **O(n)** time.

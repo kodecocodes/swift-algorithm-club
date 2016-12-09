@@ -21,9 +21,13 @@ public struct RootishArrayStack<T> {
 		return blocks.count * (blocks.count + 1) / 2
 	}
 
-	fileprivate func toBlock(index: Int) -> Int {
+	fileprivate func block(fromIndex index: Int) -> Int {
 		let block = Int(ceil((-3.0 + sqrt(9.0 + 8.0 * Double(index))) / 2))
 		return block
+	}
+
+	fileprivate func innerBlockIndex(fromIndex index: Int, fromBlock block: Int) -> Int {
+		return index - block * (block + 1) / 2
 	}
 
 	fileprivate mutating func growIfNeeded() {
@@ -43,14 +47,14 @@ public struct RootishArrayStack<T> {
 
 	public subscript(index: Int) -> T {
 		get {
-			let block = toBlock(index: index)
-			let blockIndex = index - block * (block + 1) / 2
-			return blocks[block][blockIndex]!
+			let block = self.block(fromIndex: index)
+			let innerBlockIndex = self.innerBlockIndex(fromIndex: index, fromBlock: block)
+			return blocks[block][innerBlockIndex]!
 		}
 		set(newValue) {
-			let block = toBlock(index: index)
-			let blockIndex = index - block * (block + 1) / 2
-			blocks[block][blockIndex] = newValue
+			let block = self.block(fromIndex: index)
+			let innerBlockIndex = self.innerBlockIndex(fromIndex: index, fromBlock: block)
+			blocks[block][innerBlockIndex] = newValue
 		}
 	}
 
@@ -70,9 +74,9 @@ public struct RootishArrayStack<T> {
 	}
 
 	fileprivate mutating func makeNil(atIndex index: Int) {
-		let block = toBlock(index: index)
-		let blockIndex = index - block * (block + 1) / 2
-		blocks[block][blockIndex] = nil
+		let block = self.block(fromIndex: index)
+		let innerBlockIndex = self.innerBlockIndex(fromIndex: index, fromBlock: block)
+		blocks[block][innerBlockIndex] = nil
 	}
 
 	public mutating func remove(atIndex index: Int) -> T {
