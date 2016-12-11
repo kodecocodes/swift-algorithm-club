@@ -1,17 +1,23 @@
 //
-//  main.swift
 //  RootishArrayStack
 //
-//  Created by Benjamin Emdon on 2016-11-07.
+//  Created by @BenEmdon on 2016-11-07.
 //
 
 import Darwin
 
 public struct RootishArrayStack<T> {
+
+	// MARK: - Instance variables
+
 	fileprivate var blocks = [Array<T?>]()
 	fileprivate var internalCount = 0
 
+	// MARK: - Init
+
 	public init() { }
+
+	// MARK: - Calculated variables
 
 	var count: Int {
 		return internalCount
@@ -21,6 +27,8 @@ public struct RootishArrayStack<T> {
 		return blocks.count * (blocks.count + 1) / 2
 	}
 
+	// MARK: - Equations
+
 	fileprivate func block(fromIndex index: Int) -> Int {
 		let block = Int(ceil((-3.0 + sqrt(9.0 + 8.0 * Double(index))) / 2))
 		return block
@@ -29,6 +37,8 @@ public struct RootishArrayStack<T> {
 	fileprivate func innerBlockIndex(fromIndex index: Int, fromBlock block: Int) -> Int {
 		return index - block * (block + 1) / 2
 	}
+
+	// MARK: - Behavior
 
 	fileprivate mutating func growIfNeeded() {
 		if capacity - blocks.count < count + 1 {
@@ -89,19 +99,9 @@ public struct RootishArrayStack<T> {
 		shrinkIfNeeded()
 		return element
 	}
-
-	public var memoryDescription: String {
-		var description = "{\n"
-		for block in blocks {
-			description += "\t["
-			for rawElement in block {
-				description += "\(rawElement), "
-			}
-			description += "]\n"
-		}
-		return description + "}"
-	}
 }
+
+// MARK: - Struct to string
 
 extension RootishArrayStack: CustomStringConvertible {
 	public var description: String {
@@ -113,5 +113,17 @@ extension RootishArrayStack: CustomStringConvertible {
 			}
 		}
 		return s + "]"
+	}
+
+	public var memoryDescription: String {
+		var description = "{\n"
+		for block in blocks {
+			description += "\t["
+			for rawElement in block {
+				description += "\(rawElement), "
+			}
+			description += "]\n"
+		}
+		return description + "}"
 	}
 }
