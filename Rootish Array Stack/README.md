@@ -11,7 +11,7 @@ A resizable array holds references to blocks (arrays of fixed size). A block's c
 Here you can see how insert/remove operations would behave (very similar to how a Swift array handles such operations).
 
 ## Gauss' Summation Trick
-One of the most well known legends about famous mathematician [Carl Friedrich Gauss](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss) goes back to when he was in primary school. One day Gauss' teacher asked his class to add up all the numbers from 1 to 100, hoping that the task would take long enough for the teacher to step out for a smoke break. The teacher was shocked when young Gauss had his hand up with the answer `5050`. So soon? The teacher suspected a cheat, but no. Gauss had found a formula to sidestep the problem of manual adding up all the number 1 by 1. His formula:
+One of the most well known legends about famous mathematician [Carl Friedrich Gauss](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss) goes back to when he was in primary school. One day Gauss' teacher asked his class to add up all the numbers from 1 to 100, hoping that the task would take long enough for the teacher to step out for a smoke break. The teacher was shocked when young Gauss had his hand up with the answer `5050`. So soon? The teacher suspected a cheat, but no. Gauss had found a formula to sidestep the problem of manually adding up all the numbers 1 by 1. His formula:
 ```
 sum from 1...n = n * (n + 1) / 2
 ```
@@ -96,6 +96,9 @@ inner block index = 2
 Therefore `rootishArrayStack[12]` points to the block at index `4` and at inner block index `2`.
 ![Rootish Array Stack Intro](images/RootishArrayStackExample2.png)
 
+### Interesting Discovery
+Using the `block` equation we can see that the number of `blocks` is proportional to the square root of the number of elements: **O(blocks) = O(√n)**.
+
 # Implementation Details
 Lets start with instance variables and struct declaration:
 ```swift
@@ -106,10 +109,10 @@ public struct RootishArrayStack<T> {
   fileprivate var blocks = [Array<T?>]()
   fileprivate var internalCount = 0
 
-    public init() { }
+  public init() { }
 
-    var count: Int {
-  	return internalCount
+  var count: Int {
+    return internalCount
   }
 
   ...
@@ -131,25 +134,29 @@ var capacity: Int {
 
 Next lets look at we would `get` and `set` elements:
 ```swift
-fileprivate func toBlock(index: Int) -> Int {
+fileprivate func block(fromIndex: Int) -> Int {
   let block = Int(ceil((-3.0 + sqrt(9.0 + 8.0 * Double(index))) / 2))
   return block
 }
 
+fileprivate func innerBlockIndex(fromIndex index: Int, fromBlock block: Int) -> Int {
+  return index - block * (block + 1) / 2
+}
+
 public subscript(index: Int) -> T {
   get {
-    let block = toBlock(index: index)
-    let blockIndex = index - block * (block + 1) / 2
-    return blocks[block][blockIndex]!
+    let block = self.block(fromIndex: index)
+    let innerBlockIndex = self.innerBlockIndex(fromIndex: index, fromBlock: block)
+    return blocks[block][innerBlockIndex]!
   }
   set(newValue) {
-    let block = toBlock(index: index)
-    let blockIndex = index - block * (block + 1) / 2
-    blocks[block][blockIndex] = newValue
+    let block = self.block(fromIndex: index)
+    let innerBlockIndex = self.innerBlockIndex(fromIndex: index, fromBlock: block)
+    blocks[block][innerBlockIndex] = newValue
   }
 }
 ```
-`toBlock(index:)` is really just wrapping the `block` equation derived earlier to return the block that an index maps to. `superscript` lets us have `get` and `set` access to the structure with the familiar `[index:]` syntax. For both `get` and `set` in superscript we use the same logic:
+`block(fromIndex:)` and `innerBlockIndex(fromIndex:, fromBlock:)` are wrapping the `block` and `inner block index` equations derived earlier. `superscript` lets us have `get` and `set` access to the structure with the familiar `[index:]` syntax. For both `get` and `set` in superscript we use the same logic:
 	1. determine the block that the index points to
 	2. determine the inner block index
 	3. `get`/`set` the value
@@ -157,18 +164,18 @@ public subscript(index: Int) -> T {
 Next lets look at how we would `growIfNeeded()` and `shrinkIfNeeded()` the structure.
 ```swift
 fileprivate mutating func growIfNeeded() {
-	if capacity - blocks.count < count + 1 {
-		let newArray = [T?](repeating: nil, count: blocks.count + 1)
-		blocks.append(newArray)
-	}
+  if capacity - blocks.count < count + 1 {
+    let newArray = [T?](repeating: nil, count: blocks.count + 1)
+    blocks.append(newArray)
+  }
 }
 
 fileprivate mutating func shrinkIfNeeded() {
-	if capacity + blocks.count >= count {
-		while blocks.count > 0 && (blocks.count - 2) * (blocks.count - 1) / 2 >= count {
-			blocks.remove(at: blocks.count - 1)
-		}
-	}
+  if capacity + blocks.count >= count {
+    while blocks.count > 0 && (blocks.count - 2) * (blocks.count - 1) / 2 >    count {
+      blocks.remove(at: blocks.count - 1)
+    }
+  }
 }
 ```
 If our data set grows or shrinks in size, we want our data structure to accommodate the change.
@@ -203,9 +210,9 @@ public mutating func remove(atIndex index: Int) -> T {
 }
 
 fileprivate mutating func makeNil(atIndex index: Int) {
-	let block = toBlock(index: index)
-	let blockIndex = index - block * (block + 1) / 2
-	blocks[block][blockIndex] = nil
+  let block = self.block(fromIndex: index)
+  let innerBlockIndex = self.innerBlockIndex(fromIndex: index, fromBlock: block)
+  blocks[block][innerBlockIndex] = nil
 }
 ```
 To `insert(element:, atIndex:)` we move all elements after the `index` to the right by 1. After space has been made for the element we set the value using the `subscript` convenience. `append(element:)` is just a convenience method to add to the end. To `remove(atIndex:)` we move all the elements after the `index` to the left by 1. After the removed value is covered by it's proceeding value, we set the last value in the structure to `nil`. `makeNil(atIndex:)` uses the same logic as our `subscript` method but is used to set the root optional at a particular index to `nil` (because setting it's wrapped value to `nil` is something only the user of the data structure should do).
@@ -218,4 +225,15 @@ To `insert(element:, atIndex:)` we move all elements after the `index` to the ri
 
 * Since `subcript[index:]` uses the `block` and `inner block index` equations, which can be executed in **O(1)** time, all get and set operations take **O(1)**.
 
-* Ignoring the time cost to `grow()` and `shrink()`, `insert()` and `remove()` operations shift all elements right of the specified index resulting in **O(n)** time.
+* Ignoring the time cost to `grow` and `shrink`, `insert(atIndex:)` and `remove(atIndex:)` operations shift all elements right of the specified index resulting in **O(n)** time.
+
+# Analysis of Growing and Shrinking
+The performance analysis doesn't account for the cost to `grow` and `shrink`. Unlike a regular Swift array, `grow` and `shrink` operations don't copy all the elements into a backing array. They only allocate or free an array proportional to the number of `blocks`. The number of `blocks` is proportional to the  square root of the number of elements. Growing and shrinking only cost **O(√n)**.
+
+# Wasted Space
+Wasted space is how much memory with respect to the number of elements `n` is unused. The Rootish Array Stack never has more than 2 empty blocks and it never has less than 1 empty block. The last two blocks are proportional to the number of blocks which is proportional to the square root of the number of elements. The number of references needed to point to each block is the same as the number of blocks. Therefore, the amount of wasted space with respect to the number of elements is **O(√n)**.
+
+
+_Written for Swift Algorithm Club by @BenEmdon_
+
+_With help from [OpenDataStructures.org](http://opendatastructures.org)_
