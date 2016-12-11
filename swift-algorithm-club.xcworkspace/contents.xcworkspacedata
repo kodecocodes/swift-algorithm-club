@@ -1529,6 +1529,9 @@
       <FileRef
          location = "group:RootishArrayStack.swift">
       </FileRef>
+      <FileRef
+         location = "group:RootishArrayStack.playground">
+      </FileRef>
    </Group>
    <Group
       location = "group:Segment Tree"

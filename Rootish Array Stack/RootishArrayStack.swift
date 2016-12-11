@@ -27,6 +27,22 @@ public struct RootishArrayStack<T> {
 		return blocks.count * (blocks.count + 1) / 2
 	}
 
+	var isEmpty: Bool {
+		return blocks.count == 0
+	}
+
+	var first: T? {
+		guard capacity > 0 else { return nil }
+		return blocks[0][0]
+	}
+
+	var last: T? {
+		guard capacity > 0 else { return nil }
+		let block = self.block(fromIndex: count - 1)
+		let innerBlockIndex = self.innerBlockIndex(fromIndex: count - 1, fromBlock: block)
+		return blocks[block][innerBlockIndex]
+	}
+
 	// MARK: - Equations
 
 	fileprivate func block(fromIndex index: Int) -> Int {
