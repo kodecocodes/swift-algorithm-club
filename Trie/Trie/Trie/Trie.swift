@@ -81,23 +81,19 @@ extension Trie {
             return
         }
         var currentNode = root
-        let charactersInWord = Array(word.lowercased().characters)
-        var index = 0
-        while index < charactersInWord.count {
-            let character = charactersInWord[index]
+        for character in word.lowercased().characters {
             if let childNode = currentNode.children[character] {
                 currentNode = childNode
             } else {
                 currentNode.add(value: character)
                 currentNode = currentNode.children[character]!
             }
-            index += 1
         }
         // Word already present?
         guard !currentNode.isTerminating else {
             return
         }
-        self.wordCount += 1
+        wordCount += 1
         currentNode.isTerminating = true
     }
 
@@ -110,13 +106,13 @@ extension Trie {
             return false
         }
         var currentNode = root
-        let charactersInWord = Array(word.lowercased().characters)
-        var index = 0
-        while index < charactersInWord.count, let childNode = currentNode.children[charactersInWord[index]] {
-            index += 1
+        for character in word.lowercased().characters {
+            guard let childNode = currentNode.children[character] else {
+                return false
+            }
             currentNode = childNode
         }
-        return index == charactersInWord.count && currentNode.isTerminating
+        return currentNode.isTerminating
     }
 
     /// Attempts to walk to the terminating node of a word.  The
@@ -127,19 +123,14 @@ extension Trie {
     /// search failed.
     private func findTerminalNodeOf(word: String) -> Node? {
         var currentNode = root
-        var charactersInWord = Array(word.lowercased().characters)
-        var index = 0
-        while index < charactersInWord.count {
-            let character = charactersInWord[index]
+        for character in word.lowercased().characters {
             guard let childNode = currentNode.children[character] else {
                 return nil
             }
             currentNode = childNode
-            index += 1
         }
         return currentNode.isTerminating ? currentNode : nil
     }
-
 
     /// Deletes a word from the trie by starting with the last letter
     /// and moving back, deleting nodes until either a non-leaf or a
@@ -180,7 +171,7 @@ extension Trie {
         } else {
             terminalNode.isTerminating = false
         }
-        self.wordCount -= 1
+        wordCount -= 1
     }
 
     /// Returns an array of words in a subtrie of the trie
@@ -198,7 +189,7 @@ extension Trie {
         if rootNode.isTerminating {
             subtrieWords.append(previousLetters)
         }
-        for (_, childNode) in rootNode.children {
+        for childNode in rootNode.children.values {
             let childWords = wordsInSubtrie(rootNode: childNode, partialWord: previousLetters)
             subtrieWords += childWords
         }
