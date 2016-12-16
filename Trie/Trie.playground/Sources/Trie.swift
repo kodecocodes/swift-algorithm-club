@@ -4,6 +4,17 @@
 ///   -wordCount (the number of words in the trie)
 public final class Trie {
   typealias Node = TrieNode<Character>
+  
+  public fileprivate(set) var words: Set<String> = []
+  
+  public var isEmpty: Bool {
+    return count == 0
+  }
+  
+  public var count: Int {
+    return words.count
+  }
+  
   fileprivate let root: Node
   
   public init() {
@@ -14,7 +25,7 @@ public final class Trie {
 // MARK: - Basic Methods
 public extension Trie {
   func insert(word: String) {
-    guard !word.isEmpty else { return }
+    guard !word.isEmpty, !contains(word: word) else { return }
     var currentNode = root
     
     var characters = Array(word.lowercased().characters)
@@ -34,6 +45,8 @@ public extension Trie {
         currentNode.isTerminating = true
       }
     }
+    
+    words.insert(word)
   }
   
   func contains(word: String) -> Bool {
@@ -56,7 +69,9 @@ public extension Trie {
   }
   
   func remove(word: String) {
-    guard !word.isEmpty else { return }
+    guard !word.isEmpty, words.contains(word) else { return }
+    words.remove(word)
+    
     var currentNode = root
     
     var characters = Array(word.lowercased().characters)
@@ -73,10 +88,15 @@ public extension Trie {
       currentNode.isTerminating = false
     } else {
       var character = currentNode.value
-      while currentNode.children.count == 0, let parent = currentNode.parent, !parent.isTerminating {
+      
+      while currentNode.children.count == 0, let parent = currentNode.parent {
         currentNode = parent
         currentNode.children[character!] = nil
         character = currentNode.value
+        
+        if currentNode.isTerminating {
+          break
+        }
       }
     }
   }
