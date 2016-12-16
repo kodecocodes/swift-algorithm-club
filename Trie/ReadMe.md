@@ -162,3 +162,13 @@ Let n be the length of some value in the `Trie`.
 See also [Wikipedia entry for Trie](https://en.wikipedia.org/wiki/Trie).
 
 *Written for the Swift Algorithm Club by Christian Encarnacion. Refactored by Kelvin Lau*
+
+# Changes by Rick Zaccone
+
+* Added comments to all methods
+* Refactored the `remove` method
+* Renamed some variables.  I have mixed feelings about the way Swift infers types.  It's not always apparent what type a variable will have.  To address this, I made changes such as renaming `parent` to `parentNode` to emphasize that it is a node and not the value contained within the node.
+* Added a `words` property that recursively traverses the trie and constructs an array containing all of the words in the trie.
+* Added a `isLeaf` property to `TrieNode` for readability.
+* Implemented `count` and `isEmpty` properties for the trie.
+* I tried stress testing the trie by adding 162,825 words.  The playground was very slow while adding the words and eventually crashed.  To fix this problem, I moved everything into a project and wrote `XCTest` tests that test the trie.  There are also several performance tests.  Everything passes.
