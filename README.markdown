@@ -142,7 +142,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 ### Lists
 
 - [Linked List](Linked List/). A sequence of data items connected through links. Covers both singly and doubly linked lists.
-- Skip List
+- [Skip-List](Skip-List/). Skip List is a probablistic data-structure with same logarithmic time bound and efficiency as AVL/ or Red-Black tree and provides a clever compromise to efficiently support search and update operations.
 
 ### Trees
 
