@@ -46,7 +46,8 @@ If after an insertion or deletion the balance factor becomes greater than 1, the
 
 Each tree node keeps track of its current balance factor in a variable. After inserting a new node, we need to update the balance factor of its parent node. If that balance factor becomes greater than 1, we "rotate" part of that tree to restore the balance.
 
-TODO: describe with pictures how these rotations work
+Example of balancing the unbalanced tree using rotation:
+![Rotation](Images/Rotation.jpg)
 
 Insertion never needs more than 2 rotations. Removal might require up to *log(n)* rotations.
 
@@ -56,7 +57,7 @@ Most of the code in [AVLTree.swift](AVLTree.swift) is just regular [binary searc
 
 > **Note:** If you're a bit fuzzy on the regular operations of a binary search tree, I suggest you [catch up on those first](../Binary Search Tree/). It will make the rest of the AVL tree easier to understand.
 
-The interesting bits are in the `balance()` method which is called after inserting or deleting a node. 
+The interesting bits are in the `balance()` method which is called after inserting or deleting a node.
 
 ## See also
 
