@@ -1,10 +1,22 @@
 import XCTest
 
-class RootishArrayStackTests: XCTestCase {
-//  let randomNumbers = [8, 2, 10, 9, 7, 5]
+fileprivate extension RootishArrayStack {
+	func equal(toArray array: Array<Int>) -> Bool{
+		for index in 0..<count {
+			guard let integerElement = self[index] as? Int else { return false }
+			if (array[index] != integerElement) {
+				return false
+			}
+		}
+		return true
+	}
+}
 
-	func buildList(withNumbers numbers: [Int]? = nil) -> RootishArrayStack<Int> {
+class RootishArrayStackTests: XCTestCase {
+
+	private func buildList(withNumbers numbers: [Int]? = nil) -> RootishArrayStack<Int> {
     var list = RootishArrayStack<Int>()
+
 		if let numbers = numbers {
 			for number in numbers {
 				list.append(element: number)
@@ -14,242 +26,184 @@ class RootishArrayStackTests: XCTestCase {
   }
 
 	func testEmptyList() {
+		let emptyArray = [Int]()
 		let list = buildList()
+
 		XCTAssertTrue(list.isEmpty)
 		XCTAssertEqual(list.count, 0)
 		XCTAssertEqual(list.capacity, 0)
 		XCTAssertNil(list.first)
 		XCTAssertNil(list.last)
+		XCTAssertTrue(list.equal(toArray: emptyArray))
 	}
 
 	func testListWithOneElement() {
-		let list = buildList(withNumbers: [1])
+		let array = [1]
+		let list = buildList(withNumbers: array)
+
 		XCTAssertFalse(list.isEmpty)
 		XCTAssertEqual(list.count, 1)
 		XCTAssertEqual(list.capacity, 1)
 		XCTAssertEqual(list.first, 1)
 		XCTAssertEqual(list.last, 1)
 		XCTAssertEqual(list.first, list.last)
+		XCTAssertTrue(list.equal(toArray: array))
 	}
 
 	func testListWithTwoElements() {
-		let list = buildList(withNumbers: [1, 2])
+		let array = [1, 2]
+		let list = buildList(withNumbers: array)
+
 		XCTAssertFalse(list.isEmpty)
 		XCTAssertEqual(list.count, 2)
 		XCTAssertEqual(list.capacity, 3)
 		XCTAssertEqual(list.first, 1)
 		XCTAssertEqual(list.last, 2)
 		XCTAssertNotEqual(list.first, list.last)
+		XCTAssertTrue(list.equal(toArray: array))
 	}
 
-//
-//  func testListWithTwoElements() {
-//    var list = RootishArrayStack<Int>()
-//    list.append(123)
-//    list.append(456)
-//
-//    XCTAssertEqual(list.count, 2)
-//
-//    XCTAssertNotNil(list.first)
-//    XCTAssertEqual(list.first!.value, 123)
-//
-//    XCTAssertNotNil(list.last)
-//    XCTAssertEqual(list.last!.value, 456)
-//
-//    XCTAssertTrue(list.first !== list.last)
-//
-//    XCTAssertNil(list.first!.previous)
-//    XCTAssertTrue(list.first!.next === list.last)
-//    XCTAssertTrue(list.last!.previous === list.first)
-//    XCTAssertNil(list.last!.next)
-//  }
-//
-//  func testListWithThreeElements() {
-//    var list = RootishArrayStack<Int>()
-//    list.append(123)
-//    list.append(456)
-//    list.append(789)
-//
-//    XCTAssertEqual(list.count, 3)
-//
-//    XCTAssertNotNil(list.first)
-//    XCTAssertEqual(list.first!.value, 123)
-//
-//    let second = list.first!.next
-//    XCTAssertNotNil(second)
-//    XCTAssertEqual(second!.value, 456)
-//
-//    XCTAssertNotNil(list.last)
-//    XCTAssertEqual(list.last!.value, 789)
-//
-//    XCTAssertNil(list.first!.previous)
-//    XCTAssertTrue(list.first!.next === second)
-//    XCTAssertTrue(second!.previous === list.first)
-//    XCTAssertTrue(second!.next === list.last)
-//    XCTAssertTrue(list.last!.previous === second)
-//    XCTAssertNil(list.last!.next)
-//  }
-//
-//  func testNodeAtIndexInEmptyList() {
-//    var list = RootishArrayStack<Int>()
-//    let node = list.node(atIndex: 0)
-//    XCTAssertNil(node)
-//  }
-//
-//  func testNodeAtIndexInListWithOneElement() {
-//    let list = RootishArrayStack<Int>()
-//    list.append(123)
-//
-//    let node = list.node(atIndex: 0)
-//    XCTAssertNotNil(node)
-//    XCTAssertEqual(node!.value, 123)
-//    XCTAssertTrue(node === list.first)
-//  }
-//
-//  func testNodeAtIndex() {
-//    let list = buildList()
-//
-//    let nodeCount = list.count
-//    XCTAssertEqual(nodeCount, numbers.count)
-//
-//    XCTAssertNil(list.node(atIndex: -1))
-//    XCTAssertNil(list.node(atIndex: nodeCount))
-//
-//    let first = list.node(atIndex: 0)
-//    XCTAssertNotNil(first)
-//    XCTAssertTrue(first === list.first)
-//    XCTAssertEqual(first!.value, numbers[0])
-//
-//    let last = list.node(atIndex: nodeCount - 1)
-//    XCTAssertNotNil(last)
-//    XCTAssertTrue(last === list.last)
-//    XCTAssertEqual(last!.value, numbers[nodeCount - 1])
-//
-//    for i in 0..<nodeCount {
-//      let node = list.node(atIndex: i)
-//      XCTAssertNotNil(node)
-//      XCTAssertEqual(node!.value, numbers[i])
-//    }
-//  }
-//
-//  func testSubscript() {
-//    let list = buildList()
-//    for i in 0 ..< list.count {
-//      XCTAssertEqual(list[i], numbers[i])
-//    }
-//  }
-//
-//  func testInsertAtIndexInEmptyList() {
-//    let list = RootishArrayStack<Int>()
-//    list.insert(123, atIndex: 0)
-//
-//    XCTAssertFalse(list.isEmpty)
-//    XCTAssertEqual(list.count, 1)
-//
-//    let node = list.node(atIndex: 0)
-//    XCTAssertNotNil(node)
-//    XCTAssertEqual(node!.value, 123)
-//  }
-//
-//  func testInsertAtIndex() {
-//    let list = buildList()
-//    let prev = list.node(atIndex: 2)
-//    let next = list.node(atIndex: 3)
-//    let nodeCount = list.count
-//
-//    list.insert(444, atIndex: 3)
-//
-//    let node = list.node(atIndex: 3)
-//    XCTAssertNotNil(node)
-//    XCTAssertEqual(node!.value, 444)
-//    XCTAssertEqual(nodeCount + 1, list.count)
-//
-//    XCTAssertFalse(prev === node)
-//    XCTAssertFalse(next === node)
-//    XCTAssertTrue(prev!.next === node)
-//    XCTAssertTrue(next!.previous === node)
-//  }
-//
-//  func testRemoveAtIndexOnListWithOneElement() {
-//    let list = LinkedList<Int>()
-//    list.append(123)
-//
-//    let value = list.remove(atIndex: 0)
-//    XCTAssertEqual(value, 123)
-//
-//    XCTAssertTrue(list.isEmpty)
-//    XCTAssertEqual(list.count, 0)
-//    XCTAssertNil(list.first)
-//    XCTAssertNil(list.last)
-//  }
-//
-//  func testRemoveAtIndex() {
-//    let list = buildList()
-//    let prev = list.node(atIndex: 2)
-//    let next = list.node(atIndex: 3)
-//    let nodeCount = list.count
-//
-//    list.insert(444, atIndex: 3)
-//
-//    let value = list.remove(atIndex: 3)
-//    XCTAssertEqual(value, 444)
-//
-//    let node = list.node(atIndex: 3)
-//    XCTAssertTrue(next === node)
-//    XCTAssertTrue(prev!.next === node)
-//    XCTAssertTrue(node!.previous === prev)
-//    XCTAssertEqual(nodeCount, list.count)
-//  }
-//
-//  func testRemoveLastOnListWithOneElement() {
-//    let list = LinkedList<Int>()
-//    list.append(123)
-//
-//    let value = list.removeLast()
-//    XCTAssertEqual(value, 123)
-//
-//    XCTAssertTrue(list.isEmpty)
-//    XCTAssertEqual(list.count, 0)
-//    XCTAssertNil(list.first)
-//    XCTAssertNil(list.last)
-//  }
-//
-//  func testRemoveLast() {
-//    let list = buildList()
-//    let last = list.last
-//    let prev = last!.previous
-//    let nodeCount = list.count
-//
-//    let value = list.removeLast()
-//    XCTAssertEqual(value, 5)
-//
-//    XCTAssertNil(last!.previous)
-//    XCTAssertNil(last!.next)
-//
-//    XCTAssertNil(prev!.next)
-//    XCTAssertTrue(list.last === prev)
-//    XCTAssertEqual(nodeCount - 1, list.count)
-//  }
-//
-//  func testRemoveAll() {
-//    let list = buildList()
-//    list.removeAll()
-//    XCTAssertTrue(list.isEmpty)
-//    XCTAssertEqual(list.count, 0)
-//    XCTAssertNil(list.first)
-//    XCTAssertNil(list.last)
-//  }
-//
-//  func testReverseLinkedList() {
-//    let list = buildList()
-//    let first = list.first
-//    let last = list.last
-//    let nodeCount = list.count
-//
-//    list.reverse()
-//
-//    XCTAssertTrue(first === list.last)
-//    XCTAssertTrue(last === list.first)
-//    XCTAssertEqual(nodeCount, list.count)
-//  }
+	func testListWithThreeElements() {
+		let array = [1, 2, 3]
+		let list = buildList(withNumbers: array)
+
+		XCTAssertFalse(list.isEmpty)
+		XCTAssertEqual(list.count, 3)
+		XCTAssertEqual(list.capacity, 6)
+		XCTAssertEqual(list.first, 1)
+		XCTAssertEqual(list.last, 3)
+		XCTAssertNotEqual(list.first, list.last)
+		XCTAssertTrue(list.equal(toArray: array))
+	}
+
+	func testFillThenEmpty() {
+		let array = [Int](0..<100)
+		let emptyArray = [Int]()
+		var list = buildList(withNumbers: array)
+
+		XCTAssertTrue(list.equal(toArray: array))
+
+		for _ in 0..<100 {
+			list.remove(atIndex: list.count - 1)
+		}
+
+		XCTAssertEqual(list.count, 0)
+		XCTAssertEqual(list.capacity, 0)
+		XCTAssertTrue(list.equal(toArray: emptyArray))
+	}
+
+	func testInsertFront() {
+		var array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+		var list = buildList(withNumbers: array)
+
+		XCTAssertEqual(list.count, 10)
+		XCTAssertEqual(list.capacity, 15)
+		XCTAssertEqual(list.first, 1)
+		XCTAssertTrue(list.equal(toArray: array))
+
+		let newElement = 0
+		list.insert(element: newElement, atIndex: 0)
+		array.insert(newElement, at: 0)
+
+		XCTAssertEqual(list.count, 11)
+		XCTAssertEqual(list.capacity, 21)
+		XCTAssertEqual(list.first, newElement)
+		XCTAssertTrue(list.equal(toArray: array))
+	}
+
+	func testInsertMiddle() {
+		var array = [0, 2, 3]
+		var list = buildList(withNumbers: array)
+
+		XCTAssertEqual(list.count, 3)
+		XCTAssertEqual(list.capacity, 6)
+		XCTAssertTrue(list.equal(toArray: array))
+
+		let newElement = 1
+		list.insert(element: newElement, atIndex: 1)
+		array.insert(newElement, at: 1)
+
+		XCTAssertEqual(list.count, 4)
+		XCTAssertEqual(list.capacity, 10)
+		XCTAssertEqual(list[1], newElement)
+		XCTAssertTrue(list.equal(toArray: array))
+	}
+
+	func testSubscriptGet() {
+		let array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+		let list = buildList(withNumbers: array)
+		for index in 0...9 {
+			XCTAssertEqual(list[index], index)
+		}
+		XCTAssertTrue(list.equal(toArray: array))
+	}
+
+	func testSubscriptSet() {
+		var array = [Int](0..<10)
+		var list = buildList(withNumbers: array)
+
+		list[1] = 100
+		list[5] = 500
+		list[8] = 800
+		array[1] = 100
+		array[5] = 500
+		array[8] = 800
+
+		XCTAssertTrue(list.equal(toArray: array))
+	}
+
+	func testRemoveFirst() {
+		var array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+		var list = buildList(withNumbers: array)
+
+		XCTAssertEqual(list.count, 10)
+		XCTAssertEqual(list.capacity, 15)
+		XCTAssertEqual(list.first, 1)
+		XCTAssertTrue(list.equal(toArray: array))
+
+		list.remove(atIndex: 0)
+		array.remove(at: 0)
+
+		XCTAssertEqual(list.count, 9)
+		XCTAssertEqual(list.capacity, 15)
+		XCTAssertEqual(list.first, 2)
+		XCTAssertTrue(list.equal(toArray: array))
+	}
+
+
+	func testRemoveMiddle() {
+		var array = [0, 1, 2, 3]
+		var list = buildList(withNumbers: array)
+
+		XCTAssertEqual(list.count, 4)
+		XCTAssertEqual(list.capacity, 10)
+		XCTAssertEqual(list.first, 0)
+		XCTAssertTrue(list.equal(toArray: array))
+
+		list.remove(atIndex: 2)
+		array.remove(at: 2)
+
+		XCTAssertEqual(list.count, 3)
+		XCTAssertEqual(list.capacity, 6)
+		XCTAssertEqual(list.first, 0)
+		XCTAssertTrue(list.equal(toArray: array))
+	}
+
+	func testRemoveLast() {
+		var array = [0, 1, 2, 3]
+		var list = buildList(withNumbers: array)
+
+		XCTAssertEqual(list.count, 4)
+		XCTAssertEqual(list.capacity, 10)
+		XCTAssertEqual(list.first, 0)
+		XCTAssertTrue(list.equal(toArray: array))
+
+		list.remove(atIndex: 3)
+		array.remove(at: 3)
+
+		XCTAssertEqual(list.count, 3)
+		XCTAssertEqual(list.capacity, 6)
+		XCTAssertEqual(list.first, 0)
+		XCTAssertTrue(list.equal(toArray: array))
+	}
 }

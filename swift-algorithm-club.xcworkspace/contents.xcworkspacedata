@@ -1543,10 +1543,10 @@
             location = "group:Info.plist">
          </FileRef>
          <FileRef
-            location = "group:RootishArrayStack.swift">
+            location = "group:RootishArrayStackTests.swift">
          </FileRef>
          <FileRef
-            location = "group:RootishArrayStackTests.swift">
+            location = "group:RootishArrayStack.swift">
          </FileRef>
          <FileRef
             location = "group:Tests.xcodeproj">
