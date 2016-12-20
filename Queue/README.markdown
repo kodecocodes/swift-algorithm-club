@@ -68,7 +68,7 @@ public struct Queue<T> {
     }
   }
   
-  public func peek() -> T? {
+  public var front: T? {
     return array.first
   }
 }
@@ -166,12 +166,8 @@ public struct Queue<T> {
     return element
   }
   
-  public func peek() -> T? {
-    if isEmpty {
-      return nil
-    } else {
-      return array[head]
-    }
+  public var front: T? {
+    return array.first
   }
 }
 ```
