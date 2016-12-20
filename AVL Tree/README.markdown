@@ -43,13 +43,32 @@ The difference between the heights of the left and right subtrees is called the 
 If after an insertion or deletion the balance factor becomes greater than 1, then we need to re-balance this part of the AVL tree. And that is done with rotations.
 
 ## Rotations
-
 Each tree node keeps track of its current balance factor in a variable. After inserting a new node, we need to update the balance factor of its parent node. If that balance factor becomes greater than 1, we "rotate" part of that tree to restore the balance.
 
-Example of balancing the unbalanced tree using rotation:
+Example of balancing the unbalanced tree using *Right* (clockwise direction) rotation :
 ![Rotation](Images/Rotation.jpg)
 
-Insertion never needs more than 2 rotations. Removal might require up to *log(n)* rotations.
+Let's dig into rotation algorithm in detail using the terminology:
+* *Root* - the parent not of the subtrees that will be rotated;
+* *Pivot* - the node that will become parent (basically will be on the *Root*'s position) after rotation;
+* *RotationSubtree* - subtree of the *Pivot* upon the side of rotation
+* *OppositeSubtree* - subtree of the *Pivot* opposite the side of rotation
+
+The steps of rotation on the example image could be described by following:
+* Select the *Pivot* as `D` and hence the *Root* as `F`;
+* Assign the *RotationSubtree* as a new *OppositeSubtree* for the *Root*;
+* Assign the *Root* as a new *RotationSubtree* for the *Pivot*;
+* Check the final result
+
+In pseudocode the algorithm above could be written as follows:
+```
+Root.OS = Pivot.RS
+Pivot.RS = Root
+Root = Pivot
+```
+
+This is a constant time operation - __O(1)__
+Insertion never needs more than 2 rotations. Removal might require up to __log(n)__ rotations.
 
 ## The code
 
