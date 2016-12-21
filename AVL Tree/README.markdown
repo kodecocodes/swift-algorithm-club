@@ -62,6 +62,7 @@ The steps of rotation on the example image could be described by following:
 2. Assign the *Root* as a new *RotationSubtree* for the *Pivot*;
 3. Check the final result
 
+
 In pseudocode the algorithm above could be written as follows:
 ```
 Root.OS = Pivot.RS
