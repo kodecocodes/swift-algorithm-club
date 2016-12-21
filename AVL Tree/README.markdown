@@ -45,8 +45,6 @@ If after an insertion or deletion the balance factor becomes greater than 1, the
 ## Rotations
 Each tree node keeps track of its current balance factor in a variable. After inserting a new node, we need to update the balance factor of its parent node. If that balance factor becomes greater than 1, we "rotate" part of that tree to restore the balance.
 
-Example of balancing the unbalanced tree using *Right* (clockwise direction) rotation: 
-
 ![Rotation0](Images/RotationStep0.jpg)
 
 For the rotation we're using the terminology:
@@ -55,9 +53,11 @@ For the rotation we're using the terminology:
 * *RotationSubtree* - subtree of the *Pivot* upon the side of rotation
 * *OppositeSubtree* - subtree of the *Pivot* opposite the side of rotation
 
+Let take an example of balancing the unbalanced tree using *Right* (clockwise direction) rotation: 
+
 ![Rotation1](Images/RotationStep1.jpg) ![Rotation2](Images/RotationStep2.jpg) ![Rotation3](Images/RotationStep3.jpg)
 
-The steps of rotation on the example image could be described by following:  
+The steps of rotation could be described by following:  
 
 1. Assign the *RotationSubtree* as a new *OppositeSubtree* for the *Root*;
 2. Assign the *Root* as a new *RotationSubtree* for the *Pivot*;
