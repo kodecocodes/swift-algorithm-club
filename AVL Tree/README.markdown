@@ -57,6 +57,7 @@ For the rotation we're using the terminology:
 ![Rotation1](Images/RotationStep1.jpg) ![Rotation2](Images/RotationStep2.jpg) ![Rotation3](Images/RotationStep3.jpg)
 
 The steps of rotation on the example image could be described by following:  
+
 1. Assign the *RotationSubtree* as a new *OppositeSubtree* for the *Root*;
 2. Assign the *Root* as a new *RotationSubtree* for the *Pivot*;
 3. Check the final result
