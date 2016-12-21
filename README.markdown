@@ -156,7 +156,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
-- Trie
+- [Trie](Trie/). A special type of tree used to store associative data structures.
 - [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
 
 ### Hashing
