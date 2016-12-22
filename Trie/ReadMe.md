@@ -36,7 +36,7 @@ func contains(word: String) -> Bool {
  
 	// 3
 	while currentIndex < characters.count, 
-	  let child = currentNode.children[character[currentIndex]] {
+	  let child = currentNode.children[characters[currentIndex]] {
 
 	  currentNode = child
 	  currentIndex += 1
