@@ -31,7 +31,8 @@ func isPalindrome(_ str: String) -> Bool {
   if length > 1 {
     return palindrome(strippedString.lowercased(), left: 0, right: length - 1)
   }
-    return false
+
+  return false
 }
 
 private func palindrome(_ str: String, left: Int, right: Int) -> Bool {
