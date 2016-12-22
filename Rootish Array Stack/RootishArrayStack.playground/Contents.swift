@@ -144,22 +144,22 @@ extension RootishArrayStack: CustomStringConvertible {
 }
 
 var list = RootishArrayStack<String>()
-list.isEmpty								// true
-list.first									// nil
-list.last										// nil
-list.count									// 0
-list.capacity								// 0
+list.isEmpty   // true
+list.first     // nil
+list.last      // nil
+list.count     // 0
+list.capacity  // 0
 
 list.memoryDescription
 //	{
 //	}
 
 list.append(element: "Hello")
-list.isEmpty								// false
-list.first									// "Hello"
-list.last										// "hello"
-list.count									// 1
-list.capacity								// 1
+list.isEmpty  // false
+list.first    // "Hello"
+list.last     // "hello"
+list.count    // 1
+list.capacity // 1
 
 list.memoryDescription
 //	{
@@ -167,15 +167,15 @@ list.memoryDescription
 //	}
 
 list.append(element: "World")
-list.isEmpty								// false
-list.first									// "Hello"
-list.last										// "World"
-list.count									// 2
-list.capacity								// 3
+list.isEmpty  // false
+list.first    // "Hello"
+list.last     // "World"
+list.count    // 2
+list.capacity // 3
 
-list[0]											// "Hello"
-list[1]											// "World"
-//list[2]										// crash!
+list[0]       // "Hello"
+list[1]       // "World"
+//list[2]     // crash!
 
 
 list.memoryDescription
@@ -186,15 +186,15 @@ list.memoryDescription
 
 
 list.insert(element: "Swift", atIndex: 1)
-list.isEmpty								// false
-list.first									// "Hello"
-list.last										// "World"
-list.count									// 3
-list.capacity								// 6
+list.isEmpty  // false
+list.first    // "Hello"
+list.last     // "World"
+list.count    // 3
+list.capacity // 6
 
-list[0]											// "Hello"
-list[1]											// "Swift"
-list[2]											// "World"
+list[0]  // "Hello"
+list[1]  // "Swift"
+list[2]  // "World"
 
 list.memoryDescription
 //	{
@@ -203,17 +203,17 @@ list.memoryDescription
 //		[nil, nil, nil]
 //	}
 
-list.remove(atIndex: 2)			// "World"
-list.isEmpty								// false
-list.first									// "Hello"
-list.last										// "Swift"
-list.count									// 2
-list.capacity								// 3
+list.remove(atIndex: 2)  // "World"
+list.isEmpty  // false
+list.first    // "Hello"
+list.last     // "Swift"
+list.count    // 2
+list.capacity // 3
 
-list[0]											// "Hello"
-list[1]											// "Swift"
-//list[2]										// crash!
+list[0]    // "Hello"
+list[1]    // "Swift"
+//list[2]  // crash!
 
 list[0] = list[1]
 list[1] = "is awesome"
-list												// ["Swift", "is awesome"]
+list       // ["Swift", "is awesome"]
