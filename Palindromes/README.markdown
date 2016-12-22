@@ -81,7 +81,7 @@ return palindrome(str, left: left + 1, right: right - 1)
 ```
 
 Step 1:
-` race?C ar -> raceCar -> racecar``
+`race?C ar -> raceCar -> racecar`
 
 Step 2:
 ```
