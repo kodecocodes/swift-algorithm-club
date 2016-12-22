@@ -1,17 +1,26 @@
-import Cocoa
+import Foundation
 
-public func palindromeCheck(text: String?) -> Bool {
-  if let text = text {
-    let mutableText = text.trimmingCharacters(in: NSCharacterSet.whitespaces).lowercased()
-    let length: Int = mutableText.characters.count
+func isPalindrome(_ str: String) -> Bool {
+    let strippedString = str.replacingOccurrences(of: "\\W", with: "", options: .regularExpression, range: nil)
+    let length = strippedString.characters.count
     
-    if length == 1 || length == 0 {
-      return true
-    } else if mutableText[mutableText.startIndex] == mutableText[mutableText.index(mutableText.endIndex, offsetBy: -1)] {
-      let range = Range<String.Index>(mutableText.index(mutableText.startIndex, offsetBy: 1)..<mutableText.index(mutableText.endIndex, offsetBy: -1))
-      return palindromeCheck(text: mutableText.substring(with: range))
+    if length > 1 {
+        return palindrome(strippedString.lowercased(), left: 0, right: length - 1)
     }
-  }
-  
-  return false
+    return false
+}
+
+private func palindrome(_ str: String, left: Int, right: Int) -> Bool {
+    if left >= right {
+        return true
+    }
+    
+    let lhs = str[str.index(str.startIndex, offsetBy: left)]
+    let rhs = str[str.index(str.startIndex, offsetBy: right)]
+    
+    if lhs != rhs {
+        return false
+    }
+    
+    return palindrome(str, left: left + 1, right: right - 1)
 }
