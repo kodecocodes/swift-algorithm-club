@@ -8,10 +8,12 @@ Algorithms that check for palindromes are a common programming interview questio
 
 The word racecar is a valid palindrome, as it is a word spelled the same when backgrounds and forwards. The examples below shows valid cases of the palindrome `racecar`.
 
-`raceCar`
-`r a c e c a r`
-`r?a?c?e?c?a?r?`
-`RACEcar`
+```
+raceCar
+r a c e c a r
+r?a?c?e?c?a?r?
+RACEcar
+```
 
 ## Algorithm 
 
