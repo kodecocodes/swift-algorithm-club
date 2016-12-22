@@ -93,7 +93,8 @@ racecar -> a == a
 racecar -> c == c
 
    |
-racecar -> left index == right index -> return true```
+racecar -> left index == right index -> return true
+```
 
 ## Additional Resources
 
