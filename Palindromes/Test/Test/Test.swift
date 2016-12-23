@@ -1,13 +1,12 @@
 //
 //  PalindromeTests.swift
-//  Tests
+//  Test
 //
-//  Created by Joshua Alvarado on 12/22/16.
+//  Created by Joshua Alvarado on 12/23/16.
 //  Copyright © 2016 Joshua Alvarado. All rights reserved.
 //
 
 import XCTest
-@testable import Tests
 
 class PalindromeTests: XCTestCase {
     
@@ -48,13 +47,13 @@ class PalindromeTests: XCTestCase {
         XCTAssertTrue(isPalindrome("In girum imus nocte et consumimur igni"))
         XCTAssertTrue(isPalindrome("Never odd or even"))
     }
-
+    
     func testPalindromeNumber() {
         XCTAssertTrue(isPalindrome("5885"))
         XCTAssertTrue(isPalindrome("5 8 8 5"))
         XCTAssertTrue(isPalindrome("58 85"))
     }
-
+    
     func testSpecialCharacters() {
         XCTAssertTrue(isPalindrome("৯৯"))
     }
