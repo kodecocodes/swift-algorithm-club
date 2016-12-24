@@ -12,6 +12,7 @@ script:
 - xcodebuild test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./AVL\ Tree/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Binary\ Search/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Boyer-Moore/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Binary\ Search\ Tree/Solution\ 1/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Bloom\ Filter/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Bounded\ Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
