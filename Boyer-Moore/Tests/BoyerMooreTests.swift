@@ -1,18 +1,28 @@
+//
+//  BoyerMooreHorspoolTests.swift
+//  Tests
+//
+//  Created by Matias Mazzei on 12/24/16.
+//  Copyright © 2016 Swift Algorithm Club. All rights reserved.
+//
+
 import Foundation
 import XCTest
 
 class BoyerMooreTest: XCTestCase {
+    var useHorspoolImprovement = false
+
     override func setUp() {
         super.setUp()
     }
 
     func assert(pattern: String, doesNotExistsIn string: String) {
-        let index = string.indexOf(pattern: pattern)
+        let index = string.indexOf(pattern: pattern, useHorspoolImprovement: useHorspoolImprovement)
         XCTAssertNil(index)
     }
 
     func assert(pattern: String, existsIn string: String) {
-        let index = string.indexOf(pattern: pattern)
+        let index = string.indexOf(pattern: pattern, useHorspoolImprovement: useHorspoolImprovement)
         XCTAssertNotNil(index)
 
         let startIndex = index!

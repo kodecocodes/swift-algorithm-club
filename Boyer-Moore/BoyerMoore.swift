@@ -6,7 +6,7 @@
   http://www.drdobbs.com/database/faster-string-searches/184408171
 */
 extension String {
-    func indexOf(pattern: String) -> String.Index? {
+    func indexOf(pattern: String, useHorspoolImprovement: Bool = false) -> String.Index? {
         // Cache the length of the search pattern because we're going to
         // use it a few times and it's expensive to calculate.
         let patternLength = pattern.characters.count
@@ -53,8 +53,16 @@ extension String {
                 // There is a possible match. Do a brute-force search backwards.
                 if let k = backwards() { return k }
                 
-                // If no match, we can only safely skip one character ahead.
-                i = index(after: i)
+                if !useHorspoolImprovement {
+                    // If no match, we can only safely skip one character ahead.
+                    i = index(after: i)
+                }
+                else {
+                    // Ensure to jump at least one character (this is needed because the first
+                    // character is in the skipTable, and `skipTable[lastChar] = 0`)
+                    let jumpOffset = max(skipTable[c] ?? patternLength, 1)
+                    i = index(i, offsetBy: jumpOffset, limitedBy: endIndex) ?? endIndex
+                }
             } else {
                 // The characters are not equal, so skip ahead. The amount to skip is
                 // determined by the skip table. If the character is not present in the
