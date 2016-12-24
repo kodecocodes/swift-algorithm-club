@@ -87,7 +87,7 @@ extension String {
                 // pattern, we can skip ahead by the full pattern length. However, if
                 // the character *is* present in the pattern, there may be a match up
                 // ahead and we can't skip as far.
-                i = self.index(i, offsetBy: skipTable[c] ?? patternLength)
+                i = index(i, offsetBy: skipTable[c] ?? patternLength, limitedBy: endIndex) ?? endIndex
             }
         }
         return nil
@@ -158,40 +158,66 @@ Here's an implementation of the Boyer-Moore-Horspool algorithm:
 ```swift
 extension String {
     func indexOf(pattern: String) -> String.Index? {
-    let patternLength = pattern.characters.count
-    assert(patternLength > 0)
-    assert(patternLength <= self.characters.count)
+        // Cache the length of the search pattern because we're going to
+        // use it a few times and it's expensive to calculate.
+        let patternLength = pattern.characters.count
+        assert(patternLength > 0)
+        assert(patternLength <= self.characters.count)
 
-    var skipTable = [Character: Int]()
-    for (i, c) in pattern.characters.enumerated() {
-    skipTable[c] = patternLength - i - 1
-    }
+        // Make the skip table. This table determines how far we skip ahead
+        // when a character from the pattern is found.
+        var skipTable = [Character: Int]()
+        for (i, c) in pattern.characters.enumerated() {
+            skipTable[c] = patternLength - i - 1
+        }
 
-    let p = pattern.index(before: pattern.endIndex)
-    let lastChar = pattern[p]
-    var i = self.index(startIndex, offsetBy: patternLength - 1)
+        // This points at the last character in the pattern.
+        let p = pattern.index(before: pattern.endIndex)
+        let lastChar = pattern[p]
 
-    func backwards() -> String.Index? {
-    var q = p
-    var j = i
-    while q > pattern.startIndex {
-    j = index(before: j)
-    q = index(before: q)
-    if self[j] != pattern[q] { return nil }
-    }
-    return j
-    }
+        // The pattern is scanned right-to-left, so skip ahead in the string by
+        // the length of the pattern. (Minus 1 because startIndex already points
+        // at the first character in the source string.)
+        var i = self.index(startIndex, offsetBy: patternLength - 1)
 
-    while i < self.endIndex {
-    let c = self[i]
-    if c == lastChar {
-    if let k = backwards() { return k }
-    i = index(after: i)
-    } else {
-    i = index(i, offsetBy: skipTable[c] ?? patternLength)
-    }
-    }
-    return nil
+        // This is a helper function that steps backwards through both strings
+        // until we find a character that doesn’t match, or until we’ve reached
+        // the beginning of the pattern.
+        func backwards() -> String.Index? {
+            var q = p
+            var j = i
+            while q > pattern.startIndex {
+                j = index(before: j)
+                q = index(before: q)
+                if self[j] != pattern[q] { return nil }
+            }
+            return j
+        }
+
+        // The main loop. Keep going until the end of the string is reached.
+        while i < self.endIndex {
+            let c = self[i]
+
+            // Does the current character match the last character from the pattern?
+            if c == lastChar {
+
+                // There is a possible match. Do a brute-force search backwards.
+                if let k = backwards() { return k }
+
+                // Ensure to jump at least one character (this is needed because the first
+                // character is in the skipTable, and `skipTable[lastChar] = 0`)
+                let jumpOffset = max(skipTable[c] ?? patternLength, 1)
+                i = index(i, offsetBy: jumpOffset, limitedBy: endIndex) ?? endIndex
+            } else {
+                // The characters are not equal, so skip ahead. The amount to skip is
+                // determined by the skip table. If the character is not present in the
+                // pattern, we can skip ahead by the full pattern length. However, if
+                // the character *is* present in the pattern, there may be a match up
+                // ahead and we can't skip as far.
+                i = index(i, offsetBy: skipTable[c] ?? patternLength, limitedBy: endIndex) ?? endIndex
+            }
+        }
+        return nil
     }
 }
 ```
@@ -200,4 +226,4 @@ In practice, the Horspool version of the algorithm tends to perform a little bet
 
 Credits: This code is based on the paper: [R. N. Horspool (1980). "Practical fast searching in strings". Software - Practice & Experience 10 (6): 501–506.](http://www.cin.br/~paguso/courses/if767/bib/Horspool_1980.pdf)
 
-_Written for Swift Algorithm Club by Matthijs Hollemans, updated by Andreas Neusüß_
+_Written for Swift Algorithm Club by Matthijs Hollemans, updated by Andreas Neusüß_, [Matías Mazzei](https://github.com/mmazzei).
