@@ -17,18 +17,36 @@ class BoyerMooreTest: XCTestCase {
     }
 
     func assert(pattern: String, doesNotExistsIn string: String) {
-        let index = string.indexOf(pattern: pattern, useHorspoolImprovement: useHorspoolImprovement)
+        let index = string.index(of: pattern, usingHorspoolImprovement: useHorspoolImprovement)
         XCTAssertNil(index)
     }
 
     func assert(pattern: String, existsIn string: String) {
-        let index = string.indexOf(pattern: pattern, useHorspoolImprovement: useHorspoolImprovement)
+        let index = string.index(of: pattern, usingHorspoolImprovement: useHorspoolImprovement)
         XCTAssertNotNil(index)
 
         let startIndex = index!
         let endIndex = string.index(index!, offsetBy: pattern.characters.count)
         let match = string.substring(with: startIndex..<endIndex)
         XCTAssertEqual(match, pattern)
+    }
+
+    func testSearchPatternInEmptyString() {
+        let string = ""
+        let pattern = "ABCDEF"
+        assert(pattern: pattern, doesNotExistsIn: string)
+    }
+
+    func testSearchEmptyPatternString() {
+        let string = "ABCDEF"
+        let pattern = ""
+        assert(pattern: pattern, doesNotExistsIn: string)
+    }
+
+    func testSearchPatternLongerThanString() {
+        let string = "ABC"
+        let pattern = "ABCDEF"
+        assert(pattern: pattern, doesNotExistsIn: string)
     }
 
     func testSearchTheSameString() {

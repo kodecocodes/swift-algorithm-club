@@ -32,12 +32,14 @@ Here's how you could write it in Swift:
 
 ```swift
 extension String {
-    func indexOf(pattern: String) -> String.Index? {
+    func index(of pattern: String) -> Index? {
+        // There are no possible match in an empty string
+        guard !isEmpty else { return nil }
+
         // Cache the length of the search pattern because we're going to
         // use it a few times and it's expensive to calculate.
         let patternLength = pattern.characters.count
-        assert(patternLength > 0)
-        assert(patternLength <= self.characters.count)
+        guard patternLength > 0, patternLength <= characters.count else { return nil }
 
         // Make the skip table. This table determines how far we skip ahead
         // when a character from the pattern is found.
@@ -53,12 +55,12 @@ extension String {
         // The pattern is scanned right-to-left, so skip ahead in the string by
         // the length of the pattern. (Minus 1 because startIndex already points
         // at the first character in the source string.)
-        var i = self.index(startIndex, offsetBy: patternLength - 1)
+        var i = index(startIndex, offsetBy: patternLength - 1)
 
         // This is a helper function that steps backwards through both strings
         // until we find a character that doesn’t match, or until we’ve reached
         // the beginning of the pattern.
-        func backwards() -> String.Index? {
+        func backwards() -> Index? {
             var q = p
             var j = i
             while q > pattern.startIndex {
@@ -70,7 +72,7 @@ extension String {
         }
 
         // The main loop. Keep going until the end of the string is reached.
-        while i < self.endIndex {
+        while i < endIndex {
             let c = self[i]
 
             // Does the current character match the last character from the pattern?
@@ -157,12 +159,14 @@ Here's an implementation of the Boyer-Moore-Horspool algorithm:
 
 ```swift
 extension String {
-    func indexOf(pattern: String) -> String.Index? {
+    func index(of pattern: String) -> Index? {
+        // There are no possible match in an empty string
+        guard !isEmpty else { return nil }
+
         // Cache the length of the search pattern because we're going to
         // use it a few times and it's expensive to calculate.
         let patternLength = pattern.characters.count
-        assert(patternLength > 0)
-        assert(patternLength <= self.characters.count)
+        guard patternLength > 0, patternLength <= characters.count else { return nil }
 
         // Make the skip table. This table determines how far we skip ahead
         // when a character from the pattern is found.
@@ -178,12 +182,12 @@ extension String {
         // The pattern is scanned right-to-left, so skip ahead in the string by
         // the length of the pattern. (Minus 1 because startIndex already points
         // at the first character in the source string.)
-        var i = self.index(startIndex, offsetBy: patternLength - 1)
+        var i = index(startIndex, offsetBy: patternLength - 1)
 
         // This is a helper function that steps backwards through both strings
         // until we find a character that doesn’t match, or until we’ve reached
         // the beginning of the pattern.
-        func backwards() -> String.Index? {
+        func backwards() -> Index? {
             var q = p
             var j = i
             while q > pattern.startIndex {
@@ -195,7 +199,7 @@ extension String {
         }
 
         // The main loop. Keep going until the end of the string is reached.
-        while i < self.endIndex {
+        while i < endIndex {
             let c = self[i]
 
             // Does the current character match the last character from the pattern?
