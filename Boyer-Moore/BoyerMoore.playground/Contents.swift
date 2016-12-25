@@ -9,9 +9,6 @@
 */
 extension String {
     func index(of pattern: String, usingHorspoolImprovement: Bool = false) -> Index? {
-        // There are no possible match in an empty string
-        guard !isEmpty else { return nil }
-
         // Cache the length of the search pattern because we're going to
         // use it a few times and it's expensive to calculate.
         let patternLength = pattern.characters.count

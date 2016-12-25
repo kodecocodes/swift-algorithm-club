@@ -33,9 +33,6 @@ Here's how you could write it in Swift:
 ```swift
 extension String {
     func index(of pattern: String) -> Index? {
-        // There are no possible match in an empty string
-        guard !isEmpty else { return nil }
-
         // Cache the length of the search pattern because we're going to
         // use it a few times and it's expensive to calculate.
         let patternLength = pattern.characters.count
@@ -160,9 +157,6 @@ Here's an implementation of the Boyer-Moore-Horspool algorithm:
 ```swift
 extension String {
     func index(of pattern: String) -> Index? {
-        // There are no possible match in an empty string
-        guard !isEmpty else { return nil }
-
         // Cache the length of the search pattern because we're going to
         // use it a few times and it's expensive to calculate.
         let patternLength = pattern.characters.count
