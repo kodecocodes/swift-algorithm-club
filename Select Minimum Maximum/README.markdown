@@ -89,7 +89,7 @@ The result is a minimum of `3` and a maximum of `9`.
 Here is a simple implementation in Swift:
 
 ```swift
-func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)? {
+func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
   guard !array.isEmpty else {
     return nil
   }
