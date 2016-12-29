@@ -16,9 +16,7 @@ class TrieNode<T: Hashable> {
     var children: [T: TrieNode] = [:]
     var isTerminating = false
     var isLeaf: Bool {
-        get {
-            return children.count == 0
-        }
+        return children.count == 0
     }
 
     /// Initializes a node.
@@ -62,7 +60,7 @@ class Trie {
     fileprivate let root: Node
     fileprivate var wordCount: Int
 
-    /// Creats an empty trie.
+    /// Creates an empty trie.
     init() {
         root = Node()
         wordCount = 0
