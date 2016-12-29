@@ -7,51 +7,51 @@
 //
 
 internal enum OperatorAssociativity {
-  case LeftAssociative
-  case RightAssociative
+  case leftAssociative
+  case rightAssociative
 }
 
 public enum OperatorType: CustomStringConvertible {
-  case Add
-  case Subtract
-  case Divide
-  case Multiply
-  case Percent
-  case Exponent
+  case add
+  case subtract
+  case divide
+  case multiply
+  case percent
+  case exponent
 
   public var description: String {
     switch self {
-      case Add:
+      case add:
         return "+"
-      case Subtract:
+      case subtract:
         return "-"
-      case Divide:
+      case divide:
         return "/"
-      case Multiply:
+      case multiply:
         return "*"
-      case Percent:
+      case percent:
         return "%"
-      case Exponent:
+      case exponent:
         return "^"
     }
   }
 }
 
 public enum TokenType: CustomStringConvertible {
-  case OpenBracket
-  case CloseBracket
+  case openBracket
+  case closeBracket
   case Operator(OperatorToken)
-  case Operand(Double)
+  case operand(Double)
 
   public var description: String {
     switch self {
-      case OpenBracket:
+      case openBracket:
         return "("
-      case CloseBracket:
+      case closeBracket:
         return ")"
       case Operator(let operatorToken):
         return operatorToken.description
-      case Operand(let value):
+      case operand(let value):
         return "\(value)"
     }
   }
@@ -66,20 +66,20 @@ public struct OperatorToken: CustomStringConvertible {
 
   var precedence: Int {
     switch operatorType {
-      case .Add, .Subtract:
+      case .add, .subtract:
         return 0
-      case .Divide, .Multiply, .Percent:
+      case .divide, .multiply, .percent:
         return 5
-      case .Exponent:
+      case .exponent:
         return 10
     }
   }
 
   var associativity: OperatorAssociativity {
     switch operatorType {
-      case .Add, .Subtract, .Divide, .Multiply, .Percent:
+      case .add, .subtract, .divide, .multiply, .percent:
         return .LeftAssociative
-      case .Exponent:
+      case .exponent:
         return .RightAssociative
     }
   }
@@ -105,7 +105,7 @@ public struct Token: CustomStringConvertible {
   }
 
   init(operand: Double) {
-    tokenType = .Operand(operand)
+    tokenType = .operand(operand)
   }
 
   init(operatorType: OperatorType) {
@@ -114,7 +114,7 @@ public struct Token: CustomStringConvertible {
 
   var isOpenBracket: Bool {
     switch tokenType {
-      case .OpenBracket:
+      case .openBracket:
         return true
       default:
         return false
@@ -181,14 +181,14 @@ public func reversePolishNotation(expression: [Token]) -> String {
 
   for token in expression {
     switch token.tokenType {
-      case .Operand(_):
+      case .operand(_):
         reversePolishNotation.append(token)
 
-      case .OpenBracket:
+      case .openBracket:
         tokenStack.push(token)
 
-      case .CloseBracket:
-        while tokenStack.count > 0, let tempToken = tokenStack.pop() where !tempToken.isOpenBracket {
+      case .closeBracket:
+        while tokenStack.count > 0, let tempToken = tokenStack.pop(), !tempToken.isOpenBracket {
           reversePolishNotation.append(tempToken)
         }
 
