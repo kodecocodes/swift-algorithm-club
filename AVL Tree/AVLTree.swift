@@ -29,7 +29,7 @@ public class TreeNode<Key: Comparable, Payload> {
   internal var leftChild: Node?
   internal var rightChild: Node?
   fileprivate var height: Int
-  weak fileprivate var parent: Node?
+  fileprivate weak var parent: Node?
 
   public init(key: Key, payload: Payload?, leftChild: Node?, rightChild: Node?, parent: Node?, height: Int) {
     self.key = key
