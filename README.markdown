@@ -198,6 +198,7 @@ For more information, check out these great books:
 - [The Algorithm Design Manual](http://www.algorist.com) by Skiena
 - [Elements of Programming Interviews](http://elementsofprogramminginterviews.com) by Aziz, Lee, Prakash
 - [Algorithms](http://www.cs.princeton.edu/~rs/) by Sedgewick
+- [Grokking Algorithms](https://www.manning.com/books/grokking-algorithms) by Aditya Bhargava 
 
 The following books are available for free online:
 
