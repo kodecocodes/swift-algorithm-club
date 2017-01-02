@@ -10,7 +10,7 @@ func breadthFirstSearchShortestPath(graph: Graph, source: Node) -> Graph {
     for edge in current.neighbors {
       let neighborNode = edge.neighbor
       if !neighborNode.hasDistance {
-        queue.enqueue(neighborNode)
+        queue.enqueue(element: neighborNode)
         neighborNode.distance = current.distance! + 1
       }
     }

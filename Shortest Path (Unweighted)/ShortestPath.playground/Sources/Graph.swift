@@ -11,7 +11,7 @@ public class Graph: CustomStringConvertible, Equatable {
     return node
   }
 
-  public func addEdge(source: Node, neighbor: Node) {
+  public func addEdge(_ source: Node, neighbor: Node) {
     let edge = Edge(neighbor: neighbor)
     source.neighbors.append(edge)
   }
@@ -35,13 +35,13 @@ public class Graph: CustomStringConvertible, Equatable {
     let duplicated = Graph()
 
     for node in nodes {
-      duplicated.addNode(node.label)
+      duplicated.addNode(label: node.label)
     }
 
     for node in nodes {
       for edge in node.neighbors {
-        let source = duplicated.findNodeWithLabel(node.label)
-        let neighbour = duplicated.findNodeWithLabel(edge.neighbor.label)
+        let source = duplicated.findNodeWithLabel(label: node.label)
+        let neighbour = duplicated.findNodeWithLabel(label: edge.neighbor.label)
         duplicated.addEdge(source, neighbor: neighbour)
       }
     }
