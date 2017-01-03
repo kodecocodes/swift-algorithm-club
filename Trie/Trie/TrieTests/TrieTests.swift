@@ -51,10 +51,8 @@ class TrieTests: XCTestCase {
 
     /// Inserts words into a trie.  If the trie is non-empty, don't do anything.
     func insertWordsIntoTrie() {
-        guard trie.count == 0 else {
-            return
-        }
-        for word in self.wordArray! {
+        guard let wordArray = wordArray, trie.count == 0 else { return }
+        for word in wordArray {
             trie.insert(word: word)
         }
     }
