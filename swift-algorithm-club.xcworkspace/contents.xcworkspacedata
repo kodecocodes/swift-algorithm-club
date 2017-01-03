@@ -1521,6 +1521,48 @@
       </Group>
    </Group>
    <Group
+      location = "group:Rootish Array Stack"
+      name = "Rootish Array Stack">
+      <Group
+         location = "group:images"
+         name = "images">
+         <FileRef
+            location = "group:RootishArrayStackExample.png">
+         </FileRef>
+         <FileRef
+            location = "group:RootishArrayStackExample2.png">
+         </FileRef>
+         <FileRef
+            location = "group:RootishArrayStackIntro.png">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:RootishArrayStackTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:RootishArrayStack.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <FileRef
+         location = "group:RootishArrayStack.swift">
+      </FileRef>
+      <FileRef
+         location = "group:RootishArrayStack.playground">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Segment Tree"
       name = "Segment Tree">
       <Group
