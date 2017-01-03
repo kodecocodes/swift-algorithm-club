@@ -64,6 +64,7 @@ class Trie: NSObject, NSCoding {
     override init() {
         root = Node()
         wordCount = 0
+        super.init()
     }
 
     // MARK: NSCoding
