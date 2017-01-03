@@ -46,7 +46,7 @@ public struct Heap<T> {
   fileprivate mutating func buildHeap(fromArray array: [T]) {
     elements = array
     for i in stride(from: (elements.count/2 - 1), through: 0, by: -1) {
-      shiftDown(index: i, heapSize: elements.count)
+      shiftDown(i, heapSize: elements.count)
     }
   }
 
@@ -98,7 +98,7 @@ public struct Heap<T> {
    */
   public mutating func insert(_ value: T) {
     elements.append(value)
-    shiftUp(index: elements.count - 1)
+    shiftUp(elements.count - 1)
   }
 
   public mutating func insert<S: Sequence>(_ sequence: S) where S.Iterator.Element == T {
@@ -116,7 +116,7 @@ public struct Heap<T> {
     
     assert(isOrderedBefore(value, elements[i]))
     elements[i] = value
-    shiftUp(index: i)
+    shiftUp(i)
   }
 
   /**
@@ -142,14 +142,14 @@ public struct Heap<T> {
    * Removes an arbitrary node from the heap. Performance: O(log n). You need
    * to know the node's index, which may actually take O(n) steps to find.
    */
-  public mutating func removeAt(index: Int) -> T? {
+  public mutating func removeAt(_ index: Int) -> T? {
     guard index < elements.count else { return nil }
     
     let size = elements.count - 1
     if index != size {
       swap(&elements[index], &elements[size])
-      shiftDown(index: index, heapSize: size)
-      shiftUp(index: index)
+      shiftDown(index, heapSize: size)
+      shiftUp(index)
     }
     return elements.removeLast()
   }
@@ -158,7 +158,7 @@ public struct Heap<T> {
    * Takes a child node and looks at its parents; if a parent is not larger
    * (max-heap) or not smaller (min-heap) than the child, we exchange them.
    */
-  mutating func shiftUp(index: Int) {
+  mutating func shiftUp(_ index: Int) {
     var childIndex = index
     let child = elements[childIndex]
     var parentIndex = self.parentIndex(ofIndex: childIndex)
@@ -173,14 +173,14 @@ public struct Heap<T> {
   }
 
   mutating func shiftDown() {
-    shiftDown(index: 0, heapSize: elements.count)
+    shiftDown(0, heapSize: elements.count)
   }
 
   /**
    * Looks at a parent node and makes sure it is still larger (max-heap) or
    * smaller (min-heap) than its childeren.
    */
-  mutating func shiftDown(index: Int, heapSize: Int) {
+  mutating func shiftDown(_ index: Int, heapSize: Int) {
     var parentIndex = index
 
     while true {
