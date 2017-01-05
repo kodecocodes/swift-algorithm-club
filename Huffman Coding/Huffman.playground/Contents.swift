@@ -3,7 +3,7 @@
 import Foundation
 
 let s1 = "so much words wow many compression"
-if let originalData = s1.data(using: String.Encoding.utf8) {
+if let originalData = s1.data(using: .utf8) {
   print(originalData.count)
 
   let huffman1 = Huffman()
@@ -17,7 +17,7 @@ if let originalData = s1.data(using: String.Encoding.utf8) {
   let decompressedData = huffman2.decompressData(data: compressedData, frequencyTable: frequencyTable)
   print(decompressedData.length)
 
-  let s2 = String(data: decompressedData as Data, encoding: String.Encoding.utf8)!
+  let s2 = String(data: decompressedData as Data, encoding: .utf8)!
   print(s2)
   assert(s1 == s2)
 }
