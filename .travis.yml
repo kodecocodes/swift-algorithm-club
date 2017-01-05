@@ -23,12 +23,12 @@ script:
 # - xcodebuild test -project ./Depth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Graph/Graph.xcodeproj -scheme GraphTests
 # - xcodebuild test -project ./Heap/Tests/Tests.xcodeproj -scheme Tests
-# - xcodebuild test -project ./Heap\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Heap\ Sort/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Insertion\ Sort/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./K-Means/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Linked\ List/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Longest\ Common\ Subsequence/Tests/Tests.xcodeproj -scheme Tests
-# - xcodebuild test -project ./Minimum\ Spanning\ Tree\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Minimum\ Spanning\ Tree\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Queue/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Quicksort/Tests/Tests.xcodeproj -scheme Tests

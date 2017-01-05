@@ -38,8 +38,8 @@ public class Node: CustomStringConvertible, Equatable {
     return distance != nil
   }
 
-  public func remove(edge: Edge) {
-    neighbors.removeAtIndex(neighbors.indexOf { $0 === edge }!)
+  public func remove(_ edge: Edge) {
+    neighbors.remove(at: neighbors.index { $0 === edge }!)
   }
 }
 
@@ -56,13 +56,13 @@ public class Graph: CustomStringConvertible, Equatable {
     self.nodes = []
   }
 
-  public func addNode(label: String) -> Node {
+  public func addNode(_ label: String) -> Node {
     let node = Node(label: label)
     nodes.append(node)
     return node
   }
 
-  public func addEdge(source: Node, neighbor: Node) {
+  public func addEdge(_ source: Node, neighbor: Node) {
     let edge = Edge(neighbor: neighbor)
     source.neighbors.append(edge)
   }
@@ -78,7 +78,7 @@ public class Graph: CustomStringConvertible, Equatable {
     return description
   }
 
-  public func findNodeWithLabel(label: String) -> Node {
+  public func findNodeWithLabel(_ label: String) -> Node {
     return nodes.filter { $0.label == label }.first!
   }
 
@@ -86,7 +86,7 @@ public class Graph: CustomStringConvertible, Equatable {
     let duplicated = Graph()
 
     for node in nodes {
-      duplicated.addNode(node.label)
+      _ = duplicated.addNode(node.label)
     }
 
     for node in nodes {

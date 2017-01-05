@@ -1,4 +1,4 @@
-func breadthFirstSearchMinimumSpanningTree(graph: Graph, source: Node) -> Graph {
+func breadthFirstSearchMinimumSpanningTree(_ graph: Graph, source: Node) -> Graph {
   let minimumSpanningTree = graph.duplicate()
 
   var queue = Queue<Node>()
