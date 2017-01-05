@@ -43,6 +43,8 @@ func merge<T: Comparable>(leftPile: [T], rightPile: [T]) -> [T] {
 
 let array = [2, 1, 5, 4, 9]
 let sortedArray = mergeSort(array)
+let array2 = ["Tom", "Harry", "Ron", "Chandler", "Monica"]
+let sortedArray2 = mergeSort(array2)
 
 
 
