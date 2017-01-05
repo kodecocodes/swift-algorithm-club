@@ -18,7 +18,7 @@ public protocol APSPAlgorithm {
   associatedtype Q: Hashable
   associatedtype P: APSPResult
 
-  static func apply(graph: AbstractGraph<Q>) -> P
+  static func apply(_ graph: AbstractGraph<Q>) -> P
 
 }
 
