@@ -70,10 +70,10 @@ public class BitWriter {
   public var data = NSMutableData()
   var outByte: UInt8 = 0
   var outCount = 0
-  
+
   public func writeBit(bit: Bool) {
     if outCount == 8 {
-      data.appendBytes(&outByte, length: 1)
+      data.append(&outByte, length: 1)
       outCount = 0
     }
     outByte = (outByte << 1) | (bit ? 1 : 0)
@@ -86,7 +86,7 @@ public class BitWriter {
         let diff = UInt8(8 - outCount)
         outByte <<= diff
       }
-      data.appendBytes(&outByte, length: 1)
+      data.append(&outByte, length: 1)
     }
   }
 }
@@ -103,14 +103,14 @@ public class BitReader {
   var ptr: UnsafePointer<UInt8>
   var inByte: UInt8 = 0
   var inCount = 8
-  
+
   public init(data: NSData) {
-    ptr = UnsafePointer<UInt8>(data.bytes)
+    ptr = data.bytes.assumingMemoryBound(to: UInt8.self)
   }
-  
+
   public func readBit() -> Bool {
     if inCount == 8 {
-      inByte = ptr.memory    // load the next byte
+      inByte = ptr.pointee    // load the next byte
       inCount = 0
       ptr = ptr.successor()
     }
@@ -145,8 +145,8 @@ class Huffman {
     var left: NodeIndex = -1
     var right: NodeIndex = -1
   }
-  
-  var tree = [Node](count: 256, repeatedValue: Node())
+
+  var tree = [Node](repeating: Node(), count: 256)
 
   var root: NodeIndex = -1
 }
@@ -159,10 +159,10 @@ Note that `tree` currently has room for 256 entries. These are for the leaf node
 We use the following method to count how often each byte occurs in the input data:
 
 ```swift
-  private func countByteFrequency(data: NSData) {
-    var ptr = UnsafePointer<UInt8>(data.bytes)
+  fileprivate func countByteFrequency(inData data: NSData) {
+    var ptr = data.bytes.assumingMemoryBound(to: UInt8.self)
     for _ in 0..<data.length {
-      let i = Int(ptr.memory)
+      let i = Int(ptr.pointee)
       tree[i].count += 1
       tree[i].index = i
       ptr = ptr.successor()
@@ -214,7 +214,7 @@ This is an ideal place to use a [priority queue](../Priority Queue/). A priority
 The function `buildTree()` then becomes:
 
 ```swift
-  private func buildTree() {
+  fileprivate func buildTree() {
     var queue = PriorityQueue<Node>(sort: { $0.count < $1.count })
     for node in tree where node.count > 0 {
       queue.enqueue(node)                            // 1
@@ -252,7 +252,7 @@ Here is how it works step-by-step:
 
 4. Link the two nodes into their new parent node. Now this new intermediate node has become part of the tree.
 
-5. Put the new intermediate node back into the queue. At this point we're done with `node1` and `node2`, but the `parentNode` stills need to be connected to other nodes in the tree.
+5. Put the new intermediate node back into the queue. At this point we're done with `node1` and `node2`, but the `parentNode` still need to be connected to other nodes in the tree.
 
 6. Repeat steps 2-5 until there is only one node left in the queue. This becomes the root node of the tree, and we're done.
 
@@ -269,20 +269,18 @@ The animation shows what the process looks like:
 Now that we know how to build the compression tree from the frequency table, we can use it to compress the contents of an `NSData` object. Here is the code:
 
 ```swift
-  func compressData(data: NSData) -> NSData {
-    countByteFrequency(data)
+  public func compressData(data: NSData) -> NSData {
+    countByteFrequency(inData: data)
     buildTree()
-    
-    let writer = BitWriter()
-    var ptr = UnsafePointer<UInt8>(data.bytes)
 
+    let writer = BitWriter()
+    var ptr = data.bytes.assumingMemoryBound(to: UInt8.self)
     for _ in 0..<data.length {
-      let c = ptr.memory
+      let c = ptr.pointee
       let i = Int(c)
       traverseTree(writer: writer, nodeIndex: i, childIndex: -1)
       ptr = ptr.successor()
     }
-
     writer.flush()
     return writer.data
   }
@@ -297,15 +295,15 @@ Then it loops through the entire input and for each byte calls `traverseTree()`.
 The interesting stuff happens in `traverseTree()`. This is a recursive method:
 
 ```swift
-  private func traverseTree(writer writer: BitWriter, nodeIndex h: Int, childIndex child: Int) {
+  private func traverseTree(writer: BitWriter, nodeIndex h: Int, childIndex child: Int) {
     if tree[h].parent != -1 {
       traverseTree(writer: writer, nodeIndex: tree[h].parent, childIndex: h)
     }
     if child != -1 {
       if child == tree[h].left {
-        writer.writeBit(true)
+        writer.writeBit(bit: true)
       } else if child == tree[h].right {
-        writer.writeBit(false)
+        writer.writeBit(bit: false)
       }
     }
   }
@@ -339,7 +337,7 @@ Decompression is pretty much compression in reverse. However, the compressed bit
 We first need some way to turn the `[Freq]` array back into a compression tree. Fortunately, this is pretty easy:
 
 ```swift
-  private func restoreTree(frequencyTable: [Freq]) {
+  fileprivate func restoreTree(fromTable frequencyTable: [Freq]) {
     for freq in frequencyTable {
       let i = Int(freq.byte)
       tree[i].count = freq.count
@@ -355,7 +353,7 @@ Here is the code for `decompressData()`, which takes an `NSData` object with Huf
 
 ```swift
   func decompressData(data: NSData, frequencyTable: [Freq]) -> NSData {
-    restoreTree(frequencyTable)
+    restoreTree(fromTable: frequencyTable)
 
     let reader = BitReader(data: data)
     let outData = NSMutableData()
@@ -364,7 +362,7 @@ Here is the code for `decompressData()`, which takes an `NSData` object with Huf
     var i = 0
     while i < byteCount {
       var b = findLeafNode(reader: reader, nodeIndex: root)
-      outData.appendBytes(&b, length: 1)
+      outData.append(&b, length: 1)
       i += 1
     }
     return outData
