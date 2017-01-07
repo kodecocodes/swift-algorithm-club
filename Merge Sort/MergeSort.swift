@@ -20,28 +20,28 @@ func merge<T: Comparable>(leftPile: [T], rightPile: [T]) -> [T] {
   var orderedPile = [T]()
   
   while leftIndex < leftPile.count && rightIndex < rightPile.count {
-      if leftPile[leftIndex] < rightPile[rightIndex] {
-          orderedPile.append(leftPile[leftIndex])
-          leftIndex += 1
-      } else if leftPile[leftIndex] > rightPile[rightIndex] {
-          orderedPile.append(rightPile[rightIndex])
-          rightIndex += 1
-      } else {
-          orderedPile.append(leftPile[leftIndex])
-          leftIndex += 1
-          orderedPile.append(rightPile[rightIndex])
-          rightIndex += 1
-      }
+    if leftPile[leftIndex] < rightPile[rightIndex] {
+      orderedPile.append(leftPile[leftIndex])
+      leftIndex += 1
+    } else if leftPile[leftIndex] > rightPile[rightIndex] {
+      orderedPile.append(rightPile[rightIndex])
+      rightIndex += 1
+    } else {
+      orderedPile.append(leftPile[leftIndex])
+      leftIndex += 1
+      orderedPile.append(rightPile[rightIndex])
+      rightIndex += 1
+    }
   }
   
   while leftIndex < leftPile.count {
-      orderedPile.append(leftPile[leftIndex])
-      leftIndex += 1
+    orderedPile.append(leftPile[leftIndex])
+    leftIndex += 1
   }
   
   while rightIndex < rightPile.count {
-      orderedPile.append(rightPile[rightIndex])
-      rightIndex += 1
+    orderedPile.append(rightPile[rightIndex])
+    rightIndex += 1
   }
   
   return orderedPile
