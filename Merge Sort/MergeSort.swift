@@ -18,7 +18,7 @@ func merge<T: Comparable>(leftPile: [T], rightPile: [T]) -> [T] {
   var leftIndex = 0
   var rightIndex = 0
   var orderedPile = [T]()
-  
+
   while leftIndex < leftPile.count && rightIndex < rightPile.count {
     if leftPile[leftIndex] < rightPile[rightIndex] {
       orderedPile.append(leftPile[leftIndex])
@@ -33,17 +33,17 @@ func merge<T: Comparable>(leftPile: [T], rightPile: [T]) -> [T] {
       rightIndex += 1
     }
   }
-  
+
   while leftIndex < leftPile.count {
     orderedPile.append(leftPile[leftIndex])
     leftIndex += 1
   }
-  
+
   while rightIndex < rightPile.count {
     orderedPile.append(rightPile[rightIndex])
     rightIndex += 1
   }
-  
+
   return orderedPile
 }
 
