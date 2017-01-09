@@ -22,8 +22,8 @@ public class Node: CustomStringConvertible, Equatable {
     return distance != nil
   }
 
-  public func remove(edge: Edge) {
-    neighbors.removeAtIndex(neighbors.indexOf { $0 === edge }!)
+  public func remove(_ edge: Edge) {
+    neighbors.remove(at: neighbors.index { $0 === edge }!)
   }
 }
 

@@ -49,16 +49,17 @@ n   n  n  n                     n   b
 
 We create a new node with the value to be inserted into the tree. The color of this new node is always red.
 We perform a standard BST insert with this node. Now the three might not be a valid RBT anymore.
-We now go through several insertion steps in order to make the tree valid again. We call the just inserted node n.
-1. We check if n is the rootNode, if so we paint it black and we are done. If not we go to step 2.
+We now go through several insertion steps in order to make the tree valid again. We call the just inserted node n.  
+
+**Step 1**: We check if n is the rootNode, if so we paint it black and we are done. If not we go to Step 2.
 
 We now know that n at least has a parent as it is not the rootNode.
 
-2. We check if the parent of n is black if so we are done. If not we go to step 3.
+**Step 2**: We check if the parent of n is black if so we are done. If not we go to Step 3.
 
 We now know the parent is also not the root node as the parent is red. Thus n also has a grandparent and thus also an uncle as every node has two children. This uncle may however be a nullLeaf
 
-3. We check if n's uncle is red. If not we go to 4. If n's uncle is indeed red we recolor uncle and parent to black and n's grandparent to red. We now go back to step 1 performing the same logic on n's grandparent.
+**Step 3**: We check if n's uncle is red. If not we go to Step 4. If n's uncle is indeed red we recolor uncle and parent to black and n's grandparent to red. We now go back to step 1 performing the same logic on n's grandparent.
 
 From here there are four cases:
 - **The left left case.** n's parent is the left child of its parent and n is the left child of its parent.
@@ -66,14 +67,14 @@ From here there are four cases:
 - **The right right case** n's parent is the right child of its parent and n is the right child of its parent.
 - **The right left case** n's parent is the right child of its parent and n is the left child of its parent.
 
-4. Step 4 checks if either the **left right** case or the **right left** case applies to the current situation.
-  - If we find the **left right case**, we left rotate n's parent and go to step 5 while setting n to n's parent. (This transforms the **left right** case into the **left left** case)
-  - If we find the **right left case**, we right rotate n's parent and go to step 5 while setting n to n's parent. (This transforms the **right left** case into the **right right** case)
-  - If we find neither of these two we proceed to step 5.
+**Step 4**: checks if either the **left right** case or the **right left** case applies to the current situation.
+  - If we find the **left right case**, we left rotate n's parent and go to Step 5 while setting n to n's parent. (This transforms the **left right** case into the **left left** case)
+  - If we find the **right left case**, we right rotate n's parent and go to Step 5 while setting n to n's parent. (This transforms the **right left** case into the **right right** case)
+  - If we find neither of these two we proceed to Step 5.
 
 n's parent is now red, while n's grandparent is black.
 
-5. We swap the colors of n's parent and grandparent.
+**Step 5**: We swap the colors of n's parent and grandparent.
   - We either right rotate n's grandparent in case of the **left left** case
   - Or we left rotate n's grandparent in case of the **right right** case
 

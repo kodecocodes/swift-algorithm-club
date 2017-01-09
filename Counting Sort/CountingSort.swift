@@ -7,12 +7,12 @@
 //
 
 enum CountingSortError: ErrorType {
-  case ArrayEmpty
+  case arrayEmpty
 }
 
 func countingSort(array: [Int]) throws -> [Int] {
   guard array.count > 0 else {
-    throw CountingSortError.ArrayEmpty
+    throw CountingSortError.arrayEmpty
   }
 
   // Step 1

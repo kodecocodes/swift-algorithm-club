@@ -8,7 +8,7 @@ public class BitWriter {
 
   public func writeBit(bit: Bool) {
     if outCount == 8 {
-      data.appendBytes(&outByte, length: 1)
+      data.append(&outByte, length: 1)
       outCount = 0
     }
     outByte = (outByte << 1) | (bit ? 1 : 0)
@@ -21,7 +21,7 @@ public class BitWriter {
         let diff = UInt8(8 - outCount)
         outByte <<= diff
       }
-      data.appendBytes(&outByte, length: 1)
+      data.append(&outByte, length: 1)
     }
   }
 }
@@ -33,12 +33,12 @@ public class BitReader {
   var inCount = 8
 
   public init(data: NSData) {
-    ptr = UnsafePointer<UInt8>(data.bytes)
+    ptr = data.bytes.assumingMemoryBound(to: UInt8.self)
   }
 
   public func readBit() -> Bool {
     if inCount == 8 {
-      inByte = ptr.memory    // load the next byte
+      inByte = ptr.pointee    // load the next byte
       inCount = 0
       ptr = ptr.successor()
     }

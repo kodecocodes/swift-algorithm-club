@@ -1,6 +1,6 @@
 /* Top-down recursive version */
 
-func mergeSort(_ array: [Int]) -> [Int] {
+func mergeSort<T: Comparable>(_ array: [T]) -> [T] {
   guard array.count > 1 else { return array }
   let middleIndex = array.count / 2
   let leftArray = mergeSort(Array(array[0..<middleIndex]))
@@ -8,10 +8,10 @@ func mergeSort(_ array: [Int]) -> [Int] {
   return merge(leftPile: leftArray, rightPile: rightArray)
 }
 
-func merge(leftPile: [Int], rightPile: [Int]) -> [Int] {
+func merge<T: Comparable>(leftPile: [T], rightPile: [T]) -> [T] {
   var leftIndex = 0
   var rightIndex = 0
-  var orderedPile = [Int]()
+  var orderedPile = [T]()
 
   while leftIndex < leftPile.count && rightIndex < rightPile.count {
     if leftPile[leftIndex] < rightPile[rightIndex] {
@@ -43,6 +43,8 @@ func merge(leftPile: [Int], rightPile: [Int]) -> [Int] {
 
 let array = [2, 1, 5, 4, 9]
 let sortedArray = mergeSort(array)
+let array2 = ["Tom", "Harry", "Ron", "Chandler", "Monica"]
+let sortedArray2 = mergeSort(array2)
 
 
 

@@ -38,7 +38,7 @@ stack.pop()
 
 This returns `3`, and so on. If the stack is empty, popping returns `nil` or in some implementations it gives an error message ("stack underflow").
 
-A stack is easy to create in Swift. It's just a wrapper around an array that just lets you push, pop, and peek:
+A stack is easy to create in Swift. It's just a wrapper around an array that just lets you push, pop, and look at the top element of the stack:
 
 ```swift
 public struct Stack<T> {
@@ -60,8 +60,8 @@ public struct Stack<T> {
     return array.popLast()
   }
 
-  public func peek() -> T? {
-    return array.last
+  public var top: T? {
+  	return array.last
   }
 }
 ```

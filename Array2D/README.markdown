@@ -30,14 +30,14 @@ let myCookie = cookies[3][6]
 Actually, you could create the array in a single line of code, like so:
 
 ```swift
-var cookies = [[Int]](count: 9, repeatedValue: [Int](count: 7, repeatedValue: 0))
+var cookies = [[Int]](repeating: [Int](repeating: 0, count: 7), count: 9)
 ```
 
 but that's just ugly. To be fair, you can hide the ugliness in a helper function:
 
 ```swift
 func dim<T>(count: Int, _ value: T) -> [T] {
-  return [T](count: count, repeatedValue: value)
+  return [T](repeating: value, count: count)
 }
 ```
 
@@ -72,7 +72,7 @@ public struct Array2D<T> {
   public init(columns: Int, rows: Int, initialValue: T) {
     self.columns = columns
     self.rows = rows
-    array = .init(count: rows*columns, repeatedValue: initialValue)
+    array = .init(repeating: initialValue, count: rows*columns)
   }
 
   public subscript(column: Int, row: Int) -> T {

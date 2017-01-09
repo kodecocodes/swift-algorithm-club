@@ -526,8 +526,8 @@ It is possible to implement a linked list with value semantics using an enum. Th
 
 ```swift
 enum ListNode<T> {
-  indirect case Node(T, next: ListNode<T>)
-  case End
+  indirect case node(T, next: ListNode<T>)
+  case end
 }
 ```
 

@@ -412,7 +412,7 @@ To see how this works, take the following tree:
 
 ![Example](Images/MinimumMaximum.png)
 
-For example, if we look at node `10`, its leftmost descendent is `6`. We get there by following all the `left` pointers until there are no more left children to look at. The leftmost descendent of the root node `7` is `1`. Therefore, `1` is the minimum value in the entire tree.
+For example, if we look at node `10`, its leftmost descendent is `7`. We get there by following all the `left` pointers until there are no more left children to look at. The leftmost descendent of the root node `6` is `1`. Therefore, `1` is the minimum value in the entire tree.
 
 We won't need it for deleting, but for completeness' sake, here is the opposite of `minimum()`:
 
@@ -426,7 +426,7 @@ We won't need it for deleting, but for completeness' sake, here is the opposite 
   }
 ```
 
-It returns the rightmost descendent of the node. We find it by following `right` pointers until we get to the end. In the above example, the rightmost descendent of node `2` is `5`. The maximum value in the entire tree is `11`, because that is the rightmost descendent of the root node `7`.
+It returns the rightmost descendent of the node. We find it by following `right` pointers until we get to the end. In the above example, the rightmost descendent of node `2` is `5`. The maximum value in the entire tree is `11`, because that is the rightmost descendent of the root node `6`.
 
 Finally, we can write the code that removes a node from the tree:
 
@@ -500,11 +500,11 @@ if let node2 = tree.search(2) {
 
 First you find the node that you want to remove with `search()` and then you call `remove()` on that object. Before the removal, the tree printed like this:
 
-	((1) <- 2 -> (5)) <- 7 -> ((9) <- 10)
+	((1) <- 2 -> (5)) <- 6 -> ((9) <- 10)
 
 But after `remove()` you get:
 
-	((1) <- 5) <- 7 -> ((9) <- 10)
+	((1) <- 5) <- 6 -> ((9) <- 10)
 
 As you can see, node `5` has taken the place of `2`.
 
