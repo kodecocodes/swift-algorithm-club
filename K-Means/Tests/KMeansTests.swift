@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 
 class KMeansTests: XCTestCase {
-  func genPoints(numPoints: Int, numDimensions: Int) -> [Vector] {
+  func genPoints(_ numPoints: Int, numDimensions: Int) -> [Vector] {
     var points = [Vector]()
     for _ in 0..<numPoints {
       var data = [Double]()
