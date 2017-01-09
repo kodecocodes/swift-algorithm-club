@@ -17,12 +17,12 @@ public class TernarySearchTree<Element> {
 
     //MARK: - Insertion
 
-    public func insert(data: Element, withKey key: String) -> Bool {
+    public func insertData(_ data: Element, withKey key: String) -> Bool {
         return insertNode(&root, withData: data, andKey: key, atIndex: 0)
 
     }
 
-    private func insertNode(inout aNode: TSTNode<Element>?, withData data: Element, andKey key: String, atIndex charIndex: Int) -> Bool {
+    private func insertNode(_ aNode: inout TSTNode<Element>?, withData data: Element, andKey key: String, atIndex charIndex: Int) -> Bool {
 
         //sanity check.
         if key.characters.count == 0 {
@@ -31,12 +31,12 @@ public class TernarySearchTree<Element> {
 
         //create a new node if necessary.
         if aNode == nil {
-            let index = key.startIndex.advancedBy(charIndex)
+            let index = key.index(key.startIndex, offsetBy: charIndex)
             aNode = TSTNode<Element>(key: key[index])
         }
 
         //if current char is less than the current node's char, go left
-        let index = key.startIndex.advancedBy(charIndex)
+        let index = key.index(key.startIndex, offsetBy: charIndex)
         if key[index] < aNode!.key {
             return insertNode(&aNode!.left, withData: data, andKey: key, atIndex: charIndex)
         }
@@ -67,15 +67,14 @@ public class TernarySearchTree<Element> {
         return findNode(root, withKey: key, atIndex: 0)
     }
 
-
-    private func findNode(aNode: TSTNode<Element>?, withKey key: String, atIndex charIndex: Int) -> Element? {
+    private func findNode(_ aNode: TSTNode<Element>?, withKey key: String, atIndex charIndex: Int) -> Element? {
 
         //Given key does not exist in tree.
         if aNode == nil {
             return nil
         }
 
-        let index = key.startIndex.advancedBy(charIndex)
+        let index = key.index(key.startIndex, offsetBy: charIndex)
         //go left
         if key[index] < aNode!.key {
             return findNode(aNode!.left, withKey: key, atIndex: charIndex)
