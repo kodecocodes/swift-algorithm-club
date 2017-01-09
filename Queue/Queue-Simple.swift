@@ -30,7 +30,7 @@ public struct Queue<T> {
     }
   }
 
-  public func peek() -> T? {
+  public var front: T? {
     return array.first
   }
 }
