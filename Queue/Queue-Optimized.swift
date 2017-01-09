@@ -37,7 +37,7 @@ public struct Queue<T> {
     return element
   }
 
-  public func peek() -> T? {
+  public var front: T? {
     if isEmpty {
       return nil
     } else {
