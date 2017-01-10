@@ -40,7 +40,7 @@ public class TernarySearchTree<Element> {
     /**
      Helper method for insertion that does the actual legwork. Insertion is performed recursively.
 
-     - parameter node:     The current node to insert below.
+     - parameter node:      The current node to insert below.
      - parameter data:      The data being inserted.
      - parameter key:       The key being used to find an insertion location for the given data
      - parameter charIndex: The index of the character in the key string to use to for the next node.
@@ -50,7 +50,7 @@ public class TernarySearchTree<Element> {
     private func insert(node: inout TSTNode<Element>?, withData data: Element, andKey key: String, atIndex charIndex: Int) -> Bool {
 
         //sanity check.
-        if key.characters.count == 0 {
+        guard key.characters.count > 0 else {
             return false
         }
 
@@ -110,25 +110,25 @@ public class TernarySearchTree<Element> {
     private func find(node: TSTNode<Element>?, withKey key: String, atIndex charIndex: Int) -> Element? {
 
         //Given key does not exist in tree.
-        if node == nil {
+        guard let node = node else {
             return nil
         }
 
         let index = key.index(key.startIndex, offsetBy: charIndex)
         //go left
-        if key[index] < node!.key {
-            return find(node: node!.left, withKey: key, atIndex: charIndex)
+        if key[index] < node.key {
+            return find(node: node.left, withKey: key, atIndex: charIndex)
         }
             //go right
-        else if key[index] > node!.key {
-            return find(node: node!.right, withKey: key, atIndex: charIndex)
+        else if key[index] > node.key {
+            return find(node: node.right, withKey: key, atIndex: charIndex)
         }
             //go middle
         else {
             if charIndex + 1 < key.characters.count {
-                return find(node: node!.middle, withKey: key, atIndex: charIndex + 1)
+                return find(node: node.middle, withKey: key, atIndex: charIndex + 1)
             } else {
-                return node!.data
+                return node.data
             }
         }
     }
