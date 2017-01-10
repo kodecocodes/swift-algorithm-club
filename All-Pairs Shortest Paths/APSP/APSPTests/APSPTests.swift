@@ -9,7 +9,7 @@ import APSP
 import Graph
 import XCTest
 
-struct TestCase<T where T: Hashable> {
+struct TestCase<T> where T: Hashable {
 
   var from: Vertex<T>
   var to: Vertex<T>
@@ -71,7 +71,7 @@ class APSPTests: XCTestCase {
 
     for testCase: TestCase<Int> in cases {
       if let computedPath = result.path(fromVertex: testCase.from, toVertex: testCase.to, inGraph: graph),
-              computedDistance = result.distance(fromVertex: testCase.from, toVertex: testCase.to) {
+         let computedDistance = result.distance(fromVertex: testCase.from, toVertex: testCase.to) {
         XCTAssert(computedDistance == testCase.expectedDistance, "expected distance \(testCase.expectedDistance) but got \(computedDistance)")
         XCTAssert(computedPath == testCase.expectedPath, "expected path \(testCase.expectedPath) but got \(computedPath)")
       }
@@ -111,7 +111,7 @@ class APSPTests: XCTestCase {
 
     for testCase: TestCase<Int> in cases {
       if let computedPath = result.path(fromVertex: testCase.from, toVertex: testCase.to, inGraph: graph),
-        computedDistance = result.distance(fromVertex: testCase.from, toVertex: testCase.to) {
+        let computedDistance = result.distance(fromVertex: testCase.from, toVertex: testCase.to) {
         XCTAssert(computedDistance == testCase.expectedDistance, "expected distance \(testCase.expectedDistance) but got \(computedDistance)")
         XCTAssert(computedPath == testCase.expectedPath, "expected path \(testCase.expectedPath) but got \(computedPath)")
       }
