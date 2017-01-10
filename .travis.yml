@@ -43,3 +43,4 @@ script:
 - xcodebuild test -project ./Topological\ Sort/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Treap/Treap/Treap.xcodeproj -scheme Tests
 - xcodebuild test -project ./Palindromes/Test/Test.xcodeproj -scheme Test
+- xcodebuild test -project ./Ternary\ Search\ Tree/Tests/Tests.xcodeproj -scheme Tests

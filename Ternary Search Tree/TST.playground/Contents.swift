@@ -4,29 +4,13 @@ import Cocoa
 import Foundation
 
 let treeOfStrings = TernarySearchTree<String>()
-let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
-//Random string generator from:
-//http://stackoverflow.com/questions/26845307/generate-random-alphanumeric-string-in-swift/26845710
-func randomAlphaNumericString(withLength length: Int) -> String {
-    let allowedCharsCount = UInt32(allowedChars.characters.count)
-    var randomString = ""
-
-    for _ in (0..<length) {
-        let randomNum = Int(arc4random_uniform(allowedCharsCount))
-        let newCharacter = allowedChars[allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)]
-        randomString += String(newCharacter)
-    }
-
-    return randomString
-}
 
 var testStrings: [(key: String, data: String)] = []
 let testCount = 30
 for _ in (1...testCount) {
     let randomLength = Int(arc4random_uniform(10))
-    let key = randomAlphaNumericString(withLength: randomLength)
-    let data = randomAlphaNumericString(withLength: randomLength)
+    let key = Utils.shared.randomAlphaNumericString(withLength: randomLength)
+    let data = Utils.shared.randomAlphaNumericString(withLength: randomLength)
 //    print("Key: \(key) Data: \(data)")
 
     if key != "" && data != "" {
@@ -51,7 +35,7 @@ let treeOfInts = TernarySearchTree<Int>()
 for _ in (1...testCount) {
     let randomNum = Int(arc4random_uniform(UInt32.max))
     let randomLength = Int(arc4random_uniform(10))
-    let key = randomAlphaNumericString(withLength: randomLength)
+    let key = Utils.shared.randomAlphaNumericString(withLength: randomLength)
 
     if key != "" {
         testNums.append((key, randomNum))

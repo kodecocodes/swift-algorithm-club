@@ -33,7 +33,7 @@ public class TernarySearchTree<Element> {
 
     - returns: Value indicating insertion success/failure.
     */
-    public func insert(data: Element, withKey key: String) -> Bool {
+    @discardableResult public func insert(data: Element, withKey key: String) -> Bool {
         return insert(node: &root, withData: data, andKey: key, atIndex: 0)
     }
 
