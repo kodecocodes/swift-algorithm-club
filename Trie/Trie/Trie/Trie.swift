@@ -11,14 +11,14 @@ import Foundation
 
 /// A node in the trie
 class TrieNode<T: Hashable> {
-    var value: T?
-    weak var parentNode: TrieNode?
-    var children: [T: TrieNode] = [:]
-    var isTerminating = false
-    var isLeaf: Bool {
-        return children.count == 0
-    }
+  var value: T?
+  weak var parentNode: TrieNode?
+  var children: [T: TrieNode] = [:]
+  var isTerminating = false
+  var isLeaf: Bool {
+    return children.count == 0
   }
+  
   
   /// Initializes a node.
   ///
