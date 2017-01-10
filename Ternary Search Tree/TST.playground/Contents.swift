@@ -31,7 +31,7 @@ for _ in (1...testCount) {
 
     if key != "" && data != "" {
         testStrings.append((key, data))
-        treeOfStrings.insertData(data, withKey: key)
+        treeOfStrings.insert(data: data, withKey: key)
     }
 }
 
@@ -55,7 +55,7 @@ for _ in (1...testCount) {
 
     if key != "" {
         testNums.append((key, randomNum))
-        treeOfInts.insertData(randomNum, withKey: key)
+        treeOfInts.insert(data: randomNum, withKey: key)
     }
 }
 
