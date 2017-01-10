@@ -11,13 +11,12 @@ import Foundation
 
 /// A node in the trie
 class TrieNode<T: Hashable> {
-  var value: T?
-  weak var parentNode: TrieNode?
-  var children: [T: TrieNode] = [:]
-  var isTerminating = false
-  var isLeaf: Bool {
-    get {
-      return children.count == 0
+    var value: T?
+    weak var parentNode: TrieNode?
+    var children: [T: TrieNode] = [:]
+    var isTerminating = false
+    var isLeaf: Bool {
+        return children.count == 0
     }
   }
   
@@ -45,28 +44,50 @@ class TrieNode<T: Hashable> {
 
 /// A trie data structure containing words.  Each node is a single
 /// character of a word.
-class Trie {
-  typealias Node = TrieNode<Character>
-  /// The number of words in the trie
-  public var count: Int {
-    return wordCount
-  }
-  /// Is the trie empty?
-  public var isEmpty: Bool {
-    return wordCount == 0
-  }
-  /// All words currently in the trie
-  public var words: [String] {
-    return wordsInSubtrie(rootNode: root, partialWord: "")
-  }
-  fileprivate let root: Node
-  fileprivate var wordCount: Int
-  
-  /// Creats an empty trie.
-  init() {
-    root = Node()
-    wordCount = 0
-  }
+class Trie: NSObject, NSCoding {
+    typealias Node = TrieNode<Character>
+    /// The number of words in the trie
+    public var count: Int {
+        return wordCount
+    }
+    /// Is the trie empty?
+    public var isEmpty: Bool {
+        return wordCount == 0
+    }
+    /// All words currently in the trie
+    public var words: [String] {
+        return wordsInSubtrie(rootNode: root, partialWord: "")
+    }
+    fileprivate let root: Node
+    fileprivate var wordCount: Int
+
+    /// Creates an empty trie.
+    override init() {
+        root = Node()
+        wordCount = 0
+        super.init()
+    }
+
+    // MARK: NSCoding
+
+    /// Initializes the trie with words from an archive
+    ///
+    /// - Parameter decoder: Decodes the archive
+    required convenience init?(coder decoder: NSCoder) {
+        self.init()
+        let words = decoder.decodeObject(forKey: "words") as? [String]
+        for word in words! {
+            self.insert(word: word)
+        }
+    }
+
+    /// Encodes the words in the trie by putting them in an array then encoding
+    /// the array.
+    ///
+    /// - Parameter coder: The object that will encode the array
+    func encode(with coder: NSCoder) {
+        coder.encode(self.words, forKey: "words")
+    }
 }
 
 // MARK: - Adds methods: insert, remove, contains

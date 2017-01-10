@@ -12,20 +12,20 @@ import XCTest
 class TrieTests: XCTestCase {
     var wordArray: [String]?
     var trie = Trie()
-    
+
     /// Makes sure that the wordArray and trie are initialized before each test.
     override func setUp() {
         super.setUp()
         createWordArray()
         insertWordsIntoTrie()
     }
-    
-    /// Don't need to do anything here because the wordArrayu and trie should
+
+    /// Don't need to do anything here because the wordArray and trie should
     /// stay around.
     override func tearDown() {
         super.tearDown()
     }
-    
+
     /// Reads words from the dictionary file and inserts them into an array.  If
     /// the word array already has words, do nothing.  This allows running all
     /// tests without repeatedly filling the array with the same values.
@@ -36,7 +36,7 @@ class TrieTests: XCTestCase {
         let resourcePath = Bundle.main.resourcePath! as NSString
         let fileName = "dictionary.txt"
         let filePath = resourcePath.appendingPathComponent(fileName)
-        
+
         var data: String?
         do {
             data = try String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
@@ -48,24 +48,21 @@ class TrieTests: XCTestCase {
         wordArray = data!.components(separatedBy: "\n")
         XCTAssertEqual(wordArray!.count, dictionarySize)
     }
-    
+
     /// Inserts words into a trie.  If the trie is non-empty, don't do anything.
     func insertWordsIntoTrie() {
-        guard trie.count == 0 else {
-            return
-        }
-        let numberOfWordsToInsert = wordArray!.count
-        for i in 0..<numberOfWordsToInsert {
-            trie.insert(word: wordArray![i])
+        guard let wordArray = wordArray, trie.count == 0 else { return }
+        for word in wordArray {
+            trie.insert(word: word)
         }
     }
-    
+
     /// Tests that a newly created trie has zero words.
     func testCreate() {
         let trie = Trie()
         XCTAssertEqual(trie.count, 0)
     }
-    
+
     /// Tests the insert method
     func testInsert() {
         let trie = Trie()
@@ -78,7 +75,7 @@ class TrieTests: XCTestCase {
         XCTAssertTrue(trie.contains(word: "cut"))
         XCTAssertEqual(trie.count, 4)
     }
-    
+
     /// Tests the remove method
     func testRemove() {
         let trie = Trie()
@@ -90,7 +87,7 @@ class TrieTests: XCTestCase {
         XCTAssertFalse(trie.contains(word: "cute"))
         XCTAssertEqual(trie.count, 1)
     }
-    
+
     /// Tests the words property
     func testWords() {
         let trie = Trie()
@@ -101,52 +98,53 @@ class TrieTests: XCTestCase {
         XCTAssertEqual(words[0], "foobar")
         XCTAssertEqual(words.count, 1)
     }
-    
+
     /// Tests the performance of the insert method.
     func testInsertPerformance() {
-        let trie = Trie()
         self.measure() {
-            let numberOfWordsToInsert = self.wordArray!.count
-            for i in 0..<numberOfWordsToInsert {
-                trie.insert(word: self.wordArray![i])
+            let trie = Trie()
+            for word in self.wordArray! {
+                trie.insert(word: word)
             }
         }
         XCTAssertGreaterThan(trie.count, 0)
         XCTAssertEqual(trie.count, wordArray?.count)
     }
-    
+
     /// Tests the performance of the insert method when the words are already
     /// present.
     func testInsertAgainPerformance() {
         self.measure() {
-            let numberOfWordsToInsert = self.wordArray!.count
-            for i in 0..<numberOfWordsToInsert {
-                self.trie.insert(word: self.wordArray![i])
+            for word in self.wordArray! {
+                self.trie.insert(word: word)
             }
         }
     }
-    
+
     /// Tests the performance of the contains method.
     func testContainsPerformance() {
         self.measure() {
-            for i in 0..<self.wordArray!.count {
-                XCTAssertTrue(self.trie.contains(word: self.wordArray![i]))
+            for word in self.wordArray! {
+                XCTAssertTrue(self.trie.contains(word: word))
             }
-            
         }
     }
-    
-    /// Tests the performance of the remove method.
+
+    /// Tests the performance of the remove method.  Since setup has already put
+    /// words into the trie, remove them before measuring performance.
     func testRemovePerformance() {
+        for word in self.wordArray! {
+            self.trie.remove(word: word)
+        }
         self.measure() {
-            let numberOfWordsToRemove = self.wordArray!.count
-            for i in 0..<numberOfWordsToRemove {
-                self.trie.remove(word: self.wordArray![i])
+            self.insertWordsIntoTrie()
+            for word in self.wordArray! {
+                self.trie.remove(word: word)
             }
         }
         XCTAssertEqual(trie.count, 0)
     }
-    
+
     /// Tests the performance of the words computed property.  Also tests to see
     /// if it worked properly.
     func testWordsPerformance() {
@@ -158,5 +156,16 @@ class TrieTests: XCTestCase {
         for word in words! {
             XCTAssertTrue(self.trie.contains(word: word))
         }
+    }
+
+    /// Tests the archiving and unarchiving of the trie.
+    func testArchiveAndUnarchive() {
+        let resourcePath = Bundle.main.resourcePath! as NSString
+        let fileName = "dictionary-archive"
+        let filePath = resourcePath.appendingPathComponent(fileName)
+        NSKeyedArchiver.archiveRootObject(trie, toFile: filePath)
+        let trieCopy = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Trie
+        XCTAssertEqual(trieCopy.count, trie.count)
+
     }
 }

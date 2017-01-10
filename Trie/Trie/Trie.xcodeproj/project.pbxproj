@@ -51,6 +51,7 @@
 		EB798E1C1DFEF79900F0628D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB798E281DFEF81400F0628D /* Trie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trie.swift; sourceTree = "<group>"; };
 		EB798E2B1DFEF90B00F0628D /* dictionary.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dictionary.txt; sourceTree = "<group>"; };
+		EB8369AC1E15C5710003A7F8 /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +102,7 @@
 		EB798DFC1DFEF79900F0628D /* Trie */ = {
 			isa = PBXGroup;
 			children = (
+				EB8369AC1E15C5710003A7F8 /* ReadMe.md */,
 				EB798DFD1DFEF79900F0628D /* AppDelegate.swift */,
 				EB798DFF1DFEF79900F0628D /* ViewController.swift */,
 				EB798E011DFEF79900F0628D /* Assets.xcassets */,
