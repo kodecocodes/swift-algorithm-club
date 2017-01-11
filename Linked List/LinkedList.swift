@@ -137,6 +137,14 @@ public class LinkedList<T> {
     assert(node != nil)
     return remove(node: node!)
   }
+  
+  deinit {
+    var next = head
+    while let n = next {
+      next = n.next
+      n.next = nil
+    }
+  }
 }
 
 extension LinkedList: CustomStringConvertible {
