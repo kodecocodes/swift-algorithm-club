@@ -1859,6 +1859,16 @@
    <Group
       location = "group:Ternary Search Tree"
       name = "Ternary Search Tree">
+      <Group
+         location = "container:Ternary Search Tree/Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
       <FileRef
          location = "group:README.markdown">
       </FileRef>
