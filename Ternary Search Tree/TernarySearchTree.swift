@@ -75,7 +75,7 @@ public class TernarySearchTree<Element> {
             if charIndex + 1 < key.characters.count {
                 return insert(node: &node!.middle, withData: data, andKey: key, atIndex: charIndex + 1)
             }
-                //otherwise, all done.
+            //otherwise, all done.
             else {
                 node!.data = data
                 node?.hasData = true

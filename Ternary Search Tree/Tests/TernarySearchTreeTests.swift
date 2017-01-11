@@ -10,14 +10,23 @@ import XCTest
 
 class TernarySearchTreeTests: XCTestCase {
     
-    let treeOfStrings = TernarySearchTree<String>()
+
     let testCount = 30
     
     func testCanFindStringInTree() {
         var testStrings: [(key: String, data: String)] = []
+        let treeOfStrings = TernarySearchTree<String>()
+
         for _ in (1...testCount) {
-            let randomLength = Int(arc4random_uniform(10))
-            let key = Utils.shared.randomAlphaNumericString(withLength: randomLength)
+            var randomLength = Int(arc4random_uniform(10))
+            
+            var key = Utils.shared.randomAlphaNumericString(withLength: randomLength)
+            
+            while testStrings.contains(where: { $0.key == key}) {
+                //That key is taken, so we generate a new one with another length
+                randomLength = Int(arc4random_uniform(10))
+                key = Utils.shared.randomAlphaNumericString(withLength: randomLength)
+            }
             let data = Utils.shared.randomAlphaNumericString(withLength: randomLength)
             //    print("Key: \(key) Data: \(data)")
             
@@ -29,7 +38,6 @@ class TernarySearchTreeTests: XCTestCase {
         
         for aTest in testStrings {
             let data = treeOfStrings.find(key: aTest.key)
-            
             XCTAssertNotNil(data)
             XCTAssertEqual(data, aTest.data)
         }
@@ -40,8 +48,13 @@ class TernarySearchTreeTests: XCTestCase {
         let treeOfInts = TernarySearchTree<Int>()
         for _ in (1...testCount) {
             let randomNum = Int(arc4random_uniform(UInt32.max))
-            let randomLength = Int(arc4random_uniform(10))
-            let key = Utils.shared.randomAlphaNumericString(withLength: randomLength)
+            var randomLength = Int(arc4random_uniform(10))
+            var key = Utils.shared.randomAlphaNumericString(withLength: randomLength)
+            while testNums.contains(where: { $0.key == key}) {
+                //That key is taken, so we generate a new one with another length
+                randomLength = Int(arc4random_uniform(10))
+                key = Utils.shared.randomAlphaNumericString(withLength: randomLength)
+            }
             
             if key != "" {
                 testNums.append((key, randomNum))
