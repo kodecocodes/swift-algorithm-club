@@ -19,6 +19,7 @@ script:
 # - xcodebuild test -project ./Breadth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Bucket\ Sort/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./B-Tree/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Comb\ Sort/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Counting\ Sort/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Depth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
 # - xcodebuild test -project ./Graph/Graph.xcodeproj -scheme GraphTests
