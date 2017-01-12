@@ -61,7 +61,7 @@ public struct Stack<T> {
   }
 
   public var top: T? {
-  	return array.last
+    return array.last
   }
 }
 ```
