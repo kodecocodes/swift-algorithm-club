@@ -18,7 +18,7 @@ protocol SSSPAlgorithm {
   associatedtype Q: Equatable, Hashable
   associatedtype P: SSSPResult
 
-  static func apply(graph: AbstractGraph<Q>, source: Vertex<Q>) -> P?
+  static func apply(_ graph: AbstractGraph<Q>, source: Vertex<Q>) -> P?
 
 }
 
