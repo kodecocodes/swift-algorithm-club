@@ -8,40 +8,39 @@
 
 import Foundation
 
-protocol Number: Multipliable, Addable {
+public protocol Number: Multipliable, Addable {
   static var zero: Self { get }
 }
 
-protocol Addable {
+public protocol Addable {
   static func +(lhs: Self, rhs: Self) -> Self
   static func -(lhs: Self, rhs: Self) -> Self
 }
 
-protocol Multipliable {
+public protocol Multipliable {
   static func *(lhs: Self, rhs: Self) -> Self
 }
 
 extension Int: Number {
-  static var zero: Int {
+  public static var zero: Int {
     return 0
   }
 }
 
 extension Double: Number {
-  static var zero: Double {
+  public static var zero: Double {
     return 0.0
   }
 }
 
 extension Float: Number {
-  static var zero: Float {
+  public static var zero: Float {
     return 0.0
   }
 }
 
-
 extension Array where Element: Number {
-  func dot(_ b: Array<Element>) -> Element {
+  public func dot(_ b: Array<Element>) -> Element {
     let a = self
     assert(a.count == b.count, "Can only take the dot product of arrays of the same length!")
     let c = a.indices.map{ a[$0] * b[$0] }

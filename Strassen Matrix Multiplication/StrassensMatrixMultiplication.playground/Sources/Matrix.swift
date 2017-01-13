@@ -8,11 +8,11 @@
 
 import Foundation
 
-enum RowOrColumn {
+public enum RowOrColumn {
   case row, column
 }
 
-struct Matrix<T: Number> {
+public struct Matrix<T: Number> {
   
   // MARK: - Variables
   
@@ -29,20 +29,22 @@ struct Matrix<T: Number> {
   
   // MARK: - Init
   
-  init(rows: Int, columns: Int, initialValue: T = T.zero) {
+  public init(rows: Int, columns: Int, initialValue: T = T.zero) {
     self.rows = rows
     self.columns = columns
     self.grid = Array(repeating: initialValue, count: rows * columns)
   }
   
-  init(size: Int, initialValue: T = T.zero) {
+  public init(size: Int, initialValue: T = T.zero) {
     self.rows = size
     self.columns = size
     self.grid = Array(repeating: initialValue, count: rows * columns)
   }
-  
-  // MARK: - Subscript
-  
+}
+
+// MARK: - Public Functions
+
+public extension Matrix {
   subscript(row: Int, column: Int) -> T {
     get {
       assert(indexIsValid(row: row, column: column), "Index out of range")
@@ -88,13 +90,59 @@ struct Matrix<T: Number> {
     }
   }
   
-  // MARK: - Private Functions
+  func strassenMatrixMultiply(by B: Matrix<T>) -> Matrix<T> {
+    let A = self
+    assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn & the other has dimensions nxp where m, n, p are in R")
+    
+    let n = max(A.rows, A.columns, B.rows, B.columns)
+    let m = nextPowerOfTwo(of: n)
+    
+    var APrep = Matrix(size: m)
+    var BPrep = Matrix(size: m)
+    
+    A.size.forEach { (i, j) in
+      APrep[i,j] = A[i,j]
+    }
+    
+    B.size.forEach { (i, j) in
+      BPrep[i,j] = B[i,j]
+    }
+    
+    let CPrep = APrep.strassenR(by: BPrep)
+    var C = Matrix(rows: A.rows, columns: B.columns)
+    
+    for i in 0..<A.rows {
+      for j in 0..<B.columns {
+        C[i,j] = CPrep[i,j]
+      }
+    }
+    return C
+  }
   
-  private func indexIsValid(row: Int, column: Int) -> Bool {
+  func matrixMultiply(by B: Matrix<T>) -> Matrix<T> {
+    let A = self
+    assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn & the other has dimensions nxp where m, n, p are in R")
+    
+    var C = Matrix<T>(rows: A.rows, columns: B.columns)
+    
+    for i in 0..<A.rows {
+      for j in 0..<B.columns {
+        C[i, j] = A[.row, i].dot(B[.column, j])
+      }
+    }
+    
+    return C
+  }
+}
+
+// MARK: - Private Functions
+
+fileprivate extension Matrix {
+  func indexIsValid(row: Int, column: Int) -> Bool {
     return row >= 0 && row < rows && column >= 0 && column < columns
   }
   
-  private func strassenR(by B: Matrix<T>) -> Matrix<T> {
+  func strassenR(by B: Matrix<T>) -> Matrix<T> {
     let A = self
     assert(A.isSquare && B.isSquare, "This function requires square matricies!")
     guard A.rows > 1 && B.rows > 1 else { return A * B }
@@ -150,97 +198,56 @@ struct Matrix<T: Number> {
     return C
   }
   
-  private func nextPowerOfTwo(of n: Int) -> Int {
+  func nextPowerOfTwo(of n: Int) -> Int {
     return Int(pow(2, ceil(log2(Double(n)))))
   }
-  
-  // MARK: - Functions
-  
-  func strassenMatrixMultiply(by B: Matrix<T>) -> Matrix<T> {
-    let A = self
-    assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn & the other has dimensions nxp where m, n, p are in R")
-    
-    let n = max(A.rows, A.columns, B.rows, B.columns)
-    let m = nextPowerOfTwo(of: n)
-    
-    var APrep = Matrix(size: m)
-    var BPrep = Matrix(size: m)
-    
-    A.size.forEach { (i, j) in
-      APrep[i,j] = A[i,j]
-    }
-    
-    B.size.forEach { (i, j) in
-      BPrep[i,j] = B[i,j]
-    }
-    
-    let CPrep = APrep.strassenR(by: BPrep)
-    var C = Matrix(rows: A.rows, columns: B.columns)
-    
-    for i in 0..<A.rows {
-      for j in 0..<B.columns {
-        C[i,j] = CPrep[i,j]
-      }
-    }
-    return C
-  }
-  
-  func matrixMultiply(by B: Matrix<T>) -> Matrix<T> {
-    let A = self
-    assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn & the other has dimensions nxp where m, n, p are in R")
-    
-    var C = Matrix<T>(rows: A.rows, columns: B.columns)
-    
-    for i in 0..<A.rows {
-      for j in 0..<B.columns {
-        C[i, j] = A[.row, i].dot(B[.column, j])
-      }
-    }
-    
-    return C
-  }
 }
+
 
 // Term-by-term Matrix Math
 
-func *<T: Number>(lhs: Matrix<T>, rhs: Matrix<T>) -> Matrix<T> {
-  assert(lhs.size == rhs.size, "To term-by-term multiply matricies they need to be the same size!")
-  let rows = lhs.rows
-  let columns = lhs.columns
-  
-  var newMatrix = Matrix<T>(rows: rows, columns: columns)
-  for row in 0..<rows {
-    for column in 0..<columns {
-      newMatrix[row, column] = lhs[row, column] * rhs[row, column]
+extension Matrix: Addable {
+  public static func +<T: Number>(lhs: Matrix<T>, rhs: Matrix<T>) -> Matrix<T> {
+    assert(lhs.size == rhs.size, "To term-by-term add matricies they need to be the same size!")
+    let rows = lhs.rows
+    let columns = lhs.columns
+    
+    var newMatrix = Matrix<T>(rows: rows, columns: columns)
+    for row in 0..<rows {
+      for column in 0..<columns {
+        newMatrix[row, column] = lhs[row, column] + rhs[row, column]
+      }
     }
+    return newMatrix
   }
-  return newMatrix
+  
+  public static func -<T: Number>(lhs: Matrix<T>, rhs: Matrix<T>) -> Matrix<T> {
+    assert(lhs.size == rhs.size, "To term-by-term subtract matricies they need to be the same size!")
+    let rows = lhs.rows
+    let columns = lhs.columns
+    
+    var newMatrix = Matrix<T>(rows: rows, columns: columns)
+    for row in 0..<rows {
+      for column in 0..<columns {
+        newMatrix[row, column] = lhs[row, column] - rhs[row, column]
+      }
+    }
+    return newMatrix
+  }
 }
 
-func +<T: Number>(lhs: Matrix<T>, rhs: Matrix<T>) -> Matrix<T> {
-  assert(lhs.size == rhs.size, "To term-by-term add matricies they need to be the same size!")
-  let rows = lhs.rows
-  let columns = lhs.columns
-  
-  var newMatrix = Matrix<T>(rows: rows, columns: columns)
-  for row in 0..<rows {
-    for column in 0..<columns {
-      newMatrix[row, column] = lhs[row, column] + rhs[row, column]
+extension Matrix: Multipliable {
+  public static func *<T: Number>(lhs: Matrix<T>, rhs: Matrix<T>) -> Matrix<T> {
+    assert(lhs.size == rhs.size, "To term-by-term multiply matricies they need to be the same size!")
+    let rows = lhs.rows
+    let columns = lhs.columns
+    
+    var newMatrix = Matrix<T>(rows: rows, columns: columns)
+    for row in 0..<rows {
+      for column in 0..<columns {
+        newMatrix[row, column] = lhs[row, column] * rhs[row, column]
+      }
     }
+    return newMatrix
   }
-  return newMatrix
-}
-
-func -<T: Number>(lhs: Matrix<T>, rhs: Matrix<T>) -> Matrix<T> {
-  assert(lhs.size == rhs.size, "To term-by-term subtract matricies they need to be the same size!")
-  let rows = lhs.rows
-  let columns = lhs.columns
-  
-  var newMatrix = Matrix<T>(rows: rows, columns: columns)
-  for row in 0..<rows {
-    for column in 0..<columns {
-      newMatrix[row, column] = lhs[row, column] - rhs[row, column]
-    }
-  }
-  return newMatrix
 }
