@@ -190,6 +190,7 @@ A lot of software developer interview questions consist of algorithmic puzzles. 
 - [Fizz Buzz](Fizz Buzz/)
 - [Monty Hall Problem](Monty Hall Problem/)
 - [Finding Palindromes](Palindromes/)
+- [Dining Philosophers](DiningPhilosophers/)
 
 ## Learn more!
 
