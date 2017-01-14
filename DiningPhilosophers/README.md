@@ -47,7 +47,13 @@ In their analysis they derive a system of preference levels from the distributio
 
 # Swift implementation
 
+This Swift 3.0 implementation of the Chandy/Misra solution is based on GCD and Semaphore tecnique and it could be built on both macOS and Linux.
 
+The code is based on a ForkPair struct used for holding an array of DispatchSemaphore and a Philosopher struct for associate a couple of forks to each Philosopher.
+
+The ForkPair DispatchSemaphore static array is used for waking the neighbour Philosophers any time a fork pair is put down on the table.
+
+A background DispatchQueue is then used to let any Philosopher run asyncrounosly on the background and a global DispatchSemaphore is simply used in order to keep the main thread on wait forever and let the Philosophers contienue forever in their alternate think and eat cycle.
 
 # See also
 
