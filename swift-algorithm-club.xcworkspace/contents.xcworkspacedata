@@ -1831,6 +1831,23 @@
       </Group>
    </Group>
    <Group
+      location = "group:Splay Tree"
+      name = "Splay Tree">
+      <FileRef
+         location = "group:SplayTree.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
       location = "group:Stack"
       name = "Stack">
       <FileRef
