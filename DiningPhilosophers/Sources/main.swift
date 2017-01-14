@@ -12,7 +12,7 @@ import Dispatch
 
 let numberOfPhilosophers = 4
 
-class ForkPair {
+struct ForkPair {
     static let forksSemaphore:[DispatchSemaphore] = Array(repeating: DispatchSemaphore(value: 1), count: numberOfPhilosophers)
     
     let leftFork: DispatchSemaphore
@@ -44,7 +44,7 @@ class ForkPair {
 }
 
 
-class Philosophers {
+struct Philosophers {
     let forkPair: ForkPair
     let philosopherIndex: Int
     
