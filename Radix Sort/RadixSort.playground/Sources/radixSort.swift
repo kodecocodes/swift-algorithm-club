@@ -1,12 +1,12 @@
 /*
-
-  Sorting Algorithm that sorts an input array of integers digit by digit.
-
-*/
-
+ 
+ Sorting Algorithm that sorts an input array of integers digit by digit.
+ 
+ */
+import Foundation
 
 // NOTE: This implementation does not handle negative numbers
-func radixSort(_ array: inout [Int] ) {
+public func radixSort(_ array: inout [Int] ) {
   let radix = 10  //Here we define our radix to be 10
   var done = false
   var index: Int
