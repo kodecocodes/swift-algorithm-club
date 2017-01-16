@@ -50,7 +50,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [k-th Largest Element](Kth Largest Element/). Find the *k*-th largest element in an array, such as the median.
 - [Selection Sampling](Selection Sampling/). Randomly choose a bunch of items from a collection.
 - [Union-Find](Union-Find/). Keeps track of disjoint sets and lets you quickly merge them.
-- [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
+
 
 ### String Search
 
@@ -59,6 +59,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - Knuth-Morris-Pratt
 - Rabin-Karp
 - [Longest Common Subsequence](Longest Common Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
+- [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
 
 ### Sorting
 
