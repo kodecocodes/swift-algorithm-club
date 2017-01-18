@@ -57,7 +57,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Brute-Force String Search](Brute-Force String Search/). A naive method.
 - [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
 - Knuth-Morris-Pratt
-- Rabin-Karp
+- [Rabin-Karp](Rabin-Karp/)  Faster search by using hashing.
 - [Longest Common Subsequence](Longest Common Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
 - [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
 
