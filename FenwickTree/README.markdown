@@ -51,7 +51,7 @@ public class FenwickTree<T> {
 }
 ```
 
-Each node has **log(n)** children, and one parent. If we drop an index'es LSOne(Least Significant One) we will reach a node's left-sibling, and if we add an index with it's LSOne, we will reach a node's parent index.
+Each node has at max **log(n)** children (Exactly **log(LSOne(n))** children), and one parent. If we drop an index'es LSOne(Least Significant One) we will reach a node's left-sibling, and if we add an index with it's LSOne, we will reach a node's parent index.
 
 ![structure](http://community.topcoder.com/i/education/binaryIndexedTrees/BITimg.gif)
 
