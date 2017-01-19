@@ -33,7 +33,7 @@ Fenwick Tree allows us to answer queries and update itmes in **O(log n)**, how? 
 
 The main idea of Fenwick tree is to hold partly cumulative sums from specific ranges in the array so for updating an item or querying an interval, we don't have to go through all items, just related items.
 
-** Structure of Fenwick tree
+## Structure of Fenwick tree
 
 A Fenwick tree is based up on an one-based array of elements, but we don't actually hold children of parent inside the nodes. here's Fenwick's class:
 
@@ -141,4 +141,5 @@ This is very popular topic when it comes to Fenwick and Segment. Both of them pe
 
 [Segment Tree](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree)
 
-*Written for Swift Algorithm Club by [Farzad Sharbafian](https://github.com/FarzadShbfn) [Twitter](https://twitter.com/FarzadShbfn)*
+*Written for Swift Algorithm Club by [Farzad Sharbafian](https://github.com/FarzadShbfn)*
+*Follow me on Twitter [FarzadShbfn](https://twitter.com/FarzadShbfn)*
