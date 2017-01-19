@@ -23,7 +23,7 @@ public class BinarySearchTree<T: Comparable> {
     precondition(array.count > 0)
     self.init(value: array.first!)
     for v in array.dropFirst() { 
-      insert(value: v, parent: self)
+      insert(value: v)
     }
   }
 
@@ -74,23 +74,19 @@ extension BinarySearchTree {
     Performance: runs in O(h) time, where h is the height of the tree.
   */
   public func insert(value: T) {
-    insert(value: value, parent: self)
-  }
-
-  fileprivate func insert(value: T, parent: BinarySearchTree) {
     if value < self.value {
       if let left = left {
-        left.insert(value: value, parent: left)
+        left.insert(value: value)
       } else {
         left = BinarySearchTree(value: value)
-        left?.parent = parent
+        left?.parent = self
       }
     } else {
       if let right = right {
-        right.insert(value: value, parent: right)
+        right.insert(value: value)
       } else {
         right = BinarySearchTree(value: value)
-        right?.parent = parent
+        right?.parent = self
       }
     }
   }
