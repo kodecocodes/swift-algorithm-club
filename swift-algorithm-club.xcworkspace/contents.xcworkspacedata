@@ -310,9 +310,6 @@
          <FileRef
             location = "group:BinarySearchTree.playground">
          </FileRef>
-         <FileRef
-            location = "group:BinarySearchTree.swift">
-         </FileRef>
          <Group
             location = "group:Tests"
             name = "Tests">
