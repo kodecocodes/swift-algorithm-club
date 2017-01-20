@@ -106,58 +106,30 @@ extension BinarySearchTree {
   */
   @discardableResult public func remove() -> BinarySearchTree? {
     let replacement: BinarySearchTree?
-
+    
+    // Replacement for current node can be either biggest one on the left or
+    // smallest one on the right, whichever is not nil
     if let left = left {
-      if let right = right {
-        replacement = removeNodeWithTwoChildren(left, right)
-      } else {
-        // This node only has a left child. The left child replaces the node.
-        replacement = left
-      }
+      replacement = left.maximum()
     } else if let right = right {
-      // This node only has a right child. The right child replaces the node.
-      replacement = right
+      replacement = right.minimum()
     } else {
-      // This node has no children. We just disconnect it from its parent.
-      replacement = nil
+      replacement = nil;
     }
+    
+    replacement?.remove();
 
-    reconnectParentTo(node: replacement)
-
+    // Place the replacement on current node's position
+    replacement?.right = right;
+    replacement?.left = left;
+    reconnectParentTo(node:replacement);
+    
     // The current node is no longer part of the tree, so clean it up.
     parent = nil
     left = nil
     right = nil
-
-    return replacement
-  }
-
-  private func removeNodeWithTwoChildren(_ left: BinarySearchTree, _ right: BinarySearchTree) -> BinarySearchTree {
-    // This node has two children. It must be replaced by the smallest
-    // child that is larger than this node's value, which is the leftmost
-    // descendent of the right child.
-    let successor = right.minimum()
-
-    // If this in-order successor has a right child of its own (it cannot
-    // have a left child by definition), then that must take its place.
-    successor.remove()
-
-    // Connect our left child with the new node.
-    successor.left = left
-    left.parent = successor
-
-    // Connect our right child with the new node. If the right child does
-    // not have any left children of its own, then the in-order successor
-    // *is* the right child.
-    if right !== successor {
-      successor.right = right
-      right.parent = successor
-    } else {
-      successor.right = nil
-    }
-
-    // And finally, connect the successor node to our parent.
-    return successor
+    
+    return replacement;
   }
 
   private func reconnectParentTo(node: BinarySearchTree?) {
@@ -350,24 +322,23 @@ extension BinarySearchTree: CustomStringConvertible {
     }
     return s
   }
+   
+   public func toArray() -> [T] {
+      return map { $0 }
+   }
+
 }
 
-extension BinarySearchTree: CustomDebugStringConvertible {
-  public var debugDescription: String {
-    var s = "value: \(value)"
-    if let parent = parent {
-      s += ", parent: \(parent.value)"
-    }
-    if let left = left {
-      s += ", left = [" + left.debugDescription + "]"
-    }
-    if let right = right {
-      s += ", right = [" + right.debugDescription + "]"
-    }
-    return s
-  }
-
-  public func toArray() -> [T] {
-    return map { $0 }
-  }
-}
+//extension BinarySearchTree: CustomDebugStringConvertible {
+//  public var debugDescription: String {
+//   var s = ""
+//   if let left = left {
+//      s += "(\(left.description)) <- "
+//   }
+//   s += "\(value)"
+//   if let right = right {
+//      s += " -> (\(right.description))"
+//   }
+//   return s
+//  }
+//}
