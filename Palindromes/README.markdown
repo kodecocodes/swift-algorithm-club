@@ -27,23 +27,22 @@ Here is a recursive implementation of this in Swift:
 
 ```swift
 func palindromeCheck (text: String?) -> Bool {
-  if let text = text {
-    let mutableText = text.trimmingCharacters(in: NSCharacterSet.whitespaces()).lowercased()
-    let length: Int = mutableText.characters.count
-    
-    guard length >= 1 else {
-      return false
+    if let text = text {
+        let mutableText = text.trimmingCharacters(in: NSCharacterSet.whitespaces).lowercased()
+        let length: Int = mutableText.characters.count
+        
+        guard length >= 1 else {
+            return false
+        }
+        
+        if length == 1 {
+            return true
+        } else if mutableText[mutableText.startIndex] == mutableText[mutableText.index(mutableText.endIndex, offsetBy: -1)] {
+            let range = Range<String.Index>(mutableText.index(mutableText.startIndex, offsetBy: 1)..<mutableText.index(mutableText.endIndex, offsetBy: -1))
+            return palindromeCheck(text: mutableText.substring(with: range))
+        }
     }
-
-    if length == 1 {
-      return true
-    } else if mutableText[mutableText.startIndex] == mutableText[mutableText.index(mutableText.endIndex, offsetBy: -1)] {
-      let range = Range<String.Index>(mutableText.index(mutableText.startIndex, offsetBy: 1)..<mutableText.index(mutableText.endIndex, offsetBy: -1))
-      return palindromeCheck(text: mutableText.substring(with: range))
-    }
-  }
-
-  return false
+    return false
 }
 ```
 
