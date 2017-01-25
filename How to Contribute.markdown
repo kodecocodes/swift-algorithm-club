@@ -21,7 +21,7 @@ To keep this a high quality repo, please follow this process when submitting you
 1. Create a pull request to "claim" an algorithm or data structure. Just so multiple people don't work on the same thing.
 2. Use this [style guide](https://github.com/raywenderlich/swift-style-guide) for writing code (more or less).
 3. Write an explanation of how the algorithm works. Include **plenty of examples** for readers to follow along. Pictures are good. Take a look at [the explanation of quicksort](Quicksort/) to get an idea.
-4. Include your name in the explanation, something like *Written by Your Name* at the end of the document. If you wrote it, you deserve the credit and fame.
+4. Include your name in the explanation, something like *Written by Your Name* at the end of the document. 
 5. Add a playground and/or unit tests.
 6. Run [SwiftLint](https://github.com/realm/SwiftLint)  
   - [Install](https://github.com/realm/SwiftLint#installation)
