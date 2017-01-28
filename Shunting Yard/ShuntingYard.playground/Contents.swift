@@ -15,17 +15,17 @@ public enum OperatorType: CustomStringConvertible {
 
   public var description: String {
     switch self {
-      case add:
+      case .add:
         return "+"
-      case subtract:
+      case .subtract:
         return "-"
-      case divide:
+      case .divide:
         return "/"
-      case multiply:
+      case .multiply:
         return "*"
-      case percent:
+      case .percent:
         return "%"
-      case exponent:
+      case .exponent:
         return "^"
     }
   }
@@ -39,13 +39,13 @@ public enum TokenType: CustomStringConvertible {
 
   public var description: String {
     switch self {
-      case openBracket:
+      case .openBracket:
         return "("
-      case closeBracket:
+      case .closeBracket:
         return ")"
-      case Operator(let operatorToken):
+      case .Operator(let operatorToken):
         return operatorToken.description
-      case operand(let value):
+      case .operand(let value):
         return "\(value)"
     }
   }
@@ -141,23 +141,23 @@ public struct Token: CustomStringConvertible {
 public class InfixExpressionBuilder {
   private var expression = [Token]()
 
-  public func addOperator(operatorType: OperatorType) -> InfixExpressionBuilder {
+  public func addOperator(_ operatorType: OperatorType) -> InfixExpressionBuilder {
     expression.append(Token(operatorType: operatorType))
     return self
   }
 
-  public func addOperand(operand: Double) -> InfixExpressionBuilder {
+  public func addOperand(_ operand: Double) -> InfixExpressionBuilder {
     expression.append(Token(operand: operand))
     return self
   }
 
   public func addOpenBracket() -> InfixExpressionBuilder {
-    expression.append(Token(tokenType: .OpenBracket))
+    expression.append(Token(tokenType: .openBracket))
     return self
   }
 
   public func addCloseBracket() -> InfixExpressionBuilder {
-    expression.append(Token(tokenType: .CloseBracket))
+    expression.append(Token(tokenType: .closeBracket))
     return self
   }
 
@@ -168,7 +168,7 @@ public class InfixExpressionBuilder {
 }
 
 // This returns the result of the shunting yard algorithm
-public func reversePolishNotation(expression: [Token]) -> String {
+public func reversePolishNotation(_ expression: [Token]) -> String {
 
   var tokenStack = Stack<Token>()
   var reversePolishNotation = [Token]()
@@ -187,14 +187,14 @@ public func reversePolishNotation(expression: [Token]) -> String {
         }
 
       case .Operator(let operatorToken):
-        for tempToken in tokenStack.generate() {
+        for tempToken in tokenStack.makeIterator() {
           if !tempToken.isOperator {
             break
           }
 
           if let tempOperatorToken = tempToken.operatorToken {
-            if operatorToken.associativity == .LeftAssociative && operatorToken <= tempOperatorToken
-                || operatorToken.associativity == .RightAssociative && operatorToken < tempOperatorToken {
+            if operatorToken.associativity == .leftAssociative && operatorToken <= tempOperatorToken
+                || operatorToken.associativity == .rightAssociative && operatorToken < tempOperatorToken {
               reversePolishNotation.append(tokenStack.pop()!)
             } else {
               break
@@ -209,7 +209,7 @@ public func reversePolishNotation(expression: [Token]) -> String {
     reversePolishNotation.append(tokenStack.pop()!)
   }
 
-  return reversePolishNotation.map({token in token.description}).joinWithSeparator(" ")
+  return reversePolishNotation.map({token in token.description}).joined(separator: " ")
 }
 
 
