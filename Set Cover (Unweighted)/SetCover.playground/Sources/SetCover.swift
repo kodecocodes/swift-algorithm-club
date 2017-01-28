@@ -8,7 +8,7 @@ public extension Set {
       var largestSet: Set<Element>?
 
       for set in array {
-        let intersectionLength = remainingSet.intersect(set).count
+        let intersectionLength = remainingSet.intersection(set).count
         if intersectionLength > largestIntersectionLength {
           largestIntersectionLength = intersectionLength
           largestSet = set
@@ -21,7 +21,7 @@ public extension Set {
     while !remainingSet.isEmpty {
       guard let largestSet = largestIntersectingSet() else { break }
       result!.append(largestSet)
-      remainingSet = remainingSet.subtract(largestSet)
+      remainingSet = remainingSet.subtracting(largestSet)
     }
 
     if !remainingSet.isEmpty || isEmpty {

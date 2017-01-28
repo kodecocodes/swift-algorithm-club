@@ -31,3 +31,4 @@ If there is no cover within the group of sets, `cover` returns `nil`.
 [Set cover problem on Wikipedia](https://en.wikipedia.org/wiki/Set_cover_problem)
 
 *Written for Swift Algorithm Club by [Michael C. Rael](https://github.com/mrael2)*
+*Migrated to Swift 3 by Jaap Wijnen*
