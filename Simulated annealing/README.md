@@ -17,10 +17,12 @@ Pseucocode
 			Sbest = Scurrent
 		temperature = temperature * (1-coolingRate)
 	
-Common acceptance criteria : P(accept) <- exp((e-ne)/T) where 
-	e is the current energy ( current solution ), 
-	ne is new energy ( new solution ),
-	T is current temperature.
+Common acceptance criteria : 
+
+	P(accept) <- exp((e-ne)/T) where 
+		e is the current energy ( current solution ), 
+		ne is new energy ( new solution ),
+		T is current temperature.
 
 
 We use this algorithm to solve a Travelling salesman problem instance with 20 cities. The code is in `simann_example.swift`
@@ -28,6 +30,7 @@ We use this algorithm to solve a Travelling salesman problem instance with 20 ci
 #See also
 
 [Simulated annealing on Wikipedia](https://en.wikipedia.org/wiki/Simulated_annealing) 
+
 [Travelling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem)
 
 Written for Swift Algorithm Club by [Mike Taghavi](https://github.com/mitghi)
