@@ -281,7 +281,7 @@ Those empty spots at the front only get used when you call `enqueueFront()`. But
 
 Recall that `capacity` is the original number of empty places at the front of the queue. If the `head` has advanced more to the right than twice the capacity, then it's time to trim off a bunch of these empty spots. We reduce it to about 25%.
 
-> **Note:**  he deque will keep at least its original capacity by comparing `capacity` to `originalCapacity`.
+> **Note:**  The deque will keep at least its original capacity by comparing `capacity` to `originalCapacity`.
 
 For example, this:
 
