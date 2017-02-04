@@ -58,7 +58,7 @@ Sometimes you don't want to look at just a single node, but at all of them.
 There are three ways to traverse a binary tree:
 
 1. *In-order* (or *depth-first*): first look at the left child of a node, then at the node itself, and finally at its right child.
-2. *Pre-order*: first look at a node, then its left and right children. 
+2. *Pre-order*: first look at a node, then its left and right children.
 3. *Post-order*: first look at the left and right children and process the node itself last.
 
 Once again, this happens recursively.
@@ -133,7 +133,7 @@ public class BinarySearchTree<T: Comparable> {
 }
 ```
 
-This class describes just a single node, not the entire tree. It's a generic type, so the node can store any kind of data. It also has references to its `left` and `right` child nodes and a `parent` node. 
+This class describes just a single node, not the entire tree. It's a generic type, so the node can store any kind of data. It also has references to its `left` and `right` child nodes and a `parent` node.
 
 Here's how you'd use it:
 
@@ -258,7 +258,7 @@ Here is the implementation of `search()`:
 
 I hope the logic is clear: this starts at the current node (usually the root) and compares the values. If the search value is less than the node's value, we continue searching in the left branch; if the search value is greater, we dive into the right branch.
 
-Of course, if there are no more nodes to look at -- when `left` or `right` is nil -- then we return `nil` to indicate the search value is not in the tree. 
+Of course, if there are no more nodes to look at -- when `left` or `right` is nil -- then we return `nil` to indicate the search value is not in the tree.
 
 > **Note:** In Swift that's very conveniently done with optional chaining; when you write `left?.search(value)` it automatically returns nil if `left` is nil. There's no need to explicitly check for this with an `if` statement.
 
@@ -300,21 +300,21 @@ The first three lines all return the corresponding `BinaryTreeNode` object. The 
 Remember there are 3 different ways to look at all nodes in the tree? Here they are:
 
 ```swift
-  public func traverseInOrder(@noescape process: T -> Void) {
-    left?.traverseInOrder(process)
+  public func traverseInOrder(process: (T) -> Void) {
+    left?.traverseInOrder(process: process)
     process(value)
-    right?.traverseInOrder(process)
+    right?.traverseInOrder(process: process)
   }
-  
-  public func traversePreOrder(@noescape process: T -> Void) {
+
+  public func traversePreOrder(process: (T) -> Void) {
     process(value)
-    left?.traversePreOrder(process)
-    right?.traversePreOrder(process)
+    left?.traversePreOrder(process: process)
+    right?.traversePreOrder(process: process)
   }
-  
-  public func traversePostOrder(@noescape process: T -> Void) {
-    left?.traversePostOrder(process)
-    right?.traversePostOrder(process)
+
+  public func traversePostOrder(process: (T) -> Void) {
+    left?.traversePostOrder(process: process)
+    right?.traversePostOrder(process: process)
     process(value)
   }
 ```
@@ -339,11 +339,12 @@ This prints the following:
 You can also add things like `map()` and `filter()` to the tree. For example, here's an implementation of map:
 
 ```swift
-  public func map(@noescape formula: T -> T) -> [T] {
+
+  public func map(formula: (T) -> T) -> [T] {
     var a = [T]()
-    if let left = left { a += left.map(formula) }
+    if let left = left { a += left.map(formula: formula) }
     a.append(formula(value))
-    if let right = right { a += right.map(formula) }
+    if let right = right { a += right.map(formula: formula) }
     return a
   }
 ```
@@ -365,7 +366,7 @@ tree.toArray()   // [1, 2, 5, 7, 9, 10]
 ```
 
 As an exercise for yourself, see if you can implement filter and reduce.
- 
+
 ### Deleting nodes
 
 We can make the code much more readable by defining some helper functions.
@@ -395,7 +396,7 @@ We also need a function that returns the minimum and maximum of a node:
     }
     return node
   }
-  
+
   public func maximum() -> BinarySearchTree {
     var node = self
     while case let next? = node.right {
@@ -411,30 +412,32 @@ The rest of the code is pretty self-explanatory:
 ```swift
   @discardableResult public func remove() -> BinarySearchTree? {
     let replacement: BinarySearchTree?
-    
+
     // Replacement for current node can be either biggest one on the left or
     // smallest one on the right, whichever is not nil
-    if let left = left {
-      replacement = left.maximum()
-    } else if let right = right {
+    if let right = right {
       replacement = right.minimum()
+    } else if let left = left {
+      replacement = left.maximum()
     } else {
-      replacement = nil;
+      replacement = nil
     }
-    
-    replacement?.remove();
+
+    replacement?.remove()
 
     // Place the replacement on current node's position
-    replacement?.right = right;
-    replacement?.left = left;
-    reconnectParentTo(node:replacement);
-    
+    replacement?.right = right
+    replacement?.left = left
+    right?.parent = replacement
+    left?.parent = replacement
+    reconnectParentTo(node:replacement)
+
     // The current node is no longer part of the tree, so clean it up.
     parent = nil
     left = nil
     right = nil
-    
-    return replacement;
+
+    return replacement
   }
 ```
 
@@ -574,7 +577,7 @@ if let node1 = tree.search(1) {
 
 ## The code (solution 2)
 
-We've implemented the binary tree node as a class but you can also use an enum. 
+We've implemented the binary tree node as a class but you can also use an enum.
 
 The difference is reference semantics versus value semantics. Making a change to the class-based tree will update that same instance in memory. But the enum-based tree is immutable -- any insertions or deletions will give you an entirely new copy of the tree. Which one is best totally depends on what you want to use it for.
 
@@ -588,7 +591,7 @@ public enum BinarySearchTree<T: Comparable> {
 }
 ```
 
-The enum has three cases: 
+The enum has three cases:
 
 - `Empty` to mark the end of a branch (the class-based version used `nil` references for this).
 - `Leaf` for a leaf node that has no children.
@@ -606,7 +609,7 @@ As usual, we'll implement most functionality recursively. We'll treat each case 
     case let .Node(left, _, right): return left.count + 1 + right.count
     }
   }
-  
+
   public var height: Int {
     switch self {
     case .Empty: return 0
@@ -623,7 +626,7 @@ Inserting new nodes looks like this:
     switch self {
     case .Empty:
       return .Leaf(newValue)
-      
+
     case .Leaf(let value):
       if newValue < value {
         return .Node(.Leaf(newValue), value, .Empty)
