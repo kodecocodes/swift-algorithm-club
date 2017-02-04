@@ -109,10 +109,10 @@ extension BinarySearchTree {
     
     // Replacement for current node can be either biggest one on the left or
     // smallest one on the right, whichever is not nil
-    if let left = left {
-      replacement = left.maximum()
-    } else if let right = right {
+    if let right = right {
       replacement = right.minimum()
+    } else if let left = left {
+      replacement = left.maximum()
     } else {
       replacement = nil;
     }
@@ -122,6 +122,8 @@ extension BinarySearchTree {
     // Place the replacement on current node's position
     replacement?.right = right;
     replacement?.left = left;
+    right?.parent = replacement
+    left?.parent = replacement
     reconnectParentTo(node:replacement);
     
     // The current node is no longer part of the tree, so clean it up.
