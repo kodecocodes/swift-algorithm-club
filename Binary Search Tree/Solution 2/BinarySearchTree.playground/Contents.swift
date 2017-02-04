@@ -12,5 +12,3 @@ print(tree)
 tree.search(x: 10)
 tree.search(x: 1)
 tree.search(x: 11)
-
-
