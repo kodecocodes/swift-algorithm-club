@@ -22,7 +22,7 @@ public class BinarySearchTree<T: Comparable> {
   public convenience init(array: [T]) {
     precondition(array.count > 0)
     self.init(value: array.first!)
-    for v in array.dropFirst() { 
+    for v in array.dropFirst() {
       insert(value: v)
     }
   }
@@ -106,30 +106,32 @@ extension BinarySearchTree {
   */
   @discardableResult public func remove() -> BinarySearchTree? {
     let replacement: BinarySearchTree?
-    
+
     // Replacement for current node can be either biggest one on the left or
     // smallest one on the right, whichever is not nil
-    if let left = left {
-      replacement = left.maximum()
-    } else if let right = right {
+    if let right = right {
       replacement = right.minimum()
+    } else if let left = left {
+      replacement = left.maximum()
     } else {
-      replacement = nil;
+      replacement = nil
     }
-    
-    replacement?.remove();
+
+    replacement?.remove()
 
     // Place the replacement on current node's position
-    replacement?.right = right;
-    replacement?.left = left;
-    reconnectParentTo(node:replacement);
-    
+    replacement?.right = right
+    replacement?.left = left
+    right?.parent = replacement
+    left?.parent = replacement
+    reconnectParentTo(node:replacement)
+
     // The current node is no longer part of the tree, so clean it up.
     parent = nil
     left = nil
     right = nil
-    
-    return replacement;
+
+    return replacement
   }
 
   private func reconnectParentTo(node: BinarySearchTree?) {
@@ -322,7 +324,7 @@ extension BinarySearchTree: CustomStringConvertible {
     }
     return s
   }
-   
+
    public func toArray() -> [T] {
       return map { $0 }
    }
