@@ -6,7 +6,7 @@ Any mathematics we write is expressed in a notation known as *infix notation*. F
 
 The operator is placed in between the operands, hence the expression is said to be in *infix* form. If you think about it, any expression that you write on a piece of paper will always be in infix form. This is what we humans understand.
 
-Multiplication has higher precedence than addition, so when the above expression is evaluated you would first multiply **B** and **C**, and then add the result to **A**. We humans can easily understand the precedence of operators, but a machine needs to be given instructions about each operator. 
+Multiplication has higher precedence than addition, so when the above expression is evaluated you would first multiply **B** and **C**, and then add the result to **A**. We humans can easily understand the precedence of operators, but a machine needs to be given instructions about each operator.
 
 To change the order of evaluation, we can use parentheses:
 
@@ -109,3 +109,4 @@ We end up with the postfix expression:
 [Shunting yard algorithm on Wikipedia](https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
 
 *Written for the Swift Algorithm Club by [Ali Hafizji](http://www.github.com/aliHafizji)*
+*Migrated to Swift 3 by Jaap Wijnen*
