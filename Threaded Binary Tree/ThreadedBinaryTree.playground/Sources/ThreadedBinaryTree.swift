@@ -120,7 +120,7 @@ extension ThreadedBinaryTree {
      
      Performance: runs in O(h) time, where h is the height of the tree.
      */
-    public func remove(_ value: T) -> ThreadedBinaryTree? {
+    @discardableResult public func remove(_ value: T) -> ThreadedBinaryTree? {
         return search(value)?.remove()
     }
     
