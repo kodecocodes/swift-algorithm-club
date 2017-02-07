@@ -3,28 +3,28 @@
 
 // Simple little debug function to make testing output pretty
 func check(_ tree: ThreadedBinaryTree<Int>?) {
-    if let tree = tree {
-        print("\(tree.count) Total Nodes:")
-        print(tree)
-        print("Debug Info:")
-        print(tree.debugDescription)
-        print("In-Order Traversal:")
-        let myArray = tree.toArray()
-        for node in myArray {
-            print(node)
-        }
-        if tree.isBST(minValue: Int.min, maxValue: Int.max) {
-            print("This is a VALID binary search tree.")
-        } else {
-            print("This is an INVALID binary search tree.")
-        }
-        if tree.isThreaded() {
-            print("This is a VALID threaded binary tree.")
-        } else {
-            print("This is an INVALID threaded binary tree.")
-        }
+  if let tree = tree {
+    print("\(tree.count) Total Nodes:")
+    print(tree)
+    print("Debug Info:")
+    print(tree.debugDescription)
+    print("In-Order Traversal:")
+    let myArray = tree.toArray()
+    for node in myArray {
+      print(node)
+    }
+    if tree.isBST(minValue: Int.min, maxValue: Int.max) {
+      print("This is a VALID binary search tree.")
     } else {
-        print("This tree is nil.")
+      print("This is an INVALID binary search tree.")
+    }
+    if tree.isThreaded() {
+      print("This is a VALID threaded binary tree.")
+    } else {
+      print("This is an INVALID threaded binary tree.")
+    }
+    } else {
+      print("This tree is nil.")
     }
 }
 
