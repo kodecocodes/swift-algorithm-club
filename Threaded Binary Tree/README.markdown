@@ -158,31 +158,31 @@ outlined above.  We use these predecessor/successor attributes to great effect
 in this new algorithm for both forward and backward traversals:
 
 ```swift
-func traverseInOrderForward(visit: T -> Void) {
-  var n: ThreadedBinaryTree
-  n = minimum()
-  while true {
-    visit(n.value)
-    if let successor = n.successor() {
-      n = successor
-    } else {
-      break
+    public func traverseInOrderForward(_ visit: (T) -> Void) {
+        var n: ThreadedBinaryTree
+        n = minimum()
+        while true {
+            visit(n.value)
+            if let successor = n.successor() {
+                n = successor
+            } else {
+                break
+            }
+        }
     }
-  }
-}
 
-func traverseInOrderBackward(visit: T -> Void) {
-  var n: ThreadedBinaryTree
-  n = maximum()
-  while true {
-    visit(n.value)
-    if let predecessor = n.predecessor() {
-      n = predecessor
-    } else {
-      break
+    public func traverseInOrderBackward(_ visit: (T) -> Void) {
+        var n: ThreadedBinaryTree
+        n = maximum()
+        while true {
+            visit(n.value)
+            if let predecessor = n.predecessor() {
+                n = predecessor
+            } else {
+                break
+            }
+        }
     }
-  }
-}
 ```
 Again, this a method of `ThreadedBinaryTree`, so we'd call it via
 `node.traverseInorderForward(visitFunction)`.  Note that we are able to specify
@@ -221,7 +221,7 @@ continuously manage the `leftThread` and `rightThread` variables.  Rather than
 walking through some boring code, it is best to explain this with an example
 (although you can read through [the implementation](ThreadedBinaryTree.swift)
 if you want to know the finer details).  Please note that this requires
-knowledge of binary search trees, so make sure you have 
+knowledge of binary search trees, so make sure you have
 [read this first](../Binary Search Tree/).
 
 > Note: we do allow duplicate nodes in this implementation of a threaded binary
@@ -342,11 +342,12 @@ Many of these methods are inherent to binary search trees as well, so you can
 find [further documentation here](../Binary Search Tree/).
 
 
-## See also 
+## See also
 
 [Threaded Binary Tree on Wikipedia](https://en.wikipedia.org/wiki/Threaded_binary_tree)
 
 *Written for the Swift Algorithm Club by
 [Jayson Tung](https://github.com/JFTung)*
+*Migrated to Swift 3 by Jaap Wijnen*
 
 *Images made using www.draw.io*
