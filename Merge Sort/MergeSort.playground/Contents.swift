@@ -12,6 +12,9 @@ func merge<T: Comparable>(leftPile: [T], rightPile: [T]) -> [T] {
   var leftIndex = 0
   var rightIndex = 0
   var orderedPile = [T]()
+  if orderedPile.capacity < leftPile.count + rightPile.count {
+    orderedPile.reserveCapacity(leftPile.count + rightPile.count)
+  }
 
   while leftIndex < leftPile.count && rightIndex < rightPile.count {
     if leftPile[leftIndex] < rightPile[rightIndex] {
