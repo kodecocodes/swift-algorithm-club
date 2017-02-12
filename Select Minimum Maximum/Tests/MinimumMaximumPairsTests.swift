@@ -71,8 +71,8 @@ class MinimumMaximumPairsTests: XCTestCase {
 
         let result = minimumMaximum(array)!
 
-        XCTAssertEqual(result.minimum, array.minElement())
-        XCTAssertEqual(result.maximum, array.maxElement())
+        XCTAssertEqual(result.minimum, array.min())
+        XCTAssertEqual(result.maximum, array.max())
       }
     }
   }

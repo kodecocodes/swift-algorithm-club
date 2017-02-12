@@ -5,12 +5,12 @@ class QuicksortTests: XCTestCase {
     checkSortAlgorithm(quicksort)
   }
 
-  private typealias QuicksortFunction = (inout [Int], low: Int, high: Int) -> Void
+  fileprivate typealias QuicksortFunction = (inout [Int], _ low: Int, _ high: Int) -> Void
 
-  private func checkQuicksort(function: QuicksortFunction) {
+  fileprivate func checkQuicksort(_ function: QuicksortFunction) {
     checkSortAlgorithm { (a: [Int]) -> [Int] in
       var b = a
-      function(&b, low: 0, high: b.count - 1)
+      function(&b, 0, b.count - 1)
       return b
     }
   }
