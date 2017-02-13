@@ -18,7 +18,7 @@ extension BinaryTree: CustomStringConvertible {
   public var description: String {
     switch self {
     case let .node(left, value, right):
-      return "value: \(value), left = [" + left.description + "], right = [" + right.description + "]"
+      return "value: \(value), left = [\(left.description)], right = [\(right.description)]"
     case .empty:
       return ""
     }
