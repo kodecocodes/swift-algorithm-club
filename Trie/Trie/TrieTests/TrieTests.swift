@@ -183,5 +183,13 @@ class TrieTests: XCTestCase {
         XCTAssertEqual(words2, ["exam", "examination"]);
         let noWords = trie.findWordsWithPrefix(prefix: "tee")
         XCTAssertEqual(noWords, []);
+        let unicodeWord = "😬😎"
+        trie.insert(word: unicodeWord)
+        let wordsUnicode = trie.findWordsWithPrefix(prefix: "😬")
+        XCTAssertEqual(wordsUnicode, [unicodeWord]);
+        trie.insert(word: "Team")
+        let wordsUpperCase = trie.findWordsWithPrefix(prefix: "Te")
+        XCTAssertEqual(wordsUpperCase.sorted(), ["team", "test"]);
+
     }
 }

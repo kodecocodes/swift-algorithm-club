@@ -241,12 +241,13 @@ extension Trie {
   /// - Returns: the words in the subtrie that start with prefix
   func findWordsWithPrefix(prefix: String) -> [String] {
       var words = [String]()
-      if let lastNode = findLastNodeOf(word: prefix) {
+      let prefixLowerCased = prefix.lowercased()
+      if let lastNode = findLastNodeOf(word: prefixLowerCased) {
           if lastNode.isTerminating {
-              words.append(prefix)
+              words.append(prefixLowerCased)
           }
           for childNode in lastNode.children.values {
-              let childWords = wordsInSubtrie(rootNode: childNode, partialWord: prefix)
+              let childWords = wordsInSubtrie(rootNode: childNode, partialWord: prefixLowerCased)
               words += childWords
           }
       }
