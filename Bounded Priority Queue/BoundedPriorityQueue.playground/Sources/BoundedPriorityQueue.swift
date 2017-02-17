@@ -9,7 +9,7 @@ public class LinkedListNode<T: Comparable> {
 }
 
 public class BoundedPriorityQueue<T: Comparable> {
-  private typealias Node = LinkedListNode<T>
+  fileprivate typealias Node = LinkedListNode<T>
 
   private(set) public var count = 0
   fileprivate var head: Node?
