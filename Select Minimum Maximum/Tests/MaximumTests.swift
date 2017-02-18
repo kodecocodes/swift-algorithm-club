@@ -49,7 +49,7 @@ class MaximumTests: XCTestCase {
 
         let result = maximum(array)
 
-        XCTAssertEqual(result, array.maxElement())
+        XCTAssertEqual(result, array.max())
       }
     }
   }
