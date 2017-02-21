@@ -2,6 +2,8 @@
 
 A quadtree is a [tree](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Tree) in which each internal (not leaf) node has four children.
 
+<img src="https://github.com/timaktimak/swift-algorithm-club/blob/master/QuadTree/Images/quadtree.png" width="500">
+
 ### Problem
 
 Consider the following problem: your need to store a number of points (each point is a pair of `X` and `Y` coordinates) and then you need to answer which points lie in a certain rectangular region. A naive solution would be to store the points inside an array and then iterate over the points and check each one individually. This solution runs in O(n) though. 
