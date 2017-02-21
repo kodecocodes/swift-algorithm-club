@@ -104,7 +104,7 @@ extension Rect: CustomStringConvertible {
   }
 }
 
-protocol PointsContainter {
+protocol PointsContainer {
   func add(point: Point) -> Bool
   func points(inRect rect: Rect) -> [Point]
 }
@@ -185,7 +185,7 @@ class QuadTreeNode {
   }
 }
 
-extension QuadTreeNode: PointsContainter {
+extension QuadTreeNode: PointsContainer {
   
   @discardableResult
   func add(point: Point) -> Bool {
@@ -265,7 +265,7 @@ extension QuadTreeNode: CustomStringConvertible {
   }
 }
 
-public class QuadTree: PointsContainter {
+public class QuadTree: PointsContainer {
   
   let root: QuadTreeNode
   
