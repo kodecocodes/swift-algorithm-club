@@ -35,7 +35,7 @@
 如果你是一个新手，下面的文章是一个很好的开始：
 
 - [栈](Stack/README-CN.markdown)
-- [队列](Queue/)
+- [队列](Queue/README-CN.markdown)
 - [插入排序](Insertion Sort/)
 - [二分搜索](Binary Search/) 和 [二分搜索树](Binary Search Tree/)
 - [归并排序](Merge Sort/)
