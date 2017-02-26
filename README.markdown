@@ -1,4 +1,5 @@
 ![Swift Algorithm Club](/Images/SwiftAlgorithm-410-transp.png)
+
 [中文版](README-CN.markdown)
 
 # Welcome to the Swift Algorithm Club!

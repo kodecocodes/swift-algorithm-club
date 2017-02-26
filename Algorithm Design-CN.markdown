@@ -4,10 +4,8 @@
 
 ### 是否与另一个问题相似？
 
-If you can frame your problem in terms of another, more general problem, then you might be able to use an existing algorithm. Why reinvent the wheel?
 如果可以把问题概括成另一个更一般的问题的话，那么就可以使用已经存在的算法。为什么要发明轮子呢？
 
-One thing I like about [The Algorithm Design Manual](http://www.algorist.com) by Steven Skiena is that it includes a catalog of problems and solutions you can try. (See also his [algorithm repository](http://www3.cs.stonybrook.edu/~algorith/).)
 我喜欢 Steven Skiena 的 [算法设计手册](http://www.algorist.com)的一个重要原因就是，它里面包含了一个你可以用的问题和解决方案的目录(参考[algorithm repository](http://www.algorist.com)).
 
 ### 简单粗暴的开始并没有错
