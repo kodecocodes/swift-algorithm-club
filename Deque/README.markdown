@@ -119,9 +119,11 @@ public struct Deque<T> {
   private var array: [T?]
   private var head: Int
   private var capacity: Int
+  private let originalCapacity:Int
   
   public init(_ capacity: Int = 10) {
     self.capacity = max(capacity, 1)
+    originalCapacity = self.capacity
     array = [T?](repeating: nil, count: capacity)
     head = capacity
   }
@@ -267,7 +269,7 @@ Those empty spots at the front only get used when you call `enqueueFront()`. But
     array[head] = nil
     head += 1
 
-    if capacity > 10 && head >= capacity*2 {
+    if capacity >= originalCapacity && head >= capacity*2 {
       let amountToRemove = capacity + capacity/2
       array.removeFirst(amountToRemove)
       head -= amountToRemove
@@ -279,6 +281,8 @@ Those empty spots at the front only get used when you call `enqueueFront()`. But
 
 Recall that `capacity` is the original number of empty places at the front of the queue. If the `head` has advanced more to the right than twice the capacity, then it's time to trim off a bunch of these empty spots. We reduce it to about 25%.
 
+> **Note:**  The deque will keep at least its original capacity by comparing `capacity` to `originalCapacity`.
+
 For example, this:
 
 	[ x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, 1, 2, 3 ]
@@ -288,9 +292,9 @@ For example, this:
 becomes after trimming:
 
 	[ x, x, x, x, x, 1, 2, 3 ]
-	              |
-	              head
-	              capacity
+	                 |
+	                 head
+	                 capacity
 
 This way we can strike a balance between fast enqueuing and dequeuing at the front and keeping the memory requirements reasonable.
 
