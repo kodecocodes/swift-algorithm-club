@@ -1,59 +1,58 @@
 ![Swift Algorithm Club](/Images/SwiftAlgorithm-410-transp.png)
-[中文版](README-CN.markdown)
+[English](README.markdown)
 
-# Welcome to the Swift Algorithm Club!
+# 欢迎来到 Swift 算法俱乐部！
 
-Here you'll find implementations of popular algorithms and data structures in everyone's favorite new language Swift, with detailed explanations of how they work.
+在这里可以找到用大家最喜欢的新语言 Swift 实现的常见的算法和数据结构的实现，并且有这些算法和数据结构是如何工作的细节展示。
 
-If you're a computer science student who needs to learn this stuff for exams -- or if you're a self-taught programmer who wants to brush up on the theory behind your craft -- you've come to the right place!
+如果你是一个计算机系的学生，需要学习算法和数据结构来应付考试，又或者你是一个自学变成的程序员，想要复习各种理论知识，那么你来对地方了！
 
-The goal of this project is to **explain how algorithms work**. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use but you may need to tweak it to fit into your own codebase.
+这个项目的目的是**揭示算法是如何工作的**。我们将重点关注代码的清晰度和可读性，而不会做一个可以直接添加到你工程里的复用库。也就是说，大部分的代码是为了展示用的，想要使用就要在自己代码的基础上进行调整。
 
-Most code is compatible with **Xcode 8.2** and **Swift 3**. We'll keep this updated with the latest version of Swift.
+大部分的代码是兼容**Xcode 8.2** 和**Swift3**的。我们会持续更新以便与最新的 Swift 兼容。
 
-This is a work in progress. More algorithms will be added soon. :-)
+这是一个持续的工作。陆续会有更多的算法加进来。:-)
 
-:heart_eyes: **Suggestions and contributions are welcome!** :heart_eyes:
+:heart_eyes: **欢迎提出建议和做贡献!** :heart_eyes:
 
-## Important links
+## 重要链接
 
-[What are algorithms and data structures?](What are Algorithms.markdown) Pancakes!
+[什么是算法和数据结构?](What are Algorithms-CN.markdown) 薄煎饼!
 
-[Why learn algorithms?](Why Algorithms.markdown) Worried this isn't your cup of tea? Then read this.
+[为什么学习算法？](Why Algorithms.markdown) 还在担心这不是你的菜吗？看看这个吧
 
-[Big-O notation](Big-O Notation.markdown). We often say things like, "This algorithm is **O(n)**." If you don't know what that means, read this first.
+[大 O 表示法](Big-O Notation.markdown)。 我们经常会说“这个算法是**O(n)**”。如果你不知道这是什么意思，读读这篇吧。
 
-[Algorithm design techniques](Algorithm Design.markdown). How do you create your own algorithms?
+[算法设计技巧](Algorithm Design.markdown)。怎样设计自己的算法？
 
-[How to contribute](How to Contribute.markdown). Report an issue to leave feedback, or submit a pull request.
+[如何做贡献](How to Contribute.markdown)。报告问题或者提交 pull 请求
 
-[Under construction](Under Construction.markdown). Algorithms that are under construction.
+[构建中](Under Construction.markdown)。 还没有实现的算法
 
-## Where to start?
+## 从哪里开始
 
-If you're new to algorithms and data structures, here are a few good ones to start out with:
+如果你是一个新手，下面的文章是一个很好的开始：
 
-- [Stack](Stack/)
-- [Queue](Queue/)
-- [Insertion Sort](Insertion Sort/)
-- [Binary Search](Binary Search/) and [Binary Search Tree](Binary Search Tree/)
-- [Merge Sort](Merge Sort/)
-- [Boyer-Moore string search](Boyer-Moore/)
+- [栈](Stack/)
+- [队列](Queue/)
+- [插入排序](Insertion Sort/)
+- [二分搜索](Binary Search/) 和 [二分搜索树](Binary Search Tree/)
+- [归并排序](Merge Sort/)
+- [Boyer-Moore 字符串搜索](Boyer-Moore/)
 
-## The algorithms
+## 算法
 
-### Searching
+### 搜索
 
-- [Linear Search](Linear Search/). Find an element in an array.
-- [Binary Search](Binary Search/). Quickly find elements in a sorted array.
-- [Count Occurrences](Count Occurrences/). Count how often a value appears in an array.
-- [Select Minimum / Maximum](Select Minimum Maximum). Find the minimum/maximum value in an array.
-- [k-th Largest Element](Kth Largest Element/). Find the *k*-th largest element in an array, such as the median.
-- [Selection Sampling](Selection Sampling/). Randomly choose a bunch of items from a collection.
-- [Union-Find](Union-Find/). Keeps track of disjoint sets and lets you quickly merge them.
+- [线性搜索](Linear Search/)。 在数组中查找一个元素
+- [二分搜索](Binary Search/)。 在有序数组中快速查找元素。
+- [计算出现频率](Count Occurrences/)。统计值在数组中出现的频率
+- [查找最大/最小值](Select Minimum Maximum)。 查找数组中的最大最小值
+- [第 k 大的元素](Kth Largest Element/)。找到数组中第*k*大的元素，比如中间值。
+- [选取样本](Selection Sampling/)。 从集合中随机选择一些样本
+- [联合查找](Union-Find/)。 跟踪不相交的集合并且快速合并它们
 
-
-### String Search
+### 字符串搜索
 
 - [Brute-Force String Search](Brute-Force String Search/). A naive method.
 - [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
@@ -62,7 +61,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 - [Longest Common Subsequence](Longest Common Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
 - [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
 
-### Sorting
+### 排序
 
 It's fun to see how sorting algorithms work, but in practice you'll almost never have to provide your own sorting routines. Swift's own `sort()` is more than up to the job. But if you're curious, read on...
 
