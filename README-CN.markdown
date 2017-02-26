@@ -23,9 +23,9 @@
 
 [大 O 表示法](Big-O Notation-CN.markdown)。 我们经常会说“这个算法是**O(n)**”。如果你不知道这是什么意思，读读这篇吧。
 
-[算法设计技巧](Algorithm Design.markdown)。怎样设计自己的算法？
+[算法设计技巧](Algorithm Design-CN.markdown)。怎样设计自己的算法？
 
-[如何做贡献](How to Contribute.markdown)。报告问题或者提交 pull 请求
+[如何做贡献](How to Contribute-CN.markdown)。报告问题或者提交 pull 请求
 
 [构建中](Under Construction.markdown)。 还没有实现的算法
 
