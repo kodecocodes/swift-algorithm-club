@@ -4,37 +4,37 @@
 */
 public struct OrderedArray<T: Comparable> {
   private var array = [T]()
-  
+
   public init(array: [T]) {
     self.array = array.sort()
   }
-  
+
   public var isEmpty: Bool {
     return array.isEmpty
   }
-  
+
   public var count: Int {
     return array.count
   }
-  
+
   public subscript(index: Int) -> T {
     return array[index]
   }
-  
+
   public mutating func removeAtIndex(index: Int) -> T {
     return array.removeAtIndex(index)
   }
-  
+
   public mutating func removeAll() {
     array.removeAll()
   }
-  
+
   public mutating func insert(newElement: T) -> Int {
     let i = findInsertionPoint(newElement)
     array.insert(newElement, atIndex: i)
     return i
   }
-  
+
   private func findInsertionPoint(newElement: T) -> Int {
     var range = 0..<array.count
     while range.startIndex < range.endIndex {

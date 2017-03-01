@@ -1,7 +1,7 @@
 //: Playground - noun: a place where people can play
 
-func linearSearch<T: Equatable>(array: [T], _ object: T) -> Int? {
-  for (index, obj) in array.enumerate() where obj == object {
+func linearSearch<T: Equatable>(_ array: [T], _ object: T) -> Int? {
+  for (index, obj) in array.enumerated() where obj == object {
     return index
   }
   return nil

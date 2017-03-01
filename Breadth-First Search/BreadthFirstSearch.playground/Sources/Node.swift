@@ -1,11 +1,11 @@
-public class Node : CustomStringConvertible, Equatable {
+public class Node: CustomStringConvertible, Equatable {
   public var neighbors: [Edge]
 
   public private(set) var label: String
   public var distance: Int?
   public var visited: Bool
 
-  public init(label: String) {
+  public init(_ label: String) {
     self.label = label
     neighbors = []
     visited = false
@@ -22,11 +22,11 @@ public class Node : CustomStringConvertible, Equatable {
     return distance != nil
   }
 
-  public func remove(edge: Edge) {
-    neighbors.removeAtIndex(neighbors.indexOf{ $0 === edge }!)
+  public func remove(_ edge: Edge) {
+    neighbors.remove(at: neighbors.index { $0 === edge }!)
   }
 }
 
-public func ==(lhs: Node, rhs: Node) -> Bool {
+public func == (_ lhs: Node, rhs: Node) -> Bool {
   return lhs.label == rhs.label && lhs.neighbors == rhs.neighbors
 }

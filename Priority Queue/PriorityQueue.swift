@@ -3,7 +3,7 @@
   the queue.
 
   The heap is a natural data structure for a priority queue, so this object
-  simply wraps the Heap struct. 
+  simply wraps the Heap struct.
 
   All operations are O(lg n).
 
@@ -11,13 +11,13 @@
   queue (largest element first) or a min-priority queue (smallest element first).
 */
 public struct PriorityQueue<T> {
-  private var heap: Heap<T>
+  fileprivate var heap: Heap<T>
 
   /*
     To create a max-priority queue, supply a > sort function. For a min-priority
     queue, use <.
   */
-  public init(sort: (T, T) -> Bool) {
+  public init(sort: @escaping (T, T) -> Bool) {
     heap = Heap(sort: sort)
   }
 
@@ -33,7 +33,7 @@ public struct PriorityQueue<T> {
     return heap.peek()
   }
 
-  public mutating func enqueue(element: T) {
+  public mutating func enqueue(_ element: T) {
     heap.insert(element)
   }
 
@@ -52,7 +52,7 @@ public struct PriorityQueue<T> {
 }
 
 extension PriorityQueue where T: Equatable {
-  public func indexOf(element: T) -> Int? {
-    return heap.indexOf(element)
+  public func index(of element: T) -> Int? {
+    return heap.index(of: element)
   }
 }

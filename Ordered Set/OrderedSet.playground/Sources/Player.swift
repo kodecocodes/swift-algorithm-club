@@ -6,7 +6,7 @@ public struct Player: Comparable {
 
   public init() {
     self.name = String.random()
-    self.points = random(0, max: 5000)
+    self.points = random(min: 0, max: 5000)
   }
 
   public init(name: String, points: Int) {
@@ -15,14 +15,14 @@ public struct Player: Comparable {
   }
 }
 
-// Player x is equal to Player y if and only if both players have the 
+// Player x is equal to Player y if and only if both players have the
 // same name and number of points.
-public func ==(x: Player, y: Player) -> Bool {
+public func == (x: Player, y: Player) -> Bool {
   return x.name == y.name && x.points == y.points
 }
 
 // Player x is less than Player y if x has less points than y.
-public func <(x: Player, y: Player) -> Bool {
+public func < (x: Player, y: Player) -> Bool {
   return x.points < y.points
 }
 

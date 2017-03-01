@@ -1,220 +1,156 @@
 # Trie
 
-##What is a Trie?
-A trie (also known as a prefix tree, or radix tree in some other (but different) implementations) is a special type of tree used to store associative data structures where the key item is normally of type String.  Each node in the trie is typically not associated with a value containing strictly itself, but more so is linked to some common prefix that precedes it in levels above it.  Oftentimes, true key-value pairs are associated with the leaves of the trie, but they are not limited to this.
+## What is a Trie?
 
-##Why a Trie?
-Tries are very useful simply for the fact that it has some advantages over other data structures, like the binary tree or a hash map.  These advantages include:
-* Looking up keys is typically faster in the worst case when compared to other data structures.
-* Unlike a hash map, a trie need not worry about key collisions
-* No need for hasing, as each key will have a unique path in the trie
-* Tries, by implementation, can be by default alphabetically ordered.
+A `Trie`, (also known as a prefix tree, or radix tree in some other implementations) is a special type of tree used to store associative data structures. A `Trie` for a dictionary might look like this:
 
+![A Trie](images/trie.png)
 
-##Common Algorithms
+Storing the English language is a primary use case for a `Trie`. Each node in the `Trie` would represent a single character of a word. A series of nodes then make up a word.
 
-###Find (or any general lookup function)
-Tries make looking up keys a trivial task, as all one has to do is walk over the nodes until we either hit a null reference or we find the key in question.
+## Why a Trie?
 
-The algorithm would be as follows:
-```
-  let node be the root of the trie
-  
-  for each character in the key
-    if the child of node with value character is null
-      return false (key doesn't exist in trie)
-    else
-      node = child of node with value character  (move to the next node)
-  return true (key exists in trie and was found
-```
+Tries are very useful for certain situations. Here are some of the advantages:
 
-And in swift:
-```swift
-func find(key: String) -> (node: Node?, found: Bool) {
-    var currentNode = self.root
+* Looking up values typically have a better worst-case time complexity.
+* Unlike a hash map, a `Trie` does not need to worry about key collisions.
+* Doesn't utilize hashing to guarantee a unique path to elements.
+* `Trie` structures can be alphabetically ordered by default.
 
-    for c in key.characters {
-      if currentNode.children[String(c)] == nil {
-        return(nil, false)
-      }
-      currentNode = currentNode.children[String(c)]!
-    }
+## Common Algorithms
 
-    return(currentNode, currentNode.isValidWord())
-  }
-```
+### Contains (or any general lookup method)
 
-###Insertion
-Insertion is also a trivial task with a Trie, as all one needs to do is walk over the nodes until we either halt on a node that we must mark as a key, or we reach a point where we need to add extra nodes to represent it.
-
-Let's walk through the algorithm:
-
-```
-  let S be the root node of our tree
-  let word be the input key
-  let length be the length of the key
-  
-  
-  find(word)
-  if the word was found
-    return false
-  else
-    
-    for each character in word
-      if child node with value character does not exist
-        break
-      else
-        node = child node with value character
-        decrement length
-      
-    if length != 0
-      let suffix be the remaining characters in the key defined by the shortened length
-      
-      for each character in suffix
-        create a new node with value character and let it be the child of node
-        node = newly created child now
-      mark node as a valid key
-    else
-      mark node as valid key
-```
-
-And the corresponding swift code:
+`Trie` structures are great for lookup operations. For `Trie` structures that model the English language, finding a particular word is a matter of a few pointer traversals:
 
 ```swift
-  func insert(w: String) -> (word: String, inserted: Bool) {
+func contains(word: String) -> Bool {
+	guard !word.isEmpty else { return false }
 
-    let word = w.lowercaseString
-    var currentNode = self.root
-    var length = word.characters.count
+	// 1
+	var currentNode = root
+  
+	// 2
+	var characters = Array(word.lowercased().characters)
+	var currentIndex = 0
+ 
+	// 3
+	while currentIndex < characters.count, 
+	  let child = currentNode.children[characters[currentIndex]] {
 
-    if self.contains(word) {
-      return (w, false)
-    }
+	  currentNode = child
+	  currentIndex += 1
+	}
 
-    var index = 0
-    var c = Array(word.characters)[index]
+	// 4
+	if currentIndex == characters.count && currentNode.isTerminating {
+	  return true
+	} else {
+		return false
+	}
+}
+```
 
-    while let child = currentNode.children[String(c)] {
-      currentNode = child
-      length -= 1
-      index += 1
+The `contains` method is fairly straightforward:
 
-      if(length == 0) {
-        currentNode.isWord()
-        wordList.append(w)
-        wordCount += 1
-        return (w, true)
-      }
+1. Create a reference to the `root`. This reference will allow you to walk down a chain of nodes.
+2. Keep track of the characters of the word you're trying to match.
+3. Walk the pointer down the nodes.
+4. `isTerminating` is a boolean flag for whether or not this node is the end of a word. If this `if` condition is satisfied, it means you are able to find the word in the `trie`.
 
-      c = Array(word.characters)[index]
-    }
+### Insertion
 
-    let remainingChars = String(word.characters.suffix(length))
-    for c in remainingChars.characters {
-      currentNode.children[String(c)] = Node(c: String(c), p: currentNode)
-      currentNode = currentNode.children[String(c)]!
-    }
+Insertion into a `Trie` requires you to walk over the nodes until you either halt on a node that must be marked as `terminating`, or reach a point where you need to add extra nodes.
 
-    currentNode.isWord()
-    wordList.append(w)
-    wordCount += 1
-    return (w, true)
+```swift
+func insert(word: String) {
+  guard !word.isEmpty else {
+    return
   }
 
-```
+  // 1
+  var currentNode = root
 
-###Removal
-Removing keys from the trie is a little more tricky, as there a few more cases that we have to take into account the fact that keys may exist that are actually sub-strings of other valid keys.  That being said, it isn't as simple a process to just delete the nodes for a specific key, as we could be deleting references/nodes necessary for already exisitng keys!
-
-The algorithm would be as follows:
-
-```
-  
-  let word be the key to remove
-  let node be the root of the trie
-  
-  find(word)
-  if word was not found
-    return false
-  else
-  
-    for each character in word
-      node = child node with value character
-      
-      if node has more than just 1 child node
-        Mark node as an invalid key, since removing it would remove nodes still in use
-      else
-        while node has no valid children and node is not the root node
-          let character = node's value
-          node = the parent of node
-          delete node's child node with value character
-        return true
-```
-
-
-
-and the corresponding swift code:
-
-```swift
-  func remove(w: String) -> (word: String, removed: Bool){
-    let word = w.lowercaseString
-
-    if(!self.contains(w)) {
-      return (w, false)
-    }
-    var currentNode = self.root
-
-    for c in word.characters {
-      currentNode = currentNode.getChildAt(String(c))
-    }
-
-    if currentNode.numChildren() > 0 {
-      currentNode.isNotWord()
+  // 2
+  for character in word.lowercased().characters {
+    // 3
+    if let childNode = currentNode.children[character] {
+      currentNode = childNode
     } else {
-      var character = currentNode.char()
-      while(currentNode.numChildren() == 0 && !currentNode.isRoot()) {
-        currentNode = currentNode.getParent()
-        currentNode.children[character]!.setParent(nil)
-        currentNode.children[character]!.update(nil)
-        currentNode.children[character] = nil
-        character = currentNode.char()
-      }
+      currentNode.add(value: character)
+      currentNode = currentNode.children[character]!
     }
-
-    wordCount -= 1
-
-    var index = 0
-    for item in wordList{
-      if item == w {
-        wordList.removeAtIndex(index)
-      }
-      index += 1
-    }
-
-    return (w, true)
+  }
+  // Word already present?
+  guard !currentNode.isTerminating else {
+    return
   }
 
+  // 4
+  wordCount += 1
+  currentNode.isTerminating = true
+}
 ```
 
+1. Once again, you create a reference to the root node. You'll move this reference down a chain of nodes.
+2. Begin walking through your word letter by letter
+3. Sometimes, the required node to insert already exists. That is the case for two words inside the `Trie` that shares letters (i.e "Apple", "App"). If a letter already exists, you'll reuse it, and simply traverse deeper down the chain. Otherwise, you'll create a new node representing the letter.
+4. Once you get to the end, you mark `isTerminating` to true to mark that specific node as the end of a word.
 
-###Running Times
+### Removal
 
-Let n be the length of some key in the trie
+Removing keys from the trie is a little tricky, as there are a few more cases you'll need to take into account. Nodes in a `Trie` may be shared between different words. Consider the two words "Apple" and "App". Inside a `Trie`, the chain of nodes representing "App" is shared with "Apple". 
 
-* Find(...) : In the Worst case O(n)
-* Insert(...) :  O(n)
-* Remove(...) :  O(n)
+If you'd like to remove "Apple", you'll need to take care to leave the "App" chain in tact.
 
-###Other Notable Operations
+```swift
+func remove(word: String) {
+  guard !word.isEmpty else {
+    return
+  }
 
-* Count:  Returns the number of keys in the trie ( O(1) )
-* getWords:  Returns a list containing all keys in the trie ( *O(1) )
-* isEmpty:  Returns true f the trie is empty, false otherwise ( *O(1) )
-* contains:  Returns true if the trie has a given key, false otherwise ( O(n) )
+  // 1
+  guard let terminalNode = findTerminalNodeOf(word: word) else {
+    return
+  }
 
-`* denotes that running time may vary depending on implementation
+  // 2
+  if terminalNode.isLeaf {
+    deleteNodesForWordEndingWith(terminalNode: terminalNode)
+  } else {
+    terminalNode.isTerminating = false
+  }
+  wordCount -= 1
+}
+```
+
+1. `findTerminalNodeOf` traverses through the Trie to find the last node that represents the `word`. If it is unable to traverse through the chain of characters, it returns `nil`.
+2. `deleteNodesForWordEndingWith` traverse backwords, deleting the nodes represented by the `word`.
+
+### Time Complexity
+
+Let n be the length of some value in the `Trie`.
+
+* `contains` - Worst case O(n)
+* `insert` - O(n)
+* `remove` - O(n)
+
+### Other Notable Operations
+
+* `count`: Returns the number of keys in the `Trie` - O(1)
+* `words`: Returns a list containing all the keys in the `Trie` - O(1)
+* `isEmpty`: Returns `true` if the `Trie` is empty, `false` otherwise - O(1)
 
 See also [Wikipedia entry for Trie](https://en.wikipedia.org/wiki/Trie).
 
-*Written for the Swift Algorithm Club by Christian Encarnacion*
+*Written for the Swift Algorithm Club by Christian Encarnacion. Refactored by Kelvin Lau*
 
+# Changes by Rick Zaccone
+
+* Added comments to all methods
+* Refactored the `remove` method
+* Renamed some variables.  I have mixed feelings about the way Swift infers types.  It's not always apparent what type a variable will have.  To address this, I made changes such as renaming `parent` to `parentNode` to emphasize that it is a node and not the value contained within the node.
+* Added a `words` property that recursively traverses the trie and constructs an array containing all of the words in the trie.
+* Added a `isLeaf` property to `TrieNode` for readability.
+* Implemented `count` and `isEmpty` properties for the trie.
+* I tried stress testing the trie by adding 162,825 words.  The playground was very slow while adding the words and eventually crashed.  To fix this problem, I moved everything into a project and wrote `XCTest` tests that test the trie.  There are also several performance tests.  Everything passes.

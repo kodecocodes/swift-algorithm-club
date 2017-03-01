@@ -90,7 +90,7 @@ This was a description of the inner loop of the insertion sort algorithm, which 
 Here is an implementation of insertion sort in Swift:
 
 ```swift
-func insertionSort(array: [Int]) -> [Int] {
+func insertionSort(_ array: [Int]) -> [Int] {
   var a = array                             // 1
   for x in 1..<a.count {                    // 2
     var y = x
@@ -151,7 +151,7 @@ Instead of swapping with each of the previous elements, we can just shift all th
 In code that looks like this:
 
 ```swift
-func insertionSort(array: [Int]) -> [Int] {
+func insertionSort(_ array: [Int]) -> [Int] {
   var a = array
   for x in 1..<a.count {
     var y = x
@@ -175,7 +175,7 @@ It would be nice to sort other things than just numbers. We can make the datatyp
 The function signature becomes:
 
 ```swift
-func insertionSort<T>(array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
+func insertionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
 ```
 
 The array has type `[T]` where `T` is the placeholder type for the generics. Now `insertionSort()` will accept any kind of array, whether it contains numbers, strings, or something else.

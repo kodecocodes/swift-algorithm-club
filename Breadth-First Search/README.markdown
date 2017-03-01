@@ -90,7 +90,7 @@ For an unweighted graph, this tree defines a shortest path from the starting nod
 Simple implementation of breadth-first search using a queue:
 
 ```swift
-func breadthFirstSearch(graph: Graph, source: Node) -> [String] {
+func breadthFirstSearch(_ graph: Graph, source: Node) -> [String] {
   var queue = Queue<Node>()
   queue.enqueue(source)
 
@@ -149,6 +149,6 @@ This will output: `["a", "b", "c", "d", "e", "f", "g", "h"]`
 Breadth-first search can be used to solve many problems. A small selection:
 
 * Computing the [shortest path](../Shortest Path/) between a source node and each of the other nodes (only for unweighted graphs).
-* Calculating the [minimum spanning tree](../Minimum Spanning Tree/) on an unweighted graph.
+* Calculating the [minimum spanning tree](../Minimum Spanning Tree (Unweighted)/) on an unweighted graph.
 
 *Written by [Chris Pilcher](https://github.com/chris-pilcher) and Matthijs Hollemans*

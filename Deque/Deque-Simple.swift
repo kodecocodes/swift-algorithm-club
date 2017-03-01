@@ -2,7 +2,7 @@
   Deque (pronounced "deck"), a double-ended queue
 
   This particular implementation is simple but not very efficient. Several
-  operations are O(n). A more efficient implementation would use a doubly 
+  operations are O(n). A more efficient implementation would use a doubly
   linked list or a circular buffer.
 */
 public struct Deque<T> {
@@ -16,11 +16,11 @@ public struct Deque<T> {
     return array.count
   }
 
-  public mutating func enqueue(element: T) {
+  public mutating func enqueue(_ element: T) {
     array.append(element)
   }
 
-  public mutating func enqueueFront(element: T) {
+  public mutating func enqueueFront(_ element: T) {
     array.insert(element, atIndex: 0)
   }
 

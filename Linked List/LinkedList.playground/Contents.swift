@@ -13,16 +13,16 @@ public class LinkedListNode<T> {
 public class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
 
-  private var head: Node?
-  
+  fileprivate var head: Node?
+
   public var isEmpty: Bool {
     return head == nil
   }
-  
+
   public var first: Node? {
     return head
   }
-  
+
   public var last: Node? {
     if var node = head {
       while case let next? = node.next {
@@ -33,7 +33,7 @@ public class LinkedList<T> {
       return nil
     }
   }
-  
+
   public var count: Int {
     if var node = head {
       var c = 1
@@ -46,8 +46,8 @@ public class LinkedList<T> {
       return 0
     }
   }
-  
-  public func nodeAtIndex(index: Int) -> Node? {
+
+  public func node(atIndex index: Int) -> Node? {
     if index >= 0 {
       var node = head
       var i = index
@@ -59,14 +59,14 @@ public class LinkedList<T> {
     }
     return nil
   }
-  
+
   public subscript(index: Int) -> T {
-    let node = nodeAtIndex(index)
+    let node = self.node(atIndex: index)
     assert(node != nil)
     return node!.value
   }
 
-  public func append(value: T) {
+  public func append(_ value: T) {
     let newNode = Node(value: value)
     if let lastNode = last {
       newNode.previous = lastNode
@@ -75,10 +75,10 @@ public class LinkedList<T> {
       head = newNode
     }
   }
-  
+
   private func nodesBeforeAndAfter(index: Int) -> (Node?, Node?) {
     assert(index >= 0)
-    
+
     var i = index
     var next = head
     var prev: Node?
@@ -92,10 +92,10 @@ public class LinkedList<T> {
 
     return (prev, next)
   }
-  
-  public func insert(value: T, atIndex index: Int) {
-    let (prev, next) = nodesBeforeAndAfter(index)
-    
+
+  public func insert(_ value: T, atIndex index: Int) {
+    let (prev, next) = nodesBeforeAndAfter(index: index)
+
     let newNode = Node(value: value)
     newNode.previous = prev
     newNode.next = next
@@ -106,36 +106,36 @@ public class LinkedList<T> {
       head = newNode
     }
   }
-  
+
   public func removeAll() {
     head = nil
   }
 
-  public func removeNode(node: Node) -> T {
+  public func remove(node: Node) -> T {
     let prev = node.previous
     let next = node.next
-    
+
     if let prev = prev {
       prev.next = next
     } else {
       head = next
     }
     next?.previous = prev
-    
+
     node.previous = nil
     node.next = nil
     return node.value
   }
-  
+
   public func removeLast() -> T {
     assert(!isEmpty)
-    return removeNode(last!)
+    return remove(node: last!)
   }
-  
-  public func removeAtIndex(index: Int) -> T {
-    let node = nodeAtIndex(index)
+
+  public func remove(atIndex index: Int) -> T {
+    let node = self.node(atIndex: index)
     assert(node != nil)
-    return removeNode(node!)
+    return remove(node: node!)
   }
 }
 
@@ -164,7 +164,7 @@ extension LinkedList {
 }
 
 extension LinkedList {
-  public func map<U>(transform: T -> U) -> LinkedList<U> {
+  public func map<U>(transform: (T) -> U) -> LinkedList<U> {
     let result = LinkedList<U>()
     var node = head
     while node != nil {
@@ -174,7 +174,7 @@ extension LinkedList {
     return result
   }
 
-  public func filter(predicate: T -> Bool) -> LinkedList<T> {
+  public func filter(predicate: (T) -> Bool) -> LinkedList<T> {
     let result = LinkedList<T>()
     var node = head
     while node != nil {
@@ -187,8 +187,15 @@ extension LinkedList {
   }
 }
 
-
-
+extension LinkedList {
+  convenience init(array: Array<T>) {
+    self.init()
+        
+    for element in array {
+      self.append(element)
+    }
+  }
+}
 
 let list = LinkedList<String>()
 list.isEmpty                  // true
@@ -211,9 +218,9 @@ list.first!.next!.value       // "World"
 list.last!.previous!.value    // "Hello"
 list.last!.next               // nil
 
-list.nodeAtIndex(0)!.value    // "Hello"
-list.nodeAtIndex(1)!.value    // "World"
-list.nodeAtIndex(2)           // nil
+list.node(atIndex: 0)!.value    // "Hello"
+list.node(atIndex: 1)!.value    // "World"
+list.node(atIndex: 2)           // nil
 
 list[0]     // "Hello"
 list[1]     // "World"
@@ -227,8 +234,8 @@ print(list)
 
 list.reverse()   // [World, Swift, Hello]
 
-list.nodeAtIndex(0)!.value = "Universe"
-list.nodeAtIndex(1)!.value = "Swifty"
+list.node(atIndex: 0)!.value = "Universe"
+list.node(atIndex: 1)!.value = "Swifty"
 let m = list.map { s in s.characters.count }
 m    // [8, 6, 5]
 let f = list.filter { s in s.characters.count > 5 }
@@ -237,7 +244,7 @@ f    // [Universe, Swifty]
 //list.removeAll()
 //list.isEmpty
 
-list.removeNode(list.first!)   // "Hello"
+list.remove(node: list.first!) // "Hello"
 list.count                     // 2
 list[0]                        // "Swift"
 list[1]                        // "World"
@@ -246,5 +253,5 @@ list.removeLast()              // "World"
 list.count                     // 1
 list[0]                        // "Swift"
 
-list.removeAtIndex(0)          // "Swift"
+list.remove(atIndex: 0)        // "Swift"
 list.count                     // 0

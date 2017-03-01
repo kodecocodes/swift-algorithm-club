@@ -3,7 +3,7 @@ import XCTest
 class LinkedListTest: XCTestCase {
   let numbers = [8, 2, 10, 9, 7, 5]
 
-  private func buildList() -> LinkedList<Int> {
+  fileprivate func buildList() -> LinkedList<Int> {
     let list = LinkedList<Int>()
     for number in numbers {
       list.append(number)
@@ -88,7 +88,7 @@ class LinkedListTest: XCTestCase {
 
   func testNodeAtIndexInEmptyList() {
     let list = LinkedList<Int>()
-    let node = list.nodeAtIndex(0)
+    let node = list.node(atIndex: 0)
     XCTAssertNil(node)
   }
 
@@ -96,7 +96,7 @@ class LinkedListTest: XCTestCase {
     let list = LinkedList<Int>()
     list.append(123)
 
-    let node = list.nodeAtIndex(0)
+    let node = list.node(atIndex: 0)
     XCTAssertNotNil(node)
     XCTAssertEqual(node!.value, 123)
     XCTAssertTrue(node === list.first)
@@ -108,21 +108,21 @@ class LinkedListTest: XCTestCase {
     let nodeCount = list.count
     XCTAssertEqual(nodeCount, numbers.count)
 
-    XCTAssertNil(list.nodeAtIndex(-1))
-    XCTAssertNil(list.nodeAtIndex(nodeCount))
+    XCTAssertNil(list.node(atIndex: -1))
+    XCTAssertNil(list.node(atIndex: nodeCount))
 
-    let first = list.nodeAtIndex(0)
+    let first = list.node(atIndex: 0)
     XCTAssertNotNil(first)
     XCTAssertTrue(first === list.first)
     XCTAssertEqual(first!.value, numbers[0])
 
-    let last = list.nodeAtIndex(nodeCount - 1)
+    let last = list.node(atIndex: nodeCount - 1)
     XCTAssertNotNil(last)
     XCTAssertTrue(last === list.last)
     XCTAssertEqual(last!.value, numbers[nodeCount - 1])
 
     for i in 0..<nodeCount {
-      let node = list.nodeAtIndex(i)
+      let node = list.node(atIndex: i)
       XCTAssertNotNil(node)
       XCTAssertEqual(node!.value, numbers[i])
     }
@@ -142,20 +142,20 @@ class LinkedListTest: XCTestCase {
     XCTAssertFalse(list.isEmpty)
     XCTAssertEqual(list.count, 1)
 
-    let node = list.nodeAtIndex(0)
+    let node = list.node(atIndex: 0)
     XCTAssertNotNil(node)
     XCTAssertEqual(node!.value, 123)
   }
 
   func testInsertAtIndex() {
     let list = buildList()
-    let prev = list.nodeAtIndex(2)
-    let next = list.nodeAtIndex(3)
+    let prev = list.node(atIndex: 2)
+    let next = list.node(atIndex: 3)
     let nodeCount = list.count
 
     list.insert(444, atIndex: 3)
 
-    let node = list.nodeAtIndex(3)
+    let node = list.node(atIndex: 3)
     XCTAssertNotNil(node)
     XCTAssertEqual(node!.value, 444)
     XCTAssertEqual(nodeCount + 1, list.count)
@@ -170,7 +170,7 @@ class LinkedListTest: XCTestCase {
     let list = LinkedList<Int>()
     list.append(123)
 
-    let value = list.removeAtIndex(0)
+    let value = list.remove(atIndex: 0)
     XCTAssertEqual(value, 123)
 
     XCTAssertTrue(list.isEmpty)
@@ -181,16 +181,16 @@ class LinkedListTest: XCTestCase {
 
   func testRemoveAtIndex() {
     let list = buildList()
-    let prev = list.nodeAtIndex(2)
-    let next = list.nodeAtIndex(3)
+    let prev = list.node(atIndex: 2)
+    let next = list.node(atIndex: 3)
     let nodeCount = list.count
 
     list.insert(444, atIndex: 3)
 
-    let value = list.removeAtIndex(3)
+    let value = list.remove(atIndex: 3)
     XCTAssertEqual(value, 444)
 
-    let node = list.nodeAtIndex(3)
+    let node = list.node(atIndex: 3)
     XCTAssertTrue(next === node)
     XCTAssertTrue(prev!.next === node)
     XCTAssertTrue(node!.previous === prev)

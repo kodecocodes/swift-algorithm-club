@@ -1,6 +1,6 @@
 // MARK: - Edge
 
-public class Edge : Equatable {
+public class Edge: Equatable {
   public var neighbor: Node
 
   public init(neighbor: Node) {
@@ -8,15 +8,15 @@ public class Edge : Equatable {
   }
 }
 
-public func ==(lhs: Edge, rhs: Edge) -> Bool {
+public func == (lhs: Edge, rhs: Edge) -> Bool {
   return lhs.neighbor == rhs.neighbor
 }
 
 // MARK: - Node
 
-public class Node : CustomStringConvertible, Equatable {
+public class Node: CustomStringConvertible, Equatable {
   public var neighbors: [Edge]
-  
+
   public private(set) var label: String
   public var distance: Int?
   public var visited: Bool
@@ -39,30 +39,30 @@ public class Node : CustomStringConvertible, Equatable {
   }
 
   public func remove(edge: Edge) {
-    neighbors.removeAtIndex(neighbors.indexOf{ $0 === edge }!)
+    neighbors.remove(at: neighbors.index { $0 === edge }!)
   }
 }
 
-public func ==(lhs: Node, rhs: Node) -> Bool {
+public func == (lhs: Node, rhs: Node) -> Bool {
   return lhs.label == rhs.label && lhs.neighbors == rhs.neighbors
 }
 
 // MARK: - Graph
 
-public class Graph : CustomStringConvertible, Equatable {
+public class Graph: CustomStringConvertible, Equatable {
   public private(set) var nodes: [Node]
 
   public init() {
     self.nodes = []
   }
 
-  public func addNode(label: String) -> Node {
+  public func addNode(_ label: String) -> Node {
     let node = Node(label: label)
     nodes.append(node)
     return node
   }
 
-  public func addEdge(source: Node, neighbor: Node) {
+  public func addEdge(_ source: Node, neighbor: Node) {
     let edge = Edge(neighbor: neighbor)
     source.neighbors.append(edge)
   }
@@ -72,21 +72,21 @@ public class Graph : CustomStringConvertible, Equatable {
 
     for node in nodes {
       if !node.neighbors.isEmpty {
-        description += "[node: \(node.label) edges: \(node.neighbors.map{ $0.neighbor.label})]"
+        description += "[node: \(node.label) edges: \(node.neighbors.map { $0.neighbor.label})]"
       }
     }
     return description
   }
 
-  public func findNodeWithLabel(label: String) -> Node {
-    return nodes.filter{ $0.label == label }.first!
+  public func findNodeWithLabel(_ label: String) -> Node {
+    return nodes.filter { $0.label == label }.first!
   }
 
   public func duplicate() -> Graph {
     let duplicated = Graph()
 
     for node in nodes {
-      duplicated.addNode(node.label)
+      let _ = duplicated.addNode(node.label)
     }
 
     for node in nodes {
@@ -101,6 +101,6 @@ public class Graph : CustomStringConvertible, Equatable {
   }
 }
 
-public func ==(lhs: Graph, rhs: Graph) -> Bool {
+public func == (lhs: Graph, rhs: Graph) -> Bool {
   return lhs.nodes == rhs.nodes
 }

@@ -23,7 +23,7 @@ The root of the tree is the node you started the breadth-first search from. To f
 Let's put breadth-first search into practice and calculate the shortest path from `A` to all the other nodes. We start with the source node `A` and add it to a queue with a distance of `0`.
 
 ```swift
-queue.enqueue(A)
+queue.enqueue(element: A)
 A.distance = 0
 ```
 
@@ -31,9 +31,9 @@ The queue is now `[ A ]`. We dequeue `A` and enqueue its two immediate neighbor 
 
 ```swift
 queue.dequeue()   // A
-queue.enqueue(B)
+queue.enqueue(element: B)
 B.distance = A.distance + 1   // result: 1
-queue.enqueue(C)
+queue.enqueue(element: C)
 C.distance = A.distance + 1   // result: 1
 ```
 
@@ -41,9 +41,9 @@ The queue is now `[ B, C ]`. Dequeue `B` and enqueue `B`'s neighbor nodes `D` an
 
 ```swift
 queue.dequeue()   // B
-queue.enqueue(D)
+queue.enqueue(element: D)
 D.distance = B.distance + 1   // result: 2
-queue.enqueue(E)
+queue.enqueue(element: E)
 E.distance = B.distance + 1   // result: 2
 ```
 
@@ -51,9 +51,9 @@ The queue is now `[ C, D, E ]`. Dequeue `C` and enqueue `C`'s neighbor nodes `F`
 
 ```swift
 queue.dequeue()   // C
-queue.enqueue(F)
+queue.enqueue(element: F)
 F.distance = C.distance + 1   // result: 2
-queue.enqueue(G)
+queue.enqueue(element: G)
 G.distance = C.distance + 1   // result: 2
 ```
 
@@ -66,15 +66,15 @@ func breadthFirstSearchShortestPath(graph: Graph, source: Node) -> Graph {
   let shortestPathGraph = graph.duplicate()
 
   var queue = Queue<Node>()
-  let sourceInShortestPathsGraph = shortestPathGraph.findNodeWithLabel(source.label)
-  queue.enqueue(sourceInShortestPathsGraph)
+  let sourceInShortestPathsGraph = shortestPathGraph.findNodeWithLabel(label: source.label)
+  queue.enqueue(element: sourceInShortestPathsGraph)
   sourceInShortestPathsGraph.distance = 0
 
   while let current = queue.dequeue() {
     for edge in current.neighbors {
       let neighborNode = edge.neighbor
       if !neighborNode.hasDistance {
-        queue.enqueue(neighborNode)
+        queue.enqueue(element: neighborNode)
         neighborNode.distance = current.distance! + 1
       }
     }
@@ -87,7 +87,7 @@ func breadthFirstSearchShortestPath(graph: Graph, source: Node) -> Graph {
 Put this code in a playground and test it like so:
 
 ```swift
-let shortestPathGraph = breadthFirstSearchShortestPath(graph, source: nodeA)
+let shortestPathGraph = breadthFirstSearchShortestPath(graph: graph, source: nodeA)
 print(shortestPathGraph.nodes)
 ```
 

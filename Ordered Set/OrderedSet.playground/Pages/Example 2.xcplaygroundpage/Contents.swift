@@ -23,7 +23,7 @@ print(playerSet.max())
 print(playerSet.min())
 
 // We'll find our player now:
-let level = playerSet.count - playerSet.indexOf(anotherPlayer)!
+let level = playerSet.count - playerSet.index(of: anotherPlayer)!
 print("\(anotherPlayer.name) is ranked at level \(level) with \(anotherPlayer.points) points")
 
 //: [Next](@next)

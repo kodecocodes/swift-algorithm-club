@@ -18,11 +18,11 @@ public struct Deque<T> {
     return array.count
   }
   
-  public mutating func enqueue(element: T) {
+  public mutating func enqueue(_ element: T) {
     array.append(element)
   }
   
-  public mutating func enqueueFront(element: T) {
+  public mutating func enqueueFront(_ element: T) {
     array.insert(element, atIndex: 0)
   }
   
@@ -119,10 +119,12 @@ public struct Deque<T> {
   private var array: [T?]
   private var head: Int
   private var capacity: Int
+  private let originalCapacity:Int
   
-  public init(capacity: Int = 10) {
+  public init(_ capacity: Int = 10) {
     self.capacity = max(capacity, 1)
-    array = .init(count: capacity, repeatedValue: nil)
+    originalCapacity = self.capacity
+    array = [T?](repeating: nil, count: capacity)
     head = capacity
   }
   
@@ -134,11 +136,11 @@ public struct Deque<T> {
     return array.count - head
   }
   
-  public mutating func enqueue(element: T) {
+  public mutating func enqueue(_ element: T) {
     array.append(element)
   }
   
-  public mutating func enqueueFront(element: T) {
+  public mutating func enqueueFront(_ element: T) {
     // this is explained below
   }
 
@@ -238,8 +240,8 @@ There is one tiny problem... If you enqueue a lot of objects at the front, you'r
   public mutating func enqueueFront(element: T) {
     if head == 0 {
       capacity *= 2
-      let emptySpace = [T?](count: capacity, repeatedValue: nil)
-      array.insertContentsOf(emptySpace, at: 0)
+      let emptySpace = [T?](repeating: nil, count: capacity)
+      array.insert(contentsOf: emptySpace, at: 0)
       head = capacity
     }
 
@@ -267,7 +269,7 @@ Those empty spots at the front only get used when you call `enqueueFront()`. But
     array[head] = nil
     head += 1
 
-    if capacity > 10 && head >= capacity*2 {
+    if capacity >= originalCapacity && head >= capacity*2 {
       let amountToRemove = capacity + capacity/2
       array.removeFirst(amountToRemove)
       head -= amountToRemove
@@ -279,6 +281,8 @@ Those empty spots at the front only get used when you call `enqueueFront()`. But
 
 Recall that `capacity` is the original number of empty places at the front of the queue. If the `head` has advanced more to the right than twice the capacity, then it's time to trim off a bunch of these empty spots. We reduce it to about 25%.
 
+> **Note:**  The deque will keep at least its original capacity by comparing `capacity` to `originalCapacity`.
+
 For example, this:
 
 	[ x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, 1, 2, 3 ]
@@ -288,9 +292,9 @@ For example, this:
 becomes after trimming:
 
 	[ x, x, x, x, x, 1, 2, 3 ]
-	              |
-	              head
-	              capacity
+	                 |
+	                 head
+	                 capacity
 
 This way we can strike a balance between fast enqueuing and dequeuing at the front and keeping the memory requirements reasonable.
 

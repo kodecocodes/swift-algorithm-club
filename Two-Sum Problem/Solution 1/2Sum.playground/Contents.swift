@@ -1,8 +1,8 @@
 //: Playground - noun: a place where people can play
 
-func twoSumProblem(a: [Int], k: Int) -> ((Int, Int))? {
+func twoSumProblem(_ a: [Int], k: Int) -> ((Int, Int))? {
   var map = [Int: Int]()
-  
+
   for i in 0 ..< a.count {
     if let newK = map[a[i]] {
       return (newK, i)

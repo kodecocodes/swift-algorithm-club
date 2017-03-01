@@ -27,18 +27,17 @@ import Foundation
 //////////////////////////////////////
 
 
-public func bucketSort<T:Sortable>(elements: [T], distributor: Distributor,sorter: Sorter, buckets: [Bucket<T>]) -> [T] {
-  var bucketsCopy = buckets
+public func bucketSort<T: Sortable>(elements: [T], distributor: Distributor, sorter: Sorter, buckets: inout [Bucket<T>]) -> [T] {
   for elem in elements {
-    distributor.distribute(elem, buckets: &bucketsCopy)
+    distributor.distribute(element: elem, buckets: &buckets)
   }
-  
+
   var results = [T]()
-  
+
   for bucket in buckets {
-    results += bucket.sort(sorter)
+    results += bucket.sort(algorithm: sorter)
   }
-  
+
   return results
 }
 
@@ -48,7 +47,7 @@ public func bucketSort<T:Sortable>(elements: [T], distributor: Distributor,sorte
 
 
 public protocol Distributor {
-  func distribute<T:Sortable>(element: T, inout buckets: [Bucket<T>])
+  func distribute<T: Sortable>(element: T, buckets: inout [Bucket<T>])
 }
 
 /*
@@ -67,15 +66,15 @@ public protocol Distributor {
  * By following the formula: element / capacity = #ofBucket
  */
 public struct RangeDistributor: Distributor {
-  
+
   public init() {}
-  
-  public func distribute<T:Sortable>(element: T, inout buckets: [Bucket<T>]) {
+
+  public func distribute<T: Sortable>(element: T, buckets: inout [Bucket<T>]) {
     let value = element.toInt()
     let bucketCapacity = buckets.first!.capacity
-    
+
     let bucketIndex = value / bucketCapacity
-    buckets[bucketIndex].add(element)
+    buckets[bucketIndex].add(item: element)
   }
 }
 
@@ -95,23 +94,23 @@ public protocol Sortable: IntConvertible, Comparable {
 //////////////////////////////////////
 
 public protocol Sorter {
-  func sort<T:Sortable>(items: [T]) -> [T]
+  func sort<T: Sortable>(items: [T]) -> [T]
 }
 
 public struct InsertionSorter: Sorter {
-  
+
   public init() {}
-  
-  public func sort<T:Sortable>(items: [T]) -> [T] {
+
+  public func sort<T: Sortable>(items: [T]) -> [T] {
     var results = items
     for i in 0 ..< results.count {
       var j = i
-      while ( j > 0 && results[j-i] > results[j]) {
-        
+      while j > 0 && results[j-i] > results[j] {
+
         let auxiliar = results[i]
         results[i] = results[j]
         results[j] = auxiliar
-        
+
         j -= 1
       }
     }
@@ -126,19 +125,19 @@ public struct InsertionSorter: Sorter {
 public struct Bucket<T:Sortable> {
   var elements: [T]
   let capacity: Int
-  
+
   public init(capacity: Int) {
     self.capacity = capacity
     elements = [T]()
   }
-  
+
   public mutating func add(item: T) {
-    if (elements.count < capacity) {
+    if elements.count < capacity {
       elements.append(item)
     }
   }
-  
+
   public func sort(algorithm: Sorter) -> [T] {
-    return algorithm.sort(elements)
+    return algorithm.sort(items: elements)
   }
 }

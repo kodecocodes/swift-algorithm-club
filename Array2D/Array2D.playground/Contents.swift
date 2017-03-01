@@ -6,15 +6,15 @@
 public struct Array2D<T> {
   public let columns: Int
   public let rows: Int
-  private var array: [T]
-  
+  fileprivate var array: [T]
+
   public init(columns: Int, rows: Int, initialValue: T) {
     self.columns = columns
     self.rows = rows
-    array = .init(count: rows*columns, repeatedValue: initialValue)
+    array = .init(repeatElement(initialValue, count: rows*columns))
   }
-  
-  public subscript(column: Int, row: Int)  -> T {
+
+  public subscript(column: Int, row: Int) -> T {
     get {
       return array[row*columns + column]
     }
@@ -51,14 +51,13 @@ print(matrix.array)
 
 // print out the 2D array with a reference around the grid
 for i in 0..<matrix.rows {
-  print("[", terminator: "");
+  print("[", terminator: "")
   for j in 0..<matrix.columns {
-    if (j == matrix.columns - 1) {
-      print("\(matrix[j, i])", terminator: "");
+    if j == matrix.columns - 1 {
+      print("\(matrix[j, i])", terminator: "")
     } else {
-      print("\(matrix[j, i]) ", terminator: "");
+      print("\(matrix[j, i]) ", terminator: "")
     }
   }
-  print("]");
+  print("]")
 }
-

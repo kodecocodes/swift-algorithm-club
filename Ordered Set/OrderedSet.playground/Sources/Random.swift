@@ -13,7 +13,7 @@ extension String {
 
     for _ in 0..<length {
       let randomValue = arc4random_uniform(UInt32(base.characters.count))
-      randomString += "\(base[base.startIndex.advancedBy(Int(randomValue))])"
+      randomString += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
     }
     return randomString
   }

@@ -7,7 +7,9 @@
 
 import Foundation
 
-private class EdgeList<T where T: Equatable, T: Hashable> {
+
+
+private class EdgeList<T> where T: Equatable, T: Hashable {
 
   var vertex: Vertex<T>
   var edges: [Edge<T>]? = nil
@@ -16,25 +18,25 @@ private class EdgeList<T where T: Equatable, T: Hashable> {
     self.vertex = vertex
   }
 
-  func addEdge(edge: Edge<T>) {
+  func addEdge(_ edge: Edge<T>) {
     edges?.append(edge)
   }
 
 }
 
-public class AdjacencyListGraph<T where T: Equatable, T: Hashable>: AbstractGraph<T> {
+open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Equatable, T: Hashable {
 
-  private var adjacencyList: [EdgeList<T>] = []
+  fileprivate var adjacencyList: [EdgeList<T>] = []
 
-  public override init() {
+  public required init() {
     super.init()
   }
 
-  public override init(fromGraph graph: AbstractGraph<T>) {
+  public required init(fromGraph graph: AbstractGraph<T>) {
     super.init(fromGraph: graph)
   }
 
-  public override var vertices: [Vertex<T>] {
+  open override var vertices: [Vertex<T>] {
     get {
       var vertices = [Vertex<T>]()
       for edgeList in adjacencyList {
@@ -44,7 +46,7 @@ public class AdjacencyListGraph<T where T: Equatable, T: Hashable>: AbstractGrap
     }
   }
 
-  public override var edges: [Edge<T>] {
+  open override var edges: [Edge<T>] {
     get {
       var allEdges = Set<Edge<T>>()
       for edgeList in adjacencyList {
@@ -60,7 +62,7 @@ public class AdjacencyListGraph<T where T: Equatable, T: Hashable>: AbstractGrap
     }
   }
 
-  public override func createVertex(data: T) -> Vertex<T> {
+  open override func createVertex(_ data: T) -> Vertex<T> {
     // check if the vertex already exists
     let matchingVertices = vertices.filter() { vertex in
       return vertex.data == data
@@ -76,24 +78,24 @@ public class AdjacencyListGraph<T where T: Equatable, T: Hashable>: AbstractGrap
     return vertex
   }
 
-  public override func addDirectedEdge(from: Vertex<T>, to: Vertex<T>, withWeight weight: Double?) {
+  open override func addDirectedEdge(_ from: Vertex<T>, to: Vertex<T>, withWeight weight: Double?) {
     // works
     let edge = Edge(from: from, to: to, weight: weight)
     let edgeList = adjacencyList[from.index]
-    if edgeList.edges?.count > 0 {
-      edgeList.addEdge(edge)
+    if let _ = edgeList.edges {
+        edgeList.addEdge(edge)
     } else {
-      edgeList.edges = [edge]
+        edgeList.edges = [edge]
     }
   }
 
-  public override func addUndirectedEdge(vertices: (Vertex<T>, Vertex<T>), withWeight weight: Double?) {
+  open override func addUndirectedEdge(_ vertices: (Vertex<T>, Vertex<T>), withWeight weight: Double?) {
     addDirectedEdge(vertices.0, to: vertices.1, withWeight: weight)
     addDirectedEdge(vertices.1, to: vertices.0, withWeight: weight)
   }
 
 
-  public override func weightFrom(sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>) -> Double? {
+  open override func weightFrom(_ sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>) -> Double? {
     guard let edges = adjacencyList[sourceVertex.index].edges else {
       return nil
     }
@@ -107,7 +109,11 @@ public class AdjacencyListGraph<T where T: Equatable, T: Hashable>: AbstractGrap
     return nil
   }
 
-  public override var description: String {
+  open override func edgesFrom(_ sourceVertex: Vertex<T>) -> [Edge<T>] {
+    return adjacencyList[sourceVertex.index].edges ?? []
+  }
+
+  open override var description: String {
     get {
       var rows = [String]()
       for edgeList in adjacencyList {
@@ -125,10 +131,10 @@ public class AdjacencyListGraph<T where T: Equatable, T: Hashable>: AbstractGrap
           row.append(value)
         }
 
-        rows.append("\(edgeList.vertex.data) -> [\(row.joinWithSeparator(", "))]")
+        rows.append("\(edgeList.vertex.data) -> [\(row.joined(separator: ", "))]")
       }
 
-      return rows.joinWithSeparator("\n")
+      return rows.joined(separator: "\n")
     }
   }
 }

@@ -30,7 +30,7 @@ class MaximumTests: XCTestCase {
     let array = [ 9, 8, 6, 4, 3 ]
 
     let result = maximum(array)
-    
+
     XCTAssertEqual(result, 9)
   }
 
@@ -49,7 +49,7 @@ class MaximumTests: XCTestCase {
 
         let result = maximum(array)
 
-        XCTAssertEqual(result, array.maxElement())
+        XCTAssertEqual(result, array.max())
       }
     }
   }
