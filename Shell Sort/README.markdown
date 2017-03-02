@@ -116,21 +116,31 @@ Here is an implementation of Shell Sort in Swift:
 ```
 var arr = [64, 20, 50, 33, 72, 10, 23, -1, 4, 5]
 
-var n = arr.count / 2
-
-repeat
-{
-    for index in 0..<arr.count{
+public func shellSort(_ list: inout [Int]) {
+    
+    var sublistCount = list.count / 2
+   
+    while sublistCount > 0 {
         
-        if (index + n) < arr.count && arr[index] > arr[index + n]{
-        
-            swap(&arr[index], &arr[index + n])
+        for index in 0..<list.count {
+           
+            guard index + sublistCount < list.count else { break }
+            
+            if list[index] > list[index + sublistCount] {
+                swap(&list[index], &list[index + sublistCount])
+            }
+            
+            guard sublistCount == 1 && index > 0 else { continue }
+            
+            if list[index - 1] > list[index] {
+                swap(&list[index - 1], &list[index])
+            }
         }
+        sublistCount = sublistCount / 2
     }
-    
-    n = n / 2
-    
-}while n > 0
+}
+
+shellSort(&arr)
 ```
 
 ## See also
