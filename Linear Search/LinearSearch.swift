@@ -4,3 +4,7 @@ func linearSearch<T: Equatable>(_ array: [T], _ object: T) -> Int? {
   }
   return nil
 }
+
+func linearSearch1<T: Equatable>(_ array: [T], _ object: T) -> Array<T>.Index? {
+    return array.index { $0 == object }
+}
