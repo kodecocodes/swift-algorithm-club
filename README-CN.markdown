@@ -36,8 +36,8 @@
 
 - [栈](Stack/README-CN.markdown)
 - [队列](Queue/README-CN.markdown)
-- [插入排序](Insertion Sort/)
-- [二分搜索](Binary Search/) 和 [二分搜索树](Binary Search Tree/)
+- [插入排序](Insertion Sort/READM-CN.markdown)
+- [二分搜索](Binary Search/README-CN.markdown) 和 [二分搜索树](Binary Search Tree/README-CN.markdown)
 - [归并排序](Merge Sort/)
 - [Boyer-Moore 字符串搜索](Boyer-Moore/)
 
@@ -46,7 +46,7 @@
 ### 搜索
 
 - [线性搜索](Linear Search/)。 在数组中查找一个元素
-- [二分搜索](Binary Search/)。 在有序数组中快速查找元素。
+- [二分搜索](Binary Search/README-CN.markdown)。 在有序数组中快速查找元素。
 - [计算出现频率](Count Occurrences/)。统计值在数组中出现的频率
 - [查找最大/最小值](Select Minimum Maximum)。 查找数组中的最大最小值
 - [第 k 大的元素](Kth Largest Element/)。找到数组中第*k*大的元素，比如中间值。
@@ -68,7 +68,7 @@ It's fun to see how sorting algorithms work, but in practice you'll almost never
 
 Basic sorts:
 
-- [Insertion Sort](Insertion Sort/)
+- [插入排序](Insertion Sort/README-CN.markdown)
 - [Selection Sort](Selection Sort/)
 - [Shell Sort](Shell Sort/)
 
@@ -152,7 +152,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 - [Tree](Tree/). A general-purpose tree structure.
 - [Binary Tree](Binary Tree/). A tree where each node has at most two children.
-- [Binary Search Tree (BST)](Binary Search Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
+- [二叉搜索树 (BST)](Binary Search Tree/README-CN.markdown). A binary tree that orders its nodes in a way that allows for fast queries.
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
