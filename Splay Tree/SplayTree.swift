@@ -94,7 +94,7 @@ public enum SplayOperation {
             grandchildToMode = child.right
             child.right = parent
             parent.left = grandchildToMode
-            
+            grandchildToMode?.parent = parent
     
 
         } else {
@@ -102,6 +102,7 @@ public enum SplayOperation {
             grandchildToMode = child.left
             child.left = parent
             parent.right = grandchildToMode
+            grandchildToMode?.parent = parent
 
         }
         
@@ -368,23 +369,23 @@ extension SplayTree {
      */
     public func search(value: T) -> SplayTree? {
         var node: SplayTree? = self
+        var nodeParent: SplayTree? = self
         while case let n? = node, n.value != nil {
             if value < n.value! {
+                if n.left != nil { nodeParent = n.left }
                 node = n.left
             } else if value > n.value! {
                 node = n.right
-            } else {
-                
-                if let node = node {
-                    SplayOperation.splay(node: node)
-                }
-                
-                return node
+                if n.right != nil { nodeParent = n.right }
             }
         }
         
         if let node = node {
             SplayOperation.splay(node: node)
+            return node
+        } else if let nodeParent = nodeParent {
+            SplayOperation.splay(node: nodeParent)
+            return nodeParent
         }
         
         return nil
