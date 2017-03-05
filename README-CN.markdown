@@ -135,10 +135,10 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Ordered Array](Ordered Array/). An array that is always sorted.
 - [Rootish Array Stack](Rootish Array Stack/). A space and time efficient variation on Swift arrays.
 
-### Queues
+### 队列
 
-- [Stack](Stack/). Last-in, first-out!
-- [Queue](Queue/). First-in, first-out!
+- [栈](Stack/README-CN.markdown)。 后进先出！
+- [队列](Queue/README-CN.markdown)。 先进先出！
 - [Deque](Deque/). A double-ended queue.
 - [Priority Queue](Priority Queue). A queue where the most important element is always at the front.
 - [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
