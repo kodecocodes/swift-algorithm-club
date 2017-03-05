@@ -39,7 +39,7 @@
 - [插入排序](Insertion Sort/READM-CN.markdown)
 - [二叉搜索](Binary Search/README-CN.markdown) 和 [二叉搜索树](Binary Search Tree/README-CN.markdown)
 - [归并排序](Merge Sort/README-CN.markdown)
-- [Boyer-Moore 字符串搜索](Boyer-Moore/)
+- [Boyer-Moore 字符串搜索](Boyer-Moore/README-CN.markdown)
 
 ## 算法
 
@@ -56,7 +56,7 @@
 ### 字符串搜索
 
 - [Brute-Force String Search](Brute-Force String Search/). A naive method.
-- [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
+- [Boyer-Moore](Boyer-Moore/README-CN.markdown)。一个快速搜索子字符串的方法。它基于一个查询表来跳过一些字符来避免查找文本中的每个字符。
 - Knuth-Morris-Pratt
 - [Rabin-Karp](Rabin-Karp/)  Faster search by using hashing.
 - [Longest Common Subsequence](Longest Common Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
