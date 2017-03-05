@@ -1,5 +1,5 @@
 /*
- *  Splay Tree 
+ *  Splay Tree
  *
  * Based on Binary Search Tree Implementation written by Nicolas Ameghino and Matthijs Hollemans for Swift Algorithms Club
  * https://github.com/raywenderlich/swift-algorithm-club/blob/master/Binary%20Search%20Tree
@@ -8,12 +8,12 @@
  */
 
 /**
-    Represent the 3 possible operations (combinations of rotations) that
-    could be performed during the Splay phase in Splay Trees
+ Represent the 3 possible operations (combinations of rotations) that
+ could be performed during the Splay phase in Splay Trees
  
-    - zigZag       Left child of a right child OR right child of a left child
-    - zigZig       Left child of a left child OR right child of a right child
-    - zig          Only 1 parent and that parent is the root
+ - zigZag       Left child of a right child OR right child of a left child
+ - zigZig       Left child of a left child OR right child of a right child
+ - zig          Only 1 parent and that parent is the root
  
  */
 public enum SplayOperation {
@@ -23,10 +23,10 @@ public enum SplayOperation {
     
     
     /**
-        Splay the given node up to the root of the tree
+     Splay the given node up to the root of the tree
      
-        - Parameters:
-            - node      SplayTree node to move up to the root
+     - Parameters:
+     - node      SplayTree node to move up to the root
      */
     public static func splay<T: Comparable>(node: Node<T>) {
         
@@ -36,13 +36,13 @@ public enum SplayOperation {
     }
     
     /**
-        Compares the node and its parent and determine
-        if the rotations should be performed in a zigZag, zigZig or zig case.
+     Compares the node and its parent and determine
+     if the rotations should be performed in a zigZag, zigZig or zig case.
      
-        - Parmeters:
-            - forNode       SplayTree node to be checked
-        - Returns
-            - Operation     Case zigZag - zigZig - zig
+     - Parmeters:
+     - forNode       SplayTree node to be checked
+     - Returns
+     - Operation     Case zigZag - zigZig - zig
      */
     public static func operation<T: Comparable>(forNode node: Node<T>) -> SplayOperation {
         
@@ -56,11 +56,11 @@ public enum SplayOperation {
     }
     
     /**
-        Applies the rotation associated to the case 
-        Modifying the splay tree and briging the received node further to the top of the tree
+     Applies the rotation associated to the case
+     Modifying the splay tree and briging the received node further to the top of the tree
      
-        - Parameters:
-            - onNode    Node to splay up. Should be alwayas the node that needs to be splayed, neither its parent neither it's grandparent
+     - Parameters:
+     - onNode    Node to splay up. Should be alwayas the node that needs to be splayed, neither its parent neither it's grandparent
      */
     public func apply<T: Comparable>(onNode node: Node<T>) {
         switch self {
@@ -68,12 +68,12 @@ public enum SplayOperation {
             assert(node.parent != nil && node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
             rotate(child: node, parent: node.parent!)
             rotate(child: node, parent: node.parent!)
-
+            
         case .zigZig:
             assert(node.parent != nil && node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
             rotate(child: node.parent!, parent: node.parent!.parent!)
             rotate(child: node, parent: node.parent!)
-        
+            
         case .zig:
             assert(node.parent != nil && node.parent!.parent == nil, "There should be a parent which is the root")
             rotate(child: node, parent: node.parent!)
@@ -81,8 +81,8 @@ public enum SplayOperation {
     }
     
     /**
-        Performs a single rotation from a node to its parent
-        re-arranging the children properly
+     Performs a single rotation from a node to its parent
+     re-arranging the children properly
      */
     public func rotate<T: Comparable>(child: Node<T>, parent: Node<T>) {
         
@@ -95,41 +95,41 @@ public enum SplayOperation {
             grandchildToMode = child.right
             parent.left = grandchildToMode
             grandchildToMode?.parent = parent
-
+            
             let grandParent = parent.parent
             child.parent = grandParent
-
+            
             if parent.isLeftChild {
                 grandParent?.left = child
             } else {
                 grandParent?.right = child
             }
-
+            
             child.right = parent
             parent.parent = child
-    
-
+            
+            
         } else {
             
             grandchildToMode = child.left
             parent.right = grandchildToMode
             grandchildToMode?.parent = parent
-
+            
             let grandParent = parent.parent
             child.parent = grandParent
-
+            
             if parent.isLeftChild {
                 grandParent?.left = child
             } else {
                 grandParent?.right = child
             }
-
+            
             child.left = parent
             parent.parent = child
-
+            
         }
         
-
+        
     }
 }
 
@@ -183,13 +183,13 @@ public class Node<T: Comparable> {
 }
 
 public class SplayTree<T: Comparable> {
-
+    
     internal var root: Node<T>?
     
     var value: T? {
         return root?.value
     }
-
+    
     //MARK: - Initializer
     
     public init(value: T) {
@@ -197,13 +197,17 @@ public class SplayTree<T: Comparable> {
     }
     
     public func insert(value: T) {
-        root = root?.insert(value: value)
+        if let root = root {
+            self.root = root.insert(value: value)
+        } else {
+            root = Node(value: value)
+        }
     }
     
     public func remove(value: T) {
         root = root?.remove(value: value)
     }
-
+    
     public func search(value: T) -> Node<T>? {
         root = root?.search(value: value)
         return root
@@ -229,10 +233,10 @@ extension Node {
      Inserts a new element into the node tree.
      
      - Parameters:
-            - value T value to be inserted. Will be splayed to the root position
+     - value T value to be inserted. Will be splayed to the root position
      
      - Returns:
-            - Node inserted
+     - Node inserted
      */
     public func insert(value: T) -> Node {
         if let selfValue = self.value {
@@ -275,14 +279,14 @@ extension Node {
     
     /*
      Deletes the given node from the nodes tree.
-     Return the new tree generated by the removal. 
+     Return the new tree generated by the removal.
      The removed node (not necessarily the one containing the value), will be splayed to the root.
      
      - Parameters:
-            - value         To be removed
+     - value         To be removed
      
      - Returns:
-            - Node     Resulting from the deletion and the splaying of the removed node
+     - Node     Resulting from the deletion and the splaying of the removed node
      
      */
     public func remove(value: T) -> Node<T>? {
@@ -302,19 +306,29 @@ extension Node {
                         
                         parentToSplay = replacement.parent
                         
-                    } else {
+                    } else if self.parent != nil {
                         parentToSplay = self.parent
+                    } else {
+                        parentToSplay = replacement
                     }
                     
                 } else {
                     // This node only has a left child. The left child replaces the node.
                     replacement = left
-                    parentToSplay = parent
+                    if self.parent != nil {
+                        parentToSplay = self.parent
+                    } else {
+                        parentToSplay = replacement
+                    }
                 }
             } else if let right = right {
                 // This node only has a right child. The right child replaces the node.
                 replacement = right
-                parentToSplay = parent
+                if self.parent != nil {
+                    parentToSplay = self.parent
+                } else {
+                    parentToSplay = replacement
+                }
             } else {
                 // This node has no children. We just disconnect it from its parent.
                 replacement = nil
@@ -332,7 +346,7 @@ extension Node {
             parent = nil
             left = nil
             right = nil
-
+            
             return parentToSplay
             
         } else if let v = self.value, value < v {

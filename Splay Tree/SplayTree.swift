@@ -197,7 +197,11 @@ public class SplayTree<T: Comparable> {
     }
     
     public func insert(value: T) {
-        root = root?.insert(value: value)
+        if let root = root {
+            self.root = root.insert(value: value)
+        } else {
+            root = Node(value: value)
+        }
     }
     
     public func remove(value: T) {
@@ -302,19 +306,29 @@ extension Node {
                         
                         parentToSplay = replacement.parent
                         
-                    } else {
+                    } else if self.parent != nil {
                         parentToSplay = self.parent
+                    } else {
+                        parentToSplay = replacement
                     }
                     
                 } else {
                     // This node only has a left child. The left child replaces the node.
                     replacement = left
-                    parentToSplay = parent
+                    if self.parent != nil {
+                        parentToSplay = self.parent
+                    } else {
+                        parentToSplay = replacement
+                    }
                 }
             } else if let right = right {
                 // This node only has a right child. The right child replaces the node.
                 replacement = right
-                parentToSplay = parent
+                if self.parent != nil {
+                    parentToSplay = self.parent
+                } else {
+                    parentToSplay = replacement
+                }
             } else {
                 // This node has no children. We just disconnect it from its parent.
                 replacement = nil
