@@ -28,7 +28,7 @@ public enum SplayOperation {
         - Parameters:
             - node      SplayTree node to move up to the root
      */
-    public static func splay<T: Comparable>(node: SplayTree<T>) {
+    public static func splay<T: Comparable>(node: Node<T>) {
         
         while (node.parent != nil) {
             operation(forNode: node).apply(onNode: node)
@@ -44,10 +44,10 @@ public enum SplayOperation {
         - Returns
             - Operation     Case zigZag - zigZig - zig
      */
-    private static func operation<T: Comparable>(forNode node: SplayTree<T>) -> SplayOperation {
+    public static func operation<T: Comparable>(forNode node: Node<T>) -> SplayOperation {
         
-        if let parent = node.parent, let grandParent = parent.parent {
-            if (node.isLeftChild && grandParent.isRightChild) || (node.isRightChild && grandParent.isLeftChild) {
+        if let parent = node.parent, let _ = parent.parent {
+            if (node.isLeftChild && parent.isRightChild) || (node.isRightChild && parent.isLeftChild) {
                 return .zigZag
             }
             return .zigZig
@@ -62,7 +62,7 @@ public enum SplayOperation {
         - Parameters:
             - onNode    Node to splay up. Should be alwayas the node that needs to be splayed, neither its parent neither it's grandparent
      */
-    private func apply<T: Comparable>(onNode node: SplayTree<T>) {
+    public func apply<T: Comparable>(onNode node: Node<T>) {
         switch self {
         case .zigZag:
             assert(node.parent != nil && node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
@@ -84,47 +84,64 @@ public enum SplayOperation {
         Performs a single rotation from a node to its parent
         re-arranging the children properly
      */
-    private func rotate<T: Comparable>(child: SplayTree<T>, parent: SplayTree<T>) {
+    public func rotate<T: Comparable>(child: Node<T>, parent: Node<T>) {
         
         assert(child.parent != nil && child.parent!.value == parent.value, "Parent and child.parent should match here")
         
-        var grandchildToMode: SplayTree<T>?
+        var grandchildToMode: Node<T>?
+        
         if child.isLeftChild {
             
             grandchildToMode = child.right
-            child.right = parent
             parent.left = grandchildToMode
-            
+            grandchildToMode?.parent = parent
+
+            let grandParent = parent.parent
+            child.parent = grandParent
+
+            if parent.isLeftChild {
+                grandParent?.left = child
+            } else {
+                grandParent?.right = child
+            }
+
+            child.right = parent
+            parent.parent = child
+    
+
         } else {
             
             grandchildToMode = child.left
-            child.left = parent
             parent.right = grandchildToMode
-        }
+            grandchildToMode?.parent = parent
 
-        let grandParent = parent.parent
-        parent.parent = child
-        child.parent = grandParent
+            let grandParent = parent.parent
+            child.parent = grandParent
+
+            if parent.isLeftChild {
+                grandParent?.left = child
+            } else {
+                grandParent?.right = child
+            }
+
+            child.left = parent
+            parent.parent = child
+
+        }
+        
+
     }
 }
 
-public class SplayTree<T: Comparable> {
+public class Node<T: Comparable> {
     
-    fileprivate(set) public var value: T
-    fileprivate(set) public var parent: SplayTree?
-    fileprivate(set) public var left: SplayTree?
-    fileprivate(set) public var right: SplayTree?
+    fileprivate(set) public var value: T?
+    fileprivate(set) public var parent: Node<T>?
+    fileprivate(set) public var left: Node<T>?
+    fileprivate(set) public var right: Node<T>?
     
-    public init(value: T) {
+    init(value: T) {
         self.value = value
-    }
-    
-    public convenience init(array: [T]) {
-        precondition(array.count > 0)
-        self.init(value: array.first!)
-        for v in array.dropFirst() {
-            insert(value: v)
-        }
     }
     
     public var isRoot: Bool {
@@ -165,113 +182,185 @@ public class SplayTree<T: Comparable> {
     }
 }
 
+public class SplayTree<T: Comparable> {
+
+    internal var root: Node<T>?
+    
+    var value: T? {
+        return root?.value
+    }
+
+    //MARK: - Initializer
+    
+    public init(value: T) {
+        self.root = Node(value:value)
+    }
+    
+    public func insert(value: T) {
+        root = root?.insert(value: value)
+    }
+    
+    public func remove(value: T) {
+        root = root?.remove(value: value)
+    }
+
+    public func search(value: T) -> Node<T>? {
+        root = root?.search(value: value)
+        return root
+    }
+    
+    public func minimum() -> Node<T>? {
+        root = root?.minimum(splayed: true)
+        return root
+    }
+    
+    public func maximum() -> Node<T>? {
+        root = root?.maximum(splayed: true)
+        return root
+    }
+    
+}
+
 // MARK: - Adding items
 
-extension SplayTree {
+extension Node {
     
     /*
-     Inserts a new element into the tree. You should only insert elements
-     at the root, to make to sure this remains a valid binary tree!
-     Performance: runs in O(h) time, where h is the height of the tree.
+     Inserts a new element into the node tree.
+     
+     - Parameters:
+            - value T value to be inserted. Will be splayed to the root position
+     
+     - Returns:
+            - Node inserted
      */
-    public func insert(value: T) {
-        if value < self.value {
-            if let left = left {
-                left.insert(value: value)
-            } else {
-                
-                left = SplayTree(value: value)
-                left?.parent = self
-                
+    public func insert(value: T) -> Node {
+        if let selfValue = self.value {
+            if value < selfValue {
                 if let left = left {
-                    SplayOperation.splay(node: left)
-                    self.parent = nil
-                    self.value = left.value
-                    self.left = left.left
-                    self.right = left.right
+                    return left.insert(value: value)
+                } else {
+                    
+                    left = Node(value: value)
+                    left?.parent = self
+                    
+                    if let left = left {
+                        SplayOperation.splay(node: left)
+                        return left
+                    }
                 }
-            }
-        } else {
-            
-            if let right = right {
-                right.insert(value: value)
             } else {
-                
-                right = SplayTree(value: value)
-                right?.parent = self
                 
                 if let right = right {
-                    SplayOperation.splay(node: right)
-                    self.parent = nil
-                    self.value = right.value
-                    self.left = right.left
-                    self.right = right.right
+                    return right.insert(value: value)
+                } else {
+                    
+                    right = Node(value: value)
+                    right?.parent = self
+                    
+                    if let right = right {
+                        SplayOperation.splay(node: right)
+                        return right
+                    }
                 }
             }
         }
+        return self
     }
 }
 
 // MARK: - Deleting items
 
-extension SplayTree {
+extension Node {
+    
     /*
-     Deletes a node from the tree.
-     Returns the node that has replaced this removed one (or nil if this was a
-     leaf node). That is primarily useful for when you delete the root node, in
-     which case the tree gets a new root.
-     Performance: runs in O(h) time, where h is the height of the tree.
+     Deletes the given node from the nodes tree.
+     Return the new tree generated by the removal. 
+     The removed node (not necessarily the one containing the value), will be splayed to the root.
+     
+     - Parameters:
+            - value         To be removed
+     
+     - Returns:
+            - Node     Resulting from the deletion and the splaying of the removed node
+     
      */
-    @discardableResult public func remove() -> SplayTree? {
-        let replacement: SplayTree?
+    public func remove(value: T) -> Node<T>? {
+        let replacement: Node<T>?
         
-        if let left = left {
-            if let right = right {
-                replacement = removeNodeWithTwoChildren(left, right)
+        if let v = self.value, v == value {
+            
+            var parentToSplay: Node<T>?
+            if let left = left {
+                if let right = right {
+                    
+                    replacement = removeNodeWithTwoChildren(left, right)
+                    
+                    if let replacement = replacement,
+                        let replacementParent = replacement.parent,
+                        replacementParent.value != self.value {
+                        
+                        parentToSplay = replacement.parent
+                        
+                    } else {
+                        parentToSplay = self.parent
+                    }
+                    
+                } else {
+                    // This node only has a left child. The left child replaces the node.
+                    replacement = left
+                    parentToSplay = parent
+                }
+            } else if let right = right {
+                // This node only has a right child. The right child replaces the node.
+                replacement = right
+                parentToSplay = parent
             } else {
-                // This node only has a left child. The left child replaces the node.
-                replacement = left
+                // This node has no children. We just disconnect it from its parent.
+                replacement = nil
+                parentToSplay = parent
             }
-        } else if let right = right {
-            // This node only has a right child. The right child replaces the node.
-            replacement = right
-        } else {
-            // This node has no children. We just disconnect it from its parent.
-            replacement = nil
-        }
+            
+            reconnectParentTo(node: replacement)
+            
+            // performs the splay operation
+            if let parentToSplay = parentToSplay {
+                SplayOperation.splay(node: parentToSplay)
+            }
+            
+            // The current node is no longer part of the tree, so clean it up.
+            parent = nil
+            left = nil
+            right = nil
 
-        // Save the parent to splay before reconnecting
-        var parentToSplay: SplayTree?
-        if let replacement = replacement {
-            parentToSplay = replacement.parent
+            return parentToSplay
+            
+        } else if let v = self.value, value < v {
+            if left != nil {
+                return left!.remove(value: value)
+            } else {
+                let node = self
+                SplayOperation.splay(node: node)
+                return node
+                
+            }
         } else {
-            parentToSplay = self.parent
+            if right != nil {
+                return right?.remove(value: value)
+            } else {
+                let node = self
+                SplayOperation.splay(node: node)
+                return node
+                
+            }
         }
-        
-        reconnectParentTo(node: replacement)
-        
-        // performs the splay operation
-        if let parentToSplay = parentToSplay {
-            SplayOperation.splay(node: parentToSplay)
-        }
-        
-        // The current node is no longer part of the tree, so clean it up.
-        parent = nil
-        left = nil
-        right = nil
-        
-        return replacement
     }
     
-    private func removeNodeWithTwoChildren(_ left: SplayTree, _ right: SplayTree) -> SplayTree {
+    private func removeNodeWithTwoChildren(_ left: Node, _ right: Node) -> Node {
         // This node has two children. It must be replaced by the smallest
         // child that is larger than this node's value, which is the leftmost
         // descendent of the right child.
         let successor = right.minimum()
-        
-        // If this in-order successor has a right child of its own (it cannot
-        // have a left child by definition), then that must take its place.
-        successor.remove()
         
         // Connect our left child with the new node.
         successor.left = left
@@ -291,7 +380,7 @@ extension SplayTree {
         return successor
     }
     
-    private func reconnectParentTo(node: SplayTree?) {
+    private func reconnectParentTo(node: Node?) {
         if let parent = parent {
             if isLeftChild {
                 parent.left = node
@@ -305,31 +394,33 @@ extension SplayTree {
 
 // MARK: - Searching
 
-extension SplayTree {
+extension Node {
     
     /*
      Finds the "highest" node with the specified value.
      Performance: runs in O(h) time, where h is the height of the tree.
      */
-    public func search(value: T) -> SplayTree? {
-        var node: SplayTree? = self
-        while case let n? = node {
-            if value < n.value {
+    public func search(value: T) -> Node<T>? {
+        var node: Node? = self
+        var nodeParent: Node? = self
+        while case let n? = node, n.value != nil {
+            if value < n.value! {
+                if n.left != nil { nodeParent = n.left }
                 node = n.left
-            } else if value > n.value {
+            } else if value > n.value! {
                 node = n.right
+                if n.right != nil { nodeParent = n.right }
             } else {
-                
-                if let node = node {
-                    SplayOperation.splay(node: node)
-                }
-                
-                return node
+                break
             }
         }
         
         if let node = node {
             SplayOperation.splay(node: node)
+            return node
+        } else if let nodeParent = nodeParent {
+            SplayOperation.splay(node: nodeParent)
+            return nodeParent
         }
         
         return nil
@@ -342,27 +433,31 @@ extension SplayTree {
     /*
      Returns the leftmost descendent. O(h) time.
      */
-    public func minimum() -> SplayTree {
+    public func minimum(splayed: Bool = false) -> Node<T> {
         var node = self
         while case let next? = node.left {
             node = next
         }
         
-        SplayOperation.splay(node: node)
-
+        if splayed == true {
+            SplayOperation.splay(node: node)
+        }
+        
         return node
     }
     
     /*
      Returns the rightmost descendent. O(h) time.
      */
-    public func maximum() -> SplayTree {
+    public func maximum(splayed: Bool = false) -> Node<T> {
         var node = self
         while case let next? = node.right {
             node = next
         }
         
-        SplayOperation.splay(node: node)
+        if splayed == true {
+            SplayOperation.splay(node: node)
+        }
         
         return node
     }
@@ -396,13 +491,13 @@ extension SplayTree {
     /*
      Finds the node whose value precedes our value in sorted order.
      */
-    public func predecessor() -> SplayTree<T>? {
+    public func predecessor() -> Node<T>? {
         if let left = left {
             return left.maximum()
         } else {
             var node = self
-            while case let parent? = node.parent {
-                if parent.value < value { return parent }
+            while case let parent? = node.parent, parent.value != nil, value != nil {
+                if parent.value! < value! { return parent }
                 node = parent
             }
             return nil
@@ -412,13 +507,13 @@ extension SplayTree {
     /*
      Finds the node whose value succeeds our value in sorted order.
      */
-    public func successor() -> SplayTree<T>? {
+    public func successor() -> Node<T>? {
         if let right = right {
             return right.minimum()
         } else {
             var node = self
-            while case let parent? = node.parent {
-                if parent.value > value { return parent }
+            while case let parent? = node.parent, parent.value != nil , value != nil {
+                if parent.value! > value! { return parent }
                 node = parent
             }
             return nil
@@ -427,16 +522,16 @@ extension SplayTree {
 }
 
 // MARK: - Traversal
-extension SplayTree {
+extension Node {
     
     public func traverseInOrder(process: (T) -> Void) {
         left?.traverseInOrder(process: process)
-        process(value)
+        process(value!)
         right?.traverseInOrder(process: process)
     }
     
     public func traversePreOrder(process: (T) -> Void) {
-        process(value)
+        process(value!)
         left?.traversePreOrder(process: process)
         right?.traversePreOrder(process: process)
     }
@@ -444,7 +539,7 @@ extension SplayTree {
     public func traversePostOrder(process: (T) -> Void) {
         left?.traversePostOrder(process: process)
         right?.traversePostOrder(process: process)
-        process(value)
+        process(value!)
     }
     
     /*
@@ -453,7 +548,7 @@ extension SplayTree {
     public func map(formula: (T) -> T) -> [T] {
         var a = [T]()
         if let left = left { a += left.map(formula: formula) }
-        a.append(formula(value))
+        a.append(formula(value!))
         if let right = right { a += right.map(formula: formula) }
         return a
     }
@@ -462,37 +557,48 @@ extension SplayTree {
 /*
  Is this binary tree a valid binary search tree?
  */
-extension SplayTree {
+extension Node {
     
     public func isBST(minValue: T, maxValue: T) -> Bool {
-        if value < minValue || value > maxValue { return false }
-        let leftBST = left?.isBST(minValue: minValue, maxValue: value) ?? true
-        let rightBST = right?.isBST(minValue: value, maxValue: maxValue) ?? true
-        return leftBST && rightBST
+        if let value = value {
+            if value < minValue || value > maxValue { return false }
+            let leftBST = left?.isBST(minValue: minValue, maxValue: value) ?? true
+            let rightBST = right?.isBST(minValue: value, maxValue: maxValue) ?? true
+            return leftBST && rightBST
+        }
+        return false
     }
 }
 
 // MARK: - Debugging
 
-extension SplayTree: CustomStringConvertible {
+extension Node: CustomStringConvertible {
     public var description: String {
         var s = ""
         if let left = left {
-            s += "(\(left.description)) <- "
+            s += "left: (\(left.description)) <- "
         }
-        s += "\(value)"
+        if let v = value {
+            s += "\(v)"
+        }
         if let right = right {
-            s += " -> (\(right.description))"
+            s += " -> (right: \(right.description))"
         }
         return s
     }
 }
 
-extension SplayTree: CustomDebugStringConvertible {
+extension SplayTree: CustomStringConvertible {
+    public var description: String {
+        return root?.description ?? "Empty tree"
+    }
+}
+
+extension Node: CustomDebugStringConvertible {
     public var debugDescription: String {
         var s = "value: \(value)"
-        if let parent = parent {
-            s += ", parent: \(parent.value)"
+        if let parent = parent, let v = parent.value {
+            s += ", parent: \(v)"
         }
         if let left = left {
             s += ", left = [" + left.debugDescription + "]"
@@ -505,5 +611,11 @@ extension SplayTree: CustomDebugStringConvertible {
     
     public func toArray() -> [T] {
         return map { $0 }
+    }
+}
+
+extension SplayTree: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        return root?.debugDescription ?? "Empty tree"
     }
 }
