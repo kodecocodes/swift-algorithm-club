@@ -46,6 +46,11 @@ class SplayTreeTests: XCTestCase {
         assert(tree2.value == 20)
     }
     
+    func testDeleteRoot() {
+        tree2.remove(value: 44)
+        assert(tree2.value == 100)
+    }
+    
     func testMinimum() {
         let v = tree2.minimum()
         assert(v?.value == 1)
@@ -54,6 +59,18 @@ class SplayTreeTests: XCTestCase {
     func testMaximum() {
         let v = tree2.maximum()
         assert(v?.value == 100)
+    }
+    
+    func testInsertionRemovals() {
+        let splayTree = SplayTree(value: 1)
+        splayTree.insert(value: 2)
+        splayTree.insert(value: 10)
+        splayTree.insert(value: 6)
+        
+        splayTree.remove(value: 10)
+        splayTree.remove(value: 6)
+        
+        assert(splayTree.value == 2)
     }
     
 }
