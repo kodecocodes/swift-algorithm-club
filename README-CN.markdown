@@ -75,7 +75,7 @@ Basic sorts:
 Fast sorts:
 
 - [Quicksort](Quicksort/)
-- [Merge Sort](Merge Sort/)
+- [归并排序](Merge Sort/README-CN.markdown)
 - [Heap Sort](Heap Sort/)
 
 Special-purpose sorts:
