@@ -2,30 +2,58 @@ import XCTest
 
 class SplayTreeTests: XCTestCase {
    
-    var tree: SplayTree<Int>!
     var tree1: SplayTree<Int>!
+    var tree2: SplayTree<Int>!
     
     override func setUp() {
         super.setUp()
-        tree = SplayTree<Int>(value: 1)
-        tree1 = tree.insert(value: 10)?.insert(value: 20)?.insert(value: 3)?.insert(value: 6)?.insert(value: 100)?.insert(value: 44)
+        tree1 = SplayTree<Int>(value: 1)
+        
+        tree2 = SplayTree<Int>(value: 1)
+        tree2.insert(value: 10)
+        tree2.insert(value: 20)
+        tree2.insert(value: 3)
+        tree2.insert(value: 6)
+        tree2.insert(value: 100)
+        tree2.insert(value: 44)
     }
     
     func testInsertion() {
-        let tree1 = tree.insert(value: 10)
-        assert(tree1?.root?.value == 10)
+        tree1.insert(value: 10)
+        assert(tree1.value == 10)
         
-        let tree2 = tree1!.insert(value: 2)
-        assert(tree2?.root?.value == 2)
+        tree2.insert(value: 2)
+        assert(tree2.root?.value == 2)
     }
-    
     
     func testSearchNonExisting() {
-        print(tree1)
-        let tree2 = tree1.search(value: 5)
-        assert(tree2?.root?.value == 10)
-        
+        let t = tree2.search(value: 5)
+        assert(t?.value == 10)
+    }
+
+    func testSearchExisting() {
+        let t = tree2.search(value: 6)
+        assert(t?.value == 6)
     }
     
+    func testDeleteExistingOnlyLeftChild() {
+        tree2.remove(value: 3)
+        assert(tree2.value == 6)
+    }
+
+    func testDeleteExistingOnly2Children() {
+        tree2.remove(value: 6)
+        assert(tree2.value == 20)
+    }
+    
+    func testMinimum() {
+        let v = tree2.minimum()
+        assert(v?.value == 1)
+    }
+
+    func testMaximum() {
+        let v = tree2.maximum()
+        assert(v?.value == 100)
+    }
     
 }
