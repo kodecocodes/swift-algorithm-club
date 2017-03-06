@@ -80,7 +80,7 @@ Fast sorts:
 Special-purpose sorts:
 
 - [Counting Sort](Counting Sort/)
-- Radix Sort
+- [Radix Sort](Radix Sort/)
 - [Topological Sort](Topological Sort/)
 
 Bad sorting algorithms (don't use these!):
