@@ -4,7 +4,7 @@ public class LinkedListNode<T> {
   var value: T
   var next: LinkedListNode?
   weak var previous: LinkedListNode?
-
+  
   public init(value: T) {
     self.value = value
   }
@@ -12,17 +12,19 @@ public class LinkedListNode<T> {
 
 public final class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
-
+  
   fileprivate var head: Node?
-
+  
+  public init() {}
+  
   public var isEmpty: Bool {
     return head == nil
   }
-
+  
   public var first: Node? {
     return head
   }
-
+  
   public var last: Node? {
     if var node = head {
       while case let next? = node.next {
@@ -33,7 +35,7 @@ public final class LinkedList<T> {
       return nil
     }
   }
-
+  
   public var count: Int {
     if var node = head {
       var c = 1
@@ -46,7 +48,7 @@ public final class LinkedList<T> {
       return 0
     }
   }
-
+  
   public func node(atIndex index: Int) -> Node? {
     if index >= 0 {
       var node = head
@@ -59,15 +61,19 @@ public final class LinkedList<T> {
     }
     return nil
   }
-
+  
   public subscript(index: Int) -> T {
     let node = self.node(atIndex: index)
     assert(node != nil)
     return node!.value
   }
-
+  
   public func append(_ value: T) {
     let newNode = Node(value: value)
+    self.append(newNode)
+  }
+  
+  public func append(_ newNode: Node) {
     if let lastNode = last {
       newNode.previous = lastNode
       lastNode.next = newNode
@@ -75,64 +81,68 @@ public final class LinkedList<T> {
       head = newNode
     }
   }
-
+  
   private func nodesBeforeAndAfter(index: Int) -> (Node?, Node?) {
     assert(index >= 0)
-
+    
     var i = index
     var next = head
     var prev: Node?
-
+    
     while next != nil && i > 0 {
       i -= 1
       prev = next
       next = next!.next
     }
     assert(i == 0)  // if > 0, then specified index was too large
-
+    
     return (prev, next)
   }
-
+  
   public func insert(_ value: T, atIndex index: Int) {
-    let (prev, next) = nodesBeforeAndAfter(index: index)
-
     let newNode = Node(value: value)
+    self.insert(newNode, atIndex: index)
+  }
+  
+  public func insert(_ newNode: Node, atIndex index: Int) {
+    let (prev, next) = nodesBeforeAndAfter(index: index)
+    
     newNode.previous = prev
     newNode.next = next
     prev?.next = newNode
     next?.previous = newNode
-
+    
     if prev == nil {
       head = newNode
     }
   }
-
+  
   public func removeAll() {
     head = nil
   }
-
-  public func remove(node: Node) -> T {
+  
+  @discardableResult public func remove(node: Node) -> T {
     let prev = node.previous
     let next = node.next
-
+    
     if let prev = prev {
       prev.next = next
     } else {
       head = next
     }
     next?.previous = prev
-
+    
     node.previous = nil
     node.next = nil
     return node.value
   }
-
-  public func removeLast() -> T {
+  
+  @discardableResult public func removeLast() -> T {
     assert(!isEmpty)
     return remove(node: last!)
   }
-
-  public func remove(atIndex index: Int) -> T {
+  
+  @discardableResult public func remove(atIndex index: Int) -> T {
     let node = self.node(atIndex: index)
     assert(node != nil)
     return remove(node: node!)
@@ -173,7 +183,7 @@ extension LinkedList {
     }
     return result
   }
-
+  
   public func filter(predicate: (T) -> Bool) -> LinkedList<T> {
     let result = LinkedList<T>()
     var node = head
@@ -187,21 +197,23 @@ extension LinkedList {
   }
 }
 
-extension LinkedList: ExpressibleByArrayLiteral {
+extension LinkedList {
   convenience init(array: Array<T>) {
     self.init()
-        
+    
     for element in array {
       self.append(element)
     }
   }
-    
+}
+
+extension LinkedList: ExpressibleByArrayLiteral {
   public convenience init(arrayLiteral elements: T...) {
-      self.init()
+    self.init()
     
-      for element in elements {
-          self.append(element)
-      }
+    for element in elements {
+      self.append(element)
+    }
   }
 }
 
