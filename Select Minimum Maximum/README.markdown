@@ -68,6 +68,13 @@ array.minElement()   // This will return 3
 array.maxElement()   // This will return 9
 ```
 
+```
+let array = [ 8, 3, 9, 4, 6 ]
+//swift3
+array.min()   // This will return 3
+array.max()   // This will return 9
+```
+
 ## Maximum and minimum
 
 To find both the maximum and minimum values contained in array while minimizing the number of comparisons we can compare the items in pairs. 
