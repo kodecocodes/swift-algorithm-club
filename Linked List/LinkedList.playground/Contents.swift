@@ -10,7 +10,7 @@ public class LinkedListNode<T> {
   }
 }
 
-public class LinkedList<T> {
+public final class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
 
   fileprivate var head: Node?
@@ -187,13 +187,21 @@ extension LinkedList {
   }
 }
 
-extension LinkedList {
+extension LinkedList: ExpressibleByArrayLiteral {
   convenience init(array: Array<T>) {
     self.init()
         
     for element in array {
       self.append(element)
     }
+  }
+    
+  public convenience init(arrayLiteral elements: T...) {
+      self.init()
+    
+      for element in elements {
+          self.append(element)
+      }
   }
 }
 
@@ -255,3 +263,13 @@ list[0]                        // "Swift"
 
 list.remove(atIndex: 0)        // "Swift"
 list.count                     // 0
+
+let linkedList: LinkedList<Int> = [1, 2, 3, 4] // [1, 2, 3, 4]
+linkedList.count               // 4
+linkedList[0]                  // 1
+
+// Infer the type from the array
+let listArrayLiteral2: LinkedList = ["Swift", "Algorithm", "Club"]
+listArrayLiteral2.count        // 3
+listArrayLiteral2[0]           // "Swift"
+listArrayLiteral2.removeLast() // "Club"
