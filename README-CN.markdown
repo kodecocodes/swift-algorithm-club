@@ -49,8 +49,8 @@
 - [二分搜索](Binary Search/README-CN.markdown)。 在有序数组中快速查找元素。
 - [计算出现频率](Count Occurrences/README-CN.markdown)。统计值在数组中出现的频率
 - [查找最大/最小值](Select Minimum Maximum/README-CN.markdown)。 查找数组中的最大最小值
-- [第 k 大的元素](Kth Largest Element/)。找到数组中第*k*大的元素，比如中间值。
-- [选取样本](Selection Sampling/)。 从集合中随机选择一些样本
+- [第 k 大的元素](Kth Largest Element/README-CN.markdown)。找到数组中第*k*大的元素，比如中间值。
+- [选取样本](Selection Sampling/README-CN.markdown)。 从集合中随机选择一些样本
 - [联合查找](Union-Find/README-CN.markdown)。 跟踪不相交的集合并且快速合并它们
 
 ### 字符串搜索
