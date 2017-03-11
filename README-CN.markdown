@@ -36,7 +36,7 @@
 
 - [栈](Stack/README-CN.markdown)
 - [队列](Queue/README-CN.markdown)
-- [插入排序](Insertion Sort/READM-CN.markdown)
+- [插入排序](Insertion Sort/README-CN.markdown)
 - [二分搜索](Binary Search/README-CN.markdown) 和 [二叉搜索树](Binary Search Tree/README-CN.markdown)
 - [归并排序](Merge Sort/README-CN.markdown)
 - [Boyer-Moore 字符串搜索](Boyer-Moore/README-CN.markdown)
