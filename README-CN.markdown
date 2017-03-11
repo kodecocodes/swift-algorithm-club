@@ -37,7 +37,7 @@
 - [栈](Stack/README-CN.markdown)
 - [队列](Queue/README-CN.markdown)
 - [插入排序](Insertion Sort/READM-CN.markdown)
-- [二叉搜索](Binary Search/README-CN.markdown) 和 [二叉搜索树](Binary Search Tree/README-CN.markdown)
+- [二分搜索](Binary Search/README-CN.markdown) 和 [二叉搜索树](Binary Search Tree/README-CN.markdown)
 - [归并排序](Merge Sort/README-CN.markdown)
 - [Boyer-Moore 字符串搜索](Boyer-Moore/README-CN.markdown)
 
@@ -47,11 +47,11 @@
 
 - [线性搜索](Linear Search/)。 在数组中查找一个元素
 - [二分搜索](Binary Search/README-CN.markdown)。 在有序数组中快速查找元素。
-- [计算出现频率](Count Occurrences/)。统计值在数组中出现的频率
-- [查找最大/最小值](Select Minimum Maximum)。 查找数组中的最大最小值
+- [计算出现频率](Count Occurrences/README-CN.markdown)。统计值在数组中出现的频率
+- [查找最大/最小值](Select Minimum Maximum/README-CN.markdown)。 查找数组中的最大最小值
 - [第 k 大的元素](Kth Largest Element/)。找到数组中第*k*大的元素，比如中间值。
 - [选取样本](Selection Sampling/)。 从集合中随机选择一些样本
-- [联合查找](Union-Find/)。 跟踪不相交的集合并且快速合并它们
+- [联合查找](Union-Find/README-CN.markdown)。 跟踪不相交的集合并且快速合并它们
 
 ### 字符串搜索
 
