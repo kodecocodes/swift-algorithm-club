@@ -183,7 +183,7 @@ public mutating func unionSetsContaining(_ firstElement: T, and secondElement: T
 
 注意到，因为我们在方法开始的时候调用了 `setOf()`，大树在这个过程中也被优化了 —— 节点 `3` 现在直接挨着根节点。
 
-Union with optimizations also takes almost **O(1)** time.
+带有优化的联合的时间复杂度接近 **O(1)**。
 
 ## 参考
 
