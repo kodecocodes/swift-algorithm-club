@@ -64,30 +64,30 @@
 
 ### 排序
 
-It's fun to see how sorting algorithms work, but in practice you'll almost never have to provide your own sorting routines. Swift's own `sort()` is more than up to the job. But if you're curious, read on...
+看排序算法是如何工作的是很有意思的，但在实际中却几乎不可能用自己的排序程序。Swift 自己的 `sor()` 已经可以满足工作了，但是如果你好奇的话，请继续阅读吧...
 
-Basic sorts:
+基本排序:
 
 - [插入排序](Insertion Sort/README-CN.markdown)
-- [Selection Sort](Selection Sort/)
-- [Shell Sort](Shell Sort/)
+- [选择排序](Selection Sort/README-CN.markdown)
+- [希尔排序](Shell Sort/README-CN.markdown)
 
-Fast sorts:
+快速排序:
 
-- [Quicksort](Quicksort/)
+- [快速排序](Quicksort/README-CN.markdown)
 - [归并排序](Merge Sort/README-CN.markdown)
-- [Heap Sort](Heap Sort/)
+- [堆排序](Heap Sort/README-CN.markdown)
 
-Special-purpose sorts:
+特殊目的的排序:
 
-- [Counting Sort](Counting Sort/)
+- [计数排序](Counting Sort/README-CN.markdown)
 - Radix Sort
-- [Topological Sort](Topological Sort/)
+- [拓扑排序](Topological Sort/README-CN.markdown)
 
-Bad sorting algorithms (don't use these!):
+糟糕的排序算法 (不要用它们!):
 
-- [Bubble Sort](Bubble Sort/)
-- [Slow Sort](Slow Sort/)
+- [冒泡排序](Bubble Sort/README-CN.markdown)
+- [慢排序](Slow Sort/README-CN.markdown)
 
 ### Compression
 
