@@ -145,7 +145,7 @@ open class AStar: NSObject {
                 }
             }
             
-            if (!pathFinded) {
+            if !pathFinded {
                 if lowCostNode != nil {
                     selectedPoint = lowCostNode!
                 } else if openList.count > 0 {
@@ -186,6 +186,4 @@ open class AStar: NSObject {
         
         return returnList
     }
-    
 }
-

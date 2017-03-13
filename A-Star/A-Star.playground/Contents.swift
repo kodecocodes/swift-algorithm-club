@@ -54,4 +54,3 @@ if let path = AStar.find(startPoint: startPoint, endPoint: endPoint, nodes: star
 } else {
     print("Can't find path")
 }
-
