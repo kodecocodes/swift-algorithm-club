@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:Egg Drop Problem"
+      name = "Egg Drop Problem">
+      <FileRef
+         location = "group:/Users/arkalyk/Desktop/SwiftAlgorithmClub/swift-algorithm-club/Egg Drop Problem/EggDrop.swift">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:README.markdown">
    </FileRef>
