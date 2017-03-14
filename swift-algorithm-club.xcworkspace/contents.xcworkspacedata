@@ -9,12 +9,12 @@
    </FileRef>
    <Group
       location = "group:Dynamic Programming Knapsack "
-      name = "Dynamic Programming Knapsack ">
+      name = "Dynamic Programming  ">
       <FileRef
-         location = "group:Dynamic Programming Knapsack.playground">
+         location = "group:/Users/admin/swift-algorithm-club/Dynamic Programming Knapsack /Knapsack.playground">
       </FileRef>
       <FileRef
-         location = "group:Dynamic Programming Knapsack.swift">
+         location = "group:/Users/admin/swift-algorithm-club/Dynamic Programming Knapsack /Knapsack.swift">
       </FileRef>
       <FileRef
          location = "group:README.markdown">
