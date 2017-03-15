@@ -105,7 +105,7 @@ selectionSort(list)
 
 ## 性能
 
-选择排序很好理解，但是它的性能很糟糕，**O(n^2)**。它比[插入排序](../Insertion Sort/README-CN.markdown)要糟糕的多，但是比[冒泡排序](../Bubble Sort/README-CN.markdown)要好。杀手就是找到剩下数组中的最小元素，这个花费了很多时间，尤其是内层循环要不断地进行。
+选择排序很好理解，但是它的性能很糟糕，**O(n^2)**。它比 [插入排序](../Insertion Sort/README-CN.markdown) 要糟糕的多，但是比 [冒泡排序](../Bubble Sort/README-CN.markdown) 要好。杀手就是找到剩下数组中的最小元素，这个花费了很多时间，尤其是内层循环要不断地进行。
 
 [堆排序](../Heap Sort/README-CN.markdown) 使用的是和选择排序类似的规则，但是用了一个相当快的方法来找到剩下数组中的最小值。它的性能是 **O(n log n)**。
 
