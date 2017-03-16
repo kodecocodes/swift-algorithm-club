@@ -30,7 +30,7 @@ Here's how it works. When given an array, `quicksort()` splits it up into three 
 
 All the elements less than the pivot go into a new array called `less`. All the elements equal to the pivot go into the `equal` array. And you guessed it, all elements greater than the pivot go into the third array, `greater`. This is why the generic type `T` must be `Comparable`, so we can compare the elements with `<`, `==`, and `>`.
 
-Once we have these three arrays, `quicksort()` recursively sorts the `less` array and the `right` array, then glues those sorted subarrays back together with the `equal` array to get the final result. 
+Once we have these three arrays, `quicksort()` recursively sorts the `less` array and the `greater` array, then glues those sorted subarrays back together with the `equal` array to get the final result. 
 
 ## An example
 
@@ -44,7 +44,7 @@ First, we pick the pivot element. That is `8` because it's in the middle of the 
 	equal:   [ 8, 8 ]
 	greater: [ 10, 9, 14, 27, 26 ]
 
-This is a good split because `less` and `equal` roughly contain the same number of elements. So we've picked a good pivot that chopped the array right down the middle.
+This is a good split because `less` and `greater` roughly contain the same number of elements. So we've picked a good pivot that chopped the array right down the middle.
 
 Note that the `less` and `greater` arrays aren't sorted yet, so we call `quicksort()` again to sort those two subarrays. That does the exact same thing: pick a pivot and split the subarray into three even smaller parts.
 

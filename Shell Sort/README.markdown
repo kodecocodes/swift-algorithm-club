@@ -111,6 +111,38 @@ This is an old Commodore 64 BASIC version of shell sort that Matthijs used a lon
 	61300 GOTO 61220
 	61310 RETURN
 
+## The Code:
+Here is an implementation of Shell Sort in Swift:
+```
+var arr = [64, 20, 50, 33, 72, 10, 23, -1, 4, 5]
+
+public func shellSort(_ list: inout [Int]) {
+    
+    var sublistCount = list.count / 2
+   
+    while sublistCount > 0 {
+        
+        for index in 0..<list.count {
+           
+            guard index + sublistCount < list.count else { break }
+            
+            if list[index] > list[index + sublistCount] {
+                swap(&list[index], &list[index + sublistCount])
+            }
+            
+            guard sublistCount == 1 && index > 0 else { continue }
+            
+            if list[index - 1] > list[index] {
+                swap(&list[index - 1], &list[index])
+            }
+        }
+        sublistCount = sublistCount / 2
+    }
+}
+
+shellSort(&arr)
+```
+
 ## See also
 
 [Shellsort on Wikipedia](https://en.wikipedia.org/wiki/Shellsort)

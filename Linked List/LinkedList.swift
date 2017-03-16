@@ -8,7 +8,7 @@ public class LinkedListNode<T> {
     }
 }
 
-public class LinkedList<T> {
+public final class LinkedList<T> {
     public typealias Node = LinkedListNode<T>
     
     fileprivate var head: Node?
@@ -203,4 +203,14 @@ extension LinkedList {
             self.append(element)
         }
     }
+}
+
+extension LinkedList: ExpressibleByArrayLiteral {
+  public convenience init(arrayLiteral elements: T...) {
+    self.init()
+    
+    for element in elements {
+      self.append(element)
+    }
+  }
 }
