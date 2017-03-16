@@ -49,7 +49,7 @@
 - [二分搜索](Binary Search/README-CN.markdown)。 在有序数组中快速查找元素。
 - [计算出现频率](Count Occurrences/README-CN.markdown)。统计值在数组中出现的频率
 - [查找最大/最小值](Select Minimum Maximum/README-CN.markdown)。 查找数组中的最大最小值
-- [第 k 大的元素](Kth Largest Element/README-CN.markdown)。找到数组中第*k*大的元素，比如中间值。
+- [第 k 大的元素](Kth Largest Element/README-CN.markdown)。找到数组中第 *k* 大的元素，比如中间值。
 - [选取样本](Selection Sampling/README-CN.markdown)。 从集合中随机选择一些样本
 - [联合查找](Union-Find/README-CN.markdown)。 跟踪不相交的集合并且快速合并它们
 
@@ -64,19 +64,19 @@
 
 ### 排序
 
-看排序算法是如何工作的是很有意思的，但在实际中却几乎不可能用自己的排序程序。Swift 自己的 `sor()` 已经可以满足工作了，但是如果你好奇的话，请继续阅读吧...
+看排序算法是如何工作的是很有意思的，但在实际中却几乎不可能用自己的排序程序。Swift 自己的 `sort()` 已经可以满足工作了，但是如果你好奇的话，请继续阅读吧...
 
 基本排序:
 
-- [插入排序](Insertion Sort/README-CN.markdown)
-- [选择排序](Selection Sort/README-CN.markdown)
-- [希尔排序](Shell Sort/README-CN.markdown)
+- [插入排序](Insertion Sort/README-CN.markdown) 
+- [选择排序](Selection Sort/README-CN.markdown) 
+- [希尔排序](Shell Sort/README-CN.markdown) 
 
 快速排序:
 
-- [快速排序](Quicksort/README-CN.markdown)
-- [归并排序](Merge Sort/README-CN.markdown)
-- [堆排序](Heap Sort/README-CN.markdown)
+- [快速排序](Quicksort/README-CN.markdown) 
+- [归并排序](Merge Sort/README-CN.markdown) 
+- [堆排序](Heap Sort/README-CN.markdown) 
 
 特殊目的的排序:
 
