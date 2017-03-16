@@ -18,17 +18,17 @@
 
 ## 重要链接
 
-[什么是算法和数据结构?](What are Algorithms-CN.markdown) 薄煎饼!
+[什么是算法和数据结构?](What20%are20%Algorithms-CN.markdown) 薄煎饼!
 
-[为什么学习算法？](Why Algorithms-CN.markdown) 还在担心这不是你的菜吗？看看这个吧
+[为什么学习算法？](Why20%Algorithms-CN.markdown) 还在担心这不是你的菜吗？看看这个吧
 
-[大 O 表示法](Big-O Notation-CN.markdown)。 我们经常会说“这个算法是**O(n)**”。如果你不知道这是什么意思，读读这篇吧。
+[大 O 表示法](Big-O20%Notation-CN.markdown)。 我们经常会说“这个算法是**O(n)**”。如果你不知道这是什么意思，读读这篇吧。
 
-[算法设计技巧](Algorithm Design-CN.markdown)。怎样设计自己的算法？
+[算法设计技巧](Algorithm20%Design-CN.markdown)。怎样设计自己的算法？
 
-[如何做贡献](How to Contribute-CN.markdown)。报告问题或者提交 pull 请求
+[如何做贡献](How20%to20%Contribute-CN.markdown)。报告问题或者提交 pull 请求
 
-[构建中](Under Construction.markdown)。 还没有实现的算法
+[构建中](Under20%Construction.markdown)。 还没有实现的算法
 
 ## 从哪里开始
 
@@ -36,21 +36,21 @@
 
 - [栈](Stack/README-CN.markdown)
 - [队列](Queue/README-CN.markdown)
-- [插入排序](Insertion Sort/README-CN.markdown)
-- [二分搜索](Binary Search/README-CN.markdown) 和 [二叉搜索树](Binary Search Tree/README-CN.markdown)
-- [归并排序](Merge Sort/README-CN.markdown)
+- [插入排序](Insertion20%Sort/README-CN.markdown)
+- [二分搜索](Binary20%Search/README-CN.markdown) 和 [二叉搜索树](Binary20%Search20%Tree/README-CN.markdown)
+- [归并排序](Merge20%Sort/README-CN.markdown)
 - [Boyer-Moore 字符串搜索](Boyer-Moore/README-CN.markdown)
 
 ## 算法
 
 ### 搜索
 
-- [线性搜索](Linear Search/)。 在数组中查找一个元素
-- [二分搜索](Binary Search/README-CN.markdown)。 在有序数组中快速查找元素。
-- [计算出现频率](Count Occurrences/README-CN.markdown)。统计值在数组中出现的频率
-- [查找最大/最小值](Select Minimum Maximum/README-CN.markdown)。 查找数组中的最大最小值
-- [第 k 大的元素](Kth Largest Element/README-CN.markdown)。找到数组中第 *k* 大的元素，比如中间值。
-- [选取样本](Selection Sampling/README-CN.markdown)。 从集合中随机选择一些样本
+- [线性搜索](Linear20%Search/)。 在数组中查找一个元素
+- [二分搜索](Binary20%Search/README-CN.markdown)。 在有序数组中快速查找元素。
+- [计算出现频率](Count20%Occurrences/README-CN.markdown)。统计值在数组中出现的频率
+- [查找最大/最小值](Select20%Minimum20%Maximum/README-CN.markdown)。 查找数组中的最大最小值
+- [第 k 大的元素](Kth20%Largest20%Element/README-CN.markdown)。找到数组中第 *k* 大的元素，比如中间值。
+- [选取样本](Selection20%Sampling/README-CN.markdown)。 从集合中随机选择一些样本
 - [联合查找](Union-Find/README-CN.markdown)。 跟踪不相交的集合并且快速合并它们
 
 ### 字符串搜索
@@ -68,26 +68,26 @@
 
 基本排序:
 
-- [插入排序](Insertion Sort/README-CN.markdown) 
-- [选择排序](Selection Sort/README-CN.markdown) 
-- [希尔排序](Shell Sort/README-CN.markdown) 
+- [插入排序](Insertion20%Sort/README-CN.markdown) 
+- [选择排序](Selection20%Sort/README-CN.markdown) 
+- [希尔排序](Shell20%Sort/README-CN.markdown) 
 
 快速排序:
 
 - [快速排序](Quicksort/README-CN.markdown) 
-- [归并排序](Merge Sort/README-CN.markdown) 
-- [堆排序](Heap Sort/README-CN.markdown) 
+- [归并排序](Merge20%Sort/README-CN.markdown) 
+- [堆排序](Heap20%Sort/README-CN.markdown) 
 
 特殊目的的排序:
 
-- [计数排序](Counting Sort/README-CN.markdown)
+- [计数排序](Counting20%Sort/README-CN.markdown)
 - Radix Sort
-- [拓扑排序](Topological Sort/README-CN.markdown)
+- [拓扑排序](Topological20%Sort/README-CN.markdown)
 
 糟糕的排序算法 (不要用它们!):
 
-- [冒泡排序](Bubble Sort/README-CN.markdown)
-- [慢排序](Slow Sort/README-CN.markdown)
+- [冒泡排序](Bubble20%Sort/README-CN.markdown)
+- [慢排序](Slow20%Sort/README-CN.markdown)
 
 ### Compression
 
@@ -152,7 +152,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 - [Tree](Tree/). A general-purpose tree structure.
 - [Binary Tree](Binary Tree/). A tree where each node has at most two children.
-- [二叉搜索树 (BST)](Binary Search Tree/README-CN.markdown). A binary tree that orders its nodes in a way that allows for fast queries.
+- [二叉搜索树 (BST)](Binary20%Search Tree/README-CN.markdown). A binary tree that orders its nodes in a way that allows for fast queries.
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree

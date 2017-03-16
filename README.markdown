@@ -19,6 +19,7 @@ This is a work in progress. More algorithms will be added soon. :-)
 ## Important links
 
 [What are algorithms and data structures?](What are Algorithms.markdown) Pancakes!
+[What are algorithms and data structures?](What are Algorithms.markdown) Pancakes!
 
 [Why learn algorithms?](Why Algorithms.markdown) Worried this isn't your cup of tea? Then read this.
 

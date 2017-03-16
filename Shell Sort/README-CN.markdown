@@ -1,6 +1,6 @@
 # 希尔排序
 
-希尔排序是在[插入排序](../Insertion Sort/README-CN.markdown)的基础上，通过将原来的列表分成小的子列表然后分别进行插入排序来提高它的性能。
+希尔排序是在[插入排序](../Insertion20%Sort/README-CN.markdown)的基础上，通过将原来的列表分成小的子列表然后分别进行插入排序来提高它的性能。
 
 [Sapientia 大学的一个视频](https://www.youtube.com/watch?v=CmPA7zE8mx0) 展示了匈牙利乡村捂到的过程。
 
@@ -39,7 +39,7 @@
 
 现在对每个子列表调用一次 `insertionSort()`。
 
-这个特殊版本的[插入排序](../Insertion Sort/README-CN.markdown)是从后往前进行排序的。每个子列表中的元素与列表中的其他元素进行比较。如果它们的顺序不对，交换他们，一直这样进行下去直到到达子列表的开始。
+这个特殊版本的[插入排序](../Insertion20%Sort/README-CN.markdown)是从后往前进行排序的。每个子列表中的元素与列表中的其他元素进行比较。如果它们的顺序不对，交换他们，一直这样进行下去直到到达子列表的开始。
 
 所以对于子列表 0 来说，将 `4` 和 `72` 进行交换，然后交换 `4` 和 `64` 。排序结束之后，子列表就是这样的了：
 
@@ -81,7 +81,7 @@
 
 	n = floor(2/2) = 1
 
-步长大小为 1 标识我们只有一个子列表了，这就是数组本身，我们再调用 `insertionSort()` 来对它进行排序。最后的数组是这样的：
+步长大小为 1 表示我们只有一个子列表了，这就是数组本身，我们再调用 `insertionSort()` 来对它进行排序。最后的数组是这样的：
 
 	[ -1, 4, 10, 20, 23, 33, 50, 64, 72 ]
 
@@ -110,6 +110,41 @@
 	61290 IF V>0 THEN 61240
 	61300 GOTO 61220
 	61310 RETURN
+
+## 代码
+
+下面是 Swift 中希尔排序的实现：
+
+``` Swift
+var arr = [64, 20, 50, 33, 72, 10, 23, -1, 4, 5]
+
+public func shellSort(_ list: inout [Int]) {
+    
+    var sublistCount = list.count / 2
+   
+    while sublistCount > 0 {
+        
+        for index in 0..<list.count {
+           
+            guard index + sublistCount < list.count else { break }
+            
+            if list[index] > list[index + sublistCount] {
+                swap(&list[index], &list[index + sublistCount])
+            }
+            
+            guard sublistCount == 1 && index > 0 else { continue }
+            
+            if list[index - 1] > list[index] {
+                swap(&list[index - 1], &list[index])
+            }
+        }
+        sublistCount = sublistCount / 2
+    }
+}
+
+shellSort(&arr)
+```
+
 
 ## 参考
 
