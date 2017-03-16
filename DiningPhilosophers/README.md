@@ -1,5 +1,5 @@
 # Dining Philosophers
-Dining philosophers problem Algorithm implemented in Swift (concurrent algorithm design to illustrate synchronization issues and techniques for resolving them using GCD and Semaphore in Swift)
+Dining philosophers problem Algorithm implemented in Swift (concurrent algorithm design to illustrate synchronization issues and techniques for resolving them using [GCD](https://apple.github.io/swift-corelibs-libdispatch/) and [Semaphore](https://developer.apple.com/reference/dispatch/dispatchsemaphore) in Swift)
 
 Written for Swift Algorithm Club by Jacopo Mangiavacchi
 
