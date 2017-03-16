@@ -2,7 +2,7 @@
 
 希尔排序是在[插入排序](../Insertion20%Sort/README-CN.markdown)的基础上，通过将原来的列表分成小的子列表然后分别进行插入排序来提高它的性能。
 
-[Sapientia 大学的一个视频](https://www.youtube.com/watch?v=CmPA7zE8mx0) 展示了匈牙利乡村捂到的过程。
+[Sapientia 大学的一个视频](https://www.youtube.com/watch?v=CmPA7zE8mx0) 展示了匈牙利乡村舞蹈的过程。
 
 ## 如何工作
 

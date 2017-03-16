@@ -44,7 +44,7 @@ a[a.count - k] = a[8 - 4] = a[4] = 9
 
 ## 更快的解决方案
 
-这是一个将 [二分搜索](../Binary Search/README-CN.markdown) 和 [快速排序](../Quicksort/README-CN.markdown) 思想结合起来的达到 **O(n)** 的聪明算法。
+这是一个将 [二分搜索](../Binary%20Search/README-CN.markdown) 和 [快速排序](../Quicksort/README-CN.markdown) 思想结合起来的达到 **O(n)** 的聪明算法。
 
 回忆一下二分查找将数组一直分一直分来缩小要查找的值的范围。在这里我们也要这样做。
 

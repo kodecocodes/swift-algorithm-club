@@ -101,7 +101,7 @@ queue.enqueue("Tim")
 
 调整大小包括分配一块新的内存和将原来的数据拷贝到新的数组。这是一个 **O( n )** 的过程，所以它相对来说会慢一些。但既然它是每隔一段时间才发生一次的，往数组的最后添加一个元素的时间还是 **O(1)** 的，或者说是 **O(1)** “分摊的”。
 
-The story for dequeueing is slightly different. To dequeue we remove the element from the *beginning* of the array, not the end. This is always an **O(n)** operation because it requires all remaining array elements to be shifted in memory.
+出列又有一些不同。出列是从数组的 *头部* 移除一个元素，而不是尾部。由于它需要将数组中所有的元素都往后移动一个位置，所以它是 **O(n)** 的操作。
 
 在我们的例子中，让元素 `"Ada"` 出列，会将 `"Steve"` 拷贝到 `"Ada"` 的位置，`"Tim"` 拷贝到  `"Steve"`的位置，以及 `"Grace"` 拷贝到 `"Tim"` 的位置：
 
@@ -112,7 +112,6 @@ The story for dequeueing is slightly different. To dequeue we remove the element
 	                /       /      /
 	 after   [ "Steve", "Tim", "Grace", xxx, xxx, xxx ]
  
-Moving all these elements in memory is always an **O(n)** operation. So with our simple implementation of a queue, enqueuing is efficient but dequeueing leaves something to be desired...
 在内存中移动这些元素总是 **O(n)** 操作。在我们简单的队列实现中，入列是高效的，但是出列却有值得想象的地方...
 
 ## 一个更高效的队列
@@ -131,7 +130,6 @@ Moving all these elements in memory is always an **O(n)** operation. So with our
 
 	[ "Tim", "Grace", xxx, xxx, xxx, xxx ]
 
-This trimming procedure involves shifting memory so it's an **O(n)** operation. But because it only happens once in a while, dequeuing is now **O(1)** on average.
 这个整理过程是与内存切换相关的，它是一个 **O(n)** 的操作。但是因为它是一段时间才发生一次的，出列现在平均是 **O(1)**。
 
 下面是如何实现这个版本的 `Queue`：
@@ -257,11 +255,9 @@ q.count             // 1
 
 ## 扩展阅读
 
-There are many other ways to create a queue. Alternative implementations use a [linked list](../Linked List/), a [circular buffer](../Ring Buffer/), or a [heap](../Heap/). 
-还有很多其他的方法可以实现一个队列。代替实现有：[链表](../Linked List/)， [环形缓冲区](../Ring Buffer/), 或者 [堆](../Heap/)。
+还有很多其他的方法可以实现一个队列。代替实现有：[链表](../Linked%20List/README-CN.markdown)， [环形缓冲区](../Ring%20Buffer/README-CN.markdown), 或者 [堆](../Heap/README-CN.markdown)。
 
-Variations on this theme are [deque](../Deque/), a double-ended queue where you can enqueue and dequeue at both ends, and [priority queue](../Priority Queue/), a sorted queue where the "most important" item is always at the front.
-队列有很多变种。[双端队列](../Deque/)，一个两端都可以进行入队和出队的队列，以及[优先队列](../Priority Queue/)，“最重要”的元素总是在最开始的有序队列。
+队列有很多变种。[双端队列](../Deque/README-CN.markdown)，一个两端都可以进行入队和出队的队列，以及[优先队列](../Priority%20Queue/README-CN.markdown)，“最重要”的元素总是在最开始的有序队列。
 
 *作者：Matthijs Hollemans 译者：Daisy*
 

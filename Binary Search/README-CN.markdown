@@ -9,10 +9,10 @@
 ```swift
 let numbers = [11, 59, 3, 2, 53, 17, 31, 7, 19, 67, 47, 13, 37, 61, 29, 43, 5, 41, 23]
 
-numbers.indexOf(43)  // returns 15
+numbers.indexOf(43)  // 返回 15
 ```
 
-内置的 `indexOf()` 采用的是 [线性搜索](../Linear Search/README-CN.md)。用代码表示如下：
+内置的 `indexOf()` 采用的是 [线性搜索](../Linear%20Search/README-CN.md)。用代码表示如下：
 
 ```swift
 func linearSearch<T: Equatable>(_ a: [T], _ key: T) -> Int? {

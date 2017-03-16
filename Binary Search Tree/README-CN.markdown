@@ -1,6 +1,6 @@
 # 二叉搜索树 (BST)
 
-二叉搜索树是[二叉树](../Binary Tree/README-CN.mardown)（一种最多只有两个子节点的树）的一种特殊类别，用来执行插入和删除操作以使树一直都是有序的。
+二叉搜索树是[二叉树](../Binary%20Tree/README-CN.mardown)（一种最多只有两个子节点的树）的一种特殊类别，用来执行插入和删除操作以使树一直都是有序的。
 
 如果你不知道树是什么或者是用来做什么，那么可以看[这里](../Tree/README-CN.markdown)
 
@@ -49,7 +49,7 @@
 
 ![Searching the tree](Images/Searching.png)
 
-要感谢树结构才能让搜索变得如此之快。大概需要 **O(h)** 的时间。如果有一个比较平衡的树有一百万个节点，只需要大概 20 步就可以找到任何要找的东西（这与[二叉搜素](../Binary Search/README-CN.md)非常像).
+要感谢树结构才能让搜索变得如此之快。大概需要 **O(h)** 的时间。如果有一个比较平衡的树有一百万个节点，只需要大概 20 步就可以找到任何要找的东西（这与[二叉搜素](../Binary%20Search/README-CN.md)非常像).
 
 ## 遍历树
 
@@ -482,7 +482,7 @@ tree.height()  // 2
 
 ```swift
 if let node9 = tree.search(9) {
-  node9.depth()   // returns 2
+  node9.depth()   // 返回 2
 }
 ```
 
@@ -534,7 +534,7 @@ if let node9 = tree.search(9) {
 
 这两个方法的时间复杂度都是 **O(h)**。
 
-> **注意：** 有一个非常酷的变种叫做 ["线索"二叉树](../Thread Binary Tree/README-CN.markdown)。没有用到的左节点或者右节点的指针重新用来指向祖先或者继承者，非常聪明！
+> **注意：** 有一个非常酷的变种叫做 ["线索"二叉树](../Thread%20Binary%20Tree/README-CN.markdown)。没有用到的左节点或者右节点的指针重新用来指向祖先或者继承者，非常聪明！
 
 ### 搜索树是有效的吗？
 
@@ -712,11 +712,11 @@ extension BinarySearchTree: CustomDebugStringConvertible {
 
 当左右子树有大概相同的节点数的时候，二叉搜索树就是 *平衡*。这样的话，树的高度就是 *log(n)*，*n* 是节点的个数。这是最理想的情况。
 
-然而，如果一个分支比另一个要大很多，搜索就变得非常慢。最终我们会比理想情况下要查找更多的值。在最糟糕的情况下，树的高度可能是 *n*。这样的树更像是一个[链表](../Linked List/README-CN.markdown)而不是一棵二叉搜索树，性能降到了 **O(n)**，非常不好！
+然而，如果一个分支比另一个要大很多，搜索就变得非常慢。最终我们会比理想情况下要查找更多的值。在最糟糕的情况下，树的高度可能是 *n*。这样的树更像是一个[链表](../Linked%20List/README-CN.markdown)而不是一棵二叉搜索树，性能降到了 **O(n)**，非常不好！
 
 保持二叉树的一个方法就是随机地插入节点。平均情况下，这会时保持一个平衡。但是并不保证成功，也并不总是很实用。
 
-另外一个解决方法就是使用 *self-balancing* 的二叉树。这种类型的数据结构会在插入或者删除节点之后调整树的结构来保持平衡。参考[平衡二叉查找树](../AVL Tree/README-CN.markdown) 和 [红黑树](../Red-Black Tree/README-CN.markdown)。
+另外一个解决方法就是使用 *self-balancing* 的二叉树。这种类型的数据结构会在插入或者删除节点之后调整树的结构来保持平衡。参考[平衡二叉查找树](../AVL%20Tree/README-CN.markdown) 和 [红黑树](../Red-Black%20Tree/README-CN.markdown)。
 
 ## 延伸阅读
 

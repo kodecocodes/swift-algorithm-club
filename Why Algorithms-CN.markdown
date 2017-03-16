@@ -27,7 +27,6 @@
 
 记忆不是重点。理解算法在处理不同问题时的不同才是终点。
 
-Learn about techniques such as divide-and-conquer, dynamic programming, greedy algorithms. See what makes one approach slow and another fast, and learn what the tradeoffs are.
 学习一些诸如分而治之、动态编程、贪婪算法等技巧。看看哪个方法快，哪个慢，并且学习时间和空间交换的代价是什么。
 
 本文的目的是教你如何更好的与计算机打交道。

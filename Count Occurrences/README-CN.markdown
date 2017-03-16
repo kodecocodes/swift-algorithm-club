@@ -2,9 +2,9 @@
 
 目标：计算一个特定值在数组中出现的频率。
 
-最显而易见的办法就是使用 [线性搜索](../Linear Search/README-CN.markdown) 从数组的开始一直找到结尾，记录需要查找的值出现的次数。这个是 **O(n)** 的时间复杂度的算法。
+最显而易见的办法就是使用 [线性搜索](../Linear%20Search/README-CN.markdown) 从数组的开始一直找到结尾，记录需要查找的值出现的次数。这个是 **O(n)** 的时间复杂度的算法。
 
-用[二叉搜索](../Binary Search/README-CN.markdown) 的话，只需要 **O(log n)** 的时间。
+用[二分搜索](../Binary%20Search/README-CN.markdown) 的话，只需要 **O(log n)** 的时间。
 然而，如果数组是有序的话做起来就可以更快了，
 
 加入我们有下面的数组：
@@ -56,7 +56,7 @@ func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
 }
 ```
 
-辅助方法 `leftBoundary()` 和 `rightBoundary()` 跟 [二叉搜索](../Binary Search/README-CN.markdown) 非常像。最大的不同是当它找到了要搜索的关键词时，不会停止，而是继续找。
+辅助方法 `leftBoundary()` 和 `rightBoundary()` 跟 [二分搜索](../Binary%20Search/README-CN.markdown) 非常像。最大的不同是当它找到了要搜索的关键词时，不会停止，而是继续找。
 
 将代码拷贝到 playground 里进行测试吧：
 
