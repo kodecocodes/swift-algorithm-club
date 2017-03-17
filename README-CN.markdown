@@ -45,7 +45,7 @@
 
 ### 搜索
 
-- [线性搜索](Linear%20Search/)。 在数组中查找一个元素
+- [线性搜索](Linear%20Search/README-CN.markdown)。 在数组中查找一个元素
 - [二分搜索](Binary%20Search/README-CN.markdown)。 在有序数组中快速查找元素。
 - [计算出现频率](Count%20Occurrences/README-CN.markdown)。统计值在数组中出现的频率
 - [查找最大/最小值](Select%20Minimum%20Maximum/README-CN.markdown)。 查找数组中的最大最小值
@@ -117,20 +117,20 @@
 - Neural Networks
 - PageRank
 
-## Data structures
+## 数据结构
 
-The choice of data structure for a particular task depends on a few things.
+对于特定任务的数据结构的选择取决于一些情况。
 
-First, there is the shape of your data and the kinds of operations that you'll need to perform on it. If you want to look up objects by a key you need some kind of dictionary; if your data is hierarchical in nature you want a tree structure of some sort; if your data is sequential you want a stack or queue.
+首先，要有一个数据的形式以及要对数据执行的操作。如果你要通过关键词来查找对象的话，那么你就需要类似字典的东西；如果你的数据本身是有层级的，那么就要用类似树的结构了；如果数据是连续的，栈或者队列都是一个可选项。
 
-Second, it matters what particular operations you'll be performing most, as certain data structures are optimized for certain actions. For example, if you often need to find the most important object in a collection, then a heap or priority queue is more optimal than a plain array.
+其次，经常执行哪些特定的操作很重要，因为一些数据结构会针对特定行为做优化。例如，如果想在集合中找到最重要的对象，那么一个堆或者优先列表就比数组要好的多。
 
-Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types is sufficient, but sometimes you may want something more fancy...
+大部分情况下内置的 `Array`、`Dictionary` 和 `Set` 就够用了，但有时可能想要一些更好的。
 
-### Variations on arrays
+### 数组的变种
 
-- [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
-- [Bit Set](Bit Set/). A fixed-size sequence of *n* bits.
+- [二维数组](Array2D/README-CN.markdown). 固定大小的二维数组。在棋盘游戏中非常有用。
+- [位集](Bit Set/README-CN.markdown). 固定大小的 *n* 位系列。
 - [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an old-fashioned array with a fixed size.
 - [Ordered Array](Ordered Array/). An array that is always sorted.
 - [Rootish Array Stack](Rootish Array Stack/). A space and time efficient variation on Swift arrays.
@@ -163,9 +163,9 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Trie](Trie/). A special type of tree used to store associative data structures.
 - [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
 
-### Hashing
+### 散列法
 
-- [Hash Table](Hash Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented.
+- [散列表](Hash Table/README-CN.markdown). 可以通过关键词存储和获取对象。字典通常就是这样实现的。
 - Hash Functions
 
 ### Sets
