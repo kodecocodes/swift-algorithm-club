@@ -72,28 +72,20 @@ public struct Array2D<T> {
   public init(columns: Int, rows: Int, initialValue: T) {
     self.columns = columns
     self.rows = rows
-    array = [T](repeating: initialValue, count: rows*columns)
+    array = .init(repeating: initialValue, count: rows*columns)
   }
   
   public subscript(column: Int, row: Int) -> T {
     get {
-      if isValidSubscript(column: column, row: row) {
-        return array[row*columns + column]
-      } else {
-        fatalError("Not a valid subscript")
-      }
+      precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
+      precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
+      return array[row*columns + column]
     }
     set {
-      if isValidSubscript(column: column, row: row) {
-        array[row*columns + column] = newValue
-      } else {
-        fatalError("Not a valid subscript")
-      }
+      precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
+      precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
+      array[row*columns + column] = newValue
     }
-  }
-  
-  private func isValidSubscript(column: Int, row: Int) -> Bool {
-    return column < columns && row < rows
   }
 }
 ```
