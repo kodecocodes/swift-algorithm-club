@@ -4,36 +4,36 @@
  Performance is always O(1).
  */
 public struct Array2D<T> {
-    public let columns: Int
-    public let rows: Int
-    public var array: [T]
-    
-    public init(columns: Int, rows: Int, initialValue: T) {
-        self.columns = columns
-        self.rows = rows
-        array = [T](repeating: initialValue, count: rows*columns)
+  public let columns: Int
+  public let rows: Int
+  fileprivate var array: [T]
+  
+  public init(columns: Int, rows: Int, initialValue: T) {
+    self.columns = columns
+    self.rows = rows
+    array = [T](repeating: initialValue, count: rows*columns)
+  }
+  
+  public subscript(column: Int, row: Int) -> T {
+    get {
+      if isValidSubscript(column: column, row: row) {
+        return array[row*columns + column]
+      } else {
+        fatalError("Not a valid subscript")
+      }
     }
-    
-    public subscript(column: Int, row: Int) -> T {
-        get {
-            if isValidSubscript(column: column, row: row) {
-                return array[row*columns + column]
-            } else {
-                fatalError("Not a valid subscript")
-            }
-        }
-        set {
-            if isValidSubscript(column: column, row: row) {
-                array[row*columns + column] = newValue
-            } else {
-                fatalError("Not a valid subscript")
-            }
-        }
+    set {
+      if isValidSubscript(column: column, row: row) {
+        array[row*columns + column] = newValue
+      } else {
+        fatalError("Not a valid subscript")
+      }
     }
-    
-    private func isValidSubscript(column: Int, row: Int) -> Bool {
-        return column < columns && row < rows
-    }
+  }
+  
+  private func isValidSubscript(column: Int, row: Int) -> Bool {
+    return column < columns && row < rows
+  }
 }
 
 
@@ -62,13 +62,13 @@ print(matrix.array)
 
 // print out the 2D array with a reference around the grid
 for i in 0..<matrix.rows {
-    print("[", terminator: "")
-    for j in 0..<matrix.columns {
-        if j == matrix.columns - 1 {
-            print("\(matrix[j, i])", terminator: "")
-        } else {
-            print("\(matrix[j, i]) ", terminator: "")
-        }
+  print("[", terminator: "")
+  for j in 0..<matrix.columns {
+    if j == matrix.columns - 1 {
+      print("\(matrix[j, i])", terminator: "")
+    } else {
+      print("\(matrix[j, i]) ", terminator: "")
     }
-    print("]")
+  }
+  print("]")
 }

@@ -67,21 +67,33 @@ So instead let's create our own type that acts like a 2-D array and that is more
 public struct Array2D<T> {
   public let columns: Int
   public let rows: Int
-  private var array: [T]
-
+  fileprivate var array: [T]
+  
   public init(columns: Int, rows: Int, initialValue: T) {
     self.columns = columns
     self.rows = rows
-    array = .init(repeating: initialValue, count: rows*columns)
+    array = [T](repeating: initialValue, count: rows*columns)
   }
-
+  
   public subscript(column: Int, row: Int) -> T {
     get {
-      return array[row*columns + column]
+      if isValidSubscript(column: column, row: row) {
+        return array[row*columns + column]
+      } else {
+        fatalError("Not a valid subscript")
+      }
     }
     set {
-      array[row*columns + column] = newValue
+      if isValidSubscript(column: column, row: row) {
+        array[row*columns + column] = newValue
+      } else {
+        fatalError("Not a valid subscript")
+      }
     }
+  }
+  
+  private func isValidSubscript(column: Int, row: Int) -> Bool {
+    return column < columns && row < rows
   }
 }
 ```
