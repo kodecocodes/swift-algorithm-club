@@ -130,8 +130,8 @@
 ### 数组的变种
 
 - [二维数组](Array2D/README-CN.markdown). 固定大小的二维数组。在棋盘游戏中非常有用。
-- [位集](Bit Set/README-CN.markdown). 固定大小的 *n* 位系列。
-- [固定大小的数组](Fixed Size Array/README-CN.markdown). 但提前知道有多少数据的时候，用一个固定大小的老式数组可能更高效。
+- [位集](Bit%20Set/README-CN.markdown). 固定大小的 *n* 位系列。
+- [固定大小的数组](Fixed%20Size%20Array/README-CN.markdown). 但提前知道有多少数据的时候，用一个固定大小的老式数组可能更高效。
 - [Ordered Array](Ordered Array/). An array that is always sorted.
 - [Rootish Array Stack](Rootish Array Stack/). A space and time efficient variation on Swift arrays.
 
