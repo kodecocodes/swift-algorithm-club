@@ -152,7 +152,7 @@
 
 - [Tree](Tree/). A general-purpose tree structure.
 - [Binary Tree](Binary Tree/). A tree where each node has at most two children.
-- [二叉搜索树 (BST)](Binary%20Search Tree/README-CN.markdown). A binary tree that orders its nodes in a way that allows for fast queries.
+- [二叉搜索树 (BST)](Binary%20Search%20Tree/README-CN.markdown). A binary tree that orders its nodes in a way that allows for fast queries.
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
@@ -165,7 +165,7 @@
 
 ### 散列法
 
-- [散列表](Hash Table/README-CN.markdown). 可以通过关键词存储和获取对象。字典通常就是这样实现的。
+- [散列表](Hash%20Table/README-CN.markdown). 可以通过关键词存储和获取对象。字典通常就是这样实现的。
 - Hash Functions
 
 ### Sets
