@@ -140,7 +140,7 @@
 - [栈](Stack/README-CN.markdown)。 后进先出！
 - [队列](Queue/README-CN.markdown)。 先进先出！
 - [双端队列](Deque/README-CN.markdown). 双端队列.
-- [Priority Queue](Priority Queue). A queue where the most important element is always at the front.
+- [优先队列](Priority%20Queue/README-CN.markdown). 最重要的的元素始终在开始的队列。
 - [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Lists
