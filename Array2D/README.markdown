@@ -36,7 +36,7 @@ var cookies = [[Int]](repeating: [Int](repeating: 0, count: 7), count: 9)
 but that's just ugly. To be fair, you can hide the ugliness in a helper function:
 
 ```swift
-func dim<T>(count: Int, _ value: T) -> [T] {
+func dim<T>(_ count: Int, _ value: T) -> [T] {
   return [T](repeating: value, count: count)
 }
 ```
