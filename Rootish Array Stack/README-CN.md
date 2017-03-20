@@ -36,7 +36,7 @@ _Block `1` has 1 `x`, block `2` as 2 `x`s, block `3` has 3 `x`s, etc..._
 5 |  x x x x x
 
 ```
-Then we mirror the _half pyramid_ and rearrange the image so that it fits with the original _half pyramid_ in a rectangular shape:
+然后我们做一个 _半个金字塔_ 的镜像，然后重新排列图像让它和原来的 _半个金字塔_ 在一个矩形里面：
 
 ```
 x                  o      x o o o o o
@@ -45,43 +45,48 @@ x x x          o o o  =>  x x x o o o
 x x x x      o o o o      x x x x o o
 x x x x x  o o o o o      x x x x x o
 ```
-Here we have `n` rows and `n + 1` columns. _5 rows and 6 columns_.
+现在我们有 `n` 行 和 `n + 1` 列。 _5 行和 6 列_ 。
 
-We can calculate the sum just as we would an area! Let's also express the width and height in terms of `n`:
+我们可以像计算面积一样来计算和！我们继续用 `n` 这个属于来表示宽和高：
+
 ```
 area of a rectangle = height * width = n * (n + 1)
 ```
-We only want to calculate the amount of `x`s, not the amount of `o`s. Since there's a 1:1 ratio between `x`s and `o`s we can just divide our area by 2!
+
+我们只想计算 `x` 的总数，而不是 `o` 的。由于在 `x` 和 `o` 之间有一个 1：1 的关系，所以我们只要将它除以 2 就可以了！
+
 ```
 area of only x = n * (n + 1) / 2
 ```
-Voila! A super fast way to take a sum of all the blocks! This equation is useful for deriving fast `block` and `inner block index` equations.
 <!-- TODO: Define block and innerBlockIndex -->
+哇！一个计算和的非常快速的方法！这个方程式对于导出快速 `块` 和 `内部块索引` 等式是非常有用的。
+<!-- TODO: 定义块和内部块索引 -->
 
-## Get/Set with Speed
-Next, we want to find an efficient and accurate way to access an element at a random index. For example, which block does `rootishArrayStack[12]` point to? To answer this we will need more math!
-Determining the inner block `index` turns out to be easy. If `index` is in some `block` then:
+## 快速读取/设置
+
+接下来，我们要找到一个有效和准确的方法来访问随机索引的元素。例如，`rootishArrayStack[12]` 指向哪一块索引？需要更多的数学知识来回答这个问题！
+如果 `索引` 在某个 `块` 里面的话，确定内部块 `索引` 变得容易了：
 ```
 inner block index = index - block * (block + 1) / 2
 ```
-Determining which `block` an index points to is more difficult. The number of elements up to and including the element requested is: `index + 1` elements. The number of elements in blocks `0...block` is `(block + 1) * (block + 2) / 2` (equation derived above). The relationship between the `block` and the `index` is as follows:
+要知道索引指向哪个快更难一些。元素的数量包括被请求的元素最多是：`index + 1` 个元素。块 `0...block` 中的元素个数是 `(block + 1) * (block + 2) / 2` （由上面的公式推导出来的）。`块` 和 `索引` 之间的关系是：
 ```
 (block + 1) * (block + 2) / 2 >= index + 1
 ```
-This can be rewritten as:
+也可以写做：
 ```
 (block)^2 + (3 * block) - (2 * index) >= 0
 ```
-Using the quadratic formula we get:
+利用二次方程我们得到：
 ```
 block = (-3 ± √(9 + 8 * index)) / 2
 ```
-A negative block doesn't make sense, so we take the positive root instead. In general, this solution is not an integer. However, going back to our inequality, we want the smallest block such that `block => (-3 + √(9 + 8 * index)) / 2`. Next, we take the ceiling of the result:
+负的块是没有意义的，我们我们用正数根来代替。通常来说，这个的答案不是一个整数，然而，回到我们的不等式，我们想要的最小的块是 `block => (-3 + √(9 + 8 * index)) / 2`。协议不，就是取大于结果的整数：
 ```
 block = ⌈(-3 + √(9 + 8 * index)) / 2⌉
 ```
 
-Now we can figure out what `rootishArrayStack[12]` points to! First, let's see which block the `12` points to:
+现在我们可以算出 `rootishArrayStack[12]` 指向哪里了！首先，我们来看看 `12` 指向哪个块：
 ```
 block = ⌈(-3 + √(9 + 8 * (12))) / 2⌉
 block = ⌈(-3 + √105) / 2⌉
@@ -90,21 +95,24 @@ block = ⌈(7.246950766) / 2⌉
 block = ⌈3.623475383⌉
 block = 4
 ```
-Next lets see which `innerBlockIndex` `12` points to:
+然后再看看 `12` 指向哪个 `innerBlockIndex`：
 ```
 inner block index = (12) - (4) * ((4) + 1) / 2
 inner block index = (12) - (4) * (5) / 2
 inner block index = (12) - 10
 inner block index = 2
 ```
-Therefore, `rootishArrayStack[12]` points to the block at index `4` and at inner block index `2`.
+因此，`rootishArrayStack[12]` 指向的是索引为 `4` 的块以及内部块索引是 `2` 的元素
 ![Rootish Array Stack Intro](images/RootishArrayStackExample2.png)
 
-### Interesting Discovery
-Using the `block` equation, we can see that the number of `blocks` is proportional to the square root of the number of elements: **O(blocks) = O(√n)**.
+### 有序的发现
 
-# Implementation Details
-Let's start with instance variables and struct declaration:
+使用 `块` 等式，`块` 的个数大概是元素总数的平方根：**O(blocks) = O(√n)**。
+
+# 实现细节
+
+让我们从实例变量和结构体定义开始吧：
+
 ```swift
 import Darwin
 
@@ -124,19 +132,23 @@ public struct RootishArrayStack<T> {
 }
 
 ```
-The elements are of generic type `T`, so data of any kind can be stored in the list. `blocks` will be a resizable array to hold fixed sized arrays that take type `T?`.
-> The reason for the fixed size arrays taking type `T?` is so that references to elements aren't retained after they've been removed. Eg: if you remove the last element, the last index must be set to `nil` to prevent the last element being held in memory at an inaccessible index.
 
-`internalCount` is an internal mutable counter that keeps track of the number of elements. `count` is a read only variable that returns the `internalCount` value. `Darwin` is imported here to provide simple math functions such as `ceil()` and `sqrt()`.
+元素是泛型类型 `T`，所以列表里可以存储任何类型的数据。`块` 是一个可以接受类型为 `T` 的持有固定大小数组的可变大小的数组。
 
-The `capacity` of the structure is simply the Gaussian summation trick:
+> 固定大小数组接受类型 `T?` 的原因是在元素被移除后，对它们的引用不会被保留。例如：如果移除了最后一个元素，最后的所以必须设置为 nil 以防止在一个不可访问的索引里还将元素保留在内存里。
+
+`internalCount` 是一个内部可变计数器，用来保存元素的个数。`count` 是一个只读变量，返回的是 `internalCount` 的值。在这里引入 `Darwin` 的目的是提供如 `ceil()` 和 `sqrt()` 这样的简单数学计算。
+
+结构体的 `capacity` 是简单的高斯求和技巧：
+
 ```swift
 var capacity: Int {
   return blocks.count * (blocks.count + 1) / 2
 }
 ```
 
-Next, let's look at how we would `get` and `set` elements:
+下一步，看看如何 `get` 和 `set` 元素：
+
 ```swift
 fileprivate func block(fromIndex: Int) -> Int {
   let block = Int(ceil((-3.0 + sqrt(9.0 + 8.0 * Double(index))) / 2))
@@ -160,13 +172,15 @@ public subscript(index: Int) -> T {
   }
 }
 ```
-`block(fromIndex:)` and `innerBlockIndex(fromIndex:, fromBlock:)` are wrapping the `block` and `inner block index` equations we derived earlier. `superscript` lets us have `get` and `set` access to the structure with the familiar `[index:]` syntax. For both `get` and `set` in `superscript` we use the same logic:
 
-1. determine the block that the index points to
-2. determine the inner block index
-3. `get`/`set` the value
+`block(fromIndex:)` 和 `innerBlockIndex(fromIndex:, fromBlock:)` 封装了我们前面推导出来的 `block` 和 `inner block index` 等式。`subscript` 可以使用熟悉的 `[index:]` 语法来使用 `get` 和 `set` 访问元素。在 `subscript` 中，`get` 和 `set` 使用的是同样的逻辑：
 
-Next, let's look at how we would `growIfNeeded()` and `shrinkIfNeeded()`.
+1. 确定索引指向的块
+2. 确定内部块索引
+3. `get`/`set` 元素值
+
+接下来看看我们怎么 `growIfNeeded()` 和 `shrinkIfNeeded()`。
+
 ```swift
 fileprivate mutating func growIfNeeded() {
   if capacity - blocks.count < count + 1 {
@@ -183,10 +197,12 @@ fileprivate mutating func shrinkIfNeeded() {
   }
 }
 ```
-If our data set grows or shrinks in size, we want our data structure to accommodate the change.
-Just like a Swift array, when a capacity threshold is met we will `grow` or `shrink` the size of our structure. For the Rootish Array Stack we want to `grow` if the second last block is full on an `insert` operation, and `shrink` if the two last blocks are empty.
 
-Now to the more familiar Swift array behaviour.  
+如果数据集合会随着大小变大或者变小，我们的结构就要能够适应这种变化。
+就像 Swift 的数组一样，当达到容量的阈值的时候，我们就 `grow` 或者 `shrink` 结构的大小。对于 Rootish 数组栈来说，我们想要在倒数第二个块在 `insert` 操作之后如果满了，就 `grou` ，如果最后两个块空了就 `shrink`。
+
+现在就是熟悉的 Swift 数组行为了。
+
 ```swift
 public mutating func insert(element: T, atIndex index: Int) {
 	growIfNeeded()
@@ -220,30 +236,38 @@ fileprivate mutating func makeNil(atIndex index: Int) {
   blocks[block][innerBlockIndex] = nil
 }
 ```
-To `insert(element:, atIndex:)` we move all elements after the `index` to the right by 1. After space has been made for the element, we set the value using the `subscript` convenience method.
-`append(element:)` is just a convenience method to `insert` to the end.
-To `remove(atIndex:)` we move all the elements after the `index` to the left by 1. After the removed value is covered by it's proceeding value, we set the last value in the structure to `nil`.
-`makeNil(atIndex:)` uses the same logic as our `subscript` method but is used to set the root optional at a particular index to `nil` (because setting it's wrapped value to `nil` is something only the user of the data structure should do).
-> Setting a optionals value to `nil` is different than setting it's wrapped value to `nil`. An optionals wrapped value is an embedded type within the optional reference. This means that a `nil` wrapped value is actually `.some(.none)` whereas setting the root reference to `nil` is `.none`. To better understand Swift optionals I recommend checking out @SebastianBoldt's article [Swift! Optionals?](https://medium.com/ios-os-x-development/swift-optionals-78dafaa53f3#.rvjobhuzs).
 
-# Performance
-* An internal counter keeps track of the number of elements in the structure. `count` is executed in **O(1)** time.
+为了 `insert(element:, atIndex:)`，先要将 `index` 之后的元素都往后挪动一个位置。在腾出空间之后，再用 `subscript` 方法把值填入进去。
 
-* `capacity` can be calculated using Gauss' summation trick in an equation which takes **O(1)** time to execute.
+`append(element:)` 是 `insert` 到最后的便利方法。
 
-* Since `subcript[index:]` uses the `block` and `inner block index` equations, which can be executed in **O(1)** time, all get and set operations take **O(1)**.
+为了 `remove(atIndex:)`，将 `index` 之后的所有元素往前挪动一个位置。当要移除的元素被覆盖之后，将结构里最后的值设为 `nil`。
 
-* Ignoring the time cost to `grow` and `shrink`, `insert(atIndex:)` and `remove(atIndex:)` operations shift all elements right of the specified index resulting in **O(n)** time.
+`makeNil(atIndex:)` 使用和 `subscript` 方法相似的逻辑，只不过它是将特定索引的值设为 `nil` （因为将封装的值设为 nil 是数据结构的用户应该做的）。
 
-# Analysis of Growing and Shrinking
-The performance analysis doesn't account for the cost to `grow` and `shrink`. Unlike a regular Swift array, `grow` and `shrink` operations don't copy all the elements into a backing array. They only allocate or free an array proportional to the number of `blocks`. The number of `blocks` is proportional to the  square root of the number of elements. Growing and shrinking only costs **O(√n)**.
+> 将可选值设为 `nil` 跟将它的封装值设为 `nil` 是不一样。可选封装值是可选引用里的内嵌类型。这就是说，nil 的封装值实际上是 `.some(.none)`，然而将根引用设置为 `nil` 是 `.none`。为了更好的理解 Swift 的可选，我推荐查看 SebastianBoldt 的文章  [Swift! Optionals?](https://medium.com/ios-os-x-development/swift-optionals-78dafaa53f3#.rvjobhuzs)。
 
-# Wasted Space
-Wasted space is how much memory with respect to the number of elements `n` is unused. The Rootish Array Stack never has more than 2 empty blocks and it never has less than 1 empty block. The last two blocks are proportional to the number of blocks, which is proportional to the square root of the number of elements. The number of references needed to point to each block is the same as the number of blocks. Therefore, the amount of wasted space with respect to the number of elements is **O(√n)**.
+# 性能
+
+* 一个内部计数器用来跟踪结构中元素的个数。`count` 的执行是 **O(1)** 时间。 
+
+* `capacity` 可以通过使用高斯求和的方式来计算，时间是 **O(1)**。
+
+* 既然 `subcript[index:]` 使用 `block` 和 `inner block index` 等式，那么它的执行也是 **O(1)** 的时间，所有的 get 和 set 操作都是 **O(1)**。
+
+* 忽略用在 `grow` 和 `shrink` 的时间，`insert(atIndex:)` 和 `remove(atIndex:)` 操作需要将所有指定索引之外的元素改变位置，所以它是 **O(n)** 的时间。
+
+# 增大和变小的分析
+
+性能分析没有计算 `grow` 和 `shrink` 的花费。与普通 Swift 数组不同的是，`grow` 和 `shrink` 操作不会将所有元素拷贝到一个备用数组里。它们只是按 `块` 的个数来分配或者释放数组。`块` 的个数 是与元素的个数的平方根成比例的。变大和缩小只有 **O(√n)** 的时间。
+
+# 浪费的空间
+
+浪费的空间是相对于 `n` 的未使用的内存数量。Rootish 数组栈不会有超过 2 个空块并且不会少于一个空块。最后两个块是与块的数量成比例的，块的数量又和元素个数的平方根成比例。指向每个块的引用的数量和块的数量是一样的。因此，浪费的空间是与元素的个数相关的， 即 **O(√n)**。
 
 
-_Written for Swift Algorithm Club by @BenEmdon_
+_作者：BenEmdon 翻译：Daisy_
 
-_With help from [OpenDataStructures.org](http://opendatastructures.org)_
+_从 [OpenDataStructures.org](http://opendatastructures.org) 获取帮助_
 
 

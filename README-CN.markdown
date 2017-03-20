@@ -133,7 +133,7 @@
 - [位集](Bit%20Set/README-CN.markdown). 固定大小的 *n* 位系列。
 - [固定大小的数组](Fixed%20Size%20Array/README-CN.markdown). 但提前知道有多少数据的时候，用一个固定大小的老式数组可能更高效。
 - [有序数组](Ordered%20Array/README-CN.markdown). 有序数组.
-- [Rootish Array Stack](Rootish Array Stack/). A space and time efficient variation on Swift arrays.
+- [Rootish 数组栈](Rootish%20Array%20Stack/README-CN.markdown). Swift 数组的一个空间和时间高效的变种
 
 ### 队列
 
