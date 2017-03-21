@@ -1,6 +1,6 @@
 # Binary Search Tree (BST)
 
-A binary search tree is a special kind of [binary tree](../Binary Tree/) (a tree in which each node has at most two children) that performs insertions and deletions such that the tree is always sorted.
+A binary search tree is a special kind of [binary tree](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Binary%20Tree) (a tree in which each node has at most two children) that performs insertions and deletions such that the tree is always sorted.
 
 If you don't know what a tree is or what it is for, then [read this first](../Tree/).
 
