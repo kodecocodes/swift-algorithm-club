@@ -141,7 +141,7 @@
 - [队列](Queue/README-CN.markdown)。 先进先出！
 - [双端队列](Deque/README-CN.markdown). 双端队列.
 - [优先队列](Priority%20Queue/README-CN.markdown). 最重要的的元素始终在开始的队列。
-- [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
+- [环形缓冲区](Ring%20Buffer/README-CN.markdown). 也叫做圆形缓冲区。从概念上来说是绕回到开始的一定大小的数组。
 
 ### Lists
 
