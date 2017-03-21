@@ -36,7 +36,7 @@ var cookies = [[Int]](repeating: [Int](repeating: 0, count: 7), count: 9)
 but that's just ugly. To be fair, you can hide the ugliness in a helper function:
 
 ```swift
-func dim<T>(count: Int, _ value: T) -> [T] {
+func dim<T>(_ count: Int, _ value: T) -> [T] {
   return [T](repeating: value, count: count)
 }
 ```
@@ -67,19 +67,23 @@ So instead let's create our own type that acts like a 2-D array and that is more
 public struct Array2D<T> {
   public let columns: Int
   public let rows: Int
-  private var array: [T]
-
+  fileprivate var array: [T]
+  
   public init(columns: Int, rows: Int, initialValue: T) {
     self.columns = columns
     self.rows = rows
     array = .init(repeating: initialValue, count: rows*columns)
   }
-
+  
   public subscript(column: Int, row: Int) -> T {
     get {
+      precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
+      precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
       return array[row*columns + column]
     }
     set {
+      precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
+      precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
       array[row*columns + column] = newValue
     }
   }
