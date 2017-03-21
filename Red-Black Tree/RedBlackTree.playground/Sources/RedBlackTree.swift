@@ -25,7 +25,7 @@ private enum RBTreeColor {
   case black
 }
 
-private enum rotationDirection {
+private enum RotationDirection {
   case left
   case right
 }
@@ -114,7 +114,7 @@ public class RedBlackTree<Key: Comparable> {
 // MARK: - Equatable protocol
 
 extension RBTreeNode {
-  static public func ==<T>(lhs: RBTreeNode<T>, rhs: RBTreeNode<T>) -> Bool {
+  static public func == <T>(lhs: RBTreeNode<T>, rhs: RBTreeNode<T>) -> Bool {
     return lhs.key == rhs.key
   }
 }
@@ -309,8 +309,8 @@ extension RedBlackTree {
    * - case 2b -> red-black tree
    */
   private func insertFixup(node z: RBNode) {
-    if(!z.isNullLeaf) {
-      guard let parentZ = z.parent else{
+    if !z.isNullLeaf {
+      guard let parentZ = z.parent else {
         return
       }
       // If both |z| and his parent are red -> violation of red-black property -> need to fix it
@@ -539,7 +539,6 @@ extension RedBlackTree {
     rotate(node: x, direction: .left)
   }
   
-  
   /*
    * Right rotation around node y
    * Assumes that y.leftChild x is not a nullLeaf, rotates around the link from y to x,
@@ -561,7 +560,7 @@ extension RedBlackTree {
    * Is a local operation preserving the binary-search-tree property that only exchanges pointers.
    * Runntime: O(1)
    */
-  private func rotate(node x: RBNode, direction: rotationDirection) {
+  private func rotate(node x: RBNode, direction: RotationDirection) {
     var nodeY: RBNode? = RBNode()
     
     // Set |nodeY| and turn |nodeY|'s left/right subtree into |x|'s right/left subtree
@@ -615,7 +614,6 @@ extension RedBlackTree {
   
   // Property 1: Every node is either red or black -> fullfilled through setting node.color of type
   // RBTreeColor
-  
   
   // Property 2: The root is black
   private func property2() -> Bool {
@@ -746,7 +744,7 @@ extension RedBlackTree: CustomStringConvertible {
   public var description: String {
     if root.isNullLeaf {
       return "[]"
-    } else{
+    } else {
       return root.description
     }
   }
