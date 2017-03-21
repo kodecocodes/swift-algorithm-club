@@ -1,120 +1,189 @@
 # Red-Black Tree
 
-A Red-Black tree is a special version of a [Binary Search  Tree](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Binary%20Search%20Tree). Binary search trees(BSTs) can become unbalanced after a lot of insertions/deletions. The only difference between a node from a BST and a Red-Black Tree(RBT) is that RBT nodes have a color property added to them which can either be red or black. A RBT rebalances itself by making sure the following properties hold:
+A red-black tree (RBT) is a balanced version of a [Binary Search Tree](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Binary%20Search%20Tree) guaranteeing that the basic operations (search, predecessor, successor, minimum, maximum, insert and delete) have a logarithmic worst case performance.
+
+Binary search trees (BSTs) have the disadvantage that they can become unbalanced after some insert or delete operations. In the worst case, this could lead to a tree where the nodes build a linked list as shown in the following example:
+
+```
+a
+  \
+   b
+    \
+     c
+      \
+       d
+```
+To prevent this issue, RBTs perform rebalancing operations after an insert or delete and store an additional color property at each node which can either be red or black. After each operation a RBT satisfies the following properties:
 
 ## Properties
-1. A node is either red or black
-2. The root is always black
-3. All leaves are black
-4. If a node is red, both of its children are black
-5. Every path to a leaf contains the same number of black nodes (The amount of black nodes met when going down a RBT is called the black-depth of the tree.)
+
+1. Every node is either red or black
+2. The root is black
+3. Every leaf (nullLeaf) is black
+4. If a node is red, then both its children are black
+5. For each node, all paths from the node to descendant leaves contain the same number of black nodes
+
+Property 5 includes the definition of the black-height of a node x, bh(x), which is the number of black nodes on a path from this node down to a leaf not counting the node itself.
+From [CLRS]
 
 ## Methods
-* `insert(_ value: T)` inserts the value into the tree
-* `insert(_ values: [T])` inserts an array of values into the tree
-* `delete(_ value: T)` deletes the value from the tree
-* `find(_ value: T) -> RBTNode<T>` looks for a node in the tree with given value and returns it
-* `minimum(n: RBTNode<T>) -> RBTNode<T>` looks for the maximum value of a subtree starting at the given node
-* `maximum(n: RBTNode<T>) -> RBTNode<T>` looks for the minimum value of a subtree starting at the given node
-* `func verify()` verifies if the tree is still valid. Prints warning messages if this is not the case
+
+Nodes:
+* `nodeX.getSuccessor()` Returns the inorder successor of nodeX
+* `nodeX.minimum()` Returns the node with the minimum key of the subtree of nodeX
+* `nodeX.maximum()` Returns the node with the maximum key of the subtree of nodeX
+Tree:
+* `search(input:)` Returns the node with the given key value
+* `minValue()` Returns the minimum key value of the whole tree
+* `maxValue()` Returns the maximum key value of the whole tree
+* `insert(key:)` Inserts the key value into the tree
+* `delete(key:)` Delete the node with the respective key value from the tree
+* `verify()` Verifies that the given tree fulfills the red-black tree properties
+
+The rotation, insertion and deletion algorithms are implemented based on the pseudo-code provided in [CLRS]
+
+## Implementation Details
+
+For convenience, all nil-pointers to children or the parent (except the parent of the root) of a node are exchanged with a nullLeaf. This is an ordinary node object, like all other nodes in the tree, but with a black color, and in this case a nil value for its children, parent and key. Therefore, an empty tree consists of exactly one nullLeaf at the root.
 
 ## Rotation
 
-In order to rebalance their nodes RBTs use an operation known as rotation. You can either left or right rotate a node and its child. Rotating a node and its child swaps the nodes and interchanges their subtrees. Left rotation swaps the parent node with its right child. while right rotation swaps the parent node with its left child.
-
-Left rotation:
+Left rotation (around x):
+Assumes that x.rightChild y is not a nullLeaf, rotates around the link from x to y, makes y the new root of the subtree with x as y's left child and y's left child as x's right child, where n = a node, [n] = a subtree
 ```
-before left rotating p       after left rotating p  
-     p                         b
-   /   \                     /   \
-  a     b          ->       p     n
- / \   / \                 / \   
-n   n  n  n               a   n
-                         / \
-                        n   n
+      |                |
+      x                y
+    /   \     ~>     /   \
+  [A]    y          x    [C]
+        / \        / \
+      [B] [C]    [A] [B]
 ```
-Right rotation:
+Right rotation (around y):
+Assumes that y.leftChild x is not a nullLeaf, rotates around the link from y to x, makes x the new root of the subtree with y as x's right child and x's right child as y's left child, where n = a node, [n] = a subtree
 ```
-before right rotating p       after right rotating p  
-     p                         a
-   /   \                     /   \
-  a     b          ->       n     p
- / \   / \                       / \   
-n   n  n  n                     n   b
-                                   / \
-                                  n   n
+      |                |
+      x                y
+    /   \     <~     /   \
+  [A]    y          x    [C]
+        / \        / \
+      [B] [C]    [A] [B]
 ```
+As rotation is a local operation only exchanging pointers it's runtime is O(1).
 
 ## Insertion
 
-We create a new node with the value to be inserted into the tree. The color of this new node is always red.
-We perform a standard BST insert with this node. Now the three might not be a valid RBT anymore.
-We now go through several insertion steps in order to make the tree valid again. We call the just inserted node n.  
+We create a node with the given key and set its color to red. Then we insert it into the the tree by performing a standard insert into a BST. After this, the tree might not be a valid RBT anymore, so we fix the red-black properties by calling the insertFixup algorithm.
+The only violation of the red-black properties occurs at the inserted node z and its parent. Either both are red, or the parent does not exist (so there is a violation since the root must be black).
+We have three distinct cases:
+**Case 1:** The uncle of z is red. If z.parent is left child, z's uncle is z.grandparent's right child. If this is the case, we recolor and move z to z.grandparent, then we check again for this new z. In the following cases, we denote a red node with (x) and a black node with {x}, p = parent, gp = grandparent and u = uncle
+```
+         |                   |
+        {gp}               (newZ)
+       /    \     ~>       /    \
+    (p)     (u)         {p}     {u}
+    / \     / \         / \     / \
+  (z)  [C] [D] [E]    (z) [C] [D] [E]
+  / \                 / \
+[A] [B]             [A] [B]
 
-**Step 1**: We check if n is the rootNode, if so we paint it black and we are done. If not we go to Step 2.
+```
+**Case 2a:** The uncle of z is black and z is right child. Here, we move z upwards, so z's parent is the newZ and then we rotate around this newZ. After this, we have Case 2b.
+```
+         |                   |
+        {gp}                {gp}
+       /    \     ~>       /    \
+    (p)      {u}         (z)     {u}
+    / \      / \         / \     / \
+  [A]  (z)  [D] [E]  (newZ) [C] [D] [E]
+       / \            / \
+     [B] [C]        [A] [B]
 
-We now know that n at least has a parent as it is not the rootNode.
+```
+**Case 2b:** The uncle of z is black and z is left child. In this case, we recolor z.parent to black and z.grandparent to red. Then we rotate around z's grandparent. Afterwards we have valid red-black tree.
+```
+         |                   |
+        {gp}                {p}
+       /    \     ~>       /    \
+    (p)      {u}         (z)    (gp)
+    / \      / \         / \     / \
+  (z)  [C] [D] [E]    [A] [B]  [C]  {u}
+  / \                               / \
+[A] [B]                           [D] [E]
 
-**Step 2**: We check if the parent of n is black if so we are done. If not we go to Step 3.
+```
+Running time of this algorithm: 
+* Only case 1 may repeat, but this only h/2 steps, where h is the height of the tree
+* Case 2a -> Case 2b -> red-black tree
+* Case 2b -> red-black tree
+As we perform case 1 at most O(log n) times and all other cases at most once, we have O(log n) recolorings and at most 2 rotations. 
+The overall runtime of insert is O(log n).
 
-We now know the parent is also not the root node as the parent is red. Thus n also has a grandparent and thus also an uncle as every node has two children. This uncle may however be a nullLeaf
+## Deletion
 
-**Step 3**: We check if n's uncle is red. If not we go to Step 4. If n's uncle is indeed red we recolor uncle and parent to black and n's grandparent to red. We now go back to step 1 performing the same logic on n's grandparent.
+We search for the node with the given key, and if it exists we delete it by performing a standard delete from a BST. If the deleted nodes' color was red everything is fine, otherwise red-black properties may be violated so we call the fixup procedure deleteFixup.
+Violations can be that the parent and child of the deleted node x where red, so we now have two adjacent red nodes, or if we deleted the root, the root could now be red, or the black height property is violated.
+We have 4 cases: We call deleteFixup on node x
+**Case 1:** The sibling of x is red. The sibling is the other child of x's parent, which is not x itself. In this case, we recolor the parent of x and x.sibling then we left rotate around x's parent. In the following cases s = sibling of x, (x) = red, {x} = black, |x| = red/black.
+```
+        |                   |
+       {p}                 {s}
+      /    \     ~>       /    \
+    {x}    (s)         (p)     [D]
+    / \    / \         / \     
+  [A] [B] [C] [D]    {x} [C]
+                     / \  
+                   [A] [B]
 
-From here there are four cases:
-- **The left left case.** n's parent is the left child of its parent and n is the left child of its parent.
-- **The left right case** n's parent is the left child of its parent and n is the right child of its parent.
-- **The right right case** n's parent is the right child of its parent and n is the right child of its parent.
-- **The right left case** n's parent is the right child of its parent and n is the left child of its parent.
+```
+**Case 2:** The sibling of x is black and has two black children. Here, we recolor x.sibling to red, move x upwards to x.parent and check again for this newX.
+```
+        |                    |
+       |p|                 |newX|
+      /    \     ~>       /     \
+    {x}     {s}          {x}     (s)
+    / \    /   \          / \   /   \
+  [A] [B] {l}  {r}     [A] [B] {l}  {r}
+          / \  / \             / \  / \
+        [C][D][E][F]         [C][D][E][F]
 
-**Step 4**: checks if either the **left right** case or the **right left** case applies to the current situation.
-  - If we find the **left right case**, we left rotate n's parent and go to Step 5 while setting n to n's parent. (This transforms the **left right** case into the **left left** case)
-  - If we find the **right left case**, we right rotate n's parent and go to Step 5 while setting n to n's parent. (This transforms the **right left** case into the **right right** case)
-  - If we find neither of these two we proceed to Step 5.
+```
+**Case 3:** The sibling of x is black with one black child to the right. In this case, we recolor the sibling to red and sibling.leftChild to black, then we right rotate around the sibling. After this we have case 4.
+```
+        |                    |
+       |p|                  |p|
+      /    \     ~>       /     \
+    {x}     {s}          {x}     {l}
+    / \    /   \         / \    /   \
+  [A] [B] (l)  {r}     [A] [B] [C]  (s)
+          / \  / \                  / \
+        [C][D][E][F]               [D]{e}
+                                      / \
+                                    [E] [F]
 
-n's parent is now red, while n's grandparent is black.
+```
+**Case 4:** The sibling of x is black with one red child to the right. Here, we recolor the sibling to the color of x.parent and x.parent and sibling.rightChild to black. Then we left rotate around x.parent. After this operation we have a valid red-black tree. Here, ||x|| denotes that x can have either color red or black, but that this can be different to |x| color. This is important, as s gets the same color as p.
+```
+        |                        |
+       ||p||                   ||s||
+      /    \     ~>           /     \
+    {x}     {s}              {p}     {r}
+    / \    /   \            /  \     /  \
+  [A] [B] |l|  (r)        {x}  |l|  [E] [F]
+          / \  / \        / \  / \
+        [C][D][E][F]    [A][B][C][D]
 
-**Step 5**: We swap the colors of n's parent and grandparent.
-  - We either right rotate n's grandparent in case of the **left left** case
-  - Or we left rotate n's grandparent in case of the **right right** case
+```
+Running time of this algorithm:
+* Only case 2 can repeat, but this only h many times, where h is the height of the tree
+* Case 1 -> case 2 -> red-black tree
+  Case 1 -> case 3 -> case 4 -> red-black tree
+  Case 1 -> case 4 -> red-black tree
+* Case 3 -> case 4 -> red-black tree
+* Case 4 -> red-black tree
+As we perform case 2 at most O(log n) times and all other steps at most once, we have O(log n) recolorings and at most 3 rotations.
+The overall runtime of delete is O(log n).
 
-Reaching the end we have successfully made the tree valid again.
+## Resources:
+[CLRS]  T. Cormen, C. Leiserson, R. Rivest, and C. Stein. "Introduction to Algorithms", Third Edition. 2009
 
-# Deletion
-
-Deletion is a little more complicated than insertion. In the following we call del the node to be deleted.
-First we try and find the node to be deleted using find()
-we send the result of find to del.
-We now go through the following steps in order to delete the node del.
-
-First we do a few checks:
-- Is del the rootNode if so set the root to a nullLeaf and we are done.
-- If del has 2 nullLeaf children and is red. We check if del is either a left or a right child and set del's parent left or right to a nullLeaf.
-- If del has two non nullLeaf children we look for the maximum value in del's left subtree. We set del's value to this maximum value and continue to instead delete this maximum node. Which we will now call del.
-
-Because of these checks we now know that del has at most 1 non nullLeaf child. It has either two nullLeaf children or one nullLeaf and one regular red child. (The child is red otherwise the black-depth wouldn't be the same for every leaf)
-
-We now call the non nullLeaf child of del, child. If del has two nullLeaf children child will be a nullLeaf. This means child can either be a nullLeaf or a red node.
-
-We now have three options
-
-- If del is red its child is a nullLeaf and we can just delete it as it doesn't change the black-depth of the tree. We are done
-
-- If child is red we recolor it black and child's parent to del's parent. del is now deleted and we are done.
-
-- Both del and child are black we go through
-
-If both del and child are black we introduce a new variable sibling. Which is del's sibling. We also replace del with child and recolor it doubleBlack. del is now deleted and child and sibling are siblings.
-
-We now have to go through a lot of steps in order to remove this doubleBlack color. Which are hard to explain in text without just writing the full code in text. This is due the many possible combination of nodes and colors. The code is commented, but if you don't quite understand please leave me a message. Also part of the deletion is described by the final link in the Also See section.
-
-## Also see
-
-* [Wikipedia](https://en.wikipedia.org/wiki/Red–black_tree)
-* [GeeksforGeeks - introduction](http://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/)
-* [GeeksforGeeks - insertion](http://www.geeksforgeeks.org/red-black-tree-set-2-insert/)
-* [GeeksforGeeks - deletion](http://www.geeksforgeeks.org/red-black-tree-set-3-delete-2/)
-
-Important to note is that GeeksforGeeks doesn't mention a few deletion cases that do occur. The code however does implement these.
-
-*Written for Swift Algorithm Club by Jaap Wijnen. Updated from Ashwin Raghuraman's contribution.*
+*Written for Swift Algorithm Club by Ute Schiehlen. Updated from Jaap Wijnen and Ashwin Raghuraman's contributions.*
