@@ -81,7 +81,7 @@
 特殊目的的排序:
 
 - [计数排序](Counting%20Sort/README-CN.markdown)
-- Radix Sort
+- [基数排序](Radix%20Sort/README-CN.markdown)
 - [拓扑排序](Topological%20Sort/README-CN.markdown)
 
 糟糕的排序算法 (不要用它们!):
@@ -143,9 +143,9 @@
 - [优先队列](Priority%20Queue/README-CN.markdown). 最重要的的元素始终在开始的队列。
 - [环形缓冲区](Ring%20Buffer/README-CN.markdown). 也叫做圆形缓冲区。从概念上来说是绕回到开始的一定大小的数组。
 
-### Lists
+### 链表
 
-- [Linked List](Linked List/). A sequence of data items connected through links. Covers both singly and doubly linked lists.
+- [链表](Linked%20List/README-CN.markdown). 通过链接连接数据元素的系列。包括单项链表和双向链表。
 - [Skip-List](Skip-List/). Skip List is a probablistic data-structure with same logarithmic time bound and efficiency as AVL/ or Red-Black tree and provides a clever compromise to efficiently support search and update operations.
 
 ### Trees
