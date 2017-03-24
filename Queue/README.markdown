@@ -255,8 +255,8 @@ The `nil` objects at the front have been removed and the array is no longer wast
 
 ## See also
 
-There are many other ways to create a queue. Alternative implementations use a [linked list](../Linked List/), a [circular buffer](../Ring Buffer/), or a [heap](../Heap/). 
+There are many other ways to create a queue. Alternative implementations use a [linked list](../Linked%20List/), a [circular buffer](../Ring%20Buffer/), or a [heap](../Heap/). 
 
-Variations on this theme are [deque](../Deque/), a double-ended queue where you can enqueue and dequeue at both ends, and [priority queue](../Priority Queue/), a sorted queue where the "most important" item is always at the front.
+Variations on this theme are [deque](../Deque/), a double-ended queue where you can enqueue and dequeue at both ends, and [priority queue](../Priority%20Queue/), a sorted queue where the "most important" item is always at the front.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*
