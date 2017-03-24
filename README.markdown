@@ -34,31 +34,31 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 
 - [Stack](Stack/)
 - [Queue](Queue/)
-- [Insertion Sort](Insertion Sort/)
-- [Binary Search](Binary Search/) and [Binary Search Tree](Binary Search Tree/)
-- [Merge Sort](Merge Sort/)
+- [Insertion Sort](Insertion%20Sort/)
+- [Binary Search](Binary%20Search/) and [Binary Search Tree](Binary%20Search%20Tree/)
+- [Merge Sort](Merge%20Sort/)
 - [Boyer-Moore string search](Boyer-Moore/)
 
 ## The algorithms
 
 ### Searching
 
-- [Linear Search](Linear Search/). Find an element in an array.
-- [Binary Search](Binary Search/). Quickly find elements in a sorted array.
-- [Count Occurrences](Count Occurrences/). Count how often a value appears in an array.
-- [Select Minimum / Maximum](Select Minimum Maximum). Find the minimum/maximum value in an array.
-- [k-th Largest Element](Kth Largest Element/). Find the *k*-th largest element in an array, such as the median.
-- [Selection Sampling](Selection Sampling/). Randomly choose a bunch of items from a collection.
+- [Linear Search](Linear%20Search/). Find an element in an array.
+- [Binary Search](Binary%20Search/). Quickly find elements in a sorted array.
+- [Count Occurrences](Count%20Occurrences/). Count how often a value appears in an array.
+- [Select Minimum / Maximum](Select%20Minimum%20Maximum). Find the minimum/maximum value in an array.
+- [k-th Largest Element](Kth%20Largest%20Element/). Find the *k*-th largest element in an array, such as the median.
+- [Selection Sampling](Selection%20Sampling/). Randomly choose a bunch of items from a collection.
 - [Union-Find](Union-Find/). Keeps track of disjoint sets and lets you quickly merge them.
 
 
 ### String Search
 
-- [Brute-Force String Search](Brute-Force String Search/). A naive method.
+- [Brute-Force String Search](Brute-Force%20String%20Search/). A naive method.
 - [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
 - Knuth-Morris-Pratt
 - [Rabin-Karp](Rabin-Karp/)  Faster search by using hashing.
-- [Longest Common Subsequence](Longest Common Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
+- [Longest Common Subsequence](Longest%20Common%20Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
 - [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
 
 ### Sorting
@@ -67,51 +67,51 @@ It's fun to see how sorting algorithms work, but in practice you'll almost never
 
 Basic sorts:
 
-- [Insertion Sort](Insertion Sort/)
-- [Selection Sort](Selection Sort/)
-- [Shell Sort](Shell Sort/)
+- [Insertion Sort](Insertion%20Sort/)
+- [Selection Sort](Selection%20Sort/)
+- [Shell Sort](Shell%20Sort/)
 
 Fast sorts:
 
 - [Quicksort](Quicksort/)
-- [Merge Sort](Merge Sort/)
-- [Heap Sort](Heap Sort/)
+- [Merge Sort](Merge%20Sort/)
+- [Heap Sort](Heap%20Sort/)
 
 Special-purpose sorts:
 
-- [Counting Sort](Counting Sort/)
-- [Radix Sort](Radix Sort/)
-- [Topological Sort](Topological Sort/)
+- [Counting Sort](Counting%20Sort/)
+- [Radix Sort](Radix%20Sort/)
+- [Topological Sort](Topological%20Sort/)
 
 Bad sorting algorithms (don't use these!):
 
-- [Bubble Sort](Bubble Sort/)
-- [Slow Sort](Slow Sort/)
+- [Bubble Sort](Bubble%20Sort/)
+- [Slow Sort](Slow%20Sort/)
 
 ### Compression
 
-- [Run-Length Encoding (RLE)](Run-Length Encoding/). Store repeated values as a single byte and a count.
-- [Huffman Coding](Huffman Coding/). Store more common elements using a smaller number of bits.
+- [Run-Length Encoding (RLE)](Run-Length%20Encoding/). Store repeated values as a single byte and a count.
+- [Huffman Coding](Huffman%20Coding/). Store more common elements using a smaller number of bits.
 
 ### Miscellaneous
 
 - [Shuffle](Shuffle/). Randomly rearranges the contents of an array.
-- [Comb Sort](Comb Sort/). An improve upon the Bubble Sort algorithm.
+- [Comb Sort](Comb%20Sort/). An improve upon the Bubble Sort algorithm.
 
 ### Mathematics
 
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
 - [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
-- [Shunting Yard Algorithm](Shunting Yard/). Convert infix expressions to postfix.
+- [Shunting Yard Algorithm](Shunting%20Yard/). Convert infix expressions to postfix.
 - Statistics
-- [Karatsuba Multiplication](Karatsuba Multiplication/). Another take on elementary multiplication.
+- [Karatsuba Multiplication](Karatsuba%20Multiplication/). Another take on elementary multiplication.
 - [Haversine Distance](HaversineDistance/). Calculating the distance between 2 points from a sphere.
 
 ### Machine learning
 
 - [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters.
 - k-Nearest Neighbors
-- [Linear Regression](Linear Regression/)
+- [Linear Regression](Linear%20Regression/)
 - Logistic Regression
 - Neural Networks
 - PageRank
@@ -129,33 +129,33 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 ### Variations on arrays
 
 - [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
-- [Bit Set](Bit Set/). A fixed-size sequence of *n* bits.
-- [Fixed Size Array](Fixed Size Array/). When you know beforehand how large your data will be, it might be more efficient to use an old-fashioned array with a fixed size.
-- [Ordered Array](Ordered Array/). An array that is always sorted.
-- [Rootish Array Stack](Rootish Array Stack/). A space and time efficient variation on Swift arrays.
+- [Bit Set](Bit%20Set/). A fixed-size sequence of *n* bits.
+- [Fixed Size Array](Fixed%20Size%20Array/). When you know beforehand how large your data will be, it might be more efficient to use an old-fashioned array with a fixed size.
+- [Ordered Array](Ordered%20Array/). An array that is always sorted.
+- [Rootish Array Stack](Rootish%20Array%20Stack/). A space and time efficient variation on Swift arrays.
 
 ### Queues
 
 - [Stack](Stack/). Last-in, first-out!
 - [Queue](Queue/). First-in, first-out!
 - [Deque](Deque/). A double-ended queue.
-- [Priority Queue](Priority Queue). A queue where the most important element is always at the front.
-- [Ring Buffer](Ring Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
+- [Priority Queue](Priority%20Queue). A queue where the most important element is always at the front.
+- [Ring Buffer](Ring%20Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
 ### Lists
 
-- [Linked List](Linked List/). A sequence of data items connected through links. Covers both singly and doubly linked lists.
+- [Linked List](Linked%20List/). A sequence of data items connected through links. Covers both singly and doubly linked lists.
 - [Skip-List](Skip-List/). Skip List is a probablistic data-structure with same logarithmic time bound and efficiency as AVL/ or Red-Black tree and provides a clever compromise to efficiently support search and update operations.
 
 ### Trees
 
 - [Tree](Tree/). A general-purpose tree structure.
-- [Binary Tree](Binary Tree/). A tree where each node has at most two children.
-- [Binary Search Tree (BST)](Binary Search Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
+- [Binary Tree](Binary%20Tree/). A tree where each node has at most two children.
+- [Binary Search Tree (BST)](Binary%20Search%20Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
-- [Segment Tree](Segment Tree/). Can quickly compute a function over a portion of an array.
+- [Segment Tree](Segment%20Tree/). Can quickly compute a function over a portion of an array.
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
@@ -164,33 +164,33 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 ### Hashing
 
-- [Hash Table](Hash Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented.
+- [Hash Table](Hash%20Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented.
 - Hash Functions
 
 ### Sets
 
-- [Bloom Filter](Bloom Filter/). A constant-memory data structure that probabilistically tests whether an element is in a set.
-- [Hash Set](Hash Set/). A set implemented using a hash table.
+- [Bloom Filter](Bloom%20Filter/). A constant-memory data structure that probabilistically tests whether an element is in a set.
+- [Hash Set](Hash%20Set/). A set implemented using a hash table.
 - Multiset
-- [Ordered Set](Ordered Set/). A set where the order of items matters.
+- [Ordered Set](Ordered%20Set/). A set where the order of items matters.
 
 ### Graphs
 
 - [Graph](Graph/)
-- [Breadth-First Search (BFS)](Breadth-First Search/)
-- [Depth-First Search (DFS)](Depth-First Search/)
-- [Shortest Path](Shortest Path %28Unweighted%29/) on an unweighted tree
-- [Single-Source Shortest Paths](Single-Source Shortest Paths (Weighted)/)
-- [Minimum Spanning Tree](Minimum Spanning Tree %28Unweighted%29/) on an unweighted tree
-- [All-Pairs Shortest Paths](All-Pairs Shortest Paths/)
+- [Breadth-First Search (BFS)](Breadth-First%20Search/)
+- [Depth-First Search (DFS)](Depth-First%20Search/)
+- [Shortest Path](Shortest%20Path%20%28Unweighted%29/) on an unweighted tree
+- [Single-Source Shortest Paths](Single-Source%20Shortest%20Paths%20(Weighted)/)
+- [Minimum Spanning Tree](Minimum%20Spanning%20Tree%20%28Unweighted%29/) on an unweighted tree
+- [All-Pairs Shortest Paths](All-Pairs%20Shortest%20Paths/)
 
 ## Puzzles
 
 A lot of software developer interview questions consist of algorithmic puzzles. Here is a small selection of fun ones. For more puzzles (with answers), see [here](http://elementsofprogramminginterviews.com/) and [here](http://www.crackingthecodinginterview.com).
 
-- [Two-Sum Problem](Two-Sum Problem/)
-- [Fizz Buzz](Fizz Buzz/)
-- [Monty Hall Problem](Monty Hall Problem/)
+- [Two-Sum Problem](Two-Sum%20Problem/)
+- [Fizz Buzz](Fizz%20Buzz/)
+- [Monty Hall Problem](Monty%20Hall%20Problem/)
 - [Finding Palindromes](Palindromes/)
 - [Dining Philosophers](DiningPhilosophers/)
 
