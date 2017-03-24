@@ -16,17 +16,17 @@ This is a work in progress. More algorithms will be added soon. :-)
 
 ## Important links
 
-[What are algorithms and data structures?](What are Algorithms.markdown) Pancakes!
+[What are algorithms and data structures?](What%20are%20Algorithms.markdown) Pancakes!
 
-[Why learn algorithms?](Why Algorithms.markdown) Worried this isn't your cup of tea? Then read this.
+[Why learn algorithms?](Why%20Algorithms.markdown) Worried this isn't your cup of tea? Then read this.
 
-[Big-O notation](Big-O Notation.markdown). We often say things like, "This algorithm is **O(n)**." If you don't know what that means, read this first.
+[Big-O notation](Big-O%20Notation.markdown). We often say things like, "This algorithm is **O(n)**." If you don't know what that means, read this first.
 
-[Algorithm design techniques](Algorithm Design.markdown). How do you create your own algorithms?
+[Algorithm design techniques](Algorithm%20Design.markdown). How do you create your own algorithms?
 
-[How to contribute](How to Contribute.markdown). Report an issue to leave feedback, or submit a pull request.
+[How to contribute](How%20to%20Contribute.markdown). Report an issue to leave feedback, or submit a pull request.
 
-[Under construction](Under Construction.markdown). Algorithms that are under construction.
+[Under construction](Under%20Construction.markdown). Algorithms that are under construction.
 
 ## Where to start?
 
