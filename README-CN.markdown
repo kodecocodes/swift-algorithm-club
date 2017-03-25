@@ -156,9 +156,9 @@
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
-- [Segment Tree](Segment Tree/). Can quickly compute a function over a portion of an array.
+- [线段树](Segment%20Tree/README-CN.markdown). 可以在数组的一部分上快速执行操作。
 - kd-Tree
-- [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
+- [堆](Heap/README-CN.markdown). 数组中的有序二叉树，所以它不使用指针。它是一个非常好的优先队列。
 - Fibonacci Heap
 - [Trie](Trie/). A special type of tree used to store associative data structures.
 - [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
