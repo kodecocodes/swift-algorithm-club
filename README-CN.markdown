@@ -150,8 +150,8 @@
 
 ### Trees
 
-- [Tree](Tree/). A general-purpose tree structure.
-- [Binary Tree](Binary Tree/). A tree where each node has at most two children.
+- [树](Tree/README-CN.markdown). 一般用途的树结构
+- [二叉树](Binary%20Tree/README-CN.markdown). 每个节点最多有两个子节点的数。
 - [二叉搜索树 (BST)](Binary%20Search%20Tree/README-CN.markdown). A binary tree that orders its nodes in a way that allows for fast queries.
 - Red-Black Tree
 - Splay Tree
