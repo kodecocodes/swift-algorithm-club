@@ -24,7 +24,7 @@ animals.indexOf(pattern: "🐮")
 
 > **Note:** The index of the cow is 6, not 3 as you might expect, because the string uses more storage per character for emoji. The actual value of the `String.Index` is not so important, just that it points at the right character in the string.
 
-The [brute-force approach](../Brute-Force String Search/) works OK, but it's not very efficient, especially on large chunks of text. As it turns out, you don't need to look at _every_ character from the source string -- you can often skip ahead multiple characters.
+The [brute-force approach](../Brute-Force%20String%20Search/) works OK, but it's not very efficient, especially on large chunks of text. As it turns out, you don't need to look at _every_ character from the source string -- you can often skip ahead multiple characters.
 
 The skip-ahead algorithm is called [Boyer-Moore](https://en.wikipedia.org/wiki/Boyer–Moore_string_search_algorithm) and it has been around for a long time. It is considered the benchmark for all string search algorithms.
 

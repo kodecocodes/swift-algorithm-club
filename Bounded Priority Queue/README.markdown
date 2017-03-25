@@ -1,6 +1,6 @@
 # Bounded Priority queue
 
-A bounded priority queue is similar to a regular [priority queue](../Priority Queue/), except that there is a fixed upper bound on the number of elements that can be stored. When a new element is added to the queue while the queue is at capacity, the element with the highest priority value is ejected from the queue.
+A bounded priority queue is similar to a regular [priority queue](../Priority%20Queue/), except that there is a fixed upper bound on the number of elements that can be stored. When a new element is added to the queue while the queue is at capacity, the element with the highest priority value is ejected from the queue.
 
 ## Example
 

@@ -115,7 +115,7 @@ The next function is `indexOf()`, which takes in an object of type `T` and retur
   }
 ```
 
-> **Note:** If you are not familiar with the concept of binary search, we have an [article that explains all about it](../Binary Search).
+> **Note:** If you are not familiar with the concept of binary search, we have an [article that explains all about it](../Binary%20Search).
 
 However, there is an important issue to deal with here. Recall that two objects can be unequal yet still have the same "value" for the purposes of comparing them. Since a set can contain multiple items with the same value, it is important to check that the binary search has landed on the correct item.
 
