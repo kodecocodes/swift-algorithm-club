@@ -152,7 +152,7 @@
 
 - [树](Tree/README-CN.markdown). 一般用途的树结构
 - [二叉树](Binary%20Tree/README-CN.markdown). 每个节点最多有两个子节点的数。
-- [二叉搜索树 (BST)](Binary%20Search%20Tree/README-CN.markdown). A binary tree that orders its nodes in a way that allows for fast queries.
+- [二叉搜索树 (BST)](Binary%20Search%20Tree/README-CN.markdown). 二叉树以能快速查询的方式来安排它的节点。
 - Red-Black Tree
 - Splay Tree
 - Threaded Binary Tree
@@ -160,7 +160,7 @@
 - kd-Tree
 - [堆](Heap/README-CN.markdown). 数组中的有序二叉树，所以它不使用指针。它是一个非常好的优先队列。
 - Fibonacci Heap
-- [Trie](Trie/). A special type of tree used to store associative data structures.
+- [Trie](Trie/README-CN.markdown). 用来存储关联类型数据结构的特殊类型的树。
 - [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
 
 ### 散列法
