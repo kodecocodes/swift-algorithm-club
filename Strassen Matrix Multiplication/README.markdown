@@ -449,7 +449,8 @@ extension Array where Element: Number {
 }
 ```
 
-##Resources
+## Resources
+
 + [Intro to Matrix Multiplication | Khan Academy](https://www.khanacademy.org/math/precalculus/precalc-matrices/multiplying-matrices-by-matrices/v/matrix-multiplication-intro)
 + [Matrix Multiplication | Wikipedia](https://en.wikipedia.org/wiki/Matrix_multiplication)
 + [Strassen Algorithm | Wikipedia](https://en.wikipedia.org/wiki/Strassen_algorithm)
