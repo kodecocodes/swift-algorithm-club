@@ -1,6 +1,6 @@
 # Binary Search Tree (BST)
 
-A binary search tree is a special kind of [binary tree](../Binary Tree/) (a tree in which each node has at most two children) that performs insertions and deletions such that the tree is always sorted.
+A binary search tree is a special kind of [binary tree](../Binary%20Tree/) (a tree in which each node has at most two children) that performs insertions and deletions such that the tree is always sorted.
 
 If you don't know what a tree is or what it is for, then [read this first](../Tree/).
 
@@ -49,7 +49,7 @@ If we were looking for the value `5` in the example, it would go as follows:
 
 ![Searching the tree](Images/Searching.png)
 
-Thanks to the structure of the tree, searching is really fast. It runs in **O(h)** time. If you have a well-balanced tree with a million nodes, it only takes about 20 steps to find anything in this tree. (The idea is very similar to [binary search](../Binary Search) in an array.)
+Thanks to the structure of the tree, searching is really fast. It runs in **O(h)** time. If you have a well-balanced tree with a million nodes, it only takes about 20 steps to find anything in this tree. (The idea is very similar to [binary search](../Binary%20Search) in an array.)
 
 ## Traversing the tree
 
@@ -535,7 +535,7 @@ The code for `successor()` works the exact same way but mirrored:
 
 Both these methods run in **O(h)** time.
 
-> **Note:** There is a cool variation called a ["threaded" binary tree](../Threaded Binary Tree) where "unused" left and right pointers are repurposed to make direct links between predecessor and successor nodes. Very clever!
+> **Note:** There is a cool variation called a ["threaded" binary tree](../Threaded%20Binary%20Tree) where "unused" left and right pointers are repurposed to make direct links between predecessor and successor nodes. Very clever!
 
 ### Is the search tree valid?
 
@@ -713,11 +713,11 @@ The root node is in the middle; a dot means there is no child at that position.
 
 A binary search tree is *balanced* when its left and right subtrees contain roughly the same number of nodes. In that case, the height of the tree is *log(n)*, where *n* is the number of nodes. That's the ideal situation.
 
-However, if one branch is significantly longer than the other, searching becomes very slow. We end up checking way more values than we'd ideally have to. In the worst case, the height of the tree can become *n*. Such a tree acts more like a [linked list](../Linked List/) than a binary search tree, with performance degrading to **O(n)**. Not good!
+However, if one branch is significantly longer than the other, searching becomes very slow. We end up checking way more values than we'd ideally have to. In the worst case, the height of the tree can become *n*. Such a tree acts more like a [linked list](../Linked%20List/) than a binary search tree, with performance degrading to **O(n)**. Not good!
 
 One way to make the binary search tree balanced is to insert the nodes in a totally random order. On average that should balance out the tree quite nicely. But it doesn't guarantee success, nor is it always practical.
 
-The other solution is to use a *self-balancing* binary tree. This type of data structure adjusts the tree to keep it balanced after you insert or delete nodes. See [AVL tree](../AVL Tree) and [red-black tree](../Red-Black Tree) for examples.
+The other solution is to use a *self-balancing* binary tree. This type of data structure adjusts the tree to keep it balanced after you insert or delete nodes. See [AVL tree](../AVL%20Tree) and [red-black tree](../Red-Black%20Tree) for examples.
 
 ## See also
 

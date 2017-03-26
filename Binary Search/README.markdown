@@ -12,7 +12,7 @@ let numbers = [11, 59, 3, 2, 53, 17, 31, 7, 19, 67, 47, 13, 37, 61, 29, 43, 5, 4
 numbers.indexOf(43)  // returns 15
 ```
 
-The built-in `indexOf()` function performs a [linear search](../Linear Search/). In code that looks something like this:
+The built-in `indexOf()` function performs a [linear search](../Linear%20Search/). In code that looks something like this:
 
 ```swift
 func linearSearch<T: Equatable>(_ a: [T], _ key: T) -> Int? {

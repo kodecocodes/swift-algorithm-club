@@ -12,11 +12,11 @@ If the [graph is unweighed](../Graph/), then finding the shortest path is easy: 
 
 ## Unweighted graph: breadth-first search
 
-[Breadth-first search](../Breadth-First Search/) is a method for traversing a tree or graph data structure. It starts at a source node and explores the immediate neighbor nodes first, before moving to the next level neighbors. As a convenient side effect, it automatically computes the shortest path between a source node and each of the other nodes in the tree or graph.
+[Breadth-first search](../Breadth-First%20Search/) is a method for traversing a tree or graph data structure. It starts at a source node and explores the immediate neighbor nodes first, before moving to the next level neighbors. As a convenient side effect, it automatically computes the shortest path between a source node and each of the other nodes in the tree or graph.
 
 The result of the breadth-first search can be represented with a tree:
 
-![The BFS tree](../Breadth-First Search/Images/TraversalTree.png)
+![The BFS tree](../Breadth-First%20Search/Images/TraversalTree.png)
 
 The root of the tree is the node you started the breadth-first search from. To find the distance from node `A` to any other node, we simply count the number of edges in the tree. And so we find that the shortest path between `A` and `F` is 2. The tree not only tells you how long that path is, but also how to actually get from `A` to `F` (or any of the other nodes).
 
@@ -57,7 +57,7 @@ queue.enqueue(element: G)
 G.distance = C.distance + 1   // result: 2
 ```
 
-This continues until the queue is empty and we've visited all the nodes. Each time we discover a new node, it gets the `distance` of its parent plus 1. As you can see, this is exactly what the [breadth-first search](../Breadth-First Search/) algorithm does, except that we now also keep track of the distance travelled.
+This continues until the queue is empty and we've visited all the nodes. Each time we discover a new node, it gets the `distance` of its parent plus 1. As you can see, this is exactly what the [breadth-first search](../Breadth-First%20Search/) algorithm does, except that we now also keep track of the distance travelled.
 
 Here's the code:
 
@@ -97,6 +97,6 @@ This will output:
 	Node(label: d, distance: 2), Node(label: e, distance: 2), Node(label: f, distance: 2),
 	Node(label: g, distance: 2), Node(label: h, distance: 3)
 
-> **Note:** This version of `breadthFirstSearchShortestPath()` does not actually produce the tree, it only computes the distances. See [minimum spanning tree](../Minimum Spanning Tree (Unweighted)/) on how you can convert the graph into a tree by removing edges.
+> **Note:** This version of `breadthFirstSearchShortestPath()` does not actually produce the tree, it only computes the distances. See [minimum spanning tree](../Minimum%20Spanning%20Tree%20(Unweighted)/) on how you can convert the graph into a tree by removing edges.
 
 *Written by [Chris Pilcher](https://github.com/chris-pilcher) and Matthijs Hollemans*

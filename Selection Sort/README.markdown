@@ -6,7 +6,7 @@ You are given an array of numbers and need to put them in the right order. The s
 
 	[ ...sorted numbers... | ...unsorted numbers... ]
 
-This is similar to [insertion sort](../Insertion Sort/), but the difference is in how new numbers are added to the sorted portion.
+This is similar to [insertion sort](../Insertion%20Sort/), but the difference is in how new numbers are added to the sorted portion.
 
 It works as follows:
 
@@ -108,9 +108,9 @@ The source file [SelectionSort.swift](SelectionSort.swift) has a version of this
 
 ## Performance
 
-Selection sort is easy to understand but it performs quite badly, **O(n^2)**. It's worse than [insertion sort](../Insertion Sort/) but better than [bubble sort](../Bubble Sort/). The killer is  finding the lowest element in the rest of the array. This takes up a lot of time, especially since the inner loop will be performed over and over.
+Selection sort is easy to understand but it performs quite badly, **O(n^2)**. It's worse than [insertion sort](../Insertion%20Sort/) but better than [bubble sort](../Bubble Sort/). The killer is  finding the lowest element in the rest of the array. This takes up a lot of time, especially since the inner loop will be performed over and over.
 
-[Heap sort](../Heap Sort/) uses the same principle as selection sort but has a really fast method for finding the minimum value in the rest of the array. Its performance is **O(n log n)**.
+[Heap sort](../Heap%20Sort/) uses the same principle as selection sort but has a really fast method for finding the minimum value in the rest of the array. Its performance is **O(n log n)**.
 
 ## See also
 
