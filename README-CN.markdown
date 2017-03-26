@@ -161,7 +161,7 @@
 - [堆](Heap/README-CN.markdown). 数组中的有序二叉树，所以它不使用指针。它是一个非常好的优先队列。
 - Fibonacci Heap
 - [Trie](Trie/README-CN.markdown). 用来存储关联类型数据结构的特殊类型的树。
-- [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
+- [B 树](B-Tree/README-CN.markdown). 一个自平衡搜索树，它的节点可以有多余两个子节点。
 
 ### 散列法
 
