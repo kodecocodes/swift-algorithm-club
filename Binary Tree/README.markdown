@@ -8,7 +8,7 @@ The child nodes are usually called the *left* child and the *right* child. If a 
 
 Often nodes will have a link back to their parent but this is not strictly necessary.
 
-Binary trees are often used as [binary search trees](../Binary Search Tree/). In that case, the nodes must be in a specific order (smaller values on the left, larger values on the right). But this is not a requirement for all binary trees.
+Binary trees are often used as [binary search trees](../Binary%20Search%20Tree/). In that case, the nodes must be in a specific order (smaller values on the left, larger values on the right). But this is not a requirement for all binary trees.
 
 For example, here is a binary tree that represents a sequence of arithmetical operations, `(5 * (a - 10)) + (-4 * (3 / b))`:
 
