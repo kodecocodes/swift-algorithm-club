@@ -11,17 +11,16 @@ Before we begin, you may ask what is matrix multiplication? Great question! It i
 
 ### Example: Matrix Multiplication
 
-	matrix A = |1 2|
-	           |3 4|
-				 
-	matrix B = |5 6|
-	           |7 8|
+```
+matrix A = |1 2|, matrix B = |5 6|
+           |3 4|             |7 8|
 	
-	A * B = C
+A * B = C
 	
-	|1 2| * |5 6| = |1*5+2*7 1*6+2*8| = |19 22|
-	|3 4|   |7 8|   |3*5+4*7 3*6+4*8|   |43 48|
-	
+|1 2| * |5 6| = |1*5+2*7 1*6+2*8| = |19 22|
+|3 4|   |7 8|   |3*5+4*7 3*6+4*8|   |43 48|
+```
+
 What's going on here? To start, we're multiplying matricies A & B. Our new matrix, C's, elements `[i, j]` are determined by the dot product of the first matrix's ith row and the second matrix's jth column. See [here](https://www.khanacademy.org/math/linear-algebra/vectors-and-spaces/dot-cross-products/v/vector-dot-product-and-vector-length) for a refresher on the dot product.
 
 So the upper left element `[i=1, j=1]` of our new matrix is a combination of A's 1st row and B's 1st column.
@@ -66,14 +65,14 @@ Next, we loop over A's columns and B's rows. Because we know both A's columns & 
 
 ```swift
 for i in 0..<n {
-	for j in 0..<n {
+  for j in 0..<n {
 ```
 
 Then, for each row in A and column in B, we take the dot product of the ith row in A with the jth column in B and set that result equal to the `[i, j]` element in C. Or `C[i, j]`.
 
 ```swift
 for k in 0..<n {
-	C[i, j] = A[i, k] * B[k, j]
+  C[i, j] = A[i, k] * B[k, j]
 }
 ```
 
@@ -83,20 +82,20 @@ Here's the full implementation:
 
 ```swift
 public func matrixMultiply(by B: Matrix<T>) -> Matrix<T> {
-	let A = self
-	assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn & the other has dimensions nxp where m, n, p are in R")
-	let n = A.columns
-	var C = Matrix<T>(rows: A.rows, columns: B.columns)
+  let A = self
+  assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn & the other has dimensions nxp where m, n, p are in R")
+  let n = A.columns
+  var C = Matrix<T>(rows: A.rows, columns: B.columns)
     
-	for i in 0..<n {
-		for j in 0..<n {
-			for k in 0..<n {
-				C[i, j] = A[i, k] * B[k, j]
-			}
-		}
-	}
+  for i in 0..<n {
+    for j in 0..<n {
+      for k in 0..<n {
+        C[i, j] = A[i, k] * B[k, j]
+      }
+    }
+  }
     
-	return C
+  return C
 }
 ```
 
@@ -110,10 +109,10 @@ Volker Strassen first published his algorithm in 1969. It was the first algorith
 
 The basic idea behind Strassen's algorithm is to split A & B into 8 submatricies and then recursively compute the submatricies of C. This strategy is called *Divide and Conquer*.
 
-	matrix A = |a b|
-	  		   |c d|
-	matrix B = |e f|
-			   |g h|
+```
+matrix A = |a b|, matrix B = |e f|
+           |c d|             |g h|
+```
 
 *There will be 8 recursive calls:*
 
@@ -149,9 +148,10 @@ Strassen's **7** calls are as follows:
 
 Now we can compute our new matrix C's new quardents!
 
-	matrix C = |p5+p4-p2+p6    p1+p2   |
-			   |   p3+p4    p1+p5-p3-p7|    
-
+```
+matrix C = |p5+p4-p2+p6    p1+p2   |
+           |   p3+p4    p1+p5-p3-p7|    
+```
 
 A great reaction right now would be !!??!?!?!!?! How does this even work??
 
@@ -159,9 +159,11 @@ Let's prove it!
 
 **First** Submatrix:
 
-	p5+p4-p2+p6 = (a+d)*(e+h) + d*(g-e) - (a+b)*h + (b-d)*(g+h)
-				= (ae+de+ah+dh) + (dg-de) - (ah+bh) + (bg-dg+bh-dh)
-				= ae+bg ✅
+```
+p5+p4-p2+p6 = (a+d)*(e+h) + d*(g-e) - (a+b)*h + (b-d)*(g+h)
+            = (ae+de+ah+dh) + (dg-de) - (ah+bh) + (bg-dg+bh-dh)
+            = ae+bg ✅
+```
 				
 Exactly what we got the first time!
 
@@ -169,21 +171,27 @@ Now let's prove the others.
 
 **Second** submatrix:
 
-	p1+p2 = a*(f-h) + (a+b)*h
-		  = (af-ah) + (ah+bh)
-		  = af+bh ✅
+```
+p1+p2 = a*(f-h) + (a+b)*h
+      = (af-ah) + (ah+bh)
+      = af+bh ✅
+```
 		  
 **Third** submatrix:
 
-	p3+p4 = (c+d)*e + d*(g-e)
-		  = (ce+de) + (dg-de)
-		  = ce+dg ✅
+```
+p3+p4 = (c+d)*e + d*(g-e)
+      = (ce+de) + (dg-de)
+      = ce+dg ✅
+```
 
 **Fourth** submatrix: 
 
-	p1+p5-p3-p7 = a*(f-h) + (a+d)*(e+h) - (c+d)*e - (a-c)*(e+f)
-				= (af-ah) + (ae+de+ah+dh) -(ce+de) - (ae-ce+af-cf)
-				= cf+dh ✅
+```
+p1+p5-p3-p7 = a*(f-h) + (a+d)*(e+h) - (c+d)*e - (a-c)*(e+f)
+            = (af-ah) + (ae+de+ah+dh) -(ce+de) - (ae-ce+af-cf)
+            = cf+dh ✅
+```
 
 Great! The math checks out!
 
@@ -209,15 +217,15 @@ var APrep = Matrix(size: m)
 var BPrep = Matrix(size: m)
    
 for i in A.rows {
-	for j in A.columns {
-		APrep[i, j] = A[i,j]
-	}
+  for j in A.columns {
+    APrep[i, j] = A[i,j]
+  }
 }
 
 for i in B.rows {
-	for j in B.columns {
-		BPrep[i, j] = B[i, j]
-	}
+  for j in B.columns {
+    BPrep[i, j] = B[i, j]
+  }
 }
 ```
 
@@ -228,9 +236,9 @@ let CPrep = APrep.strassenR(by: BPrep)
 var C = Matrix(rows: A.rows, columns: B.columns)
     
 for i in 0..<A.rows {
-	for j in 0..<B.columns {
-		C[i,j] = CPrep[i,j]
-	}
+  for j in 0..<B.columns {
+    C[i,j] = CPrep[i,j]
+  }
 }
 ```
 
@@ -251,16 +259,16 @@ var g = Matrix(size: nBy2)
 var h = Matrix(size: nBy2)
     
 for i in 0..<nBy2 {
-	for j in 0..<nBy2 {
-		a[i,j] = A[i,j]
-       b[i,j] = A[i, j+nBy2]
-       c[i,j] = A[i+nBy2, j]
-       d[i,j] = A[i+nBy2, j+nBy2]
-       e[i,j] = B[i,j]
-       f[i,j] = B[i, j+nBy2]
-       g[i,j] = B[i+nBy2, j]
-       h[i,j] = B[i+nBy2, j+nBy2]
-	}
+  for j in 0..<nBy2 {
+    a[i,j] = A[i,j]
+    b[i,j] = A[i, j+nBy2]
+    c[i,j] = A[i+nBy2, j]
+    d[i,j] = A[i+nBy2, j+nBy2]
+    e[i,j] = B[i,j]
+    f[i,j] = B[i, j+nBy2]
+    g[i,j] = B[i+nBy2, j]
+    h[i,j] = B[i+nBy2, j+nBy2]
+  }
 }
 ```
 
@@ -290,12 +298,12 @@ And finally, we combine these submatricies into our new matrix C!
 ```swift
 var C = Matrix(size: n)    
 for i in 0..<nBy2 {
-	for j in 0..<nBy2 {
-		C[i, j]           = c11[i,j]
-		C[i, j+nBy2]      = c12[i,j]
-		C[i+nBy2, j]      = c21[i,j]
-		C[i+nBy2, j+nBy2] = c22[i,j]
-	}
+  for j in 0..<nBy2 {
+    C[i, j]           = c11[i,j]
+    C[i, j+nBy2]      = c12[i,j]
+    C[i+nBy2, j]      = c21[i,j]
+    C[i+nBy2, j+nBy2] = c22[i,j]
+  }
 }
 ```
 
