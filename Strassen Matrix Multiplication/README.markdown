@@ -405,7 +405,6 @@ extension Matrix {
 }
 ```
 
-
 ## Appendix
 
 ### Number Protocol
@@ -456,3 +455,5 @@ extension Array where Element: Number {
 + [Strassen Algorithm | Wikipedia](https://en.wikipedia.org/wiki/Strassen_algorithm)
 + [Strassen Algorithm | Wolfram MathWorld](http://mathworld.wolfram.com/StrassenFormulas.html)
 + [Strassens Algorithm | Geeks for Geeks](http://www.geeksforgeeks.org/strassens-matrix-multiplication/)
+
+*Written for Swift Algorithm Club by Richard Ash*
