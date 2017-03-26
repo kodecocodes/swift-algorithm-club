@@ -22,21 +22,15 @@ public protocol Multipliable {
 }
 
 extension Int: Number {
-  public static var zero: Int {
-    return 0
-  }
+  public static var zero: Int { return 0 }
 }
 
 extension Double: Number {
-  public static var zero: Double {
-    return 0.0
-  }
+  public static var zero: Double { return 0.0 }
 }
 
 extension Float: Number {
-  public static var zero: Float {
-    return 0.0
-  }
+  public static var zero: Float { return 0.0 }
 }
 
 extension Array where Element: Number {

@@ -40,23 +40,26 @@ public struct Matrix<T: Number> {
     self.columns = size
     self.grid = Array(repeating: initialValue, count: rows * columns)
   }
-}
-
-// MARK: - Public Functions
-
-public extension Matrix {
-  subscript(row: Int, column: Int) -> T {
+  
+  // MARK: - Private Functions
+  
+  fileprivate func indexIsValid(row: Int, column: Int) -> Bool {
+    return row >= 0 && row < rows && column >= 0 && column < columns
+  }
+  
+  // MARK: - Subscript
+  
+  public subscript(row: Int, column: Int) -> T {
     get {
       assert(indexIsValid(row: row, column: column), "Index out of range")
       return grid[(row * columns) + column]
-    }
-    set {
+    } set {
       assert(indexIsValid(row: row, column: column), "Index out of range")
       grid[(row * columns) + column] = newValue
     }
   }
   
-  subscript(type: RowOrColumn, value: Int) -> [T] {
+  public subscript(type: RowOrColumn, value: Int) -> [T] {
     get {
       switch type {
       case .row:
@@ -64,15 +67,11 @@ public extension Matrix {
         return Array(grid[(value * columns)..<(value * columns) + columns])
       case .column:
         assert(indexIsValid(row: 0, column: value), "Index out of range")
-        var columns: [T] = []
-        for row in 0..<rows {
-          for column in 0..<self.columns {
-            if column == value {
-              columns.append(grid[(row * self.columns) + value])
-            }
-          }
+        let column = (0..<rows).map { (currentRow) -> T in
+          let currentColumnIndex = currentRow * columns + value
+          return grid[currentColumnIndex]
         }
-        return columns
+        return column
       }
     } set {
       switch type {
@@ -90,36 +89,36 @@ public extension Matrix {
     }
   }
   
-  func strassenMatrixMultiply(by B: Matrix<T>) -> Matrix<T> {
-    let A = self
-    assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn & the other has dimensions nxp where m, n, p are in R")
-    
-    let n = max(A.rows, A.columns, B.rows, B.columns)
-    let m = nextPowerOfTwo(of: n)
-    
-    var APrep = Matrix(size: m)
-    var BPrep = Matrix(size: m)
-    
-    A.size.forEach { (i, j) in
-      APrep[i,j] = A[i,j]
-    }
-    
-    B.size.forEach { (i, j) in
-      BPrep[i,j] = B[i,j]
-    }
-    
-    let CPrep = APrep.strassenR(by: BPrep)
-    var C = Matrix(rows: A.rows, columns: B.columns)
-    
-    for i in 0..<A.rows {
-      for j in 0..<B.columns {
-        C[i,j] = CPrep[i,j]
-      }
-    }
-    return C
+  // MARK: - Public Functions
+  
+  public func row(for columnIndex: Int) -> [T] {
+    assert(indexIsValid(row: columnIndex, column: 0), "Index out of range")
+    return Array(grid[(columnIndex * columns)..<(columnIndex * columns) + columns])
   }
   
-  func matrixMultiply(by B: Matrix<T>) -> Matrix<T> {
+  public func column(for rowIndex: Int) -> [T] {
+    assert(indexIsValid(row: 0, column: rowIndex), "Index out of range")
+    
+    let column = (0..<rows).map { (currentRow) -> T in
+      let currentColumnIndex = currentRow * columns + rowIndex
+      return grid[currentColumnIndex]
+    }
+    return column
+  }
+  
+  public func forEach(_ body: (Int, Int) throws -> Void) rethrows {
+    for row in 0..<rows {
+      for column in 0..<columns {
+        try body(row, column)
+      }
+    }
+  }
+}
+
+// MARK: - Matrix Multiplication Function
+
+extension Matrix {
+  public func matrixMultiply(by B: Matrix<T>) -> Matrix<T> {
     let A = self
     assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn & the other has dimensions nxp where m, n, p are in R")
     
@@ -135,14 +134,39 @@ public extension Matrix {
   }
 }
 
-// MARK: - Private Functions
+// MARK: - Strassen Multiplication
 
-fileprivate extension Matrix {
-  func indexIsValid(row: Int, column: Int) -> Bool {
-    return row >= 0 && row < rows && column >= 0 && column < columns
+extension Matrix {
+  public func strassenMatrixMultiply(by B: Matrix<T>) -> Matrix<T> {
+    let A = self
+    assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn & the other has dimensions nxp where m, n, p are in R")
+    
+    let n = max(A.rows, A.columns, B.rows, B.columns)
+    let m = nextPowerOfTwo(after: n)
+    
+    var APrep = Matrix(size: m)
+    var BPrep = Matrix(size: m)
+    
+    A.forEach { (i, j) in
+      APrep[i,j] = A[i,j]
+    }
+    
+    B.forEach { (i, j) in
+      BPrep[i,j] = B[i,j]
+    }
+    
+    let CPrep = APrep.strassenR(by: BPrep)
+    var C = Matrix(rows: A.rows, columns: B.columns)
+    for i in 0..<A.rows {
+      for j in 0..<B.columns {
+        C[i,j] = CPrep[i,j]
+      }
+    }
+    
+    return C
   }
   
-  func strassenR(by B: Matrix<T>) -> Matrix<T> {
+  private func strassenR(by B: Matrix<T>) -> Matrix<T> {
     let A = self
     assert(A.isSquare && B.isSquare, "This function requires square matricies!")
     guard A.rows > 1 && B.rows > 1 else { return A * B }
@@ -150,42 +174,49 @@ fileprivate extension Matrix {
     let n    = A.rows
     let nBy2 = n / 2
     
-    var a11 = Matrix(size: nBy2)
-    var a12 = Matrix(size: nBy2)
-    var a21 = Matrix(size: nBy2)
-    var a22 = Matrix(size: nBy2)
-    var b11 = Matrix(size: nBy2)
-    var b12 = Matrix(size: nBy2)
-    var b21 = Matrix(size: nBy2)
-    var b22 = Matrix(size: nBy2)
+    /*
+    Assume submatricies are allocated as follows
+    
+     matrix A = |a b|,    matrix B = |e f|
+                |c d|                |g h|
+    */
+    
+    var a = Matrix(size: nBy2)
+    var b = Matrix(size: nBy2)
+    var c = Matrix(size: nBy2)
+    var d = Matrix(size: nBy2)
+    var e = Matrix(size: nBy2)
+    var f = Matrix(size: nBy2)
+    var g = Matrix(size: nBy2)
+    var h = Matrix(size: nBy2)
     
     for i in 0..<nBy2 {
       for j in 0..<nBy2 {
-        a11[i,j] = A[i,j]
-        a12[i,j] = A[i, j+nBy2]
-        a21[i,j] = A[i+nBy2, j]
-        a22[i,j] = A[i+nBy2, j+nBy2]
-        b11[i,j] = B[i,j]
-        b12[i,j] = B[i, j+nBy2]
-        b21[i,j] = B[i+nBy2, j]
-        b22[i,j] = B[i+nBy2, j+nBy2]
+        a[i,j] = A[i,j]
+        b[i,j] = A[i, j+nBy2]
+        c[i,j] = A[i+nBy2, j]
+        d[i,j] = A[i+nBy2, j+nBy2]
+        e[i,j] = B[i,j]
+        f[i,j] = B[i, j+nBy2]
+        g[i,j] = B[i+nBy2, j]
+        h[i,j] = B[i+nBy2, j+nBy2]
       }
     }
     
-    let q1 = (a11+a22).strassenR(by: b11+b22)    // (a11+a22)(b11+b22)
-    let q2 = (a21+a22).strassenR(by: b11)        // (a21+a22)b11
-    let q3 = a11.strassenR(by: b12-b22)          // a11(b12-b22)
-    let q4 = a22.strassenR(by: b21-b11)          // a22(-b11+b21)
-    let q5 = (a11+a12).strassenR(by: b22)        // (a11+a22)b22
-    let q6 = (a21-a11).strassenR(by: b11+b12)    // (-a11+a21)(b11+b12)
-    let q7 = (a12-a22).strassenR(by: b21+b22)    // (a12-a22)(b21+b22)
+    let p1 = a.strassenR(by: f-h)       // a * (f - h)
+    let p2 = (a+b).strassenR(by: h)     // (a + b) * h
+    let p3 = (c+d).strassenR(by: e)     // (c + d) * e
+    let p4 = d.strassenR(by: g-e)       // d * (g - e)
+    let p5 = (a+d).strassenR(by: e+h)   // (a + d) * (e + h)
+    let p6 = (b-d).strassenR(by: g+h)   // (b - d) * (g + h)
+    let p7 = (a-c).strassenR(by: e+f)   // (a - c) * (e + f)
     
-    let c11 = q1 + q4 - q5 + q7
-    let c12 = q3 + q5
-    let c21 = q2 + q4
-    let c22 = q1 + q3 - q2 + q6
-    var C   = Matrix(size: n)
+    let c11 = p5 + p4 - p2 + p6         // p5 + p4 - p2 + p6
+    let c12 = p1 + p2                   // p1 + p2
+    let c21 = p3 + p4                   // p3 + p4
+    let c22 = p1 + p5 - p3 - p7         // p1 + p5 - p3 - p7
     
+    var C = Matrix(size: n)
     for i in 0..<nBy2 {
       for j in 0..<nBy2 {
         C[i, j]           = c11[i,j]
@@ -198,11 +229,10 @@ fileprivate extension Matrix {
     return C
   }
   
-  func nextPowerOfTwo(of n: Int) -> Int {
+  private func nextPowerOfTwo(after n: Int) -> Int {
     return Int(pow(2, ceil(log2(Double(n)))))
   }
 }
-
 
 // Term-by-term Matrix Math
 

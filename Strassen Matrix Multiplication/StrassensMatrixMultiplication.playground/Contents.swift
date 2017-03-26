@@ -8,8 +8,10 @@ A[.row, 0] = [2, 3, -1, 0]
 A[.row, 1] = [-7, 2, 1, 10]
 
 var B = Matrix(rows: 4, columns: 2, initialValue: 0)
+print(B)
 B[.column, 0] = [3, 2, -1, 2]
 B[.column, 1] = [4, 1, 2, 7]
+
 
 let C = A.matrixMultiply(by: B)
 let D = A.strassenMatrixMultiply(by: B)
