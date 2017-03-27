@@ -168,12 +168,12 @@
 - [散列表](Hash%20Table/README-CN.markdown). 可以通过关键词存储和获取对象。字典通常就是这样实现的。
 - Hash Functions
 
-### Sets
+### 集合
 
 - [布隆过滤器](Bloom Filter/README-CN.markdown). 一种固定内存大小的数据结构，可以大概地测试元素是否在集合中。
 - [散列集合](Hash%20Set/README-CN.markdown). 用散列表实现的集合。
 - Multiset
-- [Ordered Set](Ordered Set/). A set where the order of items matters.
+- [有序集合](Ordered Set/README-CN.markdown). 关心元素顺序的集合。
 
 ### Graphs
 
