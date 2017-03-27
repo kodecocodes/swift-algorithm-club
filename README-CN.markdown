@@ -171,7 +171,7 @@
 ### Sets
 
 - [布隆过滤器](Bloom Filter/README-CN.markdown). 一种固定内存大小的数据结构，可以大概地测试元素是否在集合中。
-- [Hash Set](Hash Set/). A set implemented using a hash table.
+- [散列集合](Hash%20Set/README-CN.markdown). 用散列表实现的集合。
 - Multiset
 - [Ordered Set](Ordered Set/). A set where the order of items matters.
 

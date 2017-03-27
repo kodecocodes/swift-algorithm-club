@@ -45,5 +45,5 @@ public func slowsort(_ i: Int, _ j: Int) {
 
 [网上的慢排序解释](http://c2.com/cgi/wiki?SlowSort)
 
-*作者：Lukas Schramm 翻译：*
+*作者：Lukas Schramm 翻译：Daisy*
 
