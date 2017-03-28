@@ -14,18 +14,18 @@ public func shellSort(_ list : inout [Int])
     
     while sublistCount > 0
     {
-        for var index in 0..<arr.count{
+        for var index in 0..<list.count{
             
-            guard index + sublistCount < arr.count else { break }
+            guard index + sublistCount < list.count else { break }
             
-            if arr[index] > arr[index + sublistCount]{
-                swap(&arr[index], &arr[index + sublistCount])
+            if list[index] > list[index + sublistCount]{
+                swap(&list[index], &list[index + sublistCount])
             }
             
             guard sublistCount == 1 && index > 0 else { continue }
-
-            while arr[index - 1] > arr[index] && index - 1 > 0  {
-                swap(&arr[index - 1], &arr[index])
+            
+            while list[index - 1] > list[index] && index - 1 > 0  {
+                swap(&list[index - 1], &list[index])
                 index -= 1
             }
         }
