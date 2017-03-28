@@ -14,11 +14,11 @@ public func shellSort(_ list : inout [Int])
     
     while sublistCount > 0
     {
-        for var index in 0..<list.count{
+        for var index in 0..<list.count {
             
             guard index + sublistCount < list.count else { break }
             
-            if list[index] > list[index + sublistCount]{
+            if list[index] > list[index + sublistCount] {
                 swap(&list[index], &list[index + sublistCount])
             }
             
