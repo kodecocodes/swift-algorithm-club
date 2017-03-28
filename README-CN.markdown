@@ -170,14 +170,14 @@
 
 ### 集合
 
-- [布隆过滤器](Bloom Filter/README-CN.markdown). 一种固定内存大小的数据结构，可以大概地测试元素是否在集合中。
+- [布隆过滤器](Bloom%20Filter/README-CN.markdown). 一种固定内存大小的数据结构，可以大概地测试元素是否在集合中。
 - [散列集合](Hash%20Set/README-CN.markdown). 用散列表实现的集合。
 - Multiset
 - [有序集合](Ordered Set/README-CN.markdown). 关心元素顺序的集合。
 
-### Graphs
+### 图
 
-- [Graph](Graph/)
+- [图](Graph/README-CN.markdown)
 - [Breadth-First Search (BFS)](Breadth-First Search/)
 - [Depth-First Search (DFS)](Depth-First Search/)
 - [Shortest Path](Shortest Path %28Unweighted%29/) on an unweighted tree
