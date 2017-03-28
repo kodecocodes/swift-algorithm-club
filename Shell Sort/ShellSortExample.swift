@@ -8,12 +8,10 @@
 
 import Foundation
 
-public func shellSort(_ list : inout [Int])
-{
+public func shellSort(_ list : inout [Int]) {
     var sublistCount = list.count / 2
     
-    while sublistCount > 0
-    {
+    while sublistCount > 0 {
         for var index in 0..<list.count {
             
             guard index + sublistCount < list.count else { break }
