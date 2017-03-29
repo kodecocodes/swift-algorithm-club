@@ -178,8 +178,8 @@
 ### 图
 
 - [图](Graph/README-CN.markdown)
-- [Breadth-First Search (BFS)](Breadth-First Search/)
-- [Depth-First Search (DFS)](Depth-First Search/)
+- [广度优先搜索 (BFS)](Breadth-First%20Search/README-CN.markdown)
+- [深度优先搜索 (DFS)](Depth-First%20Search/README-CN.markdown)
 - [Shortest Path](Shortest Path %28Unweighted%29/) on an unweighted tree
 - [Single-Source Shortest Paths](Single-Source Shortest Paths (Weighted)/)
 - [Minimum Spanning Tree](Minimum Spanning Tree %28Unweighted%29/) on an unweighted tree
