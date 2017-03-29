@@ -1,5 +1,4 @@
 //: Playground - noun: a place where people can play
-// Reference - http://mathworld.wolfram.com/StrassenFormulas.html
 
 import Foundation
 

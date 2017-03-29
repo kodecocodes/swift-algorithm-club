@@ -8,23 +8,31 @@
 
 import Foundation
 
-public enum RowOrColumn {
-  case row, column
-}
-
 public struct Matrix<T: Number> {
+  
+  // MARK: - Martix Objects
+  
+  public enum Index {
+    case row, column
+  }
+  
+  public struct Size: Equatable {
+    let rows: Int, columns: Int
+    
+    public static func ==(lhs: Size, rhs: Size) -> Bool {
+      return lhs.columns == rhs.columns && lhs.rows == rhs.rows
+    }
+  }
   
   // MARK: - Variables
   
   let rows: Int, columns: Int
+  let size: Size
+  
   var grid: [T]
   
   var isSquare: Bool {
     return rows == columns
-  }
-  
-  var size: MatrixSize {
-    return MatrixSize(rows: rows, columns: columns)
   }
   
   // MARK: - Init
@@ -32,13 +40,12 @@ public struct Matrix<T: Number> {
   public init(rows: Int, columns: Int, initialValue: T = T.zero) {
     self.rows = rows
     self.columns = columns
+    self.size = Size(rows: rows, columns: columns)
     self.grid = Array(repeating: initialValue, count: rows * columns)
   }
   
   public init(size: Int, initialValue: T = T.zero) {
-    self.rows = size
-    self.columns = size
-    self.grid = Array(repeating: initialValue, count: rows * columns)
+    self.init(rows: size, columns: size, initialValue: initialValue)
   }
   
   // MARK: - Private Functions
@@ -59,7 +66,7 @@ public struct Matrix<T: Number> {
     }
   }
   
-  public subscript(type: RowOrColumn, value: Int) -> [T] {
+  public subscript(type: Matrix.Index, value: Int) -> [T] {
     get {
       switch type {
       case .row:
