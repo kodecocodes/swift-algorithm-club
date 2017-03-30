@@ -182,7 +182,7 @@
 - [深度优先搜索 (DFS)](Depth-First%20Search/README-CN.markdown)
 - [最短路径](Shortest%20Path%20%28Unweighted%29/README-CN.markdown) 无权图
 - [单源最短路径](Single-Source%20Shortest%20Paths%20(Weighted)/README-CN.markdown)
-- [Minimum Spanning Tree](Minimum Spanning Tree %28Unweighted%29/) on an unweighted tree
+- [最小生成树](Minimum%20Spanning%20Tree%20%28Unweighted%29/README-CN.markdown) 无权图
 - [All-Pairs Shortest Paths](All-Pairs Shortest Paths/)
 
 ## Puzzles
