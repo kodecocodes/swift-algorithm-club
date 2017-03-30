@@ -181,7 +181,7 @@
 - [广度优先搜索 (BFS)](Breadth-First%20Search/README-CN.markdown)
 - [深度优先搜索 (DFS)](Depth-First%20Search/README-CN.markdown)
 - [最短路径](Shortest%20Path%20%28Unweighted%29/README-CN.markdown) 无权图
-- [Single-Source Shortest Paths](Single-Source Shortest Paths (Weighted)/)
+- [单源最短路径](Single-Source%20Shortest%20Paths%20(Weighted)/README-CN.markdown)
 - [Minimum Spanning Tree](Minimum Spanning Tree %28Unweighted%29/) on an unweighted tree
 - [All-Pairs Shortest Paths](All-Pairs Shortest Paths/)
 
