@@ -195,7 +195,7 @@ For convenience, let's add an init method that calls `insert()` for all the elem
     precondition(array.count > 0)
     self.init(value: array.first!)
     for v in array.dropFirst() {
-      insert(v, parent: self)
+      insert(value: v)
     }
   }
 ```
