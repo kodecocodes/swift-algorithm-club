@@ -28,7 +28,7 @@ The following are also graphs:
 
 ![Tree and linked list](Images/TreeAndList.png)
 
-On the left is a [tree](../Tree/) structure, on the right a [linked list](../Linked List/). Both can be considered graphs, but in a simpler form. After all, they have vertices (nodes) and edges (links).
+On the left is a [tree](../Tree/) structure, on the right a [linked list](../Linked%20List/). Both can be considered graphs, but in a simpler form. After all, they have vertices (nodes) and edges (links).
 
 The very first graph I showed you contained *cycles*, where you can start off at a vertex, follow a path, and come back to the original vertex. A tree is a graph without such cycles.
 
@@ -42,7 +42,7 @@ Like a tree this does not have any cycles in it (no matter where you start, ther
 
 Maybe you're shrugging your shoulders and thinking, what's the big deal? Well, it turns out that graphs are an extremely useful data structure.
 
-If you have some programming problem where you can represent some of your data as vertices and some of it as edges between those vertices, then you can draw your problem as a graph and use well-known graph algorithms such as [breadth-first search](../Breadth-First Search/) or [depth-first search](../Depth-First Search) to find a solution.
+If you have some programming problem where you can represent some of your data as vertices and some of it as edges between those vertices, then you can draw your problem as a graph and use well-known graph algorithms such as [breadth-first search](../Breadth-First%20Search/) or [depth-first search](../Depth-First%20Search) to find a solution.
 
 For example, let's say you have a list of tasks where some tasks have to wait on others before they can begin. You can model this using an acyclic directed graph:
 
@@ -50,7 +50,7 @@ For example, let's say you have a list of tasks where some tasks have to wait on
 
 Each vertex represents a task. Here, an edge between two vertices means that the source task must be completed before the destination task can start. So task C cannot start before B and D are finished, and B nor D can start before A is finished.
 
-Now that the problem is expressed using a graph, you can use a depth-first search to perform a [topological sort](../Topological Sort/). This will put the tasks in an optimal order so that you minimize the time spent waiting for tasks to complete. (One possible order here is A, B, D, E, C, F, G, H, I, J, K.)
+Now that the problem is expressed using a graph, you can use a depth-first search to perform a [topological sort](../Topological%20Sort/). This will put the tasks in an optimal order so that you minimize the time spent waiting for tasks to complete. (One possible order here is A, B, D, E, C, F, G, H, I, J, K.)
 
 Whenever you're faced with a tough programming problem, ask yourself, "how can I express this problem using a graph?" Graphs are all about representing relationships between your data. The trick is in how you define "relationship".
 
