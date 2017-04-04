@@ -39,7 +39,7 @@ As you can see, each sublist contains only every 4th item from the original arra
 
 We now call `insertionSort()` once on each sublist.
 
-This particular version of [insertion sort](../Insertion Sort/) sorts from the back to the front. Each item in the sublist is compared against the others. If they're in the wrong order, the value is swapped and travels all the way down until we reach the start of the sublist.
+This particular version of [insertion sort](../Insertion%20Sort/) sorts from the back to the front. Each item in the sublist is compared against the others. If they're in the wrong order, the value is swapped and travels all the way down until we reach the start of the sublist.
 
 So for sublist 0, we swap `4` with `72`, then swap `4` with `64`. After sorting, this sublist looks like:
 

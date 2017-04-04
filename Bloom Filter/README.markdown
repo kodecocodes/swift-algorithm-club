@@ -18,7 +18,7 @@ An advantage of the Bloom Filter over a hash table is that the former maintains 
 
 ## Inserting objects into the set
 
-A Bloom Filter is essentially a fixed-length [bit vector](../Bit Set/), an array of bits. When we insert objects, we set some of these bits to `1`, and when we query for objects we check if certain bits are `0` or `1`. Both operations use hash functions.
+A Bloom Filter is essentially a fixed-length [bit vector](../Bit%20Set/), an array of bits. When we insert objects, we set some of these bits to `1`, and when we query for objects we check if certain bits are `0` or `1`. Both operations use hash functions.
 
 To insert an element in the filter, the element is hashed with several different hash functions. Each hash function returns a value that we map to an index in the array. We then set the bits at these indices to `1` or true.
 

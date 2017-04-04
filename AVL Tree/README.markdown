@@ -1,6 +1,6 @@
 # AVL Tree
 
-An AVL tree is a self-balancing form of a [binary search tree](../Binary Search Tree/), in which the height of subtrees differ at most by only 1.
+An AVL tree is a self-balancing form of a [binary search tree](../Binary%20Search%20Tree/), in which the height of subtrees differ at most by only 1.
 
 A binary tree is *balanced* when its left and right subtrees contain roughly the same number of nodes. That is what makes searching the tree really fast. But if a binary search tree is unbalanced, searching can become really slow.
 
@@ -8,7 +8,7 @@ This is an example of an unbalanced tree:
 
 ![Unbalanced tree](Images/Unbalanced.png)
 
-All the children are in the left branch and none are in the right. This is essentially the same as a [linked list](../Linked List/). As a result, searching takes **O(n)** time instead of the much faster **O(log n)** that you'd expect from a binary search tree.
+All the children are in the left branch and none are in the right. This is essentially the same as a [linked list](../Linked%20List/). As a result, searching takes **O(n)** time instead of the much faster **O(log n)** that you'd expect from a binary search tree.
 
 A balanced version of that tree would look like this:
 
@@ -53,7 +53,7 @@ For the rotation we're using the terminology:
 * *RotationSubtree* - subtree of the *Pivot* upon the side of rotation
 * *OppositeSubtree* - subtree of the *Pivot* opposite the side of rotation
 
-Let take an example of balancing the unbalanced tree using *Right* (clockwise direction) rotation: 
+Let take an example of balancing the unbalanced tree using *Right* (clockwise direction) rotation:
 
 ![Rotation1](Images/RotationStep1.jpg) ![Rotation2](Images/RotationStep2.jpg) ![Rotation3](Images/RotationStep3.jpg)
 
@@ -76,9 +76,9 @@ Insertion never needs more than 2 rotations. Removal might require up to __log(n
 
 ## The code
 
-Most of the code in [AVLTree.swift](AVLTree.swift) is just regular [binary search tree](../Binary Search Tree/) stuff. You'll find this in any implementation of a binary search tree. For example, searching the tree is exactly the same. The only things that an AVL tree does slightly differently are inserting and deleting the nodes.
+Most of the code in [AVLTree.swift](AVLTree.swift) is just regular [binary search tree](../Binary%20Search%20Tree/) stuff. You'll find this in any implementation of a binary search tree. For example, searching the tree is exactly the same. The only things that an AVL tree does slightly differently are inserting and deleting the nodes.
 
-> **Note:** If you're a bit fuzzy on the regular operations of a binary search tree, I suggest you [catch up on those first](../Binary Search Tree/). It will make the rest of the AVL tree easier to understand.
+> **Note:** If you're a bit fuzzy on the regular operations of a binary search tree, I suggest you [catch up on those first](../Binary%20Search%20Tree/). It will make the rest of the AVL tree easier to understand.
 
 The interesting bits are in the `balance()` method which is called after inserting or deleting a node.
 
@@ -86,6 +86,6 @@ The interesting bits are in the `balance()` method which is called after inserti
 
 [AVL tree on Wikipedia](https://en.wikipedia.org/wiki/AVL_tree)
 
-AVL tree was the first self-balancing binary tree. These days, the [red-black tree](../Red-Black Tree/) seems to be more popular.
+AVL tree was the first self-balancing binary tree. These days, the [red-black tree](../Red-Black%20Tree/) seems to be more popular.
 
 *Written for Swift Algorithm Club by Mike Taghavi and Matthijs Hollemans*

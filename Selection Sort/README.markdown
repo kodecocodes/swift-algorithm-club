@@ -2,11 +2,11 @@
 
 Goal: Sort an array from low to high (or high to low).
 
-You are given an array of numbers and need to put them in the right order. The selection sort algorithm divides the array into two parts: the beginning of the array is sorted, while the rest of the array consists of the numbers that still remain to be sorted. 
+You are given an array of numbers and need to put them in the right order. The selection sort algorithm divides the array into two parts: the beginning of the array is sorted, while the rest of the array consists of the numbers that still remain to be sorted.
 
 	[ ...sorted numbers... | ...unsorted numbers... ]
 
-This is similar to [insertion sort](../Insertion Sort/), but the difference is in how new numbers are added to the sorted portion.
+This is similar to [insertion sort](../Insertion%20Sort/), but the difference is in how new numbers are added to the sorted portion.
 
 It works as follows:
 
@@ -23,7 +23,7 @@ It's called a "selection" sort, because at every step you search through the res
 
 ## An example
 
-Let's say the numbers to sort are `[ 5, 8, 3, 4, 6 ]`. We also keep track of where the sorted portion of the array ends, denoted by the `|` symbol. 
+Let's say the numbers to sort are `[ 5, 8, 3, 4, 6 ]`. We also keep track of where the sorted portion of the array ends, denoted by the `|` symbol.
 
 Initially, the sorted portion is empty:
 
@@ -65,14 +65,14 @@ func selectionSort(_ array: [Int]) -> [Int] {
   var a = array                    // 2
 
   for x in 0 ..< a.count - 1 {     // 3
-    
+
     var lowest = x
     for y in x + 1 ..< a.count {   // 4
       if a[y] < a[lowest] {
         lowest = y
       }
     }
-    
+
     if x != lowest {               // 5
       swap(&a[x], &a[lowest])
     }
@@ -108,9 +108,9 @@ The source file [SelectionSort.swift](SelectionSort.swift) has a version of this
 
 ## Performance
 
-Selection sort is easy to understand but it performs quite badly, **O(n^2)**. It's worse than [insertion sort](../Insertion Sort/) but better than [bubble sort](../Bubble Sort/). The killer is  finding the lowest element in the rest of the array. This takes up a lot of time, especially since the inner loop will be performed over and over.
+Selection sort is easy to understand but it performs quite badly, **O(n^2)**. It's worse than [insertion sort](../Insertion%20Sort/) but better than [bubble sort](../Bubble%20Sort/). The killer is  finding the lowest element in the rest of the array. This takes up a lot of time, especially since the inner loop will be performed over and over.
 
-[Heap sort](../Heap Sort/) uses the same principle as selection sort but has a really fast method for finding the minimum value in the rest of the array. Its performance is **O(n log n)**.
+[Heap sort](../Heap%20Sort/) uses the same principle as selection sort but has a really fast method for finding the minimum value in the rest of the array. Its performance is **O(n log n)**.
 
 ## See also
 
