@@ -26,7 +26,7 @@ Suppose that we wish to insert the element `G` with priority 0.1 into this BPQ. 
 
 ## Implementation
 
-While a [heap](../Heap/) may be a really simple implementation for a priority queue, a sorted [linked list](../Linked List/) allows for **O(k)** insertion and **O(1)** deletion, where **k** is the bounding number of elements.
+While a [heap](../Heap/) may be a really simple implementation for a priority queue, a sorted [linked list](../Linked%20List/) allows for **O(k)** insertion and **O(1)** deletion, where **k** is the bounding number of elements.
 
 Here's how you could implement it in Swift:
 

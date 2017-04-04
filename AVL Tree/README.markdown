@@ -53,7 +53,7 @@ For the rotation we're using the terminology:
 * *RotationSubtree* - subtree of the *Pivot* upon the side of rotation
 * *OppositeSubtree* - subtree of the *Pivot* opposite the side of rotation
 
-Let take an example of balancing the unbalanced tree using *Right* (clockwise direction) rotation: 
+Let take an example of balancing the unbalanced tree using *Right* (clockwise direction) rotation:
 
 ![Rotation1](Images/RotationStep1.jpg) ![Rotation2](Images/RotationStep2.jpg) ![Rotation3](Images/RotationStep3.jpg)
 
@@ -76,7 +76,7 @@ Insertion never needs more than 2 rotations. Removal might require up to __log(n
 
 ## The code
 
-Most of the code in [AVLTree.swift](AVLTree.swift) is just regular [binary search tree](../Binary Search Tree/) stuff. You'll find this in any implementation of a binary search tree. For example, searching the tree is exactly the same. The only things that an AVL tree does slightly differently are inserting and deleting the nodes.
+Most of the code in [AVLTree.swift](AVLTree.swift) is just regular [binary search tree](../Binary%20Search%20Tree/) stuff. You'll find this in any implementation of a binary search tree. For example, searching the tree is exactly the same. The only things that an AVL tree does slightly differently are inserting and deleting the nodes.
 
 > **Note:** If you're a bit fuzzy on the regular operations of a binary search tree, I suggest you [catch up on those first](../Binary%20Search%20Tree/). It will make the rest of the AVL tree easier to understand.
 
