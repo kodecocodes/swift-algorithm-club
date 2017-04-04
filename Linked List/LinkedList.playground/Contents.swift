@@ -73,7 +73,8 @@ public final class LinkedList<T> {
     self.append(newNode)
   }
   
-  public func append(_ newNode: Node) {
+  public func append(_ node: Node) {
+    let newNode = LinkedListNode(value: node.value)
     if let lastNode = last {
       newNode.previous = lastNode
       lastNode.next = newNode
@@ -104,9 +105,9 @@ public final class LinkedList<T> {
     self.insert(newNode, atIndex: index)
   }
   
-  public func insert(_ newNode: Node, atIndex index: Int) {
+  public func insert(_ node: Node, atIndex index: Int) {
     let (prev, next) = nodesBeforeAndAfter(index: index)
-    
+    let newNode = LinkedListNode(value: node.value)
     newNode.previous = prev
     newNode.next = next
     prev?.next = newNode
@@ -264,16 +265,16 @@ f    // [Universe, Swifty]
 //list.removeAll()
 //list.isEmpty
 
-list.remove(node: list.first!) // "Hello"
+list.remove(node: list.first!) // "Universe"
 list.count                     // 2
-list[0]                        // "Swift"
-list[1]                        // "World"
+list[0]                        // "Swifty"
+list[1]                        // "Hello"
 
-list.removeLast()              // "World"
+list.removeLast()              // "Hello"
 list.count                     // 1
-list[0]                        // "Swift"
+list[0]                        // "Swifty"
 
-list.remove(atIndex: 0)        // "Swift"
+list.remove(atIndex: 0)        // "Swifty"
 list.count                     // 0
 
 let linkedList: LinkedList<Int> = [1, 2, 3, 4] // [1, 2, 3, 4]
@@ -281,7 +282,7 @@ linkedList.count               // 4
 linkedList[0]                  // 1
 
 // Infer the type from the array
-let listArrayLiteral2: LinkedList = ["Swift", "Algorithm", "Club"]
-listArrayLiteral2.count        // 3
-listArrayLiteral2[0]           // "Swift"
-listArrayLiteral2.removeLast() // "Club"
+let listArrayLiteral2: LinkedList? = ["Swift", "Algorithm", "Club"]
+listArrayLiteral2?.count        // 3
+listArrayLiteral2?[0]           // "Swift"
+listArrayLiteral2?.removeLast()  // "Club"
