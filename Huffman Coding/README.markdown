@@ -16,7 +16,7 @@ If you count how often each byte appears, you can clearly see that some bytes oc
 	    c: 2	              p: 1
 	    r: 2	              e: 1
 	    n: 2	              i: 1
-	
+
 We can assign bit strings to each of these bytes. The more common a byte is, the fewer bits we assign to it. We might get something like this:
 
 	space: 5    010           u: 1    11001
@@ -30,12 +30,12 @@ We can assign bit strings to each of these bytes. The more common a byte is, the
 
 Now if we replace the original bytes with these bit strings, the compressed output becomes:
 
-	101 000 010 111 11001 0011 10001 010 0010 000 1001 11010 101 
+	101 000 010 111 11001 0011 10001 010 0010 000 1001 11010 101
 	s   o   _   m   u     c    h     _   w    o   r    d     s
-	
+
 	010 0010 000 0010 010 111 11011 0110 01111 010 0011 000 111
 	_   w    o   w    _   m   a     n    y     _   c    o   m
-	
+
 	11000 1001 01110 101 101 10000 000 0110 0
 	p     r    e     s   s   i     o   n
 
@@ -57,7 +57,7 @@ The edges between the nodes either say "1" or "0". These correspond to the bit-e
 
 Compression is then a matter of looping through the input bytes, and for each byte traverse the tree from the root node to that byte's leaf node. Every time we take a left branch, we emit a 1-bit. When we take a right branch, we emit a 0-bit.
 
-For example, to go from the root node to `c`, we go right (`0`), right again (`0`), left (`1`), and left again (`1`). So the Huffman code for `c` is `0011`. 
+For example, to go from the root node to `c`, we go right (`0`), right again (`0`), left (`1`), and left again (`1`). So the Huffman code for `c` is `0011`.
 
 Decompression works in exactly the opposite way. It reads the compressed bits one-by-one and traverses the tree until we get to a leaf node. The value of that leaf node is the uncompressed byte. For example, if the bits are `11010`, we start at the root and go left, left again, right, left, and a final right to end up at `d`.
 
@@ -137,7 +137,7 @@ Here are the definitions we need:
 ```swift
 class Huffman {
   typealias NodeIndex = Int
- 
+
   struct Node {
     var count = 0
     var index: NodeIndex = -1
@@ -152,7 +152,7 @@ class Huffman {
 }
 ```
 
-The tree structure is stored in the `tree` array and will be made up of `Node` objects. Since this is a [binary tree](../Binary Tree/), each node needs two children, `left` and `right`, and a reference back to its `parent` node. Unlike a typical binary tree, however, these nodes don't to use pointers to refer to each other but simple integer indices in the `tree` array. (We also store the array `index` of the node itself; the reason for this will become clear later.)
+The tree structure is stored in the `tree` array and will be made up of `Node` objects. Since this is a [binary tree](../Binary%20Tree/), each node needs two children, `left` and `right`, and a reference back to its `parent` node. Unlike a typical binary tree, however, these nodes don't to use pointers to refer to each other but simple integer indices in the `tree` array. (We also store the array `index` of the node itself; the reason for this will become clear later.)
 
 Note that `tree` currently has room for 256 entries. These are for the leaf nodes because there are 256 possible byte values. Of course, not all of those may end up being used, depending on the input data. Later, we'll add more nodes as we build up the actual tree. For the moment there isn't a tree yet, just 256 separate leaf nodes with no connections between them. All the node counts are 0.
 
@@ -183,7 +183,7 @@ Instead, we'll add a method to export the frequency table without all the pieces
     var byte: UInt8 = 0
     var count = 0
   }
-  
+
   func frequencyTable() -> [Freq] {
     var a = [Freq]()
     for i in 0..<256 where tree[i].count > 0 {
@@ -209,7 +209,7 @@ To build the tree, we do the following:
 2. Create a new parent node that links these two nodes together.
 3. This repeats over and over until only one node with no parent remains. This becomes the root node of the tree.
 
-This is an ideal place to use a [priority queue](../Priority Queue/). A priority queue is a data structure that is optimized so that finding the minimum value is always very fast. Here, we repeatedly need to find the node with the smallest count.
+This is an ideal place to use a [priority queue](../Priority%20Queue/). A priority queue is a data structure that is optimized so that finding the minimum value is always very fast. Here, we repeatedly need to find the node with the smallest count.
 
 The function `buildTree()` then becomes:
 
@@ -233,7 +233,7 @@ The function `buildTree()` then becomes:
 
       tree[node1.index].parent = parentNode.index    // 4
       tree[node2.index].parent = parentNode.index
-      
+
       queue.enqueue(parentNode)                      // 5
     }
 
@@ -286,7 +286,7 @@ Now that we know how to build the compression tree from the frequency table, we 
   }
 ```
 
-This first calls `countByteFrequency()` to build the frequency table, then `buildTree()` to put together the compression tree. It also creates a `BitWriter` object for writing individual bits. 
+This first calls `countByteFrequency()` to build the frequency table, then `buildTree()` to put together the compression tree. It also creates a `BitWriter` object for writing individual bits.
 
 Then it loops through the entire input and for each byte calls `traverseTree()`. That method will step through the tree nodes and for each node write a 1 or 0 bit. Finally, we return the `BitWriter`'s data object.
 
@@ -309,7 +309,7 @@ The interesting stuff happens in `traverseTree()`. This is a recursive method:
   }
 ```
 
-When we call this method from `compressData()`, the `nodeIndex` parameter is the array index of the leaf node for the byte that we're about to encode. This method recursively walks the tree from a leaf node up to the root, and then back again. 
+When we call this method from `compressData()`, the `nodeIndex` parameter is the array index of the leaf node for the byte that we're about to encode. This method recursively walks the tree from a leaf node up to the root, and then back again.
 
 As we're going back from the root to the leaf node, we write a 1 bit or a 0 bit for every node we encounter. If a child is the left node, we emit a 1; if it's the right node, we emit a 0.
 
@@ -395,10 +395,10 @@ Here's how you would use the decompression method:
 
 ```swift
   let frequencyTable = huffman1.frequencyTable()
-  
+
   let huffman2 = Huffman()
   let decompressedData = huffman2.decompressData(compressedData, frequencyTable: frequencyTable)
-  
+
   let s2 = String(data: decompressedData, encoding: NSUTF8StringEncoding)!
 ```
 
