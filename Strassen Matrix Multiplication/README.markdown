@@ -18,7 +18,7 @@ matrix A = |1 2|, matrix B = |5 6|
 A * B = C
 	
 |1 2| * |5 6| = |1*5+2*7 1*6+2*8| = |19 22|
-|3 4|   |7 8|   |3*5+4*7 3*6+4*8|   |43 48|
+|3 4|   |7 8|   |3*5+4*7 3*6+4*8|   |43 50|
 ```
 
 What's going on here? To start, we're multiplying matricies A & B. Our new matrix, C's, elements `[i, j]` are determined by the dot product of the first matrix's ith row and the second matrix's jth column. See [here](https://www.khanacademy.org/math/linear-algebra/vectors-and-spaces/dot-cross-products/v/vector-dot-product-and-vector-length) for a refresher on the dot product.
@@ -72,7 +72,7 @@ Then, for each row in A and column in B, we take the dot product of the ith row 
 
 ```swift
 for k in 0..<n {
-  C[i, j] = A[i, k] * B[k, j]
+  C[i, j] += A[i, k] * B[k, j]
 }
 ```
 
@@ -90,7 +90,7 @@ public func matrixMultiply(by B: Matrix<T>) -> Matrix<T> {
   for i in 0..<n {
     for j in 0..<n {
       for k in 0..<n {
-        C[i, j] = A[i, k] * B[k, j]
+        C[i, j] += A[i, k] * B[k, j]
       }
     }
   }
@@ -229,7 +229,7 @@ for i in B.rows {
 }
 ```
 
-Finally, we recusrisvely compute the matrix using Strassen's algorithm and the transform our new matrix `C` back to the correct dimensions!
+Finally, we recursively compute the matrix using Strassen's algorithm and the transform our new matrix `C` back to the correct dimensions!
 
 ```swift
 let CPrep = APrep.strassenR(by: BPrep)
