@@ -44,7 +44,7 @@ Of course, if you were looking for the k-th *smallest* element, you'd use `a[k]`
 
 ## A faster solution
 
-There is a clever algorithm that combines the ideas of [binary search](../Binary Search/) and [quicksort](../Quicksort/) to arrive at an **O(n)** solution.
+There is a clever algorithm that combines the ideas of [binary search](../Binary%20Search/) and [quicksort](../Quicksort/) to arrive at an **O(n)** solution.
 
 Recall that binary search splits the array in half over and over again, to quickly narrow in on the value you're searching for. That's what we'll do here too.
 
@@ -86,7 +86,7 @@ The following function implements these ideas:
 ```swift
 public func randomizedSelect<T: Comparable>(array: [T], order k: Int) -> T {
   var a = array
-  
+
   func randomPivot<T: Comparable>(inout a: [T], _ low: Int, _ high: Int) -> T {
     let pivotIndex = random(min: low, max: high)
     swap(&a, pivotIndex, high)
@@ -120,7 +120,7 @@ public func randomizedSelect<T: Comparable>(array: [T], order k: Int) -> T {
       return a[low]
     }
   }
-  
+
   precondition(a.count > 0)
   return randomizedSelect(&a, 0, a.count - 1, k)
 }

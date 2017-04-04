@@ -12,7 +12,7 @@ Examples of algorithms that can benefit from a priority queue:
 
 - Event-driven simulations. Each event is given a timestamp and you want events to be performed in order of their timestamps. The priority queue makes it easy to find the next event that needs to be simulated.
 - Dijkstra's algorithm for graph searching uses a priority queue to calculate the minimum cost.
-- [Huffman coding](../Huffman Coding/) for data compression. This algorithm builds up a compression tree. It repeatedly needs to find the two nodes with the smallest frequencies that do not have a parent node yet.
+- [Huffman coding](../Huffman%20Coding/) for data compression. This algorithm builds up a compression tree. It repeatedly needs to find the two nodes with the smallest frequencies that do not have a parent node yet.
 - A* pathfinding for artificial intelligence.
 - Lots of other places!
 
@@ -31,8 +31,8 @@ Common operations on a priority queue:
 
 There are different ways to implement priority queues:
 
-- As a [sorted array](../Ordered Array/). The most important item is at the end of the array. Downside: inserting new items is slow because they must be inserted in sorted order.
-- As a balanced [binary search tree](../Binary Search Tree/). This is great for making a double-ended priority queue because it implements both "find minimum" and "find maximum" efficiently.
+- As a [sorted array](../Ordered%20Array/). The most important item is at the end of the array. Downside: inserting new items is slow because they must be inserted in sorted order.
+- As a balanced [binary search tree](../Binary%20Search%20Tree/). This is great for making a double-ended priority queue because it implements both "find minimum" and "find maximum" efficiently.
 - As a [heap](../Heap/). The heap is a natural data structure for a priority queue. In fact, the two terms are often used as synonyms. A heap is more efficient than a sorted array because a heap only has to be partially sorted. All heap operations are **O(log n)**.
 
 Here's a Swift priority queue based on a heap:

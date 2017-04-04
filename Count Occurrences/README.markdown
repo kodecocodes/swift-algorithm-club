@@ -36,7 +36,7 @@ func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
     }
     return low
   }
-  
+
   func rightBoundary() -> Int {
     var low = 0
     var high = a.count
@@ -50,12 +50,12 @@ func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
     }
     return low
   }
-  
+
   return rightBoundary() - leftBoundary()
 }
 ```
 
-Notice that the helper functions `leftBoundary()` and `rightBoundary()` are very similar to the [binary search](../Binary Search/) algorithm. The big difference is that they don't stop when they find the search key, but keep going.
+Notice that the helper functions `leftBoundary()` and `rightBoundary()` are very similar to the [binary search](../Binary%20Search/) algorithm. The big difference is that they don't stop when they find the search key, but keep going.
 
 To test this algorithm, copy the code to a playground and then do:
 

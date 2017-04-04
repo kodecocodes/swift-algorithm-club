@@ -40,7 +40,7 @@ And fix up the heap to make it valid max-heap again:
 
 As you can see, the largest items are making their way to the back. We repeat this process until we arrive at the root node and then the whole array is sorted.
 
-> **Note:** This process is very similar to [selection sort](../Selection Sort/), which repeatedly looks for the minimum item in the remainder of the array. Extracting the minimum or maximum value is what heaps are good at.
+> **Note:** This process is very similar to [selection sort](../Selection%20Sort/), which repeatedly looks for the minimum item in the remainder of the array. Extracting the minimum or maximum value is what heaps are good at.
 
 Performance of heap sort is **O(n lg n)** in best, worst, and average case. Because we modify the array directly, heap sort can be performed in-place. But it is not a stable sort: the relative order of identical elements is not preserved.
 
