@@ -106,6 +106,7 @@ Bad sorting algorithms (don't use these!):
 - Statistics
 - [Karatsuba Multiplication](Karatsuba%20Multiplication/). Another take on elementary multiplication.
 - [Haversine Distance](HaversineDistance/). Calculating the distance between 2 points from a sphere.
+- [Strassen's Multiplication Matrix](Strassen%20Multiplication%20Matrix). Efficient way to handle matrix multiplication.
 
 ### Machine learning
 
