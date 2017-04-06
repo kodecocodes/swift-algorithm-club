@@ -3,19 +3,15 @@
 import Foundation
 import UIKit
 
-open class ProductVertex: Vertex {}
-
 open class Vertex: Hashable, Equatable {
 
     open var identifier: String!
     open var neighbors: [(Vertex, Double)] = []
     open var pathLengthFromStart: Double = Double.infinity
     open var pathVerticesFromStart: [Vertex] = []
-//    open var point: CGPoint!
 
-    public init(identifier: String/*, point: CGPoint*/) {
+    public init(identifier: String) {
         self.identifier = identifier
-//        self.point = point
     }
 
     open var hashValue: Int {
@@ -77,7 +73,9 @@ public class Dijkstra {
 var _vertices: Set<Vertex> = Set()
 
 func createNotConnectedVertices() {
-    for i in 0..<15 {
+    //change this value to increase or decrease amount of vertices in the graph
+    let numberOfVerticesInGraph = 15
+    for i in 0..<numberOfVerticesInGraph {
         let vertex = Vertex(identifier: "\(i)")
         _vertices.insert(vertex)
     }
@@ -108,15 +106,32 @@ func randomVertex(except vertex: Vertex) -> Vertex {
     return newSet[index]
 }
 
+func randomVertex() -> Vertex {
+    let offset = Int(arc4random_uniform(UInt32(_vertices.count)))
+    let index = _vertices.index(_vertices.startIndex, offsetBy: offset)
+    return _vertices[index]
+}
+
+//initialize random graph
 createNotConnectedVertices()
 setupConnections()
+
+//initialize Dijkstra algorithm with graph vertices
 let dijkstra = Dijkstra(vertices: _vertices)
-let offset = Int(arc4random_uniform(UInt32(_vertices.count)))
-let index = _vertices.index(_vertices.startIndex, offsetBy: offset)
-let startVertex = _vertices[index]
+
+//decide which vertex will be the starting one
+let startVertex = randomVertex()
+
+//ask algorithm to find shortest paths from start vertex to all others
 dijkstra.findShortestPaths(from: startVertex)
+
+//printing results
 let destinationVertex = randomVertex(except: startVertex)
-destinationVertex.pathLengthFromStart
-destinationVertex.pathVerticesFromStart
+print(destinationVertex.pathLengthFromStart)
+var pathVerticesFromStartString: [String] = []
+for vertex in destinationVertex.pathVerticesFromStart {
+    pathVerticesFromStartString.append(vertex.identifier)
+}
+print(pathVerticesFromStartString.joined(separator: "->"))
 
 
