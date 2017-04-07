@@ -3,15 +3,23 @@ import XCTest
 
 class MinimumCoinChangeTests: XCTestCase {
     func testExample() {
-        var mcc = MinimumCoinChange(coinSet: [1, 2, 5, 10, 20, 25])
+        let mcc = MinimumCoinChange(coinSet: [1, 2, 5, 10, 20, 25])
+        print("Coin set: \(mcc.sortedCoinSet)")
 
-        for i in 0..<100 {
-            let greedy = mcc.changeGreedy(i)
-            let dynamic = mcc.changeDynamic(i)
+        do {
+            for i in 0..<100 {
+                let greedy = try mcc.changeGreedy(i)
+                let dynamic = try mcc.changeDynamic(i)
 
-            if greedy.count != dynamic.count {
-                print("\(i): greedy = \(greedy) dynamic = \(dynamic)")
+                XCTAssertEqual(greedy.reduce(0, +), dynamic.reduce(0, +), "Greedy and Dynamic return two different changes")
+
+                if greedy.count != dynamic.count {
+                    print("\(i): greedy = \(greedy) dynamic = \(dynamic)")
+                }
             }
+        }
+        catch {
+            XCTFail("Test Failed: impossible to change with the given coin set")
         }
     }
 
