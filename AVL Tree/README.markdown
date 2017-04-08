@@ -48,7 +48,7 @@ Each tree node keeps track of its current balance factor in a variable. After in
 ![Rotation0](Images/RotationStep0.jpg)
 
 For the rotation we're using the terminology:
-* *Root* - the parent not of the subtrees that will be rotated;
+* *Root* - the parent node of the subtrees that will be rotated;
 * *Pivot* - the node that will become parent (basically will be on the *Root*'s position) after rotation;
 * *RotationSubtree* - subtree of the *Pivot* upon the side of rotation
 * *OppositeSubtree* - subtree of the *Pivot* opposite the side of rotation
