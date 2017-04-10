@@ -71,7 +71,8 @@ public final class LinkedList<T> {
         self.append(newNode)
     }
     
-    public func append(_ newNode: Node) {
+    public func append(_ node: Node) {
+        let newNode = Node(value: node.value)
         if let lastNode = last {
             newNode.previous = lastNode
             lastNode.next = newNode
@@ -102,9 +103,9 @@ public final class LinkedList<T> {
         self.insert(newNode, atIndex: index)
     }
     
-    public func insert(_ newNode: Node, atIndex index: Int) {
+    public func insert(_ node: Node, atIndex index: Int) {
         let (prev, next) = nodesBeforeAndAfter(index: index)
-        
+        let newNode = Node(value: node.value)
         newNode.previous = prev
         newNode.next = next
         prev?.next = newNode
