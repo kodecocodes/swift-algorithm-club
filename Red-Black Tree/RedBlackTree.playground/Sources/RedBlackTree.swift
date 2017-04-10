@@ -638,11 +638,11 @@ extension RedBlackTree {
     if let leftChild = node.leftChild, let rightChild = node.rightChild {
       if node.color == .red {
         if !leftChild.isNullLeaf && leftChild.color == .red {
-          print("Property-Error: Red node with key \(node.key ?? nil) has red left child")
+            print("Property-Error: Red node with key \(String(describing: node.key)) has red left child")
           return false
         }
         if !rightChild.isNullLeaf && rightChild.color == .red {
-          print("Property-Error: Red node with key \(node.key ?? nil) has red right child")
+          print("Property-Error: Red node with key \(String(describing: node.key)) has red right child")
           return false
         }
       }
@@ -677,7 +677,7 @@ extension RedBlackTree {
       let addedHeight = node.color == .black ? 1 : 0
       return left + addedHeight
     } else {
-      print("Property-Error: Black height violated at node with key \(node.key ?? nil)")
+      print("Property-Error: Black height violated at node with key \(String(describing: node.key))")
       return -1
     }
   }
@@ -697,7 +697,7 @@ extension RBTreeNode: CustomDebugStringConvertible {
         s = "key: nil"
       }
       if let parent = parent {
-        s += ", parent: \(parent.key)"
+        s += ", parent: \(String(describing: parent.key))"
       }
       if let left = leftChild {
         s += ", left = [" + left.debugDescription + "]"
