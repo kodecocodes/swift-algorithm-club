@@ -19,8 +19,6 @@ func knapsack() -> Int {
     
     tableOfValues = Array(repeating: Array(repeating: 0, count: capacityOfBag+1),
                count: knapsackItems.count+1)
-    
-    print(knapsackItems.count)
    
     for itemIndex in 1...knapsackItems.count {
         for totalWeight in 1...capacityOfBag {
