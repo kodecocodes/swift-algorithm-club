@@ -1,23 +1,35 @@
-var numberOfItems = Int()
+class KnapsackItem: NSObject {
+    var weight: Int
+    var value: Int
+    
+    init(weight: Int, value: Int) {
+        self.weight = weight
+        self.value = value
+    }
+}
+
 var capacityOfBag = Int()
-var items = [Int]()
-var values = [Int]()
-var dp = [[Int]]()
+var knapsackItems = [KnapsackItem]()
 
 func knapsack() -> Int {
-    dp = Array(repeating: Array(repeating: 0, count: capacityOfBag+1),
-               count: numberOfItems+1)
-    for i in 0...numberOfItems {
-        for j in 0...capacityOfBag {
-            if i == 0 || j == 0 {
-                continue
-            }
-            if j<items[i] {
-                dp[i][j] = dp[i-1][j]
+    
+    var tableOfValues = [[Int]]()
+    
+    tableOfValues = Array(repeating: Array(repeating: 0, count: capacityOfBag+1),
+                          count: knapsackItems.count+1)
+    
+    print(knapsackItems.count)
+    
+    for itemIndex in 1...knapsackItems.count {
+        for totalWeight in 1...capacityOfBag {
+            
+            if totalWeight < knapsackItems[itemIndex-1].weight {
+                tableOfValues[itemIndex][totalWeight] = tableOfValues[itemIndex-1][totalWeight]
             } else {
-                dp[i][j] = max(values[i] + dp[i-1][j-items[i]], dp[i-1][j])
+                let remainingCapacity = totalWeight - knapsackItems[itemIndex-1].weight
+                tableOfValues[itemIndex][totalWeight] = max(knapsackItems[itemIndex-1].value + tableOfValues[itemIndex-1][remainingCapacity], tableOfValues[itemIndex-1][totalWeight])
             }
         }
     }
-    return dp[numberOfItems][capacityOfBag]
+    return tableOfValues[knapsackItems.count-1][capacityOfBag]
 }

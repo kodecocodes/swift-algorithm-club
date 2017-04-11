@@ -15,31 +15,36 @@ var knapsackItems = [KnapsackItem]()
 
 func knapsack() -> Int {
     
-    var dp = [[Int]]()
+    var tableOfValues = [[Int]]()
     
-    dp = Array(repeating: Array(repeating: 0, count: capacityOfBag+1),
+    tableOfValues = Array(repeating: Array(repeating: 0, count: capacityOfBag+1),
                count: knapsackItems.count+1)
+    
+    print(knapsackItems.count)
    
     for itemIndex in 1...knapsackItems.count {
         for totalWeight in 1...capacityOfBag {
-            
-            if totalWeight < knapsackItem.weight {
-                dp[knapsackItem.weight][totalWeight] = dp[knapsackItem.weight][totalWeight]
+ 
+            if totalWeight < knapsackItems[itemIndex-1].weight {
+                tableOfValues[itemIndex][totalWeight] = tableOfValues[itemIndex-1][totalWeight]
             } else {
-                dp[knapsackItem.weight][totalWeight] = max(knapsackItem.value + dp[knapsackItem.weight][totalWeight - knapsackItem.weight], dp[knapsackItem.weight][totalWeight])
+                let remainingCapacity = totalWeight - knapsackItems[itemIndex-1].weight
+                tableOfValues[itemIndex][totalWeight] = max(knapsackItems[itemIndex-1].value + tableOfValues[itemIndex-1][remainingCapacity], tableOfValues[itemIndex-1][totalWeight])
             }
         }
     }
-    return dp[knapsackItems.count][capacityOfBag]
+    return tableOfValues[knapsackItems.count-1][capacityOfBag]
 }
 
 func solution() {
     
-    capacityOfBag = 50
+    capacityOfBag = 4
     
-    knapsackItems = [KnapsackItem(weight: 10, value: 20),
-                         KnapsackItem(weight: 20, value: 30),
-                         KnapsackItem(weight: 30, value: 120)]
+    knapsackItems = [KnapsackItem(weight: 1, value: 8),
+                     KnapsackItem(weight: 2, value: 4),
+                     KnapsackItem(weight: 3, value: 0),
+                     KnapsackItem(weight: 2, value: 5),
+                     KnapsackItem(weight: 2, value: 3)]
 
     let result = knapsack()
     
