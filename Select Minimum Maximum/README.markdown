@@ -23,7 +23,8 @@ Repeat this process until the all elements in the list have been processed.
 Here is a simple implementation in Swift:
 
 ```swift
-func minimum<T: Comparable>(var array: [T]) -> T? {
+func minimum<T: Comparable>(_ array: [T]) -> T? {
+  var array = array
   guard !array.isEmpty else {
     return nil
   }
@@ -35,7 +36,8 @@ func minimum<T: Comparable>(var array: [T]) -> T? {
   return minimum
 }
 
-func maximum<T: Comparable>(var array: [T]) -> T? {
+func maximum<T: Comparable>(_ array: [T]) -> T? {
+  var array = array
   guard !array.isEmpty else {
     return nil
   }
@@ -66,6 +68,13 @@ array.minElement()   // This will return 3
 array.maxElement()   // This will return 9
 ```
 
+```
+let array = [ 8, 3, 9, 4, 6 ]
+//swift3
+array.min()   // This will return 3
+array.max()   // This will return 9
+```
+
 ## Maximum and minimum
 
 To find both the maximum and minimum values contained in array while minimizing the number of comparisons we can compare the items in pairs. 
@@ -89,7 +98,8 @@ The result is a minimum of `3` and a maximum of `9`.
 Here is a simple implementation in Swift:
 
 ```swift
-func minimumMaximum<T: Comparable>(var array: [T]) -> (minimum: T, maximum: T)? {
+func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
+  var array = array
   guard !array.isEmpty else {
     return nil
   }

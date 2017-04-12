@@ -7,8 +7,9 @@ tree.insert(value: 10)
 tree.insert(value: 9)
 tree.insert(value: 1)
 
+let toDelete = tree.search(value: 1)
+toDelete?.remove()
 tree
-tree.debugDescription
 
 let tree2 = BinarySearchTree<Int>(array: [7, 2, 5, 10, 9, 1])
 

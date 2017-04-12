@@ -13,7 +13,7 @@ struct Vector: CustomStringConvertible, Equatable {
     return "Vector (\(data)"
   }
 
-  func distanceTo(other: Vector) -> Double {
+  func distanceTo(_ other: Vector) -> Double {
     var result = 0.0
     for idx in 0..<length {
       result += pow(data[idx] - other.data[idx], 2.0)
@@ -39,7 +39,7 @@ func + (left: Vector, right: Vector) -> Vector {
   return Vector(results)
 }
 
-func += (inout left: Vector, right: Vector) {
+func += (left: inout Vector, right: Vector) {
   left = left + right
 }
 
@@ -51,18 +51,18 @@ func - (left: Vector, right: Vector) -> Vector {
   return Vector(results)
 }
 
-func -= (inout left: Vector, right: Vector) {
+func -= (left: inout Vector, right: Vector) {
   left = left - right
 }
 
 func / (left: Vector, right: Double) -> Vector {
-  var results = [Double](count: left.length, repeatedValue: 0)
-  for (idx, value) in left.data.enumerate() {
+  var results = [Double](repeating: 0, count: left.length)
+  for (idx, value) in left.data.enumerated() {
     results[idx] = value / right
   }
   return Vector(results)
 }
 
-func /= (inout left: Vector, right: Double) {
+func /= (left: inout Vector, right: Double) {
   left = left / right
 }

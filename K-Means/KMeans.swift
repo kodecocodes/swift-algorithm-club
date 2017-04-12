@@ -11,11 +11,11 @@ class KMeans<Label: Hashable> {
     self.numCenters = labels.count
   }
 
-  private func indexOfNearestCenter(x: Vector, centers: [Vector]) -> Int {
+  private func indexOfNearestCenter(_ x: Vector, centers: [Vector]) -> Int {
     var nearestDist = DBL_MAX
     var minIndex = 0
 
-    for (idx, center) in centers.enumerate() {
+    for (idx, center) in centers.enumerated() {
       let dist = x.distanceTo(center)
       if dist < nearestDist {
         minIndex = idx
@@ -25,8 +25,8 @@ class KMeans<Label: Hashable> {
     return minIndex
   }
 
-  func trainCenters(points: [Vector], convergeDistance: Double) {
-    let zeroVector = Vector([Double](count: points[0].length, repeatedValue: 0))
+  func trainCenters(_ points: [Vector], convergeDistance: Double) {
+    let zeroVector = Vector([Double](repeating: 0, count: points[0].length))
 
     // Randomly take k objects from the input data to make the initial centroids.
     var centers = reservoirSample(points, k: numCenters)
@@ -34,7 +34,7 @@ class KMeans<Label: Hashable> {
     var centerMoveDist = 0.0
     repeat {
       // This array keeps track of which data points belong to which centroids.
-      var classification: [[Vector]] = .init(count: numCenters, repeatedValue: [])
+      var classification: [[Vector]] = .init(repeating: [], count: numCenters)
 
       // For each data point, find the centroid that it is closest to.
       for p in points {
@@ -45,7 +45,7 @@ class KMeans<Label: Hashable> {
       // Take the average of all the data points that belong to each centroid.
       // This moves the centroid to a new position.
       let newCenters = classification.map { assignedPoints in
-        assignedPoints.reduce(zeroVector, combine: +) / Double(assignedPoints.count)
+        assignedPoints.reduce(zeroVector, +) / Double(assignedPoints.count)
       }
 
       // Find out how far each centroid moved since the last iteration. If it's
@@ -61,14 +61,14 @@ class KMeans<Label: Hashable> {
     centroids = centers
   }
 
-  func fit(point: Vector) -> Label {
+  func fit(_ point: Vector) -> Label {
     assert(!centroids.isEmpty, "Exception: KMeans tried to fit on a non trained model.")
 
     let centroidIndex = indexOfNearestCenter(point, centers: centroids)
     return labels[centroidIndex]
   }
 
-  func fit(points: [Vector]) -> [Label] {
+  func fit(_ points: [Vector]) -> [Label] {
     assert(!centroids.isEmpty, "Exception: KMeans tried to fit on a non trained model.")
 
     return points.map(fit)
@@ -76,7 +76,7 @@ class KMeans<Label: Hashable> {
 }
 
 // Pick k random elements from samples
-func reservoirSample<T>(samples: [T], k: Int) -> [T] {
+func reservoirSample<T>(_ samples: [T], k: Int) -> [T] {
   var result = [T]()
 
   // Fill the result array with first k elements

@@ -36,7 +36,7 @@ func contains(word: String) -> Bool {
  
 	// 3
 	while currentIndex < characters.count, 
-	  let child = currentNode.children[character[currentIndex]] {
+	  let child = currentNode.children[characters[currentIndex]] {
 
 	  currentNode = child
 	  currentIndex += 1
@@ -64,42 +64,38 @@ Insertion into a `Trie` requires you to walk over the nodes until you either hal
 
 ```swift
 func insert(word: String) {
-  guard !word.isEmpty else { return }
+  guard !word.isEmpty else {
+    return
+  }
 
   // 1
   var currentNode = root
-  
-	// 2
-  var characters = Array(word.lowercased().characters)
-  var currentIndex = 0
-  
-	// 3
-  while currentIndex < characters.count {
-    let character = characters[currentIndex]
 
-		// 4
-    if let child = currentNode.children[character] {
-      currentNode = child
+  // 2
+  for character in word.lowercased().characters {
+    // 3
+    if let childNode = currentNode.children[character] {
+      currentNode = childNode
     } else {
-      currentNode.add(child: character)
+      currentNode.add(value: character)
       currentNode = currentNode.children[character]!
     }
-    
-    currentIndex += 1
-
-		// 5
-    if currentIndex == characters.count {
-      currentNode.isTerminating = true
-    }
   }
+  // Word already present?
+  guard !currentNode.isTerminating else {
+    return
+  }
+
+  // 4
+  wordCount += 1
+  currentNode.isTerminating = true
 }
 ```
 
 1. Once again, you create a reference to the root node. You'll move this reference down a chain of nodes.
-2. Keep track of the word you want to insert.
-3. Begin walking through your word letter by letter
-4. Sometimes, the required node to insert already exists. That is the case for two words inside the `Trie` that shares letters (i.e "Apple", "App"). If a letter already exists, you'll reuse it, and simply traverse deeper down the chain. Otherwise, you'll create a new node representing the letter.
-5. Once you get to the end, you mark `isTerminating` to true to mark that specific node as the end of a word.
+2. Begin walking through your word letter by letter
+3. Sometimes, the required node to insert already exists. That is the case for two words inside the `Trie` that shares letters (i.e "Apple", "App"). If a letter already exists, you'll reuse it, and simply traverse deeper down the chain. Otherwise, you'll create a new node representing the letter.
+4. Once you get to the end, you mark `isTerminating` to true to mark that specific node as the end of a word.
 
 ### Removal
 
@@ -109,41 +105,27 @@ If you'd like to remove "Apple", you'll need to take care to leave the "App" cha
 
 ```swift
 func remove(word: String) {
-  guard !word.isEmpty else { return }
+  guard !word.isEmpty else {
+    return
+  }
 
-	// 1
-  var currentNode = root
-  
-	// 2
-  var characters = Array(word.lowercased().characters)
-  var currentIndex = 0
-  
-	// 3
-  while currentIndex < characters.count {
-    let character = characters[currentIndex]
-    guard let child = currentNode.children[character] else { return }
-    currentNode = child
-    currentIndex += 1
+  // 1
+  guard let terminalNode = findTerminalNodeOf(word: word) else {
+    return
   }
-  
-	// 4
-  if currentNode.children.count > 0 {
-    currentNode.isTerminating = false
+
+  // 2
+  if terminalNode.isLeaf {
+    deleteNodesForWordEndingWith(terminalNode: terminalNode)
   } else {
-    var character = currentNode.value
-    while currentNode.children.count == 0, let parent = currentNode.parent, !parent.isTerminating {
-      currentNode = parent
-      currentNode.children[character!] = nil
-      character = currentNode.value
-    }
+    terminalNode.isTerminating = false
   }
+  wordCount -= 1
 }
 ```
 
-1. Once again, you create a reference to the root node.
-2. Keep track of the word you want to remove.
-3. Attempt to walk to the terminating node of the word. The `guard` statement will return if it can't find one of the letters; It's possible to call `remove` on a non-existant entry.
-4. If you reach the node representing the last letter of the word you want to remove, you'll have 2 cases to deal with. Either it's a leaf node, or it has more children. If it has more children, it means the node is used for other words. In that case, you'll just mark `isTerminating` to false. In the other case, you'll delete the nodes.
+1. `findTerminalNodeOf` traverses through the Trie to find the last node that represents the `word`. If it is unable to traverse through the chain of characters, it returns `nil`.
+2. `deleteNodesForWordEndingWith` traverse backwords, deleting the nodes represented by the `word`.
 
 ### Time Complexity
 
@@ -162,3 +144,13 @@ Let n be the length of some value in the `Trie`.
 See also [Wikipedia entry for Trie](https://en.wikipedia.org/wiki/Trie).
 
 *Written for the Swift Algorithm Club by Christian Encarnacion. Refactored by Kelvin Lau*
+
+# Changes by Rick Zaccone
+
+* Added comments to all methods
+* Refactored the `remove` method
+* Renamed some variables.  I have mixed feelings about the way Swift infers types.  It's not always apparent what type a variable will have.  To address this, I made changes such as renaming `parent` to `parentNode` to emphasize that it is a node and not the value contained within the node.
+* Added a `words` property that recursively traverses the trie and constructs an array containing all of the words in the trie.
+* Added a `isLeaf` property to `TrieNode` for readability.
+* Implemented `count` and `isEmpty` properties for the trie.
+* I tried stress testing the trie by adding 162,825 words.  The playground was very slow while adding the words and eventually crashed.  To fix this problem, I moved everything into a project and wrote `XCTest` tests that test the trie.  There are also several performance tests.  Everything passes.

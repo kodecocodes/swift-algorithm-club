@@ -29,7 +29,7 @@ public class Huffman {
   /* The tree structure. The first 256 entries are for the leaf nodes (not all
      of those may be used, depending on the input). We add additional nodes as
      we build the tree. */
-  var tree = [Node](count: 256, repeatedValue: Node())
+  var tree = [Node](repeating: Node(), count: 256)
 
   /* This is the last node we add to the tree. */
   var root: NodeIndex = -1
@@ -50,10 +50,10 @@ extension Huffman {
      occurs. These counts are stored in the first 256 nodes in the tree, i.e.
      the leaf nodes. The frequency table used by decompression is derived from
      this. */
-  private func countByteFrequency(data: NSData) {
-    var ptr = UnsafePointer<UInt8>(data.bytes)
+  fileprivate func countByteFrequency(inData data: NSData) {
+    var ptr = data.bytes.assumingMemoryBound(to: UInt8.self)
     for _ in 0..<data.length {
-      let i = Int(ptr.memory)
+      let i = Int(ptr.pointee)
       tree[i].count += 1
       tree[i].index = i
       ptr = ptr.successor()
@@ -62,7 +62,7 @@ extension Huffman {
 
   /* Takes a frequency table and rebuilds the tree. This is the first step of
      decompression. */
-  private func restoreTree(frequencyTable: [Freq]) {
+    fileprivate func restoreTree(fromTable frequencyTable: [Freq]) {
     for freq in frequencyTable {
       let i = Int(freq.byte)
       tree[i].count = freq.count
@@ -85,7 +85,7 @@ extension Huffman {
 
 extension Huffman {
   /* Builds a Huffman tree from a frequency table. */
-  private func buildTree() {
+  fileprivate func buildTree() {
     // Create a min-priority queue and enqueue all used nodes.
     var queue = PriorityQueue<Node>(sort: { $0.count < $1.count })
     for node in tree where node.count > 0 {
@@ -123,13 +123,13 @@ extension Huffman {
 extension Huffman {
   /* Compresses the contents of an NSData object. */
   public func compressData(data: NSData) -> NSData {
-    countByteFrequency(data)
+    countByteFrequency(inData: data)
     buildTree()
 
     let writer = BitWriter()
-    var ptr = UnsafePointer<UInt8>(data.bytes)
+    var ptr = data.bytes.assumingMemoryBound(to: UInt8.self)
     for _ in 0..<data.length {
-      let c = ptr.memory
+      let c = ptr.pointee
       let i = Int(c)
       traverseTree(writer: writer, nodeIndex: i, childIndex: -1)
       ptr = ptr.successor()
@@ -141,15 +141,15 @@ extension Huffman {
   /* Recursively walks the tree from a leaf node up to the root, and then back
      again. If a child is the right node, we emit a 0 bit; if it's the left node,
      we emit a 1 bit. */
-  private func traverseTree(writer writer: BitWriter, nodeIndex h: Int, childIndex child: Int) {
+  private func traverseTree(writer: BitWriter, nodeIndex h: Int, childIndex child: Int) {
     if tree[h].parent != -1 {
       traverseTree(writer: writer, nodeIndex: tree[h].parent, childIndex: h)
     }
     if child != -1 {
       if child == tree[h].left {
-        writer.writeBit(true)
+        writer.writeBit(bit: true)
       } else if child == tree[h].right {
-        writer.writeBit(false)
+        writer.writeBit(bit: false)
       }
     }
   }
@@ -158,7 +158,7 @@ extension Huffman {
 extension Huffman {
   /* Takes a Huffman-compressed NSData object and outputs the uncompressed data. */
   public func decompressData(data: NSData, frequencyTable: [Freq]) -> NSData {
-    restoreTree(frequencyTable)
+    restoreTree(fromTable: frequencyTable)
 
     let reader = BitReader(data: data)
     let outData = NSMutableData()
@@ -167,7 +167,7 @@ extension Huffman {
     var i = 0
     while i < byteCount {
       var b = findLeafNode(reader: reader, nodeIndex: root)
-      outData.appendBytes(&b, length: 1)
+      outData.append(&b, length: 1)
       i += 1
     }
     return outData
@@ -177,7 +177,7 @@ extension Huffman {
      next bit and use that to determine whether to step to the left or right.
      When we get to the leaf node, we simply return its index, which is equal to
      the original byte value. */
-  private func findLeafNode(reader reader: BitReader, nodeIndex: Int) -> UInt8 {
+  private func findLeafNode(reader: BitReader, nodeIndex: Int) -> UInt8 {
     var h = nodeIndex
     while tree[h].right != -1 {
       if reader.readBit() {

@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7B80C3D81C77A313003CECC7 /* BinarySearchTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B80C3D71C77A313003CECC7 /* BinarySearchTree.swift */; };
 		7B80C3DA1C77A323003CECC7 /* BinarySearchTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B80C3D91C77A323003CECC7 /* BinarySearchTreeTests.swift */; };
+		9E5A58B91E304C3100DAB3BB /* BinarySearchTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5A58B81E304C3100DAB3BB /* BinarySearchTree.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7B2BBC801C779D720067B71D /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B2BBC941C779E7B0067B71D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
-		7B80C3D71C77A313003CECC7 /* BinarySearchTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BinarySearchTree.swift; path = ../BinarySearchTree.swift; sourceTree = SOURCE_ROOT; };
 		7B80C3D91C77A323003CECC7 /* BinarySearchTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearchTreeTests.swift; sourceTree = SOURCE_ROOT; };
+		9E5A58B81E304C3100DAB3BB /* BinarySearchTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BinarySearchTree.swift; path = ../BinarySearchTree.playground/Sources/BinarySearchTree.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +48,7 @@
 		7B2BBC831C779D720067B71D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				7B80C3D71C77A313003CECC7 /* BinarySearchTree.swift */,
+				9E5A58B81E304C3100DAB3BB /* BinarySearchTree.swift */,
 				7B80C3D91C77A323003CECC7 /* BinarySearchTreeTests.swift */,
 				7B2BBC941C779E7B0067B71D /* Info.plist */,
 			);
@@ -88,6 +88,7 @@
 				TargetAttributes = {
 					7B2BBC7F1C779D720067B71D = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
@@ -125,7 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B80C3DA1C77A323003CECC7 /* BinarySearchTreeTests.swift in Sources */,
-				7B80C3D81C77A313003CECC7 /* BinarySearchTree.swift in Sources */,
+				9E5A58B91E304C3100DAB3BB /* BinarySearchTree.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +221,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = swift.algorithm.club.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -231,6 +233,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = swift.algorithm.club.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

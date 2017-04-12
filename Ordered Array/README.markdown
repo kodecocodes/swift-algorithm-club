@@ -83,7 +83,7 @@ a              // [-2, -1, 1, 3, 4, 5, 7, 9, 10]
 
 The array's contents will always be sorted from low to high, now matter what.
 
-Unfortunately, the current `findInsertionPoint()` function is a bit slow. In the worst case, it needs to scan through the entire array. We can speed this up by using a [binary search](../Binary Search) to find the insertion point.
+Unfortunately, the current `findInsertionPoint()` function is a bit slow. In the worst case, it needs to scan through the entire array. We can speed this up by using a [binary search](../Binary%20Search) to find the insertion point.
 
 Here is the new version:
 

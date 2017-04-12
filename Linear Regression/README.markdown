@@ -30,7 +30,7 @@ We can describe the straight line in terms of two variables:
 
 This is the equation for our line:
 
-carPrice = slope * carAge + intercept 
+`carPrice = slope * carAge + intercept`
 
 
 How can we find the best values for the intercept and the slope? Let's look at two different ways to do this.
@@ -50,18 +50,19 @@ This is how we can represent our straight line:
 ```swift
 var intercept = 0.0
 var slope = 0.0
-func predictedCarPrice(carAge: Double) -> Double {
+func predictedCarPrice(_ carAge: Double) -> Double {
     return intercept + slope * carAge
 }
+
 ```
 Now for the code which will perform the iterations:
 
 ```swift
 let numberOfCarAdvertsWeSaw = carPrice.count
-let iterations = 2000
+let numberOfIterations = 100
 let alpha = 0.0001
 
-for n in 1...iterations {
+for n in 1...numberOfIterations {
     for i in 0..<numberOfCarAdvertsWeSaw {
         let difference = carPrice[i] - predictedCarPrice(carAge[i])
         intercept += alpha * difference
@@ -74,7 +75,7 @@ for n in 1...iterations {
 
 The program loops through each data point (each car age and car price). For each data point it adjusts the intercept and the slope to bring them closer to the correct values. The equations used in the code to adjust the intercept and the slope are based on moving in the direction of the maximal reduction of these variables. This is a *gradient descent*.
 
-We want to minimse the square of the distance between the line and the points. We define a function J which represents this distance - for simplicity we consider only one point here. This function J is proprotional to  ((slope.carAge+intercept) - carPrice))^2
+We want to minimse the square of the distance between the line and the points. We define a function `J` which represents this distance - for simplicity we consider only one point here. This function `J` is proprotional to `((slope.carAge + intercept) - carPrice)) ^ 2`.
 
 In order to move in the direction of maximal reduction, we take the partial derivative of this function with respect to the slope, and similarly for the intercept. We multiply these derivatives by our factor alpha and then use them to adjust the values of slope and intercept on each iteration.
 
@@ -104,8 +105,8 @@ There is another way we can calculate the line of best fit, without having to do
 First we need some helper functions. This one calculates the average (the mean) of an array of Doubles:
 
 ```swift
-func average(input: [Double]) -> Double {
-    return input.reduce(0, combine: +) / Double(input.count)
+func average(_ input: [Double]) -> Double {
+    return input.reduce(0, +) / Double(input.count)
 }
 ```
 We are using the ```reduce``` Swift function to sum up all the elements of the array, and then divide that by the number of elements. This gives us the mean value.
@@ -113,8 +114,8 @@ We are using the ```reduce``` Swift function to sum up all the elements of the a
 We also need to be able to multiply each element in an array by the corresponding element in another array, to create a new array. Here is a function which will do this:
 
 ```swift
-func multiply(input1: [Double], _ input2: [Double]) -> [Double] {
-    return input1.enumerate().map({ (index, element) in return element*input2[index] })
+func multiply(_ a: [Double], _ b: [Double]) -> [Double] {
+    return zip(a,b).map(*)
 }
 ```
 
@@ -123,15 +124,15 @@ We are using the ```map``` function to multiply each element.
 Finally, the function which fits the line to the data:
 
 ```swift
-func linearRegression(xVariable: [Double], _ yVariable: [Double]) -> (Double -> Double) {
-    let sum1 = average(multiply(xVariable, yVariable)) - average(xVariable) * average(yVariable)
-    let sum2 = average(multiply(xVariable, xVariable)) - pow(average(xVariable), 2)
+func linearRegression(_ xs: [Double], _ ys: [Double]) -> (Double) -> Double {
+    let sum1 = average(multiply(ys, xs)) - average(xs) * average(ys)
+    let sum2 = average(multiply(xs, xs)) - pow(average(xs), 2)
     let slope = sum1 / sum2
-    let intercept = average(yVariable) - slope * average(xVariable)
-    return { intercept + slope * $0 }
+    let intercept = average(ys) - slope * average(xs)
+    return { x in intercept + slope * x }
 }
 ```
-This function takes as arguments two arrays of Doubles, and returns a function which is the line of best fit. The formulas to calculate the slope and the intercept can be derived from our definition of the function J. Let's see how the output from this line fits our data:
+This function takes as arguments two arrays of Doubles, and returns a function which is the line of best fit. The formulas to calculate the slope and the intercept can be derived from our definition of the function `J`. Let's see how the output from this line fits our data:
 
 ![graph3](Images/graph3.png)
 

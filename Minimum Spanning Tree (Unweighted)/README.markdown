@@ -16,7 +16,7 @@ Drawn as a more conventional tree it looks like this:
 
 ![An actual tree](Images/Tree.png)
 
-To calculate the minimum spanning tree on an unweighted graph, we can use the [breadth-first search](../Breadth-First Search/) algorithm. Breadth-first search starts at a source node and traverses the graph by exploring the immediate neighbor nodes first, before moving to the next level neighbors. If we tweak this algorithm by selectively removing edges, then it can convert the graph into the minimum spanning tree.
+To calculate the minimum spanning tree on an unweighted graph, we can use the [breadth-first search](../Breadth-First%20Search/) algorithm. Breadth-first search starts at a source node and traverses the graph by exploring the immediate neighbor nodes first, before moving to the next level neighbors. If we tweak this algorithm by selectively removing edges, then it can convert the graph into the minimum spanning tree.
 
 Let's step through the example. We start with the source node `a`, add it to a queue and mark it as visited.
 
@@ -185,6 +185,6 @@ print(minimumSpanningTree) // [node: a edges: ["b", "h"]]
                            // [node: h edges: ["g", "i"]]
 ```
 
-> **Note:** On an unweighed graph, any spanning tree is always a minimal spanning tree. This means you can also use a [depth-first search](../Depth-First Search) to find the minimum spanning tree.
+> **Note:** On an unweighed graph, any spanning tree is always a minimal spanning tree. This means you can also use a [depth-first search](../Depth-First%20Search) to find the minimum spanning tree.
 
 *Written by [Chris Pilcher](https://github.com/chris-pilcher) and Matthijs Hollemans*

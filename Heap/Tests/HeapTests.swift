@@ -197,27 +197,27 @@ class HeapTests: XCTestCase {
     XCTAssertEqual(h.elements, [100, 50, 70, 10, 20, 60, 65])
 
     //test index out of bounds
-    let v = h.removeAt(index: 10)
+    let v = h.removeAt(10)
     XCTAssertEqual(v, nil)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [100, 50, 70, 10, 20, 60, 65])
     
-    let v1 = h.removeAt(index: 5)
+    let v1 = h.removeAt(5)
     XCTAssertEqual(v1, 60)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [100, 50, 70, 10, 20, 65])
 
-    let v2 = h.removeAt(index: 4)
+    let v2 = h.removeAt(4)
     XCTAssertEqual(v2, 20)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [100, 65, 70, 10, 50])
 
-    let v3 = h.removeAt(index: 4)
+    let v3 = h.removeAt(4)
     XCTAssertEqual(v3, 50)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [100, 65, 70, 10])
 
-    let v4 = h.removeAt(index: 0)
+    let v4 = h.removeAt(0)
     XCTAssertEqual(v4, 100)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [70, 65, 10])
@@ -270,7 +270,7 @@ class HeapTests: XCTestCase {
       let m = (n + 1)/2
       for k in 1...m {
         let i = Int(arc4random_uniform(UInt32(n - k + 1)))
-        let v = h.removeAt(index: i)!
+        let v = h.removeAt(i)!
         let j = a.index(of: v)!
         a.remove(at: j)
 

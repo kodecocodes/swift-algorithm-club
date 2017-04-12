@@ -18,7 +18,7 @@ public func randomArrayOfSets<T>(covering universe: Set<T>,
 
     while true {
       let randomUniverseIndex = Int(arc4random_uniform(UInt32(universe.count)))
-      for (setIndex, value) in universe.enumerate() {
+      for (setIndex, value) in universe.enumerated() {
         if setIndex == randomUniverseIndex {
           generatedSet.insert(value)
           break
