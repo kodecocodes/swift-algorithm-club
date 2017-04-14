@@ -23,19 +23,21 @@ First, we set base cases:
 2) If there's are two eggs and one floor, it takes one attempt
 
 eggNumber ==> Number of eggs at the moment
+
 floorNumber ==> Floor number at the moment
+
 visitingFloor ==> Floor being visited at the moment
+
 attempts ==> Minimum number of attempts it will take to find out from which floor egg will break
 
 When we drop an egg from a floor 'floorNumber', there can be two cases (1) The egg breaks (2) The egg doesn’t break.
 
-1) If the egg breaks after dropping from 'floorNumberth' floor, then we only need to check for floors lower than 'floorNumber' with remaining eggs; so the problem reduces to 'floorNumber'-1 floors and 'eggNumber'-1 eggs
-2) If the egg doesn’t break after dropping from the xth floor, then we only need to check for floors higher than 'floorNumber'; so the problem reduces to floors-'floorNumber' floors and 'eggNumber' eggs.
+1) If the egg breaks after dropping from 'visitingFloorth' floor, then we only need to check for floors lower than 'visitingFloor' with remaining eggs; so the problem reduces to 'visitingFloor'-1 floors and 'eggNumber'-1 eggs.
+2) If the egg doesn’t break after dropping from the 'visitingFloorth' floor, then we only need to check for floors higher than 'visitingFloor'; so the problem reduces to floors-'visitingFloor' floors and 'eggNumber' eggs.
 
 Since we need to minimize the number of trials in worst case, we take the maximum of two cases. We consider the max of above two cases for every floor and choose the floor which yields minimum number of trials.
 
 ```swift
-
 attempts = 1 + max(eggFloor[eggNumber-1][floors-1], eggFloor[eggNumber][floorNumber-floors])//we add one taking into account the attempt we're taking at the moment
 
 if attempts < eggFloor[eggNumber][floorNumber]{ //finding the min
