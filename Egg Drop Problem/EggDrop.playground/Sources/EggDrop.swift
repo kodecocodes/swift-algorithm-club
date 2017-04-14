@@ -10,21 +10,21 @@ public func eggDrop(numberOfEggs: Int, numberOfFloors: Int) -> Int {
     var attempts: Int = 0
     
     for var floorNumber in (0..<(numberOfFloors+1)){
-        eggFloor[1][floorNumber] = floorNumber
+        eggFloor[1][floorNumber] = floorNumber      //base case: if there's only one egg, it takes 'numberOfFloors' attempts
         for var eggNumber in (2..<(numberOfEggs+1)){
             eggFloor[eggNumber][floorNumber] = 0
         }
     }
-    eggFloor[2][1] = 1
+    eggFloor[2][1] = 1 //base case: if there's are two eggs and one floor, it takes one attempt
     
     for var eggNumber in (2..<(numberOfEggs+1)){
         for var floorNumber in (2..<(numberOfFloors+1)){
             eggFloor[eggNumber][floorNumber] = 1000000
-            for var floors in (1..<(floorNumber+1)){
+            for var visitingFloor in (1..<(floorNumber+1)){
                 //there are two cases
-                //case 1: egg breaks. meaning we'll have one less egg, and we'll have to go downstairs -> k-1
-                //case 2: egg doesn't break. meaning we'll still have 'eggs' number of eggs, and we'll go upstairs -> floors-k
-                attempts = 1 + max(eggFloor[eggNumber-1][floors-1], eggFloor[eggNumber][floorNumber-floors])//we add one taking into account the attempt we're taking at the moment
+                //case 1: egg breaks. meaning we'll have one less egg, and we'll have to go downstairs -> visitingFloor-1
+                //case 2: egg doesn't break. meaning we'll still have 'eggs' number of eggs, and we'll go upstairs -> floorNumber-visitingFloor
+                attempts = 1 + max(eggFloor[eggNumber-1][visitingFloor-1], eggFloor[eggNumber][floorNumber-visitingFloor])//we add one taking into account the attempt we're taking at the moment
                 
                 if attempts < eggFloor[eggNumber][floorNumber]{ //finding the min
                     eggFloor[eggNumber][floorNumber] = attempts;
