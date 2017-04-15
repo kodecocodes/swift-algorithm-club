@@ -186,5 +186,5 @@ for itemIndex in 1...knapsackItems.count {
         }
 }
 ```
-
+The solution for this problem is based on [Tushar Roy's Knapsack tutorial](https://www.youtube.com/watch?v=8LusJS5-AGo&t=315s). 
 
