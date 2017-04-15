@@ -65,7 +65,7 @@ Again if the `capacityOfBag` is **2** and the weight of `KnapsackItem` is **3** 
 
 If the `capacityOfBag` is **3** and the weight of `KnapsackItem` is **3** which is equal to **3**, we have to choices to select **3** or not select **3**. We have to check what is the best we can do by selecting this `KnapsackItem`.
 
-If we select this item it gives us `value` **4** + whatever `weight` is remaining after we select this `KnapsackItem` is **3-3 = 0** by going up and moving three steps to left which is **0**. Or what is the best we can do without selecting this `KnapsackItem` which is 1.
+If we select this item it gives us `value` **4** + whatever `weight` is remaining after we select this `KnapsackItem` is **3-3 = 0** by going up and moving three steps to left which is tableOfValues[0][3]. Or what is the best we can do without selecting this `KnapsackItem` which is 1.
 
 ```
 max(4 + tableOfValues[1-1][3-3], tableOfValues[1-1][3]) = max(4 + 0, 1) = 4
