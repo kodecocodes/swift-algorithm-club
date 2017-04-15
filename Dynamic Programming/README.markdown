@@ -117,3 +117,15 @@ If the `capacityOfBag` is **6** or greater and we have two `KnapsackItem` **(1 a
 (5) 4 | 0 |  |  |  |  |  |  | 
 (7) 5 | 0 |  |  |  |  |  |  |
 
+Using similar algorithmic approach we fill `tableOfValues`.
+
+(value) weight | 0 | 1 | 2 | 3  |4  | 5 | 6 | 7
+---------------|---|---|---|---|--|---|---|--
+(1) 1 | 0 | 1 | 1| 1 | 1| 1 | 1 | 1
+(4) 3 | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5
+(5) 4 | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9
+(7) 5 | 0 | 1 | 1 | 4 |  5| 7 | 8 | 9 :small_blue_diamond:
+
+The answer for the problem is the value at `tableOfValues[3][7]` which is **9**.
+
+
