@@ -128,6 +128,24 @@ Using similar algorithmic approach we fill `tableOfValues`.
 
 The answer for the problem is the value at `tableOfValues[3][7]` which is **9**.
 
-Testing
+## Code
+
+The algorithm of the problem is if `totalWeight` is less than the weight of the `KnapsackItem` at index `itemIndex` in `knapsackItems` array, the maximum value at `tableOfValues[totalWeight][itemIndex]` will be whatever the best we can do without this `KnapsackItem`. 
+
+Else if `totalWeight` is less than the weight of the `KnapsackItem`, the maximum value at `tableOfValues[totalWeight][itemIndex]` will be the `value` of the item + whatever `weight` is remaining after we select this `KnapsackItem` or what is the best we can do without selecting this `KnapsackItem`.
+
+```swift
+for itemIndex in 1...knapsackItems.count {
+        for totalWeight in 1...capacityOfBag {
+            
+            if totalWeight < knapsackItems[itemIndex-1].weight {
+                tableOfValues[itemIndex][totalWeight] = tableOfValues[itemIndex-1][totalWeight]
+            } else {
+                let remainingCapacity = totalWeight - knapsackItems[itemIndex-1].weight
+                tableOfValues[itemIndex][totalWeight] = max(knapsackItems[itemIndex-1].value + tableOfValues[itemIndex-1][remainingCapacity], tableOfValues[itemIndex-1][totalWeight])
+            }
+        }
+}
+```
 
 
