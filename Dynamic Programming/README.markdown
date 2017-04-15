@@ -23,7 +23,7 @@ weight | value
 4 | 5
 5 | 7
 
-Lets try solve this problem on two dimensional matrix where total number of columns is the same as `capacityOfBag`+1 and total number of rows is the same as the total `knapsackItems`.
+Lets try solve this problem on two dimensional matrix `tableOfValues` where total number of columns is the same as `capacityOfBag`+1 and total number of rows is the same as the total `knapsackItems`.
 
 (value) weight | 0 | 1 | 2 | 3 |4 | 5 | 6 | 7
 ---------------|---|---|---|---|--|---|---|--
@@ -46,4 +46,52 @@ If the `capacityOfBag` is **1** and the weight of `KnapsackItem` is **1** the be
 (7) 5 | 0 |  |  |  |  |  |  | 
 
 If the `capacityOfBag` is **1** and the weight of `KnapsackItem` is **3** which is greater than **1**, **3** can never be selected. So what we do is the best we can do without selecting **3** is **1**.
+
+(value) weight | 0 | 1 :heavy_check_mark: | 2 | 3 |4 | 5 | 6 | 7
+---------------|---|---|---|---|--|---|---|--
+(1) 1 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1
+(4) 3 | 0 | 1 |  |  |  |  |  | 
+(5) 4 | 0 |  |  |  |  |  |  | 
+(7) 5 | 0 |  |  |  |  |  |  | 
+
+Again if the `capacityOfBag` is **2** and the weight of `KnapsackItem` is **3** which is greater than **2**, **3** can never be selected. So what we do is the best we can do without selecting **3** is **2**.
+
+(value) weight | 0 | 1 | 2 :heavy_check_mark: | 3 |4 | 5 | 6 | 7
+---------------|---|---|---|---|--|---|---|--
+(1) 1 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1
+(4) 3 | 0 | 1 | 1 |  |  |  |  | 
+(5) 4 | 0 |  |  |  |  |  |  | 
+(7) 5 | 0 |  |  |  |  |  |  |
+
+If the `capacityOfBag` is **3** and the weight of `KnapsackItem` is **3** which is equal to **3**, we have to choices to select **3** or not select **3**. We have to check what is the best we can do by selecting this `KnapsackItem`.
+
+If we select this item it gives us `value` **4** + whatever `weight` is remaining after we select this `KnapsackItem` is **3-3 = 0** by going up and moving three steps to left which is **0**. Or what is the best we can do without selecting this `KnapsackItem` which is 1.
+
+```
+max(4 + tableOfValues[1-1][3-3], tableOfValues[1-1][3]) = max(4 + 0, 1) = 4
+```
+
+(value) weight | 0 | 1 | 2 | 3 :heavy_check_mark: |4 | 5 | 6 | 7
+---------------|---|---|---|---|--|---|---|--
+(1) 1 | ***0*** | 1 | 1 |  ***1*** | 1 | 1 | 1 | 1
+(4) 3 | 0 | 1 | 1 | 4 |  |  |  | 
+(5) 4 | 0 |  |  |  |  |  |  | 
+(7) 5 | 0 |  |  |  |  |  |  |
+
+If the `capacityOfBag` is **4** and the weight of `KnapsackItem` is **3** which is less than **4**, we have to choices to select **3** or not select **3**. We have to check what is the best we can do by selecting this `KnapsackItem`.
+
+If we select this item it gives us `value` **4** + whatever `weight` is remaining after we select this `KnapsackItem` is **4-3 = 0** by going up and moving three steps to left which is **1**. Or what is the best we can do without selecting this `KnapsackItem` which is 1.
+
+```
+max(4 + tableOfValues[1-1][4-3], tableOfValues[1-1][1]) = max(4 + 1, 1) = 5
+```
+
+(value) weight | 0 | 1 | 2 | 3  |4 :heavy_check_mark: | 5 | 6 | 7
+---------------|---|---|---|---|--|---|---|--
+(1) 1 | 0 | ***1*** | 1 | 1 | ***1*** | 1 | 1 | 1
+(4) 3 | 0 | 1 | 1 | 4 | 5 |  |  | 
+(5) 4 | 0 |  |  |  |  |  |  | 
+(7) 5 | 0 |  |  |  |  |  |  |
+
+
 
