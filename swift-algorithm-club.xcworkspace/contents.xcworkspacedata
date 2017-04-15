@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <Group
-      location = "group:Dynamic Programming"
-      name = "Dynamic Programming">
-      <Group
-         location = "group:0-1 Knapsack"
-         name = "0-1 Knapsack">
-         <FileRef
-            location = "group:Knapsack.swift">
-         </FileRef>
-         <FileRef
-            location = "group:Knapsack.playground">
-         </FileRef>
-      </Group>
-   </Group>
    <FileRef
       location = "group:/Users/admin/Desktop/swift-algorithm-club/README.markdown">
    </FileRef>
@@ -39,6 +25,23 @@
    <FileRef
       location = "group:Why Algorithms.markdown">
    </FileRef>
+   <Group
+      location = "group:Dynamic Programming"
+      name = "Dynamic Programming">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:0-1 Knapsack"
+         name = "0-1 Knapsack">
+         <FileRef
+            location = "group:Knapsack.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Knapsack.playground">
+         </FileRef>
+      </Group>
+   </Group>
    <Group
       location = "group:Miller-Rabin Primality Test"
       name = "Miller-Rabin Primality Test">
