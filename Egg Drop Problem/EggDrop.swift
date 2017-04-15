@@ -2,7 +2,7 @@ public func eggDrop(numberOfEggs: Int, numberOfFloors: Int) -> Int {
     if numberOfEggs == 0 || numberOfFloors == 0{ //edge case: When either number of eggs or number of floors is 0, answer is 0
         return 0
     }
-    if numberOfEggs == 1 || numberOfFloors == 1{
+    if numberOfEggs == 1 || numberOfFloors == 1{ //edge case: When either number of eggs or number of floors is 1, answer is 1
         return 1
     }
     
@@ -33,6 +33,7 @@ public func eggDrop(numberOfEggs: Int, numberOfFloors: Int) -> Int {
     return eggFloor[numberOfEggs][numberOfFloors]
 }
 
+//Helper function to find max of two integers
 public func max(_ x1: Int, _ x2: Int) -> Int{
     return x1 > x2 ? x1 : x2
 }
