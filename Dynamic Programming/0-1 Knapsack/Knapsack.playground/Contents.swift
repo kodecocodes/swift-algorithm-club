@@ -31,18 +31,17 @@ func knapsack() -> Int {
             }
         }
     }
-    return tableOfValues[knapsackItems.count-1][capacityOfBag]
+    return tableOfValues[knapsackItems.count][capacityOfBag]
 }
 
 func solution() {
     
-    capacityOfBag = 4
+    capacityOfBag = 7
     
-    knapsackItems = [KnapsackItem(weight: 1, value: 8),
-                     KnapsackItem(weight: 2, value: 4),
-                     KnapsackItem(weight: 3, value: 0),
-                     KnapsackItem(weight: 2, value: 5),
-                     KnapsackItem(weight: 2, value: 3)]
+    knapsackItems = [KnapsackItem(weight: 1, value: 1),
+                     KnapsackItem(weight: 3, value: 4),
+                     KnapsackItem(weight: 4, value: 5),
+                     KnapsackItem(weight: 5, value: 7)]
     
     let result = knapsack()
     
