@@ -4,9 +4,6 @@
    <Group
       location = "group:Dynamic Programming"
       name = "Dynamic Programming">
-      <FileRef
-         location = "group:../README.markdown">
-      </FileRef>
       <Group
          location = "group:0-1 Knapsack"
          name = "0-1 Knapsack">
