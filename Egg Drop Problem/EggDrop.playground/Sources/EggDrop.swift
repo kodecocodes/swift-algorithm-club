@@ -1,5 +1,5 @@
 public func eggDrop(numberOfEggs: Int, numberOfFloors: Int) -> Int {
-    if numberOfEggs == 0 || numberOfFloors == 0{
+    if numberOfEggs == 0 || numberOfFloors == 0{ //edge case: When either number of eggs or number of floors is 0, answer is 0
         return 0
     }
     if numberOfEggs == 1 || numberOfFloors == 1{
@@ -11,15 +11,12 @@ public func eggDrop(numberOfEggs: Int, numberOfFloors: Int) -> Int {
     
     for var floorNumber in (0..<(numberOfFloors+1)){
         eggFloor[1][floorNumber] = floorNumber      //base case: if there's only one egg, it takes 'numberOfFloors' attempts
-        for var eggNumber in (2..<(numberOfEggs+1)){
-            eggFloor[eggNumber][floorNumber] = 0
-        }
     }
-    eggFloor[2][1] = 1 //base case: if there's are two eggs and one floor, it takes one attempt
+    eggFloor[2][1] = 1 //base case: if there are two eggs and one floor, it takes one attempt
     
     for var eggNumber in (2..<(numberOfEggs+1)){
         for var floorNumber in (2..<(numberOfFloors+1)){
-            eggFloor[eggNumber][floorNumber] = 1000000
+            eggFloor[eggNumber][floorNumber] = Int.max   //setting the final result a high number to find out minimum
             for var visitingFloor in (1..<(floorNumber+1)){
                 //there are two cases
                 //case 1: egg breaks. meaning we'll have one less egg, and we'll have to go downstairs -> visitingFloor-1
