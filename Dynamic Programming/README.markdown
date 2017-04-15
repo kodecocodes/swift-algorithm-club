@@ -12,5 +12,38 @@ In other words, given array `knapsackItems` which represent values and weights a
 
 ## Solution
 
+Whenever new item comes in you have to decide to pick this item or not and you have to find which gives you the maximum value. If you pick the item the maximum value will the value of the item plus whatever we get by subtracting this value from the total weight and excluding this item or the best you can do without including this item or both.
 
+`capacityOfBag` is 7 and `knapsackItems`
+
+weight | value
+-------|------
+1 | 1
+3 | 4
+4 | 5
+5 | 7
+
+Lets try solve this problem on two dimensional matrix where total number of columns is the same as `capacityOfBag`+1 and total number of rows is the same as the total `knapsackItems`.
+
+(value) weight | 0 | 1 | 2 | 3 |4 | 5 | 6 | 7
+---------------|---|---|---|---|--|---|---|--
+(1) 1 | 0 |  |  |  |  |  |  | 
+(4) 3 | 0 |  |  |  |  |  |  | 
+(5) 4 | 0 |  |  |  |  |  |  | 
+(7) 5 | 0 |  |  |  |  |  |  | 
+
+The first column is **0** which means that if `capacityOfBag` is **0** no matter what items I have the maximum value will be **0**.
+
+#### Lets start solving the problem
+
+If the `capacityOfBag` is **1** and the weight of `KnapsackItem` is **1** the best we can do is **1**. Similarly, if the `capacityOfBag` is **2** and the weight of `KnapsackItem` is **1** the best we can do is **1**.
+
+(value) weight | 0 | 1 | 2 | 3 |4 | 5 | 6 | 7
+---------------|---|---|---|---|--|---|---|--
+(1) 1 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1
+(4) 3 | 0 |  |  |  |  |  |  | 
+(5) 4 | 0 |  |  |  |  |  |  | 
+(7) 5 | 0 |  |  |  |  |  |  | 
+
+If the `capacityOfBag` is **1** and the weight of `KnapsackItem` is **3** which is greater than **1**, **3** can never be selected. So what we do is the best we can do without selecting **3** is **1**.
 
