@@ -25,7 +25,7 @@ We store all the solutions in a 2D array. Where rows represents number of eggs a
 
 First, we set base cases:
 1) If there's only one egg, it takes as many attempts as number of floors
-2) If there's are two eggs and one floor, it takes one attempt
+2) If there are two eggs and one floor, it takes one attempt
 
 ```swift
 for var floorNumber in (0..<(numberOfFloors+1)){
@@ -50,3 +50,15 @@ if attempts < eggFloor[eggNumber][floorNumber]{ //finding the min
     eggFloor[eggNumber][floorNumber] = attempts;
 }
 ```
+Example:
+Let's assume we have 2 eggs and 2 floors.
+1) We drop one egg from the first floor. If it breaks, then we get the answer. If it doesn't we'll have 2 eggs and 1 floors to work with.
+    attempts = 1 + maximum of 0(got the answer) and eggFloor[2][1] (base case 2 which gives us 1)
+    attempts = 1 + 1 = 2
+2) We drop one egg from the second floor. If it breaks, we'll have 1 egg and 1 floors to work with. If it doesn't, we'll get the answer.
+    attempts = 1 + maximum of eggFloor[1][1](base case 1 which gives us 1) and 0(got the answer)
+    attempts = 1 + 1 = 2
+3) Finding the minimum of 2 and 2 gives us 2, so the answer is 2. 
+   2 is the minimum number of attempts it will take to find out from which floor egg will break.
+
+

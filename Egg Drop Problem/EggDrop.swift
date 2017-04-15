@@ -11,9 +11,6 @@ public func eggDrop(numberOfEggs: Int, numberOfFloors: Int) -> Int {
     
     for var floorNumber in (0..<(numberOfFloors+1)){
         eggFloor[1][floorNumber] = floorNumber      //base case: if there's only one egg, it takes 'numberOfFloors' attempts
-        for var eggNumber in (2..<(numberOfEggs+1)){
-            eggFloor[eggNumber][floorNumber] = 0
-        }
     }
     eggFloor[2][1] = 1 //base case: if there are two eggs and one floor, it takes one attempt
     
