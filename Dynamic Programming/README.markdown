@@ -47,7 +47,7 @@ weight | value
 4 | 5
 5 | 7
 
-Lets try solve this problem on two dimensional matrix `tableOfValues` where total number of columns is the same as `capacityOfBag`+1 and total number of rows is the same as the total `knapsackItems`. Columns represent available `totalWeight`.
+Lets try solve this problem on two dimensional matrix `tableOfValues` where total number of columns is the same as `capacityOfBag`+1 and total number of rows is the same as the total `knapsackItems`. Columns represent available `totalWeight` which `weight` currently available in the bag.
 
 ```swift
 var tableOfValues = [[Int]]()
@@ -104,7 +104,7 @@ If the `totalWeight` is **3** and the `weight` of `KnapsackItem` is **3** which 
 
 If we select this item it gives us `value` **4** + whatever `weight` is remaining after we select this `KnapsackItem` which is **3-3 = 0**. This `weight` corresponds to  `tableOfValues[itemIndex-1][totalWeight-weight]` by going up and moving three steps to left which is `tableOfValues[1][0]`. Or what is the best we can do without selecting this `KnapsackItem` which is 1.
 
-```
+```swift
 max(4 + tableOfValues[itemIndex-1][totalWeight-weight], tableOfValues[itemIndex-1][totalWeight]) = max(4 + tableOfValues[1][0], tableOfValues[1][3]) = max(4 + 0, 1) = 4
 ```
 
@@ -134,7 +134,7 @@ If the `totalWeight` is **5** and the weight of `KnapsackItem` is **3** which is
 
 If we select this item it gives us `value` **4** + whatever `weight` is remaining after we select this `KnapsackItem` is **5-3 = 2** by going up and moving three steps to left which is `tableOfValues[1][2]`. Or what is the best we can do without selecting this `KnapsackItem` which is 1.
 
-```
+```swift
 max(4 + tableOfValues[2-1][5-3], tableOfValues[2-1][5]) = max(4 + tableOfValues[1][2], tableOfValues[1][5]) = max(4 + 1, 1) = 5
 ```
 
