@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:Dynamic Programming"
+      name = "Dynamic Programming">
+      <Group
+         location = "group:0-1 Knapsack"
+         name = "0-1 Knapsack">
+         <FileRef
+            location = "group:Knapsack.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Knapsack.playground">
+         </FileRef>
+      </Group>
+   </Group>
    <FileRef
       location = "group:README.markdown">
    </FileRef>
