@@ -14,13 +14,13 @@
          location = "group:0:1 Knapsack"
          name = "0:1 Knapsack">
          <FileRef
-            location = "group:/Users/admin/swift-algorithm-club/Dynamic Programming Knapsack /Knapsack.playground">
+            location = "group:Knapsack.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Knapsack.playground">
          </FileRef>
          <FileRef
             location = "group:README.markdown">
-         </FileRef>
-         <FileRef
-            location = "group:/Users/admin/swift-algorithm-club/Dynamic Programming Knapsack /Knapsack.swift">
          </FileRef>
       </Group>
    </Group>
