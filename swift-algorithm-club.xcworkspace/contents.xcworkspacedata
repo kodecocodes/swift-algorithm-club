@@ -16,7 +16,7 @@
       </Group>
    </Group>
    <FileRef
-      location = "group:README.markdown">
+      location = "group:/Users/admin/Desktop/swift-algorithm-club/README.markdown">
    </FileRef>
    <FileRef
       location = "group:LICENSE.txt">
