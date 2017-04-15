@@ -1,6 +1,6 @@
-#Egg Drop Dynamic Problem
+# Egg Drop Dynamic Problem
 
-#Problem Description 
+# Problem Description 
 
 Given some number of floors and some number of eggs, what is the minimum number of attempts it will take to find out from which floor egg will break.
 
@@ -15,7 +15,7 @@ Suppose that we wish to know which stories in a 36-story building are safe to dr
 If only one egg is available and we wish to be sure of obtaining the right result, the experiment can be carried out in only one way. Drop the egg from the first-floor window; if it survives, drop it from the second floor window. Continue upward until it breaks. In the worst case, this method may require 36 droppings. Suppose 2 eggs are available. What is the least number of egg-droppings that is guaranteed to work in all cases?
 The problem is not actually to find the critical floor, but merely to decide floors from which eggs should be dropped so that total number of trials are minimized.
 
-#Solution
+# Solution
 - eggNumber -> Number of eggs at the moment
 - floorNumber -> Floor number at the moment
 - visitingFloor -> Floor being visited at the moment
