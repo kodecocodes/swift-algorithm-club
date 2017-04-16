@@ -33,49 +33,143 @@ extension Array where Element == Int {
     
 }
 
-class NaiveBayes {
+enum NBType {
     
-    private var data: [[Double]]
-    private var classes: [Int]
-    private var variables: [Int: [(feature: Int, mean: Double, stDev: Double)]]
+    case gaussian(data: [[Double]], classes: [Int])
+    case multinomial(data: [[Int]], classes: [Int])
+    //case bernoulli(data: [[Bool]], classes: [Int]) --> TODO
     
-    init(data: [[Double]], classes: [Int]) {
-        self.data = data
-        self.classes = classes
-        self.variables = [Int: [(feature: Int, mean: Double, stDev: Double)]]()
-    }
-    
-    convenience init(dataAndClasses: [[Double]], rowOfClass: Int) {
-        let classes = dataAndClasses.map { Int($0[rowOfClass]) }
-        let data = dataAndClasses.map { row in
-            return row.enumerated().filter { $0.offset != rowOfClass }.map { $0.element }
+    var classes: [Int] {
+        if case .gaussian(_, let classes) = self {
+            return classes
+        } else if case .multinomial(_, let classes) = self {
+            return classes
         }
         
-        self.init(data: data, classes: classes)
+        return []
     }
     
+    var data: [[Any]] {
+        if case .gaussian(let data, _) = self {
+            return data
+        } else if case .multinomial(let data, _) = self {
+            return data
+        }
+        
+        return []
+    }
+    
+    func calcLikelihood(variables: [Any], input: Any) -> Double? {
+        
+        if case .gaussian = self {
+            
+            guard let input = input as? Double else {
+                return nil
+            }
+            
+            guard let mean = variables[0] as? Double else {
+                return nil
+            }
+            
+            guard let stDev = variables[1] as? Double else {
+                return nil
+            }
+            
+            let eulerPart = pow(M_E, -1 * pow(input - mean, 2) / (2 * pow(stDev, 2)))
+            let distribution = eulerPart / sqrt(2 * .pi) / stDev
+            
+            return distribution
+            
+        } else if case .multinomial = self {
+            
+            guard let variables = variables as? [(category: Int, probability: Double)] else {
+                return nil
+            }
+            
+            guard let input = input as? Double else {
+                return nil
+            }
+            
+            return variables.first { variable in
+                return variable.category == Int(input)
+                }?.probability
+            
+        }
+        
+        return nil
+    }
+    
+    func train(values: [Any]) -> [Any]? {
+        
+        if case .gaussian = self {
+            
+            guard let values = values as? [Double] else {
+                return nil
+            }
+            
+            return [values.mean(), values.standardDeviation()]
+            
+        } else if case .multinomial = self {
+            
+            guard let values = values as? [Int] else {
+                return nil
+            }
+            
+            let count = values.count
+            let categoryProba = values.uniques().map { value -> (Int, Double) in
+                return (value, Double(values.filter { $0 == value }.count) / Double(count))
+            }
+            return categoryProba
+        }
+        
+        return nil
+    }
+}
+
+class NaiveBayes {
+    
+    private var variables: [Int: [(feature: Int, variables: [Any])]]
+    private var type: NBType
+    
+    init(type: NBType) {
+        self.type = type
+        self.variables = [Int: [(Int, [Any])]]()
+    }
+    
+    static func convert<T: Any>(dataAndClasses: [[T]], rowOfClasses: Int) -> (data: [[T]], classes: [Int]) {
+        let classes = dataAndClasses.map { Int($0[rowOfClasses] as! Double) } //TODO
+        
+        let data = dataAndClasses.map { row in
+            return row.enumerated().filter { $0.offset != rowOfClasses }.map { $0.element }
+        }
+        
+        return (data, classes)
+    }
+    
+    //TODO remake pliss, i dont like this at all
     func train() {
+        
+        var classes = type.classes
         
         for `class` in classes.uniques() {
             
-            variables[`class`] = [(feature: Int, mean: Double, stDev: Double)]()
+            variables[`class`] = [(Int, [Any])]()
             
-            for feature in 0..<data[0].count {
+            for feature in 0..<type.data[0].count {
                 
-                let values = data.map { $0[feature] }.enumerated().filter { (offset, _) in
+                let values = type.data.map { $0[feature] }.enumerated().filter { (offset, _) in
                     return classes[offset] == `class`
                     }.map { $0.element }
                 
-                variables[`class`]?.append((feature, values.mean(), values.standardDeviation()))
+                let trained = type.train(values: values) ?? [Any]()
+                
+                variables[`class`]?.append((feature, trained))
             }
         }
-        
-        //This is just for the sake of clearing RAM
-        data.removeAll(keepingCapacity: false)
     }
     
     func classify(with input: [Double]) -> Int {
-        let likelihoods = calcLikelihoods(with: input).max { (first, second) -> Bool in
+        let likelihoods = classifyProba(with: input).max { (first, second) -> Bool in
             return first.1 < second.1
         }
         
@@ -86,8 +180,10 @@ class NaiveBayes {
         return `class`
     }
     
-    func calcLikelihoods(with input: [Double]) -> [(Int, Double)] {
+    //TODO fix this doesnt have to be a double
+    func classifyProba(with input: [Double]) -> [(Int, Double)] {
         
+        let classes = type.classes
         var probaClass = [Int: Double]()
         let amount = classes.count
         
@@ -96,18 +192,15 @@ class NaiveBayes {
             probaClass[`class`] = Double(individual) / Double(amount)
         }
         
-        let classesAndFeatures = variables.map { (key, value) -> (Int, [Double]) in
-            let distributions = value.map { (feature, mean, stDev) -> Double in
-                let featureValue = input[feature]
-                let eulerPart = pow(M_E, -1 * pow(featureValue - mean, 2) / (2 * pow(stDev, 2)))
-                let distribution = eulerPart / sqrt(2 * .pi) / stDev
-                return distribution
+        let classesAndFeatures = variables.map { (`class`, value) -> (Int, [Double]) in
+            let distribution = value.map { (feature, variables) -> Double in
+                return type.calcLikelihood(variables: variables, input: input[feature]) ?? 0.0
             }
-            return (key, distributions)
+            return (`class`, distribution)
         }
         
-        let likelihoods = classesAndFeatures.map { (key, probaFeature) in
-            return (key, probaFeature.reduce(1, *) * (probaClass[key] ?? 1.0))
+        let likelihoods = classesAndFeatures.map { (`class`, distribution) in
+            return (`class`, distribution.reduce(1, *) * (probaClass[`class`] ?? 1.0))
         }
         
         let sum = likelihoods.map { $0.1 }.reduce(0, +)
@@ -118,38 +211,6 @@ class NaiveBayes {
         return normalized
     }
 }
-
-let data: [[Double]] = [
-    [6, 180, 12],
-    [5.92, 190, 11],
-    [5.58, 170, 12],
-    [5.92, 165, 10],
-    [5, 100, 6],
-    [5.5, 150, 8],
-    [5.42, 130, 7],
-    [5.75, 150, 9]
-]
-
-let classes = [0, 0, 0, 0, 1, 1, 1, 1]
-
-let naive = NaiveBayes(data: data, classes: classes)
-naive.train()
-print(naive.classify(with: [6, 130, 8]))
-
-let otherData: [[Double]] = [
-    [6, 180, 12, 0],
-    [5.92, 190, 11, 0],
-    [5.58, 170, 12, 0],
-    [5.92, 165, 10, 0],
-    [5, 100, 6, 1],
-    [5.5, 150, 8, 1],
-    [5.42, 130, 7, 1],
-    [5.75, 150, 9, 1]
-]
-
-let otherNaive = NaiveBayes(dataAndClasses: otherData, rowOfClass: 3)
-otherNaive.train()
-print(otherNaive.calcLikelihoods(with: [6, 130, 8]))
 
 guard let csv = try? String(contentsOfFile: "/Users/ph1ps/Desktop/wine.csv") else {
     print("file not found")
@@ -162,6 +223,28 @@ let wineData = rows.map { row -> [Double] in
     return split.map { Double(String($0))! }
 }
 
-let wineNaive = NaiveBayes(dataAndClasses: wineData, rowOfClass: 0)
+let convertedWine = NaiveBayes.convert(dataAndClasses: wineData, rowOfClasses: 0)
+let wineNaive = NaiveBayes(type: .gaussian(data: convertedWine.data, classes: convertedWine.classes))
 wineNaive.train()
-print(wineNaive.calcLikelihoods(with: [12.85, 1.6, 2.52, 17.8, 95, 2.48, 2.37, 0.26, 1.46, 3.93, 1.09, 3.63, 1015]))
+print(wineNaive.classifyProba(with: [12.85, 1.6, 2.52, 17.8, 95, 2.48, 2.37, 0.26, 1.46, 3.93, 1.09, 3.63, 1015]))
+
+let golfData = [
+    [0, 0, 0, 0],
+    [0, 0, 0, 1],
+    [1, 0, 0, 0],
+    [2, 1, 0, 0],
+    [2, 2, 1, 0],
+    [2, 2, 1, 1],
+    [1, 2, 1, 1],
+    [0, 1, 0, 0],
+    [0, 2, 1, 0],
+    [2, 1, 1, 0],
+    [0, 1, 1, 1],
+    [1, 1, 0, 1],
+    [1, 0, 1, 0],
+    [2, 1, 0, 1]
+]
+let golfClasses =  [0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0]
+let golfNaive = NaiveBayes(type: .multinomial(data: golfData, classes: golfClasses))
+golfNaive.train()
+print(golfNaive.classifyProba(with: [0, 2, 0, 1]))
