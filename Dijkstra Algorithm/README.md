@@ -9,9 +9,11 @@ This repository contains to playgrounds:
 Click the link: [YouTube](https://youtu.be/PPESI7et0cQ)
 
 ## Screenshots
-<img src="Screenshots/screenshot1.jpg" height="400" />
+<img src="Images/screenshot1.jpg" height="400" />
 
 ## Dijkstra's algorithm explanation
+
+<img src="Images/Dijkstra_Animation.gif" height="250" />
 
 Wikipedia's explanation:
 Let the node at which we are starting be called the initial node. Let the distance of node Y be the distance from the initial node to Y. Dijkstra's algorithm will assign some initial distance values and will try to improve them step by step.
@@ -33,6 +35,10 @@ Cycle:
 2. The algorithm marks picked vertex as visited.
 3. The algorithm check all of its neighbors. If the current vertex path length from the start plus an edge weight to a neighbor less than the neighbor current path length from the start, than it assigns new path length from the start to the neihgbor.
 When all vertices are marked as visited, the algorithm's job is done. Now, you can see the shortest path from the start for every vertex by pressing the one you are interested in.
+
+## Usage
+
+
 
 ## Credits
 WWDC 2017 Scholarship Project  
