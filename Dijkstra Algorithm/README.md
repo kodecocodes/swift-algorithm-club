@@ -15,7 +15,7 @@ Click the link: [YouTube](https://youtu.be/PPESI7et0cQ)
 
 <img src="Images/Dijkstra_Animation.gif" height="250" />
 
-Wikipedia's explanation:
+[Wikipedia](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)'s explanation:
 Let the node at which we are starting be called the initial node. Let the distance of node Y be the distance from the initial node to Y. Dijkstra's algorithm will assign some initial distance values and will try to improve them step by step.
 
 1. Assign to every node a tentative distance value: set it to zero for our initial node and to infinity for all other nodes.
