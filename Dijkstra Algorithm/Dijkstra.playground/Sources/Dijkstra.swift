@@ -15,18 +15,18 @@ public class Dijkstra {
         self.clearCache()
         startVertex.pathLengthFromStart = 0
         startVertex.pathVerticesFromStart.append(startVertex)
-        var currentVertex: Vertex! = startVertex
-        while currentVertex != nil {
-            totalVertices.remove(currentVertex)
-            let filteredNeighbors = currentVertex.neighbors.filter { totalVertices.contains($0.0) }
+        var currentVertex: Vertex? = startVertex
+        while let vertex = currentVertex {
+            totalVertices.remove(vertex)
+            let filteredNeighbors = vertex.neighbors.filter { totalVertices.contains($0.0) }
             for neighbor in filteredNeighbors {
                 let neighborVertex = neighbor.0
                 let weight = neighbor.1
 
-                let theoreticNewWeight = currentVertex.pathLengthFromStart + weight
+                let theoreticNewWeight = vertex.pathLengthFromStart + weight
                 if theoreticNewWeight < neighborVertex.pathLengthFromStart {
                     neighborVertex.pathLengthFromStart = theoreticNewWeight
-                    neighborVertex.pathVerticesFromStart = currentVertex.pathVerticesFromStart
+                    neighborVertex.pathVerticesFromStart = vertex.pathVerticesFromStart
                     neighborVertex.pathVerticesFromStart.append(neighborVertex)
                 }
             }
