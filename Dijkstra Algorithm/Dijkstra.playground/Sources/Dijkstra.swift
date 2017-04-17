@@ -4,15 +4,15 @@ public class Dijkstra {
     private var totalVertices: Set<Vertex>
 
     public init(vertices: Set<Vertex>) {
-        self.totalVertices = vertices
+        totalVertices = vertices
     }
 
     private func clearCache() {
-        self.totalVertices.forEach { $0.clearCache() }
+        totalVertices.forEach { $0.clearCache() }
     }
 
     public func findShortestPaths(from startVertex: Vertex) {
-        self.clearCache()
+        clearCache()
         startVertex.pathLengthFromStart = 0
         startVertex.pathVerticesFromStart.append(startVertex)
         var currentVertex: Vertex? = startVertex

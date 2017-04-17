@@ -12,14 +12,14 @@ open class Vertex {
     }
 
     open func clearCache() {
-        self.pathLengthFromStart = Double.infinity
-        self.pathVerticesFromStart = []
+        pathLengthFromStart = Double.infinity
+        pathVerticesFromStart = []
     }
 }
 
 extension Vertex: Hashable {
     open var hashValue: Int {
-        return self.identifier.hashValue
+        return identifier.hashValue
     }
 }
 
