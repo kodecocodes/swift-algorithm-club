@@ -22,20 +22,20 @@ public class Graph {
     public var startVertex: Vertex!
     public var interactiveNeighborCheckAnimationDuration: Double = 1.8 {
         didSet {
-            self._interactiveOneSleepDuration = UInt32(self.interactiveNeighborCheckAnimationDuration * 1000000.0 / 3.0)
+            _interactiveOneSleepDuration = UInt32(interactiveNeighborCheckAnimationDuration * 1000000.0 / 3.0)
         }
     }
     private var _interactiveOneSleepDuration: UInt32 = 600000
 
     public var visualizationNeighborCheckAnimationDuration: Double = 2.25 {
         didSet {
-            self._visualizationOneSleepDuration = UInt32(self.visualizationNeighborCheckAnimationDuration * 1000000.0 / 3.0)
+            _visualizationOneSleepDuration = UInt32(visualizationNeighborCheckAnimationDuration * 1000000.0 / 3.0)
         }
     }
     private var _visualizationOneSleepDuration: UInt32 = 750000
 
     public var vertices: Set<Vertex> {
-        return self._vertices
+        return _vertices
     }
 
     public init(verticesCount: UInt) {
@@ -43,46 +43,46 @@ public class Graph {
     }
 
     public func removeGraph() {
-        self._vertices.removeAll()
-        self.startVertex = nil
+        _vertices.removeAll()
+        startVertex = nil
     }
 
     public func createNewGraph() {
-        guard self._vertices.isEmpty, self.startVertex == nil else {
+        guard _vertices.isEmpty, startVertex == nil else {
             assertionFailure("Clear graph before creating new one")
             return
         }
-        self.createNotConnectedVertices()
-        self.setupConnections()
-        let offset = Int(arc4random_uniform(UInt32(self._vertices.count)))
-        let index = self._vertices.index(self._vertices.startIndex, offsetBy: offset)
-        self.startVertex =  self._vertices[index]
-        self.setVertexLevels()
+        createNotConnectedVertices()
+        setupConnections()
+        let offset = Int(arc4random_uniform(UInt32(_vertices.count)))
+        let index = _vertices.index(_vertices.startIndex, offsetBy: offset)
+        startVertex =  _vertices[index]
+        setVertexLevels()
     }
     
     private func clearCache() {
-        self._vertices.forEach { $0.clearCache() }
+        _vertices.forEach { $0.clearCache() }
     }
 
     public func reset() {
-        for vertex in self._vertices {
+        for vertex in _vertices {
             vertex.clearCache()
         }
     }
 
     private func createNotConnectedVertices() {
-        for i in 0..<self.verticesCount {
+        for i in 0..<verticesCount {
             let vertex = Vertex(identifier: "\(i)")
-            self._vertices.insert(vertex)
+            _vertices.insert(vertex)
         }
     }
 
     private func setupConnections() {
-        for vertex in self._vertices {
+        for vertex in _vertices {
             let randomEdgesCount = arc4random_uniform(4) + 1
             for _ in 0..<randomEdgesCount {
                 let randomWeight = Double(arc4random_uniform(10))
-                let neighbor = self.randomVertex(except: vertex)
+                let neighbor = randomVertex(except: vertex)
                 let edge1 = Edge(vertex: neighbor, weight: randomWeight)
                 if vertex.edges.contains(where: { $0.neighbor == neighbor }) {
                     continue
@@ -95,7 +95,7 @@ public class Graph {
     }
 
     private func randomVertex(except vertex: Vertex) -> Vertex {
-        var newSet = self._vertices
+        var newSet = _vertices
         newSet.remove(vertex)
         let offset = Int(arc4random_uniform(UInt32(newSet.count)))
         let index = newSet.index(newSet.startIndex, offsetBy: offset)
@@ -103,8 +103,8 @@ public class Graph {
     }
 
     private func setVertexLevels() {
-        self._vertices.forEach { $0.clearLevelInfo() }
-        guard let startVertex = self.startVertex else {
+        _vertices.forEach { $0.clearLevelInfo() }
+        guard let startVertex = startVertex else {
             assertionFailure()
             return
         }
@@ -127,21 +127,21 @@ public class Graph {
     }
 
     public func findShortestPathsWithVisualization(completion: () -> Void) {
-        self.clearCache()
+        clearCache()
         startVertex.pathLengthFromStart = 0
-        startVertex.pathVerticesFromStart.append(self.startVertex)
-        var currentVertex: Vertex! = self.startVertex
+        startVertex.pathVerticesFromStart.append(startVertex)
+        var currentVertex: Vertex! = startVertex
 
-        var totalVertices = self._vertices
+        var totalVertices = _vertices
 
         breakableLoop: while currentVertex != nil {
             totalVertices.remove(currentVertex)
-            while self.pauseVisualization == true {
-                if self.stopVisualization == true {
+            while pauseVisualization == true {
+                if stopVisualization == true {
                     break breakableLoop
                 }
             }
-            if self.stopVisualization == true {
+            if stopVisualization == true {
                 break breakableLoop
             }
             DispatchQueue.main.async {
@@ -155,12 +155,12 @@ public class Graph {
                 let weight = edge.weight
                 let edgeRepresentation = edge.edgeRepresentation
 
-                while self.pauseVisualization == true {
-                    if self.stopVisualization == true {
+                while pauseVisualization == true {
+                    if stopVisualization == true {
                         break breakableLoop
                     }
                 }
-                if self.stopVisualization == true {
+                if stopVisualization == true {
                     break breakableLoop
                 }
                 DispatchQueue.main.async {
@@ -170,32 +170,32 @@ public class Graph {
                                                        edgePathLength: weight,
                                                        endVertexPathLength: neighbor.pathLengthFromStart)
                 }
-                usleep(self._visualizationOneSleepDuration)
+                usleep(_visualizationOneSleepDuration)
 
 
                 let theoreticNewWeight = currentVertex.pathLengthFromStart + weight
 
                 if theoreticNewWeight < neighbor.pathLengthFromStart {
-                    while self.pauseVisualization == true {
-                        if self.stopVisualization == true {
+                    while pauseVisualization == true {
+                        if stopVisualization == true {
                             break breakableLoop
                         }
                     }
-                    if self.stopVisualization == true {
+                    if stopVisualization == true {
                         break breakableLoop
                     }
                     neighbor.pathLengthFromStart = theoreticNewWeight
                     neighbor.pathVerticesFromStart = currentVertex.pathVerticesFromStart
                     neighbor.pathVerticesFromStart.append(neighbor)
                 }
-                usleep(self._visualizationOneSleepDuration)
+                usleep(_visualizationOneSleepDuration)
 
                 DispatchQueue.main.async {
                     self.delegate?.didFinishCompare()
                     edge.edgeRepresentation?.setDefaultColor()
                     edge.neighbor.setDefaultColor()
                 }
-                usleep(self._visualizationOneSleepDuration)
+                usleep(_visualizationOneSleepDuration)
             }
             if totalVertices.isEmpty {
                 currentVertex = nil
@@ -203,7 +203,7 @@ public class Graph {
             }
             currentVertex = totalVertices.min { $0.pathLengthFromStart < $1.pathLengthFromStart }
         }
-        if self.stopVisualization == true {
+        if stopVisualization == true {
             DispatchQueue.main.async {
                 self.delegate?.didStop()
             }
@@ -294,10 +294,10 @@ public class Graph {
     }
 
     public func didTapVertex(vertex: Vertex) {
-        if self.nextVertices.contains(vertex) {
-            self.delegate?.willStartVertexNeighborsChecking()
-            self.state = .parsing
-            self.parseNeighborsFor(vertex: vertex) {
+        if nextVertices.contains(vertex) {
+            delegate?.willStartVertexNeighborsChecking()
+            state = .parsing
+            parseNeighborsFor(vertex: vertex) {
                 self.state = .interactiveVisualization
                 self.delegate?.didFinishVertexNeighborsChecking()
             }

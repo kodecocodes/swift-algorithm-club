@@ -1,6 +1,6 @@
 import UIKit
 
-public class EdgeRepresentation: Equatable {
+public class EdgeRepresentation {
     private var graphColors: GraphColors = GraphColors.sharedInstance
 
     public private(set)var label: UILabel!
@@ -67,7 +67,7 @@ public class EdgeRepresentation: Equatable {
 
         let label = UILabel(frame: CGRect(origin: circleOrigin, size: CGSize(width: arcDiameter, height: arcDiameter)))
         label.textAlignment = .center
-        label.backgroundColor = self.graphColors.defaultEdgeColor
+        label.backgroundColor = graphColors.defaultEdgeColor
         label.clipsToBounds = true
         label.adjustsFontSizeToFitWidth = true
         label.layer.cornerRadius = arcDiameter / 2
@@ -75,35 +75,35 @@ public class EdgeRepresentation: Equatable {
 
         let shapeLayer = MyShapeLayer()
         shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = self.graphColors.defaultEdgeColor.cgColor
+        shapeLayer.strokeColor = graphColors.defaultEdgeColor.cgColor
         shapeLayer.fillColor = UIColor.clear.cgColor
         shapeLayer.lineWidth = 2.0
         shapeLayer.startPoint = startPoint
         shapeLayer.endPoint = endPoint
         shapeLayer.actions = ["position" : NSNull(), "bounds" : NSNull(), "path" : NSNull()]
+
         self.layer = shapeLayer
         self.label = label
         self.label.text = "\(weight)"
     }
 
     public func setCheckingColor() {
-        self.layer.strokeColor = self.graphColors.checkingColor.cgColor
-        self.label.backgroundColor = self.graphColors.checkingColor
+        layer.strokeColor = graphColors.checkingColor.cgColor
+        label.backgroundColor = graphColors.checkingColor
     }
 
     public func setDefaultColor() {
-        self.layer.strokeColor = self.graphColors.defaultEdgeColor.cgColor
-        self.label.backgroundColor = self.graphColors.defaultEdgeColor
+        layer.strokeColor = graphColors.defaultEdgeColor.cgColor
+        label.backgroundColor = graphColors.defaultEdgeColor
     }
 
     public func setText(text: String) {
-        self.label.text = text
+        label.text = text
     }
+}
 
+extension EdgeRepresentation: Equatable {
     public static func ==(lhs: EdgeRepresentation, rhs: EdgeRepresentation) -> Bool {
-        if lhs.label.hashValue == rhs.label.hashValue && lhs.layer.hashValue == rhs.layer.hashValue {
-            return true
-        }
-        return false
+        return lhs.label.hashValue == rhs.label.hashValue && lhs.layer.hashValue == rhs.layer.hashValue
     }
 }

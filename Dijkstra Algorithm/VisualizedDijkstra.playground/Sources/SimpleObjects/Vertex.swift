@@ -1,10 +1,17 @@
 import UIKit
 
-public class Vertex: Hashable, Equatable {
+public class Vertex {
     private var graphColors: GraphColors = GraphColors.sharedInstance
 
+    public var view: VertexView?
+    
     public var identifier: String
     public var edges: [Edge] = []
+    public var pathVerticesFromStart: [Vertex] = []
+    public var level: Int = 0
+    public var levelChecked: Bool = false
+    public var haveAllEdges: Bool = false
+    public var visited: Bool = false
     public var pathLengthFromStart: Double = Double.infinity {
         didSet {
             DispatchQueue.main.async {
@@ -12,51 +19,45 @@ public class Vertex: Hashable, Equatable {
             }
         }
     }
-    public var pathVerticesFromStart: [Vertex] = []
-    public var level: Int = 0
-    public var levelChecked: Bool = false
-    public var haveAllEdges: Bool = false
-    public var visited: Bool = false
-
-    public var view: VertexView?
 
     public init(identifier: String) {
         self.identifier = identifier
     }
 
-    public var hashValue: Int {
-        return self.identifier.hashValue
-    }
-
-    public static func ==(lhs: Vertex, rhs: Vertex) -> Bool {
-        if lhs.hashValue == rhs.hashValue {
-            return true
-        }
-        return false
-    }
-
     public func clearCache() {
-        self.pathLengthFromStart = Double.infinity
-        self.pathVerticesFromStart = []
-        self.visited = false
+        pathLengthFromStart = Double.infinity
+        pathVerticesFromStart = []
+        visited = false
     }
 
     public func clearLevelInfo() {
-        self.level = 0
-        self.levelChecked = false
+        level = 0
+        levelChecked = false
     }
 
     public func setVisitedColor() {
-        self.view?.backgroundColor = self.graphColors.visitedColor
-        self.view?.setLabelsTextColor(color: UIColor.white)
+        view?.backgroundColor = graphColors.visitedColor
+        view?.setLabelsTextColor(color: UIColor.white)
     }
 
     public func setCheckingPathColor() {
-        self.view?.backgroundColor = self.graphColors.checkingColor
+        view?.backgroundColor = graphColors.checkingColor
     }
 
     public func setDefaultColor() {
-        self.view?.backgroundColor = self.graphColors.defaultVertexColor
-        self.view?.setLabelsTextColor(color: UIColor.black)
+        view?.backgroundColor = graphColors.defaultVertexColor
+        view?.setLabelsTextColor(color: UIColor.black)
+    }
+}
+
+extension Vertex: Hashable {
+    public var hashValue: Int {
+        return identifier.hashValue
+    }
+}
+
+extension Vertex: Equatable {
+    public static func ==(lhs: Vertex, rhs: Vertex) -> Bool {
+        return lhs.hashValue == rhs.hashValue
     }
 }

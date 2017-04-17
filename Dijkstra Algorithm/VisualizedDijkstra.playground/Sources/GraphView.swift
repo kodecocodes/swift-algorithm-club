@@ -7,7 +7,7 @@ public class GraphView: UIView {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = self.graphColors.graphBackgroundColor
+        backgroundColor = graphColors.graphBackgroundColor
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -20,13 +20,13 @@ public class GraphView: UIView {
     }
 
     public func removeGraph() {
-        for vertex in self.graph.vertices {
+        for vertex in graph.vertices {
             if let view = vertex.view {
                 view.removeFromSuperview()
                 vertex.view = nil
             }
         }
-        for vertex in self.graph.vertices {
+        for vertex in graph.vertices {
             for edge in vertex.edges {
                 if let edgeRepresentation = edge.edgeRepresentation {
                     edgeRepresentation.layer.removeFromSuperlayer()
@@ -38,41 +38,41 @@ public class GraphView: UIView {
     }
 
     public func createNewGraph() {
-        self.setupVertexViews()
-        self.setupEdgeRepresentations()
-        self.addGraph()
+        setupVertexViews()
+        setupEdgeRepresentations()
+        addGraph()
     }
 
     public func reset() {
-        for vertex in self.graph.vertices {
+        for vertex in graph.vertices {
             vertex.edges.forEach { $0.edgeRepresentation?.setDefaultColor() }
             vertex.setDefaultColor()
         }
     }
 
     private func addGraph() {
-        for vertex in self.graph.vertices {
+        for vertex in graph.vertices {
             for edge in vertex.edges {
                 if let edgeRepresentation = edge.edgeRepresentation {
-                    self.layer.addSublayer(edgeRepresentation.layer)
-                    self.addSubview(edgeRepresentation.label)
+                    layer.addSublayer(edgeRepresentation.layer)
+                    addSubview(edgeRepresentation.label)
                 }
             }
         }
-        for vertex in self.graph.vertices {
+        for vertex in graph.vertices {
             if let view = vertex.view {
-                self.addSubview(view)
+                addSubview(view)
             }
         }
     }
 
     private func setupVertexViews() {
         var level = 0
-        var buildViewQueue = [self.graph.startVertex!]
+        var buildViewQueue = [graph.startVertex!]
         let itemWidth: CGFloat = 40
         while !buildViewQueue.isEmpty {
             let levelItemsCount = CGFloat(buildViewQueue.count)
-            let xStep = (self.frame.width - levelItemsCount * itemWidth) / (levelItemsCount + 1)
+            let xStep = (frame.width - levelItemsCount * itemWidth) / (levelItemsCount + 1)
             var previousVertexMaxX: CGFloat = 0.0
             for vertex in buildViewQueue {
                 let x: CGFloat = previousVertexMaxX + xStep
@@ -84,12 +84,12 @@ public class GraphView: UIView {
                 vertexView.vertex = vertex
                 vertex.view?.setIdLabel(text: vertex.identifier)
                 vertex.view?.setPathLengthLabel(text: "\(vertex.pathLengthFromStart)")
-                vertex.view?.addTarget(self, action: #selector(self.didTapVertex(sender:)), for: .touchUpInside)
-                let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.handlePan(recognizer:)))
+                vertex.view?.addTarget(self, action: #selector(didTapVertex(sender:)), for: .touchUpInside)
+                let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:)))
                 vertex.view?.addGestureRecognizer(panGesture)
             }
             level += 1
-            buildViewQueue = self.graph.vertices.filter { $0.level == level }
+            buildViewQueue = graph.vertices.filter { $0.level == level }
         }
     }
 
@@ -100,8 +100,8 @@ public class GraphView: UIView {
         guard let vertexView = recognizer.view as? VertexView, let vertex = vertexView.vertex else {
             return
         }
-        if self.panningView != nil {
-            if self.panningView != vertexView {
+        if panningView != nil {
+            if panningView != vertexView {
                 return
             }
         }
@@ -122,39 +122,39 @@ public class GraphView: UIView {
                     }
                 }
             }
-            self.panningView = vertexView
+            panningView = vertexView
         case .changed:
-            if self.movingVertexOutputEdges.isEmpty && self.movingVertexInputEdges.isEmpty {
+            if movingVertexOutputEdges.isEmpty && movingVertexInputEdges.isEmpty {
                 return
             }
             let translation = recognizer.translation(in: self)
             if vertexView.frame.origin.x + translation.x <= 0
                 || vertexView.frame.origin.y + translation.y <= 0
-                || (vertexView.frame.origin.x + vertexView.frame.width + translation.x) >= self.frame.width
-                || (vertexView.frame.origin.y + vertexView.frame.height + translation.y) >= self.frame.height {
+                || (vertexView.frame.origin.x + vertexView.frame.width + translation.x) >= frame.width
+                || (vertexView.frame.origin.y + vertexView.frame.height + translation.y) >= frame.height {
                 break
             }
-            self.movingVertexInputEdges.forEach { edgeRepresentation in
+            movingVertexInputEdges.forEach { edgeRepresentation in
                 let originalLabelCenter = edgeRepresentation.label.center
                 edgeRepresentation.label.center = CGPoint(x: originalLabelCenter.x + translation.x * 0.625,
                                                           y: originalLabelCenter.y + translation.y * 0.625)
 
                 CATransaction.begin()
                 CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-                let newPath = self.path(fromEdgeRepresentation: edgeRepresentation, movingVertex: vertex, translation: translation, outPath: false)
+                let newPath = path(fromEdgeRepresentation: edgeRepresentation, movingVertex: vertex, translation: translation, outPath: false)
                 edgeRepresentation.layer.path = newPath
                 CATransaction.commit()
 
             }
 
-            self.movingVertexOutputEdges.forEach { edgeRepresentation in
+            movingVertexOutputEdges.forEach { edgeRepresentation in
                 let originalLabelCenter = edgeRepresentation.label.center
                 edgeRepresentation.label.center = CGPoint(x: originalLabelCenter.x + translation.x * 0.375,
                                                           y: originalLabelCenter.y + translation.y * 0.375)
 
                 CATransaction.begin()
                 CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-                let newPath = self.path(fromEdgeRepresentation: edgeRepresentation, movingVertex: vertex, translation: translation, outPath: true)
+                let newPath = path(fromEdgeRepresentation: edgeRepresentation, movingVertex: vertex, translation: translation, outPath: true)
                 edgeRepresentation.layer.path = newPath
                 CATransaction.commit()
             }
@@ -163,9 +163,9 @@ public class GraphView: UIView {
                                         y: vertexView.center.y + translation.y)
             recognizer.setTranslation(CGPoint.zero, in: self)
         case .ended:
-            self.movingVertexInputEdges = []
-            self.movingVertexOutputEdges = []
-            self.panningView = nil
+            movingVertexInputEdges = []
+            movingVertexOutputEdges = []
+            panningView = nil
         default:
             break
         }
@@ -223,7 +223,7 @@ public class GraphView: UIView {
     }
 
     private func setupEdgeRepresentations() {
-        var edgeQueue: [Vertex] = [self.graph.startVertex!]
+        var edgeQueue: [Vertex] = [graph.startVertex!]
 
         //BFS
         while !edgeQueue.isEmpty {

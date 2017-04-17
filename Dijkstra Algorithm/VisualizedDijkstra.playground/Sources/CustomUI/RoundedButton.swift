@@ -5,7 +5,7 @@ public class RoundedButton: UIButton {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.commonInit()
+        commonInit()
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -13,8 +13,8 @@ public class RoundedButton: UIButton {
     }
 
     private func commonInit() {
-        self.backgroundColor = self.graphColors.buttonsBackgroundColor
-        self.titleLabel?.adjustsFontSizeToFitWidth = true
-        self.layer.cornerRadius = 7
+        backgroundColor = graphColors.buttonsBackgroundColor
+        titleLabel?.adjustsFontSizeToFitWidth = true
+        layer.cornerRadius = 7
     }
 }

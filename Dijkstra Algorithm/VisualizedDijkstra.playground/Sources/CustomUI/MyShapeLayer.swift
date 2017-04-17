@@ -1,4 +1,3 @@
-import Foundation
 import UIKit
 
 public class MyShapeLayer: CAShapeLayer {
