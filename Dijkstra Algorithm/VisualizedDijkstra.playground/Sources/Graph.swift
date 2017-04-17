@@ -130,12 +130,12 @@ public class Graph {
         clearCache()
         startVertex.pathLengthFromStart = 0
         startVertex.pathVerticesFromStart.append(startVertex)
-        var currentVertex: Vertex! = startVertex
+        var currentVertex: Vertex? = startVertex
 
         var totalVertices = _vertices
 
-        breakableLoop: while currentVertex != nil {
-            totalVertices.remove(currentVertex)
+        breakableLoop: while let vertex = currentVertex {
+            totalVertices.remove(vertex)
             while pauseVisualization == true {
                 if stopVisualization == true {
                     break breakableLoop
@@ -145,11 +145,11 @@ public class Graph {
                 break breakableLoop
             }
             DispatchQueue.main.async {
-                currentVertex.setVisitedColor()
+                vertex.setVisitedColor()
             }
             usleep(750000)
-            currentVertex.visited = true
-            let filteredEdges = currentVertex.edges.filter { !$0.neighbor.visited }
+            vertex.visited = true
+            let filteredEdges = vertex.edges.filter { !$0.neighbor.visited }
             for edge in filteredEdges {
                 let neighbor = edge.neighbor
                 let weight = edge.weight
@@ -166,14 +166,14 @@ public class Graph {
                 DispatchQueue.main.async {
                     edgeRepresentation?.setCheckingColor()
                     neighbor.setCheckingPathColor()
-                    self.delegate?.willCompareVertices(startVertexPathLength: currentVertex.pathLengthFromStart,
+                    self.delegate?.willCompareVertices(startVertexPathLength: vertex.pathLengthFromStart,
                                                        edgePathLength: weight,
                                                        endVertexPathLength: neighbor.pathLengthFromStart)
                 }
                 usleep(_visualizationOneSleepDuration)
 
 
-                let theoreticNewWeight = currentVertex.pathLengthFromStart + weight
+                let theoreticNewWeight = vertex.pathLengthFromStart + weight
 
                 if theoreticNewWeight < neighbor.pathLengthFromStart {
                     while pauseVisualization == true {
@@ -185,7 +185,7 @@ public class Graph {
                         break breakableLoop
                     }
                     neighbor.pathLengthFromStart = theoreticNewWeight
-                    neighbor.pathVerticesFromStart = currentVertex.pathVerticesFromStart
+                    neighbor.pathVerticesFromStart = vertex.pathVerticesFromStart
                     neighbor.pathVerticesFromStart.append(neighbor)
                 }
                 usleep(_visualizationOneSleepDuration)
