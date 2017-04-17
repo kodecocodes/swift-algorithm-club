@@ -14,7 +14,7 @@ Click the link: [YouTube](https://youtu.be/PPESI7et0cQ)
 ## Dijkstra's algorithm explanation
 
 GIF from Wikipedia
-<img src="https://commons.wikimedia.org/wiki/File:Dijkstra_Animation.gif#/media/File:Dijkstra_Animation.gif" height="250" />
+<img src="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#/media/File:Dijkstra_Animation.gif" height="250" />
 
 Wikipedia's explanation:
 Let the node at which we are starting be called the initial node. Let the distance of node Y be the distance from the initial node to Y. Dijkstra's algorithm will assign some initial distance values and will try to improve them step by step.
