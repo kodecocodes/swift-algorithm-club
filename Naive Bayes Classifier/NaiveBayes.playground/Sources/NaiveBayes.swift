@@ -35,7 +35,7 @@ extension Array where Element == Int {
     
 }
 
-enum NBType {
+public enum NBType {
     
     case gaussian
     case multinomial
@@ -108,7 +108,7 @@ enum NBType {
     }
 }
 
-class NaiveBayes<T> {
+public class NaiveBayes<T> {
     
     var variables: [Int: [(feature: Int, variables: [Any])]]
     var type: NBType
@@ -116,7 +116,7 @@ class NaiveBayes<T> {
     var data: [[T]]
     var classes: [Int]
     
-    init(type: NBType, data: [[T]], classes: [Int]) throws {
+    public init(type: NBType, data: [[T]], classes: [Int]) throws {
         self.type = type
         self.data = data
         self.classes = classes
@@ -129,7 +129,7 @@ class NaiveBayes<T> {
         }
     }
     
-    func train() throws -> Self {
+    public func train() throws -> Self {
         
         for `class` in classes.uniques() {
             variables[`class`] = [(Int, [Any])]()
@@ -153,7 +153,7 @@ class NaiveBayes<T> {
         return self
     }
     
-    func classify(with input: [T]) -> Int {
+    public func classify(with input: [T]) -> Int {
         let likelihoods = classifyProba(with: input).max { (first, second) -> Bool in
             return first.1 < second.1
         }
@@ -165,7 +165,7 @@ class NaiveBayes<T> {
         return `class`
     }
     
-    func classifyProba(with input: [T]) -> [(Int, Double)] {
+    public func classifyProba(with input: [T]) -> [(Int, Double)] {
         
         var probaClass = [Int: Double]()
         let amount = classes.count
