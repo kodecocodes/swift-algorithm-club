@@ -4,7 +4,7 @@ open class Vertex {
 
     open var identifier: String
     open var neighbors: [(Vertex, Double)] = []
-    open var pathLengthFromStart: Double = Double.infinity
+    open var pathLengthFromStart = Double.infinity
     open var pathVerticesFromStart: [Vertex] = []
 
     public init(identifier: String) {
