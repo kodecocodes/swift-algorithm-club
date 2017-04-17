@@ -1,6 +1,4 @@
 # Dijkstra-algorithm
-WWDC 2017 Scholarship Project
-Created by [Taras Nikulin](https://github.com/crabman448)
 
 ## About
 Dijkstra's algorithm is used for finding shortest paths from start vertex in graph(with weighted vertices) to all other vertices. 
@@ -17,3 +15,7 @@ Click the link: [YouTube](https://youtu.be/PPESI7et0cQ)
 ## Screenshots
 
 <img src="Screenshots/screenshot1.jpg" height="400" />
+
+## Credits
+WWDC 2017 Scholarship Project
+Created by [Taras Nikulin](https://github.com/crabman448)
