@@ -2,7 +2,7 @@ import Foundation
 
 open class Vertex {
 
-    open var identifier: String!
+    open var identifier: String
     open var neighbors: [(Vertex, Double)] = []
     open var pathLengthFromStart: Double = Double.infinity
     open var pathVerticesFromStart: [Vertex] = []
