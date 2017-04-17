@@ -25,9 +25,6 @@ extension Vertex: Hashable {
 
 extension Vertex: Equatable {
     public static func ==(lhs: Vertex, rhs: Vertex) -> Bool {
-        if lhs.hashValue == rhs.hashValue {
-            return true
-        }
-        return false
+        return lhs.hashValue == rhs.hashValue
     }
 }
