@@ -1,22 +1,20 @@
 import UIKit
 
 public class GraphView: UIView {
-    private var graph: Graph!
+    private var graph: Graph
     private var panningView: VertexView? = nil
-    private var graphColors: GraphColors = GraphColors.sharedInstance
+    private var graphColors = GraphColors.sharedInstance
 
-    public override init(frame: CGRect) {
+    public init(frame: CGRect, graph: Graph) {
+        self.graph = graph
         super.init(frame: frame)
         backgroundColor = graphColors.graphBackgroundColor
+        layer.cornerRadius = 15
     }
     
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     
-    }
-
-    public func configure(graph: Graph) {
-        self.graph = graph
     }
 
     public func removeGraph() {

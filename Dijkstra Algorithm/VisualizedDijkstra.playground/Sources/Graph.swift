@@ -10,16 +10,14 @@ public enum GraphState {
 }
 
 public class Graph {
-    private init() { }
-
-    private var verticesCount: UInt!
+    private var verticesCount: UInt
     private var _vertices: Set<Vertex> = Set()
     public weak var delegate: GraphDelegate?
     public var nextVertices: [Vertex] = []
     public var state: GraphState = .initial
-    public var pauseVisualization: Bool = false
-    public var stopVisualization: Bool = false
-    public var startVertex: Vertex!
+    public var pauseVisualization = false
+    public var stopVisualization = false
+    public var startVertex: Vertex?
     public var interactiveNeighborCheckAnimationDuration: Double = 1.8 {
         didSet {
             _interactiveOneSleepDuration = UInt32(interactiveNeighborCheckAnimationDuration * 1000000.0 / 3.0)
@@ -127,6 +125,10 @@ public class Graph {
     }
 
     public func findShortestPathsWithVisualization(completion: () -> Void) {
+        guard let startVertex = self.startVertex else {
+            assertionFailure("start vertex is nil")
+            return
+        }
         clearCache()
         startVertex.pathLengthFromStart = 0
         startVertex.pathVerticesFromStart.append(startVertex)

@@ -25,7 +25,7 @@ public class Window: UIView, GraphDelegate {
     private var activityIndicator: UIActivityIndicatorView!
     private var graph: Graph!
     private var numberOfVertices: UInt!
-    private var graphColors: GraphColors = GraphColors.sharedInstance
+    private var graphColors = GraphColors.sharedInstance
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,10 +42,9 @@ public class Window: UIView, GraphDelegate {
         graph.createNewGraph()
         graph.delegate = self
         let frame = CGRect(x: 10, y: 170, width: self.frame.width - 20, height: self.frame.height - 180)
-        graphView = GraphView(frame: frame)
-        graphView.layer.cornerRadius = 15
+        graphView = GraphView(frame: frame, graph: graph)
+        
 
-        graphView.configure(graph: graph)
         graphView.createNewGraph()
         addSubview(graphView)
 
@@ -198,11 +197,15 @@ public class Window: UIView, GraphDelegate {
             graphView.reset()
             graph.reset()
         }
-        
-        graph.startVertex.pathLengthFromStart = 0
-        graph.startVertex.pathVerticesFromStart.append(graph.startVertex)
+
+        guard let startVertex = graph.startVertex else {
+            assertionFailure("startVertex is nil")
+            return
+        }
+        startVertex.pathLengthFromStart = 0
+        startVertex.pathVerticesFromStart.append(startVertex)
         graph.state = .parsing
-        graph.parseNeighborsFor(vertex: graph.startVertex) {
+        graph.parseNeighborsFor(vertex: startVertex) {
             self.graph.state = .interactiveVisualization
             DispatchQueue.main.async {
                 self.comparisonLabel.text = "Pick next vertex"
