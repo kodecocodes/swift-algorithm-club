@@ -7,7 +7,7 @@ import Foundation
  
  ### Gaussian Naive Bayes
  - Note:
- When using Gaussian NB you have to have continuous features (Double). 
+ When using Gaussian NB you have to have continuous features (Double).
  
  For this example we are going to use a famous dataset with different types of wine. The labels of the features can be viewed [here](https://gist.github.com/tijptjik/9408623)
  */
@@ -52,9 +52,54 @@ let data = wineData.map { row in
  */
 let wineBayes = try! NaiveBayes(type: .gaussian, data: data, classes: classes).train()
 let result = wineBayes.classifyProba(with: [12.85, 1.6, 2.52, 17.8, 95, 2.48, 2.37, 0.26, 1.46, 3.93, 1.09, 3.63, 1015])
-print(result)
 /*:
- I can assure you that this is the correct result and as you can see the classifier thinks that its ***99.99%*** correct too.
+ I can assure you that ***class 1*** is the correct result and as you can see the classifier thinks that its ***99.99%*** likely too.
  
  ### Multinomial Naive Bayes
+ 
+ - Note:
+ When using Multinomial NB you have to have categorical features (Int).
+ 
+ Now this dataset is commonly used to describe the classification problem and it is categorical which means you don't have real values you just have categorical data as stated before. The structure of this dataset is as follows.
+ 
+ Outlook,Temperature,Humidity,Windy
+ 
+ ***Outlook***: 0 = rainy, 1 = overcast, 2 = sunny
+ 
+ ***Temperature***: 0 = hot, 1 = mild, 2 = cool
+ 
+ ***Humidity***: 0 = high, 1 = normal
+ 
+ ***Windy***: 0 = false, 1 = true
+ 
+ The classes are either he will play golf or not depending on the weather conditions. (0 = won't play, 1 = will play)
+ */
+
+let golfData = [
+    [0, 0, 0, 0],
+    [0, 0, 0, 1],
+    [1, 0, 0, 0],
+    [2, 1, 0, 0],
+    [2, 2, 1, 0],
+    [2, 2, 1, 1],
+    [1, 2, 1, 1],
+    [0, 1, 0, 0],
+    [0, 2, 1, 0],
+    [2, 1, 1, 0],
+    [0, 1, 1, 1],
+    [1, 1, 0, 1],
+    [1, 0, 1, 0],
+    [2, 1, 0, 1]
+]
+let golfClasses =  [0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0]
+
+let golfNaive = try! NaiveBayes(type: .multinomial, data: golfData, classes: golfClasses).train()
+
+/*:
+ The weather conditions is as follows now: Outlook=rainy, Temperature=cool, Humidity=high, Windy=true
+ */
+let golfResult = golfNaive.classifyProba(with: [0, 2, 0, 1])
+
+/*:
+ Naive Bayes tells us that the golf player will ***not*** play with a likelihood of almost ***80%***. Which is true of course.
  */
