@@ -1,14 +1,15 @@
-public class LinkedListNode<T> {
-    var value: T
-    var next: LinkedListNode?
-    weak var previous: LinkedListNode?
-    
-    public init(value: T) {
-        self.value = value
-    }
-}
-
 public final class LinkedList<T> {
+    
+    public class LinkedListNode<T> {
+        var value: T
+        var next: LinkedListNode?
+        weak var previous: LinkedListNode?
+        
+        public init(value: T) {
+            self.value = value
+        }
+    }
+  
     public typealias Node = LinkedListNode<T>
     
     fileprivate var head: Node?
@@ -71,12 +72,21 @@ public final class LinkedList<T> {
         self.append(newNode)
     }
     
-    public func append(_ newNode: Node) {
+    public func append(_ node: Node) {
+        let newNode = LinkedListNode(value: node.value)
         if let lastNode = last {
             newNode.previous = lastNode
             lastNode.next = newNode
         } else {
             head = newNode
+        }
+    }
+    
+    public func append(_ list: LinkedList) {
+        var nodeToCopy = list.head
+        while let node = nodeToCopy {
+            self.append(node.value)
+            nodeToCopy = node.next
         }
     }
     
@@ -102,9 +112,9 @@ public final class LinkedList<T> {
         self.insert(newNode, atIndex: index)
     }
     
-    public func insert(_ newNode: Node, atIndex index: Int) {
+    public func insert(_ node: Node, atIndex index: Int) {
         let (prev, next) = nodesBeforeAndAfter(index: index)
-        
+        let newNode = LinkedListNode(value: node.value)
         newNode.previous = prev
         newNode.next = next
         prev?.next = newNode
@@ -113,6 +123,26 @@ public final class LinkedList<T> {
         if prev == nil {
             head = newNode
         }
+    }
+    
+    public func insert(_ list: LinkedList, atIndex index: Int) {
+        if list.isEmpty { return }
+        var (prev, next) = nodesBeforeAndAfter(index: index)
+        var nodeToCopy = list.head
+        var newNode:Node?
+        while let node = nodeToCopy {
+            newNode = Node(value: node.value)
+            newNode?.previous = prev
+            if let previous = prev {
+                previous.next = newNode
+            } else {
+                self.head = newNode
+            }
+            nodeToCopy = nodeToCopy?.next
+            prev = newNode
+        }
+        prev?.next = next
+        next?.previous = prev
     }
     
     public func removeAll() {
