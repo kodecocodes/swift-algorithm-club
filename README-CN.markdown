@@ -55,7 +55,7 @@
 
 ### 字符串搜索
 
-- [Brute-Force String Search](Brute-Force String Search/). A naive method.
+- [暴力字符串搜索](Brute-Force%20String%20Search/README-CN.markdown). 一个简单的方法
 - [Boyer-Moore](Boyer-Moore/README-CN.markdown)。一个快速搜索子字符串的方法。它基于一个查询表来跳过一些字符来避免查找文本中的每个字符。
 - Knuth-Morris-Pratt
 - [Rabin-Karp](Rabin-Karp/)  Faster search by using hashing.
