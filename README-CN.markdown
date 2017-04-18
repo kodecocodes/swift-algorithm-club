@@ -58,7 +58,7 @@
 - [暴力字符串搜索](Brute-Force%20String%20Search/README-CN.markdown). 一个简单的方法
 - [Boyer-Moore](Boyer-Moore/README-CN.markdown)。一个快速搜索子字符串的方法。它基于一个查询表来跳过一些字符来避免查找文本中的每个字符。
 - Knuth-Morris-Pratt
-- [Rabin-Karp](Rabin-Karp/)  Faster search by using hashing.
+- [Rabin-Karp](Rabin-Karp/README-CN.markdown)  使用散列的快速搜索。
 - [Longest Common Subsequence](Longest Common Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
 - [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
 
