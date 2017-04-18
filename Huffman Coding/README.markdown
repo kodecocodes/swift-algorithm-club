@@ -1,6 +1,6 @@
 # Huffman Coding
 
-The idea: To encode objects that occur with a smaller number of bits than objects that occur less frequently.
+The idea: To encode objects that occur often with a smaller number of bits than objects that occur less frequently.
 
 Although any type of objects can be encoded with this scheme, it is common to compress a stream of bytes. Suppose you have the following text, where each character is one byte:
 
