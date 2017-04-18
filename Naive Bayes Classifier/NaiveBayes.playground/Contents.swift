@@ -2,13 +2,13 @@ import Foundation
 
 /*:
  ## Naive Bayes Classifier
- 
+
  This playground uses the given algorithm and utilizes its features with some example datasets
- 
+
  ### Gaussian Naive Bayes
  - Note:
  When using Gaussian NB you have to have continuous features (Double).
- 
+
  For this example we are going to use a famous dataset with different types of wine. The labels of the features can be viewed [here](https://gist.github.com/tijptjik/9408623)
  */
 guard let wineCSV = Bundle.main.path(forResource: "wine", ofType: "csv") else {
@@ -27,7 +27,7 @@ guard let csv = try? String(contentsOfFile: wineCSV) else {
 let rows = csv.characters.split(separator: "\r\n").map { String($0) }
 /*:
  Splitting on the ; sign and converting the value to a Double
- 
+
  - Important:
  Do not force unwrap the mapped values in your real application. Carefully convert them! This is just for the sake of showing how the algorithm works.
  */
@@ -47,31 +47,31 @@ let data = wineData.map { row in
 
 /*:
  Again use `guard` on the result of a `try?` or simply `do-try-catch` because this would crash your application if an error occured.
- 
+
  The array in the `classifyProba` method I passed is a former entry in the .csv file which I removed in order to classify it.
  */
 let wineBayes = try! NaiveBayes(type: .gaussian, data: data, classes: classes).train()
 let result = wineBayes.classifyProba(with: [12.85, 1.6, 2.52, 17.8, 95, 2.48, 2.37, 0.26, 1.46, 3.93, 1.09, 3.63, 1015])
 /*:
  I can assure you that ***class 1*** is the correct result and as you can see the classifier thinks that its ***99.99%*** likely too.
- 
+
  ### Multinomial Naive Bayes
- 
+
  - Note:
  When using Multinomial NB you have to have categorical features (Int).
- 
+
  Now this dataset is commonly used to describe the classification problem and it is categorical which means you don't have real values you just have categorical data as stated before. The structure of this dataset is as follows.
- 
+
  Outlook,Temperature,Humidity,Windy
- 
+
  ***Outlook***: 0 = rainy, 1 = overcast, 2 = sunny
- 
+
  ***Temperature***: 0 = hot, 1 = mild, 2 = cool
- 
+
  ***Humidity***: 0 = high, 1 = normal
- 
+
  ***Windy***: 0 = false, 1 = true
- 
+
  The classes are either he will play golf or not depending on the weather conditions. (0 = won't play, 1 = will play)
  */
 
