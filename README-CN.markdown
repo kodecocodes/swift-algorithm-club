@@ -183,7 +183,7 @@
 - [最短路径](Shortest%20Path%20%28Unweighted%29/README-CN.markdown) 无权图
 - [单源最短路径](Single-Source%20Shortest%20Paths%20(Weighted)/README-CN.markdown)
 - [最小生成树](Minimum%20Spanning%20Tree%20%28Unweighted%29/README-CN.markdown) 无权图
-- [All-Pairs Shortest Paths](All-Pairs Shortest Paths/)
+- [全源最短路径](All-Pairs%20Shortest%20Paths/README-CN.markdown)
 
 ## Puzzles
 
