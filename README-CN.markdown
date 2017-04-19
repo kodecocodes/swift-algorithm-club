@@ -59,7 +59,7 @@
 - [Boyer-Moore](Boyer-Moore/README-CN.markdown)。一个快速搜索子字符串的方法。它基于一个查询表来跳过一些字符来避免查找文本中的每个字符。
 - Knuth-Morris-Pratt
 - [Rabin-Karp](Rabin-Karp/README-CN.markdown)  使用散列的快速搜索。
-- [Longest Common Subsequence](Longest Common Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
+- [最长公共子序列](Longest%20Common%20Subsequence/README-CN.markdown). 找到两个字符串中相同顺序的最长公共子序列。
 - [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
 
 ### 排序
