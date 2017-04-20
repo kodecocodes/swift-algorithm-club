@@ -14,7 +14,7 @@ A good contribution abides to the [Swift API Guidelines](https://swift.org/docum
 
 We follow the following Swift [style guide](https://github.com/raywenderlich/swift-style-guide). 
 
-### Contribution Categories
+## Contribution Categories
 
 ### Refinement
 
