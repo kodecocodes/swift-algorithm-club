@@ -9,7 +9,15 @@ The best example is road network. If you wnat to find the shortest path from you
 I have a gif example, which will show you how algorithm works. If this is not enough, then you can play with my **VisualizedDijkstra.playground**.
 So let's image, that your house is "A" vertex and your job is "B" vertex. And you are lucky, you have graph with all possible routes.
 When the algorithm starts to work initial graph looks like this:
-[image1.png all are non visited]
+[image1.png]
+
+The table below will represent graph state
+|                           |  A  |  B  |  C  |  D  |  E  |
+| ------------------------- | --- | --- | --- | --- | --- |
+| Visited                   |  F  |  F  |  F  |  F  |  F  |
+| Path Length From Start    | inf | inf | inf | inf | inf |
+| Path Vertices From Start  | [ ] | [ ] | [ ] | [ ] | [ ] |
+
 Graph's array contains 5 vertices [A, B, C, D, E].
 Let's assume, that edge weight it is path length in kilometers between vertices.
 A vertex has neighbors: B(path from A: 5.0), C(path from A: 0.0), D(path from A: 0.0)
@@ -17,12 +25,6 @@ And because algorithm has done nothing, then all vertices' path length from sour
 Finally we have to set source vertex path length from source vertex to 0.
 
 Great, now our graph is initialized and we can pass it to the Dijkstra's algorithm.
-
-|                           |  A  |  B  |  C  |  D  |  E  |
-| ------------------------- | --- | --- | --- | --- | --- |
-| Visited                   |  F  |  F  |  F  |  F  |  F  |
-| Path Length From Start    | inf | inf | inf | inf | inf |
-| Path Vertices From Start  | [ ] | [ ] | [ ] | [ ] | [ ] |
 
 But before we will go through all process side by side let me explain how algorithm works.
 The algorithm repeats following cycle until all vertices are marked as visited.
@@ -39,13 +41,52 @@ Let's follow the algorithm and pick the first vertex, which neighbors we want to
 Imagine that we have function, that returns vertex with smallest path length from start.
 var checkingVertex = nonVisitedVertices.smallestPathLengthFromStartVertex()
 Then we set this vertex as visited 
+
+|                           |  A  |  B  |  C  |  D  |  E  |
+| ------------------------- | --- | --- | --- | --- | --- |
+| Visited                   |  T  |  F  |  F  |  F  |  F  |
+| Path Length From Start    |  0  | inf | inf | inf | inf |
+| Path Vertices From Start  | [A] | [ ] | [ ] | [ ] | [ ] |
+
 checkingVertex.visited = true
-[image2.jpg visited first]
+[image2.jpg]
 Then we check all of its neighbors. 
 If neighbor's path length from start is bigger than checking vertex path length from start + edge weigth, then we set neighbor's path length from start new value and append to its pathVerticesFromStart array new vertex: checkingVertex. Repeat this action for every vertex.
-[image3.jpg visited first with checked neighbors]
+[image3.jpg]
 
+|                           |     A      |     B      |     C      |     D      |     E      |
+| ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| Visited                   |     T      |     F      |     F      |     F      |     F      |
+| Path Length From Start    |     0      |     3      |    inf     |     1      |    inf     |
+| Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   |    [ ]     |
 
+[image4.jpg]
+|                           |     A      |     B      |     C      |     D      |     E      |
+| ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| Visited                   |     T      |     F      |     F      |     T      |     F      |
+| Path Length From Start    |     0      |     3      |    inf     |     1      |     2      |
+| Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   | [A, D, E]  |
+
+[image5.jpg]
+|                           |     A      |     B      |     C      |     D      |     E      |
+| ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| Visited                   |     T      |     F      |     F      |     T      |     T      |
+| Path Length From Start    |     0      |     3      |     11     |     1      |     2      |
+| Path Vertices From Start  |    [A]     |   [A, B]   |[A, D, E, C]|   [A, D]   | [A, D, E ] |
+
+[image6.jpg]
+|                           |     A      |     B      |     C      |     D      |     E      |
+| ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| Visited                   |     T      |     T      |     F      |     T      |     T      |
+| Path Length From Start    |     0      |     3      |     8      |     1      |     2      |
+| Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
+
+[image7.jpg]
+|                           |     A      |     B      |     C      |     D      |     E      |
+| ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| Visited                   |     T      |     T      |     T      |     T      |     T      |
+| Path Length From Start    |     0      |     3      |     8      |     1      |     2      |
+| Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
 
 This repository contains to playgrounds:
 * To understand how does this algorithm works, I have created **VisualizedDijkstra.playground.** It works in auto and interactive modes. Moreover there are play/pause/stop buttons.
@@ -81,9 +122,6 @@ This algorithm is popular in routing. For example, biggest Russian IT company Ya
 
 ## Demo video
 Click the link: [YouTube](https://youtu.be/PPESI7et0cQ)
-
-## VisualizedDijkstra.playground Screenshots
-<img src="Images/screenshot1.jpg" height="400" />
 
 ## Credits
 WWDC 2017 Scholarship Project  
