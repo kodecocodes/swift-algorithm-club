@@ -60,7 +60,7 @@
 - Knuth-Morris-Pratt
 - [Rabin-Karp](Rabin-Karp/README-CN.markdown)  使用散列的快速搜索。
 - [最长公共子序列](Longest%20Common%20Subsequence/README-CN.markdown). 找到两个字符串中相同顺序的最长公共子序列。
-- [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
+- [Z 算法](Z-Algorithm/README-CN.markdown). 找到字符串里所有的模式实例，并且返回模式在字符串中开始的位置的索引。 
 
 ### 排序
 
