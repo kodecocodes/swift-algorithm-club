@@ -2,13 +2,13 @@
 
 A hash table allows you to store and retrieve objects by a "key".
 
-Also called dictionary, map, associative array. There are other ways to implement these, such as with a tree or even a plain array, but hash table is the most common.
+A hash table is used to implement structures, such as a dictionary, a map, and an associative array. These structures can be implemented by a tree or a plain array, but it is efficient to use a hash table.
 
-This should explain why Swift's built-in `Dictionary` type requires that keys conform to the `Hashable` protocol: internally it uses a hash table, just like the one you'll learn about here.
+This should explain why Swift's built-in `Dictionary` type requires that keys conform to the `Hashable` protocol: internally it uses a hash table, like the one you will learn about here.
 
 ## How it works
 
-At its most basic, a hash table is nothing more than an array. Initially, this array is empty. When you put a value into the hash table under a certain key, it uses that key to calculate an index in the array, like so:
+A hash table is nothing more than an array. Initially, this array is empty. When you put a value into the hash table under a certain key, it uses that key to calculate an index in the array. Here is an example:
 
 ```swift
 hashTable["firstName"] = "Steve"
@@ -48,33 +48,33 @@ hashTable["hobbies"] = "Programming Swift"
 	+--------------+
 ```
 
-The trick is in how the hash table calculates those array indices. That's where the hashing comes in. When you write,
+The trick is how the hash table calculates those array indices. That is where the hashing comes in. When you write the following statement,
 
 ```swift
 hashTable["firstName"] = "Steve"
 ```
 
-the hash table takes the key `"firstName"` and asks it for its `hashValue` property. That's why keys must be `Hashable`. 
+the hash table takes the key `"firstName"` and asks it for its `hashValue` property. Hence, keys must be `Hashable`.
 
-When you do `"firstName".hashValue`, it returns a big integer: -4799450059917011053. Likewise, `"hobbies".hashValue` has the hash value 4799450060928805186. (The values you see may vary.)
+When you write `"firstName".hashValue`, it returns a big integer: -4799450059917011053. Likewise, `"hobbies".hashValue` has the hash value 4799450060928805186. (The values you see may vary.)
 
-Of course, these numbers are way too big to be used as indices into our array. One of them is even negative! A common way to make these big numbers more suitable is to first make the hash positive and then take the modulo with the array size.
+These numbers are big to be used as indices into our array, and one of them is even negative! A common way to make these big numbers  suitable is to first make the hash positive and then take the modulo with the array size.
 
-Our array has size 5, so the index for the `"firstName"` key becomes `abs(-4799450059917011053) % 5 = 3`. You can calculate for yourself that the array index for `"hobbies"` is 1.
+Our array has size 5, so the index for the `"firstName"` key becomes `abs(-4799450059917011053) % 5 = 3`. You can calculate that the array index for `"hobbies"` is 1.
 
-Using hashes in this manner is what makes the dictionary so efficient: to find an element in the hash table you only have to hash the key to get an array index and then look up the element in the underlying array. All these operations take a constant amount of time, so inserting, retrieving, and removing are all **O(1)**.
+Using hashes in this manner is what makes the dictionary efficient: to find an element in the hash table, you must hash the key to get an array index and then look up the element in the underlying array. All these operations take a constant amount of time, so inserting, retrieving, and removing are all **O(1)**.
 
-> **Note:** As you can see, it's hard to predict where in the array your objects end up. That's why dictionaries do not guarantee any particular order of the elements in the hash table.
+> **Note:** It is difficult to predict where in the array your objects end up. Hence, dictionaries do not guarantee any particular order of the elements in the hash table.
 
 ## Avoiding collisions
 
 There is one problem: because we take the modulo of the hash value with the size of the array, it can happen that two or more keys get assigned the same array index. This is called a collision.
 
-One way to avoid collisions is to have a very large array. That reduces the likelihood of two keys mapping to the same index. Another trick is to use a prime number for the array size. However, collisions are bound to occur so you need some way to handle them.
+One way to avoid collisions is to have a large array which reduces the likelihood of two keys mapping to the same index. Another trick is to use a prime number for the array size. However, collisions are bound to occur, so you need to find a way to handle them.
 
-Because our table is so small it's easy to show a collision. For example, the array index for the key `"lastName"` is also 3. That's a problem, as we don't want to overwrite the value that's already at this array index.
+Because our table is small, it is easy to show a collision. For example, the array index for the key `"lastName"` is also 3, but we do not want to overwrite the value that is already at this array index.
 
-There are a few ways to handle collisions. A common one is to use chaining. The array now looks as follows:
+A common way to handle collisions is to use chaining. The array looks as follows:
 
 ```swift
 	buckets:
@@ -91,25 +91,25 @@ There are a few ways to handle collisions. A common one is to use chaining. The 
 	+-----+
 ```
 
-With chaining, keys and their values are not stored directly in the array. Instead, each array element is really a list of zero or more key/value pairs. The array elements are usually called the *buckets* and the lists are called the *chains*. So here we have 5 buckets and two of these buckets have chains. The other three buckets are empty.
+With chaining, keys and their values are not stored directly in the array. Instead, each array element is a list of zero or more key/value pairs. The array elements are usually called the *buckets* and the lists are called the *chains*. Here we have 5 buckets, and two of these buckets have chains. The other three buckets are empty.
 
-If we now write the following to retrieve an item from the hash table,
+If we write the following statement to retrieve an item from the hash table,
 
 ```swift
 let x = hashTable["lastName"]
 ```
 
-then this first hashes the key `"lastName"` to calculate the array index, which is 3. Bucket 3 has a chain, so we step through that list to find the value with the key `"lastName"`. That is done by comparing the keys, so here that involves a string comparison. The hash table sees that this key belongs to the last item in the chain and returns the corresponding value, `"Jobs"`.
+it first hashes the key `"lastName"` to calculate the array index, which is 3. Since bucket 3 has a chain, we step through the list to find the value with the key `"lastName"`. This is done by comparing the keys using a string comparison. The hash table checks that the key belongs to the last item in the chain and returns the corresponding value, `"Jobs"`.
 
-Common ways to implement this chaining mechanism are to use a linked list or another array. Technically speaking the order of the items in the chain doesn't matter, so you also can think of it as a set instead of a list. (Now you can also imagine where the term "bucket" comes from; we just dump all the objects together into the bucket.)
+Common ways to implement this chaining mechanism are to use a linked list or another array. Since the order of the items in the chain does not matter, you can think of it as a set instead of a list. (Now you can also imagine where the term "bucket" comes from; we just dump all the objects together into the bucket.)
 
-It's important that chains do not become too long or looking up items in the hash table becomes really slow. Ideally, we would have no chains at all but in practice it is impossible to avoid collisions. You can improve the odds by giving the hash table enough buckets and by using high-quality hash functions.
+Chains should not become long because the slow process of looking up items in the hash table. Ideally, we would have no chains at all, but in practice it is impossible to avoid collisions. You can improve the odds by giving the hash table enough buckets using high-quality hash functions.
 
-> **Note:** An alternative to chaining is "open addressing". The idea is this: if an array index is already taken, we put the element in the next unused bucket. Of course, this approach has its own upsides and downsides.
+> **Note:** An alternative to chaining is "open addressing". The idea is this: if an array index is already taken, we put the element in the next unused bucket. This approach has its own upsides and downsides.
 
 ## The code
 
-Let's look at a basic implementation of a hash table in Swift. We'll build it up step-by-step.
+Let's look at a basic implementation of a hash table in Swift. We will build it up step-by-step.
 
 ```swift
 public struct HashTable<Key: Hashable, Value> {
@@ -127,9 +127,9 @@ public struct HashTable<Key: Hashable, Value> {
   }
 ```
 
-The `HashTable` is a generic container and the two generic types are named `Key` (which must be `Hashable`) and `Value`. We also define two other types: `Element` is a key/value pair for use in a chain and `Bucket` is an array of such `Elements`.
+The `HashTable` is a generic container, and the two generic types are named `Key` (which must be `Hashable`) and `Value`. We also define two other types: `Element` is a key/value pair for using in a chain, and `Bucket` is an array of such `Elements`.
 
-The main array is named `buckets`. It has a fixed size, the so-called capacity, provided by the `init(capacity)` method. We're also keeping track of how many items have been added to the hash table using the `count` variable.
+The main array is named `buckets`. It has a fixed size, the so-called capacity, provided by the `init(capacity)` method. We are also keeping track of how many items have been added to the hash table using the `count` variable.
 
 An example of how to create a new hash table object:
 
@@ -137,7 +137,7 @@ An example of how to create a new hash table object:
 var hashTable = HashTable<String, String>(capacity: 5)
 ```
 
-Currently the hash table doesn't do anything yet, so let's add the remaining functionality. First, add a helper method that calculates the array index for a given key:
+The hash table does not do anything yet, so let's add the remaining functionality. First, add a helper method that calculates the array index for a given key:
 
 ```swift
   private func index(forKey key: Key) -> Int {
@@ -145,9 +145,9 @@ Currently the hash table doesn't do anything yet, so let's add the remaining fun
   }
 ```
 
-This performs the calculation you saw earlier: it takes the absolute value of the key's `hashValue` modulo the size of the buckets array. We've put this in a function of its own because it gets used in a few different places.
+This performs the calculation you saw earlier: it takes the absolute value of the key's `hashValue` modulo the size of the buckets array. We have put this in a function of its own because it gets used in a few different places.
 
-There are four common things you'll do with a hash table or dictionary: 
+There are four common things you will do with a hash table or dictionary: 
 
 - insert a new element
 - look up an element
@@ -180,7 +180,7 @@ We can do all these things with a `subscript` function:
   }
 ```
 
-This calls three helper functions to do the actual work. Let's take a look at `value(forKey:)` first, which retrieves an object from the hash table.
+This calls three helper functions to do the actual work. Let's take a look at `value(forKey:)`which retrieves an object from the hash table.
 
 ```swift
   public func value(forKey key: Key) -> Value? {
@@ -193,10 +193,9 @@ This calls three helper functions to do the actual work. Let's take a look at `v
     return nil  // key not in hash table
   }
 ```
+First it calls `index(forKey:)` to convert the key into an array index. That gives us the bucket number, but this bucket may be used by more than one key if there were collisions. The `value(forKey:)` loops through the chain from that bucket and compares the keys one-by-one. If found, it returns the corresponding value, otherwise it returns `nil`.
 
-First it calls `index(forKey:)` to convert the key into an array index. That gives us the bucket number, but if there were collisions this bucket may be used by more than one key. So `value(forKey:)` loops through the chain from that bucket and compares the keys one-by-one. If found, it returns the corresponding value, otherwise it returns `nil`.
-
-The code to insert a new element or update an existing element lives in `updateValue(_:forKey:)`. It's a little bit more complicated:
+The code to insert a new element or update an existing element lives in `updateValue(_:forKey:)`. This is more complicated:
 
 ```swift
   public mutating func updateValue(_ value: Value, forKey key: Key) -> Value? {
@@ -218,9 +217,9 @@ The code to insert a new element or update an existing element lives in `updateV
   }
 ```
 
-Again, the first thing we do is convert the key into an array index to find the bucket. Then we loop through the chain for that bucket. If we find the key in the chain, it means we must update it with the new value. If the key is not in the chain, we insert the new key/value pair to the end of the chain.
+Again, the first step is to convert the key into an array index to find the bucket. Then we loop through the chain for that bucket. If we find the key in the chain, we must update it with the new value. If the key is not in the chain, we insert the new key/value pair to the end of the chain.
 
-As you can see, it's important that chains are kept short (by making the hash table large enough). Otherwise, you spend a lot of time in these `for`...`in` loops and the performance of the hash table will no longer be **O(1)** but more like **O(n)**.
+As you can see, it is important to keep the chains short (by making the hash table large enough). Otherwise, you spend excessive time in these `for`...`in` loops and the performance of the hash table will no longer be **O(1)** but more like **O(n)**.
 
 Removing is similar in that again it loops through the chain:
 
@@ -246,16 +245,16 @@ Try this stuff out in a playground. It should work just like a standard Swift `D
 
 ## Resizing the hash table
 
-This version of `HashTable` always uses an array of a fixed size or capacity. That's fine if you've got a good idea of many items you'll be storing in the hash table. For the capacity, choose a prime number that is greater than the maximum number of items you expect to store and you're good to go.
+This version of `HashTable` always uses an array of a fixed size or capacity. If you have many items to store in the hash table, for the capacity, choose a prime number greater than the maximum number of items.
 
 The *load factor* of a hash table is the percentage of the capacity that is currently used. If there are 3 items in a hash table with 5 buckets, then the load factor is `3/5 = 60%`.
 
-If the hash table is too small and the chains are long, the load factor can become greater than 1. That's not a good idea.
+If the hash table is small, and the chains are long, the load factor can become greater than 1, that is not a good idea.
 
-If the load factor becomes too high, say > 75%, you can resize the hash table. Adding the code for this is left as an exercise for the reader. Keep in mind that making the buckets array larger will change the array indices that the keys map to! To account for this, you'll have to insert all the elements again after resizing the array.
+If the load factor becomes high, greater than 75%, you can resize the hash table. Adding the code for this condition is left as an exercise for the reader. Keep in mind that making the buckets array larger will change the array indices that the keys map to! This requires you to insert all the elements again after resizing the array.
 
 ## Where to go from here?
 
-`HashTable` is quite basic. It might be fun to integrate it better with the Swift standard library by making it a `SequenceType`, for example.
+`HashTable` is quite basic. It might be efficient to integrate it with the Swift standard library by making it a `SequenceType`.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*

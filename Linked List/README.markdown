@@ -79,18 +79,18 @@ public class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
 
   private var head: Node?
-  
+
   public var isEmpty: Bool {
     return head == nil
   }
-  
+
   public var first: Node? {
     return head
   }
 }
 ```
 
-Ideally, I'd like to put the `LinkedListNode` class inside `LinkedList` but Swift currently doesn't allow generic types to have nested types. Instead we're using a typealias so inside `LinkedList` we can write the shorter `Node` instead of `LinkedListNode<T>`.
+Ideally, we would want a class name to be as descriptive as possible, yet, we don't want to type a long name every time we want to use the class, therefore, we're using a typealias so inside `LinkedList` we can write the shorter `Node` instead of `LinkedListNode<T>`.
 
 This linked list only has a `head` pointer, not a tail. Adding a tail pointer is left as an exercise for the reader. (I'll point out which functions would be different if we also had a tail pointer.)
 
@@ -267,7 +267,7 @@ Let's write a method that lets you insert a new node at any index in the list. F
 ```swift
   private func nodesBeforeAndAfter(index: Int) -> (Node?, Node?) {
     assert(index >= 0)
-    
+
     var i = index
     var next = head
     var prev: Node?
@@ -283,13 +283,13 @@ Let's write a method that lets you insert a new node at any index in the list. F
   }
 ```
 
-This returns a tuple containing the node currently at the specified index and the node that immediately precedes it, if any. The loop is very similar to `nodeAtIndex()`, except that here we also keep track of what the previous node is as we iterate through the list. 
+This returns a tuple containing the node currently at the specified index and the node that immediately precedes it, if any. The loop is very similar to `nodeAtIndex()`, except that here we also keep track of what the previous node is as we iterate through the list.
 
 Let's look at an example. Suppose we have the following list:
 
 	head --> A --> B --> C --> D --> E --> nil
 
-We want to find the nodes before and after index 3. As we start the loop, `i = 3`, `next` points at `"A"`, and `prev` is nil. 
+We want to find the nodes before and after index 3. As we start the loop, `i = 3`, `next` points at `"A"`, and `prev` is nil.
 
 	head --> A --> B --> C --> D --> E --> nil
 	        next
@@ -320,7 +320,7 @@ Now that we have this helper function, we can write the method for inserting nod
 ```swift
   public func insert(value: T, atIndex index: Int) {
     let (prev, next) = nodesBeforeAndAfter(index)     // 1
-    
+
     let newNode = Node(value: value)    // 2
     newNode.previous = prev
     newNode.next = next
@@ -364,20 +364,20 @@ What else do we need? Removing nodes, of course! First we'll do `removeAll()`, w
 
 If you had a tail pointer, you'd set it to `nil` here too.
 
-Next we'll add some functions that let you remove individual nodes. If you already have a reference to the node, then using `removeNode()` is the most optimal because you don't need to iterate through the list to find the node first. 
+Next we'll add some functions that let you remove individual nodes. If you already have a reference to the node, then using `removeNode()` is the most optimal because you don't need to iterate through the list to find the node first.
 
 ```swift
   public func remove(node: Node) -> T {
     let prev = node.previous
     let next = node.next
-    
+
     if let prev = prev {
       prev.next = next
     } else {
       head = next
     }
     next?.previous = prev
-    
+
     node.previous = nil
     node.next = nil
     return node.value
@@ -412,7 +412,7 @@ If you don't have a reference to the node, you can use `removeLast()` or `remove
   }
 ```
 
-All these removal functions also return the value from the removed element. 
+All these removal functions also return the value from the removed element.
 
 ```swift
 list.removeLast()              // "World"
@@ -543,4 +543,4 @@ When performing operations on a linked list, you always need to be careful to up
 
 When processing lists, you can often use recursion: process the first element and then recursively call the function again on the rest of the list. You’re done when there is no next element. This is why linked lists are the foundation of functional programming languages such as LISP.
 
-*Written for Swift Algorithm Club by Matthijs Hollemans*
+*Originally written by Matthijs Hollemans for Ray Wenderlich's Swift Algorithm Club*
