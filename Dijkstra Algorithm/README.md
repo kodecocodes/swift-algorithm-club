@@ -63,7 +63,7 @@ After this step graph has this state:
 | Path Length From Start    |  0  | inf | inf | inf | inf |
 | Path Vertices From Start  | [A] | [ ] | [ ] | [ ] | [ ] |
 
-> Step 1
+## Step 1
 
 Then we check all of its neighbors. 
 If checking vertex path length from start + edge weigth is smaller than neighbor's path length from start, then we set neighbor's path length from start new value and append to its pathVerticesFromStart array new vertex: checkingVertex. Repeat this action for every vertex.
@@ -88,7 +88,7 @@ And its state is here:
 | Path Length From Start    |     0      |     3      |    inf     |     1      |    inf     |
 | Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   |    [ ]     |
 
-> Step 2
+## Step 2
 
 From now we repeat all actions again and fill our table with new info! 
 
@@ -100,7 +100,7 @@ From now we repeat all actions again and fill our table with new info!
 | Path Length From Start    |     0      |     3      |    inf     |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   | [A, D, E]  |
 
-> Step 3
+## Step 3
 
 <img src="Images/image5.png" height="250" />
 
@@ -110,7 +110,7 @@ From now we repeat all actions again and fill our table with new info!
 | Path Length From Start    |     0      |     3      |     11     |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |[A, D, E, C]|   [A, D]   | [A, D, E ] |
 
-> Step 4
+## Step 4
 
 <img src="Images/image6.png" height="250" />
 
@@ -120,11 +120,9 @@ From now we repeat all actions again and fill our table with new info!
 | Path Length From Start    |     0      |     3      |     8      |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
 
-> Step 5
+## Step 5
 
 <img src="Images/image7.png" height="250" />
-
-> Step 6
 
 |                           |     A      |     B      |     C      |     D      |     E      |
 |:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
@@ -132,11 +130,13 @@ From now we repeat all actions again and fill our table with new info!
 | Path Length From Start    |     0      |     3      |     8      |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
 
+## About
+
 This repository contains to playgrounds:
 * To understand how does this algorithm works, I have created **VisualizedDijkstra.playground.** It works in auto and interactive modes. Moreover there are play/pause/stop buttons.
 * If you need only realization of the algorithm without visualization then run **Dijkstra.playground.** It contains necessary classes and couple functions to create random graph for algorithm testing.
 
-## Dijkstra's algorithm explanation
+
 
 
 
