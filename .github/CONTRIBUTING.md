@@ -33,7 +33,7 @@ If what you have in mind is a new addition, please follow this process when subm
 
 1. Create a pull request to "claim" an algorithm or data structure. This is to avoid having multiple people working on the same thing.
 2. Use this [style guide](https://github.com/raywenderlich/swift-style-guide) for writing code (more or less).
-3. Write an explanation of how the algorithm works. Include **plenty of examples** for readers to follow along. Pictures are good. Take a look at [the explanation of quicksort](Quicksort/) to get an idea.
+3. Write an explanation of how the algorithm works. Include **plenty of examples** for readers to follow along. Pictures are good. Take a look at [the explanation of quicksort](../Quicksort/) to get an idea.
 4. Include your name in the explanation, something like *Written by Your Name* at the end of the document. 
 5. Add a playground and/or unit tests.
 
