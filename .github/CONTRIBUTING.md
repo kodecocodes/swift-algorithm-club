@@ -50,7 +50,7 @@ For the unit tests:
     - Uncheck **Autocreate schemes**
     - Check **Shared**
 
-![Screenshot of scheme settings](Images/scheme-settings-for-travis.png)
+![Screenshot of scheme settings](../Images/scheme-settings-for-travis.png)
 
 ## Want to chat?
 
