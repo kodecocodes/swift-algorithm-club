@@ -8,9 +8,7 @@ If you're a computer science student who needs to learn this stuff for exams -- 
 
 The goal of this project is to **explain how algorithms work**. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use but you may need to tweak it to fit into your own codebase.
 
-Most code is compatible with **Xcode 8.2** and **Swift 3**. We'll keep this updated with the latest version of Swift.
-
-This is a work in progress. More algorithms will be added soon. :-)
+Most code is compatible with **Xcode 8.3** and **Swift 3**. We'll keep this updated with the latest version of Swift.
 
 :heart_eyes: **Suggestions and contributions are welcome!** :heart_eyes:
 
@@ -24,9 +22,7 @@ This is a work in progress. More algorithms will be added soon. :-)
 
 [Algorithm design techniques](Algorithm%20Design.markdown). How do you create your own algorithms?
 
-[How to contribute](How%20to%20Contribute.markdown). Report an issue to leave feedback, or submit a pull request.
-
-[Under construction](Under%20Construction.markdown). Algorithms that are under construction.
+[How to contribute](https://github.com/raywenderlich/swift-algorithm-club/blob/master/.github/CONTRIBUTING.md). Report an issue to leave feedback, or submit a pull request.
 
 ## Where to start?
 
@@ -56,7 +52,7 @@ If you're new to algorithms and data structures, here are a few good ones to sta
 
 - [Brute-Force String Search](Brute-Force%20String%20Search/). A naive method.
 - [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
-- Knuth-Morris-Pratt
+- [Knuth-Morris-Pratt](Knuth-Morris-Pratt/). A linear-time string algorithm that returns indexes of all occurrencies of a given pattern.
 - [Rabin-Karp](Rabin-Karp/)  Faster search by using hashing.
 - [Longest Common Subsequence](Longest%20Common%20Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
 - [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
@@ -103,7 +99,6 @@ Bad sorting algorithms (don't use these!):
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
 - [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
 - [Shunting Yard Algorithm](Shunting%20Yard/). Convert infix expressions to postfix.
-- Statistics
 - [Karatsuba Multiplication](Karatsuba%20Multiplication/). Another take on elementary multiplication.
 - [Haversine Distance](HaversineDistance/). Calculating the distance between 2 points from a sphere.
 - [Strassen's Multiplication Matrix](Strassen%20Matrix%20Multiplication/). Efficient way to handle matrix multiplication.
@@ -112,7 +107,7 @@ Bad sorting algorithms (don't use these!):
 
 - [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters.
 - k-Nearest Neighbors
-- [Linear Regression](Linear%20Regression/)
+- [Linear Regression](Linear%20Regression/). A technique for creating a model of the relationship between two (or more) variable quantities.
 - Logistic Regression
 - Neural Networks
 - PageRank
@@ -153,9 +148,9 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Tree](Tree/). A general-purpose tree structure.
 - [Binary Tree](Binary%20Tree/). A tree where each node has at most two children.
 - [Binary Search Tree (BST)](Binary%20Search%20Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
-- Red-Black Tree
+- [Red-Black Tree](Red-Black%20Tree/). A self balancing binary search tree.
 - Splay Tree
-- Threaded Binary Tree
+- [Threaded Binary Tree](Threaded%20Binary%20Tree/). A binary tree that maintains a few extra variables for cheap and fast in-order traversals.
 - [Segment Tree](Segment%20Tree/). Can quickly compute a function over a portion of an array.
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
@@ -226,7 +221,7 @@ Other algorithm repositories:
 
 The Swift Algorithm Club was originally created by [Matthijs Hollemans](https://github.com/hollance).
 
-It is now maintained by [Vincent Ngo](https://www.raywenderlich.com/u/jomoka) and [Kelvin Lau](https://github.com/kelvinlauKL).
+It is now maintained by [Vincent Ngo](https://www.raywenderlich.com/u/jomoka), [Kelvin Lau](https://github.com/kelvinlauKL) and [Ross O'brien](https://www.raywenderlich.com/u/narrativium).
 
 The Swift Algorithm Club is a collaborative effort from the [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](How%20to%20Contribute.markdown)? :]
 
