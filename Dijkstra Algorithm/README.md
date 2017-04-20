@@ -12,6 +12,7 @@ When the algorithm starts to work initial graph looks like this:
 [image1.png]
 
 The table below will represent graph state
+
 |                           |  A  |  B  |  C  |  D  |  E  |
 | ------------------------- | --- | --- | --- | --- | --- |
 | Visited                   |  F  |  F  |  F  |  F  |  F  |
@@ -61,6 +62,7 @@ If neighbor's path length from start is bigger than checking vertex path length 
 | Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   |    [ ]     |
 
 [image4.jpg]
+
 |                           |     A      |     B      |     C      |     D      |     E      |
 | ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | Visited                   |     T      |     F      |     F      |     T      |     F      |
@@ -68,6 +70,7 @@ If neighbor's path length from start is bigger than checking vertex path length 
 | Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   | [A, D, E]  |
 
 [image5.jpg]
+
 |                           |     A      |     B      |     C      |     D      |     E      |
 | ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | Visited                   |     T      |     F      |     F      |     T      |     T      |
@@ -75,6 +78,7 @@ If neighbor's path length from start is bigger than checking vertex path length 
 | Path Vertices From Start  |    [A]     |   [A, B]   |[A, D, E, C]|   [A, D]   | [A, D, E ] |
 
 [image6.jpg]
+
 |                           |     A      |     B      |     C      |     D      |     E      |
 | ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | Visited                   |     T      |     T      |     F      |     T      |     T      |
@@ -82,6 +86,7 @@ If neighbor's path length from start is bigger than checking vertex path length 
 | Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
 
 [image7.jpg]
+
 |                           |     A      |     B      |     C      |     D      |     E      |
 | ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | Visited                   |     T      |     T      |     T      |     T      |     T      |
