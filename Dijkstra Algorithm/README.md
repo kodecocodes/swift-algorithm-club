@@ -9,7 +9,8 @@ The best example is road network. If you wnat to find the shortest path from you
 I have a gif example, which will show you how algorithm works. If this is not enough, then you can play with my **VisualizedDijkstra.playground**.
 So let's image, that your house is "A" vertex and your job is "B" vertex. And you are lucky, you have graph with all possible routes.
 When the algorithm starts to work initial graph looks like this:
-[Images/image1.png]
+
+<img src="Images/image1.png" height="250" />
 
 The table below will represent graph state
 
@@ -50,10 +51,13 @@ Then we set this vertex as visited
 | Path Vertices From Start  | [A] | [ ] | [ ] | [ ] | [ ] |
 
 checkingVertex.visited = true
-[Images/image2.jpg]
+
+<img src="Images/image2.png" height="250" />
+
 Then we check all of its neighbors. 
 If neighbor's path length from start is bigger than checking vertex path length from start + edge weigth, then we set neighbor's path length from start new value and append to its pathVerticesFromStart array new vertex: checkingVertex. Repeat this action for every vertex.
-[Images/image3.jpg]
+
+<img src="Images/image3.png" height="250" />
 
 |                           |     A      |     B      |     C      |     D      |     E      |
 |:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
@@ -61,7 +65,7 @@ If neighbor's path length from start is bigger than checking vertex path length 
 | Path Length From Start    |     0      |     3      |    inf     |     1      |    inf     |
 | Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   |    [ ]     |
 
-[Images/image4.jpg]
+<img src="Images/image4.png" height="250" />
 
 |                           |     A      |     B      |     C      |     D      |     E      |
 |:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
@@ -69,7 +73,7 @@ If neighbor's path length from start is bigger than checking vertex path length 
 | Path Length From Start    |     0      |     3      |    inf     |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   | [A, D, E]  |
 
-[Images/image5.jpg]
+<img src="Images/image5.png" height="250" />
 
 |                           |     A      |     B      |     C      |     D      |     E      |
 |:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
@@ -77,7 +81,7 @@ If neighbor's path length from start is bigger than checking vertex path length 
 | Path Length From Start    |     0      |     3      |     11     |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |[A, D, E, C]|   [A, D]   | [A, D, E ] |
 
-[Images/image6.jpg]
+<img src="Images/image6.png" height="250" />
 
 |                           |     A      |     B      |     C      |     D      |     E      |
 |:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
@@ -85,7 +89,7 @@ If neighbor's path length from start is bigger than checking vertex path length 
 | Path Length From Start    |     0      |     3      |     8      |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
 
-[Images/image7.jpg]
+<img src="Images/image7.png" height="250" />
 
 |                           |     A      |     B      |     C      |     D      |     E      |
 |:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
