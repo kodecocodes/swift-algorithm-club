@@ -1,6 +1,6 @@
 # Dijkstra's algorithm
 
-This algorithm was invented in 1956 by Edsger W. Dijkstra. 
+This [algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) was invented in 1956 by Edsger W. Dijkstra. 
 
 This algorithm can be used, when you have one source vertex and want to find the shortest paths to all other vertices in the graph.
 
