@@ -30,13 +30,13 @@ The table below represents graph state:
 
 >T states for True
 
-To initialize out graph we have to set source vertex path length from source vertex to 0.
+To initialize out graph we have to set source vertex path length from source vertex to 0, and append itself to path vertices ffrom start.
 
 |                           |  A  |  B  |  C  |  D  |  E  |
 |:------------------------- |:---:|:---:|:---:|:---:|:---:|
 | Visited                   |  F  |  F  |  F  |  F  |  F  |
 | Path Length From Start    |  0  | inf | inf | inf | inf |
-| Path Vertices From Start  | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Path Vertices From Start  | [A] | [ ] | [ ] | [ ] | [ ] |
 
 Great, now our graph is initialized and we can pass it to the Dijkstra's algorithm.
 
