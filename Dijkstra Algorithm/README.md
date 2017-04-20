@@ -24,9 +24,11 @@ The table below represents graph state:
 | Path Length From Start    | inf | inf | inf | inf | inf |
 | Path Vertices From Start  | [ ] | [ ] | [ ] | [ ] | [ ] |
 
-_inf is equal infinity, which basically means, that algorithm doesn't know how far away is this vertex from start one._
-_F states for False_
-_T states for True_
+>inf is equal infinity, which basically means, that algorithm doesn't know how far away is this vertex from start one.
+
+>F states for False
+
+>T states for True
 
 To initialize out graph we have to set source vertex path length from source vertex to 0.
 
