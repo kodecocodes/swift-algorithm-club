@@ -9,12 +9,12 @@ The best example is road network. If you wnat to find the shortest path from you
 I have a gif example, which will show you how algorithm works. If this is not enough, then you can play with my **VisualizedDijkstra.playground**.
 So let's image, that your house is "A" vertex and your job is "B" vertex. And you are lucky, you have graph with all possible routes.
 When the algorithm starts to work initial graph looks like this:
-[image1.png]
+[images/image1.png]
 
 The table below will represent graph state
 
 |                           |  A  |  B  |  C  |  D  |  E  |
-| ------------------------- | --- | --- | --- | --- | --- |
+|:------------------------- |:---:|:---:|:---:|:---:|:---:|
 | Visited                   |  F  |  F  |  F  |  F  |  F  |
 | Path Length From Start    | inf | inf | inf | inf | inf |
 | Path Vertices From Start  | [ ] | [ ] | [ ] | [ ] | [ ] |
@@ -44,51 +44,51 @@ var checkingVertex = nonVisitedVertices.smallestPathLengthFromStartVertex()
 Then we set this vertex as visited 
 
 |                           |  A  |  B  |  C  |  D  |  E  |
-| ------------------------- | --- | --- | --- | --- | --- |
+|:------------------------- |:---:|:---:|:---:|:---:|:---:|
 | Visited                   |  T  |  F  |  F  |  F  |  F  |
 | Path Length From Start    |  0  | inf | inf | inf | inf |
 | Path Vertices From Start  | [A] | [ ] | [ ] | [ ] | [ ] |
 
 checkingVertex.visited = true
-[image2.jpg]
+[images/image2.jpg]
 Then we check all of its neighbors. 
 If neighbor's path length from start is bigger than checking vertex path length from start + edge weigth, then we set neighbor's path length from start new value and append to its pathVerticesFromStart array new vertex: checkingVertex. Repeat this action for every vertex.
-[image3.jpg]
+[images/image3.jpg]
 
 |                           |     A      |     B      |     C      |     D      |     E      |
-| ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+|:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
 | Visited                   |     T      |     F      |     F      |     F      |     F      |
 | Path Length From Start    |     0      |     3      |    inf     |     1      |    inf     |
 | Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   |    [ ]     |
 
-[image4.jpg]
+[images/image4.jpg]
 
 |                           |     A      |     B      |     C      |     D      |     E      |
-| ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+|:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
 | Visited                   |     T      |     F      |     F      |     T      |     F      |
 | Path Length From Start    |     0      |     3      |    inf     |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   | [A, D, E]  |
 
-[image5.jpg]
+[images/image5.jpg]
 
 |                           |     A      |     B      |     C      |     D      |     E      |
-| ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+|:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
 | Visited                   |     T      |     F      |     F      |     T      |     T      |
 | Path Length From Start    |     0      |     3      |     11     |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |[A, D, E, C]|   [A, D]   | [A, D, E ] |
 
-[image6.jpg]
+[images/image6.jpg]
 
 |                           |     A      |     B      |     C      |     D      |     E      |
-| ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+|:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
 | Visited                   |     T      |     T      |     F      |     T      |     T      |
 | Path Length From Start    |     0      |     3      |     8      |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
 
-[image7.jpg]
+[images/image7.jpg]
 
 |                           |     A      |     B      |     C      |     D      |     E      |
-| ------------------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+|:------------------------- |:----------:|:----------:|:----------:|:----------:|:----------:|
 | Visited                   |     T      |     T      |     T      |     T      |     T      |
 | Path Length From Start    |     0      |     3      |     8      |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
