@@ -64,7 +64,10 @@ public struct MinimumCoinChange {
                 if value - coin >= 0 {
                     var potentialChange: [Int] = [coin]
                     potentialChange.append(contentsOf: _changeDynamic(value - coin))
-                    potentialChangeArray.append(potentialChange)
+
+                    if potentialChange.reduce(0, +) == value { 
+                        potentialChangeArray.append(potentialChange)
+                    } 
                 }
             }
             
