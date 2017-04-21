@@ -56,8 +56,6 @@ public struct MinimumCoinChange {
                 return cached
             }
             
-            var change: [Int] = []
-            
             var potentialChangeArray: [[Int]] = []
             
             for coin in sortedCoinSet {
@@ -73,14 +71,11 @@ public struct MinimumCoinChange {
             
             if potentialChangeArray.count > 0 {
                 let sortedPotentialChangeArray = potentialChangeArray.sorted(by: { $0.count < $1.count })
-                change = sortedPotentialChangeArray[0]
+                cache[value] = sortedPotentialChangeArray[0]
+                return sortedPotentialChangeArray[0]
             }
             
-            if change.reduce(0, +) == value { 
-                cache[value] = change
-            } 
-
-            return change
+            return []
         }
 
         let change: [Int] = _changeDynamic(value)
