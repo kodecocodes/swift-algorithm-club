@@ -89,9 +89,9 @@
 - [冒泡排序](Bubble%20Sort/README-CN.markdown)
 - [慢排序](Slow%20Sort/README-CN.markdown)
 
-### Compression
+### 压缩
 
-- [Run-Length Encoding (RLE)](Run-Length Encoding/). Store repeated values as a single byte and a count.
+- [游程编码 (RLE)](Run-Length%20Encoding/README-CN.markdown). 将重复的字节存储为一个值和一个数量。
 - [Huffman Coding](Huffman Coding/). Store more common elements using a smaller number of bits.
 
 ### Miscellaneous
