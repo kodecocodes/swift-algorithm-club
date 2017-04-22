@@ -94,9 +94,9 @@
 - [游程编码 (RLE)](Run-Length%20Encoding/README-CN.markdown). 将重复的字节存储为一个值和一个数量。
 - [Huffman Coding](Huffman Coding/). Store more common elements using a smaller number of bits.
 
-### Miscellaneous
+### 杂七杂八
 
-- [Shuffle](Shuffle/). Randomly rearranges the contents of an array.
+- [洗牌](Shuffle/README-CN.markdown). 随机重新排列数组的内容。
 - [Comb Sort](Comb Sort/). An improve upon the Bubble Sort algorithm.
 
 ### Mathematics
