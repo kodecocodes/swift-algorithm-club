@@ -92,7 +92,7 @@
 ### 压缩
 
 - [游程编码 (RLE)](Run-Length%20Encoding/README-CN.markdown). 将重复的字节存储为一个值和一个数量。
-- [Huffman Coding](Huffman Coding/). Store more common elements using a smaller number of bits.
+- [哈夫曼编码](Huffman%20Coding/README-CN.markdown). 用更少的位保存更常出现的元素。
 
 ### 杂七杂八
 
