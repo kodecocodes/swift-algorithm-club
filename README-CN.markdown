@@ -97,7 +97,7 @@
 ### 杂七杂八
 
 - [洗牌](Shuffle/README-CN.markdown). 随机重新排列数组的内容。
-- [Comb Sort](Comb Sort/). An improve upon the Bubble Sort algorithm.
+- [梳排序](Comb%20Sort/README-CN.markdown). 冒泡排序算法的改进。
 
 ### Mathematics
 
