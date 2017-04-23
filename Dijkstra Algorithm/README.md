@@ -144,5 +144,4 @@ Click the link: [YouTube](https://youtu.be/PPESI7et0cQ)
 
 ## Credits
 
-WWDC 2017 Scholarship Project  
-Created by [Taras Nikulin](https://github.com/crabman448)
+WWDC 2017 Scholarship Project (Rejected) created by [Taras Nikulin](https://github.com/crabman448)
