@@ -103,7 +103,7 @@
 
 - [最大公约数 (GCD)](GCD/README-CN.markdown). 特别姜力：最小公倍数
 - [排列和组合](Combinatorics/README-CN.markdown). 捡起你的组合吧！
-- [Shunting Yard Algorithm](Shunting Yard/). Convert infix expressions to postfix.
+- [调度场算法](Shunting%20Yard/README-CN.markdown). 将中缀表达式转换成后缀表达式。
 - Statistics
 - [Karatsuba Multiplication](Karatsuba Multiplication/). Another take on elementary multiplication.
 - [Haversine Distance](HaversineDistance/). Calculating the distance between 2 points from a sphere.
