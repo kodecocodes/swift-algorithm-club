@@ -101,7 +101,7 @@
 
 ### Mathematics
 
-- [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
+- [最大公约数 (GCD)](GCD/README-CN.markdown). 特别姜力：最小公倍数
 - [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
 - [Shunting Yard Algorithm](Shunting Yard/). Convert infix expressions to postfix.
 - Statistics
