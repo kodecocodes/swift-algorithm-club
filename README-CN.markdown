@@ -105,7 +105,7 @@
 - [排列和组合](Combinatorics/README-CN.markdown). 捡起你的组合吧！
 - [调度场算法](Shunting%20Yard/README-CN.markdown). 将中缀表达式转换成后缀表达式。
 - Statistics
-- [Karatsuba Multiplication](Karatsuba Multiplication/). Another take on elementary multiplication.
+- [Karatsuba 乘法](Karatsuba%20Multiplication/README-CN.markdown). 基本乘法的另一个方式。
 - [Haversine Distance](HaversineDistance/). Calculating the distance between 2 points from a sphere.
 
 ### Machine learning
