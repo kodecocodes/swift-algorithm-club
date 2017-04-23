@@ -106,7 +106,7 @@
 - [调度场算法](Shunting%20Yard/README-CN.markdown). 将中缀表达式转换成后缀表达式。
 - Statistics
 - [Karatsuba 乘法](Karatsuba%20Multiplication/README-CN.markdown). 基本乘法的另一个方式。
-- [Haversine Distance](HaversineDistance/). Calculating the distance between 2 points from a sphere.
+- [Haversine 距离](HaversineDistance/README-CN.markdown). 计算球面上两点之间的距离。
 
 ### Machine learning
 
