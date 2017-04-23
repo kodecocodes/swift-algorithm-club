@@ -102,7 +102,7 @@
 ### Mathematics
 
 - [最大公约数 (GCD)](GCD/README-CN.markdown). 特别姜力：最小公倍数
-- [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
+- [排列和组合](Combinatorics/README-CN.markdown). 捡起你的组合吧！
 - [Shunting Yard Algorithm](Shunting Yard/). Convert infix expressions to postfix.
 - Statistics
 - [Karatsuba Multiplication](Karatsuba Multiplication/). Another take on elementary multiplication.
