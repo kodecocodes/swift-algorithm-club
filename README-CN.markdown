@@ -108,9 +108,9 @@
 - [Karatsuba 乘法](Karatsuba%20Multiplication/README-CN.markdown). 基本乘法的另一个方式。
 - [Haversine 距离](HaversineDistance/README-CN.markdown). 计算球面上两点之间的距离。
 
-### Machine learning
+### 机器学习
 
-- [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters.
+- [k-Means 聚类](K-Means/README-CN.markdown). 将数据分成 *k* 个簇的无监督分类
 - k-Nearest Neighbors
 - [Linear Regression](Linear Regression/)
 - Logistic Regression
