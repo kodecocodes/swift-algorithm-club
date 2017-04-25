@@ -132,6 +132,144 @@ From now we repeat all actions again and fill our table with new info!
 | Path Length From Start    |     0      |     3      |     8      |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
 
+
+## Code implementation 
+First of all, lets create class, that will describe any Vertex in the graph.
+It is pretty simple
+```swift
+open class Vertex {
+
+	//Every vertex should be unique, that's why we set up identifier
+    open var identifier: String
+	
+	//For dijkstra every vertex in the graph should be connected with at least one other vertex. But there can be some use cases, 
+	//when you firstly initialize all vertices without neighbors. And then on next interation set up thei neighbors. So, initially neighbors is an empty array.
+	//Array contains tuples (Vertex, Double). Vertex is a neighbor and Double is as edge weight to that neighbor.
+    open var neighbors: [(Vertex, Double)] = []
+	
+	//As it was mentioned in algorithm description, default path length from start for all vertices should be as much as possible.
+	//It is var, because we will update it during algorithm execution.
+    open var pathLengthFromStart = Double.infinity
+	
+	//This array containt vertices, which we need to go through to reach this vertex from starting one
+	//As with path length from start, we will change this array during algorithm execution.
+    open var pathVerticesFromStart: [Vertex] = []
+
+    public init(identifier: String) {
+        self.identifier = identifier
+    }
+
+	//This function let us use the same array of vertices again and again to calculate paths with different starting vertex.
+	//When we will need to set new starting vertex andd recalculate paths, then we will simply clear graph vertices' cashes.
+    open func clearCache() {
+        pathLengthFromStart = Double.infinity
+        pathVerticesFromStart = []
+    }
+}
+```
+
+Because every vertex should be unique it is usefull to make them Hashable and according Equatable. We use identifier for this purposes.
+```swift
+extension Vertex: Hashable {
+    open var hashValue: Int {
+        return identifier.hashValue
+    }
+}
+
+extension Vertex: Equatable {
+    public static func ==(lhs: Vertex, rhs: Vertex) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+}
+```
+
+We've created a base for our algorithm. Now let's create a house :)
+Dijkstra's realization is really straightforward.
+```swift
+public class Dijkstra {
+	//It is a storage for vertices in the graph. 
+	//Assuming, that our vertices are unique, we can use Set instead of array. This approach will bring some benefits later.
+    private var totalVertices: Set<Vertex>
+
+    public init(vertices: Set<Vertex>) {
+        totalVertices = vertices
+    }
+
+	//Remember clearCache function in the Vertex class implementation? 
+	//This is just a wrapper that cleans cache for all stored vertices.
+    private func clearCache() {
+        totalVertices.forEach { $0.clearCache() }
+    }
+
+    public func findShortestPaths(from startVertex: Vertex) {
+		//Before we start searching shortes path from startVertex, 
+		//we need to clear vertices cache just to be sure, that out graph is as clean as a baby.
+		//Remember that every Vertex is a class and classes are passed by reference. 
+		//So whenever you change vertex outside of this class, it will affect this vertex inside totalVertices Set
+        clearCache()
+		//Now all our vertices have Double.infinity pathLengthFromStart and empty pathVerticesFromStart array.
+		
+		//The next step in the algorithm is to set startVertex pathLengthFromStart and pathVerticesFromStart
+        startVertex.pathLengthFromStart = 0
+        startVertex.pathVerticesFromStart.append(startVertex)
+		
+		//Here starts the main part. We will use while loop to iterate through all vertices in the graph.
+		//For this purpose we define currentVertex variable, which we will change in the end of each while cycle.
+        var currentVertex: Vertex? = startVertex
+		
+        while let vertex = currentVertex {
+			
+			//Nex line of code is an implementation of setting vertex as visited.
+			//As it has been said, we should check only unvisited vertices in the graph,
+			//So why don't just delete it from the set? This approach let us skip checking for *"if !vertex.visited then"*
+            totalVertices.remove(vertex)
+			
+			//filteredNeighbors is and arrray, that contains current vertex neighbors, which aren't yet visited
+            let filteredNeighbors = vertex.neighbors.filter { totalVertices.contains($0.0) }
+			
+			//Let's iterate through them
+            for neighbor in filteredNeighbors {
+				//These variable are more representative, than neighbor.0 or neighbor.1
+                let neighborVertex = neighbor.0
+                let weight = neighbor.1
+				
+				//Here we calculate new weight, that we can offer to neighbor. 
+                let theoreticNewWeight = vertex.pathLengthFromStart + weight
+				
+				//If it is smaller than neighbor's current pathLengthFromStart
+				//Then we perform this code
+                if theoreticNewWeight < neighborVertex.pathLengthFromStart {
+					
+					//set new pathLengthFromStart
+                    neighborVertex.pathLengthFromStart = theoreticNewWeight
+					
+					//set new pathVerticesFromStart
+                    neighborVertex.pathVerticesFromStart = vertex.pathVerticesFromStart
+					
+					//append current vertex to neighbor's pathVerticesFromStart
+                    neighborVertex.pathVerticesFromStart.append(neighborVertex)
+                }
+            }
+			
+			//If totalVertices is empty, i.e. all vertices are visited
+			//Than break the loop
+            if totalVertices.isEmpty {
+                currentVertex = nil
+                break
+            }
+			
+			//If loop is not broken, than pick next vertex for checkin from not visited.
+			//Next vertex pathLengthFromStart should be the smallest one.
+            currentVertex = totalVertices.min { $0.pathLengthFromStart < $1.pathLengthFromStart }
+        }
+    }
+}
+```
+
+That's all! Now you can check this algorithm in the playground. On the main page there is a code for creating random graph.
+
+Also there is a **VisualizedDijkstra.playground**. Use it to figure out algorithm flow in real (slowed :)) time.  
+
 ## About this repository
 
 This repository contains to playgrounds:
