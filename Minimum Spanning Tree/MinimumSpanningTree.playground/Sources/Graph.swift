@@ -36,16 +36,17 @@ public struct Graph<T: Hashable>: CustomStringConvertible {
     edgeList.append(Edge(vertex1: v1, vertex2: v2, weight: w))
     vertices.insert(v1)
     vertices.insert(v2)
-    if adjList[v1] == nil {
-      adjList[v1] = [(vertex: v2, weight: w)]
+
+    if let _ = adjList[v1] {
+      adjList[v1]?.append((vertex: v2, weight: w))
     } else {
-      adjList[v1]!.append((vertex: v2, weight: w))
+      adjList[v1] = [(vertex: v2, weight: w)]
     }
 
-    if adjList[v2] == nil {
-      adjList[v2] = [(vertex: v1, weight: w)]
+    if let _ = adjList[v2] {
+      adjList[v2]?.append((vertex: v1, weight: w))
     } else {
-      adjList[v2]!.append((vertex: v1, weight: w))
+      adjList[v2] = [(vertex: v1, weight: w)]
     }
   }
 
