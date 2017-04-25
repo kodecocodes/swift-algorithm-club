@@ -112,7 +112,7 @@
 
 - [k-Means 聚类](K-Means/README-CN.markdown). 将数据分成 *k* 个簇的无监督分类
 - k-Nearest Neighbors
-- [Linear Regression](Linear Regression/)
+- [线性回归](Linear Regression/README-CN.markdown)
 - Logistic Regression
 - Neural Networks
 - PageRank
