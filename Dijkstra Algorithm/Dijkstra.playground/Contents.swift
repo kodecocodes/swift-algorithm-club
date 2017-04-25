@@ -14,13 +14,18 @@ func createNotConnectedVertices() {
 
 func setupConnections() {
     for vertex in vertices {
+        //the amount of edges each vertex can have
         let randomEdgesCount = arc4random_uniform(4) + 1
         for _ in 0..<randomEdgesCount {
+            //randomize weight value from 0 to 9
             let randomWeight = Double(arc4random_uniform(10))
             let neighborVertex = randomVertex(except: vertex)
+
+            //we need this check to set only one connection between two equal pairs of vertices
             if vertex.neighbors.contains(where: { $0.0 == neighborVertex }) {
                 continue
             }
+            //creating neighbors and setting them
             let neighbor1 = (neighborVertex, randomWeight)
             let neighbor2 = (vertex, randomWeight)
             vertex.neighbors.append(neighbor1)
@@ -53,8 +58,14 @@ let dijkstra = Dijkstra(vertices: vertices)
 //decide which vertex will be the starting one
 let startVertex = randomVertex()
 
+let startTime = Date()
+
 //ask algorithm to find shortest paths from start vertex to all others
 dijkstra.findShortestPaths(from: startVertex)
+
+let endTime = Date()
+
+print("calculation time is = \((endTime.timeIntervalSince(startTime))) sec")
 
 //printing results
 let destinationVertex = randomVertex(except: startVertex)
