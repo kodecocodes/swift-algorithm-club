@@ -99,17 +99,11 @@ open class AVLTree<Key: Comparable, Payload> {
 
 extension TreeNode {
   public func minimum() -> TreeNode? {
-    if let leftChild = self.leftChild {
-      return leftChild.minimum()
-    }
-    return self
+    return leftChild?.minimum() ?? self
   }
 
   public func maximum() -> TreeNode? {
-    if let rightChild = self.rightChild {
-      return rightChild.maximum()
-    }
-    return self
+    return rightChild?.maximum() ?? self
   }
 }
 
@@ -120,11 +114,7 @@ extension AVLTree {
   }
 
   public func search(input: Key) -> Payload? {
-    if let result = search(key: input, node: root) {
-      return result.payload
-    } else {
-      return nil
-    }
+    return search(key: input, node: root)?.payload
   }
 
   fileprivate func search(key: Key, node: Node?) -> Node? {
@@ -385,11 +375,7 @@ extension TreeNode: CustomDebugStringConvertible {
 
 extension AVLTree: CustomDebugStringConvertible {
   public var debugDescription: String {
-    if let root = root {
-      return root.debugDescription
-    } else {
-      return "[]"
-    }
+    return root?.debugDescription ?? "[]"
   }
 }
 
@@ -409,10 +395,6 @@ extension TreeNode: CustomStringConvertible {
 
 extension AVLTree: CustomStringConvertible {
   public var description: String {
-    if let root = root {
-      return root.description
-    } else {
-      return "[]"
-    }
+    return root?.description ?? "[]"
   }
 }
