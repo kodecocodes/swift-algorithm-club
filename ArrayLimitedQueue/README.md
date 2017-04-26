@@ -15,7 +15,7 @@ This collection is convenient because it combines the functionality of other dat
 ## The code
 
 We'll start by creating our internal representation for the ArrayLimitedQueue. Since the idea of a set is similar to that of an array, we will use an array to represent our set. We need to be able to compare the individual elements. Thus, any type must conform to the [Comparable Protocol](https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Comparable_Protocol/index.html). 
-For easy printing, [Customstringconvertible](https://developer.apple.com/reference/swift/customstringconvertible) is used.
+For easy printing, [CustomStringConvertible Protocol](https://developer.apple.com/reference/swift/customstringconvertible) is used.
 
 ```swift
 public struct ArrayLimitedQueue<T: Comparable> : CustomStringConvertible {
@@ -148,7 +148,7 @@ Below are a few examples that can be found in the playground file.
 Here we create a collection with several values.
 
 ```swift
-var limitedArray = ArrayLimitedQueue<Player>()
+var limitedArray = ArrayLimitedQueue<Int>()
 
 //Unlimited size
 limitedArray.maxSize = 0
