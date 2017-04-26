@@ -148,7 +148,7 @@
 - [链表](Linked%20List/README-CN.markdown). 通过链接连接数据元素的系列。包括单项链表和双向链表。
 - [跳跃表](Skip-List/README-CN.md). 跳跃表是一种概率数据结构，与 AVL 或者红黑树有着同样的时间效率，对搜索和更新操作提供了一个聪明的妥协。
 
-### Trees
+### 树
 
 - [树](Tree/README-CN.markdown). 一般用途的树结构
 - [二叉树](Binary%20Tree/README-CN.markdown). 每个节点最多有两个子节点的数。
@@ -185,11 +185,11 @@
 - [最小生成树](Minimum%20Spanning%20Tree%20%28Unweighted%29/README-CN.markdown) 无权图
 - [全源最短路径](All-Pairs%20Shortest%20Paths/README-CN.markdown)
 
-## Puzzles
+## 谜题
 
-A lot of software developer interview questions consist of algorithmic puzzles. Here is a small selection of fun ones. For more puzzles (with answers), see [here](http://elementsofprogramminginterviews.com/) and [here](http://www.crackingthecodinginterview.com).
+许多软件开发者的面试都会涉及到算法题。这里是一些比较有意思的。可以从[这里](http://elementsofprogramminginterviews.com/)和[这里](http://www.crackingthecodinginterview.com)查看更多的题（都有答案）。
 
-- [Two-Sum Problem](Two-Sum Problem/)
+- [两和问题](Two-Sum%20Problem/README-CN.markdown)
 - [Fizz Buzz](Fizz Buzz/)
 - [Monty Hall Problem](Monty Hall Problem/)
 - [Finding Palindromes](Palindromes/)
