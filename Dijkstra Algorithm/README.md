@@ -2,13 +2,13 @@
 
 This [algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) was invented in 1956 by Edsger W. Dijkstra. 
 
-This algorithm can be used, when you have one source vertex and want to find the shortest paths to all other vertices in the graph.
+It can be used, when you have one source vertex and want to find the shortest paths to all other vertices in the graph.
 
 The best example is road network. If you wnat to find the shortest path from your house to your job, then it is time for the Dijkstra's algorithm.
 
-I have created **VisualizedDijkstra.playground** to help you to understand, how this algorithm works. Besides, I have described below step by step how does it works.
+I have created **VisualizedDijkstra.playground** to improve your understanding of the algorithm's flow. Besides, below is step by step algorithm's description.
 
-So let's imagine, that your house is "A" vertex and your job is "B" vertex. And you are lucky, you have graph with all possible routes.
+Let's imagine, you want to go to the shop. Your house is A vertex and there are 4 possible stores around your house. How to find the closest one/ones? Luckily, you have graph, that connects your house with all these stores. So, you know what to do :)
 
 ## Initialization
 
@@ -30,7 +30,7 @@ The table below represents graph state:
 
 >T states for True
 
-To initialize out graph we have to set source vertex path length from source vertex to 0, and append itself to path vertices ffrom start.
+To initialize our graph we have to set source vertex path length from source vertex to 0, and append itself to path vertices from start.
 
 |                           |  A  |  B  |  C  |  D  |  E  |
 |:------------------------- |:---:|:---:|:---:|:---:|:---:|
@@ -40,7 +40,7 @@ To initialize out graph we have to set source vertex path length from source ver
 
 Great, now our graph is initialized and we can pass it to the Dijkstra's algorithm.
 
-But before we will go through all process side by side let me explain how algorithm works.
+But before we will go through all process side by side read this explanation.
 The algorithm repeats following cycle until all vertices are marked as visited.
 Cycle:
 1. From the non-visited vertices the algorithm picks a vertex with the shortest path length from the start (if there are more than one vertex with the same shortest path value, then algorithm picks any of them)
@@ -50,7 +50,7 @@ When all vertices are marked as visited, the algorithm's job is done. Now, you c
 
 Okay, let's start!
 Let's follow the algorithm's cycle and pick the first vertex, which neighbors we want to check.
-All our vertices are not visited, but there is only one have the smallest path length from start - A. This vertex is th first one, which neighbors we will check.
+All our vertices are not visited, but there is only one has the smallest path length from start - A. This vertex is the first one, which neighbors we will check.
 First of all, set this vertex as visited 
 
 A.visited = true
@@ -268,7 +268,9 @@ public class Dijkstra {
 
 That's all! Now you can check this algorithm in the playground. On the main page there is a code for creating random graph.
 
-Also there is a **VisualizedDijkstra.playground**. Use it to figure out algorithm flow in real (slowed :)) time.  
+Also there is a **VisualizedDijkstra.playground**. Use it to figure out algorithm's flow in real (slowed :)) time.
+
+It is up to you how to implement some specific parts of algorithm, you can use Array instead of Set, add _visited_ property to Vertex or you can create some local totalVertices Array/Set inside _func findShortestPaths(from startVertex: Vertex)_ to keep totalVertices Array/Set unchanged. This is a general explanation with one possible implementation :)
 
 ## About this repository
 
