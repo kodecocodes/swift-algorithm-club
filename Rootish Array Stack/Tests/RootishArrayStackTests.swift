@@ -4,7 +4,7 @@ fileprivate extension RootishArrayStack {
 	func equal(toArray array: Array<Int>) -> Bool{
 		for index in 0..<count {
 			guard let integerElement = self[index] as? Int else { return false }
-			if (array[index] != integerElement) {
+			if array[index] != integerElement {
 				return false
 			}
 		}
