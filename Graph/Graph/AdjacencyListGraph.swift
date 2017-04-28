@@ -12,7 +12,7 @@ import Foundation
 private class EdgeList<T> where T: Equatable, T: Hashable {
 
   var vertex: Vertex<T>
-  var edges: [Edge<T>]? = nil
+  var edges: [Edge<T>]?
 
   init(vertex: Vertex<T>) {
     self.vertex = vertex
