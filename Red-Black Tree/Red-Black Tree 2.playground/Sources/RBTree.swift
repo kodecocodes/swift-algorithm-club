@@ -22,7 +22,7 @@ public class RBTNode<T: Comparable>: CustomStringConvertible {
             // If the value is encapsulated by double pipes it is double black (This should not occur in a verified RBTree)
             if self.isRed {
                 nodeValue = "(\(self.value!))"
-            } else if self.isBlack{
+            } else if self.isBlack {
                 nodeValue = "|\(self.value!)|"
             } else {
                 nodeValue = "||\(self.value!)||"
