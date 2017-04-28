@@ -118,8 +118,7 @@ extension SkipList {
           if value.key == key {
             isFound = true
             break
-          }
-          else {
+          } else {
             if key < value.key! {
               currentNode = node.down
             } else {
