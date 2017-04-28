@@ -283,7 +283,7 @@ extension SkipList {
 
 extension SkipList {
   
-  public func get(key:Key) -> Payload? {
+  public func get(key: Key) -> Payload? {
     return search(key: key)
   }
 }
