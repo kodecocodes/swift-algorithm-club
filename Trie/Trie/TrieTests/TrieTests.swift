@@ -101,7 +101,7 @@ class TrieTests: XCTestCase {
 
     /// Tests the performance of the insert method.
     func testInsertPerformance() {
-        self.measure() {
+        self.measure {
             let trie = Trie()
             for word in self.wordArray! {
                 trie.insert(word: word)
@@ -114,7 +114,7 @@ class TrieTests: XCTestCase {
     /// Tests the performance of the insert method when the words are already
     /// present.
     func testInsertAgainPerformance() {
-        self.measure() {
+        self.measure {
             for word in self.wordArray! {
                 self.trie.insert(word: word)
             }
@@ -123,7 +123,7 @@ class TrieTests: XCTestCase {
 
     /// Tests the performance of the contains method.
     func testContainsPerformance() {
-        self.measure() {
+        self.measure {
             for word in self.wordArray! {
                 XCTAssertTrue(self.trie.contains(word: word))
             }
@@ -136,7 +136,7 @@ class TrieTests: XCTestCase {
         for word in self.wordArray! {
             self.trie.remove(word: word)
         }
-        self.measure() {
+        self.measure {
             self.insertWordsIntoTrie()
             for word in self.wordArray! {
                 self.trie.remove(word: word)

@@ -64,7 +64,7 @@ open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Equatable, T: Hashab
 
   open override func createVertex(_ data: T) -> Vertex<T> {
     // check if the vertex already exists
-    let matchingVertices = vertices.filter() { vertex in
+    let matchingVertices = vertices.filter { vertex in
       return vertex.data == data
     }
 
