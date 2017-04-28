@@ -1,4 +1,3 @@
-
 import UIKit
 
 func haversineDinstance(la1: Double, lo1: Double, la2: Double, lo2: Double, radius: Double = 6367444.7) -> Double {

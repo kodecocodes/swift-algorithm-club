@@ -1,4 +1,3 @@
-
 private enum RBTColor {
     case red
     case black
