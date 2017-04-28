@@ -14,8 +14,7 @@ bTree[3]
 
 bTree.remove(2)
 
-bTree.traverseKeysInOrder {
-  key in
+bTree.traverseKeysInOrder { key in
   print(key)
 }
 
