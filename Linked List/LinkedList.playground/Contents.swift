@@ -389,4 +389,3 @@ let listArrayLiteral2: LinkedList = ["Swift", "Algorithm", "Club"]
 listArrayLiteral2.count        // 3
 listArrayLiteral2[0]           // "Swift"
 listArrayLiteral2.removeLast()  // "Club"
-

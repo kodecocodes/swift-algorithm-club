@@ -53,4 +53,3 @@ array.append(2)
 array[1]
 array.removeAt(index: 0)
 array.removeAll()
-
