@@ -119,7 +119,7 @@ Here's illustration of what I mean. Let's say the tree looks like this:
 
 ![BeforeFind](Images/BeforeFind.png)
 
-We call `setOf(4)`. To find the root node we have to first go to node `2` and then to node `7`. (The indexes of the elements are marked in red.)
+We call `setOf(4)`. To find the root node we have to first go to node `2` and then to node `7`. (The indices of the elements are marked in red.)
 
 During the call to `setOf(4)`, the tree is reorganized to look like this:
 
