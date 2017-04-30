@@ -153,7 +153,7 @@ tree.search("bubbly")   // nil
 
 It's also possible to describe a tree using nothing more than an array. The indices in the array then create the links between the different nodes. For example, if we have:
 
-	0 = beverage	5 = cocoa		9  = green
+	0 = beverage		5 = cocoa		9  = green
 	1 = hot			6 = soda		10 = chai
 	2 = cold		7 = milk		11 = ginger ale
 	3 = tea			8 = black		12 = bitter lemon
