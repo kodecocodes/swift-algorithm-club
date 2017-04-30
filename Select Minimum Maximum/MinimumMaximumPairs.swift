@@ -3,7 +3,6 @@
  */
 
 func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
-    var array = array
     guard !array.isEmpty else {
         return nil
     }
@@ -11,13 +10,11 @@ func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
     var minimum = array.first!
     var maximum = array.first!
 
+    // if 'array' has an odd number of items, let 'minimum' or 'maximum' deal with the leftover
     let hasOddNumberOfItems = array.count % 2 != 0
-    if hasOddNumberOfItems {
-        array.removeFirst()
-    }
-
-    while !array.isEmpty {
-        let pair = (array.removeFirst(), array.removeFirst())
+    let start = hasOddNumberOfItems ? 1 : 0
+    for i in stride(from: start, to: array.count, by: 2) {
+        let pair = (array[i], array[i+1])
 
         if pair.0 > pair.1 {
             if pair.0 > maximum {
@@ -35,6 +32,6 @@ func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
             }
         }
     }
-    
+
     return (minimum, maximum)
 }
