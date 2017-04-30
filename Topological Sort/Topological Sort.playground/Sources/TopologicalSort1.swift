@@ -23,7 +23,7 @@ extension Graph {
       return node
     })
 
-    var visited = [Node : Bool]()
+    var visited = [Node: Bool]()
     for (node, _) in adjacencyLists {
       visited[node] = false
     }

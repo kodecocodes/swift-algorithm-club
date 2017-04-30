@@ -173,7 +173,7 @@ public struct InsertionSorter: Sorter {
 // MARK: Bucket
 //////////////////////////////////////
 
-public struct Bucket<T:Sortable> {
+public struct Bucket<T: Sortable> {
     var elements: [T]
     let capacity: Int
 

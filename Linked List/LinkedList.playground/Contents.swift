@@ -177,7 +177,7 @@ public final class LinkedList<T> {
     if list.isEmpty { return }
     var (prev, next) = nodesBeforeAndAfter(index: index)
     var nodeToCopy = list.head
-    var newNode:Node?
+    var newNode: Node?
     while let node = nodeToCopy {
       newNode = Node(value: node.value)
       newNode?.previous = prev
@@ -389,4 +389,3 @@ let listArrayLiteral2: LinkedList = ["Swift", "Algorithm", "Club"]
 listArrayLiteral2.count        // 3
 listArrayLiteral2[0]           // "Swift"
 listArrayLiteral2.removeLast()  // "Club"
-

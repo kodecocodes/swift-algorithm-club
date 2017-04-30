@@ -22,7 +22,7 @@ public func shellSort(_ list : inout [Int]) {
             
             guard sublistCount == 1 && index > 0 else { continue }
             
-            while list[index - 1] > list[index] && index - 1 > 0  {
+            while list[index - 1] > list[index] && index - 1 > 0 {
                 swap(&list[index - 1], &list[index])
                 index -= 1
             }

@@ -12,7 +12,7 @@ import Foundation
 private class EdgeList<T> where T: Equatable, T: Hashable {
 
   var vertex: Vertex<T>
-  var edges: [Edge<T>]? = nil
+  var edges: [Edge<T>]?
 
   init(vertex: Vertex<T>) {
     self.vertex = vertex
@@ -64,7 +64,7 @@ open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Equatable, T: Hashab
 
   open override func createVertex(_ data: T) -> Vertex<T> {
     // check if the vertex already exists
-    let matchingVertices = vertices.filter() { vertex in
+    let matchingVertices = vertices.filter { vertex in
       return vertex.data == data
     }
 

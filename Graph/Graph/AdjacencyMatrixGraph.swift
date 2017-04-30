@@ -46,7 +46,7 @@ open class AdjacencyMatrixGraph<T>: AbstractGraph<T> where T: Equatable, T: Hash
   // Performance: possibly O(n^2) because of the resizing of the matrix.
   open override func createVertex(_ data: T) -> Vertex<T> {
     // check if the vertex already exists
-    let matchingVertices = vertices.filter() { vertex in
+    let matchingVertices = vertices.filter { vertex in
       return vertex.data == data
     }
 

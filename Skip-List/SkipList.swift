@@ -52,10 +52,9 @@ public struct Stack<T> {
 extension Stack: Sequence {
   public func makeIterator() -> AnyIterator<T> {
     var curr = self
-    return AnyIterator {
-             _ -> T? in
-             return curr.pop()
-      }
+    return AnyIterator { _ -> T? in
+      return curr.pop()
+    }
   }
 }
 
@@ -118,8 +117,7 @@ extension SkipList {
           if value.key == key {
             isFound = true
             break
-          }
-          else {
+          } else {
             if key < value.key! {
               currentNode = node.down
             } else {
@@ -285,7 +283,7 @@ extension SkipList {
 
 extension SkipList {
   
-  public func get(key:Key) -> Payload?{
+  public func get(key: Key) -> Payload? {
     return search(key: key)
   }
 }

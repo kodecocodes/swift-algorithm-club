@@ -150,7 +150,7 @@ class View: UIView {
         let context = UIGraphicsGetCurrentContext()
         
         // Draw hull
-        let lineWidth:CGFloat = 2.0
+        let lineWidth: CGFloat = 2.0
         
         context!.setFillColor(UIColor.black.cgColor)
         context!.setLineWidth(lineWidth)

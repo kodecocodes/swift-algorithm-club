@@ -41,7 +41,7 @@ extension BellmanFord: SSSPAlgorithm {
 
     for _ in 0 ..< vertices.count - 1 {
       var weightsUpdated = false
-      edges.forEach() { edge in
+      edges.forEach { edge in
         let weight = edge.weight!
         let relaxedDistance = weights[edge.from.index] + weight
         let nextVertexIdx = edge.to.index
@@ -116,7 +116,7 @@ extension BellmanFordResult: SSSPResult {
       return nil
     }
 
-    return path.map() { vertex in
+    return path.map { vertex in
       return vertex.data
     }
   }

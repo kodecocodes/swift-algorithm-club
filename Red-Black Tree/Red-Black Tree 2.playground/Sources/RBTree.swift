@@ -1,4 +1,3 @@
-
 private enum RBTColor {
     case red
     case black
@@ -8,9 +7,9 @@ private enum RBTColor {
 public class RBTNode<T: Comparable>: CustomStringConvertible {
     fileprivate var color: RBTColor = .red
     public var value: T! = nil
-    public var right:  RBTNode<T>!
-    public var left:  RBTNode<T>!
-    public var parent:  RBTNode<T>!
+    public var right: RBTNode<T>!
+    public var left: RBTNode<T>!
+    public var parent: RBTNode<T>!
     
     public var description: String {
         if self.value == nil {
@@ -23,7 +22,7 @@ public class RBTNode<T: Comparable>: CustomStringConvertible {
             // If the value is encapsulated by double pipes it is double black (This should not occur in a verified RBTree)
             if self.isRed {
                 nodeValue = "(\(self.value!))"
-            } else if self.isBlack{
+            } else if self.isBlack {
                 nodeValue = "|\(self.value!)|"
             } else {
                 nodeValue = "||\(self.value!)||"
@@ -436,7 +435,7 @@ public class RBTree<T: Comparable>: CustomStringConvertible {
     private func property3() {
         let bDepth = blackDepth(root: self.root)
         
-        let leaves:[RBTNode<T>] = getLeaves(n: self.root)
+        let leaves: [RBTNode<T>] = getLeaves(n: self.root)
         
         for leaflet in leaves {
             var leaf = leaflet
