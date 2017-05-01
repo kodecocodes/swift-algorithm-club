@@ -164,8 +164,8 @@ class TrieTests: XCTestCase {
         let fileName = "dictionary-archive"
         let filePath = resourcePath.appendingPathComponent(fileName)
         NSKeyedArchiver.archiveRootObject(trie, toFile: filePath)
-        let trieCopy = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Trie
-        XCTAssertEqual(trieCopy.count, trie.count)
+        let trieCopy = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? Trie
+        XCTAssertEqual(trieCopy?.count, trie.count)
 
     }
 
