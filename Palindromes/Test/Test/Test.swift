@@ -29,9 +29,9 @@ class PalindromeTests: XCTestCase {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
-            let _ = isPalindrome("abbcbba")
-            let _ = isPalindrome("asdkfaksjdfasjkdfhaslkjdfakjsdfhakljsdhflkjasdfhkasdjhfklajsdfhkljasdf")
-            let _ = isPalindrome("abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababa")
+            _ = isPalindrome("abbcbba")
+            _ = isPalindrome("asdkfaksjdfasjkdfhaslkjdfakjsdfhakljsdhflkjasdfhkasdjhfklajsdfhkljasdf")
+            _ = isPalindrome("abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababa")
         }
     }
     

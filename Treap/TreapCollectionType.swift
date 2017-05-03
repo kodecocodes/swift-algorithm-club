@@ -50,7 +50,7 @@ extension Treap: MutableCollection {
     
     mutating set {
       guard let value = newValue else {
-        let _ = try? self.delete(key: key)
+        _ = try? self.delete(key: key)
         return
       }
       
