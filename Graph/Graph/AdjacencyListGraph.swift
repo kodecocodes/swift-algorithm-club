@@ -78,7 +78,7 @@ open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Equatable, T: Hashab
     // works
     let edge = Edge(from: from, to: to, weight: weight)
     let edgeList = adjacencyList[from.index]
-    if let _ = edgeList.edges {
+    if edgeList.edges != nil {
         edgeList.addEdge(edge)
     } else {
         edgeList.edges = [edge]
