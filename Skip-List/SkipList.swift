@@ -71,10 +71,10 @@ private func coinFlip() -> Bool {
 public class DataNode<Key: Comparable, Payload> {
   public typealias Node = DataNode<Key, Payload>
   
-  var data            : Payload?  
-  fileprivate var key : Key?
-  var next            : Node?
-  var down            : Node?
+  var data: Payload?  
+  fileprivate var key: Key?
+  var next: Node?
+  var down: Node?
   
   public init(key: Key, data: Payload) {
     self.key  = key
@@ -102,8 +102,8 @@ open class SkipList<Key: Comparable, Payload> {
 extension SkipList {
   
   func findNode(key: Key) -> Node? {
-    var currentNode : Node? = head
-    var isFound     : Bool  = false
+    var currentNode: Node? = head
+    var isFound: Bool = false
 
     while !isFound {
       if let node = currentNode {
