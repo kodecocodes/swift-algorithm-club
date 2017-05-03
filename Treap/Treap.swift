@@ -27,11 +27,11 @@ import Foundation
 public indirect enum Treap<Key: Comparable, Element> {
   case empty
   case node(key: Key, val: Element, p: Int, left: Treap, right: Treap)
-  
+
   public init() {
     self = .empty
   }
-  
+
   internal func get(_ key: Key) -> Element? {
     switch self {
     case .empty:
@@ -46,7 +46,7 @@ public indirect enum Treap<Key: Comparable, Element> {
       return nil
     }
   }
-  
+
   public func contains(_ key: Key) -> Bool {
     switch self {
     case .empty:
@@ -61,7 +61,7 @@ public indirect enum Treap<Key: Comparable, Element> {
       return false
     }
   }
-  
+
   public var depth: Int {
     switch self {
     case .empty:
@@ -80,12 +80,12 @@ public indirect enum Treap<Key: Comparable, Element> {
   public var count: Int {
     return Treap.countHelper(self)
   }
-  
+
   fileprivate static func countHelper(_ treap: Treap<Key, Element>) -> Int {
     if case let .node(_, _, _, left, right) = treap {
       return countHelper(left) + 1 + countHelper(right)
     }
-    
+
     return 0
   }
 }
@@ -121,7 +121,7 @@ public extension Treap {
       return .empty
     }
   }
-  
+
   fileprivate func insertAndBalance(_ nodeKey: Key, _ nodeVal: Element, _ nodeP: Int, _ left: Treap,
                                     _ right: Treap, _ key: Key, _ val: Element, _ p: Int) -> Treap {
     let newChild: Treap<Key, Element>
@@ -141,14 +141,14 @@ public extension Treap {
       newNode = .empty
       return newNode
     }
-    
+
     if case let .node(_, _, newChildP, _, _) = newChild , newChildP < nodeP {
       return rotate(newNode)
     } else {
       return newNode
     }
   }
-  
+
   internal func delete(key: Key) throws -> Treap {
     switch self {
     case .empty:

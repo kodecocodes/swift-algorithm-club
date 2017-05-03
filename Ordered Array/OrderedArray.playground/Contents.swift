@@ -49,7 +49,7 @@ public struct OrderedArray<T: Comparable> {
   private func findInsertionPoint(_ newElement: T) -> Int {
     var startIndex = 0
     var endIndex = array.count
-    
+
     while startIndex < endIndex {
         let midIndex = startIndex + (endIndex - startIndex) / 2
         if array[midIndex] == newElement {
