@@ -19,7 +19,7 @@ public struct Matrix<T: Number> {
   public struct Size: Equatable {
     let rows: Int, columns: Int
     
-    public static func ==(lhs: Size, rhs: Size) -> Bool {
+    public static func == (lhs: Size, rhs: Size) -> Bool {
       return lhs.columns == rhs.columns && lhs.rows == rhs.rows
     }
   }

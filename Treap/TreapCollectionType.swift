@@ -85,7 +85,7 @@ extension Treap: MutableCollection {
 
 public struct TreapIndex<Key: Comparable>: Comparable {
   
-  public static func <(lhs: TreapIndex<Key>, rhs: TreapIndex<Key>) -> Bool {
+  public static func < (lhs: TreapIndex<Key>, rhs: TreapIndex<Key>) -> Bool {
     return lhs.keyIndex < rhs.keyIndex
   }
   

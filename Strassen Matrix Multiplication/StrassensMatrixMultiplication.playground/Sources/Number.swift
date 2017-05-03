@@ -13,12 +13,12 @@ public protocol Number: Multipliable, Addable {
 }
 
 public protocol Addable {
-  static func +(lhs: Self, rhs: Self) -> Self
-  static func -(lhs: Self, rhs: Self) -> Self
+  static func + (lhs: Self, rhs: Self) -> Self
+  static func - (lhs: Self, rhs: Self) -> Self
 }
 
 public protocol Multipliable {
-  static func *(lhs: Self, rhs: Self) -> Self
+  static func * (lhs: Self, rhs: Self) -> Self
 }
 
 extension Int: Number {
