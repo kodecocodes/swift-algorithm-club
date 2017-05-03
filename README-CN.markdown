@@ -189,8 +189,9 @@
 
 许多软件开发者的面试都会涉及到算法题。这里是一些比较有意思的。可以从[这里](http://elementsofprogramminginterviews.com/)和[这里](http://www.crackingthecodinginterview.com)查看更多的题（都有答案）。
 
+<<<<<<< HEAD
 - [两和问题](Two-Sum%20Problem/README-CN.markdown)
-- [Fizz Buzz](Fizz Buzz/)
+- [Fizz Buzz](Fizz%20Buzz/README-CN.markdown)
 - [Monty Hall Problem](Monty Hall Problem/)
 - [Finding Palindromes](Palindromes/)
 - [Dining Philosophers](DiningPhilosophers/)
