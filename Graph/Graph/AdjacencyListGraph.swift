@@ -37,29 +37,25 @@ open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Equatable, T: Hashab
   }
 
   open override var vertices: [Vertex<T>] {
-    get {
-      var vertices = [Vertex<T>]()
-      for edgeList in adjacencyList {
-        vertices.append(edgeList.vertex)
-      }
-      return vertices
+    var vertices = [Vertex<T>]()
+    for edgeList in adjacencyList {
+      vertices.append(edgeList.vertex)
     }
+    return vertices
   }
 
   open override var edges: [Edge<T>] {
-    get {
-      var allEdges = Set<Edge<T>>()
-      for edgeList in adjacencyList {
-        guard let edges = edgeList.edges else {
-          continue
-        }
-
-        for edge in edges {
-          allEdges.insert(edge)
-        }
+    var allEdges = Set<Edge<T>>()
+    for edgeList in adjacencyList {
+      guard let edges = edgeList.edges else {
+        continue
       }
-      return Array(allEdges)
+
+      for edge in edges {
+        allEdges.insert(edge)
+      }
     }
+    return Array(allEdges)
   }
 
   open override func createVertex(_ data: T) -> Vertex<T> {
@@ -114,27 +110,25 @@ open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Equatable, T: Hashab
   }
 
   open override var description: String {
-    get {
-      var rows = [String]()
-      for edgeList in adjacencyList {
+    var rows = [String]()
+    for edgeList in adjacencyList {
 
-        guard let edges = edgeList.edges else {
-          continue
-        }
-
-        var row = [String]()
-        for edge in edges {
-          var value = "\(edge.to.data)"
-          if edge.weight != nil {
-            value = "(\(value): \(edge.weight!))"
-          }
-          row.append(value)
-        }
-
-        rows.append("\(edgeList.vertex.data) -> [\(row.joined(separator: ", "))]")
+      guard let edges = edgeList.edges else {
+        continue
       }
 
-      return rows.joined(separator: "\n")
+      var row = [String]()
+      for edge in edges {
+        var value = "\(edge.to.data)"
+        if edge.weight != nil {
+          value = "(\(value): \(edge.weight!))"
+        }
+        row.append(value)
+      }
+
+      rows.append("\(edgeList.vertex.data) -> [\(row.joined(separator: ", "))]")
     }
+
+    return rows.joined(separator: "\n")
   }
 }

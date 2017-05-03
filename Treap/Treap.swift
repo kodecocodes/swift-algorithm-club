@@ -63,27 +63,22 @@ public indirect enum Treap<Key: Comparable, Element> {
   }
   
   public var depth: Int {
-    get {
-      switch self {
-      case .empty:
-        return 0
-      case let .node(_, _, _, left, .empty):
-        return 1 + left.depth
-      case let .node(_, _, _, .empty, right):
-        return 1 + right.depth
-      case let .node(_, _, _, left, right):
-        let leftDepth = left.depth
-        let rightDepth = right.depth
-        return 1 + leftDepth > rightDepth ? leftDepth : rightDepth
-      }
-      
+    switch self {
+    case .empty:
+      return 0
+    case let .node(_, _, _, left, .empty):
+      return 1 + left.depth
+    case let .node(_, _, _, .empty, right):
+      return 1 + right.depth
+    case let .node(_, _, _, left, right):
+      let leftDepth = left.depth
+      let rightDepth = right.depth
+      return 1 + leftDepth > rightDepth ? leftDepth : rightDepth
     }
   }
-  
+
   public var count: Int {
-    get {
-      return Treap.countHelper(self)
-    }
+    return Treap.countHelper(self)
   }
   
   fileprivate static func countHelper(_ treap: Treap<Key, Element>) -> Int {

@@ -94,9 +94,7 @@ internal func merge<Key: Comparable, Element>(_ left: Treap<Key, Element>, right
 
 extension Treap: CustomStringConvertible {
   public var description: String {
-    get {
-      return Treap.descHelper(self, indent: 0)
-    }
+    return Treap.descHelper(self, indent: 0)
   }
   
   fileprivate static func descHelper(_ treap: Treap<Key, Element>, indent: Int) -> String {
