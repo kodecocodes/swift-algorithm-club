@@ -31,7 +31,7 @@ class BTreeTests: XCTestCase {
   }
   
   func testInorderTraversalOfEmptyTree() {
-    bTree.traverseKeysInOrder { i in
+    bTree.traverseKeysInOrder { _ in
       XCTFail("Inorder travelsal fail.")
     }
   }
