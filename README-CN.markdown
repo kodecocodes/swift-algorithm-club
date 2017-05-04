@@ -192,7 +192,7 @@
 - [两和问题](Two-Sum%20Problem/README-CN.markdown)
 - [Fizz Buzz](Fizz%20Buzz/README-CN.markdown)
 - [蒙提霍尔问题](Monty%20Hall%20Problem/README-CN.markdown)
-- [Finding Palindromes](Palindromes/)
+- [查找回文](Palindromes/README-CN.markdown)
 - [Dining Philosophers](DiningPhilosophers/)
 
 ## Learn more!
