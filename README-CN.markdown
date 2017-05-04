@@ -28,7 +28,7 @@
 
 [如何做贡献](How%20to%20Contribute-CN.markdown)。报告问题或者提交 pull 请求
 
-[构建中](Under%20Construction.markdown)。 还没有实现的算法
+[构建中](Under%20Construction-CN.markdown)。 还没有实现的算法
 
 ## 从哪里开始
 
