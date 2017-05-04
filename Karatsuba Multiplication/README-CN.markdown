@@ -115,11 +115,11 @@ func karatsuba(_ num1: Int, by num2: Int) -> Int {
  
 ## 资源
 
-[维基百科] (https://en.wikipedia.org/wiki/Karatsuba_algorithm)
+[维基百科](https://en.wikipedia.org/wiki/Karatsuba_algorithm)
 
-[WolframMathWorld] (http://mathworld.wolfram.com/KaratsubaMultiplication.html) 
+[WolframMathWorld](http://mathworld.wolfram.com/KaratsubaMultiplication.html) 
 
-[Master Theorem] (https://en.wikipedia.org/wiki/Master_theorem)
+[Master Theorem](https://en.wikipedia.org/wiki/Master_theorem)
 
 *作者：Richard Ash 翻译：Daisy*
 

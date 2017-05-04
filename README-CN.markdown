@@ -99,7 +99,7 @@
 - [洗牌](Shuffle/README-CN.markdown). 随机重新排列数组的内容。
 - [梳排序](Comb%20Sort/README-CN.markdown). 冒泡排序算法的改进。
 
-### Mathematics
+### 数学
 
 - [最大公约数 (GCD)](GCD/README-CN.markdown). 特别姜力：最小公倍数
 - [排列和组合](Combinatorics/README-CN.markdown). 捡起你的组合吧！
@@ -112,7 +112,7 @@
 
 - [k-Means 聚类](K-Means/README-CN.markdown). 将数据分成 *k* 个簇的无监督分类
 - k-Nearest Neighbors
-- [线性回归](Linear Regression/README-CN.markdown)
+- [线性回归](Linear%20Regression/README-CN.markdown)
 - Logistic Regression
 - Neural Networks
 - PageRank
