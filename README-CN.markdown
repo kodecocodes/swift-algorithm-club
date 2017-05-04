@@ -193,11 +193,11 @@
 - [Fizz Buzz](Fizz%20Buzz/README-CN.markdown)
 - [蒙提霍尔问题](Monty%20Hall%20Problem/README-CN.markdown)
 - [查找回文](Palindromes/README-CN.markdown)
-- [Dining Philosophers](DiningPhilosophers/)
+- [哲学家就餐问题](DiningPhilosophers/README-CN.markdown)
 
-## Learn more!
+## 持续学习！
 
-For more information, check out these great books:
+查看下面这些好书可以获得更多的信息：
 
 - [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms) by Cormen, Leiserson, Rivest, Stein
 - [The Algorithm Design Manual](http://www.algorist.com) by Skiena
@@ -205,7 +205,7 @@ For more information, check out these great books:
 - [Algorithms](http://www.cs.princeton.edu/~rs/) by Sedgewick
 - [Grokking Algorithms](https://www.manning.com/books/grokking-algorithms) by Aditya Bhargava 
 
-The following books are available for free online:
+下面这些书可以在线免费获得：
 
 - [Algorithms](http://www.beust.com/algorithms.pdf) by Dasgupta, Papadimitriou, Vazirani
 - [Algorithms, Etc.](http://jeffe.cs.illinois.edu/teaching/algorithms/) by Erickson
@@ -214,27 +214,27 @@ The following books are available for free online:
 - [Open Data Structures](http://opendatastructures.org) by Pat Morin
 - [Wikibooks: Algorithms and Implementations](https://en.wikibooks.org/wiki/Algorithm_Implementation)
 
-Other algorithm repositories:
+其他算法仓库：
 
-- [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). A great collection of algorithms in Objective-C.
-- [@lorentey](https://github.com/lorentey/). Production-quality Swift implementations of common algorithms and data structures.
-- [Rosetta Code](http://rosettacode.org). Implementations in pretty much any language you can think of.
-- [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). Visualize algorithms on your browser.
-- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) Data Structures with directions on how to use them [here](http://waynewbishop.com/swift)
+- [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). Objective-C 算法大集合。
+- [@lorentey](https://github.com/lorentey/). 产品级的通用算法和数据结构的 Swift 实现。
+- [Rosetta Code](http://rosettacode.org). 你能想到的所有语言的实现。
+- [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). 浏览器可视化算法实现。
+- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) 如何使用数据结构和算法 [here](http://waynewbishop.com/swift)
 
-## Credits
+## 贡献者
 
-The Swift Algorithm Club was originally created by [Matthijs Hollemans](https://github.com/hollance).
+Swift 算法俱乐部最开始是由  [Matthijs Hollemans](https://github.com/hollance) 创建的。
 
-It is now maintained by [Vincent Ngo](https://www.raywenderlich.com/u/jomoka) and [Kelvin Lau](https://github.com/kelvinlauKL).
+现在由 [Vincent Ngo](https://www.raywenderlich.com/u/jomoka) 和 [Kelvin Lau](https://github.com/kelvinlauKL) 维护。
 
-The Swift Algorithm Club is a collaborative effort from the [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](How to Contribute.markdown)? :]
+Swift 算法俱乐部是 [raywenderlich.com](https://www.raywenderlich.com) 社区 [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) 努力的结果。我们一直都在寻求帮助 - 为什么不 [加入俱乐部](How to Contribute.markdown)? :]
 
-## License
+## 许可证
 
-All content is licensed under the terms of the MIT open source license.
+所有内容都是基于 MIT 的开源许可证。
 
-By posting here, or by submitting any pull request through this forum, you agree that all content you submit or create, both code and text, is subject to this license.  Razeware, LLC, and others will have all the rights described in the license regarding this content.  The precise terms of this license may be found [here](https://github.com/raywenderlich/swift-algorithm-club/blob/master/LICENSE.txt).
+要通过这个论坛在这里发布、提交或者拉请求，就要同意所有你提交或者创建的内容，包括代码和文本，都要遵循这个许可证。Razeware, LLC 和其他所有者有内容的最终解释权。许可证的准确内容在[这里](https://github.com/raywenderlich/swift-algorithm-club/blob/master/LICENSE.txt)。
 
 [![Build Status](https://travis-ci.org/raywenderlich/swift-algorithm-club.svg?branch=master)](https://travis-ci.org/raywenderlich/swift-algorithm-club)
 
