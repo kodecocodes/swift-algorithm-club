@@ -228,7 +228,7 @@ Swift 算法俱乐部最开始是由  [Matthijs Hollemans](https://github.com/ho
 
 现在由 [Vincent Ngo](https://www.raywenderlich.com/u/jomoka) 和 [Kelvin Lau](https://github.com/kelvinlauKL) 维护。
 
-Swift 算法俱乐部是 [raywenderlich.com](https://www.raywenderlich.com) 社区 [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) 努力的结果。我们一直都在寻求帮助 - 为什么不 [加入俱乐部](How to Contribute.markdown)? :]
+Swift 算法俱乐部是 [raywenderlich.com](https://www.raywenderlich.com) 社区 [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) 努力的结果。我们一直都在寻求帮助 - 为什么不 [加入俱乐部](How%20to%20Contribute-CN.markdown)? :]
 
 ## 许可证
 
