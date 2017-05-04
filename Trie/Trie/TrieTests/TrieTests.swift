@@ -101,7 +101,7 @@ class TrieTests: XCTestCase {
 
     /// Tests the performance of the insert method.
     func testInsertPerformance() {
-        self.measure() {
+        self.measure {
             let trie = Trie()
             for word in self.wordArray! {
                 trie.insert(word: word)
@@ -114,7 +114,7 @@ class TrieTests: XCTestCase {
     /// Tests the performance of the insert method when the words are already
     /// present.
     func testInsertAgainPerformance() {
-        self.measure() {
+        self.measure {
             for word in self.wordArray! {
                 self.trie.insert(word: word)
             }
@@ -123,7 +123,7 @@ class TrieTests: XCTestCase {
 
     /// Tests the performance of the contains method.
     func testContainsPerformance() {
-        self.measure() {
+        self.measure {
             for word in self.wordArray! {
                 XCTAssertTrue(self.trie.contains(word: word))
             }
@@ -136,7 +136,7 @@ class TrieTests: XCTestCase {
         for word in self.wordArray! {
             self.trie.remove(word: word)
         }
-        self.measure() {
+        self.measure {
             self.insertWordsIntoTrie()
             for word in self.wordArray! {
                 self.trie.remove(word: word)
@@ -164,8 +164,8 @@ class TrieTests: XCTestCase {
         let fileName = "dictionary-archive"
         let filePath = resourcePath.appendingPathComponent(fileName)
         NSKeyedArchiver.archiveRootObject(trie, toFile: filePath)
-        let trieCopy = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Trie
-        XCTAssertEqual(trieCopy.count, trie.count)
+        let trieCopy = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? Trie
+        XCTAssertEqual(trieCopy?.count, trie.count)
 
     }
 
@@ -175,21 +175,21 @@ class TrieTests: XCTestCase {
         trie.insert(word: "another")
         trie.insert(word: "exam")
         let wordsAll = trie.findWordsWithPrefix(prefix: "")
-        XCTAssertEqual(wordsAll.sorted(), ["another", "exam", "test"]);
+        XCTAssertEqual(wordsAll.sorted(), ["another", "exam", "test"])
         let words = trie.findWordsWithPrefix(prefix: "ex")
-        XCTAssertEqual(words, ["exam"]);
+        XCTAssertEqual(words, ["exam"])
         trie.insert(word: "examination")
         let words2 = trie.findWordsWithPrefix(prefix: "exam")
-        XCTAssertEqual(words2, ["exam", "examination"]);
+        XCTAssertEqual(words2, ["exam", "examination"])
         let noWords = trie.findWordsWithPrefix(prefix: "tee")
-        XCTAssertEqual(noWords, []);
+        XCTAssertEqual(noWords, [])
         let unicodeWord = "😬😎"
         trie.insert(word: unicodeWord)
         let wordsUnicode = trie.findWordsWithPrefix(prefix: "😬")
-        XCTAssertEqual(wordsUnicode, [unicodeWord]);
+        XCTAssertEqual(wordsUnicode, [unicodeWord])
         trie.insert(word: "Team")
         let wordsUpperCase = trie.findWordsWithPrefix(prefix: "Te")
-        XCTAssertEqual(wordsUpperCase.sorted(), ["team", "test"]);
+        XCTAssertEqual(wordsUpperCase.sorted(), ["team", "test"])
 
     }
 }

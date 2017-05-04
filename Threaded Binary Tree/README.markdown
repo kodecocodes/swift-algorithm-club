@@ -1,6 +1,6 @@
 # Threaded Binary Tree
 
-A threaded binary tree is a special kind of [binary tree](../Binary Tree/) (a
+A threaded binary tree is a special kind of [binary tree](../Binary%20Tree/) (a
 tree in which each node has at most two children) that maintains a few extra
 variables to allow cheap and fast **in-order traversal** of the tree.  We will
 explore the general structure of threaded binary trees, as well as
@@ -17,7 +17,7 @@ The main motivation behind using a threaded binary tree over a simpler and
 smaller standard binary tree is to increase the speed of an in-order traversal
 of the tree.  An in-order traversal of a binary tree visits the nodes in the
 order in which they are stored, which matches the underlying ordering of a
-[binary search tree](../Binary Search Tree/).  This means most threaded binary
+[binary search tree](../Binary%20Search%20Tree/).  This means most threaded binary
 trees are also binary search trees.  The idea is to visit all the left children
 of a node first, then visit the node itself, and then visit the right children
 last.
@@ -47,7 +47,7 @@ tree, to **O(n)** to a very unbalanced tree.
 
 A threaded binary tree fixes this problem.
 
-> For more information about in-order traversals [see here](../Binary Tree/).
+> For more information about in-order traversals [see here](../Binary%20Tree/).
 
 
 ## Predecessors and successors
@@ -222,7 +222,7 @@ walking through some boring code, it is best to explain this with an example
 (although you can read through [the implementation](ThreadedBinaryTree.swift)
 if you want to know the finer details).  Please note that this requires
 knowledge of binary search trees, so make sure you have
-[read this first](../Binary Search Tree/).
+[read this first](../Binary%20Search%20Tree/).
 
 > Note: we do allow duplicate nodes in this implementation of a threaded binary
 > tree.  We break ties by defaulting insertion to the right.
@@ -339,7 +339,7 @@ such as `searching()` for a node in the tree, finding the `depth()` or
 `height()` of a node, etc.  You can check
 [the implementation](ThreadedBinaryTree.swift) for the full technical details.
 Many of these methods are inherent to binary search trees as well, so you can
-find [further documentation here](../Binary Search Tree/).
+find [further documentation here](../Binary%20Search%20Tree/).
 
 
 ## See also

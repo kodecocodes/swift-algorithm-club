@@ -7,7 +7,7 @@ public struct Deque<T> {
   private var array: [T?]
   private var head: Int
   private var capacity: Int
-  private let originalCapacity:Int
+  private let originalCapacity: Int
 
   public init(_ capacity: Int = 10) {
     self.capacity = max(capacity, 1)

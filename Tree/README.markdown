@@ -16,7 +16,7 @@ The pointers in a tree do not form cycles. This is not a tree:
 
 ![Not a tree](Images/Cycles.png)
 
-Such a structure is called a [graph](../Graph/). A tree is really a very simple form of a graph. (In a similar vein, a [linked list](../Linked List/) is a simple version of a tree. Think about it!)
+Such a structure is called a [graph](../Graph/). A tree is really a very simple form of a graph. (In a similar vein, a [linked list](../Linked%20List/) is a simple version of a tree. Think about it!)
 
 This article talks about a general-purpose tree. That's a tree without any kind of restrictions on how many children each node may have, or on the order of the nodes in the tree.
 
@@ -119,7 +119,7 @@ We often use the following definitions when talking about trees:
 
 - **Depth of a node.** The number of links between this node and the root node. For example, the depth of `tea` is 2 because it takes two jumps to reach the root. (The root itself has depth 0.)
 
-There are many different ways to construct trees. For example, sometimes you don't need to have a `parent` property at all. Or maybe you only need to give each node a maximum of two children -- such a tree is called a [binary tree](../Binary Tree/). A very common type of tree is the [binary search tree](../Binary Search Tree/) (or BST), a stricter version of a binary tree where the nodes are ordered in a particular way to speed up searches.
+There are many different ways to construct trees. For example, sometimes you don't need to have a `parent` property at all. Or maybe you only need to give each node a maximum of two children -- such a tree is called a [binary tree](../Binary%20Tree/). A very common type of tree is the [binary search tree](../Binary%20Search%20Tree/) (or BST), a stricter version of a binary tree where the nodes are ordered in a particular way to speed up searches.
 
 The general purpose tree I've shown here is great for describing hierarchical data, but it really depends on your application what kind of extra functionality it needs to have.
 
@@ -153,7 +153,7 @@ tree.search("bubbly")   // nil
 
 It's also possible to describe a tree using nothing more than an array. The indices in the array then create the links between the different nodes. For example, if we have:
 
-	0 = beverage	5 = cocoa		9  = green
+	0 = beverage		5 = cocoa		9  = green
 	1 = hot			6 = soda		10 = chai
 	2 = cold		7 = milk		11 = ginger ale
 	3 = tea			8 = black		12 = bitter lemon

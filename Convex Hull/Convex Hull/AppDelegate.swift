@@ -17,16 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         let screenBounds = UIScreen.main.bounds
-        
+
         window = UIWindow(frame: screenBounds)
-        
+
         let viewController = UIViewController()
         viewController.view = View(frame: (window?.frame)!)
         viewController.view.backgroundColor = .white
-        
+
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
-        
+
         return true
     }
 
@@ -54,4 +54,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-

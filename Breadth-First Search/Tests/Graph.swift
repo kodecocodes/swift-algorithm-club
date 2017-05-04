@@ -86,7 +86,7 @@ public class Graph: CustomStringConvertible, Equatable {
     let duplicated = Graph()
 
     for node in nodes {
-      let _ = duplicated.addNode(node.label)
+      _ = duplicated.addNode(node.label)
     }
 
     for node in nodes {

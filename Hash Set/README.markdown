@@ -196,7 +196,7 @@ difference2.allElements()                // [5, 6]
 
 If you look at the [documentation](http://swiftdoc.org/v2.1/type/Set/) for Swift's own `Set`, you'll notice it has tons more functionality. An obvious extension would be to make `HashSet` conform to `SequenceType` so that you can iterate it with a `for`...`in` loop.
 
-Another thing you could do is replace the `Dictionary` with an actual [hash table](../Hash Table), but one that just stores the keys and doesn't associate them with anything. So you wouldn't need the `Bool` values anymore.
+Another thing you could do is replace the `Dictionary` with an actual [hash table](../Hash%20Table), but one that just stores the keys and doesn't associate them with anything. So you wouldn't need the `Bool` values anymore.
 
 If you often need to look up whether an element belongs to a set and perform unions, then the [union-find](../Union-Find/) data structure may be more suitable. It uses a tree structure instead of a dictionary to make the find and union operations very efficient.
 
