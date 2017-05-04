@@ -10,7 +10,7 @@ for _ in 0..<1000 {
     tree.insert(value)
 }
 tree.verify()
- 
+
 for _ in 0..<1000 {
     let rand = arc4random_uniform(UInt32(values.count))
     let index = Int(rand)

@@ -70,29 +70,29 @@ private func coinFlip() -> Bool {
 
 public class DataNode<Key: Comparable, Payload> {
   public typealias Node = DataNode<Key, Payload>
-  
-  var data            : Payload?  
-  fileprivate var key : Key?
-  var next            : Node?
-  var down            : Node?
-  
+
+  var data: Payload?
+  fileprivate var key: Key?
+  var next: Node?
+  var down: Node?
+
   public init(key: Key, data: Payload) {
     self.key  = key
     self.data = data
   }
 
   public init(asHead head: Bool){}
-  
+
 }
 
 
 open class SkipList<Key: Comparable, Payload> {
   public typealias Node = DataNode<Key, Payload>
-  
+
   fileprivate(set) var head: Node?
 
   public init() {}
-  
+
 }
 
 
@@ -100,18 +100,18 @@ open class SkipList<Key: Comparable, Payload> {
 // MARK: - Search lanes for a node with a given key
 
 extension SkipList {
-  
+
   func findNode(key: Key) -> Node? {
-    var currentNode : Node? = head
-    var isFound     : Bool  = false
+    var currentNode: Node? = head
+    var isFound: Bool = false
 
     while !isFound {
       if let node = currentNode {
-        
+
         switch node.next {
         case .none:
-          
-          currentNode = node.down          
+
+          currentNode = node.down
         case .some(let value) where value.key != nil:
 
           if value.key == key {
@@ -122,14 +122,14 @@ extension SkipList {
               currentNode = node.down
             } else {
               currentNode = node.next
-            }            
+            }
           }
-          
+
         default:
           continue
         }
-        
-      } else { 
+
+      } else {
         break
       }
     }
@@ -139,7 +139,7 @@ extension SkipList {
     } else {
       return nil
     }
-    
+
   }
 
   func search(key: Key) -> Payload? {
@@ -147,9 +147,9 @@ extension SkipList {
       return nil
     }
 
-    return node.next!.data    
-  }    
-  
+    return node.next!.data
+  }
+
 }
 
 
@@ -157,12 +157,12 @@ extension SkipList {
 // MARK: - Insert a node into lanes depending on skip list status ( bootstrap base-layer if head is empty / start insertion from current head ).
 
 extension SkipList {
-  private func bootstrapBaseLayer(key: Key, data: Payload) {    
-    head       = Node(asHead: true)    
+  private func bootstrapBaseLayer(key: Key, data: Payload) {
+    head       = Node(asHead: true)
     var node   = Node(key: key, data: data)
 
     head!.next = node
-    
+
     var currentTopNode = node
 
     while coinFlip() {
@@ -174,7 +174,7 @@ extension SkipList {
       head           = newHead
       currentTopNode = node
     }
-    
+
   }
 
 
@@ -191,13 +191,13 @@ extension SkipList {
         } else {
           currentNode = nextNode
         }
-        
+
       } else {
         stack.push(currentNode!)
-        currentNode = currentNode!.down           
+        currentNode = currentNode!.down
       }
-      
-    }       
+
+    }
 
     let itemAtLayer    = stack.pop()
     var node           = Node(key: key, data: data)
@@ -208,24 +208,24 @@ extension SkipList {
     while coinFlip() {
       if stack.isEmpty {
         let newHead    = Node(asHead: true)
-        
+
         node           = Node(key: key, data: data)
         node.down      = currentTopNode
         newHead.next   = node
         newHead.down   = head
         head           = newHead
         currentTopNode = node
-        
-      } else {        
+
+      } else {
         let nextNode  = stack.pop()
-        
+
         node           = Node(key: key, data: data)
         node.down      = currentTopNode
         node.next      = nextNode!.next
         nextNode!.next = node
         currentTopNode = node
       }
-    }     
+    }
   }
 
 
@@ -233,7 +233,7 @@ extension SkipList {
     if head != nil {
       if let node = findNode(key: key) {
         // replace, in case of key already exists. 
-        var currentNode = node.next        
+        var currentNode = node.next
         while currentNode != nil && currentNode!.key == key {
           currentNode!.data = data
           currentNode       = currentNode!.down
@@ -241,12 +241,12 @@ extension SkipList {
       } else {
         insertItem(key: key, data: data)
       }
-      
+
     } else {
       bootstrapBaseLayer(key: key, data: data)
     }
   }
-  
+
 }
 
 
@@ -257,32 +257,32 @@ extension SkipList {
     guard let item = findNode(key: key) else {
       return
     }
-    
+
     var currentNode = Optional(item)
-    
+
     while currentNode != nil {
       let node   = currentNode!.next
-      
+
       if node!.key != key {
         currentNode = node
         continue
       }
 
       let nextNode      = node!.next
-      
+
       currentNode!.next = nextNode
       currentNode       = currentNode!.down
-      
+
     }
-    
-  }  
+
+  }
 }
 
 
 // MARK: - Get associated payload from a node with a given key.
 
 extension SkipList {
-  
+
   public func get(key: Key) -> Payload? {
     return search(key: key)
   }

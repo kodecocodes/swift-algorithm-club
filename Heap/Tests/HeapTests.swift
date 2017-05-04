@@ -201,7 +201,7 @@ class HeapTests: XCTestCase {
     XCTAssertEqual(v, nil)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [100, 50, 70, 10, 20, 60, 65])
-    
+
     let v1 = h.removeAt(5)
     XCTAssertEqual(v1, 60)
     XCTAssertTrue(verifyMaxHeap(h))
@@ -314,7 +314,7 @@ class HeapTests: XCTestCase {
     h.replace(index: 5, value: 13)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.elements, [16, 14, 13, 8, 7, 10, 3, 2, 4, 1])
-    
+
     //test index out of bounds
     h.replace(index: 20, value: 2)
     XCTAssertTrue(verifyMaxHeap(h))

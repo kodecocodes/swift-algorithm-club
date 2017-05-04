@@ -16,7 +16,7 @@ class CombSortTests: XCTestCase {
         super.setUp()
         sequence = [2, 32, 9, -1, 89, 101, 55, -10, -12, 67]
     }
-    
+
     override func tearDown() {
         super.tearDown()
     }

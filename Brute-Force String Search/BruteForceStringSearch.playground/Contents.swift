@@ -2,7 +2,7 @@
 
 extension String {
   func indexOf(_ pattern: String) -> String.Index? {
-    
+
     for i in self.characters.indices {
       var j = i
       var found = true
