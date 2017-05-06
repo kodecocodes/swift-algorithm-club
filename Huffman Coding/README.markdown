@@ -1,6 +1,6 @@
 # Huffman Coding
 
-The idea: To encode objects that occur with a smaller number of bits than objects that occur less frequently.
+The idea: To encode objects that occur often with a smaller number of bits than objects that occur less frequently.
 
 Although any type of objects can be encoded with this scheme, it is common to compress a stream of bytes. Suppose you have the following text, where each character is one byte:
 
@@ -9,13 +9,13 @@ Although any type of objects can be encoded with this scheme, it is common to co
 If you count how often each byte appears, you can see some bytes occur more than others:
 
 	space: 5                  u: 1
-	    o: 5	              h: 1
-	    s: 4	              d: 1
-	    m: 3	              a: 1
-	    w: 3	              y: 1
-	    c: 2	              p: 1
-	    r: 2	              e: 1
-	    n: 2	              i: 1
+	    o: 5                  h: 1
+	    s: 4                  d: 1
+	    m: 3                  a: 1
+	    w: 3                  y: 1
+	    c: 2                  p: 1
+	    r: 2                  e: 1
+	    n: 2                  i: 1
 
 We can assign bit strings to each of these bytes. The more common a byte is, the fewer bits we assign to it. We might get something like this:
 
@@ -23,10 +23,10 @@ We can assign bit strings to each of these bytes. The more common a byte is, the
 	    o: 5    000	          h: 1    10001
 	    s: 4    101	          d: 1    11010
 	    m: 3    111	          a: 1    11011
-	    w: 3    0010	      y: 1    01111
-	    c: 2    0011	      p: 1    11000
-	    r: 2    1001	      e: 1    01110
-	    n: 2    0110	      i: 1    10000
+	    w: 3    0010          y: 1    01111
+	    c: 2    0011          p: 1    11000
+	    r: 2    1001          e: 1    01110
+	    n: 2    0110          i: 1    10000
 
 Now if we replace the original bytes with these bit strings, the compressed output becomes:
 

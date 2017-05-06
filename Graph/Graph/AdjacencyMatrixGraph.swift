@@ -23,30 +23,26 @@ open class AdjacencyMatrixGraph<T>: AbstractGraph<T> where T: Equatable, T: Hash
   }
 
   open override var vertices: [Vertex<T>] {
-    get {
-      return _vertices
-    }
+    return _vertices
   }
 
   open override var edges: [Edge<T>] {
-    get {
-      var edges = [Edge<T>]()
-      for row in 0 ..< adjacencyMatrix.count {
-        for column in 0 ..< adjacencyMatrix.count {
-          if let weight = adjacencyMatrix[row][column] {
-            edges.append(Edge(from: vertices[row], to: vertices[column], weight: weight))
-          }
+    var edges = [Edge<T>]()
+    for row in 0 ..< adjacencyMatrix.count {
+      for column in 0 ..< adjacencyMatrix.count {
+        if let weight = adjacencyMatrix[row][column] {
+          edges.append(Edge(from: vertices[row], to: vertices[column], weight: weight))
         }
       }
-      return edges
     }
+    return edges
   }
 
   // Adds a new vertex to the matrix.
   // Performance: possibly O(n^2) because of the resizing of the matrix.
   open override func createVertex(_ data: T) -> Vertex<T> {
     // check if the vertex already exists
-    let matchingVertices = vertices.filter() { vertex in
+    let matchingVertices = vertices.filter { vertex in
       return vertex.data == data
     }
 
@@ -96,23 +92,21 @@ open class AdjacencyMatrixGraph<T>: AbstractGraph<T> where T: Equatable, T: Hash
   }
 
   open override var description: String {
-    get {
-      var grid = [String]()
-      let n = self.adjacencyMatrix.count
-      for i in 0..<n {
-        var row = ""
-        for j in 0..<n {
-          if let value = self.adjacencyMatrix[i][j] {
-            let number = NSString(format: "%.1f", value)
-            row += "\(value >= 0 ? " " : "")\(number) "
-          } else {
-            row += "  ø  "
-          }
+    var grid = [String]()
+    let n = self.adjacencyMatrix.count
+    for i in 0..<n {
+      var row = ""
+      for j in 0..<n {
+        if let value = self.adjacencyMatrix[i][j] {
+          let number = NSString(format: "%.1f", value)
+          row += "\(value >= 0 ? " " : "")\(number) "
+        } else {
+          row += "  ø  "
         }
-        grid.append(row)
       }
-      return (grid as NSArray).componentsJoined(by: "\n")
+      grid.append(row)
     }
+    return (grid as NSArray).componentsJoined(by: "\n")
   }
 
 }

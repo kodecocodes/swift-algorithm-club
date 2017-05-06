@@ -13,7 +13,7 @@ public class Huffman {
     /* Tree nodes don't use pointers to refer to each other, but simple integer
      indices. That allows us to use structs for the nodes. */
     typealias NodeIndex = Int
-    
+
     /* A node in the compression tree. Leaf nodes represent the actual bytes that
      are present in the input data. The count of an intermediary node is the sum
      of the counts of all nodes below it. The root node's count is the number of
@@ -25,15 +25,15 @@ public class Huffman {
         var left: NodeIndex = -1
         var right: NodeIndex = -1
     }
-    
+
     /* The tree structure. The first 256 entries are for the leaf nodes (not all
      of those may be used, depending on the input). We add additional nodes as
      we build the tree. */
     var tree = [Node](repeating: Node(), count: 256)
-    
+
     /* This is the last node we add to the tree. */
     var root: NodeIndex = -1
-    
+
     /* The frequency table describes how often a byte occurs in the input data.
      You need it to decompress the Huffman-encoded data. The frequency table
      should be serialized along with the compressed data. */
@@ -41,7 +41,7 @@ public class Huffman {
         var byte: UInt8 = 0
         var count = 0
     }
-    
+
     public init() { }
 }
 
@@ -59,7 +59,7 @@ extension Huffman {
             ptr = ptr.successor()
         }
     }
-    
+
     /* Takes a frequency table and rebuilds the tree. This is the first step of
      decompression. */
     fileprivate func restoreTree(fromTable frequencyTable: [Freq]) {
@@ -70,7 +70,7 @@ extension Huffman {
         }
         buildTree()
     }
-    
+
     /* Returns the frequency table. This is the first 256 nodes from the tree but
      only those that are actually used, without the parent/left/right pointers.
      You would serialize this along with the compressed file. */
@@ -91,13 +91,13 @@ extension Huffman {
         for node in tree where node.count > 0 {
             queue.enqueue(node)
         }
-        
+
         while queue.count > 1 {
             // Find the two nodes with the smallest frequencies that do not have
             // a parent node yet.
             let node1 = queue.dequeue()!
             let node2 = queue.dequeue()!
-            
+
             // Create a new intermediate node.
             var parentNode = Node()
             parentNode.count = node1.count + node2.count
@@ -105,15 +105,15 @@ extension Huffman {
             parentNode.right = node2.index
             parentNode.index = tree.count
             tree.append(parentNode)
-            
+
             // Link the two nodes into their new parent node.
             tree[node1.index].parent = parentNode.index
             tree[node2.index].parent = parentNode.index
-            
+
             // Put the intermediate node back into the queue.
             queue.enqueue(parentNode)
         }
-        
+
         // The final remaining node in the queue becomes the root of the tree.
         let rootNode = queue.dequeue()!
         root = rootNode.index
@@ -125,7 +125,7 @@ extension Huffman {
     public func compressData(data: NSData) -> NSData {
         countByteFrequency(inData: data)
         buildTree()
-        
+
         let writer = BitWriter()
         var ptr = data.bytes.assumingMemoryBound(to: UInt8.self)
         for _ in 0..<data.length {
@@ -137,7 +137,7 @@ extension Huffman {
         writer.flush()
         return writer.data
     }
-    
+
     /* Recursively walks the tree from a leaf node up to the root, and then back
      again. If a child is the right node, we emit a 0 bit; if it's the left node,
      we emit a 1 bit. */
@@ -159,11 +159,11 @@ extension Huffman {
     /* Takes a Huffman-compressed NSData object and outputs the uncompressed data. */
     public func decompressData(data: NSData, frequencyTable: [Freq]) -> NSData {
         restoreTree(fromTable: frequencyTable)
-        
+
         let reader = BitReader(data: data)
         let outData = NSMutableData()
         let byteCount = tree[root].count
-        
+
         var i = 0
         while i < byteCount {
             var b = findLeafNode(reader: reader, nodeIndex: root)
@@ -172,7 +172,7 @@ extension Huffman {
         }
         return outData
     }
-    
+
     /* Walks the tree from the root down to the leaf node. At every node, read the
      next bit and use that to determine whether to step to the left or right.
      When we get to the leaf node, we simply return its index, which is equal to

@@ -1,21 +1,21 @@
 extension String {
-    
+
     public func minimumEditDistance(other: String) -> Int {
         let m = self.characters.count
         let n = other.characters.count
         var matrix = [[Int]](repeating: [Int](repeating: 0, count: n + 1), count: m + 1)
-        
+
         // initialize matrix
         for index in 1...m {
             // the distance of any first string to an empty second string
             matrix[index][0] = index
         }
-        
+
         for index in 1...n {
             // the distance of any second string to an empty first string
             matrix[0][index] = index
         }
-        
+
         // compute Levenshtein distance
         for (i, selfChar) in self.characters.enumerated() {
             for (j, otherChar) in other.characters.enumerated() {
