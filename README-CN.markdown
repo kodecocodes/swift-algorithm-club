@@ -57,7 +57,7 @@
 
 - [暴力字符串搜索](Brute-Force%20String%20Search/README-CN.markdown). 一个简单的方法
 - [Boyer-Moore](Boyer-Moore/README-CN.markdown)。一个快速搜索子字符串的方法。它基于一个查询表来跳过一些字符来避免查找文本中的每个字符。
-- Knuth-Morris-Pratt
+- [Knuth-Morris-Pratt](Knuth-Morris-Pratt/README-CN.markdown)
 - [Rabin-Karp](Rabin-Karp/README-CN.markdown)  使用散列的快速搜索。
 - [最长公共子序列](Longest%20Common%20Subsequence/README-CN.markdown). 找到两个字符串中相同顺序的最长公共子序列。
 - [Z 算法](Z-Algorithm/README-CN.markdown). 找到字符串里所有的模式实例，并且返回模式在字符串中开始的位置的索引。 
@@ -220,7 +220,7 @@
 - [@lorentey](https://github.com/lorentey/). 产品级的通用算法和数据结构的 Swift 实现。
 - [Rosetta Code](http://rosettacode.org). 你能想到的所有语言的实现。
 - [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). 浏览器可视化算法实现。
-- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) 如何使用数据结构和算法 [here](http://waynewbishop.com/swift)
+- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) 如何使用数据结构和算法 [这里](http://waynewbishop.com/swift)
 
 ## 贡献者
 
