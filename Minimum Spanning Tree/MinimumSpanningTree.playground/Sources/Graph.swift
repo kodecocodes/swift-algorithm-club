@@ -37,17 +37,11 @@ public struct Graph<T: Hashable>: CustomStringConvertible {
     vertices.insert(v1)
     vertices.insert(v2)
 
-    if let _ = adjList[v1] {
-      adjList[v1]?.append((vertex: v2, weight: w))
-    } else {
-      adjList[v1] = [(vertex: v2, weight: w)]
-    }
+    adjList[v1] = adjList[v1] ?? []
+    adjList[v1]?.append((vertex: v2, weight: w))
 
-    if let _ = adjList[v2] {
-      adjList[v2]?.append((vertex: v1, weight: w))
-    } else {
-      adjList[v2] = [(vertex: v1, weight: w)]
-    }
+    adjList[v2] = adjList[v2] ?? []
+    adjList[v2]?.append((vertex: v1, weight: w))
   }
 
   public mutating func addEdge(_ edge: Edge<T>) {
