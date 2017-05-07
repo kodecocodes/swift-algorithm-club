@@ -178,6 +178,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Shortest Path](Shortest%20Path%20%28Unweighted%29/) on an unweighted tree
 - [Single-Source Shortest Paths](Single-Source%20Shortest%20Paths%20(Weighted)/)
 - [Minimum Spanning Tree](Minimum%20Spanning%20Tree%20%28Unweighted%29/) on an unweighted tree
+- [Minimum Spanning Tree](Minimum%20Spanning%20Tree/)
 - [All-Pairs Shortest Paths](All-Pairs%20Shortest%20Paths/)
 
 ## Puzzles
