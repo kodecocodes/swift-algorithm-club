@@ -3,17 +3,17 @@
 var dsu = UnionFindQuickUnion<Int>()
 
 for i in 1...10 {
-    dsu.addSetWith(i)
+  dsu.addSetWith(i)
 }
 // now our dsu contains 10 independent sets
 
 // let's divide our numbers into two sets by divisibility by 2
 for i in 3...10 {
-    if i % 2 == 0 {
-        dsu.unionSetsContaining(2, and: i)
-    } else {
-        dsu.unionSetsContaining(1, and: i)
-    }
+  if i % 2 == 0 {
+    dsu.unionSetsContaining(2, and: i)
+  } else {
+    dsu.unionSetsContaining(1, and: i)
+  }
 }
 
 // check our division
@@ -42,12 +42,12 @@ dsuForStrings.addSetWith("b")
 
 // In that example we divide strings by its first letter
 for word in words {
-    dsuForStrings.addSetWith(word)
-    if word.hasPrefix("a") {
-        dsuForStrings.unionSetsContaining("a", and: word)
-    } else if word.hasPrefix("b") {
-        dsuForStrings.unionSetsContaining("b", and: word)
-    }
+  dsuForStrings.addSetWith(word)
+  if word.hasPrefix("a") {
+    dsuForStrings.unionSetsContaining("a", and: word)
+  } else if word.hasPrefix("b") {
+    dsuForStrings.unionSetsContaining("b", and: word)
+  }
 }
 
 print(dsuForStrings.inSameSet("a", and: "all"))
