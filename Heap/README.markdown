@@ -1,11 +1,11 @@
 # Heap
 
-A heap is a [binary tree](../Binary Tree/) inside an array, so it does not use parent/child pointers. A heap is sorted based on the "heap property" that determines the order of the nodes in the tree.
+A heap is a [binary tree](../Binary%20Tree/) inside an array, so it does not use parent/child pointers. A heap is sorted based on the "heap property" that determines the order of the nodes in the tree.
 
 Common uses for heap:
 
-- To build [priority queues](../Priority Queue/).
-- To support [heap sorts](../Heap Sort/).
+- To build [priority queues](../Priority%20Queue/).
+- To support [heap sorts](../Heap%20Sort/).
 - To compute the minimum (or maximum) element of a collection quickly.
 - To impress your non-programmer friends.
 
@@ -21,7 +21,7 @@ An example:
 
 This is a max-heap because every parent node is greater than its children. `(10)` is greater than `(7)` and `(2)`. `(7)` is greater than `(5)` and `(1)`.
 
-As a result of this heap property, a max-heap always stores its largest item at the root of the tree. For a min-heap, the root is always the smallest item in the tree. The heap property is useful because heaps are often used as a [priority queue](../Priority Queue/)to access the "most important" element quickly.
+As a result of this heap property, a max-heap always stores its largest item at the root of the tree. For a min-heap, the root is always the smallest item in the tree. The heap property is useful because heaps are often used as a [priority queue](../Priority%20Queue/)to access the "most important" element quickly.
 
 > **Note:** The root of the heap has the maximum or minimum element, but the sort order of other elements are not predictable. For example, the maximum element is always at index 0 in a max-heap, but the minimum element isn’t necessarily the last one. -- the only guarantee you have is that it is one of the leaf nodes, but not which one.
 
@@ -30,11 +30,11 @@ As a result of this heap property, a max-heap always stores its largest item at 
 A heap is not a replacement for a binary search tree, and there are similarities and differnces between them. Here are some main differences:
 
 
-**Order of the nodes.** In a [binary search tree (BST)](../Binary Search Tree/), the left child must be smaller than its parent, and the right child must be greater. This is not true for a heap. In a max-heap both children must be smaller than the parent, while in a min-heap they both must be greater.
+**Order of the nodes.** In a [binary search tree (BST)](../Binary%20Search%20Tree/), the left child must be smaller than its parent, and the right child must be greater. This is not true for a heap. In a max-heap both children must be smaller than the parent, while in a min-heap they both must be greater.
 
 **Memory.** Traditional trees take up more memory than just the data they store. You need to allocate additional storage for the node objects and pointers to the left/right child nodes. A heap only uses a plain array for storage and uses no pointers.
 
-**Balancing.** A binary search tree must be "balanced" so that most operations have **O(log n)** performance. You can either insert and delete your data in a random order or use something like an [AVL tree](../AVL Tree/) or [red-black tree](../Red-Black Tree/), but with heaps we don't actually need the entire tree to be sorted. We just want the heap property to be fulfilled, so balancing isn't an issue. Because of the way the heap is structured, heaps can guarantee **O(log n)** performance.
+**Balancing.** A binary search tree must be "balanced" so that most operations have **O(log n)** performance. You can either insert and delete your data in a random order or use something like an [AVL tree](../AVL%20Tree/) or [red-black tree](../Red-Black%20Tree/), but with heaps we don't actually need the entire tree to be sorted. We just want the heap property to be fulfilled, so balancing isn't an issue. Because of the way the heap is structured, heaps can guarantee **O(log n)** performance.
 
 **Searching.** Whereas searching is fast in a binary tree, it is slow in a heap. Searching isn't a top priority in a heap since the purpose of a heap is to put the largest (or smallest) node at the front and to allow relatively fast inserts and deletes. 
 
@@ -112,7 +112,7 @@ Is this a valid heap? The answer is yes! A sorted array from low-to-high is a va
 
 The heap property holds for each node because a parent is always smaller than its children. (Verify for yourself that an array sorted from high-to-low is always a valid max-heap.)
 
-> **Note:** But not every min-heap is necessarily a sorted array! It only works one way. To turn a heap back into a sorted array, you need to use [heap sort](../Heap Sort/).
+> **Note:** But not every min-heap is necessarily a sorted array! It only works one way. To turn a heap back into a sorted array, you need to use [heap sort](../Heap%20Sort/).
 
 ## More math!
 
@@ -162,7 +162,7 @@ All of the above take time **O(log n)** because shifting up or down is expensive
 
 - `buildHeap(array)`: Converts an (unsorted) array into a heap by repeatedly calling `insert()`. If you are smart about this, it can be done in **O(n)** time.
 
-- [Heap sort](../Heap Sort/). Since the heap is an array, we can use its unique properties to sort the array from low to high. Time: **O(n lg n).**
+- [Heap sort](../Heap%20Sort/). Since the heap is an array, we can use its unique properties to sort the array from low to high. Time: **O(n lg n).**
 
 The heap also has a `peek()` function that returns the maximum (max-heap) or minimum (min-heap) element, without removing it from the heap. Time: **O(1)**.
 
@@ -289,7 +289,7 @@ Here, `elements` is the heap's own array. We walk backwards through this array, 
 
 Heaps are not made for fast searches, but if you want to remove an arbitrary element using `removeAtIndex()` or change the value of an element with `replace()`, then you need to obtain the index of that element. Searching is one way to do this, but it is slow.
 
-In a [binary search tree](../Binary Search Tree/), depending on the order of the nodes, a fast search can be guaranteed. Since a heap orders its nodes differently, a binary search will not work, and you need to check every node in the tree.
+In a [binary search tree](../Binary%20Search%20Tree/), depending on the order of the nodes, a fast search can be guaranteed. Since a heap orders its nodes differently, a binary search will not work, and you need to check every node in the tree.
 
 Let's take our example heap again:
 
