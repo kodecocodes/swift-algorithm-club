@@ -24,9 +24,9 @@ animals.indexOf(pattern: "🐮")
 
 > **注意：** 牛的索引是 6，而不是看到的 3，因为 emoji 使用了更多的存储空间。`String.Index` 的实际值并不是很重要，重点是要指向字符串中正确的字符。
 
-[brute-force approach](../Brute-Force%20String%20Search/README-CN.markdown) 能够很好的工作，但是不够有效，尤其是有一大段文本的时候。就像上面看到的，我们不需要查找源字符串中的 _每个_ 字符——可以跳过多个字符。
+[暴力方式](../Brute-Force%20String%20Search/README-CN.markdown) 能够很好的工作，但是不够有效，尤其是有一大段文本的时候。就像上面看到的，我们不需要查找源字符串中的 _每个_ 字符——可以跳过多个字符。
 
-跳过头部算法叫做 [Boyer-Moore](https://en.wikipedia.org/wiki/Boyer–Moore_string_search_algorithm) ，这个算法已经存在有很长一段时间。它被认为是所有字符串搜索算法的标杆。。
+跳过头部算法叫做 [Boyer-Moore](https://en.wikipedia.org/wiki/Boyer–Moore_string_search_algorithm) ，这个算法已经存在有很长一段时间。它被认为是所有字符串搜索算法的标杆。
 
 下面是 Swift 中的实现：
 
@@ -209,6 +209,6 @@ extension String {
 
 参考: 代码是基于这篇论文: [R. N. Horspool (1980). "Practical fast searching in strings". Software - Practice & Experience 10 (6): 501–506.](http://www.cin.br/~paguso/courses/if767/bib/Horspool_1980.pdf)
 
-_作者：Matthijs Hollemans, Andreas Neusüß 更新，翻译：Daisy_, [Matías Mazzei](https://github.com/mmazzei).
+_作者：Matthijs Hollemans, Andreas Neusüß， [Matías Mazzei](https://github.com/mmazzei) 更新，翻译：Daisy_.
 
 

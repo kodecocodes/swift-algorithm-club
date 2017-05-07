@@ -153,7 +153,7 @@
 - [树](Tree/README-CN.markdown). 一般用途的树结构
 - [二叉树](Binary%20Tree/README-CN.markdown). 每个节点最多有两个子节点的数。
 - [二叉搜索树 (BST)](Binary%20Search%20Tree/README-CN.markdown). 二叉树以能快速查询的方式来安排它的节点。
-- Red-Black Tree
+- [红黑树](Red-Black%20Tree/README-CN.markdown)
 - Splay Tree
 - Threaded Binary Tree
 - [线段树](Segment%20Tree/README-CN.markdown). 可以在数组的一部分上快速执行操作。
