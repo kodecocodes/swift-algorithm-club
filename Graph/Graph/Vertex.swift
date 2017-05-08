@@ -17,9 +17,7 @@ public struct Vertex<T>: Equatable where T: Equatable, T: Hashable {
 extension Vertex: CustomStringConvertible {
 
   public var description: String {
-    get {
-      return "\(index): \(data)"
-    }
+    return "\(index): \(data)"
   }
 
 }
@@ -27,9 +25,7 @@ extension Vertex: CustomStringConvertible {
 extension Vertex: Hashable {
 
   public var hashValue: Int {
-    get {
-      return "\(data)\(index)".hashValue
-    }
+    return "\(data)\(index)".hashValue
   }
 
 }

@@ -30,8 +30,7 @@ public struct Stack<T> {
 extension Stack: Sequence {
     public func makeIterator() -> AnyIterator<T> {
         var curr = self
-        return AnyIterator {
-            _ -> T? in
+        return AnyIterator { _ -> T? in
             return curr.pop()
         }
     }

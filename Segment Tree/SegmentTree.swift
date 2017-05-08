@@ -8,19 +8,19 @@
 */
 
 public class SegmentTree<T> {
-	
+
 	private var value: T
 	private var function: (T, T) -> T
 	private var leftBound: Int
 	private var rightBound: Int
 	private var leftChild: SegmentTree<T>?
 	private var rightChild: SegmentTree<T>?
-	
+
 	public init(array: [T], leftBound: Int, rightBound: Int, function: @escaping (T, T) -> T) {
 		self.leftBound = leftBound
 		self.rightBound = rightBound
 		self.function = function
-		
+
 		if leftBound == rightBound {
 			value = array[leftBound]
 		} else {
@@ -30,19 +30,19 @@ public class SegmentTree<T> {
 			value = function(leftChild!.value, rightChild!.value)
 		}
 	}
-	
+
 	public convenience init(array: [T], function: @escaping (T, T) -> T) {
 		self.init(array: array, leftBound: 0, rightBound: array.count-1, function: function)
 	}
-	
+
 	public func query(leftBound: Int, rightBound: Int) -> T {
 		if self.leftBound == leftBound && self.rightBound == rightBound {
 			return self.value
 		}
-		
+
 		guard let leftChild = leftChild else { fatalError("leftChild should not be nil") }
 		guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
-		
+
 		if leftChild.rightBound < leftBound {
 			return rightChild.query(leftBound: leftBound, rightBound: rightBound)
 		} else if rightChild.leftBound > rightBound {
@@ -53,7 +53,7 @@ public class SegmentTree<T> {
 			return function(leftResult, rightResult)
 		}
 	}
-	
+
 	public func replaceItem(at index: Int, withItem item: T) {
 		if leftBound == rightBound {
 			value = item

@@ -37,7 +37,7 @@ public extension Treap {
     } else {
       fatalError("No values in treap")
     }
-    
+
     switch self {
     case .node:
       if case let .node(_, _, _, left, right) = current.set(key: key, val: val, p: -1) {
@@ -49,7 +49,7 @@ public extension Treap {
       return (left: .empty, right: .empty)
     }
   }
-  
+
   internal var leastKey: Key? {
     switch self {
     case .empty:
@@ -60,7 +60,7 @@ public extension Treap {
       return left.leastKey
     }
   }
-  
+
   internal var mostKey: Key? {
     switch self {
     case .empty:
@@ -79,7 +79,7 @@ internal func merge<Key: Comparable, Element>(_ left: Treap<Key, Element>, right
     return right
   case (_, .empty):
     return left
-    
+
   case let (.node(leftKey, leftVal, leftP, leftLeft, leftRight), .node(rightKey, rightVal, rightP, rightLeft, rightRight)):
     if leftP < rightP {
       return .node(key: leftKey, val: leftVal, p: leftP, left: leftLeft, right: merge(leftRight, right: right))
@@ -94,20 +94,18 @@ internal func merge<Key: Comparable, Element>(_ left: Treap<Key, Element>, right
 
 extension Treap: CustomStringConvertible {
   public var description: String {
-    get {
-      return Treap.descHelper(self, indent: 0)
-    }
+    return Treap.descHelper(self, indent: 0)
   }
-  
+
   fileprivate static func descHelper(_ treap: Treap<Key, Element>, indent: Int) -> String {
     if case let .node(key, value, priority, left, right) = treap {
       var result = ""
       let tabs = String(repeating: "\t", count: indent)
-      
+
       result += descHelper(left, indent: indent + 1)
       result += "\n" + tabs + "\(key), \(value), \(priority)\n"
       result += descHelper(right, indent: indent + 1)
-      
+
       return result
     } else {
       return ""

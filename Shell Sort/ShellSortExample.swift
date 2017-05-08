@@ -10,19 +10,19 @@ import Foundation
 
 public func shellSort(_ list : inout [Int]) {
     var sublistCount = list.count / 2
-    
+
     while sublistCount > 0 {
         for var index in 0..<list.count {
-            
+
             guard index + sublistCount < list.count else { break }
-            
+
             if list[index] > list[index + sublistCount] {
                 swap(&list[index], &list[index + sublistCount])
             }
-            
+
             guard sublistCount == 1 && index > 0 else { continue }
-            
-            while list[index - 1] > list[index] && index - 1 > 0  {
+
+            while list[index - 1] > list[index] && index - 1 > 0 {
                 swap(&list[index - 1], &list[index])
                 index -= 1
             }

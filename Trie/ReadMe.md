@@ -46,7 +46,7 @@ func contains(word: String) -> Bool {
 	if currentIndex == characters.count && currentNode.isTerminating {
 	  return true
 	} else {
-		return false
+	  return false
 	}
 }
 ```

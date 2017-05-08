@@ -364,7 +364,7 @@ What else do we need? Removing nodes, of course! First we'll do `removeAll()`, w
 
 If you had a tail pointer, you'd set it to `nil` here too.
 
-Next we'll add some functions that let you remove individual nodes. If you already have a reference to the node, then using `removeNode()` is the most optimal because you don't need to iterate through the list to find the node first.
+Next we'll add some functions that let you remove individual nodes. If you already have a reference to the node, then using `remove()` is the most optimal because you don't need to iterate through the list to find the node first.
 
 ```swift
   public func remove(node: Node) -> T {
