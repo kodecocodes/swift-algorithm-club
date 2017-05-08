@@ -9,7 +9,7 @@ What do we mean by this? For example, the Union-Find data structure could be kee
 	[ g, d, c ]
 	[ i, j ]
 
-These sets are disjoint because they have no members in common.
+These sets are **disjoint** because they have no members in common.
 
 Union-Find supports three basic operations:
 
@@ -24,7 +24,7 @@ The most common application of this data structure is keeping track of the conne
 ## Implementation
 
 Union-Find can be implemented in many ways but we'll look at an efficient and easy to understand implementation: Weighted Quick Union.
-> __PS: Variety implementation of Union-Find has been included in playground.__
+> __PS: Multiple implementations of Union-Find has been included in playground.__
 
 ```swift
 public struct UnionFind<T: Hashable> {
@@ -198,7 +198,7 @@ private mutating func setByIndex(_ index: Int) -> Int {
 ```
 Path Compression helps keep trees very flat, thus find operation could take __ALMOST__ in __O(1)__
 
-## Complexity Summary of Variety Implementation
+## Complexity Summary
 
 ##### To process N objects
 | Data Structure | Union | Find |
