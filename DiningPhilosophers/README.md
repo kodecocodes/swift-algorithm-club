@@ -10,7 +10,7 @@ In computer science, the dining philosophers problem is often used in the concur
 
 It was originally formulated in 1965 by Edsger Dijkstra as a student exam exercise, presented in terms of computers competing for access to tape drive peripherals. Soon after, Tony Hoare gave the problem its present formulation.
 
-This Swift implementation is based on the Chandy/Misra solution, and it uses the GCD Dispatch and Semaphone on the Swift cross platform.
+This Swift implementation is based on the Chandy/Misra solution, and it uses the GCD Dispatch and Semaphores on the Swift cross platform.
 
 # Problem statement
 
