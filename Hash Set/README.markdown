@@ -203,3 +203,5 @@ If you often need to look up whether an element belongs to a set and perform uni
 > **Note:** I'd like to make `HashSet` conform to `ArrayLiteralConvertible` so you can write `let setA: HashSet<Int> = [1, 2, 3, 4]` but currently this crashes the compiler.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*
+
+
