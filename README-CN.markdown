@@ -1,203 +1,199 @@
+
 ![Swift Algorithm Club](/Images/SwiftAlgorithm-410-transp.png)
 
-[English](README.markdown)
+# Welcome to the Swift Algorithm Club!
 
-# 欢迎来到 Swift 算法俱乐部！
+Here you'll find implementations of popular algorithms and data structures in everyone's favorite new language Swift, with detailed explanations of how they work.
 
-在这里可以找到用大家最喜欢的新语言 Swift 实现的常见的算法和数据结构的实现，并且有这些算法和数据结构是如何工作的细节展示。
+If you're a computer science student who needs to learn this stuff for exams -- or if you're a self-taught programmer who wants to brush up on the theory behind your craft -- you've come to the right place!
 
-如果你是一个计算机系的学生，需要学习算法和数据结构来应付考试，又或者你是一个自学变成的程序员，想要复习各种理论知识，那么你来对地方了！
+The goal of this project is to **explain how algorithms work**. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use but you may need to tweak it to fit into your own codebase.
 
-这个项目的目的是**揭示算法是如何工作的**。我们将重点关注代码的清晰度和可读性，而不会做一个可以直接添加到你工程里的复用库。也就是说，大部分的代码是为了展示用的，想要使用就要在自己代码的基础上进行调整。
+Most code is compatible with **Xcode 8.3** and **Swift 3**. We'll keep this updated with the latest version of Swift.
 
-大部分的代码是兼容**Xcode 8.2** 和**Swift3**的。我们会持续更新以便与最新的 Swift 兼容。
+:heart_eyes: **Suggestions and contributions are welcome!** :heart_eyes:
 
-这是一个持续的工作。陆续会有更多的算法加进来。:-)
+## Important links
 
-:heart_eyes: **欢迎提出建议和做贡献!** :heart_eyes:
+[What are algorithms and data structures?](What%20are%20Algorithms.markdown) Pancakes!
 
-## 重要链接
+[Why learn algorithms?](Why%20Algorithms.markdown) Worried this isn't your cup of tea? Then read this.
 
-[什么是算法和数据结构?](What%20are%20Algorithms-CN.markdown) 薄煎饼!
+[Big-O notation](Big-O%20Notation.markdown). We often say things like, "This algorithm is **O(n)**." If you don't know what that means, read this first.
 
-[为什么学习算法？](Why%20Algorithms-CN.markdown) 还在担心这不是你的菜吗？看看这个吧
+[Algorithm design techniques](Algorithm%20Design.markdown). How do you create your own algorithms?
 
-[大 O 表示法](Big-O%20Notation-CN.markdown)。 我们经常会说“这个算法是**O(n)**”。如果你不知道这是什么意思，读读这篇吧。
+[How to contribute](https://github.com/raywenderlich/swift-algorithm-club/blob/master/.github/CONTRIBUTING.md). Report an issue to leave feedback, or submit a pull request.
 
-[算法设计技巧](Algorithm%20Design-CN.markdown)。怎样设计自己的算法？
+## Where to start?
 
-[如何做贡献](How%20to%20Contribute-CN.markdown)。报告问题或者提交 pull 请求
+If you're new to algorithms and data structures, here are a few good ones to start out with:
 
-[构建中](Under%20Construction-CN.markdown)。 还没有实现的算法
+- [Stack](Stack/)
+- [Queue](Queue/)
+- [Insertion Sort](Insertion%20Sort/)
+- [Binary Search](Binary%20Search/) and [Binary Search Tree](Binary%20Search%20Tree/)
+- [Merge Sort](Merge%20Sort/)
+- [Boyer-Moore string search](Boyer-Moore/)
 
-## 从哪里开始
+## The algorithms
 
-如果你是一个新手，下面的文章是一个很好的开始：
+### Searching
 
-- [栈](Stack/README-CN.markdown)
-- [队列](Queue/README-CN.markdown)
-- [插入排序](Insertion%20Sort/README-CN.markdown)
-- [二分搜索](Binary%20Search/README-CN.markdown) 和 [二叉搜索树](Binary%20Search%20Tree/README-CN.markdown)
-- [归并排序](Merge%20Sort/README-CN.markdown)
-- [Boyer-Moore 字符串搜索](Boyer-Moore/README-CN.markdown)
+- [Linear Search](Linear%20Search/). Find an element in an array.
+- [Binary Search](Binary%20Search/). Quickly find elements in a sorted array.
+- [Count Occurrences](Count%20Occurrences/). Count how often a value appears in an array.
+- [Select Minimum / Maximum](Select%20Minimum%20Maximum). Find the minimum/maximum value in an array.
+- [k-th Largest Element](Kth%20Largest%20Element/). Find the *k*-th largest element in an array, such as the median.
+- [Selection Sampling](Selection%20Sampling/). Randomly choose a bunch of items from a collection.
+- [Union-Find](Union-Find/). Keeps track of disjoint sets and lets you quickly merge them.
 
-## 算法
 
-### 搜索
+### String Search
 
-- [线性搜索](Linear%20Search/README-CN.markdown)。 在数组中查找一个元素
-- [二分搜索](Binary%20Search/README-CN.markdown)。 在有序数组中快速查找元素。
-- [计算出现频率](Count%20Occurrences/README-CN.markdown)。统计值在数组中出现的频率
-- [查找最大/最小值](Select%20Minimum%20Maximum/README-CN.markdown)。 查找数组中的最大最小值
-- [第 k 大的元素](Kth%20Largest%20Element/README-CN.markdown)。找到数组中第 *k* 大的元素，比如中间值。
-- [选取样本](Selection%20Sampling/README-CN.markdown)。 从集合中随机选择一些样本
-- [联合查找](Union-Find/README-CN.markdown)。 跟踪不相交的集合并且快速合并它们
+- [Brute-Force String Search](Brute-Force%20String%20Search/). A naive method.
+- [Boyer-Moore](Boyer-Moore/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
+- [Knuth-Morris-Pratt](Knuth-Morris-Pratt/). A linear-time string algorithm that returns indexes of all occurrencies of a given pattern.
+- [Rabin-Karp](Rabin-Karp/)  Faster search by using hashing.
+- [Longest Common Subsequence](Longest%20Common%20Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
+- [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
 
-### 字符串搜索
+### Sorting
 
-- [暴力字符串搜索](Brute-Force%20String%20Search/README-CN.markdown). 一个简单的方法
-- [Boyer-Moore](Boyer-Moore/README-CN.markdown)。一个快速搜索子字符串的方法。它基于一个查询表来跳过一些字符来避免查找文本中的每个字符。
-- [Knuth-Morris-Pratt](Knuth-Morris-Pratt/README-CN.markdown)
-- [Rabin-Karp](Rabin-Karp/README-CN.markdown)  使用散列的快速搜索。
-- [最长公共子序列](Longest%20Common%20Subsequence/README-CN.markdown). 找到两个字符串中相同顺序的最长公共子序列。
-- [Z 算法](Z-Algorithm/README-CN.markdown). 找到字符串里所有的模式实例，并且返回模式在字符串中开始的位置的索引。 
+It's fun to see how sorting algorithms work, but in practice you'll almost never have to provide your own sorting routines. Swift's own `sort()` is more than up to the job. But if you're curious, read on...
 
-### 排序
+Basic sorts:
 
-看排序算法是如何工作的是很有意思的，但在实际中却几乎不可能用自己的排序程序。Swift 自己的 `sort()` 已经可以满足工作了，但是如果你好奇的话，请继续阅读吧...
+- [Insertion Sort](Insertion%20Sort/)
+- [Selection Sort](Selection%20Sort/)
+- [Shell Sort](Shell%20Sort/)
 
-基本排序:
+Fast sorts:
 
-- [插入排序](Insertion%20Sort/README-CN.markdown) 
-- [选择排序](Selection%20Sort/README-CN.markdown) 
-- [希尔排序](Shell%20Sort/README-CN.markdown) 
+- [Quicksort](Quicksort/)
+- [Merge Sort](Merge%20Sort/)
+- [Heap Sort](Heap%20Sort/)
 
-快速排序:
+Special-purpose sorts:
 
-- [快速排序](Quicksort/README-CN.markdown) 
-- [归并排序](Merge%20Sort/README-CN.markdown) 
-- [堆排序](Heap%20Sort/README-CN.markdown) 
+- [Counting Sort](Counting%20Sort/)
+- [Radix Sort](Radix%20Sort/)
+- [Topological Sort](Topological%20Sort/)
 
-特殊目的的排序:
+Bad sorting algorithms (don't use these!):
 
-- [计数排序](Counting%20Sort/README-CN.markdown)
-- [基数排序](Radix%20Sort/README-CN.markdown)
-- [拓扑排序](Topological%20Sort/README-CN.markdown)
+- [Bubble Sort](Bubble%20Sort/)
+- [Slow Sort](Slow%20Sort/)
 
-糟糕的排序算法 (不要用它们!):
+### Compression
 
-- [冒泡排序](Bubble%20Sort/README-CN.markdown)
-- [慢排序](Slow%20Sort/README-CN.markdown)
+- [Run-Length Encoding (RLE)](Run-Length%20Encoding/). Store repeated values as a single byte and a count.
+- [Huffman Coding](Huffman%20Coding/). Store more common elements using a smaller number of bits.
 
-### 压缩
+### Miscellaneous
 
-- [游程编码 (RLE)](Run-Length%20Encoding/README-CN.markdown). 将重复的字节存储为一个值和一个数量。
-- [哈夫曼编码](Huffman%20Coding/README-CN.markdown). 用更少的位保存更常出现的元素。
+- [Shuffle](Shuffle/). Randomly rearranges the contents of an array.
+- [Comb Sort](Comb%20Sort/). An improve upon the Bubble Sort algorithm.
 
-### 杂七杂八
+### Mathematics
 
-- [洗牌](Shuffle/README-CN.markdown). 随机重新排列数组的内容。
-- [梳排序](Comb%20Sort/README-CN.markdown). 冒泡排序算法的改进。
+- [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
+- [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
+- [Shunting Yard Algorithm](Shunting%20Yard/). Convert infix expressions to postfix.
+- [Karatsuba Multiplication](Karatsuba%20Multiplication/). Another take on elementary multiplication.
+- [Haversine Distance](HaversineDistance/). Calculating the distance between 2 points from a sphere.
+- [Strassen's Multiplication Matrix](Strassen%20Matrix%20Multiplication/). Efficient way to handle matrix multiplication.
 
-### 数学
+### Machine learning
 
-- [最大公约数 (GCD)](GCD/README-CN.markdown). 特别姜力：最小公倍数
-- [排列和组合](Combinatorics/README-CN.markdown). 捡起你的组合吧！
-- [调度场算法](Shunting%20Yard/README-CN.markdown). 将中缀表达式转换成后缀表达式。
-- Statistics
-- [Karatsuba 乘法](Karatsuba%20Multiplication/README-CN.markdown). 基本乘法的另一个方式。
-- [Haversine 距离](HaversineDistance/README-CN.markdown). 计算球面上两点之间的距离。
-
-### 机器学习
-
-- [k-Means 聚类](K-Means/README-CN.markdown). 将数据分成 *k* 个簇的无监督分类
+- [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters.
 - k-Nearest Neighbors
-- [线性回归](Linear%20Regression/README-CN.markdown)
+- [Linear Regression](Linear%20Regression/). A technique for creating a model of the relationship between two (or more) variable quantities.
 - Logistic Regression
 - Neural Networks
 - PageRank
 
-## 数据结构
+## Data structures
 
-对于特定任务的数据结构的选择取决于一些情况。
+The choice of data structure for a particular task depends on a few things.
 
-首先，要有一个数据的形式以及要对数据执行的操作。如果你要通过关键词来查找对象的话，那么你就需要类似字典的东西；如果你的数据本身是有层级的，那么就要用类似树的结构了；如果数据是连续的，栈或者队列都是一个可选项。
+First, there is the shape of your data and the kinds of operations that you'll need to perform on it. If you want to look up objects by a key you need some kind of dictionary; if your data is hierarchical in nature you want a tree structure of some sort; if your data is sequential you want a stack or queue.
 
-其次，经常执行哪些特定的操作很重要，因为一些数据结构会针对特定行为做优化。例如，如果想在集合中找到最重要的对象，那么一个堆或者优先列表就比数组要好的多。
+Second, it matters what particular operations you'll be performing most, as certain data structures are optimized for certain actions. For example, if you often need to find the most important object in a collection, then a heap or priority queue is more optimal than a plain array.
 
-大部分情况下内置的 `Array`、`Dictionary` 和 `Set` 就够用了，但有时可能想要一些更好的。
+Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types is sufficient, but sometimes you may want something more fancy...
 
-### 数组的变种
+### Variations on arrays
 
-- [二维数组](Array2D/README-CN.markdown). 固定大小的二维数组。在棋盘游戏中非常有用。
-- [位集](Bit%20Set/README-CN.markdown). 固定大小的 *n* 位系列。
-- [固定大小的数组](Fixed%20Size%20Array/README-CN.markdown). 但提前知道有多少数据的时候，用一个固定大小的老式数组可能更高效。
-- [有序数组](Ordered%20Array/README-CN.markdown). 有序数组.
-- [Rootish 数组栈](Rootish%20Array%20Stack/README-CN.markdown). Swift 数组的一个空间和时间高效的变种
+- [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
+- [Bit Set](Bit%20Set/). A fixed-size sequence of *n* bits.
+- [Fixed Size Array](Fixed%20Size%20Array/). When you know beforehand how large your data will be, it might be more efficient to use an old-fashioned array with a fixed size.
+- [Ordered Array](Ordered%20Array/). An array that is always sorted.
+- [Rootish Array Stack](Rootish%20Array%20Stack/). A space and time efficient variation on Swift arrays.
 
-### 队列
+### Queues
 
-- [栈](Stack/README-CN.markdown)。 后进先出！
-- [队列](Queue/README-CN.markdown)。 先进先出！
-- [双端队列](Deque/README-CN.markdown). 双端队列.
-- [优先队列](Priority%20Queue/README-CN.markdown). 最重要的的元素始终在开始的队列。
-- [环形缓冲区](Ring%20Buffer/README-CN.markdown). 也叫做圆形缓冲区。从概念上来说是绕回到开始的一定大小的数组。
+- [Stack](Stack/). Last-in, first-out!
+- [Queue](Queue/). First-in, first-out!
+- [Deque](Deque/). A double-ended queue.
+- [Priority Queue](Priority%20Queue). A queue where the most important element is always at the front.
+- [Ring Buffer](Ring%20Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
 
-### 链表
+### Lists
 
-- [链表](Linked%20List/README-CN.markdown). 通过链接连接数据元素的系列。包括单项链表和双向链表。
-- [跳跃表](Skip-List/README-CN.md). 跳跃表是一种概率数据结构，与 AVL 或者红黑树有着同样的时间效率，对搜索和更新操作提供了一个聪明的妥协。
+- [Linked List](Linked%20List/). A sequence of data items connected through links. Covers both singly and doubly linked lists.
+- [Skip-List](Skip-List/). Skip List is a probablistic data-structure with same logarithmic time bound and efficiency as AVL/ or Red-Black tree and provides a clever compromise to efficiently support search and update operations.
 
-### 树
+### Trees
 
-- [树](Tree/README-CN.markdown). 一般用途的树结构
-- [二叉树](Binary%20Tree/README-CN.markdown). 每个节点最多有两个子节点的数。
-- [二叉搜索树 (BST)](Binary%20Search%20Tree/README-CN.markdown). 二叉树以能快速查询的方式来安排它的节点。
-- [红黑树](Red-Black%20Tree/README-CN.markdown)
+- [Tree](Tree/). A general-purpose tree structure.
+- [Binary Tree](Binary%20Tree/). A tree where each node has at most two children.
+- [Binary Search Tree (BST)](Binary%20Search%20Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
+- [Red-Black Tree](Red-Black%20Tree/). A self balancing binary search tree.
 - Splay Tree
-- [线索二叉树](Threaded%20Binary%20Tree/README-CN.markdown)
-- [线段树](Segment%20Tree/README-CN.markdown). 可以在数组的一部分上快速执行操作。
+- [Threaded Binary Tree](Threaded%20Binary%20Tree/). A binary tree that maintains a few extra variables for cheap and fast in-order traversals.
+- [Segment Tree](Segment%20Tree/). Can quickly compute a function over a portion of an array.
 - kd-Tree
-- [堆](Heap/README-CN.markdown). 数组中的有序二叉树，所以它不使用指针。它是一个非常好的优先队列。
+- [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
-- [Trie](Trie/README-CN.markdown). 用来存储关联类型数据结构的特殊类型的树。
-- [B 树](B-Tree/README-CN.markdown). 一个自平衡搜索树，它的节点可以有多于两个子节点。
+- [Trie](Trie/). A special type of tree used to store associative data structures.
+- [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
 
-### 散列法
+### Hashing
 
-- [散列表](Hash%20Table/README-CN.markdown). 可以通过关键词存储和获取对象。字典通常就是这样实现的。
+- [Hash Table](Hash%20Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented.
 - Hash Functions
 
-### 集合
+### Sets
 
-- [布隆过滤器](Bloom%20Filter/README-CN.markdown). 一种固定内存大小的数据结构，可以大概地测试元素是否在集合中。
-- [散列集合](Hash%20Set/README-CN.markdown). 用散列表实现的集合。
+- [Bloom Filter](Bloom%20Filter/). A constant-memory data structure that probabilistically tests whether an element is in a set.
+- [Hash Set](Hash%20Set/). A set implemented using a hash table.
 - Multiset
-- [有序集合](Ordered%20Set/README-CN.markdown). 关心元素顺序的集合。
+- [Ordered Set](Ordered%20Set/). A set where the order of items matters.
 
-### 图
+### Graphs
 
-- [图](Graph/README-CN.markdown)
-- [广度优先搜索 (BFS)](Breadth-First%20Search/README-CN.markdown)
-- [深度优先搜索 (DFS)](Depth-First%20Search/README-CN.markdown)
-- [最短路径](Shortest%20Path%20%28Unweighted%29/README-CN.markdown) 无权图
-- [单源最短路径](Single-Source%20Shortest%20Paths%20(Weighted)/README-CN.markdown)
-- [最小生成树](Minimum%20Spanning%20Tree%20%28Unweighted%29/README-CN.markdown) 无权图
-- [全源最短路径](All-Pairs%20Shortest%20Paths/README-CN.markdown)
+- [Graph](Graph/)
+- [Breadth-First Search (BFS)](Breadth-First%20Search/)
+- [Depth-First Search (DFS)](Depth-First%20Search/)
+- [Shortest Path](Shortest%20Path%20%28Unweighted%29/) on an unweighted tree
+- [Single-Source Shortest Paths](Single-Source%20Shortest%20Paths%20(Weighted)/)
+- [Minimum Spanning Tree](Minimum%20Spanning%20Tree%20%28Unweighted%29/) on an unweighted tree
+- [All-Pairs Shortest Paths](All-Pairs%20Shortest%20Paths/)
 
-## 谜题
+## Puzzles
 
-许多软件开发者的面试都会涉及到算法题。这里是一些比较有意思的。可以从[这里](http://elementsofprogramminginterviews.com/)和[这里](http://www.crackingthecodinginterview.com)查看更多的题（都有答案）。
+A lot of software developer interview questions consist of algorithmic puzzles. Here is a small selection of fun ones. For more puzzles (with answers), see [here](http://elementsofprogramminginterviews.com/) and [here](http://www.crackingthecodinginterview.com).
 
-- [两和问题](Two-Sum%20Problem/README-CN.markdown)
-- [Fizz Buzz](Fizz%20Buzz/README-CN.markdown)
-- [蒙提霍尔问题](Monty%20Hall%20Problem/README-CN.markdown)
-- [查找回文](Palindromes/README-CN.markdown)
-- [哲学家就餐问题](DiningPhilosophers/README-CN.markdown)
+- [Two-Sum Problem](Two-Sum%20Problem/)
+- [Fizz Buzz](Fizz%20Buzz/)
+- [Monty Hall Problem](Monty%20Hall%20Problem/)
+- [Finding Palindromes](Palindromes/)
+- [Dining Philosophers](DiningPhilosophers/)
 
-## 持续学习！
+## Learn more!
 
-查看下面这些好书可以获得更多的信息：
+For more information, check out these great books:
 
 - [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms) by Cormen, Leiserson, Rivest, Stein
 - [The Algorithm Design Manual](http://www.algorist.com) by Skiena
@@ -205,7 +201,7 @@
 - [Algorithms](http://www.cs.princeton.edu/~rs/) by Sedgewick
 - [Grokking Algorithms](https://www.manning.com/books/grokking-algorithms) by Aditya Bhargava 
 
-下面这些书可以在线免费获得：
+The following books are available for free online:
 
 - [Algorithms](http://www.beust.com/algorithms.pdf) by Dasgupta, Papadimitriou, Vazirani
 - [Algorithms, Etc.](http://jeffe.cs.illinois.edu/teaching/algorithms/) by Erickson
@@ -214,28 +210,27 @@
 - [Open Data Structures](http://opendatastructures.org) by Pat Morin
 - [Wikibooks: Algorithms and Implementations](https://en.wikibooks.org/wiki/Algorithm_Implementation)
 
-其他算法仓库：
+Other algorithm repositories:
 
-- [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). Objective-C 算法大集合。
-- [@lorentey](https://github.com/lorentey/). 产品级的通用算法和数据结构的 Swift 实现。
-- [Rosetta Code](http://rosettacode.org). 你能想到的所有语言的实现。
-- [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). 浏览器可视化算法实现。
-- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) 如何使用数据结构和算法 [这里](http://waynewbishop.com/swift)
+- [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). A great collection of algorithms in Objective-C.
+- [@lorentey](https://github.com/lorentey/). Production-quality Swift implementations of common algorithms and data structures.
+- [Rosetta Code](http://rosettacode.org). Implementations in pretty much any language you can think of.
+- [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). Visualize algorithms on your browser.
+- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) Data Structures with directions on how to use them [here](http://waynewbishop.com/swift)
 
-## 贡献者
+## Credits
 
-Swift 算法俱乐部最开始是由  [Matthijs Hollemans](https://github.com/hollance) 创建的。
+The Swift Algorithm Club was originally created by [Matthijs Hollemans](https://github.com/hollance).
 
-现在由 [Vincent Ngo](https://www.raywenderlich.com/u/jomoka) 和 [Kelvin Lau](https://github.com/kelvinlauKL) 维护。
+It is now maintained by [Vincent Ngo](https://www.raywenderlich.com/u/jomoka), [Kelvin Lau](https://github.com/kelvinlauKL) and [Ross O'brien](https://www.raywenderlich.com/u/narrativium).
 
-Swift 算法俱乐部是 [raywenderlich.com](https://www.raywenderlich.com) 社区 [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) 努力的结果。我们一直都在寻求帮助 - 为什么不 [加入俱乐部](How%20to%20Contribute-CN.markdown)? :]
+The Swift Algorithm Club is a collaborative effort from the [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](How%20to%20Contribute.markdown)? :]
 
-## 许可证
+## License
 
-所有内容都是基于 MIT 的开源许可证。
+All content is licensed under the terms of the MIT open source license.
 
-要通过这个论坛在这里发布、提交或者拉请求，就要同意所有你提交或者创建的内容，包括代码和文本，都要遵循这个许可证。Razeware, LLC 和其他所有者有内容的最终解释权。许可证的准确内容在[这里](https://github.com/raywenderlich/swift-algorithm-club/blob/master/LICENSE.txt)。
+By posting here, or by submitting any pull request through this forum, you agree that all content you submit or create, both code and text, is subject to this license.  Razeware, LLC, and others will have all the rights described in the license regarding this content.  The precise terms of this license may be found [here](https://github.com/raywenderlich/swift-algorithm-club/blob/master/LICENSE.txt).
 
 [![Build Status](https://travis-ci.org/raywenderlich/swift-algorithm-club.svg?branch=master)](https://travis-ci.org/raywenderlich/swift-algorithm-club)
-
 
