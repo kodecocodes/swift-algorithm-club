@@ -1,6 +1,6 @@
 ![Swift Algorithm Club](/Images/SwiftAlgorithm-410-transp.png)
 
-[English](README.markdown)
+[English](README-EN.markdown)
 
 # 欢迎来到 Swift 算法俱乐部！
 
