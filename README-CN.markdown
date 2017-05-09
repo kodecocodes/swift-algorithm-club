@@ -155,13 +155,13 @@
 - [二叉搜索树 (BST)](Binary%20Search%20Tree/README-CN.markdown). 二叉树以能快速查询的方式来安排它的节点。
 - [红黑树](Red-Black%20Tree/README-CN.markdown)
 - Splay Tree
-- Threaded Binary Tree
+- [线索二叉树](Threaded%20Binary%20Tree/README-CN.markdown)
 - [线段树](Segment%20Tree/README-CN.markdown). 可以在数组的一部分上快速执行操作。
 - kd-Tree
 - [堆](Heap/README-CN.markdown). 数组中的有序二叉树，所以它不使用指针。它是一个非常好的优先队列。
 - Fibonacci Heap
 - [Trie](Trie/README-CN.markdown). 用来存储关联类型数据结构的特殊类型的树。
-- [B 树](B-Tree/README-CN.markdown). 一个自平衡搜索树，它的节点可以有多余两个子节点。
+- [B 树](B-Tree/README-CN.markdown). 一个自平衡搜索树，它的节点可以有多于两个子节点。
 
 ### 散列法
 
