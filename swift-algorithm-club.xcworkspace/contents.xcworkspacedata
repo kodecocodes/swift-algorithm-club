@@ -7,6 +7,23 @@
    <FileRef
       location = "group:LICENSE.txt">
    </FileRef>
+   <Group
+      location = "group:Dynamic Programming Knapsack "
+      name = "Dynamic Programming  ">
+      <Group
+         location = "group:0:1 Knapsack"
+         name = "0:1 Knapsack">
+         <FileRef
+            location = "group:Knapsack.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Knapsack.playground">
+         </FileRef>
+         <FileRef
+            location = "group:README.markdown">
+         </FileRef>
+      </Group>
+   </Group>
    <FileRef
       location = "group:Algorithm Design.markdown">
    </FileRef>
