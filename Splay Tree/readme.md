@@ -8,13 +8,24 @@ Splay tree is a data structure, structurally identitical to a Balanced Binary Se
 
 Given a node *a* if *a* is not the root, and *a* has a child *b*, and both *a* and *b* are left children or right children, a **Zig-Zig** is performed.
 
+![ZigZigCase1](Images/zigzig1.png)
+
+![ZigZigCase2](Images/zigzig2.png)
+
 ### Zig-Zag
 
 Given a node *a* if *a* is not the root, and *a* has a child *b*, and *b* is the left child of *a* being the right child (or the opporsite), a **Zig-Zag** is performed.
 
+![ZigZagCase1](Images/zigzag1.png)
+
+![ZigZagCase2](Images/zigzag2.png)
+
 ### Zig
 
 A **Zig** is performed when the node *a* to be rotated has the root as parent.
+
+![ZigCase](Images/zig.png)
+
 
 ## Splaying
 
@@ -30,9 +41,20 @@ A **Zig** is performed when the node *a* to be rotated has the root as parent.
 
 ### Example 1
 
+![ZigEx1](Images/examplezigzig1.png)
+
+![ZigEx2](Images/examplezigzig2.png)
+
+![ZigEx3](Images/examplezigzig3.png)
+
+
 ### Example 2
 
-### Example 3
+![ZigEx21](Images/example1-1.png)
+
+![ZigEx22](Images/example1-2.png)
+
+![ZigEx23](Images/example1-3.png)
 
 ## Advantages 
 
@@ -57,4 +79,4 @@ With *n* being the number of items in the tree.
 [Splay Tree on Wikipedia](https://en.wikipedia.org/wiki/Splay_tree)
 [Splay Tree by University of California in Berkeley - CS 61B Lecture 34](https://www.youtube.com/watch?v=G5QIXywcJlY)
 
-*Written for Swift Algorithm Club by Mike Taghavi and Matthijs Hollemans*
+*Written for Swift Algorithm Club by Barbara Martina Rodeker*
