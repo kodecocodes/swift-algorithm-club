@@ -4,21 +4,35 @@ Splay tree is a data structure, structurally identitical to a Balanced Binary Se
 
 ## Rotations
 
+There are 3 types of rotations that can form an **Splaying**:
+
+- ZigZig
+- ZigZag
+- Zig
+
 ### Zig-Zig
 
 Given a node *a* if *a* is not the root, and *a* has a child *b*, and both *a* and *b* are left children or right children, a **Zig-Zig** is performed.
 
+### Case both nodes right children
 ![ZigZigCase1](Images/zigzig1.png)
 
+### Case both nodes left children
 ![ZigZigCase2](Images/zigzig2.png)
+
+**IMPORTANT** is to note that a *ZigZig* performs first the rotation of the middle node with its parent (call it the grandparent) and later the rotation of the remaining node (grandchild). Doing that helps to keep the trees balanced even if it was first created by inserted a sequence of increasing values (see below worst case scenario).
 
 ### Zig-Zag
 
 Given a node *a* if *a* is not the root, and *a* has a child *b*, and *b* is the left child of *a* being the right child (or the opporsite), a **Zig-Zag** is performed.
 
+### Case right - left
 ![ZigZagCase1](Images/zigzag1.png)
 
+### Case left - right
 ![ZigZagCase2](Images/zigzag2.png)
+
+**IMPORTANT** A *ZigZag* performs first the rotation of the grandchild node and later the same node with its new parent again. 
 
 ### Zig
 
@@ -29,7 +43,53 @@ A **Zig** is performed when the node *a* to be rotated has the root as parent.
 
 ## Splaying
 
-## Operations
+A splaying consists in making so many rotations as needed until the node affected by the operation is at the top and becomes the root of the tree.
+
+```
+while (node.parent != nil) {
+            operation(forNode: node).apply(onNode: node)
+}
+```
+
+Where operation returns the required rotation to be applied. 
+
+```
+    public static func operation<T: Comparable>(forNode node: Node<T>) -> SplayOperation {
+        
+        if let parent = node.parent, let _ = parent.parent {
+            if (node.isLeftChild && parent.isRightChild) || (node.isRightChild && parent.isLeftChild) {
+                return .zigZag
+            }
+            return .zigZig
+        }
+        return .zig
+    }
+```
+
+During the applying phase, the algorithms determines which nodes are involved depending on the rotation to be applied and proceeding to re-arrange the node with its parent.
+
+```
+    public func apply<T: Comparable>(onNode node: Node<T>) {
+        switch self {
+        case .zigZag:
+            assert(node.parent != nil && node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
+            rotate(child: node, parent: node.parent!)
+            rotate(child: node, parent: node.parent!)
+
+        case .zigZig:
+            assert(node.parent != nil && node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
+            rotate(child: node.parent!, parent: node.parent!.parent!)
+            rotate(child: node, parent: node.parent!)
+        
+        case .zig:
+            assert(node.parent != nil && node.parent!.parent == nil, "There should be a parent which is the root")
+            rotate(child: node, parent: node.parent!)
+        }
+    }
+```
+
+
+## Operations on an Splay Tree
 
 ### Insertion 
 
@@ -72,6 +132,8 @@ Splay tree are not perfectly balanced always, so in case of accessing all the el
 | Worst      | n |
 
 With *n* being the number of items in the tree.
+
+# An example of the Worst Case Performance 
 
 
 ## See also
