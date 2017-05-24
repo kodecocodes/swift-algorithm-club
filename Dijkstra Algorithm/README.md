@@ -1,4 +1,4 @@
-#Weighted graph general cocepts
+# Weighted graph general cocepts
 
 Every weighted graph should contain: 
 1. Vertices/Nodes (I will use "vertex" in this readme).
