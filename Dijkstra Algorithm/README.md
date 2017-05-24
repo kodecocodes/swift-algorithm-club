@@ -44,7 +44,7 @@ When all vertices are marked as visited, the algorithm's job is done. Now, you c
 
 I have created **VisualizedDijkstra.playground** game/tutorial to improve your understanding of the algorithm's flow. Besides, below is step by step algorithm's description.
 
-#Example 
+# Example 
 Let's imagine, you want to go to the shop. Your house is A vertex and there are 4 possible stores around your house. How to find the closest one/ones? Luckily, you have graph, that connects your house with all these stores. So, you know what to do :)
 
 ## Initialization
