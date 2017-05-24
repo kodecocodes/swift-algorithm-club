@@ -13,11 +13,12 @@ public class Dijkstra {
 
     public func findShortestPaths(from startVertex: Vertex) {
         clearCache()
+        var currentVertices = self.totalVertices
         startVertex.pathLengthFromStart = 0
         startVertex.pathVerticesFromStart.append(startVertex)
         var currentVertex: Vertex? = startVertex
         while let vertex = currentVertex {
-            totalVertices.remove(vertex)
+            currentVertices.remove(vertex)
             let filteredNeighbors = vertex.neighbors.filter { totalVertices.contains($0.0) }
             for neighbor in filteredNeighbors {
                 let neighborVertex = neighbor.0
