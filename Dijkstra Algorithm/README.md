@@ -44,10 +44,10 @@ When all vertices are marked as visited, the algorithm's job is done. Now, you c
 
 I have created **VisualizedDijkstra.playground** game/tutorial to improve your understanding of the algorithm's flow. Besides, below is step by step algorithm's description.
 
-# Example 
+## Example 
 Let's imagine, you want to go to the shop. Your house is A vertex and there are 4 possible stores around your house. How to find the closest one/ones? Luckily, you have graph, that connects your house with all these stores. So, you know what to do :)
 
-## Initialization
+### Initialization
 
 When the algorithm starts to work initial graph looks like this:
 
@@ -93,7 +93,7 @@ After this step graph has this state:
 | Path Length From Start    |  0  | inf | inf | inf | inf |
 | Path Vertices From Start  | [A] | [ ] | [ ] | [ ] | [ ] |
 
-## Step 1
+### Step 1
 
 Then we check all of its neighbors. 
 If checking vertex path length from start + edge weigth is smaller than neighbor's path length from start, then we set neighbor's path length from start new value and append to its pathVerticesFromStart array new vertex: checkingVertex. Repeat this action for every vertex.
@@ -118,7 +118,7 @@ And its state is here:
 | Path Length From Start    |     0      |     3      |    inf     |     1      |    inf     |
 | Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   |    [ ]     |
 
-## Step 2
+### Step 2
 
 From now we repeat all actions again and fill our table with new info! 
 
@@ -130,7 +130,7 @@ From now we repeat all actions again and fill our table with new info!
 | Path Length From Start    |     0      |     3      |    inf     |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |    [ ]     |   [A, D]   | [A, D, E]  |
 
-## Step 3
+### Step 3
 
 <img src="Images/image5.png" height="250" />
 
@@ -140,7 +140,7 @@ From now we repeat all actions again and fill our table with new info!
 | Path Length From Start    |     0      |     3      |     11     |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |[A, D, E, C]|   [A, D]   | [A, D, E ] |
 
-## Step 4
+### Step 4
 
 <img src="Images/image6.png" height="250" />
 
@@ -150,7 +150,7 @@ From now we repeat all actions again and fill our table with new info!
 | Path Length From Start    |     0      |     3      |     8      |     1      |     2      |
 | Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
 
-## Step 5
+### Step 5
 
 <img src="Images/image7.png" height="250" />
 
@@ -300,16 +300,16 @@ Also there is a **VisualizedDijkstra.playground**. Use it to figure out algorith
 
 It is up to you how to implement some specific parts of algorithm, you can use Array instead of Set, add _visited_ property to Vertex or you can create some local totalVertices Array/Set inside _func findShortestPaths(from startVertex: Vertex)_ to keep totalVertices Array/Set unchanged. This is a general explanation with one possible implementation :)
 
-## About this repository
+# About this repository
 
 This repository contains to playgrounds:
 * To understand how does this algorithm works, I have created **VisualizedDijkstra.playground.** It works in auto and interactive modes. Moreover there are play/pause/stop buttons.
 * If you need only realization of the algorithm without visualization then run **Dijkstra.playground.** It contains necessary classes and couple functions to create random graph for algorithm testing.
 
-## Demo video
+# Demo video
 
 Click the link: [YouTube](https://youtu.be/PPESI7et0cQ)
 
-## Credits
+# Credits
 
 WWDC 2017 Scholarship Project (Rejected) created by [Taras Nikulin](https://github.com/crabman448)
