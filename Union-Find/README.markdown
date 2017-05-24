@@ -9,7 +9,7 @@ What do we mean by this? For example, the Union-Find data structure could be kee
 	[ g, d, c ]
 	[ i, j ]
 
-These sets are disjoint because they have no members in common.
+These sets are **disjoint** because they have no members in common.
 
 Union-Find supports three basic operations:
 
@@ -23,7 +23,8 @@ The most common application of this data structure is keeping track of the conne
 
 ## Implementation
 
-Union-Find can be implemented in many ways but we'll look at the most efficient.
+Union-Find can be implemented in many ways but we'll look at an efficient and easy to understand implementation: Weighted Quick Union.
+> __PS: Multiple implementations of Union-Find has been included in playground.__
 
 ```swift
 public struct UnionFind<T: Hashable> {
@@ -119,7 +120,7 @@ Here's illustration of what I mean. Let's say the tree looks like this:
 
 ![BeforeFind](Images/BeforeFind.png)
 
-We call `setOf(4)`. To find the root node we have to first go to node `2` and then to node `7`. (The indexes of the elements are marked in red.)
+We call `setOf(4)`. To find the root node we have to first go to node `2` and then to node `7`. (The indices of the elements are marked in red.)
 
 During the call to `setOf(4)`, the tree is reorganized to look like this:
 
@@ -141,24 +142,24 @@ public mutating func inSameSet(_ firstElement: T, and secondElement: T) -> Bool 
 
 Since this calls `setOf()` it also optimizes the tree.
 
-## Union
+## Union (Weighted)
 
 The final operation is **Union**, which combines two sets into one larger set.
 
 ```swift
-public mutating func unionSetsContaining(_ firstElement: T, and secondElement: T) {
-  if let firstSet = setOf(firstElement), let secondSet = setOf(secondElement) {  // 1
-    if firstSet != secondSet {               // 2
-      if size[firstSet] < size[secondSet] {  // 3
-        parent[firstSet] = secondSet         // 4
-        size[secondSet] += size[firstSet]    // 5
-      } else {
-        parent[secondSet] = firstSet
-        size[firstSet] += size[secondSet]
-      }
+    public mutating func unionSetsContaining(_ firstElement: T, and secondElement: T) {
+        if let firstSet = setOf(firstElement), let secondSet = setOf(secondElement) { // 1
+            if firstSet != secondSet {                // 2
+                if size[firstSet] < size[secondSet] { // 3
+                    parent[firstSet] = secondSet      // 4
+                    size[secondSet] += size[firstSet] // 5
+                } else {
+                    parent[secondSet] = firstSet
+                    size[firstSet] += size[secondSet]
+                }
+            }
+        }
     }
-  }
-}
 ```
 
 Here is how it works:
@@ -167,7 +168,7 @@ Here is how it works:
 
 2. Check that the sets are not equal because if they are it makes no sense to union them.
 
-3. This is where the size optimization comes in. We want to keep the trees as shallow as possible so we always attach the smaller tree to the root of the larger tree. To determine which is the smaller tree we compare trees by their sizes.
+3. This is where the size optimization comes in (Weighting). We want to keep the trees as shallow as possible so we always attach the smaller tree to the root of the larger tree. To determine which is the smaller tree we compare trees by their sizes.
 
 4. Here we attach the smaller tree to the root of the larger tree.
 
@@ -185,10 +186,40 @@ Note that, because we call `setOf()` at the start of the method, the larger tree
 
 Union with optimizations also takes almost **O(1)** time.
 
+## Path Compression
+```swift
+private mutating func setByIndex(_ index: Int) -> Int {
+    if index != parent[index] {
+        // Updating parent index while looking up the index of parent.
+        parent[index] = setByIndex(parent[index])
+    }
+    return parent[index]
+}
+```
+Path Compression helps keep trees very flat, thus find operation could take __ALMOST__ in __O(1)__
+
+## Complexity Summary
+
+##### To process N objects
+| Data Structure | Union | Find |
+|---|---|---|
+|Quick Find|N|1|
+|Quick Union|Tree height|Tree height|
+|Weighted Quick Union|lgN|lgN|
+|Weighted Quick Union + Path Compression| very close, but not O(1)| very close, but not O(1) |
+
+##### To process M union commands on N objects
+| Algorithm | Worst-case time|
+|---|---|
+|Quick Find| M N |
+|Quick Union| M N |
+|Weighted Quick Union| N + M lgN |
+|Weighted Quick Union + Path Compression| (M + N) lgN |
+
 ## See also
 
 See the playground for more examples of how to use this handy data structure.
 
 [Union-Find at Wikipedia](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)
 
-*Written for Swift Algorithm Club by [Artur Antonov](https://github.com/goingreen)*
+*Written for Swift Algorithm Club by [Artur Antonov](https://github.com/goingreen)*, *modified by [Yi Ding](https://github.com/antonio081014).*

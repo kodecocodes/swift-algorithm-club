@@ -35,6 +35,6 @@ func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
             }
         }
     }
-    
+
     return (minimum, maximum)
 }

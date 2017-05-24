@@ -1268,6 +1268,32 @@
       </FileRef>
    </Group>
    <Group
+      location = "group:Minimum Spanning Tree"
+      name = "Minimum Spanning Tree">
+      <FileRef
+         location = "group:Kruskal.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Prim.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:kruskal.png">
+         </FileRef>
+         <FileRef
+            location = "group:prim.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:MinimumSpanningTree.playground">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Minimum Spanning Tree (Unweighted)"
       name = "Minimum Spanning Tree (Unweighted)">
       <Group

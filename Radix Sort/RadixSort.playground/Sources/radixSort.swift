@@ -11,18 +11,18 @@ public func radixSort(_ array: inout [Int] ) {
   var done = false
   var index: Int
   var digit = 1  //Which digit are we on?
-  
-  
+
+
   while !done {  //While our  sorting is not completed
     done = true  //Assume it is done for now
-    
+
     var buckets: [[Int]] = []  //Our sorting subroutine is bucket sort, so let us predefine our buckets
-    
+
     for _ in 1...radix {
       buckets.append([])
     }
-    
-    
+
+
     for number in array {
       index = number / digit  //Which bucket will we access?
       buckets[index % radix].append(number)
@@ -30,9 +30,9 @@ public func radixSort(_ array: inout [Int] ) {
         done = false
       }
     }
-    
+
     var i = 0
-    
+
     for j in 0..<radix {
       let bucket = buckets[j]
       for number in bucket {
@@ -40,7 +40,7 @@ public func radixSort(_ array: inout [Int] ) {
         i += 1
       }
     }
-    
+
     digit *= radix  //Move to the next digit
   }
 }

@@ -13,12 +13,12 @@ public protocol Number: Multipliable, Addable {
 }
 
 public protocol Addable {
-  static func +(lhs: Self, rhs: Self) -> Self
-  static func -(lhs: Self, rhs: Self) -> Self
+  static func + (lhs: Self, rhs: Self) -> Self
+  static func - (lhs: Self, rhs: Self) -> Self
 }
 
 public protocol Multipliable {
-  static func *(lhs: Self, rhs: Self) -> Self
+  static func * (lhs: Self, rhs: Self) -> Self
 }
 
 extension Int: Number {
@@ -37,7 +37,7 @@ extension Array where Element: Number {
   public func dot(_ b: Array<Element>) -> Element {
     let a = self
     assert(a.count == b.count, "Can only take the dot product of arrays of the same length!")
-    let c = a.indices.map{ a[$0] * b[$0] }
+    let c = a.indices.map { a[$0] * b[$0] }
     return c.reduce(Element.zero, { $0 + $1 })
   }
 }

@@ -202,7 +202,7 @@ The code to insert a new element or update an existing element lives in `updateV
     let index = self.index(forKey: key)
     
     // Do we already have this key in the bucket?
-    for (i, element) in buckets[index].enumerate() {
+    for (i, element) in buckets[index].enumerated() {
       if element.key == key {
         let oldValue = element.value
         buckets[index][i].value = value

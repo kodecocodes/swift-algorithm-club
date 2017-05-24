@@ -165,7 +165,7 @@ class LinkedListTest: XCTestCase {
     XCTAssertTrue(prev!.next === node)
     XCTAssertTrue(next!.previous === node)
   }
-  
+
   func testInsertListAtIndex() {
     let list = buildList()
     let list2 = LinkedList<Int>()
@@ -190,7 +190,7 @@ class LinkedListTest: XCTestCase {
     XCTAssertEqual(list.node(atIndex: 1)?.value, 102)
     XCTAssertEqual(list.node(atIndex: 2)?.value, 8)
   }
-  
+
   func testInsertListAtLastIndex() {
     let list = buildList()
     let list2 = LinkedList<Int>()
@@ -202,7 +202,7 @@ class LinkedListTest: XCTestCase {
     XCTAssertEqual(list.node(atIndex: 6)?.value, 99)
     XCTAssertEqual(list.node(atIndex: 7)?.value, 102)
   }
-  
+
   func testAppendList() {
     let list = buildList()
     let list2 = LinkedList<Int>()
@@ -214,7 +214,7 @@ class LinkedListTest: XCTestCase {
     XCTAssertEqual(list.node(atIndex: 6)?.value, 99)
     XCTAssertEqual(list.node(atIndex: 7)?.value, 102)
   }
-  
+
   func testAppendListToEmptyList() {
     let list = LinkedList<Int>()
     let list2 = LinkedList<Int>()
@@ -225,7 +225,7 @@ class LinkedListTest: XCTestCase {
     XCTAssertEqual(list.node(atIndex: 0)?.value, 5)
     XCTAssertEqual(list.node(atIndex: 1)?.value, 10)
   }
-  
+
   func testRemoveAtIndexOnListWithOneElement() {
     let list = LinkedList<Int>()
     list.append(123)
@@ -308,10 +308,10 @@ class LinkedListTest: XCTestCase {
     XCTAssertTrue(last === list.first)
     XCTAssertEqual(nodeCount, list.count)
   }
-  
+
   func testArrayLiteralInitTypeInfer() {
     let arrayLiteralInitInfer: LinkedList = [1.0, 2.0, 3.0]
-    
+
     XCTAssertEqual(arrayLiteralInitInfer.count, 3)
     XCTAssertEqual(arrayLiteralInitInfer.first?.value, 1.0)
     XCTAssertEqual(arrayLiteralInitInfer.last?.value, 3.0)
@@ -319,10 +319,10 @@ class LinkedListTest: XCTestCase {
     XCTAssertEqual(arrayLiteralInitInfer.removeLast(), 3.0)
     XCTAssertEqual(arrayLiteralInitInfer.count, 2)
   }
-  
+
   func testArrayLiteralInitExplicit() {
     let arrayLiteralInitExplicit: LinkedList<Int> = [1, 2, 3]
-    
+
     XCTAssertEqual(arrayLiteralInitExplicit.count, 3)
     XCTAssertEqual(arrayLiteralInitExplicit.first?.value, 1)
     XCTAssertEqual(arrayLiteralInitExplicit.last?.value, 3)

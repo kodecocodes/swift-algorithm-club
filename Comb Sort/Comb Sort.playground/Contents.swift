@@ -16,5 +16,3 @@ while i < 1000 {
   i += 1
 }
 combSort(bigArray)
-
-

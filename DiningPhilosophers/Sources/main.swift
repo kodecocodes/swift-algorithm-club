@@ -22,8 +22,7 @@ struct ForkPair {
         if leftIndex > rightIndex {
             leftFork = ForkPair.forksSemaphore[leftIndex]
             rightFork = ForkPair.forksSemaphore[rightIndex]
-        }
-        else {
+        } else {
             leftFork = ForkPair.forksSemaphore[rightIndex]
             rightFork = ForkPair.forksSemaphore[leftIndex]
         }
