@@ -1,13 +1,50 @@
+#Weighted graph general cocepts
+
+Every weighted graph should contain: 
+1. Vertices/Nodes (I will use "vertex" in this readme).
+
+<img src="Images/Vertices.png" height="250" />
+
+2. Edges connecting vertices. Let's add some edges to our graph. For simplicity let's create directed graph for now. Directed means, that edge have a direction, i.e. vertex, where it starts and vertex, where it ends. But remember VERY IMPORTANT thing:
+    * All undirected graphs can be viewed as a directed graph.
+    * A directed graph is undirected if and only if every edge is paired with an edge going in the opposite direction.
+
+<img src="Images/DirectedGraph.png" height="250" />
+
+3. Weights for every edge. 
+
+<img src="Images/WeightedDirectedGraph.png" height="250" />
+
+Final result. 
+Directed weighted graph:
+
+<img src="Images/WeightedDirectedGraphFinal.png" height="250" />
+
+Undirected weighted graph:
+
+<img src="Images/WeightedUndirectedGraph.png" height="250" />
+
+And once again: An undireceted graph - it is a directed graph with every edge paired with an edge going in the opposite direction. This statement is clear on the image above.
+
+Great! Now we are familiar with general concepts about graphs.
+
 # Dijkstra's algorithm
+This [algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) was invented in 1956 by Edsger W. Dijkstra.
 
-This [algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) was invented in 1956 by Edsger W. Dijkstra. 
+It can be used, when you have one source vertex and want to find the shortest paths to ALL other vertices in the graph.
 
-It can be used, when you have one source vertex and want to find the shortest paths to all other vertices in the graph.
+The best example is road network. If you wnat to find the shortest path from your house to your job, or if you want to find the closest store to your house, then it is time for the Dijkstra's algorithm.
 
-The best example is road network. If you wnat to find the shortest path from your house to your job, then it is time for the Dijkstra's algorithm.
+The algorithm repeats following cycle until all vertices are marked as visited.
+Cycle:
+1. From the non-visited vertices the algorithm picks a vertex with the shortest path length from the start (if there are more than one vertex with the same shortest path value, then algorithm picks any of them)
+2. The algorithm marks picked vertex as visited.
+3. The algorithm check all of its neighbors. If the current vertex path length from the start plus an edge weight to a neighbor less than the neighbor current path length from the start, than it assigns new path length from the start to the neihgbor.
+When all vertices are marked as visited, the algorithm's job is done. Now, you can see the shortest path from the start for every vertex by pressing the one you are interested in.
 
-I have created **VisualizedDijkstra.playground** to improve your understanding of the algorithm's flow. Besides, below is step by step algorithm's description.
+I have created **VisualizedDijkstra.playground** game/tutorial to improve your understanding of the algorithm's flow. Besides, below is step by step algorithm's description.
 
+#Example 
 Let's imagine, you want to go to the shop. Your house is A vertex and there are 4 possible stores around your house. How to find the closest one/ones? Luckily, you have graph, that connects your house with all these stores. So, you know what to do :)
 
 ## Initialization
@@ -38,17 +75,8 @@ To initialize our graph we have to set source vertex path length from source ver
 | Path Length From Start    |  0  | inf | inf | inf | inf |
 | Path Vertices From Start  | [A] | [ ] | [ ] | [ ] | [ ] |
 
-Great, now our graph is initialized and we can pass it to the Dijkstra's algorithm.
+Great, now our graph is initialized and we can pass it to the Dijkstra's algorithm, let's start!
 
-But before we will go through all process side by side read this explanation.
-The algorithm repeats following cycle until all vertices are marked as visited.
-Cycle:
-1. From the non-visited vertices the algorithm picks a vertex with the shortest path length from the start (if there are more than one vertex with the same shortest path value, then algorithm picks any of them)
-2. The algorithm marks picked vertex as visited.
-3. The algorithm check all of its neighbors. If the current vertex path length from the start plus an edge weight to a neighbor less than the neighbor current path length from the start, than it assigns new path length from the start to the neihgbor.
-When all vertices are marked as visited, the algorithm's job is done. Now, you can see the shortest path from the start for every vertex by pressing the one you are interested in.
-
-Okay, let's start!
 Let's follow the algorithm's cycle and pick the first vertex, which neighbors we want to check.
 All our vertices are not visited, but there is only one has the smallest path length from start - A. This vertex is the first one, which neighbors we will check.
 First of all, set this vertex as visited 
