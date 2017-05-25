@@ -1214,16 +1214,6 @@
       </FileRef>
    </Group>
    <Group
-      location = "group:Images"
-      name = "Images">
-      <FileRef
-         location = "group:scheme-settings-for-travis.png">
-      </FileRef>
-      <FileRef
-         location = "group:SwiftAlgorithm-410-transp.png">
-      </FileRef>
-   </Group>
-   <Group
       location = "group:Insertion Sort"
       name = "Insertion Sort">
       <FileRef
