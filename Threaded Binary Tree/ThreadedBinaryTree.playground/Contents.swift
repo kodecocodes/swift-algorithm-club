@@ -1,6 +1,5 @@
 //: Playground - noun: a place where people can play
 
-
 // Simple little debug function to make testing output pretty
 func check(_ tree: ThreadedBinaryTree<Int>?) {
   if let tree = tree {
@@ -28,11 +27,9 @@ func check(_ tree: ThreadedBinaryTree<Int>?) {
     }
 }
 
-
 print("\nTree with Single Node")
 let emptyTree = ThreadedBinaryTree<Int>(value: 1)
 check(emptyTree)
-
 
 print("\nFull Balanced Binary Tree with 7 Nodes")
 let fullTree = ThreadedBinaryTree<Int>(value: 4)
@@ -43,7 +40,6 @@ fullTree.insert(5)
 fullTree.insert(3)
 fullTree.insert(7)
 check(fullTree)
-
 
 print("\n\nBase Binary Tree with 5 Nodes")
 let tree = ThreadedBinaryTree<Int>(array: [9, 5, 12, 2, 7])
@@ -80,6 +76,5 @@ check(newRoot)
 print("\nRemove 12")
 newRoot?.remove(12)
 check(newRoot)
-
 
 print("\n\nDone with Tests!\n")

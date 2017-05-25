@@ -49,8 +49,6 @@ let sortedArray = mergeSort(array)
 let array2 = ["Tom", "Harry", "Ron", "Chandler", "Monica"]
 let sortedArray2 = mergeSort(array2)
 
-
-
 /* Bottom-up iterative version */
 
 func mergeSortBottomUp<T>(_ a: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {

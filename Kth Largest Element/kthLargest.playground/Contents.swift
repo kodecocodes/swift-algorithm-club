@@ -22,9 +22,6 @@ kthLargest(a, 6)
 kthLargest(a, 7)
 kthLargest(a, 8)
 
-
-
-
 import Foundation
 
 /* Returns a random integer in the range min...max, inclusive. */
@@ -83,7 +80,6 @@ public func randomizedSelect<T: Comparable>(_ array: [T], order k: Int) -> T {
   precondition(a.count > 0)
   return randomizedSelect(&a, 0, a.count - 1, k)
 }
-
 
 randomizedSelect(a, order: 0)
 randomizedSelect(a, order: 1)

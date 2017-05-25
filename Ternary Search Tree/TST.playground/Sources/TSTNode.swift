@@ -17,7 +17,6 @@ class TSTNode<Element> {
     //Children
     var left: TSTNode?, right: TSTNode?, middle: TSTNode?
 
-
     init(key: Character, data: Element?) {
         self.key = key
         self.data = data

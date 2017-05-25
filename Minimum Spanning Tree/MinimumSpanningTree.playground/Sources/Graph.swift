@@ -1,4 +1,3 @@
-
 // Undirected edge
 public struct Edge<T>: CustomStringConvertible {
   public let vertex1: T
@@ -9,7 +8,6 @@ public struct Edge<T>: CustomStringConvertible {
     return "[\(vertex1)-\(vertex2), \(weight)]"
   }
 }
-
 
 // Undirected weighted graph
 public struct Graph<T: Hashable>: CustomStringConvertible {

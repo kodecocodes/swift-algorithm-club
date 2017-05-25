@@ -61,9 +61,6 @@ public class SegmentTree<T> {
 	}
 }
 
-
-
-
 let array = [1, 2, 3, 4]
 
 let sumSegmentTree = SegmentTree(array: array, function: +)
@@ -76,7 +73,6 @@ sumSegmentTree.replaceItem(at: 0, withItem: 2) //our array now is [2, 2, 3, 4]
 
 print(sumSegmentTree.query(leftBound: 0, rightBound: 0)) // 2 = 2
 print(sumSegmentTree.query(leftBound: 0, rightBound: 1)) // 2 + 2 = 4
-
 
 //you can use any associative function (i.e (a+b)+c == a+(b+c)) as function for segment tree
 func gcd(_ m: Int, _ n: Int) -> Int {
@@ -105,7 +101,6 @@ gcdSegmentTree.replaceItem(at: 3, withItem: 10) //gcdArray now is [2, 4, 6, 10, 
 
 print(gcdSegmentTree.query(leftBound: 3, rightBound: 4)) // gcd(10, 5) = 5
 
-
 //example of segment tree which finds minimum on given range
 let minArray = [2, 4, 1, 5, 3]
 
@@ -117,7 +112,6 @@ print(minSegmentTree.query(leftBound: 0, rightBound: 1)) // min(2, 4) = 2
 minSegmentTree.replaceItem(at: 2, withItem: 10) // minArray now is [2, 4, 10, 5, 3]
 
 print(minSegmentTree.query(leftBound: 0, rightBound: 4)) // min(2, 4, 10, 5, 3) = 2
-
 
 //type of elements in array can be any type which has some associative function
 let stringArray = ["a", "b", "c", "A", "B", "C"]

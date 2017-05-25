@@ -45,11 +45,9 @@ fileprivate func >= <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
 //////////////////////////////////////
 // MARK: Main algorithm
 //////////////////////////////////////
-
 
 /**
     Performs bucket sort algorithm on the given input elements.
@@ -95,7 +93,6 @@ private func enoughSpaceInBuckets<T: Sortable>(_ buckets: [Bucket<T>], elements:
 //////////////////////////////////////
 // MARK: Distributor
 //////////////////////////////////////
-
 
 public protocol Distributor {
     func distribute<T: Sortable>(_ element: T, buckets: inout [Bucket<T>])

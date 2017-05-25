@@ -10,7 +10,6 @@ import XCTest
 
 class TernarySearchTreeTests: XCTestCase {
 
-
     let testCount = 30
 
     func testCanFindStringInTree() {

@@ -212,7 +212,6 @@ public func reversePolishNotation(_ expression: [Token]) -> String {
   return reversePolishNotation.map({token in token.description}).joined(separator: " ")
 }
 
-
 // Simple demo
 
 let expr = InfixExpressionBuilder()

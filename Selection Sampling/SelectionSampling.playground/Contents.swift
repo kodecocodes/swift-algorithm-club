@@ -44,7 +44,6 @@ func select<T>(from a: [T], count requested: Int) -> [T] {
   return b
 }
 
-
 let poem = [
   "there", "once", "was", "a", "man", "from", "nantucket",
   "who", "kept", "all", "of", "his", "cash", "in", "a", "bucket",
@@ -56,8 +55,6 @@ let poem = [
 let output = select(from: poem, count: 10)
 print(output)
 output.count
-
-
 
 // Use this to verify that all input elements have the same probability
 // of being chosen. The "counts" dictionary should have a roughly equal

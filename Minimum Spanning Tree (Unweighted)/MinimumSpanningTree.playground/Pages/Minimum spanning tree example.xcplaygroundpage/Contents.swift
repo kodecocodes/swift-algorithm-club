@@ -21,11 +21,9 @@ func breadthFirstSearchMinimumSpanningTree(_ graph: Graph, source: Node) -> Grap
   return minimumSpanningTree
 }
 
-
 /*:
 ![Graph](Minimum_Spanning_Tree.png)
 */
-
 
 let graph = Graph()
 

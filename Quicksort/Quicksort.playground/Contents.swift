@@ -2,7 +2,6 @@
 
 import Foundation
 
-
 // *** Simple but inefficient version of quicksort ***
 
 func quicksort<T: Comparable>(_ a: [T]) -> [T] {
@@ -22,8 +21,6 @@ func quicksort<T: Comparable>(_ a: [T]) -> [T] {
 
 let list1 = [ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
 quicksort(list1)
-
-
 
 // *** Using Lomuto partitioning ***
 
@@ -62,8 +59,6 @@ func quicksortLomuto<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
 }
 
 quicksortLomuto(&list2, low: 0, high: list2.count - 1)
-
-
 
 // *** Hoare partitioning ***
 
@@ -106,8 +101,6 @@ func quicksortHoare<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
 
 quicksortHoare(&list3, low: 0, high: list3.count - 1)
 
-
-
 // *** Randomized sorting ***
 
 /* Returns a random integer in the range min...max, inclusive. */
@@ -130,8 +123,6 @@ func quicksortRandom<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
 var list4 = [ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
 quicksortRandom(&list4, low: 0, high: list4.count - 1)
 list4
-
-
 
 // *** Dutch national flag partioning ***
 

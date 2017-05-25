@@ -1,6 +1,5 @@
 //: Playground - noun: a place where people can play
 
-
 func ZetaAlgorithm(ptnr: String) -> [Int]? {
 
     let pattern = Array(ptnr.characters)

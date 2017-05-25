@@ -84,7 +84,6 @@ public class TernarySearchTree<Element> {
         }
     }
 
-
     // MARK: - Finding
 
     /**

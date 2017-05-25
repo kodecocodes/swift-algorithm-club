@@ -177,13 +177,11 @@ list[0]       // "Hello"
 list[1]       // "World"
 //list[2]     // crash!
 
-
 list.memoryDescription
 //	{
 //		[Optional("Hello")]
 //		[Optional("World"), nil]
 //	}
-
 
 list.insert(element: "Swift", atIndex: 1)
 list.isEmpty  // false

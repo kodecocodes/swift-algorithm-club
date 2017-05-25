@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// A node in the trie
 class TrieNode<T: Hashable> {
   var value: T?
@@ -18,7 +17,6 @@ class TrieNode<T: Hashable> {
   var isLeaf: Bool {
     return children.count == 0
   }
-
 
   /// Initializes a node.
   ///
@@ -135,7 +133,6 @@ extension Trie {
     }
     return currentNode.isTerminating
   }
-
 
   /// Attempts to walk to the last node of a word.  The
   /// search will fail if the word is not present. Doesn't

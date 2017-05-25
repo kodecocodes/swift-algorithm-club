@@ -113,7 +113,7 @@ public struct Heap<T> {
    */
   public mutating func replace(index i: Int, value: T) {
     guard i < elements.count else { return }
-    
+
     assert(isOrderedBefore(value, elements[i]))
     elements[i] = value
     shiftUp(i)
@@ -144,7 +144,7 @@ public struct Heap<T> {
    */
   public mutating func removeAt(_ index: Int) -> T? {
     guard index < elements.count else { return nil }
-    
+
     let size = elements.count - 1
     if index != size {
       swap(&elements[index], &elements[size])

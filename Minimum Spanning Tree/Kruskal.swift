@@ -6,7 +6,6 @@
 //
 //
 
-
 func minimumSpanningTreeKruskal<T>(graph: Graph<T>) -> (cost: Int, tree: Graph<T>) {
   var cost: Int = 0
   var tree = Graph<T>()

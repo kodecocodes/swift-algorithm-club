@@ -17,8 +17,7 @@ class MinimumCoinChangeTests: XCTestCase {
                     print("\(i): greedy = \(greedy) dynamic = \(dynamic)")
                 }
             }
-        }
-        catch {
+        } catch {
             XCTFail("Test Failed: impossible to change with the given coin set")
         }
     }

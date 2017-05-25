@@ -20,9 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 import Foundation
-
 
 // Stack from : https://github.com/raywenderlich/swift-algorithm-club/tree/master/Stack
 public struct Stack<T> {
@@ -58,7 +56,6 @@ extension Stack: Sequence {
   }
 }
 
-
 private func coinFlip() -> Bool {
   #if os(Linux)
       return random() % 2 == 0
@@ -66,7 +63,6 @@ private func coinFlip() -> Bool {
       return arc4random_uniform(2) == 1
   #endif
 }
-
 
 public class DataNode<Key: Comparable, Payload> {
   public typealias Node = DataNode<Key, Payload>
@@ -81,10 +77,9 @@ public class DataNode<Key: Comparable, Payload> {
     self.data = data
   }
 
-  public init(asHead head: Bool){}
+  public init(asHead head: Bool) {}
 
 }
-
 
 open class SkipList<Key: Comparable, Payload> {
   public typealias Node = DataNode<Key, Payload>
@@ -94,8 +89,6 @@ open class SkipList<Key: Comparable, Payload> {
   public init() {}
 
 }
-
-
 
 // MARK: - Search lanes for a node with a given key
 
@@ -152,8 +145,6 @@ extension SkipList {
 
 }
 
-
-
 // MARK: - Insert a node into lanes depending on skip list status ( bootstrap base-layer if head is empty / start insertion from current head ).
 
 extension SkipList {
@@ -176,7 +167,6 @@ extension SkipList {
     }
 
   }
-
 
   private func insertItem(key: Key, data: Payload) {
     var stack              = Stack<Node>()
@@ -228,7 +218,6 @@ extension SkipList {
     }
   }
 
-
   func insert(key: Key, data: Payload) {
     if head != nil {
       if let node = findNode(key: key) {
@@ -248,7 +237,6 @@ extension SkipList {
   }
 
 }
-
 
 // MARK: - Remove a node with a given key. First, find its position in layers at the top, then remove it from each lane by traversing down to the base layer.
 
@@ -277,7 +265,6 @@ extension SkipList {
 
   }
 }
-
 
 // MARK: - Get associated payload from a node with a given key.
 

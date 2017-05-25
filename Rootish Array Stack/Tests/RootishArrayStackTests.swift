@@ -170,7 +170,6 @@ class RootishArrayStackTests: XCTestCase {
 		XCTAssertTrue(list.equal(toArray: array))
 	}
 
-
 	func testRemoveMiddle() {
 		var array = [0, 1, 2, 3]
 		var list = buildList(withNumbers: array)
