@@ -14,6 +14,9 @@
       location = "group:Big-O Notation.markdown">
    </FileRef>
    <FileRef
+      location = "group:.github/CONTRIBUTING.md">
+   </FileRef>
+   <FileRef
       location = "group:Under Construction.markdown">
    </FileRef>
    <FileRef
