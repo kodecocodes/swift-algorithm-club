@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <FileRef
+      location = "group:README.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:LICENSE.txt">
+   </FileRef>
+   <FileRef
+      location = "group:Algorithm Design.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:Big-O Notation.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:.github/CONTRIBUTING.md">
+   </FileRef>
+   <FileRef
+      location = "group:Under Construction.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:What are Algorithms.markdown">
+   </FileRef>
+   <FileRef
+      location = "group:Why Algorithms.markdown">
+   </FileRef>
+   <Group
+      location = "group:Miller-Rabin Primality Test"
+      name = "Miller-Rabin Primality Test">
+      <Group
+         location = "container:Miller-Rabin Primality Test/Images"
+         name = "Images">
+         <FileRef
+            location = "group:img_pseudo.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:MRPrimality.playground">
+      </FileRef>
+      <FileRef
+         location = "group:MRPrimality.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
    <Group
       location = "group:All-Pairs Shortest Paths"
       name = "All-Pairs Shortest Paths">
