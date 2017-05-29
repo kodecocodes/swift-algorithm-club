@@ -19,8 +19,6 @@ func breadthFirstSearch(_ graph: Graph, source: Node) -> [String] {
   return nodesExplored
 }
 
-
-
 let graph = Graph()
 
 let nodeA = graph.addNode("a")
@@ -41,7 +39,6 @@ graph.addEdge(nodeC, neighbor: nodeG)
 graph.addEdge(nodeE, neighbor: nodeH)
 graph.addEdge(nodeE, neighbor: nodeF)
 graph.addEdge(nodeF, neighbor: nodeG)
-
 
 let nodesExplored = breadthFirstSearch(graph, source: nodeA)
 print(nodesExplored)

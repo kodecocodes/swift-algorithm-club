@@ -26,9 +26,6 @@ extension TreeNode: CustomStringConvertible {
   }
 }
 
-
-
-
 let tree = TreeNode<String>(value: "beverages")
 
 let hotNode = TreeNode<String>(value: "hot")

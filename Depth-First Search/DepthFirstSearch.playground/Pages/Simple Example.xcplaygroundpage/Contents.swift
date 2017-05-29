@@ -10,8 +10,6 @@ func depthFirstSearch(_ graph: Graph, source: Node) -> [String] {
   return nodesExplored
 }
 
-
-
 let graph = Graph()
 
 let nodeA = graph.addNode("a")

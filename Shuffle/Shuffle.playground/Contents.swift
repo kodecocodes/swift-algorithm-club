@@ -7,8 +7,6 @@ public func random(_ n: Int) -> Int {
   return Int(arc4random_uniform(UInt32(n)))
 }
 
-
-
 /* Fisher-Yates / Knuth shuffle */
 extension Array {
   public mutating func shuffle() {
@@ -25,8 +23,6 @@ var list = [ "a", "b", "c", "d", "e", "f", "g" ]
 list.shuffle()
 list.shuffle()
 list.shuffle()
-
-
 
 /* Create a new array of numbers that is already shuffled. */
 public func shuffledArray(_ n: Int) -> [Int] {

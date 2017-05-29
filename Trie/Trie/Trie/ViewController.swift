@@ -22,5 +22,4 @@ class ViewController: NSViewController {
         }
     }
 
-
 }

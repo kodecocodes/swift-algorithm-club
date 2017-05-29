@@ -12,7 +12,6 @@ public func == (lhs: Edge, rhs: Edge) -> Bool {
     return lhs.neighbor == rhs.neighbor
 }
 
-
 // MARK: - Node
 
 open class Node: CustomStringConvertible, Equatable {

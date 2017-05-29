@@ -27,7 +27,6 @@ class TreeNodeTests: XCTestCase {
         super.tearDown()
     }
 
-
     func testSingleNodeCreationNOPayload() {
         let treeNode = TreeNode<String, String>(key: "Building")
         XCTAssertNil(treeNode.payload, "Payload for this case should be nil")

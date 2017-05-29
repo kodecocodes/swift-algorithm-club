@@ -70,8 +70,6 @@ extension OrderedArray: CustomStringConvertible {
   }
 }
 
-
-
 var a = OrderedArray<Int>(array: [5, 1, 3, 9, 7, -1])
 a              // [-1, 1, 3, 5, 7, 9]
 

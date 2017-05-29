@@ -43,4 +43,3 @@ func minimumSpanningTreePrim<T>(graph: Graph<T>) -> (cost: Int, tree: Graph<T>) 
 
   return (cost: cost, tree: tree)
 }
-

@@ -15,8 +15,6 @@ func < (m1: Message, m2: Message) -> Bool {
   return m1.priority < m2.priority
 }
 
-
-
 let queue = BoundedPriorityQueue<Message>(maxElements: 5)
 queue.count
 
@@ -48,8 +46,6 @@ print(queue)
 // At this point, the queue is:
 // <world:150, swift:110, hello:100, there:99, is:30, >
 
-
-
 // Try to insert an item with a really low priority. This should not get added.
 queue.enqueue(Message(name: "very", priority: -1))
 queue.count    // 5
@@ -69,8 +65,6 @@ queue.enqueue(Message(name: "!!!", priority: 500))
 queue.count
 queue.peek()
 print(queue)
-
-
 
 // Test dequeuing
 queue.dequeue()

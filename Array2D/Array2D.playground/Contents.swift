@@ -28,7 +28,6 @@ public struct Array2D<T> {
   }
 }
 
-
 // initialization
 var matrix = Array2D(columns: 3, rows: 5, initialValue: 0)
 

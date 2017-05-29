@@ -312,7 +312,6 @@ extension LinkedList: ExpressibleByArrayLiteral {
   }
 }
 
-
 //: Ok, now that the declarations are done, let's see our Linked List in action:
 let list = LinkedList<String>()
 list.isEmpty                  // true
@@ -351,7 +350,6 @@ list2.removeAll()             // [ ]
 list2.isEmpty                 // true
 list.removeLast()             // "World"
 list.remove(atIndex: 2)       // "Goodbye"
-
 
 list.insert("Swift", atIndex: 1)
 list[0]     // "Hello"

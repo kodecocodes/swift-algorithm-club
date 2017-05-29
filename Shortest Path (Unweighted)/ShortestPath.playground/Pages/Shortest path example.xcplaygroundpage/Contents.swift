@@ -19,8 +19,6 @@ func breadthFirstSearchShortestPath(graph: Graph, source: Node) -> Graph {
   return shortestPathGraph
 }
 
-
-
 let graph = Graph()
 
 let nodeA = graph.addNode(label: "a")

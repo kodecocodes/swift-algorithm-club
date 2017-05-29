@@ -142,7 +142,7 @@ public extension Treap {
       return newNode
     }
 
-    if case let .node(_, _, newChildP, _, _) = newChild , newChildP < nodeP {
+    if case let .node(_, _, newChildP, _, _) = newChild, newChildP < nodeP {
       return rotate(newNode)
     } else {
       return newNode

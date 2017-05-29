@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 private class EdgeList<T> where T: Equatable, T: Hashable {
 
   var vertex: Vertex<T>
@@ -89,7 +87,6 @@ open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Equatable, T: Hashab
     addDirectedEdge(vertices.0, to: vertices.1, withWeight: weight)
     addDirectedEdge(vertices.1, to: vertices.0, withWeight: weight)
   }
-
 
   open override func weightFrom(_ sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>) -> Double? {
     guard let edges = adjacencyList[sourceVertex.index].edges else {
