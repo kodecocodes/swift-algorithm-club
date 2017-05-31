@@ -93,6 +93,9 @@ Bad sorting algorithms (don't use these!):
 
 - [Shuffle](Shuffle/). Randomly rearranges the contents of an array.
 - [Comb Sort](Comb%20Sort/). An improve upon the Bubble Sort algorithm.
+- [Convex Hull](Convex%20Hull/).
+- [Miller-Rabin Primality Test](Miller-Rabin%20Primality%20Test/). Is the number a prime number?
+- [MinimumCoinChange](MinimumCoinChange/). A showcase for dynamic programming.
 
 ### Mathematics
 
@@ -157,6 +160,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - Fibonacci Heap
 - [Trie](Trie/). A special type of tree used to store associative data structures.
 - [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
+- [QuadTree](QuadTree/). A tree with 4 children.
 
 ### Hashing
 
