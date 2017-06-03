@@ -32,17 +32,16 @@ private enum RotationDirection {
 
 // MARK: - RBNode
 
-public class RBTreeNode<Key: Comparable>: Equatable {
-  public typealias RBNode = RBTreeNode<Key>
+public class RBTreeNode<T: Comparable>: Equatable {
+  public typealias RBNode = RBTreeNode<T>
   
   fileprivate var color: RBTreeColor = .black
-  fileprivate var key: Key?
-  fileprivate var isNullLeaf = true
+  fileprivate var key: T?
   var leftChild: RBNode?
   var rightChild: RBNode?
   fileprivate weak var parent: RBNode?
   
-  public init(key: Key?, leftChild: RBNode?, rightChild: RBNode?, parent: RBNode?) {
+  public init(key: T?, leftChild: RBNode?, rightChild: RBNode?, parent: RBNode?) {
     self.key = key
     self.leftChild = leftChild
     self.rightChild = rightChild
@@ -52,16 +51,14 @@ public class RBTreeNode<Key: Comparable>: Equatable {
     self.rightChild?.parent = self
   }
   
-  public convenience init(key: Key?) {
+  public convenience init(key: T?) {
     self.init(key: key, leftChild: RBNode(), rightChild: RBNode(), parent: RBNode())
-    self.isNullLeaf = false
   }
   
   // For initialising the nullLeaf
   public convenience init() {
     self.init(key: nil, leftChild: nil, rightChild: nil, parent: nil)
     self.color = .black
-    self.isNullLeaf = true
   }
   
   var isRoot: Bool {
@@ -72,7 +69,11 @@ public class RBTreeNode<Key: Comparable>: Equatable {
     return rightChild == nil && leftChild == nil
   }
   
-  var isLeftCild: Bool {
+  var isNullLeaf: Bool {
+    return key == nil && isLeaf && color == .black
+  }
+  
+  var isLeftChild: Bool {
     return parent?.leftChild === self
   }
   
@@ -85,7 +86,7 @@ public class RBTreeNode<Key: Comparable>: Equatable {
   }
   
   var sibling: RBNode? {
-    if isLeftCild {
+    if isLeftChild {
       return parent?.rightChild
     } else {
       return parent?.leftChild
@@ -99,8 +100,8 @@ public class RBTreeNode<Key: Comparable>: Equatable {
 
 // MARK: - RedBlackTree
 
-public class RedBlackTree<Key: Comparable> {
-  public typealias RBNode = RBTreeNode<Key>
+public class RedBlackTree<T: Comparable> {
+  public typealias RBNode = RBTreeNode<T>
   
   fileprivate(set) var root: RBNode
   fileprivate(set) var size = 0
@@ -180,14 +181,14 @@ extension RedBlackTree {
   /*
    * Returns the node with the given key |input| if existing
    */
-  public func search(input: Key) -> RBNode? {
+  public func search(input: T) -> RBNode? {
     return search(key: input, node: root)
   }
   
   /*
    * Returns the node with given |key| in subtree of |node|
    */
-  fileprivate func search(key: Key, node: RBNode?) -> RBNode? {
+  fileprivate func search(key: T, node: RBNode?) -> RBNode? {
     // If node nil -> key not found
     guard let node = node else {
       return nil
@@ -215,23 +216,21 @@ extension RedBlackTree {
   /*
    * Returns the minimum key value of the whole tree
    */
-  public func minValue() -> Key? {
-    if let minNode = root.minimum() {
-       return minNode.key
-    } else {
+  public func minValue() -> T? {
+    guard let minNode = root.minimum() else {
       return nil
     }
+    return minNode.key
   }
   
   /*
    * Returns the maximum key value of the whole tree
    */
-  public func maxValue() -> Key? {
-      if let maxNode = root.maximum() {
-        return maxNode.key
-      } else {
-        return nil
+  public func maxValue() -> T? {
+    guard let maxNode = root.maximum() else {
+      return nil
     }
+    return maxNode.key
   }
 }
 
@@ -244,7 +243,7 @@ extension RedBlackTree {
    * 2. Fix red-black properties
    * Runntime: O(log n)
    */
-  public func insert(key: Key) {
+  public func insert(key: T) {
     if root.isNullLeaf {
       root = RBNode(key: key)
     } else {
@@ -332,10 +331,10 @@ extension RedBlackTree {
         else {
           var zNew = z
           // Case 2.a: z right child -> rotate
-          if parentZ.isLeftCild && z.isRightChild {
+          if parentZ.isLeftChild && z.isRightChild {
             zNew = parentZ
             leftRotate(node: zNew)
-          } else if parentZ.isRightChild && z.isLeftCild {
+          } else if parentZ.isRightChild && z.isLeftChild {
             zNew = parentZ
             rightRotate(node: zNew)
           }
@@ -343,7 +342,7 @@ extension RedBlackTree {
           zNew.parent?.color = .black
           if let grandparentZnew = zNew.grandparent {
             grandparentZnew.color = .red
-            if z.isLeftCild {
+            if z.isLeftChild {
               rightRotate(node: grandparentZnew)
             } else {
               leftRotate(node: grandparentZnew)
@@ -365,7 +364,7 @@ extension RedBlackTree {
    * 2. Fix red-black properties
    * Runntime: O(log n)
    */
-  public func delete(key: Key) {
+  public func delete(key: T) {
     if size == 1 {
       root = nullLeaf
       size -= 1
@@ -408,7 +407,7 @@ extension RedBlackTree {
       if parentY.isNullLeaf {
         root = nodeX
       } else {
-        if nodeY.isLeftCild {
+        if nodeY.isLeftChild {
           parentY.leftChild = nodeX
         } else {
           parentY.rightChild = nodeX
@@ -450,7 +449,7 @@ extension RedBlackTree {
         if let parentX = x.parent {
           parentX.color = .red
           // Rotation
-          if x.isLeftCild {
+          if x.isLeftChild {
             leftRotate(node: parentX)
           } else {
             rightRotate(node: parentX)
@@ -472,7 +471,7 @@ extension RedBlackTree {
         // We have a valid red-black-tree
       } else {
         // Case 3: a. Sibling black with one black child to the right
-        if x.isLeftCild && sibling.rightChild?.color == .black {
+        if x.isLeftChild && sibling.rightChild?.color == .black {
           // Recolor
           sibling.leftChild?.color = .black
           sibling.color = .red
@@ -501,7 +500,7 @@ extension RedBlackTree {
           sibling.color = parentX.color
           parentX.color = .black
           // a. x left and sibling with red right child
-          if x.isLeftCild {
+          if x.isLeftChild {
             sibling.rightChild?.color = .black
             // Rotate
             leftRotate(node: parentX)
@@ -581,7 +580,7 @@ extension RedBlackTree {
       if let node = nodeY {
         root = node
       }
-    } else if x.isLeftCild {
+    } else if x.isLeftChild {
       x.parent?.leftChild = nodeY
     } else if x.isRightChild {
       x.parent?.rightChild = nodeY

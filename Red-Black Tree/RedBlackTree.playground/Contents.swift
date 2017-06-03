@@ -6,17 +6,25 @@ let redBlackTree = RedBlackTree<Double>()
 
 let randomMax = Double(0x10000000)
 var values = [Double]()
-for _ in 0..<1000 {
+for i in 0..<1000 {
   let value = Double(arc4random()) / randomMax
   values.append(value)
   redBlackTree.insert(key: value)
+  
+  if i % 100 == 0 {
+    redBlackTree.verify()
+  }
 }
 redBlackTree.verify()
 
-for _ in 0..<1000 {
+for i in 0..<1000 {
   let rand = arc4random_uniform(UInt32(values.count))
   let index = Int(rand)
   let value = values.remove(at: index)
   redBlackTree.delete(key: value)
+  
+  if i % 100 == 0 {
+    redBlackTree.verify()
+  }
 }
 redBlackTree.verify()
