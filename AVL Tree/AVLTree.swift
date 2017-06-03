@@ -341,11 +341,11 @@ extension AVLTree {
       }
     } else {
       // Handle stem cases
-      if let replacement = node.leftChild?.maximum() , replacement !== node {
+      if let replacement = node.leftChild?.maximum(), replacement !== node {
         node.key = replacement.key
         node.payload = replacement.payload
         delete(node: replacement)
-      } else if let replacement = node.rightChild?.minimum() , replacement !== node {
+      } else if let replacement = node.rightChild?.minimum(), replacement !== node {
         node.key = replacement.key
         node.payload = replacement.payload
         delete(node: replacement)
@@ -353,7 +353,6 @@ extension AVLTree {
     }
   }
 }
-
 
 // MARK: - Debugging
 

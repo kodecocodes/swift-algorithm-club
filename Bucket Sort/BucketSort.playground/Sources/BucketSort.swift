@@ -26,7 +26,6 @@ import Foundation
 // MARK: Main algorithm
 //////////////////////////////////////
 
-
 public func bucketSort<T: Sortable>(elements: [T], distributor: Distributor, sorter: Sorter, buckets: inout [Bucket<T>]) -> [T] {
   for elem in elements {
     distributor.distribute(element: elem, buckets: &buckets)
@@ -44,7 +43,6 @@ public func bucketSort<T: Sortable>(elements: [T], distributor: Distributor, sor
 //////////////////////////////////////
 // MARK: Distributor
 //////////////////////////////////////
-
 
 public protocol Distributor {
   func distribute<T: Sortable>(element: T, buckets: inout [Bucket<T>])

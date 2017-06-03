@@ -47,8 +47,6 @@ public class BloomFilter<T> {
   }
 }
 
-
-
 /* Two hash functions, adapted from http://www.cse.yorku.ca/~oz/hash.html */
 
 func djb2(x: String) -> Int {
@@ -66,8 +64,6 @@ func sdbm(x: String) -> Int {
   }
   return Int(hash)
 }
-
-
 
 /* A simple test */
 

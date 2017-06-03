@@ -22,17 +22,13 @@ print(dsu.inSameSet(4, and: 6))
 print(dsu.inSameSet(6, and: 8))
 print(dsu.inSameSet(8, and: 10))
 
-
 print(dsu.inSameSet(1, and: 3))
 print(dsu.inSameSet(3, and: 5))
 print(dsu.inSameSet(5, and: 7))
 print(dsu.inSameSet(7, and: 9))
 
-
 print(dsu.inSameSet(7, and: 4))
 print(dsu.inSameSet(3, and: 6))
-
-
 
 var dsuForStrings = UnionFindQuickUnion<String>()
 let words = ["all", "border", "boy", "afternoon", "amazing", "awesome", "best"]

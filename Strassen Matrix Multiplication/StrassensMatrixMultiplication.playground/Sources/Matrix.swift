@@ -155,18 +155,18 @@ extension Matrix {
     var BPrep = Matrix(size: m)
 
     A.forEach { (i, j) in
-      APrep[i,j] = A[i,j]
+      APrep[i, j] = A[i, j]
     }
 
     B.forEach { (i, j) in
-      BPrep[i,j] = B[i,j]
+      BPrep[i, j] = B[i, j]
     }
 
     let CPrep = APrep.strassenR(by: BPrep)
     var C = Matrix(rows: A.rows, columns: B.columns)
     for i in 0..<A.rows {
       for j in 0..<B.columns {
-        C[i,j] = CPrep[i,j]
+        C[i, j] = CPrep[i, j]
       }
     }
 
@@ -199,14 +199,14 @@ extension Matrix {
 
     for i in 0..<nBy2 {
       for j in 0..<nBy2 {
-        a[i,j] = A[i,j]
-        b[i,j] = A[i, j+nBy2]
-        c[i,j] = A[i+nBy2, j]
-        d[i,j] = A[i+nBy2, j+nBy2]
-        e[i,j] = B[i,j]
-        f[i,j] = B[i, j+nBy2]
-        g[i,j] = B[i+nBy2, j]
-        h[i,j] = B[i+nBy2, j+nBy2]
+        a[i, j] = A[i, j]
+        b[i, j] = A[i, j+nBy2]
+        c[i, j] = A[i+nBy2, j]
+        d[i, j] = A[i+nBy2, j+nBy2]
+        e[i, j] = B[i, j]
+        f[i, j] = B[i, j+nBy2]
+        g[i, j] = B[i+nBy2, j]
+        h[i, j] = B[i+nBy2, j+nBy2]
       }
     }
 
@@ -226,10 +226,10 @@ extension Matrix {
     var C = Matrix(size: n)
     for i in 0..<nBy2 {
       for j in 0..<nBy2 {
-        C[i, j]           = c11[i,j]
-        C[i, j+nBy2]      = c12[i,j]
-        C[i+nBy2, j]      = c21[i,j]
-        C[i+nBy2, j+nBy2] = c22[i,j]
+        C[i, j]           = c11[i, j]
+        C[i, j+nBy2]      = c12[i, j]
+        C[i+nBy2, j]      = c21[i, j]
+        C[i+nBy2, j+nBy2] = c22[i, j]
       }
     }
 

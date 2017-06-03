@@ -6,7 +6,6 @@
 //
 //
 
-
 import Dispatch
 
 let numberOfPhilosophers = 4
@@ -41,7 +40,6 @@ struct ForkPair {
     }
 }
 
-
 struct Philosophers {
     let forkPair: ForkPair
     let philosopherIndex: Int
@@ -75,7 +73,6 @@ struct Philosophers {
     }
 }
 
-
 // Layout of the table (P = philosopher, f = fork) for 4 Philosophers
 //          P0
 //       f3    f0
@@ -98,7 +95,6 @@ for i in 0..<numberOfPhilosophers {
 for semaphore in ForkPair.forksSemaphore {
     semaphore.signal()
 }
-
 
 //Wait forever
 globalSem.wait()

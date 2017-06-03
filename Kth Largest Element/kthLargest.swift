@@ -14,7 +14,6 @@ func kthLargest(a: [Int], k: Int) -> Int? {
   }
 }
 
-
 // MARK: - Randomized selection
 
 /* Returns a random integer in the range min...max, inclusive. */

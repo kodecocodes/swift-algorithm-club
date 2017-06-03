@@ -14,7 +14,7 @@
       location = "group:Big-O Notation.markdown">
    </FileRef>
    <FileRef
-      location = "group:How to Contribute.markdown">
+      location = "group:.github/CONTRIBUTING.md">
    </FileRef>
    <FileRef
       location = "group:Under Construction.markdown">
@@ -194,6 +194,18 @@
             location = "group:Height.png">
          </FileRef>
          <FileRef
+            location = "group:RotationStep0.jpg">
+         </FileRef>
+         <FileRef
+            location = "group:RotationStep1.jpg">
+         </FileRef>
+         <FileRef
+            location = "group:RotationStep2.jpg">
+         </FileRef>
+         <FileRef
+            location = "group:RotationStep3.jpg">
+         </FileRef>
+         <FileRef
             location = "group:Unbalanced.graffle">
          </FileRef>
          <FileRef
@@ -217,6 +229,58 @@
          </FileRef>
          <FileRef
             location = "group:TreeNodeTests.swift">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:B-Tree"
+      name = "B-Tree">
+      <FileRef
+         location = "group:BTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:BTree.swift">
+      </FileRef>
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:BTree20.png">
+         </FileRef>
+         <FileRef
+            location = "group:InsertionSplit.png">
+         </FileRef>
+         <FileRef
+            location = "group:MergingNodes.png">
+         </FileRef>
+         <FileRef
+            location = "group:MovingKey.png">
+         </FileRef>
+         <FileRef
+            location = "group:Node.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <Group
+            location = "group:Tests"
+            name = "Tests">
+            <FileRef
+               location = "group:BTreeNodeTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:BTreeTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:Tests.xcodeproj">
          </FileRef>
       </Group>
    </Group>
@@ -441,6 +505,22 @@
       <FileRef
          location = "group:README.markdown">
       </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:BoyerMooreHorspoolTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:BoyerMooreTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
    </Group>
    <Group
       location = "group:Breadth-First Search"
@@ -547,16 +627,80 @@
       </Group>
    </Group>
    <Group
+      location = "group:Comb Sort"
+      name = "Comb Sort">
+      <FileRef
+         location = "group:Comb Sort.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Comb Sort.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:CombSortTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
       location = "group:Combinatorics"
       name = "Combinatorics">
       <FileRef
          location = "group:Combinatorics.playground">
       </FileRef>
       <FileRef
-         location = "group:Combinatorics.swift">
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Convex Hull"
+      name = "Convex Hull">
+      <Group
+         location = "group:Convex Hull"
+         name = "Convex Hull">
+         <FileRef
+            location = "group:AppDelegate.swift">
+         </FileRef>
+         <Group
+            location = "group:Assets.xcassets"
+            name = "Assets.xcassets">
+            <Group
+               location = "group:AppIcon.appiconset"
+               name = "AppIcon.appiconset">
+               <FileRef
+                  location = "group:Contents.json">
+               </FileRef>
+            </Group>
+         </Group>
+         <Group
+            location = "group:Base.lproj"
+            name = "Base.lproj">
+            <FileRef
+               location = "group:LaunchScreen.storyboard">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:View.swift">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:Convex Hull.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:README.markdown">
+         location = "group:README.md">
       </FileRef>
    </Group>
    <Group
@@ -663,10 +807,33 @@
       </FileRef>
    </Group>
    <Group
+      location = "group:DiningPhilosophers"
+      name = "DiningPhilosophers">
+      <FileRef
+         location = "group:DiningPhilosophers.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:LICENSE">
+      </FileRef>
+      <FileRef
+         location = "group:Package.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <Group
+         location = "group:Sources"
+         name = "Sources">
+         <FileRef
+            location = "group:main.swift">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
       location = "group:Fixed Size Array"
       name = "Fixed Size Array">
       <FileRef
-         location = "group:FixedSizeArray.swift">
+         location = "group:FixedSizeArray.playground">
       </FileRef>
       <Group
          location = "group:Images"
@@ -890,6 +1057,16 @@
       </FileRef>
    </Group>
    <Group
+      location = "group:HaversineDistance"
+      name = "HaversineDistance">
+      <FileRef
+         location = "group:HaversineDistance.playground">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Heap"
       name = "Heap">
       <FileRef
@@ -1034,13 +1211,6 @@
       </Group>
    </Group>
    <Group
-      location = "container:"
-      name = "Slow Sort">
-      <FileRef
-         location = "group:Slow Sort/SlowSort.swift">
-      </FileRef>
-   </Group>
-   <Group
       location = "group:Huffman Coding"
       name = "Huffman Coding">
       <FileRef
@@ -1085,16 +1255,6 @@
       </FileRef>
       <FileRef
          location = "group:README.markdown">
-      </FileRef>
-   </Group>
-   <Group
-      location = "group:Images"
-      name = "Images">
-      <FileRef
-         location = "group:scheme-settings-for-travis.png">
-      </FileRef>
-      <FileRef
-         location = "group:SwiftAlgorithm-410-transp.png">
       </FileRef>
    </Group>
    <Group
@@ -1163,6 +1323,32 @@
       </Group>
    </Group>
    <Group
+      location = "group:Karatsuba Multiplication"
+      name = "Karatsuba Multiplication">
+      <FileRef
+         location = "group:KaratsubaMultiplication.playground">
+      </FileRef>
+      <FileRef
+         location = "group:KaratsubaMultiplication.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Knuth-Morris-Pratt"
+      name = "Knuth-Morris-Pratt">
+      <FileRef
+         location = "group:KnuthMorrisPratt.playground">
+      </FileRef>
+      <FileRef
+         location = "group:KnuthMorrisPratt.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Kth Largest Element"
       name = "Kth Largest Element">
       <FileRef
@@ -1170,6 +1356,29 @@
       </FileRef>
       <FileRef
          location = "group:kthLargest.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Linear Regression"
+      name = "Linear Regression">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:graph1.png">
+         </FileRef>
+         <FileRef
+            location = "group:graph2.png">
+         </FileRef>
+         <FileRef
+            location = "group:graph3.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:LinearRegression.playground">
       </FileRef>
       <FileRef
          location = "group:README.markdown">
@@ -1258,10 +1467,30 @@
       </FileRef>
    </Group>
    <Group
+      location = "group:Miller-Rabin Primality Test"
+      name = "Miller-Rabin Primality Test">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:img_pseudo.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:MRPrimality.playground">
+      </FileRef>
+      <FileRef
+         location = "group:MRPrimality.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Minimum Edit Distance"
       name = "Minimum Edit Distance">
       <FileRef
-         location = "group:MinimumEditDistance.swift">
+         location = "group:MinimumEditDistance.playground">
       </FileRef>
       <FileRef
          location = "group:README.markdown">
@@ -1270,15 +1499,6 @@
    <Group
       location = "group:Minimum Spanning Tree"
       name = "Minimum Spanning Tree">
-      <FileRef
-         location = "group:Kruskal.swift">
-      </FileRef>
-      <FileRef
-         location = "group:Prim.swift">
-      </FileRef>
-      <FileRef
-         location = "group:README.markdown">
-      </FileRef>
       <Group
          location = "group:Images"
          name = "Images">
@@ -1290,7 +1510,16 @@
          </FileRef>
       </Group>
       <FileRef
+         location = "group:Kruskal.swift">
+      </FileRef>
+      <FileRef
          location = "group:MinimumSpanningTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Prim.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
       </FileRef>
    </Group>
    <Group
@@ -1348,6 +1577,43 @@
       </Group>
    </Group>
    <Group
+      location = "group:MinimumCoinChange"
+      name = "MinimumCoinChange">
+      <FileRef
+         location = "group:eurocoins.gif">
+      </FileRef>
+      <FileRef
+         location = "group:LICENSE">
+      </FileRef>
+      <FileRef
+         location = "group:Package.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <Group
+         location = "group:Sources"
+         name = "Sources">
+         <FileRef
+            location = "group:MinimumCoinChange.swift">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:LinuxMain.swift">
+         </FileRef>
+         <Group
+            location = "group:MinimumCoinChangeTests"
+            name = "MinimumCoinChangeTests">
+            <FileRef
+               location = "group:MinimumCoinChangeTests.swift">
+            </FileRef>
+         </Group>
+      </Group>
+   </Group>
+   <Group
       location = "group:Monty Hall Problem"
       name = "Monty Hall Problem">
       <FileRef
@@ -1384,6 +1650,39 @@
       </FileRef>
    </Group>
    <Group
+      location = "group:Palindromes"
+      name = "Palindromes">
+      <FileRef
+         location = "group:Palindromes.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Palindromes.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Test"
+         name = "Test">
+         <FileRef
+            location = "group:Palindromes.swift">
+         </FileRef>
+         <Group
+            location = "group:Test"
+            name = "Test">
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+            <FileRef
+               location = "group:Test.swift">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:Test.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
       location = "group:Priority Queue"
       name = "Priority Queue">
       <FileRef
@@ -1401,6 +1700,40 @@
          <FileRef
             location = "group:PriorityQueueTests.swift">
          </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:QuadTree"
+      name = "QuadTree">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:quadtree.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:QuadTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <Group
+            location = "group:Tests"
+            name = "Tests">
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+            <FileRef
+               location = "group:Tests.swift">
+            </FileRef>
+         </Group>
          <FileRef
             location = "group:Tests.xcodeproj">
          </FileRef>
@@ -1475,14 +1808,46 @@
       </Group>
    </Group>
    <Group
+      location = "group:Rabin-Karp"
+      name = "Rabin-Karp">
+      <FileRef
+         location = "group:Rabin-Karp.playground">
+      </FileRef>
+      <FileRef
+         location = "group:rabin-karp.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Radix Sort"
       name = "Radix Sort">
+      <FileRef
+         location = "group:RadixSort.playground">
+      </FileRef>
       <FileRef
          location = "group:radixSort.swift">
       </FileRef>
       <FileRef
+         location = "group:RadixSortExample.swift">
+      </FileRef>
+      <FileRef
          location = "group:ReadMe.md">
       </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:RadixSortTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
    </Group>
    <Group
       location = "group:Radix Tree"
@@ -1507,21 +1872,11 @@
    <Group
       location = "group:Red-Black Tree"
       name = "Red-Black Tree">
-      <Group
-         location = "group:files"
-         name = "files">
-         <FileRef
-            location = "group:fig1.png">
-         </FileRef>
-         <FileRef
-            location = "group:fig2.png">
-         </FileRef>
-      </Group>
       <FileRef
-         location = "group:RBTree.swift">
+         location = "group:README.markdown">
       </FileRef>
       <FileRef
-         location = "group:README.md">
+         location = "group:Red-Black Tree 2.playground">
       </FileRef>
    </Group>
    <Group
@@ -1536,32 +1891,6 @@
       <FileRef
          location = "group:RingBuffer.swift">
       </FileRef>
-   </Group>
-   <Group
-      location = "group:Run-Length Encoding"
-      name = "Run-Length Encoding">
-      <FileRef
-         location = "group:README.markdown">
-      </FileRef>
-      <FileRef
-         location = "group:RLE.playground">
-      </FileRef>
-      <FileRef
-         location = "group:RLE.swift">
-      </FileRef>
-      <Group
-         location = "group:Tests"
-         name = "Tests">
-         <FileRef
-            location = "group:Info.plist">
-         </FileRef>
-         <FileRef
-            location = "group:RLETests.swift">
-         </FileRef>
-         <FileRef
-            location = "group:Tests.xcodeproj">
-         </FileRef>
-      </Group>
    </Group>
    <Group
       location = "group:Rootish Array Stack"
@@ -1579,6 +1908,15 @@
             location = "group:RootishArrayStackIntro.png">
          </FileRef>
       </Group>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <FileRef
+         location = "group:RootishArrayStack.playground">
+      </FileRef>
+      <FileRef
+         location = "group:RootishArrayStack.swift">
+      </FileRef>
       <Group
          location = "group:Tests"
          name = "Tests">
@@ -1586,23 +1924,24 @@
             location = "group:Info.plist">
          </FileRef>
          <FileRef
-            location = "group:RootishArrayStackTests.swift">
+            location = "group:RootishArrayStack.swift">
          </FileRef>
          <FileRef
-            location = "group:RootishArrayStack.swift">
+            location = "group:RootishArrayStackTests.swift">
          </FileRef>
          <FileRef
             location = "group:Tests.xcodeproj">
          </FileRef>
       </Group>
+   </Group>
+   <Group
+      location = "group:Run-Length Encoding"
+      name = "Run-Length Encoding">
       <FileRef
-         location = "group:README.md">
+         location = "group:README.markdown">
       </FileRef>
       <FileRef
-         location = "group:RootishArrayStack.swift">
-      </FileRef>
-      <FileRef
-         location = "group:RootishArrayStack.playground">
+         location = "group:RLE.playground">
       </FileRef>
    </Group>
    <Group
@@ -1718,16 +2057,16 @@
       </Group>
    </Group>
    <Group
-      location = "container:"
+      location = "group:Set Cover (Unweighted)"
       name = "Set Cover (Unweighted)">
       <FileRef
-         location = "group:Set Cover (Unweighted)/README.markdown">
+         location = "group:README.markdown">
       </FileRef>
       <FileRef
-         location = "group:Set Cover (Unweighted)/SetCover.playground">
+         location = "group:SetCover.playground">
       </FileRef>
       <FileRef
-         location = "group:Set Cover (Unweighted)/SetCover.swift">
+         location = "group:SetCover.swift">
       </FileRef>
    </Group>
    <Group
@@ -1738,6 +2077,9 @@
       </FileRef>
       <FileRef
          location = "group:shellsort.swift">
+      </FileRef>
+      <FileRef
+         location = "group:ShellSortExample.swift">
       </FileRef>
       <Group
          location = "group:Tests"
@@ -1874,6 +2216,72 @@
       </Group>
    </Group>
    <Group
+      location = "group:Skip-List"
+      name = "Skip-List">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:Insert1.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert10.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert11.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert12.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert2.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert3.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert4.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert5.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert6.png">
+         </FileRef>
+         <FileRef
+            location = "group:insert7.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert8.png">
+         </FileRef>
+         <FileRef
+            location = "group:Insert9.png">
+         </FileRef>
+         <FileRef
+            location = "group:Intro.png">
+         </FileRef>
+         <FileRef
+            location = "group:Search1.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <FileRef
+         location = "group:SkipList.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Slow Sort"
+      name = "Slow Sort">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:SlowSort.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Stack"
       name = "Stack">
       <FileRef
@@ -1900,29 +2308,45 @@
       </Group>
    </Group>
    <Group
+      location = "group:Strassen Matrix Multiplication"
+      name = "Strassen Matrix Multiplication">
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:StrassensMatrixMultiplication.playground">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Ternary Search Tree"
       name = "Ternary Search Tree">
-      <Group
-         location = "container:Ternary Search Tree/Tests"
-         name = "Tests">
-         <FileRef
-            location = "group:Info.plist">
-         </FileRef>
-         <FileRef
-            location = "group:Tests.xcodeproj">
-         </FileRef>
-      </Group>
       <FileRef
          location = "group:README.markdown">
       </FileRef>
       <FileRef
          location = "group:TernarySearchTree.swift">
       </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:TernarySearchTreeTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
       <FileRef
          location = "group:TST.playground">
       </FileRef>
       <FileRef
          location = "group:TSTNode.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Utils.swift">
       </FileRef>
    </Group>
    <Group
@@ -1966,10 +2390,7 @@
          location = "group:README.markdown">
       </FileRef>
       <FileRef
-         location = "group:ThreadedBinaryTree.swift">
-      </FileRef>
-      <FileRef
-         location = "group:ThreadedBinaryTreeTests.swift">
+         location = "group:ThreadedBinaryTree.playground">
       </FileRef>
    </Group>
    <Group
@@ -2057,27 +2478,6 @@
             location = "group:Treap"
             name = "Treap">
             <FileRef
-               location = "group:AppDelegate.swift">
-            </FileRef>
-            <Group
-               location = "group:Assets.xcassets"
-               name = "Assets.xcassets">
-               <Group
-                  location = "group:AppIcon.appiconset"
-                  name = "AppIcon.appiconset">
-                  <FileRef
-                     location = "group:Contents.json">
-                  </FileRef>
-               </Group>
-            </Group>
-            <Group
-               location = "group:Base.lproj"
-               name = "Base.lproj">
-               <FileRef
-                  location = "group:MainMenu.xib">
-               </FileRef>
-            </Group>
-            <FileRef
                location = "group:Info.plist">
             </FileRef>
          </Group>
@@ -2149,12 +2549,83 @@
    <Group
       location = "group:Trie"
       name = "Trie">
+      <Group
+         location = "group:images"
+         name = "images">
+         <FileRef
+            location = "group:trie.png">
+         </FileRef>
+      </Group>
       <FileRef
          location = "group:ReadMe.md">
       </FileRef>
-      <FileRef
-         location = "group:trie.swift">
-      </FileRef>
+      <Group
+         location = "group:Trie"
+         name = "Trie">
+         <Group
+            location = "group:Trie"
+            name = "Trie">
+            <FileRef
+               location = "group:AppDelegate.swift">
+            </FileRef>
+            <Group
+               location = "group:Assets.xcassets"
+               name = "Assets.xcassets">
+               <Group
+                  location = "group:AppIcon.appiconset"
+                  name = "AppIcon.appiconset">
+                  <FileRef
+                     location = "group:Contents.json">
+                  </FileRef>
+               </Group>
+            </Group>
+            <Group
+               location = "group:Base.lproj"
+               name = "Base.lproj">
+               <FileRef
+                  location = "group:Main.storyboard">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:dictionary.txt">
+            </FileRef>
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+            <FileRef
+               location = "group:ReadMe.md">
+            </FileRef>
+            <FileRef
+               location = "group:Trie.swift">
+            </FileRef>
+            <FileRef
+               location = "group:ViewController.swift">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:Trie.xcodeproj">
+         </FileRef>
+         <Group
+            location = "group:TrieTests"
+            name = "TrieTests">
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+            <FileRef
+               location = "group:TrieTests.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:TrieUITests"
+            name = "TrieUITests">
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+            <FileRef
+               location = "group:TrieUITests.swift">
+            </FileRef>
+         </Group>
+      </Group>
    </Group>
    <Group
       location = "group:Two-Sum Problem"
@@ -2168,18 +2639,12 @@
          <FileRef
             location = "group:2Sum.playground">
          </FileRef>
-         <FileRef
-            location = "group:2Sum.swift">
-         </FileRef>
       </Group>
       <Group
          location = "group:Solution 2"
          name = "Solution 2">
          <FileRef
             location = "group:2Sum.playground">
-         </FileRef>
-         <FileRef
-            location = "group:2Sum.swift">
          </FileRef>
       </Group>
    </Group>
@@ -2208,8 +2673,21 @@
       <FileRef
          location = "group:UnionFind.playground">
       </FileRef>
+   </Group>
+   <Group
+      location = "group:Z-Algorithm"
+      name = "Z-Algorithm">
       <FileRef
-         location = "group:UnionFind.swift">
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:ZAlgorithm.swift">
+      </FileRef>
+      <FileRef
+         location = "group:ZetaAlgorithm.playground">
+      </FileRef>
+      <FileRef
+         location = "group:ZetaAlgorithm.swift">
       </FileRef>
    </Group>
 </Workspace>

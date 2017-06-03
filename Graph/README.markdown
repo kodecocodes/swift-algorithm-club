@@ -143,7 +143,7 @@ Here is an example of a simple graph:
 
 ![Demo](Images/Demo1.png)
 
-We can represent it as an adjacency matrix or adjacency list. The classes implementing those concept both inherit a common API from `AbstractGraph`, so they can be created in an identical fashion, with different optimized data structures behind the scenes.
+We can represent it as an adjacency matrix or adjacency list. The classes implementing those concepts both inherit a common API from `AbstractGraph`, so they can be created in an identical fashion, with different optimized data structures behind the scenes.
 
 Let's create some directed, weighted graphs, using each representation, to store the example:
 

@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /**
  Print a matrix, optionally specifying only the cells to display with the triplet (i, j, k) -> matrix[i][j], matrix[i][k], matrix[k][j]
  */
