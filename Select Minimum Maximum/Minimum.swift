@@ -3,7 +3,7 @@
  */
 
 func minimum<T: Comparable>(_ array: [T]) -> T? {
-    guard minimum = array.first else { return nil }
+    guard var minimum = array.first else { return nil }
  
     for element in array.dropFirst() {
         minimum = element < minimum ? element : minimum
