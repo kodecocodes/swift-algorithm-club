@@ -3,16 +3,11 @@
  */
 
 func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
-    guard !array.isEmpty else {
-        return nil
-    }
-
-    var minimum = array.first!
-    var maximum = array.first!
+    guard var minimum = array.first else { return nil }
+    var maximum = minimum
 
     // if 'array' has an odd number of items, let 'minimum' or 'maximum' deal with the leftover
-    let hasOddNumberOfItems = array.count % 2 != 0
-    let start = hasOddNumberOfItems ? 1 : 0
+    let start = array.count % 2 // 1 if odd, skipping the first element
     for i in stride(from: start, to: array.count, by: 2) {
         let pair = (array[i], array[i+1])
 
