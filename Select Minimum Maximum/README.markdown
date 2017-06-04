@@ -24,11 +24,10 @@ Here is a simple implementation in Swift:
 
 ```swift
 func minimum<T: Comparable>(_ array: [T]) -> T? {
-  guard !array.isEmpty else {
+  guard var minimum = array.first else {
     return nil
   }
 
-  var minimum = array.first!
   for element in array.dropFirst() {
     minimum = element < minimum ? element : minimum
   }
@@ -36,11 +35,10 @@ func minimum<T: Comparable>(_ array: [T]) -> T? {
 }
 
 func maximum<T: Comparable>(_ array: [T]) -> T? {
-  guard !array.isEmpty else {
+  guard var maximum = array.first else {
     return nil
   }
 
-  var maximum = array.first!
   for element in array.dropFirst() {
     maximum = element > maximum ? element : maximum
   }
@@ -66,7 +64,7 @@ array.minElement()   // This will return 3
 array.maxElement()   // This will return 9
 ```
 
-```
+```swift
 let array = [ 8, 3, 9, 4, 6 ]
 //swift3
 array.min()   // This will return 3
@@ -97,16 +95,13 @@ Here is a simple implementation in Swift:
 
 ```swift
 func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
-  guard !array.isEmpty else {
+  guard var minimum = array.first else {
     return nil
   }
-
-  var minimum = array.first!
-  var maximum = array.first!
+  var maximum = minimum
 
   // if 'array' has an odd number of items, let 'minimum' or 'maximum' deal with the leftover
-  let hasOddNumberOfItems = array.count % 2 != 0
-  let start = hasOddNumberOfItems ? 1 : 0
+  let start = array.count % 2 // 1 if odd, skipping the first element
   for i in stride(from: start, to: array.count, by: 2) {
     let pair = (array[i], array[i+1])
 
