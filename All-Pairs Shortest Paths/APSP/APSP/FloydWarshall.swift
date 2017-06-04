@@ -175,7 +175,7 @@ public struct FloydWarshallResult<T>: APSPResult where T: Hashable {
   public func path(fromVertex from: Vertex<T>, toVertex to: Vertex<T>, inGraph graph: AbstractGraph<T>) -> [T]? {
 
     if let path = recursePathFrom(fromVertex: from, toVertex: to, path: [ to ], inGraph: graph) {
-      let pathValues = path.map() { vertex in
+      let pathValues = path.map { vertex in
         vertex.data
       }
       return pathValues

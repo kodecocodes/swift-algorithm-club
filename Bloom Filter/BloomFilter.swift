@@ -8,7 +8,7 @@ public class BloomFilter<T> {
   }
 
   private func computeHashes(_ value: T) -> [Int] {
-    return hashFunctions.map() { hashFunc in abs(hashFunc(value) % array.count) }
+    return hashFunctions.map { hashFunc in abs(hashFunc(value) % array.count) }
   }
 
   public func insert(_ element: T) {
@@ -27,7 +27,7 @@ public class BloomFilter<T> {
     let hashValues = computeHashes(value)
 
     // Map hashes to indices in the Bloom Filter
-    let results = hashValues.map() { hashValue in array[hashValue] }
+    let results = hashValues.map { hashValue in array[hashValue] }
 
     // All values must be 'true' for the query to return true
 

@@ -11,7 +11,6 @@ print(B)
 B[.column, 0] = [3, 2, -1, 2]
 B[.column, 1] = [4, 1, 2, 7]
 
-
 let C = A.matrixMultiply(by: B)
 let D = A.strassenMatrixMultiply(by: B)
 let E = B.matrixMultiply(by: A)

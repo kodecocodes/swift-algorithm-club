@@ -23,7 +23,7 @@
 import Foundation
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+fileprivate func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l < r
@@ -36,7 +36,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
-fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+fileprivate func >= <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l >= r
@@ -45,11 +45,9 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
 //////////////////////////////////////
 // MARK: Main algorithm
 //////////////////////////////////////
-
 
 /**
     Performs bucket sort algorithm on the given input elements.
@@ -95,7 +93,6 @@ private func enoughSpaceInBuckets<T: Sortable>(_ buckets: [Bucket<T>], elements:
 //////////////////////////////////////
 // MARK: Distributor
 //////////////////////////////////////
-
 
 public protocol Distributor {
     func distribute<T: Sortable>(_ element: T, buckets: inout [Bucket<T>])
@@ -173,7 +170,7 @@ public struct InsertionSorter: Sorter {
 // MARK: Bucket
 //////////////////////////////////////
 
-public struct Bucket<T:Sortable> {
+public struct Bucket<T: Sortable> {
     var elements: [T]
     let capacity: Int
 

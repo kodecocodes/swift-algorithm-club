@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class TernarySearchTree<Element> {
 
     var root: TSTNode<Element>?
@@ -58,9 +57,7 @@ public class TernarySearchTree<Element> {
         }
     }
 
-
     // MARK: - Finding
-
 
     public func find(key: String) -> Element? {
         return find(node: root, withKey: key, atIndex: 0)

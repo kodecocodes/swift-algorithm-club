@@ -267,9 +267,9 @@ something simple, like removing **7**, which has no children:
 Before we can just throw **7** away, we have to perform some clean-up.  In this
 case, because **7** is a `right` child and has no children itself, we can
 simply set the `rightThread` of **7**'s `parent`(**5**) to **7**'s (now
-outdated) `rightThread`.  Then we can just set **7**'s `parent`, `left`,
+outdated) `rightThread`. Then we can just set **7**'s `parent`, `left`,
 `right`, `leftThread`, and `rightThread` to `nil`, effectively removing it from
-the tree.
+the tree. We also set the parent's `rightChild` to `nil`, which completes the deletion of this right child. 
 
 Let's try something a little harder.  Say we remove **5** from the tree:
 

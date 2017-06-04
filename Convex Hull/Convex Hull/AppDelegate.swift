@@ -13,20 +13,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         let screenBounds = UIScreen.main.bounds
-        
+
         window = UIWindow(frame: screenBounds)
-        
+
         let viewController = UIViewController()
         viewController.view = View(frame: (window?.frame)!)
         viewController.view.backgroundColor = .white
-        
+
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
-        
+
         return true
     }
 
@@ -52,6 +51,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
 }
-

@@ -1,4 +1,3 @@
-
 import Foundation
 
 let tree = QuadTree(rect: Rect(origin: Point(0, 0), size: Size(xLength: 10, yLength: 10)))

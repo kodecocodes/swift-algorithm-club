@@ -39,9 +39,6 @@ public struct Queue<T> {
   }
 }
 
-
-
-
 // Create a queue and put some elements on it already.
 var queueOfNames = Queue(array: ["Carl", "Lisa", "Stephanie", "Jeff", "Wade"])
 

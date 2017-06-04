@@ -18,7 +18,7 @@ public enum OperatorType: CustomStringConvertible {
   case multiply
   case percent
   case exponent
-  
+
   public var description: String {
     switch self {
     case .add:
@@ -42,7 +42,7 @@ public enum TokenType: CustomStringConvertible {
   case closeBracket
   case Operator(OperatorToken)
   case operand(Double)
-  
+
   public var description: String {
     switch self {
     case .openBracket:
@@ -59,11 +59,11 @@ public enum TokenType: CustomStringConvertible {
 
 public struct OperatorToken: CustomStringConvertible {
   let operatorType: OperatorType
-  
+
   init(operatorType: OperatorType) {
     self.operatorType = operatorType
   }
-  
+
   var precedence: Int {
     switch operatorType {
     case .add, .subtract:
@@ -74,7 +74,7 @@ public struct OperatorToken: CustomStringConvertible {
       return 10
     }
   }
-  
+
   var associativity: OperatorAssociativity {
     switch operatorType {
     case .add, .subtract, .divide, .multiply, .percent:
@@ -83,7 +83,7 @@ public struct OperatorToken: CustomStringConvertible {
       return .rightAssociative
     }
   }
-  
+
   public var description: String {
     return operatorType.description
   }
@@ -99,19 +99,19 @@ func < (left: OperatorToken, right: OperatorToken) -> Bool {
 
 public struct Token: CustomStringConvertible {
   let tokenType: TokenType
-  
+
   init(tokenType: TokenType) {
     self.tokenType = tokenType
   }
-  
+
   init(operand: Double) {
     tokenType = .operand(operand)
   }
-  
+
   init(operatorType: OperatorType) {
     tokenType = .Operator(OperatorToken(operatorType: operatorType))
   }
-  
+
   var isOpenBracket: Bool {
     switch tokenType {
     case .openBracket:
@@ -120,7 +120,7 @@ public struct Token: CustomStringConvertible {
       return false
     }
   }
-  
+
   var isOperator: Bool {
     switch tokenType {
     case .Operator(_):
@@ -129,7 +129,7 @@ public struct Token: CustomStringConvertible {
       return false
     }
   }
-  
+
   var operatorToken: OperatorToken? {
     switch tokenType {
     case .Operator(let operatorToken):
@@ -138,7 +138,7 @@ public struct Token: CustomStringConvertible {
       return nil
     }
   }
-  
+
   public var description: String {
     return tokenType.description
   }
@@ -146,27 +146,27 @@ public struct Token: CustomStringConvertible {
 
 public class InfixExpressionBuilder {
   private var expression = [Token]()
-  
+
   public func addOperator(_ operatorType: OperatorType) -> InfixExpressionBuilder {
     expression.append(Token(operatorType: operatorType))
     return self
   }
-  
+
   public func addOperand(_ operand: Double) -> InfixExpressionBuilder {
     expression.append(Token(operand: operand))
     return self
   }
-  
+
   public func addOpenBracket() -> InfixExpressionBuilder {
     expression.append(Token(tokenType: .openBracket))
     return self
   }
-  
+
   public func addCloseBracket() -> InfixExpressionBuilder {
     expression.append(Token(tokenType: .closeBracket))
     return self
   }
-  
+
   public func build() -> [Token] {
     // Maybe do some validation here
     return expression
@@ -175,29 +175,29 @@ public class InfixExpressionBuilder {
 
 // This returns the result of the shunting yard algorithm
 public func reversePolishNotation(_ expression: [Token]) -> String {
-  
+
   var tokenStack = Stack<Token>()
   var reversePolishNotation = [Token]()
-  
+
   for token in expression {
     switch token.tokenType {
     case .operand(_):
       reversePolishNotation.append(token)
-      
+
     case .openBracket:
       tokenStack.push(token)
-      
+
     case .closeBracket:
       while tokenStack.count > 0, let tempToken = tokenStack.pop(), !tempToken.isOpenBracket {
         reversePolishNotation.append(tempToken)
       }
-      
+
     case .Operator(let operatorToken):
       for tempToken in tokenStack.makeIterator() {
         if !tempToken.isOperator {
           break
         }
-        
+
         if let tempOperatorToken = tempToken.operatorToken {
           if operatorToken.associativity == .leftAssociative && operatorToken <= tempOperatorToken
             || operatorToken.associativity == .rightAssociative && operatorToken < tempOperatorToken {
@@ -210,10 +210,10 @@ public func reversePolishNotation(_ expression: [Token]) -> String {
       tokenStack.push(token)
     }
   }
-  
+
   while tokenStack.count > 0 {
     reversePolishNotation.append(tokenStack.pop()!)
   }
-  
+
   return reversePolishNotation.map({token in token.description}).joined(separator: " ")
 }

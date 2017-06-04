@@ -1,10 +1,10 @@
 import XCTest
 
 fileprivate extension RootishArrayStack {
-	func equal(toArray array: Array<Int>) -> Bool{
+	func equal(toArray array: Array<Int>) -> Bool {
 		for index in 0..<count {
 			guard let integerElement = self[index] as? Int else { return false }
-			if (array[index] != integerElement) {
+			if array[index] != integerElement {
 				return false
 			}
 		}
@@ -169,7 +169,6 @@ class RootishArrayStackTests: XCTestCase {
 		XCTAssertEqual(list.first, 2)
 		XCTAssertTrue(list.equal(toArray: array))
 	}
-
 
 	func testRemoveMiddle() {
 		var array = [0, 1, 2, 3]

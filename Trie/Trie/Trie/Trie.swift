@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// A node in the trie
 class TrieNode<T: Hashable> {
   var value: T?
@@ -18,8 +17,7 @@ class TrieNode<T: Hashable> {
   var isLeaf: Bool {
     return children.count == 0
   }
-  
-  
+
   /// Initializes a node.
   ///
   /// - Parameters:
@@ -29,7 +27,7 @@ class TrieNode<T: Hashable> {
     self.value = value
     self.parentNode = parentNode
   }
-  
+
   /// Adds a child node to self.  If the child is already present,
   /// do nothing.
   ///
@@ -92,7 +90,7 @@ class Trie: NSObject, NSCoding {
 
 // MARK: - Adds methods: insert, remove, contains
 extension Trie {
-  
+
   /// Inserts a word into the trie.  If the word is already present,
   /// there is no change.
   ///
@@ -117,7 +115,7 @@ extension Trie {
     wordCount += 1
     currentNode.isTerminating = true
   }
-  
+
   /// Determines whether a word is in the trie.
   ///
   /// - Parameter word: the word to check for
@@ -135,7 +133,6 @@ extension Trie {
     }
     return currentNode.isTerminating
   }
-
 
   /// Attempts to walk to the last node of a word.  The
   /// search will fail if the word is not present. Doesn't
@@ -168,7 +165,7 @@ extension Trie {
     return nil
 
   }
-  
+
   /// Deletes a word from the trie by starting with the last letter
   /// and moving back, deleting nodes until either a non-leaf or a
   /// terminating node is found.
@@ -187,7 +184,7 @@ extension Trie {
       }
     }
   }
-  
+
   /// Removes a word from the trie.  If the word is not present or
   /// it is empty, just ignore it.  If the last node is a leaf,
   /// delete that node and higher nodes that are leaves until a
@@ -210,7 +207,7 @@ extension Trie {
     }
     wordCount -= 1
   }
-  
+
   /// Returns an array of words in a subtrie of the trie
   ///
   /// - Parameters:

@@ -6,7 +6,7 @@ extension String {
     for i in self.characters.indices {
         var j = i
         var found = true
-        for p in pattern.characters.indices{
+        for p in pattern.characters.indices {
             if j == self.characters.endIndex || self[j] != pattern[p] {
                 found = false
                 break

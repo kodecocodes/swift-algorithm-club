@@ -6,7 +6,6 @@
 //
 //
 
-
 import Dispatch
 
 let numberOfPhilosophers = 4
@@ -22,8 +21,7 @@ struct ForkPair {
         if leftIndex > rightIndex {
             leftFork = ForkPair.forksSemaphore[leftIndex]
             rightFork = ForkPair.forksSemaphore[rightIndex]
-        }
-        else {
+        } else {
             leftFork = ForkPair.forksSemaphore[rightIndex]
             rightFork = ForkPair.forksSemaphore[leftIndex]
         }
@@ -41,7 +39,6 @@ struct ForkPair {
         rightFork.signal()
     }
 }
-
 
 struct Philosophers {
     let forkPair: ForkPair
@@ -76,7 +73,6 @@ struct Philosophers {
     }
 }
 
-
 // Layout of the table (P = philosopher, f = fork) for 4 Philosophers
 //          P0
 //       f3    f0
@@ -99,7 +95,6 @@ for i in 0..<numberOfPhilosophers {
 for semaphore in ForkPair.forksSemaphore {
     semaphore.signal()
 }
-
 
 //Wait forever
 globalSem.wait()

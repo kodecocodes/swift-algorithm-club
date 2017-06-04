@@ -1,16 +1,11 @@
-/*
-  Union-Find Data Structure
+import Foundation
 
-  Performance:
-    adding new set is almost O(1)
-    finding set of element is almost O(1)
-    union sets is almost O(1)
-*/
-
-public struct UnionFind<T: Hashable> {
+public struct UnionFindWeightedQuickUnionPathCompression<T: Hashable> {
   private var index = [T: Int]()
   private var parent = [Int]()
   private var size = [Int]()
+
+  public init() {}
 
   public mutating func addSetWith(_ element: T) {
     index[element] = parent.count
@@ -18,13 +13,12 @@ public struct UnionFind<T: Hashable> {
     size.append(1)
   }
 
+  /// Path Compression.
   private mutating func setByIndex(_ index: Int) -> Int {
-    if parent[index] == index {
-      return index
-    } else {
+    if index != parent[index] {
       parent[index] = setByIndex(parent[index])
-      return parent[index]
     }
+    return parent[index]
   }
 
   public mutating func setOf(_ element: T) -> Int? {

@@ -23,7 +23,6 @@ func sdbm(_ x: String) -> Int {
   return Int(hash)
 }
 
-
 class BloomFilterTests: XCTestCase {
 
   func testSingleHashFunction() {

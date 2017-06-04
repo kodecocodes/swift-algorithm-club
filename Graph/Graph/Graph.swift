@@ -21,21 +21,15 @@ open class AbstractGraph<T>: CustomStringConvertible where T: Equatable, T: Hash
   }
 
   open var description: String {
-    get {
-      fatalError("abstract property accessed")
-    }
+    fatalError("abstract property accessed")
   }
 
   open var vertices: [Vertex<T>] {
-    get {
-      fatalError("abstract property accessed")
-    }
+    fatalError("abstract property accessed")
   }
 
   open var edges: [Edge<T>] {
-    get {
-      fatalError("abstract property accessed")
-    }
+    fatalError("abstract property accessed")
   }
 
   // Adds a new vertex to the matrix.
