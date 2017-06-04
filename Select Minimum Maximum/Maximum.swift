@@ -2,7 +2,7 @@
  Finds the maximum value in an array in O(n) time.
  */
 
-func maximum1<T: Comparable>(_ array: [T]) -> T? {
+func maximum<T: Comparable>(_ array: [T]) -> T? {
     guard var maximum = array.first else { return nil }
     
     for element in array.dropFirst() {
