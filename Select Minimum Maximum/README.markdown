@@ -24,26 +24,22 @@ Here is a simple implementation in Swift:
 
 ```swift
 func minimum<T: Comparable>(_ array: [T]) -> T? {
-  var array = array
-  guard !array.isEmpty else {
+  guard var minimum = array.first else {
     return nil
   }
 
-  var minimum = array.removeFirst()
-  for element in array {
+  for element in array.dropFirst() {
     minimum = element < minimum ? element : minimum
   }
   return minimum
 }
 
 func maximum<T: Comparable>(_ array: [T]) -> T? {
-  var array = array
-  guard !array.isEmpty else {
+  guard var maximum = array.first else {
     return nil
   }
 
-  var maximum = array.removeFirst()
-  for element in array {
+  for element in array.dropFirst() {
     maximum = element > maximum ? element : maximum
   }
   return maximum
@@ -68,7 +64,7 @@ array.minElement()   // This will return 3
 array.maxElement()   // This will return 9
 ```
 
-```
+```swift
 let array = [ 8, 3, 9, 4, 6 ]
 //swift3
 array.min()   // This will return 3
@@ -99,21 +95,16 @@ Here is a simple implementation in Swift:
 
 ```swift
 func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
-  var array = array
-  guard !array.isEmpty else {
+  guard var minimum = array.first else {
     return nil
   }
+  var maximum = minimum
 
-  var minimum = array.first!
-  var maximum = array.first!
+  // if 'array' has an odd number of items, let 'minimum' or 'maximum' deal with the leftover
+  let start = array.count % 2 // 1 if odd, skipping the first element
+  for i in stride(from: start, to: array.count, by: 2) {
+    let pair = (array[i], array[i+1])
 
-  let hasOddNumberOfItems = array.count % 2 != 0
-  if hasOddNumberOfItems {
-    array.removeFirst()
-  }
-
-  while !array.isEmpty {
-    let pair = (array.removeFirst(), array.removeFirst())
     if pair.0 > pair.1 {
       if pair.0 > maximum {
         maximum = pair.0

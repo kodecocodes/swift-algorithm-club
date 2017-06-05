@@ -3,13 +3,9 @@
  */
 
 func minimum<T: Comparable>(_ array: [T]) -> T? {
-    var array = array
-    guard !array.isEmpty else {
-        return nil
-    }
-
-    var minimum = array.removeFirst()
-    for element in array {
+    guard var minimum = array.first else { return nil }
+ 
+    for element in array.dropFirst() {
         minimum = element < minimum ? element : minimum
     }
     return minimum
