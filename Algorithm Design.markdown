@@ -18,6 +18,13 @@ And if you only work with small datasets, then a brute force approach may actual
 
 ### Divide and conquer
 
-A big problem is often just a whole bunch of much smaller problems.
+>"When you change the way you look at things, the things you look at change."</br>
+>Max Planck, Quantum theorist and Nobel Prize Winner
 
-[More to come here]
+Divide and conquer is a way of dealing with a large problem by breaking it down into bits and pieces and working your way up towards the solution.
+
+Instead of seeing the whole problem as a single, huge and complex task you divide the problem in relatively smaller problems that are easier to understand and deal with.
+
+You solve smaller problems and aggregate the solution until you are left with the solution only. At each step the problem at hand shrinks and the solution gets mature until you have the final correct solution.
+
+Solving the smaller task and applying the same solution repetitively ( or often times recursively) to other chunks give you the result in less time.
