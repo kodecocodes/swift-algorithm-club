@@ -10,7 +10,7 @@ In computer science, the dining philosophers problem is often used in the concur
 
 It was originally formulated in 1965 by Edsger Dijkstra as a student exam exercise, presented in terms of computers competing for access to tape drive peripherals. Soon after, Tony Hoare gave the problem its present formulation.
 
-This Swift implementation is based on the Chandy/Misra solution, and it uses the GCD Dispatch and Semaphone on the Swift cross platform.
+This Swift implementation is based on the Chandy/Misra solution, and it uses the GCD Dispatch and Semaphores on the Swift cross platform.
 
 # Problem statement
 
@@ -22,12 +22,12 @@ Eating is not limited by the remaining amounts of spaghetti or stomach space; an
 
 The problem is how to design a discipline of behavior (a concurrent algorithm) such that no philosopher will starve; i.e., each can forever continue to alternate between eating and thinking, assuming that no philosopher can know when others may want to eat or think.
 
-This is an illustration of an dinining table:
+This is an illustration of a dining table:
 
 ![Dining Philosophers table](https://upload.wikimedia.org/wikipedia/commons/7/7b/An_illustration_of_the_dining_philosophers_problem.png)
 
 # Solution
-There are different solutions for this classic algorithm, and this Swift implementation is based on the Chandy/Misra solution. This implementation allows agents to contend for an arbitrary number of resources in a completely distributed scenario with no needs for a central authority to control the locking and serialization of resources. 
+There are different solutions for this classic algorithm, and this Swift implementation is based on the Chandy/Misra solution. This implementation allows agents to contend for an arbitrary number of resources in a completely distributed scenario with no need for a central authority to control the locking and serialization of resources. 
 
 However, this solution violates the requirement that "the philosophers do not speak to each other" (due to the request messages).
 

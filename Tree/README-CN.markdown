@@ -104,7 +104,7 @@ sodaNode.addChild(bitterLemonNode)
 
 ![Example tree](Images/Example.png)
 
-beverages 节点是根节点，因为它没有父节点。叶子节点是 `black`, `green`, `chai`, `coffee`, `cocoa`, `ginger ale`, `bitter lemon`, `milk`，因额外i他们没有任何子节点。
+beverages 节点是根节点，因为它没有父节点。叶子节点是 `black`, `green`, `chai`, `coffee`, `cocoa`, `ginger ale`, `bitter lemon`, `milk`，因为他们没有任何子节点。
 
 对于任何节点来说都可以根据 `parent` 属性来往上找到根节点：
 
@@ -115,7 +115,7 @@ teaNode.parent!.parent   // this is the root
 
 当谈论树的时候，我们经常使用下面的这些定义：
 
-- **树的高度** 根节点和最下面的叶子节点之间的连接数。在我们的例子中宏，树的高度是 3，因为从根节点到下面需要三跳。
+- **树的高度** 根节点和最下面的叶子节点之间的连接数。在我们的例子中，树的高度是 3，因为从根节点到下面需要三跳。
 
 - **节点的深度** 节点到根节点的连接数。例如，`tea` 的深度是 2，因为需要两跳才可以到达根节点。（根节点自己的深度是 0）
 
