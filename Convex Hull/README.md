@@ -2,12 +2,12 @@
 
 There are multiple Convex Hull algorithms. This particular implementation uses the Quickhull algorithm.
 
-Given a group of points on a plane. The Convex Hull algorithm calculates the shape (made up from the points itself) containing all these points. It can also be used on a collection of points of different dimention. This implementation however covers points on a plane. It essentially calculates the lines between points which together contain all points.
+Given a group of points on a plane. The Convex Hull algorithm calculates the shape (made up from the points itself) containing all these points. It can also be used on a collection of points of different dimensions. This implementation however covers points on a plane. It essentially calculates the lines between points which together contain all points.
 
 ## Quickhull
 
-The quickhull algorithm works as follows.
-The algorithm takes an input of a collection of points. These points should be ordered on their x coordinate value. We pick the two points A and B with the smallest(A) and the largest(B) x coordinate. These of course have to be part of the hull. Imagine a line from point A to point B. All points to the right of this line are grouped in an array S1. Imagine now a line from point B to point A. (this is of course the same line as before just with opposite direction) Again all points to the right of this line are grouped in an array, S2 this time.
+The quickhull algorithm works as follows:
+The algorithm takes an input of a collection of points. These points should be ordered on their x-coordinate value. We pick the two points A and B with the smallest(A) and the largest(B) x-coordinate. These of course have to be part of the hull. Imagine a line from point A to point B. All points to the right of this line are grouped in an array S1. Imagine now a line from point B to point A. (this is of course the same line as before just with opposite direction) Again all points to the right of this line are grouped in an array, S2 this time.
 We now define the following recursive function:
 
 `findHull(points: [CGPoint], p1: CGPoint, p2: CGPoint)`
