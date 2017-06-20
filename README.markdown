@@ -184,6 +184,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Minimum Spanning Tree](Minimum%20Spanning%20Tree%20%28Unweighted%29/) on an unweighted tree
 - [Minimum Spanning Tree](Minimum%20Spanning%20Tree/)
 - [All-Pairs Shortest Paths](All-Pairs%20Shortest%20Paths/)
+- [Dijkstra's shortest path algorithm](Dijkstra%20Algorithm/)
 
 ## Puzzles
 
