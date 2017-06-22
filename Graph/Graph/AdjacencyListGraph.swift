@@ -7,7 +7,7 @@
 
 import Foundation
 
-private class EdgeList<T> where T: Equatable, T: Hashable {
+private class EdgeList<T> where T: Hashable {
 
   var vertex: Vertex<T>
   var edges: [Edge<T>]?
@@ -22,7 +22,7 @@ private class EdgeList<T> where T: Equatable, T: Hashable {
 
 }
 
-open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Equatable, T: Hashable {
+open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Hashable {
 
   fileprivate var adjacencyList: [EdgeList<T>] = []
 
