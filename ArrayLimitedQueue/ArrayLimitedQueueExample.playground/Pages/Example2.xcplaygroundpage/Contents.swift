@@ -4,7 +4,7 @@
 
 var limitedArray = ArrayLimitedQueue<Player>()
 
-limitedArray.maxSize = 0
+limitedArray.maxStoredItems = 0
 limitedArray.positiveValues = false
 limitedArray.deleteExisting = false
 
@@ -22,9 +22,9 @@ limitedArray.add(item: player5)
 limitedArray.add(item: player2)
 limitedArray.add(item: player3)
 
-print(limitedArray)
-limitedArray.maxSize = 6
+print(limitedArray.array)
+limitedArray.maxStoredItems = 6
 limitedArray.zeroValue = Player(name: "Any", points: 0)
 limitedArray.positiveValues = true
 limitedArray.deleteExisting = true
-print(limitedArray)
+print(limitedArray.array)

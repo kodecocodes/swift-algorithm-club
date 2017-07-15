@@ -13,12 +13,12 @@ Array Limited Queue is a collection that has the features
 
 import Foundation
 
-public struct ArrayLimitedQueue<T: Comparable> : CustomStringConvertible {
+public struct ArrayLimitedQueue<T: Comparable> {
     
     //The maximum number of items in the collection. Can be changed after
-    public var maxSize: Int = 1 {
+    public var maxStoredItems: Int = 1 {
         didSet {
-            let sizeDiff = internalArray.count - maxSize
+            let sizeDiff = internalArray.count - maxStoredItems
             if 0 < sizeDiff && sizeDiff <= internalArray.count {
                 internalArray.removeFirst(sizeDiff)
             }
@@ -29,16 +29,13 @@ public struct ArrayLimitedQueue<T: Comparable> : CustomStringConvertible {
     After the change from true to false. Negative values will be deleted
     Note: When using custom types, you need to set the zeroValue.
      */
-    public var zeroValue:T?
+    public var zeroValue:T? = 0 as? T
     public var positiveValues: Bool = false {
         didSet {
             if positiveValues {
                 
                 if let zero = zeroValue {
-                    internalArray = internalArray.filter{$0 > zero}.map{ $0 }
-                    
-                } else if let defaultZero = 0 as? T {
-                    internalArray = internalArray.filter{$0 > defaultZero}.map{ $0 }
+                internalArray = internalArray.filter{$0 > zero}.map{ $0 }
                     
                 } else {
                     fatalError("A zeroValue is not setted")
@@ -54,13 +51,17 @@ public struct ArrayLimitedQueue<T: Comparable> : CustomStringConvertible {
     public var deleteExisting = true {
         didSet {
             if deleteExisting {
-                internalArray = internalArray.reversed().reduce([]){$0.contains($1) ? $0 : $0 + [$1]}.reversed()
+                for i in stride(from: internalArray.count - 1, to: 0, by: -1) {
+
+                    for j in stride(from: i - 1, to: 0, by: -1) {
+                        
+                        if internalArray[i] == internalArray[j] {
+                            internalArray.remove(at: j)
+                        }
+                    }
+                }
             }
         }
-    }
-    
-    func removeDuplicates(accumulator: [T], element: T) -> [T] {
-        return accumulator.contains(element) ? accumulator : accumulator + [element]
     }
     
     public var array: [T] {
@@ -133,7 +134,7 @@ public struct ArrayLimitedQueue<T: Comparable> : CustomStringConvertible {
     private mutating func checkSize() -> T? {
         
         guard
-            0 < maxSize && maxSize < internalArray.count,
+            0 < maxStoredItems && maxStoredItems < internalArray.count,
             let first = internalArray.first
         else {
             return nil
@@ -162,21 +163,5 @@ public struct ArrayLimitedQueue<T: Comparable> : CustomStringConvertible {
     public subscript(index: Int) -> T {
         assert(index >= 0 && index < count)
         return internalArray[index]
-    }
-    
-    
-    public var description: String {
-        var outputString = "["
-        
-        for (index, item) in internalArray.enumerated() {
-            outputString.append("\(item)")
-            
-            if index < internalArray.count - 1 {
-                outputString.append(", ")
-            }
-        }
-        
-        outputString.append("]")
-        return outputString
     }
 }
