@@ -6,12 +6,8 @@ Find all unique triplets in the array which gives the sum of zero.
 
 **Note**: The solution set must not contain duplicate triplets.
 
-> For example, given array S = [-1, 0, 1, 2, -1, -4](),
-> A solution set is:
-> [
-> ]()>  [-1, 0, 1](),
->  [-1, -1, 2]()
-> ]
+> For example, given array S = [-1, 0, 1, 2, -1, -4],
+> A solution set is: [[-1, 0, 1], [-1, -1, 2]]
 
 ### Solution
 Like [2Sum][5], we can sort the array first, then use 2 pointers method to solve the problem. But here, we need 3 numbers, so we need add one more pointer. But how to play with 3 pointers?
