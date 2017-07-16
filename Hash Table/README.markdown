@@ -103,7 +103,7 @@ it first hashes the key `"lastName"` to calculate the array index, which is 3. S
 
 Common ways to implement this chaining mechanism are to use a linked list or another array. Since the order of the items in the chain does not matter, you can think of it as a set instead of a list. (Now you can also imagine where the term "bucket" comes from; we just dump all the objects together into the bucket.)
 
-Chains should not become long because the slow process of looking up items in the hash table. Ideally, we would have no chains at all, but in practice it is impossible to avoid collisions. You can improve the odds by giving the hash table enough buckets using high-quality hash functions.
+Chains should not become long because looking up items in the hash table would become a slow process. Ideally, we would have no chains at all, but in practice it is impossible to avoid collisions. You can improve the odds by giving the hash table enough buckets using high-quality hash functions.
 
 > **Note:** An alternative to chaining is "open addressing". The idea is this: if an array index is already taken, we put the element in the next unused bucket. This approach has its own upsides and downsides.
 
