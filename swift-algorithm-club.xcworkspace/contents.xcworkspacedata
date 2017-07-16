@@ -1646,6 +1646,12 @@
          location = "group:OrderedSet.swift">
       </FileRef>
       <FileRef
+         location = "group:AppleOrderedSet.swift">
+      </FileRef>
+      <FileRef
+         location = "group:AppleOrderedSet.playground">
+      </FileRef>
+      <FileRef
          location = "group:README.markdown">
       </FileRef>
    </Group>
