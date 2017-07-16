@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class AbstractGraph<T>: CustomStringConvertible where T: Equatable, T: Hashable {
+open class AbstractGraph<T>: CustomStringConvertible where T: Hashable {
 
   public required init() {}
 
