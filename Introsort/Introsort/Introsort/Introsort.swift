@@ -8,12 +8,12 @@
 
 import Foundation
 
-func insertionSort(_ array: inout [Int], left: Int, right: Int) {
-  for i in left+1...right {
+func insertionSort(_ array: inout [Int], start: Int, end: Int) {
+  for i in start+1...end {
     let element = array[i]
     var j = i-1
     
-    while j >= left && array[j] > element {
+    while j >= start && array[j] > element {
       array[j+1] = array[j]
       j -= 1
     }
@@ -52,28 +52,59 @@ func medianOfThree(_ a: Int, _ b: Int, _ c: Int) -> Int {
   }
 }
 
-func introsortUtil(_ array: inout [Int], begin: Int, end: Int, depthLimit: Int) {
-  let size = end - begin
+func heapSort(_ array: inout [Int], start: Int, end: Int) {
+  let n = end - start
   
-  guard size >= 16 else {
-    insertionSort(&array, left: begin, right: end)
+  for i in stride(from: n/2 - 1, through: 0, by: -1) {
+    makeHeap(&array, n: n, i: i)
+  }
+  
+  for i in stride(from: n-1, through: 0, by: -1) {
+    array.swapAt(0, i)
+    makeHeap(&array, n: i, i: 0)
+  }
+}
+
+func makeHeap(_ array: inout [Int], n: Int, i: Int) {
+  var largest = i
+  let l = 2*i + 1, r = 2*i + 2
+  
+  if l < n && array[l] > array[largest] {
+    largest = l
+  }
+  
+  if r < n && array[r] > array[largest] {
+    largest = r
+  }
+  
+  if largest != i {
+    array.swapAt(i, largest)
+    makeHeap(&array, n: n, i: largest)
+  }
+}
+
+func introsortUtil(_ array: inout [Int], start: Int, end: Int, size: Int, depthLimit: Int) {
+  let length = end - start
+  guard length >= size else {
+    insertionSort(&array, start: start, end: end)
     return
   }
   
   guard depthLimit > 0 else {
-    // TODO: Implement Heap Sort
+    heapSort(&array, start: start, end: end)
     return
   }
   
-  let pivot = medianOfThree(begin, begin + size/2, end)
+  let pivot = medianOfThree(start, start + length/2, end)
   array.swapAt(pivot, end)
-  let partitionPoint = partition(array: &array, low: begin, high: end)
-  introsortUtil(&array, begin: begin, end: partitionPoint-1, depthLimit: depthLimit-1)
-  introsortUtil(&array, begin: partitionPoint, end: end, depthLimit: depthLimit-1)
+  let partitionPoint = partition(array: &array, low: start, high: end)
+  introsortUtil(&array, start: start, end: partitionPoint-1, size: size, depthLimit: depthLimit-1)
+  introsortUtil(&array, start: partitionPoint, end: end, size: size, depthLimit: depthLimit-1)
 }
 
-func introsort(array: inout [Int]) {
-  let begin = 0, end = array.count - 1
-  let depthLimit = 2 * Int(log(Double(end - begin)))
-  introsortUtil(&array, begin: begin, end: end, depthLimit: depthLimit)
+func introsort(array: inout [Int], size: Int = 16, depthLimit: Int? = nil) {
+  guard array.count > 1 else { return }
+  let start = 0, end = array.count - 1
+  let depthLimit = depthLimit ?? 2 * Int(log(Double(end - start)))
+  introsortUtil(&array, start: start, end: end, size: size, depthLimit: depthLimit)
 }
