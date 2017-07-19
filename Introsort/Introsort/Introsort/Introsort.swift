@@ -8,6 +8,33 @@
 
 import Foundation
 
+func introsort(_ array: inout [Int], size: Int = 16, depthLimit: Int? = nil) {
+  guard array.count > 1 else { return }
+  let start = 0, end = array.count - 1
+  let depthLimit = depthLimit ?? 2 * Int(log(Double(end - start)))
+  introsortUtil(&array, start: start, end: end, size: size, depthLimit: depthLimit)
+}
+
+func introsortUtil(_ array: inout [Int], start: Int, end: Int, size: Int, depthLimit: Int) {
+  guard start <= end else { return }
+  let length = end - start + 1
+  guard length >= size else {
+    insertionSort(&array, start: start, end: end)
+    return
+  }
+  
+  guard depthLimit > 0 else {
+    heapSort(&array, start: start, end: end)
+    return
+  }
+  
+  let pivot = medianOfThree(start, start + length/2, end)
+  array.swapAt(pivot, end)
+  let partitionPoint = partition(array: &array, low: start, high: end)
+  introsortUtil(&array, start: start, end: partitionPoint, size: size, depthLimit: depthLimit-1)
+  introsortUtil(&array, start: partitionPoint+1, end: end, size: size, depthLimit: depthLimit-1)
+}
+
 func partition(array: inout [Int], low: Int, high: Int) -> Int {
   let pivot = array[high]
   var i = low - 1
@@ -37,30 +64,4 @@ extension Int {
   func isBetween(_ one: Int, and two: Int) -> Bool {
     return (self > one && self <= two) || (self > two && self <= one)
   }
-}
-
-func introsortUtil(_ array: inout [Int], start: Int, end: Int, size: Int, depthLimit: Int) {
-  let length = end - start
-  guard length >= size else {
-    insertionSort(&array, start: start, end: end)
-    return
-  }
-  
-  guard depthLimit > 0 else {
-    heapSort(&array, start: start, end: end)
-    return
-  }
-  
-  let pivot = medianOfThree(start, start + length/2, end)
-  array.swapAt(pivot, end)
-  let partitionPoint = partition(array: &array, low: start, high: end)
-  introsortUtil(&array, start: start, end: partitionPoint-1, size: size, depthLimit: depthLimit-1)
-  introsortUtil(&array, start: partitionPoint, end: end, size: size, depthLimit: depthLimit-1)
-}
-
-func introsort(array: inout [Int], size: Int = 16, depthLimit: Int? = nil) {
-  guard array.count > 1 else { return }
-  let start = 0, end = array.count - 1
-  let depthLimit = depthLimit ?? 2 * Int(log(Double(end - start)))
-  introsortUtil(&array, start: start, end: end, size: size, depthLimit: depthLimit)
 }

@@ -17,6 +17,7 @@
 		8B864CF31F1EEF710079181A /* HeapSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CF21F1EEF710079181A /* HeapSort.swift */; };
 		8B864CF41F1EF17B0079181A /* HeapSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CF21F1EEF710079181A /* HeapSort.swift */; };
 		8B864CF61F1F03590079181A /* HeapSortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CF51F1F03590079181A /* HeapSortTests.swift */; };
+		8B864CF81F1F243B0079181A /* IntrosortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CF71F1F243B0079181A /* IntrosortTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +42,7 @@
 		8B864CEF1F1EEBB10079181A /* InsertionSortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertionSortTests.swift; sourceTree = "<group>"; };
 		8B864CF21F1EEF710079181A /* HeapSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeapSort.swift; sourceTree = "<group>"; };
 		8B864CF51F1F03590079181A /* HeapSortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeapSortTests.swift; sourceTree = "<group>"; };
+		8B864CF71F1F243B0079181A /* IntrosortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrosortTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				8B864CE91F1EEB8C0079181A /* Info.plist */,
 				8B864CEF1F1EEBB10079181A /* InsertionSortTests.swift */,
 				8B864CF51F1F03590079181A /* HeapSortTests.swift */,
+				8B864CF71F1F243B0079181A /* IntrosortTests.swift */,
 			);
 			path = IntrosortTests;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 			files = (
 				8B864CEE1F1EEB970079181A /* InsertionSort.swift in Sources */,
 				8B864CED1F1EEB940079181A /* Introsort.swift in Sources */,
+				8B864CF81F1F243B0079181A /* IntrosortTests.swift in Sources */,
 				8B864CF11F1EEC840079181A /* main.swift in Sources */,
 				8B864CF61F1F03590079181A /* HeapSortTests.swift in Sources */,
 				8B864CF01F1EEBB10079181A /* InsertionSortTests.swift in Sources */,
