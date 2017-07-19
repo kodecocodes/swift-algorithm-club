@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		8B864CD71F1E9D790079181A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CD61F1E9D790079181A /* main.swift */; };
 		8B864CDE1F1EA3980079181A /* Introsort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CDD1F1EA3980079181A /* Introsort.swift */; };
+		8B864CE01F1EEB6C0079181A /* InsertionSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CDF1F1EEB6C0079181A /* InsertionSort.swift */; };
+		8B864CED1F1EEB940079181A /* Introsort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CDD1F1EA3980079181A /* Introsort.swift */; };
+		8B864CEE1F1EEB970079181A /* InsertionSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CDF1F1EEB6C0079181A /* InsertionSort.swift */; };
+		8B864CF01F1EEBB10079181A /* InsertionSortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CEF1F1EEBB10079181A /* InsertionSortTests.swift */; };
+		8B864CF11F1EEC840079181A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CD61F1E9D790079181A /* main.swift */; };
+		8B864CF31F1EEF710079181A /* HeapSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CF21F1EEF710079181A /* HeapSort.swift */; };
+		8B864CF41F1EF17B0079181A /* HeapSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CF21F1EEF710079181A /* HeapSort.swift */; };
+		8B864CF61F1F03590079181A /* HeapSortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B864CF51F1F03590079181A /* HeapSortTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,10 +35,23 @@
 		8B864CD31F1E9D790079181A /* Introsort */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Introsort; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B864CD61F1E9D790079181A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8B864CDD1F1EA3980079181A /* Introsort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Introsort.swift; sourceTree = "<group>"; };
+		8B864CDF1F1EEB6C0079181A /* InsertionSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertionSort.swift; sourceTree = "<group>"; };
+		8B864CE51F1EEB8B0079181A /* IntrosortTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntrosortTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B864CE91F1EEB8C0079181A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8B864CEF1F1EEBB10079181A /* InsertionSortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertionSortTests.swift; sourceTree = "<group>"; };
+		8B864CF21F1EEF710079181A /* HeapSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeapSort.swift; sourceTree = "<group>"; };
+		8B864CF51F1F03590079181A /* HeapSortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeapSortTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		8B864CD01F1E9D790079181A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B864CE21F1EEB8B0079181A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -44,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				8B864CD51F1E9D790079181A /* Introsort */,
+				8B864CE61F1EEB8C0079181A /* IntrosortTests */,
 				8B864CD41F1E9D790079181A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				8B864CD31F1E9D790079181A /* Introsort */,
+				8B864CE51F1EEB8B0079181A /* IntrosortTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,8 +84,20 @@
 			children = (
 				8B864CD61F1E9D790079181A /* main.swift */,
 				8B864CDD1F1EA3980079181A /* Introsort.swift */,
+				8B864CDF1F1EEB6C0079181A /* InsertionSort.swift */,
+				8B864CF21F1EEF710079181A /* HeapSort.swift */,
 			);
 			path = Introsort;
+			sourceTree = "<group>";
+		};
+		8B864CE61F1EEB8C0079181A /* IntrosortTests */ = {
+			isa = PBXGroup;
+			children = (
+				8B864CE91F1EEB8C0079181A /* Info.plist */,
+				8B864CEF1F1EEBB10079181A /* InsertionSortTests.swift */,
+				8B864CF51F1F03590079181A /* HeapSortTests.swift */,
+			);
+			path = IntrosortTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -85,6 +120,23 @@
 			productReference = 8B864CD31F1E9D790079181A /* Introsort */;
 			productType = "com.apple.product-type.tool";
 		};
+		8B864CE41F1EEB8B0079181A /* IntrosortTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B864CEA1F1EEB8C0079181A /* Build configuration list for PBXNativeTarget "IntrosortTests" */;
+			buildPhases = (
+				8B864CE11F1EEB8B0079181A /* Sources */,
+				8B864CE21F1EEB8B0079181A /* Frameworks */,
+				8B864CE31F1EEB8B0079181A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IntrosortTests;
+			productName = IntrosortTests;
+			productReference = 8B864CE51F1EEB8B0079181A /* IntrosortTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -96,6 +148,9 @@
 				ORGANIZATIONNAME = Richard;
 				TargetAttributes = {
 					8B864CD21F1E9D790079181A = {
+						CreatedOnToolsVersion = 9.0;
+					};
+					8B864CE41F1EEB8B0079181A = {
 						CreatedOnToolsVersion = 9.0;
 					};
 				};
@@ -113,17 +168,43 @@
 			projectRoot = "";
 			targets = (
 				8B864CD21F1E9D790079181A /* Introsort */,
+				8B864CE41F1EEB8B0079181A /* IntrosortTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8B864CE31F1EEB8B0079181A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8B864CCF1F1E9D790079181A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B864CE01F1EEB6C0079181A /* InsertionSort.swift in Sources */,
 				8B864CDE1F1EA3980079181A /* Introsort.swift in Sources */,
 				8B864CD71F1E9D790079181A /* main.swift in Sources */,
+				8B864CF31F1EEF710079181A /* HeapSort.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B864CE11F1EEB8B0079181A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B864CEE1F1EEB970079181A /* InsertionSort.swift in Sources */,
+				8B864CED1F1EEB940079181A /* Introsort.swift in Sources */,
+				8B864CF11F1EEC840079181A /* main.swift in Sources */,
+				8B864CF61F1F03590079181A /* HeapSortTests.swift in Sources */,
+				8B864CF01F1EEBB10079181A /* InsertionSortTests.swift in Sources */,
+				8B864CF41F1EF17B0079181A /* HeapSort.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +335,32 @@
 			};
 			name = Release;
 		};
+		8B864CEB1F1EEB8C0079181A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 865G532M4D;
+				INFOPLIST_FILE = IntrosortTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.richardash.IntrosortTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		8B864CEC1F1EEB8C0079181A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 865G532M4D;
+				INFOPLIST_FILE = IntrosortTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.richardash.IntrosortTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -271,6 +378,14 @@
 			buildConfigurations = (
 				8B864CDB1F1E9D790079181A /* Debug */,
 				8B864CDC1F1E9D790079181A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		8B864CEA1F1EEB8C0079181A /* Build configuration list for PBXNativeTarget "IntrosortTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B864CEB1F1EEB8C0079181A /* Debug */,
+				8B864CEC1F1EEB8C0079181A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

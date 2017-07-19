@@ -8,19 +8,6 @@
 
 import Foundation
 
-func insertionSort(_ array: inout [Int], start: Int, end: Int) {
-  for i in start+1...end {
-    let element = array[i]
-    var j = i-1
-    
-    while j >= start && array[j] > element {
-      array[j+1] = array[j]
-      j -= 1
-    }
-    array[j+1] = element
-  }
-}
-
 func partition(array: inout [Int], low: Int, high: Int) -> Int {
   let pivot = array[high]
   var i = low - 1
@@ -37,49 +24,18 @@ func partition(array: inout [Int], low: Int, high: Int) -> Int {
 }
 
 func medianOfThree(_ a: Int, _ b: Int, _ c: Int) -> Int {
-  if a > b && a <= c {
+  if a.isBetween(b, and: c) {
     return a
-  } else if a > c && a <= b {
-    return a
-  } else if b > a && b <= c {
+  } else if b.isBetween(a, and: c) {
     return b
-  } else if b > c && b <= a {
-    return b
-  } else if c > a && c <= b {
-    return c
   } else {
     return c
   }
 }
 
-func heapSort(_ array: inout [Int], start: Int, end: Int) {
-  let n = end - start
-  
-  for i in stride(from: n/2 - 1, through: 0, by: -1) {
-    makeHeap(&array, n: n, i: i)
-  }
-  
-  for i in stride(from: n-1, through: 0, by: -1) {
-    array.swapAt(0, i)
-    makeHeap(&array, n: i, i: 0)
-  }
-}
-
-func makeHeap(_ array: inout [Int], n: Int, i: Int) {
-  var largest = i
-  let l = 2*i + 1, r = 2*i + 2
-  
-  if l < n && array[l] > array[largest] {
-    largest = l
-  }
-  
-  if r < n && array[r] > array[largest] {
-    largest = r
-  }
-  
-  if largest != i {
-    array.swapAt(i, largest)
-    makeHeap(&array, n: n, i: largest)
+extension Int {
+  func isBetween(_ one: Int, and two: Int) -> Bool {
+    return (self > one && self <= two) || (self > two && self <= one)
   }
 }
 
