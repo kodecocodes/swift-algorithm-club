@@ -9,13 +9,13 @@
 import Foundation
 
 func heapSort(_ array: inout [Int], start: Int, end: Int) {
-  let n = end - start
+  let n = end - start + 1
   
-  for i in stride(from: n/2 - 1, through: 0, by: -1) {
+  for i in stride(from: start + (n/2 - 1), through: start, by: -1) {
     makeHeap(&array, n: n, i: i)
   }
   
-  for i in stride(from: n-1, through: 0, by: -1) {
+  for i in stride(from: end, through: start, by: -1) {
     array.swapAt(0, i)
     makeHeap(&array, n: i, i: 0)
   }
