@@ -1,14 +1,13 @@
 # LRU Cache
 
-[Least Recently Used][1] (LRU) is a popular algorithm in cache design. Here, we will try to write this algorithm ourselves.
-It should support the 2 operations: `get(key)` and `set(key, value)`.
+Caches are used to hold objects in memory. A caches size is finite; If the system doesn't have enough memory, the cache must be purged or the program will crash. [Least Recently Used][1] (LRU) is a popular algorithm in cache design. The idea is simple: In low memory situations, the oldest used member of the cache will be purged. A *priority queue* is used to enforce this behavior.
 
-## Solution
-The key point in this algorithm is how to  maintain a priority queue when we do `get` and `set`.  Let’s say we have `priority` list, the priority is ranked from high to low. So, head has the highest priority and tail has the lowest priority. 
+## The priority queue
 
-There will be 2 key operations related to this queue. 
-* Remove element
-* Insert element
+The key to the LRU cache is the priority queue. For simplicity, you'll model the queue using a linked list. All interactions with the LRU cache should respect this queue; Calling `get` and `set` should update the priority queue to reflect the most recently accessed element.
+
+
+### Operations
 
 Each time we access an element, either `set` or `get` we need to insert the element in the head of priority list. The `insert` operation will be look like this.
 
@@ -19,7 +18,7 @@ private func insert(_ key: KeyType, val: Any) {
 	guard let first = priority.first else {
 		return
 	}
-	key2node[key]() = first
+	key2node[key] = first
 }
 ```
 
