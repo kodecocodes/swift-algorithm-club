@@ -35,11 +35,13 @@ private func remove(_ key: KeyType) {
 }
 ```
 
+### Optimizing Performance
 
-Other hard part in this problem is usually find the element in the list will cost `O(n)` time. So, that's the bottleneck for `set` and `get` . It could slow down the whole cache alorightm. Is there a way to reduce this time complexity? The key idea here is to find a way to look up the element in the list fast. So, how about record the element position in the list. Then each time we just ask this record data structe to give us the element position in the list. So, that will be `O(1)` time, right? Aha, you got it. Which kind of data structe will have `O(1)` time? It's hash table. So, we use hash table to maintain the node's position. Here is the code.
+Removing elements from the priority queue is a frequent operation for the LRU cache. Since priority queue is modelled using a linked list, this is an expensive operation that costs `O(n)` time. This is the bottleneck for both the `set` and `get` methods.
 
-```swift
-private var priority: LinkedList<KeyType> = LinkedList<KeyType>()
+To help alleviate this problem, a hash table is used to store the references of each node:
+
+```
 private var key2node: [KeyType: LinkedList<KeyType>.LinkedListNode<KeyType>] = [:]
 ```
 
