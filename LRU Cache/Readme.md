@@ -28,7 +28,7 @@ private func insert(_ key: KeyType, val: Any) {
 
 #### Purging the cache
 
-When the cahce is full, a purge must take place starting with the least recently used element. In this case, we need to `remove` the lowest priority node. The operation is like this:
+When the cache is full, a purge must take place starting with the least recently used element. In this case, we need to `remove` the lowest priority node. The operation is like this:
 
 ```swift
 private func remove(_ key: KeyType) {
