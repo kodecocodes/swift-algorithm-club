@@ -1,15 +1,19 @@
 # LRU Cache
 
-Caches are used to hold objects in memory. A caches size is finite; If the system doesn't have enough memory, the cache must be purged or the program will crash. [Least Recently Used][1] (LRU) is a popular algorithm in cache design. The idea is simple: In low memory situations, the oldest used member of the cache will be purged. A *priority queue* is used to enforce this behavior.
+Caches are used to hold objects in memory. A caches size is finite; If the system doesn't have enough memory, the cache must be purged or the program will crash. [Least Recently Used][1] (LRU) is a popular algorithm in cache design.
+
+In this implementation of the LRU Cache, a size is declared during instantiation, and any insertions that go beyond the size will purge the least recently used element of the cache. A *priority queue* is used to enforce this behavior.
 
 ## The priority queue
 
 The key to the LRU cache is the priority queue. For simplicity, you'll model the queue using a linked list. All interactions with the LRU cache should respect this queue; Calling `get` and `set` should update the priority queue to reflect the most recently accessed element.
 
+### Interesting tidbits
 
-### Operations
 
-Each time we access an element, either `set` or `get` we need to insert the element in the head of priority list. The `insert` operation will be look like this.
+#### Adding values
+
+Each time we access an element, either `set` or `get` we need to insert the element in the head of priority list. We use a helper method to handle this procedure:
 
 ```swift
 private func insert(_ key: KeyType, val: Any) {
@@ -22,7 +26,9 @@ private func insert(_ key: KeyType, val: Any) {
 }
 ```
 
-Each time, when we `set`, the cache size maybe already full. In this case, we need to `remove` the lowest priority node. The operation is like this.
+#### Purging the cache
+
+When the cahce is full, a purge must take place starting with the least recently used element. In this case, we need to `remove` the lowest priority node. The operation is like this:
 
 ```swift
 private func remove(_ key: KeyType) {
