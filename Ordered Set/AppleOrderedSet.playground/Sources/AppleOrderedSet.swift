@@ -69,4 +69,8 @@ public class AppleOrderedSet<T: Hashable> {
             indexOfKey[objects[i]] = i
         }
     }
+    
+    public func all() -> [T] {
+        return objects
+    }
 }

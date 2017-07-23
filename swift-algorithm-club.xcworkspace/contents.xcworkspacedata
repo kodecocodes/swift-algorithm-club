@@ -1808,16 +1808,16 @@
       location = "group:Ordered Set"
       name = "Ordered Set">
       <FileRef
-         location = "group:OrderedSet.playground">
-      </FileRef>
-      <FileRef
-         location = "group:OrderedSet.swift">
+         location = "group:AppleOrderedSet.playground">
       </FileRef>
       <FileRef
          location = "group:AppleOrderedSet.swift">
       </FileRef>
       <FileRef
-         location = "group:AppleOrderedSet.playground">
+         location = "group:OrderedSet.playground">
+      </FileRef>
+      <FileRef
+         location = "group:OrderedSet.swift">
       </FileRef>
       <FileRef
          location = "group:README.markdown">
