@@ -26,6 +26,19 @@
       location = "group:Why Algorithms.markdown">
    </FileRef>
    <Group
+      location = "container:"
+      name = "Typeahead">
+      <FileRef
+         location = "group:Typeahead/Typeahead.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Typeahead/PrefixHashTable.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Typeahead/BruteForce.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Miller-Rabin Primality Test"
       name = "Miller-Rabin Primality Test">
       <Group
