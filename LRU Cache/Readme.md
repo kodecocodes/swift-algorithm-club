@@ -43,7 +43,7 @@ private var priority: LinkedList<KeyType> = LinkedList<KeyType>()
 private var key2node: [KeyType: LinkedList<KeyType>.LinkedListNode<KeyType>] = [:]
 ```
 
-
+*Written for the Swift Algorithm Club by Kai Chen, with additions by Kelvin Lau*
 
 
 [1]:	https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU
