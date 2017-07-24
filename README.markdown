@@ -114,6 +114,7 @@ Bad sorting algorithms (don't use these!):
 - Logistic Regression
 - Neural Networks
 - PageRank
+- [Naive Bayes Classifier](Naive%20Bayes%20Classifier/)
 
 ## Data structures
 
