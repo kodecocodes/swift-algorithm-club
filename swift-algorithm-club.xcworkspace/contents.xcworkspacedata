@@ -119,15 +119,21 @@
    </Group>
    <Group
       location = "container:"
-      name = "LRU Cache">
+      name = "LRU and LFU Cache">
       <FileRef
-         location = "group:LRU Cache/LRUCache.playground">
+         location = "group:LRU and LFU Cache/LFUCache.playground">
       </FileRef>
       <FileRef
-         location = "group:LRU Cache/LRUCache.swift">
+         location = "group:LRU and LFU Cache/LFUCache.swift">
       </FileRef>
       <FileRef
-         location = "group:LRU Cache/Readme.md">
+         location = "group:LRU and LFU Cache/LRUCache.playground">
+      </FileRef>
+      <FileRef
+         location = "group:LRU and LFU Cache/LRUCache.swift">
+      </FileRef>
+      <FileRef
+         location = "group:LRU and LFU Cache/Readme.md">
       </FileRef>
    </Group>
    <Group
