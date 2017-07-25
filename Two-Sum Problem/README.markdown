@@ -1,7 +1,5 @@
 # Two-Sum Problem
 
-### About to be edited for Swift 4 woohoo!
-
 You're given an array `a` with numbers. Write an algorithm that checks if there are any two entries in the array that add up to a given number `k`. In other words, is there any `a[i] + a[j] == k`?
 
 There are a variety of solutions to this problem (some better than others). The following solutions both run in **O(n)** time.
