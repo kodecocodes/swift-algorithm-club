@@ -136,7 +136,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 
 ### Queues
 
-- [Stack](Stack/). Last-in, first-out!
+- [Stack](Stack/). Last-in, first-out! (updated to Swift 4)
 - [Queue](Queue/). First-in, first-out!
 - [Deque](Deque/). A double-ended queue.
 - [Priority Queue](Priority%20Queue). A queue where the most important element is always at the front.
