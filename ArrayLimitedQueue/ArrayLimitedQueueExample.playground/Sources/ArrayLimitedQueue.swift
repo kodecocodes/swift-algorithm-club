@@ -6,10 +6,10 @@
 //
 
 /*
-Array Limited Queue is a collection that has the features
+ Array Limited Queue is a collection that has the features
  of a regular array (only get + limited size), queues and sets.
  The way you value and compare items can be user-defined.
-*/
+ */
 
 import Foundation
 
@@ -18,45 +18,48 @@ public struct ArrayLimitedQueue<T: Comparable> {
     //The maximum number of items in the collection. Can be changed after
     public var maxStoredItems: Int = 1 {
         didSet {
-            let sizeDiff = internalArray.count - maxStoredItems
-            if 0 < sizeDiff && sizeDiff <= internalArray.count {
-                internalArray.removeFirst(sizeDiff)
-            }
-        }
-    }
-    /*
-    This property determines which elements can be in the collection.
-    After the change from true to false. Negative values will be deleted
-    Note: When using custom types, you need to set the zeroValue.
-     */
-    public var zeroValue:T? = 0 as? T
-    public var positiveValues: Bool = false {
-        didSet {
-            if positiveValues {
-                
-                if let zero = zeroValue {
-                internalArray = internalArray.filter{$0 > zero}.map{ $0 }
-                    
-                } else {
-                    fatalError("A zeroValue is not setted")
+            let sizeDiff = list.count - maxStoredItems
+            if 0 < sizeDiff && sizeDiff <= list.count {
+                for _ in 0 ... sizeDiff {
+                    list.remove(atIndex: 0)
                 }
             }
         }
     }
     
+    //    /*
+    //    This property determines which elements can be in the collection.
+    //    After the change from true to false. Negative values will be deleted
+    //    Note: When using custom types, you need to set the zeroValue.
+    //     */
+    //    public var zeroValue:T? = 0 as? T
+    //    public var positiveValues: Bool = false {
+    //        didSet {
+    //            if positiveValues {
+    //
+    //                if let zero = zeroValue {
+    //                internalArray = internalArray.filter{$0 > zero}.map{ $0 }
+    //
+    //                } else {
+    //                    fatalError("A zeroValue is not setted")
+    //                }
+    //            }
+    //        }
+    //    }
+    
     /*
-     Specifies whether to remove duplicates from the collection. 
+     Specifies whether to remove duplicates from the collection.
      When a copy is found, it leaves the last value.
      */
     public var deleteExisting = true {
         didSet {
             if deleteExisting {
-                for i in stride(from: internalArray.count - 1, to: 0, by: -1) {
-
+                for i in stride(from: list.count - 1, to: 0, by: -1) {
+                    
                     for j in stride(from: i - 1, to: 0, by: -1) {
                         
-                        if internalArray[i] == internalArray[j] {
-                            internalArray.remove(at: j)
+                        if list[i] == list[j] {
+                            list.remove(atIndex: j)
                         }
                     }
                 }
@@ -64,29 +67,33 @@ public struct ArrayLimitedQueue<T: Comparable> {
         }
     }
     
-    public var array: [T] {
-        return internalArray
-    }
-    private var internalArray = [T]()
+    public var list = LinkedList<T>()
+    
+    //    public var array: [T] {
+    //        return internalArray
+    //    }
+    //    private var internalArray = [T]()
     
     public var isEmpty: Bool {
-        return count == 0
+        return list.isEmpty
+        //return count == 0
     }
     
     // Returns the number of elements in the collection.
     public var count: Int {
-        return internalArray.count
+        return list.count
+        //return internalArray.count
     }
     
-    // Returns the 'maximum' or 'largest' value in the collection.
-    public var maxValue: T? {
-        return internalArray.max()
-    }
-    
-    // Returns the 'minimum' or 'smallest' value in the collection.
-    public var minValue: T? {
-        return internalArray.min()
-    }
+    //    // Returns the 'maximum' or 'largest' value in the collection.
+    //    public var maxValue: T? {
+    //        return internalArray.max()
+    //    }
+    //
+    //    // Returns the 'minimum' or 'smallest' value in the collection.
+    //    public var minValue: T? {
+    //        return internalArray.min()
+    //    }
     
     public init() {}
     
@@ -96,17 +103,19 @@ public struct ArrayLimitedQueue<T: Comparable> {
         // If the element exists and the property(deleteExisting) is true,
         // the re-inserted element is removed from the collection
         if let index = indexOf(item: item), deleteExisting {
-            return internalArray.remove(at: index)
+            return list.remove(atIndex: index)
+            //return internalArray.remove(at: index)
         }
         
-        if positiveValues {
-            
-            guard let zero = zeroValue, zero < item else {
-                return nil
-            }
-        }
+        //        if positiveValues {
+        //
+        //            guard let zero = zeroValue, zero < item else {
+        //                return nil
+        //            }
+        //        }
         
-        internalArray.append(item)
+        list.append(item)
+        //internalArray.append(item)
         
         return self.checkSize()
     }
@@ -116,13 +125,18 @@ public struct ArrayLimitedQueue<T: Comparable> {
     public func removableItems(forMaxSize size: Int) -> [T] {
         
         var deletingArray = [T]()
+        
         var removingIndex = 0
         
-        var sizeDiff = internalArray.count - size
+        //var sizeDiff = internalArray.count - size
+        var sizeDiff = list.count - size
         
         while sizeDiff > 0 {
             
-            deletingArray.append(internalArray[removingIndex])
+            if let value = list.node(atIndex: removingIndex)?.value {
+                deletingArray.append(value)
+            }
+            //deletingArray.append(internalArray[removingIndex])
             removingIndex += 1
             sizeDiff -= 1
         }
@@ -134,13 +148,13 @@ public struct ArrayLimitedQueue<T: Comparable> {
     private mutating func checkSize() -> T? {
         
         guard
-            0 < maxStoredItems && maxStoredItems < internalArray.count,
-            let first = internalArray.first
-        else {
-            return nil
+            0 < maxStoredItems && maxStoredItems < list.count,
+            let first = list.first?.value
+            else {
+                return nil
         }
         
-        internalArray.removeFirst()
+        list.remove(atIndex: 0)
         return first
     }
     
@@ -151,17 +165,19 @@ public struct ArrayLimitedQueue<T: Comparable> {
     
     //Returns the index of an item if it exists
     public func indexOf(item: T) -> Int? {
-        return internalArray.index(of: item)
+        return list.index(of: item)
     }
     
     public mutating func removeAllItems() {
-        internalArray.removeAll()
+        list.removeAll()
     }
     
     // Returns the item at the given index.
     // Assertion fails if the index is out of the range of [0, count).
     public subscript(index: Int) -> T {
         assert(index >= 0 && index < count)
-        return internalArray[index]
+        return list[index]
     }
 }
+
+
