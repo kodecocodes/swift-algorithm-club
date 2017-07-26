@@ -19,7 +19,7 @@ public class Dijkstra {
         var currentVertex: Vertex? = startVertex
         while let vertex = currentVertex {
             currentVertices.remove(vertex)
-            let filteredNeighbors = vertex.neighbors.filter { totalVertices.contains($0.0) }
+            let filteredNeighbors = vertex.neighbors.filter { currentVertices.contains($0.0) }
             for neighbor in filteredNeighbors {
                 let neighborVertex = neighbor.0
                 let weight = neighbor.1
@@ -31,11 +31,11 @@ public class Dijkstra {
                     neighborVertex.pathVerticesFromStart.append(neighborVertex)
                 }
             }
-            if totalVertices.isEmpty {
+            if currentVertices.isEmpty {
                 currentVertex = nil
                 break
             }
-            currentVertex = totalVertices.min { $0.pathLengthFromStart < $1.pathLengthFromStart }
+            currentVertex = currentVertices.min { $0.pathLengthFromStart < $1.pathLengthFromStart }
         }
     }
 }
