@@ -27,6 +27,19 @@
    </FileRef>
    <Group
       location = "container:"
+      name = "Prime">
+      <FileRef
+         location = "group:Prime/Prime.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Prime/Prime.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Prime/Readme.md">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "LRU Cache">
       <FileRef
          location = "group:LRU Cache/LRUCache.playground">
