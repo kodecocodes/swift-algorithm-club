@@ -1,4 +1,8 @@
 //: Playground - noun: a place where people can play
+// Last checked with: Version 9.0 beta 4 (9M189t)
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
 
 func twoSumProblem(_ a: [Int], k: Int) -> ((Int, Int))? {
   var map = [Int: Int]()
