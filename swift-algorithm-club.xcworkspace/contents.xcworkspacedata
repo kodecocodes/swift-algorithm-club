@@ -27,6 +27,22 @@
    </FileRef>
    <Group
       location = "container:"
+      name = "Tree Set">
+      <FileRef
+         location = "group:Tree Set/TreeSet.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Tree Set/TreeSet.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Tree Set/RedBlackTree.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Tree Set/Readme.md">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "LRU Cache">
       <FileRef
          location = "group:LRU Cache/LRUCache.playground">
