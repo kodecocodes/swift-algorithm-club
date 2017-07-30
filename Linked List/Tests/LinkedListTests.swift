@@ -11,6 +11,13 @@ class LinkedListTest: XCTestCase {
     return list
   }
 
+  func testSwift4() {
+    // last checked with Xcode 9.0b4
+    #if swift(>=4.0)
+      print("Hello, Swift 4!")
+    #endif
+  }
+
   func testEmptyList() {
     let list = LinkedList<Int>()
     XCTAssertTrue(list.isEmpty)
