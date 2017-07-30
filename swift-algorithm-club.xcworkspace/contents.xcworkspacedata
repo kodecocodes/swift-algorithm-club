@@ -27,6 +27,19 @@
    </FileRef>
    <Group
       location = "container:"
+      name = "Merge K Sorted List">
+      <FileRef
+         location = "group:Merge K Sorted List/MergeKSortedList.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Merge K Sorted List/MergeKSortedList.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Merge K Sorted List/Readme.md">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "LRU Cache">
       <FileRef
          location = "group:LRU Cache/LRUCache.playground">
