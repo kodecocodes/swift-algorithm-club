@@ -12,6 +12,11 @@ class CombSortTests: XCTestCase {
     var sequence: [Int]!
     let expectedSequence: [Int] = [-12, -10, -1, 2, 9, 32, 55, 67, 89, 101]
 
+    func testSwift4(){
+        #if swift(>=4.0)
+            print("Hello, Swift 4!")
+        #endif
+    }
     override func setUp() {
         super.setUp()
         sequence = [2, 32, 9, -1, 89, 101, 55, -10, -12, 67]

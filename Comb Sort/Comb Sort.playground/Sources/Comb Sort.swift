@@ -21,7 +21,7 @@ public func combSort<T: Comparable>(_ input: [T]) -> [T] {
         var index = 0
         while !(index + gap >= copy.count) {
             if copy[index] > copy[index + gap] {
-                swap(&copy[index], &copy[index + gap])
+               copy.swapAt(index, index + gap)
             }
             index += 1
         }
