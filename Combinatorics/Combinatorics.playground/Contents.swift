@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 /* Calculates n! */
 func factorial(_ n: Int) -> Int {
   var n = n
@@ -44,9 +49,9 @@ func permuteWirth<T>(_ a: [T], _ n: Int) {
     var a = a
     permuteWirth(a, n - 1)
     for i in 0..<n {
-      swap(&a[i], &a[n])
+      a.swapAt(i, n)
       permuteWirth(a, n - 1)
-      swap(&a[i], &a[n])
+      a.swapAt(i, n)
     }
   }
 }
