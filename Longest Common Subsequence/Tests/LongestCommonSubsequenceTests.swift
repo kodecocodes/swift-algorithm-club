@@ -3,6 +3,12 @@ import XCTest
 
 class LongestCommonSubsequenceTests: XCTestCase {
 
+    func testSwift4(){
+        #if swift(>=4.0)
+        print("Hello, Swift 4!")
+        #endif
+    }
+    
     func testLCSwithSelfIsSelf() {
         let a = "ABCDE"
 
