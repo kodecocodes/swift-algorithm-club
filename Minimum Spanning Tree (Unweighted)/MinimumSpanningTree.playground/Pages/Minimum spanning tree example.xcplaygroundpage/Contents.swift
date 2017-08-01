@@ -1,29 +1,34 @@
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 func breadthFirstSearchMinimumSpanningTree(_ graph: Graph, source: Node) -> Graph {
-  let minimumSpanningTree = graph.duplicate()
-
-  var queue = Queue<Node>()
-  let sourceInMinimumSpanningTree = minimumSpanningTree.findNodeWithLabel(source.label)
-  queue.enqueue(sourceInMinimumSpanningTree)
-  sourceInMinimumSpanningTree.visited = true
-
-  while let current = queue.dequeue() {
-    for edge in current.neighbors {
-      let neighborNode = edge.neighbor
-      if !neighborNode.visited {
-        neighborNode.visited = true
-        queue.enqueue(neighborNode)
-      } else {
-        current.remove(edge)
-      }
+    let minimumSpanningTree = graph.duplicate()
+    
+    var queue = Queue<Node>()
+    let sourceInMinimumSpanningTree = minimumSpanningTree.findNodeWithLabel(source.label)
+    queue.enqueue(sourceInMinimumSpanningTree)
+    sourceInMinimumSpanningTree.visited = true
+    
+    while let current = queue.dequeue() {
+        for edge in current.neighbors {
+            let neighborNode = edge.neighbor
+            if !neighborNode.visited {
+                neighborNode.visited = true
+                queue.enqueue(neighborNode)
+            } else {
+                current.remove(edge)
+            }
+        }
     }
-  }
-
-  return minimumSpanningTree
+    
+    return minimumSpanningTree
 }
 
 /*:
-![Graph](Minimum_Spanning_Tree.png)
-*/
+ ![Graph](Minimum_Spanning_Tree.png)
+ */
 
 let graph = Graph()
 
