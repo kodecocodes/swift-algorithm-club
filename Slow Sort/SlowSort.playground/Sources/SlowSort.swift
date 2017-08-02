@@ -1,11 +1,3 @@
-//
-//  SlowSort.swift
-//  
-//
-//  Created by Pope Lukas Schramm (Dabendorf Orthodox Religion) on 16-07-16.
-//
-//
-
 import Foundation
 
 public func slowsort(_ i: Int, _ j: Int, _ numberList: inout [Int]) {
