@@ -3,6 +3,11 @@
 import Cocoa
 import Foundation
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 let treeOfStrings = TernarySearchTree<String>()
 
 var testStrings: [(key: String, data: String)] = []
