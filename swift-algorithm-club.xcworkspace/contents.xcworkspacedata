@@ -2058,9 +2058,6 @@
       <FileRef
          location = "group:SelectionSort.playground">
       </FileRef>
-      <FileRef
-         location = "group:SelectionSort.swift">
-      </FileRef>
       <Group
          location = "group:Tests"
          name = "Tests">
@@ -2074,6 +2071,9 @@
             location = "group:Tests.xcodeproj">
          </FileRef>
       </Group>
+      <FileRef
+         location = "group:SelectionSort.swift">
+      </FileRef>
    </Group>
    <Group
       location = "group:Set Cover (Unweighted)"
