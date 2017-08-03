@@ -37,4 +37,3 @@ public func shuffledArray(_ n: Int) -> [Int] {
   }
   return a
 }
-

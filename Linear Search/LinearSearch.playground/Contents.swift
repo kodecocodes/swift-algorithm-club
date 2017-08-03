@@ -6,10 +6,10 @@ print("Hello, Swift 4!")
 #endif
 
 func linearSearch<T: Equatable>(_ array: [T], _ object: T) -> Int? {
-  for (index, obj) in array.enumerated() where obj == object {
-    return index
-  }
-  return nil
+    for (index, obj) in array.enumerated() where obj == object {
+        return index
+    }
+    return nil
 }
 
 let array = [5, 2, 4, 7]
