@@ -1822,7 +1822,7 @@
             location = "group:SortingTestHelpers.swift">
          </FileRef>
          <FileRef
-            location = "group:Tests.xcodeproj">
+            location = "group:/Users/danielstokowski/Documents/GitHub/swift-algorithm-club/Quicksort/Tests/Tests(quicksort).xcodeproj">
          </FileRef>
       </Group>
    </Group>
