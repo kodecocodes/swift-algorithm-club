@@ -1070,6 +1070,29 @@
       </FileRef>
    </Group>
    <Group
+      location = "group:Hashed Heap"
+      name = "Hashed Heap">
+      <FileRef
+         location = "group:HashedHeap.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:HashedHeapTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/al/dev/swift-algorithm-club/Hashed Heap/Tests/Hashed Heap Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
       location = "group:HaversineDistance"
       name = "HaversineDistance">
       <FileRef
