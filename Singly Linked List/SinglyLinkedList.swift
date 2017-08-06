@@ -82,15 +82,6 @@ public struct SinglyLinkedList<T> {
   
   // MARK: INITIALIZERS
   
-  /// Creates a list with a single element
-  ///
-  /// - Parameter value: element to populate the list with
-  public init(value: T) {
-    self.init()
-    self.append(value: value)
-  }
-  
-  
   /// Creates an empty list
   public init() {
     self.storage = IndirectStorage()
