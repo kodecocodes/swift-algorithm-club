@@ -453,4 +453,16 @@ let collection: LinkedList<Int> = [1, 2, 3, 4, 5]
 let index2 = collection.index(collection.startIndex, offsetBy: 2)
 let value = collection[index2] // 3
 
+// Iterating in a for loop, since the Sequence protocol allows this.
+var sum = 0
+for element in collection {
+  sum += element
+}
+// sum is 15
+
+// Another way of achieving the same result though 'reduce', another method defined in an extension of Sequence. Collections are Sequences.
+let result = collection.reduce(0) {$0 + $1} // 15
+
+
+
 
