@@ -414,42 +414,6 @@ extension SinglyLinkedList : Collection {
 
 
 
-// MARK: - QUEUE -
-
-extension SinglyLinkedList : Queue
-{
-    typealias Item = T
-    
-    /// Returns the oldest element in the queue.
-    ///
-    /// - Returns: The oldest element in the queue. It does not dequeue it.
-    func getFirst() -> T? {
-        return self.storage.head?.value
-    }
-    
-    /// Adds an element to the queue
-    ///
-    /// - Parameter item: Item to be added
-    /// - Throws: There are cases where the operation might fail. For example if there is not enough space.
-    mutating func enqueue(item: T) throws {
-        self.append(node: SinglyLinkedListNode<T>(value: item))
-    }
-    
-    /// Dequeues the oldest element in the queue.
-    ///
-    /// - Returns: The oldest element in the queue, which gets removed from it.
-    mutating func dequeue() -> T?
-    {
-        guard self.count > 0 else {
-            return nil
-        }
-        
-        return self.deleteItem(at: 0)
-    }
-}
-
-
-
 // MARK: - EXPRESSIBLE-BY-ARRAY-LITERAL -
 
 extension SinglyLinkedList : ExpressibleByArrayLiteral

@@ -248,39 +248,3 @@ class SinglyLinkedListTests: XCTestCase {
     }
     
 }
-
-class SinglyLinkedListQueueTests: XCTestCase {
-    
-    func testQueue() {
-        var queue = SinglyLinkedList<Int>()
-        
-        try! queue.enqueue(item: 1)
-        XCTAssertTrue(queue.getFirst()! == 1)
-        XCTAssertTrue(queue.count == 1)
-        
-        try! queue.enqueue(item: 2)
-        XCTAssertTrue(queue.getFirst()! == 1)
-        XCTAssertTrue(queue.count == 2)
-        
-        try! queue.enqueue(item: 3)
-        XCTAssertTrue(queue.getFirst()! == 1)
-        XCTAssertTrue(queue.count == 3)
-        
-        XCTAssertTrue(queue.dequeue() == 1)
-        XCTAssertTrue(queue.count == 2)
-        
-        XCTAssertTrue(queue.dequeue() == 2)
-        XCTAssertTrue(queue.count == 1)
-        
-        XCTAssertTrue(queue.dequeue() == 3)
-        XCTAssertTrue(queue.count == 0)
-        
-        XCTAssertTrue(queue.dequeue() == nil)
-        XCTAssertTrue(queue.count == 0)
-        
-        try! queue.enqueue(item: 9)
-        XCTAssertTrue(queue.getFirst()! == 9)
-        XCTAssertTrue(queue.count == 1)
-        
-    }
-}

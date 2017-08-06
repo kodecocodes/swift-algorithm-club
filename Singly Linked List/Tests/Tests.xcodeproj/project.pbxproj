@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		006104711F361359007A6F50 /* SinglyLinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006104701F361359007A6F50 /* SinglyLinkedListTests.swift */; };
 		006104791F36144E007A6F50 /* KeyValuePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006104761F36144E007A6F50 /* KeyValuePair.swift */; };
-		0061047A1F36144E007A6F50 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006104771F36144E007A6F50 /* Queue.swift */; };
 		0061047B1F36144E007A6F50 /* SinglyLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006104781F36144E007A6F50 /* SinglyLinkedList.swift */; };
 /* End PBXBuildFile section */
 
@@ -18,7 +17,6 @@
 		006104701F361359007A6F50 /* SinglyLinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglyLinkedListTests.swift; sourceTree = "<group>"; };
 		006104721F361359007A6F50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		006104761F36144E007A6F50 /* KeyValuePair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyValuePair.swift; path = ../../KeyValuePair.swift; sourceTree = "<group>"; };
-		006104771F36144E007A6F50 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Queue.swift; path = ../../Queue.swift; sourceTree = "<group>"; };
 		006104781F36144E007A6F50 /* SinglyLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SinglyLinkedList.swift; path = ../../SinglyLinkedList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -54,7 +52,6 @@
 			children = (
 				006104701F361359007A6F50 /* SinglyLinkedListTests.swift */,
 				006104761F36144E007A6F50 /* KeyValuePair.swift */,
-				006104771F36144E007A6F50 /* Queue.swift */,
 				006104781F36144E007A6F50 /* SinglyLinkedList.swift */,
 				006104721F361359007A6F50 /* Info.plist */,
 			);
@@ -130,7 +127,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				006104711F361359007A6F50 /* SinglyLinkedListTests.swift in Sources */,
-				0061047A1F36144E007A6F50 /* Queue.swift in Sources */,
 				0061047B1F36144E007A6F50 /* SinglyLinkedList.swift in Sources */,
 				006104791F36144E007A6F50 /* KeyValuePair.swift in Sources */,
 			);
