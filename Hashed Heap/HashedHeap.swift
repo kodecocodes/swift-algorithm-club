@@ -31,13 +31,13 @@ public struct HashedHeap<T: Hashable> {
     /// - Complexity: O(n)
     public init(array: [T], sort: @escaping (T, T) -> Bool) {
         isOrderedBefore = sort
-        buildHeap(fromArray: array)
+        build(from: array)
     }
 
     /// Converts an array to a max-heap or min-heap in a bottom-up manner.
     ///
     /// - Complexity: O(n)
-    private mutating func buildHeap(fromArray array: [T]) {
+    private mutating func build(from array: [T]) {
         elements = array
         for index in elements.indices {
             indices[elements[index]] = index
@@ -96,12 +96,12 @@ public struct HashedHeap<T: Hashable> {
     /// Replaces an element in the hash.
     ///
     /// In a max-heap, the new element should be larger than the old one; in a min-heap it should be smaller.
-    public mutating func replace(index i: Int, value: T) {
-        guard i < elements.count else { return }
+    public mutating func replace(_ value: T, at index: Int) {
+        guard index < elements.count else { return }
 
-        assert(isOrderedBefore(value, elements[i]))
-        set(value, at: i)
-        shiftUp(i)
+        assert(isOrderedBefore(value, elements[index]))
+        set(value, at: index)
+        shiftUp(index)
     }
 
     /// Removes the root node from the heap.
@@ -130,7 +130,7 @@ public struct HashedHeap<T: Hashable> {
     /// You need to know the node's index, which may actually take O(n) steps to find.
     ///
     /// - Complexity: O(log n).
-    public mutating func removeAt(_ index: Int) -> T? {
+    public mutating func remove(at index: Int) -> T? {
         guard index < elements.count else { return nil }
 
         let size = elements.count - 1
@@ -158,12 +158,12 @@ public struct HashedHeap<T: Hashable> {
     mutating func shiftUp(_ index: Int) {
         var childIndex = index
         let child = elements[childIndex]
-        var parentIndex = self.parentIndex(ofIndex: childIndex)
+        var parentIndex = self.parentIndex(of: childIndex)
 
         while childIndex > 0 && isOrderedBefore(child, elements[parentIndex]) {
             set(elements[parentIndex], at: childIndex)
             childIndex = parentIndex
-            parentIndex = self.parentIndex(ofIndex: childIndex)
+            parentIndex = self.parentIndex(of: childIndex)
         }
 
         set(child, at: childIndex)
@@ -178,7 +178,7 @@ public struct HashedHeap<T: Hashable> {
         var parentIndex = index
 
         while true {
-            let leftChildIndex = self.leftChildIndex(ofIndex: parentIndex)
+            let leftChildIndex = self.leftChildIndex(of: parentIndex)
             let rightChildIndex = leftChildIndex + 1
 
             // Figure out which comes first if we order them by the sort function:
@@ -208,7 +208,7 @@ public struct HashedHeap<T: Hashable> {
 
     /// Swap two elements in the heap and update the indices hash.
     private mutating func swapAt(_ i: Int, _ j: Int) {
-        swap(&elements[i], &elements[j])
+        elements.swapAt(i, j)
         indices[elements[i]] = i
         indices[elements[j]] = j
     }
@@ -217,23 +217,23 @@ public struct HashedHeap<T: Hashable> {
     ///
     /// - Note: The element at index 0 is the root of the tree and has no parent.
     @inline(__always)
-    func parentIndex(ofIndex i: Int) -> Int {
-        return (i - 1) / 2
+    func parentIndex(of index: Int) -> Int {
+        return (index - 1) / 2
     }
 
     /// Returns the index of the left child of the element at index i.
     ///
     /// - Note: this index can be greater than the heap size, in which case there is no left child.
     @inline(__always)
-    func leftChildIndex(ofIndex i: Int) -> Int {
-        return 2*i + 1
+    func leftChildIndex(of index: Int) -> Int {
+        return 2*index + 1
     }
 
     /// Returns the index of the right child of the element at index i.
     ///
     /// - Note: this index can be greater than the heap size, in which case there is no right child.
     @inline(__always)
-    func rightChildIndex(ofIndex i: Int) -> Int {
-        return 2*i + 2
+    func rightChildIndex(of index: Int) -> Int {
+        return 2*index + 2
     }
 }
