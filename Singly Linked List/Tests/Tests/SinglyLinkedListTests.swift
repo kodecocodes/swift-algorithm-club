@@ -47,7 +47,7 @@ class SinglyLinkedListTests: XCTestCase {
     }
     
     func testDelete() {
-        var list = SinglyLinkedList<Int>(head: SinglyLinkedListNode<Int>(value: 1))
+        var list: SinglyLinkedList<Int> = [1]
         list.append(value: 2)
         list.append(value: 3)
         list.append(value: 4)
@@ -87,7 +87,7 @@ class SinglyLinkedListTests: XCTestCase {
     }
     
     func testDeleteDuplicatesInPlace() {
-        var list = SinglyLinkedList<Int>(head: SinglyLinkedListNode<Int>(value: 1))
+        var list: SinglyLinkedList<Int> = [1]
         list.append(value: 2)
         list.append(value: 2)
         list.append(value: 3)

@@ -83,24 +83,13 @@ public struct SinglyLinkedList<T>
     
     // MARK: INITIALIZERS
     
-    /// Creates a list with the given node.
-    /// NOTE: This method can break value semantics by accepting a node.
-    ///
-    /// - Parameter head: First node
-    internal init(head: SinglyLinkedListNode<T>)
-    {
-        self.storage = IndirectStorage()
-        self.append(node: head)
-    }
-    
-    
     /// Creates a list with a single element
     ///
     /// - Parameter value: element to populate the list with
     public init(value: T)
     {
-        let node = SinglyLinkedListNode<T>(value: value)
-        self.init(head: node)
+        self.init()
+        self.append(value: value)
     }
     
     
