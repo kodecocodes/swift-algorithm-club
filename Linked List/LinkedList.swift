@@ -244,3 +244,57 @@ extension LinkedList: ExpressibleByArrayLiteral {
     }
   }
 }
+
+extension LinkedList : Collection {
+  
+  public typealias Index = LinkedListIndex<T>
+  
+  /// The position of the first element in a nonempty collection.
+  ///
+  /// If the collection is empty, `startIndex` is equal to `endIndex`.
+  /// - Complexity: O(1)
+  public var startIndex: Index {
+    get {
+      return LinkedListIndex<T>(node: head, tag: 0)
+    }
+  }
+  
+  /// The collection's "past the end" position---that is, the position one
+  /// greater than the last valid subscript argument.
+  /// - Complexity: O(n), where n is the number of elements in the list. This can be improved by keeping a reference
+  ///   to the last node in the collection.
+  public var endIndex: Index {
+    get {
+      if let h = self.head {
+        return LinkedListIndex<T>(node: h, tag: count)
+      } else {
+        return LinkedListIndex<T>(node: nil, tag: startIndex.tag)
+      }
+    }
+  }
+  
+  public subscript(position: Index) -> T {
+    get {
+      return position.node!.value
+    }
+  }
+  
+  public func index(after idx: Index) -> Index {
+    return LinkedListIndex<T>(node: idx.node?.next, tag: idx.tag+1)
+  }
+}
+
+/// Custom index type that contains a reference to the node at index 'tag'
+public struct LinkedListIndex<T> : Comparable
+{
+  fileprivate let node: LinkedList<T>.LinkedListNode<T>?
+  fileprivate let tag: Int
+  
+  public static func==<T>(lhs: LinkedListIndex<T>, rhs: LinkedListIndex<T>) -> Bool {
+    return (lhs.tag == rhs.tag)
+  }
+  
+  public static func< <T>(lhs: LinkedListIndex<T>, rhs: LinkedListIndex<T>) -> Bool {
+    return (lhs.tag < rhs.tag)
+  }
+}

@@ -337,4 +337,12 @@ class LinkedListTest: XCTestCase {
     XCTAssertEqual(arrayLiteralInitExplicit.removeLast(), 3)
     XCTAssertEqual(arrayLiteralInitExplicit.count, 2)
   }
+  
+  func testConformanceToCollectionProtocol() {
+    let collection: LinkedList<Int> = [1, 2, 3, 4, 5]
+    let index2 = collection.index(collection.startIndex, offsetBy: 2)
+    let value = collection[index2]
+    
+    XCTAssertTrue(value == 3)
+  }
 }
