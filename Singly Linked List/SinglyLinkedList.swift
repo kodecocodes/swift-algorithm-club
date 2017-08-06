@@ -125,7 +125,7 @@ public struct SinglyLinkedList<T> {
     var i = 0
     var elementToDelete: SinglyLinkedListNode<T>
     
-    while (i < index) {
+    while i < index {
       previous = current
       current = current?.next
       i += 1
@@ -133,11 +133,11 @@ public struct SinglyLinkedList<T> {
     
     // Current is now the element to delete (at index position.tag)
     elementToDelete = current!
-    if (storage.head === current) {
+    if storage.head === current {
       storageForWritting.head = current?.next
     }
     
-    if (storage.tail === current) {
+    if storage.tail === current {
       storageForWritting.tail = previous
     }
     
@@ -164,7 +164,7 @@ public struct SinglyLinkedList<T> {
     
     let i = (count - kthToLast)
     
-    if (i == 0) {
+    if i == 0 {
       return node
     }
     
@@ -243,7 +243,7 @@ private extension SinglyLinkedList {
     // Iterate through current list of nodes and copy them.
     var current: SinglyLinkedListNode<T>? = storage.head?.next
     
-    while (current != nil) {
+    while current != nil {
       // Create a copy
       let currentCopy = SinglyLinkedListNode<T>(value: current!.value)
       
@@ -283,11 +283,11 @@ extension SinglyLinkedList where T: Comparable {
     
     if let foundNode = current {
       
-      if (storage.head === foundNode) {
+      if storage.head === foundNode {
         storageForWritting.head = foundNode.next
       }
       
-      if (storage.tail === foundNode) {
+      if storage.tail === foundNode {
         storage.tail = previous
       }
       
@@ -303,18 +303,18 @@ extension SinglyLinkedList where T: Comparable {
     // Copy on write: this updates storage if necessary.
     var current = storageForWritting.head
     
-    while (current != nil) {
+    while current != nil {
       var previous: SinglyLinkedListNode<T>? = current
       var next = current?.next
       
-      while (next != nil) {
-        if (current?.value == next?.value) {
+      while next != nil {
+        if current?.value == next?.value {
           
-          if (storage.head === next) {
+          if storage.head === next {
             storage.head = next?.next
           }
           
-          if (storage.tail === next) {
+          if storage.tail === next {
             storage.tail = previous
           }
           
@@ -461,7 +461,7 @@ func findTail<T>(in node: SinglyLinkedListNode<T>) -> (tail: SinglyLinkedListNod
   var current: SinglyLinkedListNode<T>? = node
   var count = 1
   
-  while (current?.next != nil) {
+  while current?.next != nil {
     current = current?.next
     count += 1
   }
