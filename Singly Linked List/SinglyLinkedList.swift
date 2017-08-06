@@ -331,33 +331,6 @@ extension SinglyLinkedList where T: Comparable {
 
 
 
-// MARK: - ITERATOR -
-
-public struct SinglyLinkedListForwardIterator<T> : IteratorProtocol {
-    
-  public typealias Element = T
-  
-  private(set) var head: SinglyLinkedListNode<T>?
-  
-  mutating public func next() -> T? {
-    let result = head?.value
-    head = head?.next
-    return result
-  }
-}
-
-
-
-// MARK: - SEQUENCE -
-
-extension SinglyLinkedList : Sequence {
-  public func makeIterator() -> SinglyLinkedListForwardIterator<T> {
-    return SinglyLinkedListForwardIterator(head: storage.head)
-  }
-}
-
-
-
 // MARK: - COLLECTION -
 
 extension SinglyLinkedList : Collection {
