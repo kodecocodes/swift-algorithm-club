@@ -359,8 +359,7 @@ extension LinkedList : Collection {
 
 // MARK: - Collection Index
 /// Custom index type that contains a reference to the node at index 'tag'
-public struct LinkedListIndex<T> : Comparable
-{
+public struct LinkedListIndex<T> : Comparable {
   fileprivate let node: LinkedList<T>.LinkedListNode<T>?
   fileprivate let tag: Int
   
