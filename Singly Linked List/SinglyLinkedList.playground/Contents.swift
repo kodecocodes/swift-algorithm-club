@@ -725,20 +725,3 @@ assert(l2.contains(67) == true)
 let l3 = l2.dropLast()
 assert(l3.count == 7)
 assert(l3.contains(67) == false)
-
-//: We can use this class as a queue.
-
-func empty<Q: Queue>(queue: inout Q) {
-    while let _ = queue.dequeue() {}
-}
-
-var q: SinglyLinkedList<Int> = [5,1,2,3]
-empty(queue: &q)
-assert(q.count == 0)
-
-try? q.enqueue(item: 1)
-try? q.enqueue(item: 3)
-try? q.enqueue(item: 5)
-assert(q.count == 3)
-
-
