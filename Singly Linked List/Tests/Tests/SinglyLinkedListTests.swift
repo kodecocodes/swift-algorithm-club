@@ -120,48 +120,6 @@ class SinglyLinkedListTests: XCTestCase {
         XCTAssertTrue(list.find(kthToLast: 7)?.value == 2)
         XCTAssertTrue(list.find(kthToLast: 8)?.value == 2)
         XCTAssertTrue(list.find(kthToLast: 9)?.value == nil)
-        XCTAssertFalse(list.containsLoop())
-    }
-    
-    func testContainsLoop() {
-        let n1 = SinglyLinkedListNode<Int>(value: 1)
-        let n2 = SinglyLinkedListNode<Int>(value: 2)
-        let n3 = SinglyLinkedListNode<Int>(value: 3)
-        let n4 = SinglyLinkedListNode<Int>(value: 4)
-        let n5 = SinglyLinkedListNode<Int>(value: 5)
-        let n6 = SinglyLinkedListNode<Int>(value: 6)
-        let n7 = SinglyLinkedListNode<Int>(value: 7)
-        let n8 = SinglyLinkedListNode<Int>(value: 8)
-        n1.next = n2
-        n2.next = n3
-        n3.next = n4
-        n4.next = n5
-        n5.next = n6
-        n6.next = n7
-        n7.next = n8
-        n8.next = n2
-        
-        let list = SinglyLinkedList<Int>(head: n1)
-        XCTAssertTrue(list.containsLoop())
-        XCTAssertTrue(list.last == nil)
-    }
-    
-    func testContainsLoopFalseWithLiterals() {
-        let list: SinglyLinkedList<Int> = [1,2,3,4,5,6,7,8]
-        XCTAssertTrue(list.last == 8, "Found \(String(describing: list.last))")
-        XCTAssertFalse(list.containsLoop())
-    }
-    
-    func testContainsLoopFalseWithNodes() {
-        let n1 = SinglyLinkedListNode<Int>(value: 1)
-        let n2 = SinglyLinkedListNode<Int>(value: 2)
-        let n3 = SinglyLinkedListNode<Int>(value: 3)
-        n1.next = n2
-        n2.next = n3
-        
-        let list = SinglyLinkedList<Int>(head: n1)
-        XCTAssertFalse(list.containsLoop())
-        
     }
     
     func testConstructorFromArrayLiteralWhenEmpty() {
@@ -177,7 +135,6 @@ class SinglyLinkedListTests: XCTestCase {
         XCTAssertTrue(list.last == 5)
         XCTAssertTrue(list.count == 1, "Found \(list.count)")
     }
-    
     
     func testAppendValue() {
         var list = SinglyLinkedList<Int>()

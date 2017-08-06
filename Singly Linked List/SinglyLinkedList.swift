@@ -198,34 +198,6 @@ public struct SinglyLinkedList<T>
         return self.find(kthToLast: kthToLast, startingAt: self.storage.head, count: UInt(self.count))
     }
     
-    
-    
-    // MARK: LOOP DETECTION
-    
-    /// A singly linked list contains a loop if one node references back to a previous node.
-    ///
-    /// - Returns: Whether the linked list contains a loop
-    public func containsLoop() -> Bool
-    {
-        /// Advances a node at a time
-        var current = self.storage.head
-        
-        /// Advances twice as fast
-        var runner = self.storage.head
-        
-        while (runner != nil) && (runner?.next != nil) {
-            
-            current = current?.next
-            runner = runner?.next?.next
-            
-            if runner === current {
-                return true
-            }
-        }
-        
-        return false
-    }
-    
 }
 
 
@@ -261,12 +233,8 @@ private extension SinglyLinkedList {
             // Copy on write: we are about to modify next a property in
             // a potentially shared node. Make sure it's new if necessary.
             self.storageForWritting.tail?.next = node
-            if !self.containsLoop() {
-                let (tail, _) = findTail(in: node)
-                self.storageForWritting.tail = tail // There
-            } else {
-                self.storageForWritting.tail = nil
-            }
+            let (tail, _) = findTail(in: node)
+            self.storageForWritting.tail = tail // There
         }
         else
         {
@@ -274,12 +242,8 @@ private extension SinglyLinkedList {
             // Otherwise the state would be inconsistent.
             // This will be checked when adding and deleting nodes.
             self.storageForWritting.head = node
-            if !self.containsLoop() {
-                let (tail, _) = findTail(in: node)
-                self.storageForWritting.tail = tail // There
-            } else {
-                self.storageForWritting.tail = nil
-            }
+            let (tail, _) = findTail(in: node)
+            self.storageForWritting.tail = tail // There
         }
     }
     
