@@ -33,7 +33,7 @@ You can also create the array in a single line of code:
 var cookies = [[Int]](repeating: [Int](repeating: 0, count: 7), count: 9)
 ```
 
-This looks complicated, but can simplfy it in a helper function:
+This looks complicated, but you can simplify it with a helper function:
 
 ```swift
 func dim<T>(_ count: Int, _ value: T) -> [T] {
