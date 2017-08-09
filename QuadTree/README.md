@@ -152,7 +152,7 @@ Both adding a point and searching can still take up to O(n) in the worst case, s
 
 ### See also
 
-Displaying a large amount of objects in a MapView - a great use case for a Quadtree ([Thoughtbot Atricle](https://robots.thoughtbot.com/how-to-handle-large-amounts-of-data-on-maps))
+Displaying a large amount of objects in a MapView - a great use case for a Quadtree ([Thoughtbot Article](https://robots.thoughtbot.com/how-to-handle-large-amounts-of-data-on-maps))
 
 More info on [Wiki](https://en.wikipedia.org/wiki/Quadtree)
 
