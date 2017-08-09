@@ -3,8 +3,8 @@
 /// Heap with an index hash map (dictionary) to speed up lookups by value.
 ///
 /// A heap keeps elements ordered in a binary tree without the use of pointers. A hashed heap does that as well as
-/// having amortized constant lookups by value. This is used in the A* and other heuristic search alogirhtms to achieve
-/// optimal perfomrance.
+/// having amortized constant lookups by value. This is used in the A* and other heuristic search algorithms to achieve
+/// optimal performance.
 public struct HashedHeap<T: Hashable> {
     /// The array that stores the heap's nodes.
     private(set) var elements = [T]()
