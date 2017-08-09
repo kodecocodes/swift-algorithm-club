@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+  print("Hello, Swift 4!")
+#endif
+
 import Foundation
 
 func random(_ n: Int) -> Int {
@@ -43,7 +48,7 @@ func playRound() {
 }
 
 // Run the simulation a large number of times.
-for i in 1...5000 {
+for _ in 1...5000 {
   playRound()
 }
 
