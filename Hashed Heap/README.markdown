@@ -9,3 +9,5 @@ See [HashedHeap.swift](HashedHeap.swift) for the implementation. See [Heap](../H
 ## See also
 
 [Heap on Wikipedia](https://en.wikipedia.org/wiki/Heap_%28data_structure%29)
+
+*Written for the Swift Algorithm Club by [Alejandro Isaza](https://github.com/aleph7)*
