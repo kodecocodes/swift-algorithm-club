@@ -27,6 +27,19 @@
    </FileRef>
    <Group
       location = "container:"
+      name = "Binary Tree Traversal">
+      <FileRef
+         location = "group:Binary Tree Traversal/Readme.md">
+      </FileRef>
+      <FileRef
+         location = "group:Binary Tree Traversal/BinaryTreeTraversal.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Binary Tree Traversal/BinaryTreeTraversal.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "LRU Cache">
       <FileRef
          location = "group:LRU Cache/LRUCache.playground">
