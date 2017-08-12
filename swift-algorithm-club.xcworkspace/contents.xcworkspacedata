@@ -27,6 +27,16 @@
    </FileRef>
    <Group
       location = "container:"
+      name = "Big Number Add">
+      <FileRef
+         location = "group:Big Number Add/BigNumberAdd.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Big Number Add/BigNumberAdd.swift">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "LRU Cache">
       <FileRef
          location = "group:LRU Cache/LRUCache.playground">
