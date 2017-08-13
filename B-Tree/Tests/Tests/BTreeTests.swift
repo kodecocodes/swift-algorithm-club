@@ -11,6 +11,13 @@ import XCTest
 class BTreeTests: XCTestCase {
   var bTree: BTree<Int, Int>!
 
+    func testSwift4() {
+        // last checked with Xcode 9.0b4
+        #if swift(>=4.0)
+            print("Hello, Swift 4!")
+        #endif
+    }
+    
   override func setUp() {
     super.setUp()
     bTree = BTree<Int, Int>(order: 3)!
