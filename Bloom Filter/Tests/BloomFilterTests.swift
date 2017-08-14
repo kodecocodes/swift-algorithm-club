@@ -24,7 +24,12 @@ func sdbm(_ x: String) -> Int {
 }
 
 class BloomFilterTests: XCTestCase {
-
+    func testSwift4(){
+        // last checked with Xcode 9.0b4
+        #if swift(>=4.0)
+            print("Hello, Swift 4!")
+        #endif
+    }
   func testSingleHashFunction() {
     let bloom = BloomFilter<String>(hashFunctions: [djb2])
 
