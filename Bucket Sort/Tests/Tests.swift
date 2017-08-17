@@ -25,7 +25,7 @@ class TestTests: XCTestCase {
 
         largeArray = [Int]()
         for _ in 0..<total {
-            largeArray!.append( random() % maximum )
+            largeArray!.append( Int(arc4random_uniform( UInt32( maximum ) ) ) )
         }
 
         sparsedArray = [Int]()
@@ -57,9 +57,9 @@ class TestTests: XCTestCase {
 
     // MARK: Private functions
 
-    private func performBucketSort(elements: [Int], totalBuckets: Int) -> [Int] {
+    fileprivate func performBucketSort(_ elements: [Int], totalBuckets: Int) -> [Int] {
 
-        let value = (elements.maxElement()?.toInt())! + 1
+        let value = (elements.max()?.toInt())! + 1
         let capacityRequired = Int( ceil( Double(value) / Double(totalBuckets) ) )
 
         var buckets = [Bucket<Int>]()
@@ -71,7 +71,7 @@ class TestTests: XCTestCase {
         return results
     }
 
-    func isSorted(array: [Int]) -> Bool {
+    func isSorted(_ array: [Int]) -> Bool {
 
         var index = 0
         var sorted = true
@@ -85,7 +85,6 @@ class TestTests: XCTestCase {
         return sorted
     }
 }
-
 
 //////////////////////////////////////
 // MARK: Extensions
