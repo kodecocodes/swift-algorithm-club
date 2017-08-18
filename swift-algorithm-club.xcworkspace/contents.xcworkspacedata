@@ -2314,6 +2314,9 @@
       location = "group:Slow Sort"
       name = "Slow Sort">
       <FileRef
+         location = "group:SlowSort.playground">
+      </FileRef>
+      <FileRef
          location = "group:README.markdown">
       </FileRef>
       <FileRef
