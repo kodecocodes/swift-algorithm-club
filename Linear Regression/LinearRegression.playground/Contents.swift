@@ -2,6 +2,11 @@
 
 import Foundation
 
+// last checked with Xcode 4.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 let carAge: [Double] = [10, 8, 3, 3, 2, 1]
 let carPrice: [Double] = [500, 400, 7000, 8500, 11000, 10500]
 var intercept = 0.0
