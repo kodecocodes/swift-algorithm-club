@@ -6,6 +6,11 @@
 //  Copyright © 2016 Rick Zaccone. All rights reserved.
 //
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+    print("Hello, Swift 4!")
+#endif
+
 import Foundation
 
 /// A node in the trie

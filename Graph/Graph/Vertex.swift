@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Vertex<T>: Equatable where T: Equatable, T: Hashable {
+public struct Vertex<T>: Equatable where T: Hashable {
 
   public var data: T
   public let index: Int
@@ -30,7 +30,7 @@ extension Vertex: Hashable {
 
 }
 
-public func ==<T: Equatable>(lhs: Vertex<T>, rhs: Vertex<T>) -> Bool {
+public func ==<T>(lhs: Vertex<T>, rhs: Vertex<T>) -> Bool {
   guard lhs.index == rhs.index else {
     return false
   }

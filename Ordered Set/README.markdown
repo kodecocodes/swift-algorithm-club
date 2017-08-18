@@ -329,4 +329,9 @@ The right side did not contain the item, so we look at the left side:
 
 Finally, we've found `Player 2`, and return index 3.
 
+## See Also
+
+[Apple Ordered Set](AppleOrderedSet.playground)
+@remlostime added an Apple version of `OrderedSet`
+
 *Written By Zain Humayun*

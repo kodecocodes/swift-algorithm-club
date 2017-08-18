@@ -110,4 +110,6 @@ The big difference with a regular binary search is that this doesn't return `nil
 
 Note that using binary search doesn't change the worst-case running time complexity of `insert()`. The binary search itself takes only **O(log n)** time, but inserting a new object in the middle of an array still involves shifting all remaining elements in memory. So overall, the time complexity is still **O(n)**. But in practice this new version definitely is a lot faster, especially on large arrays.
 
+A more complete and production ready [SortedArray](https://github.com/ole/SortedArray) is avalible from [Ole Begemann](https://github.com/ole). The [accompanying article](https://oleb.net/blog/2017/02/sorted-array/) explains the advantages and tradeoffs.
+
 *Written for Swift Algorithm Club by Matthijs Hollemans*

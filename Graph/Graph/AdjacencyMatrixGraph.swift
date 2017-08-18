@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class AdjacencyMatrixGraph<T>: AbstractGraph<T> where T: Equatable, T: Hashable {
+open class AdjacencyMatrixGraph<T>: AbstractGraph<T> where T: Hashable {
 
   // If adjacencyMatrix[i][j] is not nil, then there is an edge from
   // vertex i to vertex j.

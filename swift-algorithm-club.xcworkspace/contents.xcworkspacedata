@@ -26,6 +26,19 @@
       location = "group:Why Algorithms.markdown">
    </FileRef>
    <Group
+      location = "container:"
+      name = "LRU Cache">
+      <FileRef
+         location = "group:LRU Cache/LRUCache.playground">
+      </FileRef>
+      <FileRef
+         location = "group:LRU Cache/LRUCache.swift">
+      </FileRef>
+      <FileRef
+         location = "group:LRU Cache/Readme.md">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Miller-Rabin Primality Test"
       name = "Miller-Rabin Primality Test">
       <Group
@@ -1057,6 +1070,29 @@
       </FileRef>
    </Group>
    <Group
+      location = "group:Hashed Heap"
+      name = "Hashed Heap">
+      <FileRef
+         location = "group:HashedHeap.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:HashedHeapTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/al/dev/swift-algorithm-club/Hashed Heap/Tests/Hashed Heap Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
       location = "group:HaversineDistance"
       name = "HaversineDistance">
       <FileRef
@@ -1646,6 +1682,12 @@
          location = "group:OrderedSet.swift">
       </FileRef>
       <FileRef
+         location = "group:AppleOrderedSet.swift">
+      </FileRef>
+      <FileRef
+         location = "group:AppleOrderedSet.playground">
+      </FileRef>
+      <FileRef
          location = "group:README.markdown">
       </FileRef>
    </Group>
@@ -2039,9 +2081,6 @@
       <FileRef
          location = "group:SelectionSort.playground">
       </FileRef>
-      <FileRef
-         location = "group:SelectionSort.swift">
-      </FileRef>
       <Group
          location = "group:Tests"
          name = "Tests">
@@ -2055,6 +2094,9 @@
             location = "group:Tests.xcodeproj">
          </FileRef>
       </Group>
+      <FileRef
+         location = "group:SelectionSort.swift">
+      </FileRef>
    </Group>
    <Group
       location = "group:Set Cover (Unweighted)"
