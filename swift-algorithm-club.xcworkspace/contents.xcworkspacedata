@@ -1391,9 +1391,6 @@
          location = "group:kthLargest.playground">
       </FileRef>
       <FileRef
-         location = "group:kthLargest.swift">
-      </FileRef>
-      <FileRef
          location = "group:README.markdown">
       </FileRef>
    </Group>
