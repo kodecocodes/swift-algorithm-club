@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 import Foundation
 
 // *** Simple but inefficient version of quicksort ***
@@ -80,7 +85,7 @@ func partitionHoare<T: Comparable>(_ a: inout [T], low: Int, high: Int) -> Int {
     repeat { i += 1 } while a[i] < pivot
 
     if i < j {
-      swap(&a[i], &a[j])
+        a.swapAt(i, j)
     } else {
       return j
     }
@@ -132,7 +137,7 @@ list4
 */
 public func swap<T>(_ a: inout [T], _ i: Int, _ j: Int) {
   if i != j {
-    swap(&a[i], &a[j])
+    a.swapAt(i, j)
   }
 }
 
