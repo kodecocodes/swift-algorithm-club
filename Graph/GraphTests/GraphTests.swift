@@ -15,7 +15,6 @@ class GraphTests: XCTestCase {
     #if swift(>=4.0)
       print("Hello, Swift 4!")
     #endif
-
   }
 
   func testAdjacencyMatrixGraphDescription() {

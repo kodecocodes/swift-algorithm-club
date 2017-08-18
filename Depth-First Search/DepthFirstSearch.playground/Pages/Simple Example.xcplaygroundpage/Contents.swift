@@ -1,13 +1,18 @@
-func depthFirstSearch(_ graph: Graph, source: Node) -> [String] {
-  var nodesExplored = [source.label]
-  source.visited = true
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
 
-  for edge in source.neighbors {
-    if !edge.neighbor.visited {
-      nodesExplored += depthFirstSearch(graph, source: edge.neighbor)
+func depthFirstSearch(_ graph: Graph, source: Node) -> [String] {
+    var nodesExplored = [source.label]
+    source.visited = true
+    
+    for edge in source.neighbors {
+        if !edge.neighbor.visited {
+            nodesExplored += depthFirstSearch(graph, source: edge.neighbor)
+        }
     }
-  }
-  return nodesExplored
+    return nodesExplored
 }
 
 let graph = Graph()
