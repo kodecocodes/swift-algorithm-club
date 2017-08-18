@@ -2257,6 +2257,9 @@
    <Group
       location = "group:Skip-List"
       name = "Skip-List">
+      <FileRef
+         location = "group:SkipList.playground">
+      </FileRef>
       <Group
          location = "group:Images"
          name = "Images">
