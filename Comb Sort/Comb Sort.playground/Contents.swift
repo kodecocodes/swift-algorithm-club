@@ -3,6 +3,10 @@
 // 7-16-2016
 
 import Cocoa
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
 
 // Test Comb Sort with small array of ten values
 let array = [2, 32, 9, -1, 89, 101, 55, -10, -12, 67]

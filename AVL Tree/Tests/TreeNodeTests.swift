@@ -9,11 +9,16 @@
 import XCTest
 
 class TreeNodeTests: XCTestCase {
-
+   
     var root: TreeNode<String, String>?
     var left: TreeNode<String, String>?
     var right: TreeNode<String, String>?
-
+    func testSwift4() {
+        // last checked with Xcode 9.0b4
+        #if swift(>=4.0)
+            print("Hello, Swift 4!")
+        #endif
+    }
     override func setUp() {
         super.setUp()
 

@@ -3,6 +3,11 @@
 // For best results, don't forget to select "Show Rendered Markup" from XCode's "Editor" menu
 
 //: Linked List Class Declaration:
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 public final class LinkedList<T> {
 
   /// Linked List's Node Class Declaration

@@ -38,6 +38,13 @@ class TreapTests: XCTestCase {
     super.tearDown()
   }
 
+  func testSwift4() {
+    // last checked with Xcode 9.0b4
+    #if swift(>=4.0)
+      print("Hello, Swift 4!")
+    #endif
+  }
+
   func testSanity() {
     var treap = Treap<Int, String>.empty
     treap = treap.set(key: 5, val: "a").set(key: 7, val: "b")
