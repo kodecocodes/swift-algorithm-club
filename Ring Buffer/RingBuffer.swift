@@ -23,7 +23,9 @@ public struct RingBuffer<T> {
   @discardableResult
   public mutating func write(_ element: T) -> Bool {
     guard !isFull else { return false }
-    defer { writeIndex += 1 }
+    defer {
+        writeIndex += 1
+    }
     array[wrapped: writeIndex] = element
     return true
   }
@@ -31,7 +33,10 @@ public struct RingBuffer<T> {
   /* Returns nil if the buffer is empty. */
   public mutating func read() -> T? {
     guard !isEmpty else { return nil }
-    defer { array[wrapped: readIndex] = nil ; readIndex += 1 }
+    defer {
+        array[wrapped: readIndex] = nil
+        readIndex += 1
+    }
     return array[wrapped: readIndex]
   }
 
@@ -57,7 +62,9 @@ public extension RingBuffer: Sequence {
     var index = readIndex
     return AnyIterator {
         guard index < self.writeIndex else { return nil }
-        defer { index += 1 }
+        defer {
+            index += 1
+        }
         return self.array[wrapped: index]
     }
   }
