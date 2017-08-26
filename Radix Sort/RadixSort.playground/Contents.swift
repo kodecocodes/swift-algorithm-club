@@ -2,6 +2,11 @@
 
 import Cocoa
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 // Test Radix Sort with small array of ten values
 var array: [Int] = [19, 4242, 2, 9, 912, 101, 55, 67, 89, 32]
 radixSort(&array)
