@@ -1,3 +1,8 @@
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 // Compare each item to find minimum
 func minimum<T: Comparable>(_ array: [T]) -> T? {
   guard var minimum = array.first else {
