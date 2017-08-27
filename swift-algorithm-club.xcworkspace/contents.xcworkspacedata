@@ -1841,9 +1841,6 @@
          <FileRef
             location = "group:SortingTestHelpers.swift">
          </FileRef>
-         <FileRef
-            location = "group:/Users/danielstokowski/Documents/GitHub/swift-algorithm-club/Quicksort/Tests/Tests(quicksort).xcodeproj">
-         </FileRef>
       </Group>
    </Group>
    <Group
