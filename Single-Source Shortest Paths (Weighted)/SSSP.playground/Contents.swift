@@ -1,6 +1,11 @@
 import Graph
 import SSSP
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 let graph = AdjacencyMatrixGraph<String>()
 let s = graph.createVertex("s")
 let t = graph.createVertex("t")
