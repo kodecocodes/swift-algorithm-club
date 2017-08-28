@@ -18,9 +18,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7B2BBC7F1C779D720067B71D"
-               BuildableName = "Tests(quicksort).xctest"
-               BlueprintName = "Tests(quicksort)"
-               ReferencedContainer = "container:Tests(quicksort).xcodeproj">
+               BuildableName = "Tests-Quicksort.xctest"
+               BlueprintName = "Tests-Quicksort"
+               ReferencedContainer = "container:Tests-Quicksort.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
