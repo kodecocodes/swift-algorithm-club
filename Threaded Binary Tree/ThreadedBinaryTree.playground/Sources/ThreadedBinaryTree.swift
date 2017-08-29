@@ -217,7 +217,7 @@ extension ThreadedBinaryTree {
   */
   public func search(_ value: T) -> ThreadedBinaryTree? {
     var node: ThreadedBinaryTree? = self
-    while case let n? = node {
+    while let n = node {
       if value < n.value {
         node = n.left
       } else if value > n.value {
@@ -252,7 +252,7 @@ extension ThreadedBinaryTree {
   */
   public func minimum() -> ThreadedBinaryTree {
     var node = self
-    while case let next? = node.left {
+    while let next = node.left {
       node = next
     }
     return node
@@ -263,7 +263,7 @@ extension ThreadedBinaryTree {
   */
   public func maximum() -> ThreadedBinaryTree {
     var node = self
-    while case let next? = node.right {
+    while let next = node.right {
       node = next
     }
     return node
@@ -276,7 +276,7 @@ extension ThreadedBinaryTree {
   public func depth() -> Int {
     var node = self
     var edges = 0
-    while case let parent? = node.parent {
+    while let parent = node.parent {
       node = parent
       edges += 1
     }
