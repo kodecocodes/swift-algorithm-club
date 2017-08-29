@@ -267,7 +267,7 @@ Searching is a recursive process, but you can also implement it with a simple lo
 ```swift
   public func search(value: T) -> BinarySearchTree? {
     var node: BinarySearchTree? = self
-    while case let n? = node {
+    while let n = node {
       if value < n.value {
         node = n.left
       } else if value > n.value {
@@ -391,7 +391,7 @@ We also need a function that returns the minimum and maximum of a node:
 ```swift
   public func minimum() -> BinarySearchTree {
     var node = self
-    while case let next? = node.left {
+    while let next = node.left {
       node = next
     }
     return node
@@ -399,7 +399,7 @@ We also need a function that returns the minimum and maximum of a node:
 
   public func maximum() -> BinarySearchTree {
     var node = self
-    while case let next? = node.right {
+    while let next = node.right {
       node = next
     }
     return node
@@ -471,7 +471,7 @@ You can also calculate the *depth* of a node, which is the distance to the root.
   public func depth() -> Int {
     var node = self
     var edges = 0
-    while case let parent? = node.parent {
+    while let parent = node.parent {
       node = parent
       edges += 1
     }
@@ -503,7 +503,7 @@ The `predecessor()` function returns the node whose value precedes the current v
       return left.maximum()
     } else {
       var node = self
-      while case let parent? = node.parent {
+      while let parent = node.parent {
         if parent.value < value { return parent }
         node = parent
       }
@@ -524,7 +524,7 @@ The code for `successor()` works the same way but mirrored:
       return right.minimum()
     } else {
       var node = self
-      while case let parent? = node.parent {
+      while let parent = node.parent {
         if parent.value > value { return parent }
         node = parent
       }

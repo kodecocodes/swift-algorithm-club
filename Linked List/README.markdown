@@ -109,7 +109,7 @@ Let's also add a property that gives you the last node in the list. This is wher
 ```swift
   public var last: Node? {
     if var node = head {
-      while case let next? = node.next {
+      while let next = node.next {
         node = next
       }
       return node
@@ -121,7 +121,7 @@ Let's also add a property that gives you the last node in the list. This is wher
 
 If you're new to Swift, you've probably seen `if let` but maybe not `if var`. It does the same thing -- it unwraps the `head` optional and puts the result in a new local variable named `node`. The difference is that `node` is not a constant but an actual variable, so we can change it inside the loop.
 
-The loop also does some Swift magic. The `while case let next? = node.next` bit keeps looping until `node.next` is nil. You could have written this as follows:
+The loop also does some Swift magic. The `while let next = node.next` bit keeps looping until `node.next` is nil. You could have written this as follows:
 
 ```swift
       var node: Node? = head
@@ -198,7 +198,7 @@ Let's add a method to count how many nodes are in the list. This will look very 
   public var count: Int {
     if var node = head {
       var c = 1
-      while case let next? = node.next {
+      while let next = node.next {
         node = next
         c += 1
       }
