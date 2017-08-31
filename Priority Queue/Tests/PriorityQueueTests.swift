@@ -11,6 +11,13 @@ private func < (m1: Message, m2: Message) -> Bool {
 }
 
 class PriorityQueueTest: XCTestCase {
+  func testSwift4() {
+    // last checked with Xcode 9.0b4
+    #if swift(>=4.0)
+      print("Hello, Swift 4!")
+    #endif
+  }
+  
   func testEmpty() {
     var queue = PriorityQueue<Message>(sort: <)
     XCTAssertTrue(queue.isEmpty)
