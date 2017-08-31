@@ -193,7 +193,7 @@ print(output.count)
 
 The performance of this second algorithm is **O(n)** as it may require a pass through the entire input array.
 
-> **Note:** If `k > n/2`, then it's more efficient to do it the other way around and choose `n - k` items to remove.  The returned itemsTT won't be perfectly shuffled.
+> **Note:** If `k > n/2`, then it's more efficient to do it the other way around and choose `n - k` items to remove.  The returned items won't be perfectly shuffled.
 
 Based on code from Algorithm Alley, Dr. Dobb's Magazine, October 1993.
 
