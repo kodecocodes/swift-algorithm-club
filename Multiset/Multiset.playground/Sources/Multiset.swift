@@ -7,36 +7,36 @@
 
 import Foundation
 
-public struct Multiset<T: Hashable> {
-  fileprivate var storage: Dictionary<T, Int>
-  private var _count: Int = 0
+public struct Multiset<Element: Hashable> {
+  fileprivate var storage: [Element: Int]
+  private var _count = 0
 
   public init() {
-    storage = Dictionary<T, Int>()
+    storage = [:]
   }
 
-  public mutating func add (_ elem: T) {
-    if let currentCount = self.storage[elem] {
-      self.storage[elem] = currentCount + 1;
+  public mutating func add (_ elem: Element) {
+    if let currentCount = storage[elem] {
+      storage[elem] = currentCount + 1;
     } else {
-      self.storage[elem] = 1
+      storage[elem] = 1
     }
     _count += 1
   }
 
-  public mutating func remove (_ elem: T) {
-    if let currentCount = self.storage[elem] {
+  public mutating func remove (_ elem: Element) {
+    if let currentCount = storage[elem] {
       if currentCount > 1 {
-        self.storage[elem] = currentCount - 1
+        storage[elem] = currentCount - 1
       } else {
-        self.storage.removeValue(forKey: elem)
+        storage.removeValue(forKey: elem)
       }
       _count -= 1
     }
   }
 
-  public func isSubSet (of superset: Multiset<T>) -> Bool {
-    for (key, count) in self.storage {
+  public func isSubSet (of superset: Multiset<Element>) -> Bool {
+    for (key, count) in storage {
       let supersetcount = superset.storage[key] ?? 0
       if count > supersetcount {
         return false
@@ -46,30 +46,27 @@ public struct Multiset<T: Hashable> {
   }
 
   public var count: Int {
-    get {
-      return _count
-    }
+    return _count
   }
 
-  public func count(for key: T) -> Int {
-    return self.storage[key] ?? 0
+  public func count(for key: Element) -> Int {
+    return storage[key] ?? 0
   }
 
-  public var allItems: [T] {
-    get {
-      var result = Array<T>()
-      for (key, count) in self.storage {
-        for _ in 0 ..< count {
-          result.append(key)
-        }
+  public var allItems: [Element] {
+    var result = Array<Element>()
+    for (key, count) in storage {
+      for _ in 0 ..< count {
+        result.append(key)
       }
-      return result
     }
+    return result
   }
 }
 
+// MARK: - Equatable
 extension Multiset: Equatable {
-  public static func == (lhs: Multiset<T>, rhs: Multiset<T>) -> Bool {
+  public static func == (lhs: Multiset<Element>, rhs: Multiset<Element>) -> Bool {
     if lhs.storage.count != rhs.storage.count {
       return false
     }
