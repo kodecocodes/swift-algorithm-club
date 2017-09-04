@@ -18,3 +18,9 @@ set.count(for: "Foo")
 
 set.allItems
 
+var set2 = Multiset<String>()
+set2.add("Foo")
+set2.add("Foo")
+
+set2.isSubSet(of: set) // true
+set.isSubSet(of: set2) // false
