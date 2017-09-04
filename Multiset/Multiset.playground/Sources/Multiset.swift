@@ -8,8 +8,8 @@
 import Foundation
 
 public struct Multiset<Element: Hashable> {
-  fileprivate var storage: [Element: Int]
-  private var _count = 0
+  fileprivate var storage: [Element: UInt]
+  private var _count: UInt = 0
 
   public init() {
     storage = [:]
@@ -45,16 +45,16 @@ public struct Multiset<Element: Hashable> {
     return true
   }
 
-  public var count: Int {
+  public var count: UInt {
     return _count
   }
 
-  public func count(for key: Element) -> Int {
+  public func count(for key: Element) -> UInt {
     return storage[key] ?? 0
   }
 
   public var allItems: [Element] {
-    var result = Array<Element>()
+    var result = [Element]()
     for (key, count) in storage {
       for _ in 0 ..< count {
         result.append(key)
