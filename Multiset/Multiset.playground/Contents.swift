@@ -16,4 +16,5 @@ set.add("Baz")
 set.count
 set.count(for: "Foo")
 
-set.allItems()
+set.allItems
+

@@ -55,14 +55,16 @@ public struct Multiset<T: Hashable> {
     return self.storage[key] ?? 0
   }
 
-  public func allItems() -> [T] {
-    var result = Array<T>()
-    for (key, count) in self.storage {
-      for _ in 0 ..< count {
-        result.append(key)
+  public var allItems: [T] {
+    get {
+      var result = Array<T>()
+      for (key, count) in self.storage {
+        for _ in 0 ..< count {
+          result.append(key)
+        }
       }
+      return result
     }
-    return result
   }
 }
 
