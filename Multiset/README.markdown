@@ -32,11 +32,9 @@ Here's the essence of it:
 
 ``` swift
 public struct Multiset<Element: Hashable> {
-  fileprivate var storage: [Element: UInt]
+  public private(set) var storage: [Element: UInt] = [:]
   
-  public init() {
-    storage = [:]
-  }
+  public init() {}
 ```
 
 And here's how you'd use this class to create a multiset of strings:
@@ -49,11 +47,7 @@ Adding an element is a case of incrementing the counter for that element, or set
 
 ``` swift
 public mutating func add (_ elem: Element) {
-  if let currentCount = storage[elem] {
-    storage[elem] = currentCount + 1;
-  } else {
-    storage[elem] = 1
-  }
+  storage[elem, default: 0] += 1
 }
 ```
 
