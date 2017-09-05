@@ -2,19 +2,29 @@
 
 A multiset (also known as a bag) is a data structure similar to a regular set, but it can store multiple instances of the same element.
 
-The following all represent the same *set*, but do not represent the same *multiset*.
+For example, if I added the elements 1, 2, 2 to a regular set, the set would only contain two items, since adding 2 a second time has no effect.
 
 ```
-[1, 3, 2]
-[1, 3, 2, 2]
+var set = Set<Int>()
+set.add(1) // set is now [1]
+set.add(2) // set is now [1, 2]
+set.add(2) // set is still [1, 2]
 ```
 
-In this multiset implementation, ordering is unimportant. So these two multisets are identical:
+By comparison, after adding the elements 1, 2, 2 to a multiset, it would contain three items.
 
 ```
-[1, 2, 2]
-[2, 1, 2]
+var set = Multiset<Int>()
+set.add(1) // set is now [1]
+set.add(2) // set is now [1, 2]
+set.add(2) // set is now [1, 2, 2]
 ```
+
+You might be thinking that this looks an awful lot like an array. So why would you use a multiset? Let's consider the differences between the two…
+
+- Ordering: arrays maintain the order of items added to them, multisets do not
+- Testing for membership: testing whether an element is a member of the collection is O(N) for arrays, O(1) for multisets.
+- Testing for subset: testing whether collection X is a subset of collection Y is a simple operation for a multiset, but complex for arrays
 
 Typical operations on a multiset are:
 
@@ -24,6 +34,14 @@ Typical operations on a multiset are:
 - Get the count for the whole set (the number of items that have been added)
 - Check whether it is a subset of another multiset
 
+One real-world use of multisets is to determine whether one string is a partial anagram of another. For example, the word "cacti" is a partial anagrams of "tactical". (In other words, I can rearrange the letters of "tactical" to make "cacti", with some letters left over.)
+
+``` swift
+var cacti = Multiset<Character>("cacti")
+var tactical = Multiset<Character>("tactical")
+cacti.isSubSet(of: tactical) // true!
+```
+
 ## Implementation
 
 Under the hood, this implementation of Multiset uses a dictionary to store a mapping of elements to the number of times they've been added.
@@ -32,7 +50,7 @@ Here's the essence of it:
 
 ``` swift
 public struct Multiset<Element: Hashable> {
-  public private(set) var storage: [Element: UInt] = [:]
+  private var storage: [Element: UInt] = [:]
   
   public init() {}
 ```
@@ -56,6 +74,7 @@ Here's how you'd use this method to add to the set we created earlier:
 ```swift
 set.add("foo")
 set.add("foo") 
+set.allItems // returns ["foo", "foo"]
 ```
 
 Our set now contains two elements, both the string "foo".
