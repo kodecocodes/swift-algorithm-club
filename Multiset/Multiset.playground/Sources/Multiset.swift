@@ -75,3 +75,10 @@ extension Multiset: Equatable {
     return true
   }
 }
+
+// MARK: - ExpressibleByArrayLiteral
+extension Multiset: ExpressibleByArrayLiteral {
+  public init(arrayLiteral elements: T...) {
+    self.init(elements)
+  }
+}
