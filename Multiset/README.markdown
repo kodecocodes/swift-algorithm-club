@@ -51,6 +51,8 @@ Here's the essence of it:
 ``` swift
 public struct Multiset<Element: Hashable> {
   private var storage: [Element: UInt] = [:]
+  
+  public init() {}
 ```
 
 And here's how you'd use this class to create a multiset of strings:
