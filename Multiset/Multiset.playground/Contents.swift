@@ -24,3 +24,8 @@ set2.add("Foo")
 
 set2.isSubSet(of: set) // true
 set.isSubSet(of: set2) // false
+
+var cacti = Multiset<Character>("cacti")
+var tactical = Multiset<Character>("tactical")
+cacti.isSubSet(of: tactical) // true
+tactical.isSubSet(of: cacti) // false

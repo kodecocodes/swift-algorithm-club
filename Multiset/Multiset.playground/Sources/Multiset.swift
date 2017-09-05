@@ -7,18 +7,24 @@
 
 import Foundation
 
-public struct Multiset<Element: Hashable> {
-  private var storage: [Element: UInt] = [:]
+public struct Multiset<T: Hashable> {
+  private var storage: [T: UInt] = [:]
   public private(set) var count: UInt = 0
 
   public init() {}
 
-  public mutating func add (_ elem: Element) {
+  public init<C: Collection>(_ collection: C) where C.Element == T {
+    for element in collection {
+      self.add(element)
+    }
+  }
+
+  public mutating func add (_ elem: T) {
     storage[elem, default: 0] += 1
     count += 1
   }
 
-  public mutating func remove (_ elem: Element) {
+  public mutating func remove (_ elem: T) {
     if let currentCount = storage[elem] {
       if currentCount > 1 {
         storage[elem] = currentCount - 1
@@ -29,7 +35,7 @@ public struct Multiset<Element: Hashable> {
     }
   }
 
-  public func isSubSet (of superset: Multiset<Element>) -> Bool {
+  public func isSubSet (of superset: Multiset<T>) -> Bool {
     for (key, count) in storage {
       let supersetcount = superset.storage[key] ?? 0
       if count > supersetcount {
@@ -39,12 +45,12 @@ public struct Multiset<Element: Hashable> {
     return true
   }
 
-  public func count(for key: Element) -> UInt {
+  public func count(for key: T) -> UInt {
     return storage[key] ?? 0
   }
 
-  public var allItems: [Element] {
-    var result = [Element]()
+  public var allItems: [T] {
+    var result = [T]()
     for (key, count) in storage {
       for _ in 0 ..< count {
         result.append(key)
@@ -56,7 +62,7 @@ public struct Multiset<Element: Hashable> {
 
 // MARK: - Equatable
 extension Multiset: Equatable {
-  public static func == (lhs: Multiset<Element>, rhs: Multiset<Element>) -> Bool {
+  public static func == (lhs: Multiset<T>, rhs: Multiset<T>) -> Bool {
     if lhs.storage.count != rhs.storage.count {
       return false
     }
