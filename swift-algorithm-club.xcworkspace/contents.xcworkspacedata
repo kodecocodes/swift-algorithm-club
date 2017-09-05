@@ -1657,6 +1657,16 @@
       </FileRef>
    </Group>
    <Group
+      location = "container:"
+      name = "Multiset">
+      <FileRef
+         location = "group:Multiset/Multiset.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Multiset/README.markdown">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Ordered Array"
       name = "Ordered Array">
       <FileRef
