@@ -1919,10 +1919,10 @@
       location = "group:Red-Black Tree"
       name = "Red-Black Tree">
       <FileRef
-         location = "group:README.markdown">
+         location = "group:RedBlackTree.playground">
       </FileRef>
       <FileRef
-         location = "group:Red-Black Tree 2.playground">
+         location = "group:README.markdown">
       </FileRef>
    </Group>
    <Group
