@@ -87,3 +87,5 @@ public func count(for key: Element) -> UInt {
   return storage[key] ?? 0
 }
 ```
+
+*Written for the Swift Algorithm Club by Simon Whitaker*

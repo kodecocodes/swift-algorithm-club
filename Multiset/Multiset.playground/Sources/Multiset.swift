@@ -8,20 +8,14 @@
 import Foundation
 
 public struct Multiset<Element: Hashable> {
-  fileprivate var storage: [Element: UInt]
-  private var _count: UInt = 0
+  private var storage: [Element: UInt] = [:]
+  public private(set) var count: UInt = 0
 
-  public init() {
-    storage = [:]
-  }
+  public init() {}
 
   public mutating func add (_ elem: Element) {
-    if let currentCount = storage[elem] {
-      storage[elem] = currentCount + 1;
-    } else {
-      storage[elem] = 1
-    }
-    _count += 1
+    storage[elem, default: 0] += 1
+    count += 1
   }
 
   public mutating func remove (_ elem: Element) {
@@ -31,7 +25,7 @@ public struct Multiset<Element: Hashable> {
       } else {
         storage.removeValue(forKey: elem)
       }
-      _count -= 1
+      count -= 1
     }
   }
 
@@ -43,10 +37,6 @@ public struct Multiset<Element: Hashable> {
       }
     }
     return true
-  }
-
-  public var count: UInt {
-    return _count
   }
 
   public func count(for key: Element) -> UInt {
