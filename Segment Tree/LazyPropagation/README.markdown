@@ -15,7 +15,7 @@ print(stringSegmentTree.query(leftBound: 0, rightBound: 5))
 
 The use of `<T>` is so exciting. But we seldom use the Segment Tree to solve string problem instead of *Suffix Array*. And the Segment Tree is a kind of *Interval Tree* to solve the Interval Problem in mathemtics and statistics, which is a structure for storing intervals, or segments, and allows querying which of the stored segments contain a given point. A segment tree for a set *I* of n intervals uses `O(nlogn)` storage and can be built in `O(nlogn)` time. Segment trees support searching for all the intervals that contain a query point in O(log n+k), k being the number of retrieved intervals or segments.
 
-But that is common Segment Tree. By **Lazy Propagation**, we can implement to modify an interval in `O(nlogn)` time. Let's explore together in following:
+But that is common Segment Tree. By **Lazy Propagation**, we can implement to modify an interval in `O(logn)` time. Let's explore together in following:
 
 ## `PushUp` - update to the top
 
