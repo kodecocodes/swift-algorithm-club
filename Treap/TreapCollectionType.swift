@@ -25,52 +25,52 @@ THE SOFTWARE.*/
 import Foundation
 
 extension Treap: MutableCollection {
-  
+
   public typealias Index = TreapIndex<Key>
-  
+
   public subscript(index: TreapIndex<Key>) -> Element {
     get {
       guard let result = self.get(index.keys[index.keyIndex]) else {
         fatalError("Invalid index!")
       }
-      
+
       return result
     }
-    
+
     mutating set {
       let key = index.keys[index.keyIndex]
       self = self.set(key: key, val: newValue)
     }
   }
-  
+
   public subscript(key: Key) -> Element? {
     get {
       return self.get(key)
     }
-    
+
     mutating set {
       guard let value = newValue else {
-        let _ = try? self.delete(key: key)
+        _ = try? self.delete(key: key)
         return
       }
-      
+
       self = self.set(key: key, val: value)
     }
   }
-  
+
   public var startIndex: TreapIndex<Key> {
     return TreapIndex<Key>(keys: keys, keyIndex: 0)
   }
-  
+
   public var endIndex: TreapIndex<Key> {
     let keys = self.keys
     return TreapIndex<Key>(keys: keys, keyIndex: keys.count)
   }
-  
+
   public func index(after i: TreapIndex<Key>) -> TreapIndex<Key> {
     return i.successor()
   }
-  
+
   fileprivate var keys: [Key] {
     var results: [Key] = []
     if case let .node(key, _, _, left, right) = self {
@@ -78,28 +78,28 @@ extension Treap: MutableCollection {
       results.append(key)
       results.append(contentsOf: right.keys)
     }
-    
+
     return results
   }
 }
 
 public struct TreapIndex<Key: Comparable>: Comparable {
-  
-  public static func <(lhs: TreapIndex<Key>, rhs: TreapIndex<Key>) -> Bool {
+
+  public static func < (lhs: TreapIndex<Key>, rhs: TreapIndex<Key>) -> Bool {
     return lhs.keyIndex < rhs.keyIndex
   }
-  
+
   fileprivate let keys: [Key]
   fileprivate let keyIndex: Int
-  
+
   public func successor() -> TreapIndex {
     return TreapIndex(keys: keys, keyIndex: keyIndex + 1)
   }
-  
+
   public func predecessor() -> TreapIndex {
     return TreapIndex(keys: keys, keyIndex: keyIndex - 1)
   }
-  
+
   fileprivate init(keys: [Key] = [], keyIndex: Int = 0) {
     self.keys = keys
     self.keyIndex = keyIndex

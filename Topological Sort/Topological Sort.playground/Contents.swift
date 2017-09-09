@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 import UIKit
 
 let graph = Graph()
@@ -22,8 +27,6 @@ graph.addEdge(fromNode: node11, toNode: node2)
 graph.addEdge(fromNode: node11, toNode: node9)
 graph.addEdge(fromNode: node11, toNode: node10)
 graph.addEdge(fromNode: node8, toNode: node9)
-
-
 
 // using depth-first search
 graph.topologicalSort()

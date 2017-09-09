@@ -20,9 +20,6 @@
 //
 //
 
-
-
-
 //////////////////////////////////////
 // MARK: Extensions
 //////////////////////////////////////
@@ -38,8 +35,8 @@ extension Int: IntConvertible, Sortable {
 //////////////////////////////////////
 
 let input = [1, 2, 4, 6, 10]
-let buckets = [Bucket<Int>(capacity: 15), Bucket<Int>(capacity: 15), Bucket<Int>(capacity: 15)]
+var buckets = [Bucket<Int>(capacity: 15), Bucket<Int>(capacity: 15), Bucket<Int>(capacity: 15)]
 
-let sortedElements = bucketSort(input, distributor: RangeDistributor(), sorter: InsertionSorter(), buckets: buckets)
+let sortedElements = bucketSort(elements: input, distributor: RangeDistributor(), sorter: InsertionSorter(), buckets: &buckets)
 
 print(sortedElements)

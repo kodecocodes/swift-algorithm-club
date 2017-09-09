@@ -19,11 +19,11 @@ extension Graph {
 
     let startNodes = calculateInDegreeOfNodes().filter({ _, indegree in
       return indegree == 0
-    }).map({ node, indegree in
+    }).map({ node, _ in
       return node
     })
 
-    var visited = [Node : Bool]()
+    var visited = [Node: Bool]()
     for (node, _) in adjacencyLists {
       visited[node] = false
     }

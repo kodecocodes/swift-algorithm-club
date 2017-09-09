@@ -3,7 +3,7 @@ import Foundation
 /*
   Easy to understand but not very efficient.
 */
-func quicksort<T: Comparable>(a: [T]) -> [T] {
+func quicksort<T: Comparable>(_ a: [T]) -> [T] {
   guard a.count > 1 else { return a }
 
   let pivot = a[a.count/2]
@@ -29,7 +29,7 @@ func quicksort<T: Comparable>(a: [T]) -> [T] {
   if the pivot value occurs more than once, its duplicates will be found in the
   left partition.
 */
-func partitionLomuto<T: Comparable>(inout a: [T], low: Int, high: Int) -> Int {
+func partitionLomuto<T: Comparable>(_ a: inout [T], low: Int, high: Int) -> Int {
   // We always use the highest item as the pivot.
   let pivot = a[high]
 
@@ -56,7 +56,7 @@ func partitionLomuto<T: Comparable>(inout a: [T], low: Int, high: Int) -> Int {
 /*
   Recursive, in-place version that uses Lomuto's partioning scheme.
 */
-func quicksortLomuto<T: Comparable>(inout a: [T], low: Int, high: Int) {
+func quicksortLomuto<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
   if low < high {
     let p = partitionLomuto(&a, low: low, high: high)
     quicksortLomuto(&a, low: low, high: p - 1)
@@ -80,7 +80,7 @@ func quicksortLomuto<T: Comparable>(inout a: [T], low: Int, high: Int) {
   Hoare scheme is more efficient than Lomuto's partition scheme; it performs
   fewer swaps.
 */
-func partitionHoare<T: Comparable>(inout a: [T], low: Int, high: Int) -> Int {
+func partitionHoare<T: Comparable>(_ a: inout [T], low: Int, high: Int) -> Int {
   let pivot = a[low]
   var i = low - 1
   var j = high + 1
@@ -90,7 +90,7 @@ func partitionHoare<T: Comparable>(inout a: [T], low: Int, high: Int) -> Int {
     repeat { i += 1 } while a[i] < pivot
 
     if i < j {
-      swap(&a[i], &a[j])
+        a.swapAt(i, j)
     } else {
       return j
     }
@@ -101,7 +101,7 @@ func partitionHoare<T: Comparable>(inout a: [T], low: Int, high: Int) -> Int {
   Recursive, in-place version that uses Hoare's partioning scheme. Because of
   the choice of pivot, this performs badly if the array is already sorted.
 */
-func quicksortHoare<T: Comparable>(inout a: [T], low: Int, high: Int) {
+func quicksortHoare<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
   if low < high {
     let p = partitionHoare(&a, low: low, high: high)
     quicksortHoare(&a, low: low, high: p)
@@ -112,7 +112,7 @@ func quicksortHoare<T: Comparable>(inout a: [T], low: Int, high: Int) {
 // MARK: - Randomized sort
 
 /* Returns a random integer in the range min...max, inclusive. */
-public func random(min min: Int, max: Int) -> Int {
+public func random(min: Int, max: Int) -> Int {
   assert(min < max)
   return min + Int(arc4random_uniform(UInt32(max - min + 1)))
 }
@@ -121,7 +121,7 @@ public func random(min min: Int, max: Int) -> Int {
   Uses a random pivot index. On average, this results in a well-balanced split
   of the input array.
 */
-func quicksortRandom<T: Comparable>(inout a: [T], low: Int, high: Int) {
+func quicksortRandom<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
   if low < high {
     // Create a random pivot index in the range [low...high].
     let pivotIndex = random(min: low, max: high)
@@ -142,9 +142,9 @@ func quicksortRandom<T: Comparable>(inout a: [T], low: Int, high: Int) {
   Swift's swap() doesn't like it if the items you're trying to swap refer to
   the same memory location. This little wrapper simply ignores such swaps.
 */
-public func swap<T>(inout a: [T], _ i: Int, _ j: Int) {
+public func swap<T>(_ a: inout [T], _ i: Int, _ j: Int) {
   if i != j {
-    swap(&a[i], &a[j])
+    a.swapAt(i, j)
   }
 }
 
@@ -165,7 +165,7 @@ public func swap<T>(inout a: [T], _ i: Int, _ j: Int) {
 
   Time complexity is O(n), space complexity is O(1).
 */
-func partitionDutchFlag<T: Comparable>(inout a: [T], low: Int, high: Int, pivotIndex: Int) -> (Int, Int) {
+func partitionDutchFlag<T: Comparable>(_ a: inout [T], low: Int, high: Int, pivotIndex: Int) -> (Int, Int) {
   let pivot = a[pivotIndex]
 
   var smaller = low
@@ -195,7 +195,7 @@ func partitionDutchFlag<T: Comparable>(inout a: [T], low: Int, high: Int, pivotI
 /*
   Uses Dutch national flag partitioning and a random pivot index.
 */
-func quicksortDutchFlag<T: Comparable>(inout a: [T], low: Int, high: Int) {
+func quicksortDutchFlag<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
   if low < high {
     let pivotIndex = random(min: low, max: high)
     let (p, q) = partitionDutchFlag(&a, low: low, high: high, pivotIndex: pivotIndex)

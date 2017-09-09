@@ -10,6 +10,13 @@ import XCTest
 
 class GraphTests: XCTestCase {
 
+  func testSwift4() {
+    // last checked with Xcode 9.0b4
+    #if swift(>=4.0)
+      print("Hello, Swift 4!")
+    #endif
+  }
+
   func testAdjacencyMatrixGraphDescription() {
 
     let graph = AdjacencyMatrixGraph<String>()
@@ -54,7 +61,7 @@ class GraphTests: XCTestCase {
     }
   }
 
-  func testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedGraphWithType(graphType: AbstractGraph<Int>.Type) {
+  func testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedGraphWithType(_ graphType: AbstractGraph<Int>.Type) {
     let graph = graphType.init()
 
     let a = graph.createVertex(1)
@@ -71,7 +78,7 @@ class GraphTests: XCTestCase {
     XCTAssertEqual(edgesFromA.first?.to, b)
   }
 
-  func testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedGraphWithType(graphType: AbstractGraph<Int>.Type) {
+  func testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedGraphWithType(_ graphType: AbstractGraph<Int>.Type) {
     let graph = graphType.init()
 
     let a = graph.createVertex(1)
@@ -89,7 +96,7 @@ class GraphTests: XCTestCase {
     XCTAssertEqual(edgesFromB.first?.to, a)
   }
 
-  func testEdgesFromReturnsNoEdgesInNoEdgeGraphWithType(graphType: AbstractGraph<Int>.Type) {
+  func testEdgesFromReturnsNoEdgesInNoEdgeGraphWithType(_ graphType: AbstractGraph<Int>.Type) {
     let graph = graphType.init()
 
     let a = graph.createVertex(1)
@@ -99,7 +106,7 @@ class GraphTests: XCTestCase {
     XCTAssertEqual(graph.edgesFrom(b).count, 0)
   }
 
-  func testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedGraphWithType(graphType: AbstractGraph<Int>.Type) {
+  func testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedGraphWithType(_ graphType: AbstractGraph<Int>.Type) {
     let graph = graphType.init()
     let verticesCount = 100
     var vertices: [Vertex<Int>] = []
@@ -125,34 +132,34 @@ class GraphTests: XCTestCase {
   }
 
   func testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedMatrixGraph() {
-    testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedGraphWithType(AdjacencyMatrixGraph<Int>)
+    testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedGraphWithType(AdjacencyMatrixGraph<Int>.self)
   }
 
   func testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedMatrixGraph() {
-    testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedGraphWithType(AdjacencyMatrixGraph<Int>)
+    testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedGraphWithType(AdjacencyMatrixGraph<Int>.self)
   }
 
   func testEdgesFromReturnsNoInNoEdgeMatrixGraph() {
-    testEdgesFromReturnsNoEdgesInNoEdgeGraphWithType(AdjacencyMatrixGraph<Int>)
+    testEdgesFromReturnsNoEdgesInNoEdgeGraphWithType(AdjacencyMatrixGraph<Int>.self)
   }
 
   func testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedMatrixGraph() {
-    testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedGraphWithType(AdjacencyMatrixGraph<Int>)
+    testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedGraphWithType(AdjacencyMatrixGraph<Int>.self)
   }
 
   func testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedListGraph() {
-    testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedGraphWithType(AdjacencyListGraph<Int>)
+    testEdgesFromReturnsCorrectEdgeInSingleEdgeDirecedGraphWithType(AdjacencyListGraph<Int>.self)
   }
 
   func testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedListGraph() {
-    testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedGraphWithType(AdjacencyListGraph<Int>)
+    testEdgesFromReturnsCorrectEdgeInSingleEdgeUndirectedGraphWithType(AdjacencyListGraph<Int>.self)
   }
 
   func testEdgesFromReturnsNoInNoEdgeListGraph() {
-    testEdgesFromReturnsNoEdgesInNoEdgeGraphWithType(AdjacencyListGraph<Int>)
+    testEdgesFromReturnsNoEdgesInNoEdgeGraphWithType(AdjacencyListGraph<Int>.self)
   }
 
   func testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedListGraph() {
-    testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedGraphWithType(AdjacencyListGraph<Int>)
+    testEdgesFromReturnsCorrectEdgesInBiggerGraphInDirectedGraphWithType(AdjacencyListGraph<Int>.self)
   }
 }

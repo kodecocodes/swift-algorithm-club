@@ -22,7 +22,7 @@ The following is not a valid topological sort for this graph, since **X** and **
 
 Let's consider that you want to learn all the algorithms and data structures from the Swift Algorithm Club. This might seem daunting at first but we can use topological sort to get things organized.
 
-Since you're learning about topological sort, let's take this topic as an example. What else do you need to learn first before you can fully understand topological sort? Well, topological sort uses [depth-first search](../Depth-First Search/) as well as a [stack](../Stack/). But before you can learn about the depth-first search algorithm, you need to know what a [graph](../Graph/) is, and it helps to know what a [tree](../Tree/) is. In turn, graphs and trees use the idea of linking objects together, so you may need to read up on that first. And so on...
+Since you're learning about topological sort, let's take this topic as an example. What else do you need to learn first before you can fully understand topological sort? Well, topological sort uses [depth-first search](../Depth-First%20Search/) as well as a [stack](../Stack/). But before you can learn about the depth-first search algorithm, you need to know what a [graph](../Graph/) is, and it helps to know what a [tree](../Tree/) is. In turn, graphs and trees use the idea of linking objects together, so you may need to read up on that first. And so on...
 
 If we were to represent these objectives in the form of a graph it would look as follows:
 

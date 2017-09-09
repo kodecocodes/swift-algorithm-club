@@ -151,7 +151,7 @@ The random number is 0.346. The formula gives:
 	
 Just a tiny bit too high. We skip `"e"`. Only two candidates left...
 
-Note that now literally we're dealing with a toin coss: if the random number is less than 0.5 we select `"f"` and we're done. If it's greater than 0.5, we go on to the final element. Let's say we get 0.583:
+Note that now literally we're dealing with a coin toss: if the random number is less than 0.5 we select `"f"` and we're done. If it's greater than 0.5, we go on to the final element. Let's say we get 0.583:
 
 	2 * 0.583 = 1.166
 

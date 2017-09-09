@@ -1,17 +1,24 @@
 import XCTest
 
 class ShortestPathTests: XCTestCase {
+  
+  func testSwift4() {
+    // last checked with Xcode 9.0b4
+    #if swift(>=4.0)
+      print("Hello, Swift 4!")
+    #endif
+  }
 
   func testShortestPathWhenGivenTree() {
     let tree = Graph()
-    let nodeA = tree.addNode("a")
-    let nodeB = tree.addNode("b")
-    let nodeC = tree.addNode("c")
-    let nodeD = tree.addNode("d")
-    let nodeE = tree.addNode("e")
-    let nodeF = tree.addNode("f")
-    let nodeG = tree.addNode("g")
-    let nodeH = tree.addNode("h")
+    let nodeA = tree.addNode(label: "a")
+    let nodeB = tree.addNode(label: "b")
+    let nodeC = tree.addNode(label: "c")
+    let nodeD = tree.addNode(label: "d")
+    let nodeE = tree.addNode(label: "e")
+    let nodeF = tree.addNode(label: "f")
+    let nodeG = tree.addNode(label: "g")
+    let nodeH = tree.addNode(label: "h")
     tree.addEdge(nodeA, neighbor: nodeB)
     tree.addEdge(nodeA, neighbor: nodeC)
     tree.addEdge(nodeB, neighbor: nodeD)
@@ -20,30 +27,30 @@ class ShortestPathTests: XCTestCase {
     tree.addEdge(nodeC, neighbor: nodeG)
     tree.addEdge(nodeE, neighbor: nodeH)
 
-    let shortestPaths = breadthFirstSearchShortestPath(tree, source: nodeA)
+    let shortestPaths = breadthFirstSearchShortestPath(graph: tree, source: nodeA)
 
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeA.label).distance, 0)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeB.label).distance, 1)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeC.label).distance, 1)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeD.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeE.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeF.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeG.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeH.label).distance, 3)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeA.label).distance, 0)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeB.label).distance, 1)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeC.label).distance, 1)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeD.label).distance, 2)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeE.label).distance, 2)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeF.label).distance, 2)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeG.label).distance, 2)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeH.label).distance, 3)
   }
 
   func testShortestPathWhenGivenGraph() {
     let graph = Graph()
 
-    let nodeA = graph.addNode("a")
-    let nodeB = graph.addNode("b")
-    let nodeC = graph.addNode("c")
-    let nodeD = graph.addNode("d")
-    let nodeE = graph.addNode("e")
-    let nodeF = graph.addNode("f")
-    let nodeG = graph.addNode("g")
-    let nodeH = graph.addNode("h")
-    let nodeI = graph.addNode("i")
+    let nodeA = graph.addNode(label:"a")
+    let nodeB = graph.addNode(label:"b")
+    let nodeC = graph.addNode(label:"c")
+    let nodeD = graph.addNode(label:"d")
+    let nodeE = graph.addNode(label:"e")
+    let nodeF = graph.addNode(label:"f")
+    let nodeG = graph.addNode(label:"g")
+    let nodeH = graph.addNode(label:"h")
+    let nodeI = graph.addNode(label:"i")
 
     graph.addEdge(nodeA, neighbor: nodeB)
     graph.addEdge(nodeA, neighbor: nodeH)
@@ -74,16 +81,16 @@ class ShortestPathTests: XCTestCase {
     graph.addEdge(nodeI, neighbor: nodeG)
     graph.addEdge(nodeI, neighbor: nodeH)
 
-    let shortestPaths = breadthFirstSearchShortestPath(graph, source: nodeA)
+    let shortestPaths = breadthFirstSearchShortestPath(graph: graph, source: nodeA)
 
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeA.label).distance, 0)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeB.label).distance, 1)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeC.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeD.label).distance, 3)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeE.label).distance, 4)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeF.label).distance, 3)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeG.label).distance, 2)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeH.label).distance, 1)
-    XCTAssertEqual(shortestPaths.findNodeWithLabel(nodeI.label).distance, 2)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeA.label).distance, 0)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeB.label).distance, 1)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeC.label).distance, 2)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeD.label).distance, 3)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeE.label).distance, 4)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeF.label).distance, 3)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeG.label).distance, 2)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeH.label).distance, 1)
+    XCTAssertEqual(shortestPaths.findNodeWithLabel(label: nodeI.label).distance, 2)
   }
 }

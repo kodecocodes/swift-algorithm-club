@@ -1,10 +1,12 @@
 import Graph
 
-// Create the vertices
-var adjacencyMatrixGraph = AdjacencyMatrixGraph<Int>()
-var adjacencyListGraph = AdjacencyListGraph<Int>()
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
 
-for graph in [ adjacencyMatrixGraph, adjacencyListGraph ] {
+
+for graph in [AdjacencyMatrixGraph<Int>(), AdjacencyListGraph<Int>()] {
 
   let v1 = graph.createVertex(1)
   let v2 = graph.createVertex(2)

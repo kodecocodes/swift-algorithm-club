@@ -8,7 +8,7 @@ extension Graph {
     // topologically sorted list.
     var leaders = nodes.filter({ _, indegree in
       return indegree == 0
-    }).map({ node, indegree in
+    }).map({ node, _ in
       return node
     })
 

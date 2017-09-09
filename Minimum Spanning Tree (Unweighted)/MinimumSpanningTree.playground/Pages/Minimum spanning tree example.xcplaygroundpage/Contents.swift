@@ -1,4 +1,9 @@
-func breadthFirstSearchMinimumSpanningTree(graph: Graph, source: Node) -> Graph {
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
+func breadthFirstSearchMinimumSpanningTree(_ graph: Graph, source: Node) -> Graph {
   let minimumSpanningTree = graph.duplicate()
 
   var queue = Queue<Node>()
@@ -21,11 +26,9 @@ func breadthFirstSearchMinimumSpanningTree(graph: Graph, source: Node) -> Graph 
   return minimumSpanningTree
 }
 
-
 /*:
 ![Graph](Minimum_Spanning_Tree.png)
 */
-
 
 let graph = Graph()
 

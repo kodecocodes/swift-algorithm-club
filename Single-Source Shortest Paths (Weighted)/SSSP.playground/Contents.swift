@@ -1,6 +1,11 @@
 import Graph
 import SSSP
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 let graph = AdjacencyMatrixGraph<String>()
 let s = graph.createVertex("s")
 let t = graph.createVertex("t")
@@ -25,4 +30,4 @@ graph.addDirectedEdge(z, to: x, withWeight: 7)
 
 let result = BellmanFord<String>.apply(graph, source: s)!
 
-let path = result.path(z, inGraph: graph)
+let path = result.path(to: z, inGraph: graph)

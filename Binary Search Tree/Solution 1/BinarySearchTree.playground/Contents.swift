@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 let tree = BinarySearchTree<Int>(value: 7)
 tree.insert(value: 2)
 tree.insert(value: 5)
@@ -7,8 +12,9 @@ tree.insert(value: 10)
 tree.insert(value: 9)
 tree.insert(value: 1)
 
+let toDelete = tree.search(value: 1)
+toDelete?.remove()
 tree
-tree.debugDescription
 
 let tree2 = BinarySearchTree<Int>(array: [7, 2, 5, 10, 9, 1])
 

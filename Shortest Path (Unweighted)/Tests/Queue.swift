@@ -1,5 +1,5 @@
 public struct Queue<T> {
-  private var array: [T]
+  fileprivate var array: [T]
 
   public init() {
     array = []
