@@ -41,7 +41,7 @@ public struct BitSet {
       // Set the highest bit that's still valid.
       let mask = 1 << Word(63 - diff)
       // Subtract 1 to turn it into a mask, and add the high bit back in.
-      return mask | (mask - 1)
+      return (Word)(mask | (mask - 1))
     } else {
       return allOnes
     }
@@ -167,7 +167,7 @@ extension BitSet: Hashable {
 
 // MARK: - Bitwise operations
 
-extension BitSet: BitwiseOperations {
+extension BitSet {
   public static var allZeros: BitSet {
     return BitSet(size: 64)
   }
