@@ -1,15 +1,3 @@
-//: Playground - noun: a place where people can play
-
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
-//protocol SegmentTree<T> {
-//    func pushUp(lson: T, rson: T)
-//    func pushDown(round: Int, lson: T, rson: T)
-//}
-
 public class LazySegmentTree {
     
     private var value: Int
@@ -26,22 +14,20 @@ public class LazySegmentTree {
     private var lazyValue: Int
     
     // MARK: - Push Up Operation
-    // Description: 这里是 push up 操作，用来对 Segment Tree 向上更新
+    // Description: pushUp() - update items to the top
     private func pushUp(lson: LazySegmentTree, rson: LazySegmentTree) {
         self.value = lson.value + rson.value
     }
     
     // MARK: - Push Down Operation
-    // Description: 这里是 push down 操作，用来对 Segment Tree 向下更新
-    // Open Interface Function: 此处应该开放方法对齐进行 Override
+    // Description: pushDown() - update items to the bottom
     private func pushDown(round: Int, lson: LazySegmentTree, rson: LazySegmentTree) {
-        if lazyValue != 0 {
-            lson.lazyValue += lazyValue
-            rson.lazyValue += lazyValue
-            lson.value += lazyValue * (round - (round >> 1))
-            rson.value += lazyValue * (round >> 1)
-            lazyValue = 0
-        }
+        guard lazyValue != 0 else { return }
+        lson.lazyValue += lazyValue
+        rson.lazyValue += lazyValue
+        lson.value += lazyValue * (round - (round >> 1))
+        rson.value += lazyValue * (round >> 1)
+        lazyValue = 0
     }
     
     public init(array: [Int], leftBound: Int, rightBound: Int) {
@@ -50,16 +36,17 @@ public class LazySegmentTree {
         self.value = 0
         self.lazyValue = 0
         
-        if leftBound == rightBound {
+        guard leftBound != rightBound else {
             value = array[leftBound]
             return
         }
         
-        let middle = (leftBound + rightBound) / 2
+        let middle = leftBound + (rightBound - leftBound) / 2
         leftChild = LazySegmentTree(array: array, leftBound: leftBound, rightBound: middle)
         rightChild = LazySegmentTree(array: array, leftBound: middle + 1, rightBound: rightBound)
-        pushUp(lson: leftChild!, rson: rightChild!)
-        
+        if let leftChild = leftChild, let rightChild = rightChild {
+            pushUp(lson: leftChild, rson: rightChild)
+        }
     }
     
     public convenience init(array: [Int]) {
@@ -75,7 +62,7 @@ public class LazySegmentTree {
         
         pushDown(round: self.rightBound - self.leftBound + 1, lson: leftChild, rson: rightChild)
         
-        let middle = (self.leftBound + self.rightBound) / 2
+        let middle = self.leftBound + (self.rightBound - self.leftBound) / 2
         var result: Int = 0
         
         if leftBound <= middle { result +=  leftChild.query(leftBound: leftBound, rightBound: rightBound) }
@@ -86,14 +73,14 @@ public class LazySegmentTree {
     
     // MARK: - One Item Update
     public func update(index: Int, incremental: Int) {
-        if self.leftBound == self.rightBound {
+        guard self.leftBound != self.rightBound else {
             self.value += incremental
             return
         }
         guard let leftChild  = leftChild  else { fatalError("leftChild should not be nil") }
         guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
         
-        let middle = (self.leftBound + self.rightBound) / 2
+        let middle = self.rightBound + (self.leftBound - self.rightBound) / 2
         
         if index <= middle { leftChild.update(index: index, incremental: incremental) }
         else { rightChild.update(index: index, incremental: incremental) }
@@ -113,7 +100,7 @@ public class LazySegmentTree {
         
         pushDown(round: self.rightBound - self.leftBound + 1, lson: leftChild, rson: rightChild)
         
-        let middle = (self.leftBound + self.rightBound) / 2
+        let middle = self.rightBound + (self.leftBound - self.rightBound) / 2
         
         if leftBound <= middle { leftChild.update(leftBound: leftBound, rightBound: rightBound, incremental: incremental) }
         if middle < rightBound { rightChild.update(leftBound: leftBound, rightBound: rightBound, incremental: incremental) }
@@ -140,8 +127,3 @@ for index in 2 ... 5 {
 
 sumSegmentTree.update(leftBound: 0, rightBound: 5, incremental: 2)
 print(sumSegmentTree.query(leftBound: 0, rightBound: 2))
-
-
-
-
-
