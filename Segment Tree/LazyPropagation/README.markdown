@@ -71,6 +71,7 @@ public func query(leftBound: Int, rightBound: Int) -> T {
 Position ① means that the left bound of current query interval is on the  right of this right bound, so recurs to right direction. Position ② is opposite of position ①, recurs to left direction. Position ③ means our check interval is included the interval we need, so recurs deeply.
 
 ![pushUp](Images/pushUp.png)
+
 There are common part from the two parts of code above - **recurs deeply below, and update data up**. So we can decouple this operation named `func pushUp(lson: LazySegmentTree, rson: LazySegmentTree)`:
 
 ```swift
@@ -90,26 +91,32 @@ public init(array: [Int], leftBound: Int, rightBound: Int) {
     self.rightBound = rightBound
     self.value = 0
     self.lazyValue = 0
-    if leftBound == rightBound {
+    
+    guard leftBound != rightBound else {
         value = array[leftBound]
         return
     }
-    let middle = (leftBound + rightBound) / 2
+    
+    let middle = leftBound + (rightBound - leftBound) / 2
     leftChild = LazySegmentTree(array: array, leftBound: leftBound, rightBound: middle)
     rightChild = LazySegmentTree(array: array, leftBound: middle + 1, rightBound: rightBound)
-    pushUp(lson: leftChild!, rson: rightChild!)
+    if let leftChild = leftChild, let rightChild = rightChild {
+        pushUp(lson: leftChild, rson: rightChild)
+    }
 }
 // MARK: - One Item Update
-public func update(index: Int, newValue: Int) {
-    if self.leftBound == self.rightBound {
-        self.value = newValue
+public func update(index: Int, incremental: Int) {
+    guard self.leftBound != self.rightBound else {
+        self.value += incremental
         return
     }
     guard let leftChild  = leftChild  else { fatalError("leftChild should not be nil") }
     guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
-    let middle = (self.leftBound + self.rightBound) / 2
-    if index <= middle { leftChild.update(index: index, newValue: newValue) }
-    else { rightChild.update(index: index, newValue: newValue) }
+    
+    let middle = self.rightBound + (self.leftBound - self.rightBound) / 2
+    
+    if index <= middle { leftChild.update(index: index, incremental: incremental) }
+    else { rightChild.update(index: index, incremental: incremental) }
     pushUp(lson: leftChild, rson: rightChild)
 }
 ```
@@ -132,11 +139,13 @@ It is a `O(n)` time operation, which make the interval operation uses `O(nlogn)`
  Check the data structure of Segment Tree again:
  
  ![Segment-tree](Images/Segment-tree.png)
+ 
 We only catch the root node in programming. If we want to explore the bottom of the tree, and use `pushUp` to update every node, the task will be reached. So it asked us to traverse the tree, that spent `O(n)` time to do this with any way. This can't conform our expectations.  
 
 Then we started to think about `pushDown` to update down from the root. **After we update the parent, the data continued to distributed to its children according to law.** But it still need `O(n)` time to do this. Keep thinking, we **only update the parent, and to update the children when `query` time**. Yeah, that's the key of **lazy propagation**. Because the recursing direct of the `query` and `update interval` is same. So we got it! 😁 Let's check this sample:
 
 ![lazy-sample-2](Images/lazy-sample-2.png)
+
 `update` make the subscript 1...3 elements plus 2, so we make the 1st node in 2 depth and 3rd in 3 depth get a *lazy mark*, which means these node need to be updated. And we shouldn't add a *lazy mark* for root node, because it was updated before the `pushDown` in the first recursing. 
 
 In `query` operation, we accord to the original method to recurs the tree, and find the 1st node held *lazy mark* in 2 depth, so to update it. It's the same situation about the 1st node in 3 depth.
@@ -147,70 +156,94 @@ This is the complete implementation about the Sum Segment Tree with interval upd
 
 ```swift
 public class LazySegmentTree {
+    
     private var value: Int
+    
     private var leftBound: Int
+    
     private var rightBound: Int
+    
     private var leftChild: LazySegmentTree?
+    
     private var rightChild: LazySegmentTree?
+    
     // Interval Update Lazy Element
     private var lazyValue: Int
+    
     // MARK: - Push Up Operation
+    // Description: pushUp() - update items to the top
     private func pushUp(lson: LazySegmentTree, rson: LazySegmentTree) {
         self.value = lson.value + rson.value
     }
+    
     // MARK: - Push Down Operation
+    // Description: pushDown() - update items to the bottom
     private func pushDown(round: Int, lson: LazySegmentTree, rson: LazySegmentTree) {
-        if lazyValue != 0 {
-            lson.lazyValue += lazyValue
-            rson.lazyValue += lazyValue
-            lson.value += lazyValue * (round - (round >> 1))
-            rson.value += lazyValue * (round >> 1)
-            lazyValue = 0
-        }
+        guard lazyValue != 0 else { return }
+        lson.lazyValue += lazyValue
+        rson.lazyValue += lazyValue
+        lson.value += lazyValue * (round - (round >> 1))
+        rson.value += lazyValue * (round >> 1)
+        lazyValue = 0
     }
+    
     public init(array: [Int], leftBound: Int, rightBound: Int) {
         self.leftBound = leftBound
         self.rightBound = rightBound
         self.value = 0
         self.lazyValue = 0
-        if leftBound == rightBound {
+        
+        guard leftBound != rightBound else {
             value = array[leftBound]
             return
         }
-        let middle = (leftBound + rightBound) / 2
+        
+        let middle = leftBound + (rightBound - leftBound) / 2
         leftChild = LazySegmentTree(array: array, leftBound: leftBound, rightBound: middle)
         rightChild = LazySegmentTree(array: array, leftBound: middle + 1, rightBound: rightBound)
-        pushUp(lson: leftChild!, rson: rightChild!)
+        if let leftChild = leftChild, let rightChild = rightChild {
+            pushUp(lson: leftChild, rson: rightChild)
+        }
     }
+    
     public convenience init(array: [Int]) {
         self.init(array: array, leftBound: 0, rightBound: array.count - 1)
     }
+    
     public func query(leftBound: Int, rightBound: Int) -> Int {
         if leftBound <= self.leftBound && self.rightBound <= rightBound {
             return value
         }
         guard let leftChild  = leftChild  else { fatalError("leftChild should not be nil") }
         guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
+        
         pushDown(round: self.rightBound - self.leftBound + 1, lson: leftChild, rson: rightChild)
-        let middle = (self.leftBound + self.rightBound) / 2
+        
+        let middle = self.leftBound + (self.rightBound - self.leftBound) / 2
         var result: Int = 0
+        
         if leftBound <= middle { result +=  leftChild.query(leftBound: leftBound, rightBound: rightBound) }
         if rightBound > middle { result += rightChild.query(leftBound: leftBound, rightBound: rightBound) }
+        
         return result
     }
+    
     // MARK: - One Item Update
     public func update(index: Int, incremental: Int) {
-        if self.leftBound == self.rightBound {
+        guard self.leftBound != self.rightBound else {
             self.value += incremental
             return
         }
         guard let leftChild  = leftChild  else { fatalError("leftChild should not be nil") }
         guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
-        let middle = (self.leftBound + self.rightBound) / 2
+        
+        let middle = self.rightBound + (self.leftBound - self.rightBound) / 2
+        
         if index <= middle { leftChild.update(index: index, incremental: incremental) }
         else { rightChild.update(index: index, incremental: incremental) }
         pushUp(lson: leftChild, rson: rightChild)
     }
+    
     // MARK: - Interval Item Update
     public func update(leftBound: Int, rightBound: Int, incremental: Int) {
         if leftBound <= self.leftBound && self.rightBound <= rightBound {
@@ -218,14 +251,20 @@ public class LazySegmentTree {
             self.value += incremental * (self.rightBound - self.leftBound + 1)
             return 
         }
+        
         guard let leftChild = leftChild else { fatalError() }
         guard let rightChild = rightChild else { fatalError() }
+        
         pushDown(round: self.rightBound - self.leftBound + 1, lson: leftChild, rson: rightChild)
-        let middle = (self.leftBound + self.rightBound) / 2
+        
+        let middle = self.rightBound + (self.leftBound - self.rightBound) / 2
+        
         if leftBound <= middle { leftChild.update(leftBound: leftBound, rightBound: rightBound, incremental: incremental) }
         if middle < rightBound { rightChild.update(leftBound: leftBound, rightBound: rightBound, incremental: incremental) }
+        
         pushUp(lson: leftChild, rson: rightChild)
     }
+    
 }
 ```
 
@@ -238,15 +277,15 @@ private var lazyValue: Int
 Here we add a new property for Segment Tree to represent *lazy mark*. And it is a incremental value for Sum Segment Tree. If the `lazyValue` isn't equal to zero, the current node need to be updated. And its real value is equal to `value + lazyValue * (rightBound - leftBound + 1)`.
 
 ```swift
-// MARK: - Push Down Operation
+    // MARK: - Push Down Operation
+    // Description: pushDown() - update items to the bottom
 private func pushDown(round: Int, lson: LazySegmentTree, rson: LazySegmentTree) {
-    if lazyValue != 0 {
-        lson.lazyValue += lazyValue
-        rson.lazyValue += lazyValue
-        lson.value += lazyValue * (round - (round >> 1))
-        rson.value += lazyValue * (round >> 1)
-        lazyValue = 0
-    }
+    guard lazyValue != 0 else { return }
+    lson.lazyValue += lazyValue
+    rson.lazyValue += lazyValue
+    lson.value += lazyValue * (round - (round >> 1))
+    rson.value += lazyValue * (round >> 1)
+    lazyValue = 0
 }
 ```
 
