@@ -27,6 +27,59 @@
    </FileRef>
    <Group
       location = "container:"
+      name = "Dijkstra">
+      <Group
+         location = "group:Dijkstra Algorithm/Images"
+         name = "Images">
+         <FileRef
+            location = "group:DirectedGraph.png">
+         </FileRef>
+         <FileRef
+            location = "group:image1.png">
+         </FileRef>
+         <FileRef
+            location = "group:image2.png">
+         </FileRef>
+         <FileRef
+            location = "group:image3.png">
+         </FileRef>
+         <FileRef
+            location = "group:image4.png">
+         </FileRef>
+         <FileRef
+            location = "group:image5.png">
+         </FileRef>
+         <FileRef
+            location = "group:image6.png">
+         </FileRef>
+         <FileRef
+            location = "group:image7.png">
+         </FileRef>
+         <FileRef
+            location = "group:Vertices.png">
+         </FileRef>
+         <FileRef
+            location = "group:WeightedDirectedGraph.png">
+         </FileRef>
+         <FileRef
+            location = "group:WeightedDirectedGraphFinal.png">
+         </FileRef>
+         <FileRef
+            location = "group:WeightedUndirectedGraph.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:Dijkstra Algorithm/README.md">
+      </FileRef>
+      <FileRef
+         location = "group:Dijkstra Algorithm/VisualizedDijkstra.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Dijkstra Algorithm/Dijkstra.playground">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "LRU Cache">
       <FileRef
          location = "group:LRU Cache/LRUCache.playground">
