@@ -1,5 +1,5 @@
 # Splay Tree
-Splay tree is a data structure, structurally identitical to a Balanced Binary Search Tree. Every operation performed on a Splay Tree causes a readjustment in order to provide fast access to recently operated values. On every access, the tree is rearranged and the node accessed is moved to the root of the tree using a set of specific rotations, which together are referred to as **Splaying**.
+Splay tree is a data structure, structurally identitical to a balanced binary search tree. Every operation performed on a Splay Tree causes a readjustment in order to provide fast access to recently operated values. On every access, the tree is rearranged and the node accessed is moved to the root of the tree using a set of specific rotations, which together are referred to as **Splaying**.
 
 
 ## Rotations
@@ -24,7 +24,7 @@ Given a node *a* if *a* is not the root, and *a* has a child *b*, and both *a* a
 
 ### Zig-Zag
 
-Given a node *a* if *a* is not the root, and *a* has a child *b*, and *b* is the left child of *a* being the right child (or the opporsite), a **Zig-Zag** is performed.
+Given a node *a* if *a* is not the root, and *a* has a child *b*, and *b* is the left child of *a* being the right child (or the opposite), a **Zig-Zag** is performed.
 
 ### Case right - left
 ![ZigZagCase1](Images/zigzag1.png)
@@ -43,49 +43,49 @@ A **Zig** is performed when the node *a* to be rotated has the root as parent.
 
 ## Splaying
 
-A splaying consists in making so many rotations as needed until the node affected by the operation is at the top and becomes the root of the tree.
+Splaying consists in making so many rotations as needed until the node affected by the operation is at the top and becomes the root of the tree.
 
 ```
 while (node.parent != nil) {
-            operation(forNode: node).apply(onNode: node)
+    operation(forNode: node).apply(onNode: node)
 }
 ```
 
 Where operation returns the required rotation to be applied. 
 
 ```
-    public static func operation<T: Comparable>(forNode node: Node<T>) -> SplayOperation {
-        
-        if let parent = node.parent, let _ = parent.parent {
-            if (node.isLeftChild && parent.isRightChild) || (node.isRightChild && parent.isLeftChild) {
-                return .zigZag
-            }
-            return .zigZig
+public static func operation<T>(forNode node: Node<T>) -> SplayOperation {
+    
+    if let parent = node.parent, let _ = parent.parent {
+        if (node.isLeftChild && parent.isRightChild) || (node.isRightChild && parent.isLeftChild) {
+            return .zigZag
         }
-        return .zig
+        return .zigZig
     }
+    return .zig
+}
 ```
 
 During the applying phase, the algorithms determines which nodes are involved depending on the rotation to be applied and proceeding to re-arrange the node with its parent.
 
 ```
-    public func apply<T: Comparable>(onNode node: Node<T>) {
-        switch self {
-        case .zigZag:
-            assert(node.parent != nil && node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
-            rotate(child: node, parent: node.parent!)
-            rotate(child: node, parent: node.parent!)
+public func apply<T>(onNode node: Node<T>) {
+    switch self {
+    case .zigZag:
+        assert(node.parent != nil && node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
+        rotate(child: node, parent: node.parent!)
+        rotate(child: node, parent: node.parent!)
 
-        case .zigZig:
-            assert(node.parent != nil && node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
-            rotate(child: node.parent!, parent: node.parent!.parent!)
-            rotate(child: node, parent: node.parent!)
-        
-        case .zig:
-            assert(node.parent != nil && node.parent!.parent == nil, "There should be a parent which is the root")
-            rotate(child: node, parent: node.parent!)
-        }
+    case .zigZig:
+        assert(node.parent != nil && node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
+        rotate(child: node.parent!, parent: node.parent!.parent!)
+        rotate(child: node, parent: node.parent!)
+    
+    case .zig:
+        assert(node.parent != nil && node.parent!.parent == nil, "There should be a parent which is the root")
+        rotate(child: node, parent: node.parent!)
     }
+}
 ```
 
 
