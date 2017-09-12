@@ -1,5 +1,9 @@
 //: Playground - Splay Tree Implementation
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
 
 let splayTree = SplayTree(value: 1)
 splayTree.insert(value: 2)

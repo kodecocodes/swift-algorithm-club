@@ -28,7 +28,7 @@ public enum SplayOperation {
      - Parameters:
      - node      SplayTree node to move up to the root
      */
-    public static func splay<T: Comparable>(node: Node<T>) {
+    public static func splay<T>(node: Node<T>) {
         
         while (node.parent != nil) {
             operation(forNode: node).apply(onNode: node)
@@ -44,7 +44,7 @@ public enum SplayOperation {
      - Returns
      - Operation     Case zigZag - zigZig - zig
      */
-    public static func operation<T: Comparable>(forNode node: Node<T>) -> SplayOperation {
+    public static func operation<T>(forNode node: Node<T>) -> SplayOperation {
         
         if let parent = node.parent, let _ = parent.parent {
             if (node.isLeftChild && parent.isRightChild) || (node.isRightChild && parent.isLeftChild) {
@@ -62,7 +62,7 @@ public enum SplayOperation {
      - Parameters:
      - onNode    Node to splay up. Should be alwayas the node that needs to be splayed, neither its parent neither it's grandparent
      */
-    public func apply<T: Comparable>(onNode node: Node<T>) {
+    public func apply<T>(onNode node: Node<T>) {
         switch self {
         case .zigZag:
             assert(node.parent != nil && node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
@@ -84,7 +84,7 @@ public enum SplayOperation {
      Performs a single rotation from a node to its parent
      re-arranging the children properly
      */
-    public func rotate<T: Comparable>(child: Node<T>, parent: Node<T>) {
+    public func rotate<T>(child: Node<T>, parent: Node<T>) {
         
         assert(child.parent != nil && child.parent!.value == parent.value, "Parent and child.parent should match here")
         
@@ -610,7 +610,7 @@ extension SplayTree: CustomStringConvertible {
 
 extension Node: CustomDebugStringConvertible {
     public var debugDescription: String {
-        var s = "value: \(value)"
+      var s = "value: \(String(describing: value))"
         if let parent = parent, let v = parent.value {
             s += ", parent: \(v)"
         }
