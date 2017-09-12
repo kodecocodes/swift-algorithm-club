@@ -153,7 +153,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Binary Tree](Binary%20Tree/). A tree where each node has at most two children.
 - [Binary Search Tree (BST)](Binary%20Search%20Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
 - [Red-Black Tree](Red-Black%20Tree/). A self balancing binary search tree.
-- Splay Tree
+- [Splay Tree](Splay%20Tree/). A self balancing binary search tree that enables fast retrieval of recently updated elements.
 - [Threaded Binary Tree](Threaded%20Binary%20Tree/). A binary tree that maintains a few extra variables for cheap and fast in-order traversals.
 - [Segment Tree](Segment%20Tree/). Can quickly compute a function over a portion of an array.
 - kd-Tree
