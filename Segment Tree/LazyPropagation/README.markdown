@@ -97,7 +97,7 @@ public init(array: [Int], leftBound: Int, rightBound: Int) {
         return
     }
     
-    let middle = leftBound + (rightBound - leftBound) / 2
+    let middle = (leftBound + rightBound) / 2
     leftChild = LazySegmentTree(array: array, leftBound: leftBound, rightBound: middle)
     rightChild = LazySegmentTree(array: array, leftBound: middle + 1, rightBound: rightBound)
     if let leftChild = leftChild, let rightChild = rightChild {
@@ -113,7 +113,7 @@ public func update(index: Int, incremental: Int) {
     guard let leftChild  = leftChild  else { fatalError("leftChild should not be nil") }
     guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
     
-    let middle = self.rightBound + (self.leftBound - self.rightBound) / 2
+    let middle = (self.leftBound + self.rightBound) / 2
     
     if index <= middle { leftChild.update(index: index, incremental: incremental) }
     else { rightChild.update(index: index, incremental: incremental) }
@@ -198,7 +198,7 @@ public class LazySegmentTree {
             return
         }
         
-        let middle = leftBound + (rightBound - leftBound) / 2
+        let middle = (leftBound + rightBound) / 2
         leftChild = LazySegmentTree(array: array, leftBound: leftBound, rightBound: middle)
         rightChild = LazySegmentTree(array: array, leftBound: middle + 1, rightBound: rightBound)
         if let leftChild = leftChild, let rightChild = rightChild {
@@ -219,8 +219,8 @@ public class LazySegmentTree {
         
         pushDown(round: self.rightBound - self.leftBound + 1, lson: leftChild, rson: rightChild)
         
-        let middle = self.leftBound + (self.rightBound - self.leftBound) / 2
-        var result: Int = 0
+        let middle = (self.leftBound + self.rightBound) / 2
+        var result = 0
         
         if leftBound <= middle { result +=  leftChild.query(leftBound: leftBound, rightBound: rightBound) }
         if rightBound > middle { result += rightChild.query(leftBound: leftBound, rightBound: rightBound) }
@@ -237,7 +237,7 @@ public class LazySegmentTree {
         guard let leftChild  = leftChild  else { fatalError("leftChild should not be nil") }
         guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
         
-        let middle = self.rightBound + (self.leftBound - self.rightBound) / 2
+        let middle = (self.leftBound + self.rightBound) / 2
         
         if index <= middle { leftChild.update(index: index, incremental: incremental) }
         else { rightChild.update(index: index, incremental: incremental) }
@@ -252,12 +252,12 @@ public class LazySegmentTree {
             return 
         }
         
-        guard let leftChild = leftChild else { fatalError() }
-        guard let rightChild = rightChild else { fatalError() }
+        guard let leftChild  = leftChild  else { fatalError("leftChild should not be nil") }
+        guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
         
         pushDown(round: self.rightBound - self.leftBound + 1, lson: leftChild, rson: rightChild)
         
-        let middle = self.rightBound + (self.leftBound - self.rightBound) / 2
+        let middle = (self.leftBound + self.rightBound) / 2
         
         if leftBound <= middle { leftChild.update(leftBound: leftBound, rightBound: rightBound, incremental: incremental) }
         if middle < rightBound { rightChild.update(leftBound: leftBound, rightBound: rightBound, incremental: incremental) }
@@ -302,7 +302,3 @@ In fact, the operation of Segment Tree is far more than that. It can also be use
 ---
 
 *Written for Swift Algorithm Club by [Desgard_Duan](https://github.com/desgard)*
-
-
-
-
