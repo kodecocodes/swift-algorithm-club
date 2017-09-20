@@ -12,7 +12,7 @@ If the object is incredibly resilient, and you may need to do the testing on the
 
 ## Description
 
-You're in a building with **m** floors and you are given **n** eggs. What is the minimum number attempts it will take to find out the lowest floor that breaks the egg?
+You're in a building with **m** floors and you are given **n** eggs. What is the maximum number of attempts it will take to find out the floor that breaks the egg?
 
 For convenience, here are a few rules to keep in mind:
 
@@ -22,9 +22,8 @@ For convenience, here are a few rules to keep in mind:
 - If an egg breaks, then it would break if dropped from a higher floor.
 - If an egg survives, then it would survive a shorter fall.
 
-The problem is not actually to find the critical floor, but merely to decide floors from which eggs should be dropped so that total number of trials are minimized.
-
 ## Solution
+
 - eggNumber -> Number of eggs at the moment
 - floorNumber -> Floor number at the moment
 - visitingFloor -> Floor being visited at the moment
