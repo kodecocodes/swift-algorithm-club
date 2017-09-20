@@ -12,7 +12,7 @@ The following solution is semi-naive. Its time complexity is **O(n log n)** sinc
 func kthLargest(a: [Int], k: Int) -> Int? {
   let len = a.count
   if k > 0 && k <= len {
-    let sorted = a.sort()
+    let sorted = a.sorted()
     return sorted[len - k]
   } else {
     return nil
