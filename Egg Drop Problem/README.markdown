@@ -1,18 +1,27 @@
-# Egg Drop Dynamic Problem
+# Egg Drop
 
-## Problem Description 
+The *egg drop* problem is an interview question popularized by Google. The premise is simple; You're given a task to evaluate the *shatter resistance* of unknown objects by dropping them at a certain height. For simplicity, you test this by going inside a multi-story building and performing tests by dropping the objects out the window and onto the ground:
 
-Given some number of floors and some number of eggs, what is the minimum number of attempts it will take to find out from which floor egg will break.
+![building with eggs being dropped](images/eggdrop.png)
 
-Suppose that we wish to know which stories in a 36-story building are safe to drop eggs from, and which will cause the eggs to break on landing. We make a few assumptions:
+Your goal is to find out the **minimum** height that causes the object to shatter. Consider the trivial case you're given **1** object to obtain the results with. Since you've only got one sample for testing, you need to play it safe by performing drop tests starting with the bottom floor and working your way up:
+
+![dropping from first floor](images/eggdrop2.png)
+
+If the object is incredibly resilient, and you may need to do the testing on the world's tallest building - the [Burj Khalifa](https://en.wikipedia.org/wiki/Burj_Khalifa). With **163** floors, that's a lot of climbing. Let's assume you complain, and your employer hears your plight. You are now given *several* samples to work with. How can you make use of these extra samples to expedite your testing process? The problem for this situation is popularized as the **egg drop** problem.
+
+## Description
+
+You're in a building with **m** floors and you are given **n** eggs. What is the minimum number attempts it will take to find out the lowest floor that breaks the egg?
+
+For convenience, here are a few rules to keep in mind:
 
 - An egg that survives a fall can be used again.
 - A broken egg must be discarded.
 - The effect of a fall is the same for all eggs.
-- If an egg breaks when dropped, then it would break if dropped from a higher floor.
-- If an egg survives a fall then it would survive a shorter fall.
+- If an egg breaks, then it would break if dropped from a higher floor.
+- If an egg survives, then it would survive a shorter fall.
 
-If only one egg is available and we wish to be sure of obtaining the right result, the experiment can be carried out in only one way. Drop the egg from the first-floor window; if it survives, drop it from the second floor window. Continue upward until it breaks. In the worst case, this method may require 36 droppings. Suppose 2 eggs are available. What is the least number of egg-droppings that is guaranteed to work in all cases?
 The problem is not actually to find the critical floor, but merely to decide floors from which eggs should be dropped so that total number of trials are minimized.
 
 ## Solution
