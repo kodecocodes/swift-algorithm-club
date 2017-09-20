@@ -69,4 +69,4 @@ Let's assume we have 2 eggs and 2 floors.
 3) Finding the minimum of 2 and 2 gives us 2, so the answer is 2. 
    2 is the minimum number of attempts it will take to find out from which floor egg will break.
 
-
+*Written for the Swift Algorithm Club by Arkalyk Akash. Revisions and additions by Kelvin Lau*
