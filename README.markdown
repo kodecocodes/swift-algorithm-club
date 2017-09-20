@@ -196,7 +196,7 @@ A lot of software developer interview questions consist of algorithmic puzzles. 
 - [Monty Hall Problem](Monty%20Hall%20Problem/)
 - [Finding Palindromes](Palindromes/)
 - [Dining Philosophers](DiningPhilosophers/)
-
+- [Egg Drop Problem](Egg%20Drop%20Problem/)
 ## Learn more!
 
 For more information, check out these great books:
