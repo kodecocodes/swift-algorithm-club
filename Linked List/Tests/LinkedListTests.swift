@@ -337,4 +337,12 @@ class LinkedListTest: XCTestCase {
     XCTAssertEqual(arrayLiteralInitExplicit.removeLast(), 3)
     XCTAssertEqual(arrayLiteralInitExplicit.count, 2)
   }
+
+  func testLongLinkedList() {
+    var list: LinkedList<Int>? = LinkedList<Int>()
+    for i in 0..<100_000 {
+      list!.insert(i, atIndex: 0)
+    }
+    list = nil
+  }
 }
