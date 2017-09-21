@@ -11,14 +11,14 @@ This solution uses a dictionary to store differences between each element in the
 With this approach, each key in the dictionary corresponds to a new target value. If one of the successive numbers from the array is equal to one of the dictionary's keys, then we know there exist two numbers that sum.
 
 ```swift
-func twoSumProblem(_ numbers: [Int], sum: Int) -> (Int, Int)? {
+func twoSumProblem(_ numbers: [Int], target: Int) -> (Int, Int)? {
   var dict: [Int: Int] = [:]
   
   for (index, number) in numbers.enumerated() {
     if let otherIndex = dict[number] {
       return (index, otherIndex)
     } else {
-      dict[sum - number] = index
+      dict[target - number] = index
     }
   }
 
