@@ -304,5 +304,3 @@ In fact, the operation of Segment Tree is far more than that. It can also be use
 ---
 
 *Written for Swift Algorithm Club by [Desgard_Duan](https://github.com/desgard)*
-
-
