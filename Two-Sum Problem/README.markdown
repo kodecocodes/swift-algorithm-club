@@ -1,24 +1,24 @@
 # Two-Sum Problem
 
-You're given an array `a` with numbers. Write an algorithm that checks if there are any two entries in the array that add up to a given number `k`. In other words, is there any `a[i] + a[j] == k`?
+You're given an array of numbers. Write an algorithm that checks if there are any two elements in the array that add up to a given number.
 
 There are a variety of solutions to this problem (some better than others). The following solutions both run in **O(n)** time.
 
 # Solution 1
 
-This solution uses a dictionary to store differences between each element in the array and the sum `k` that we're looking for. The dictionary also stores the indices of each element.
+This solution uses a dictionary to store differences between each element in the array and the sum that we're looking for. The dictionary also stores the indices of each element.
 
-With this approach, each key in the dictionary corresponds to a new target value. If one of the successive numbers from the array is equal to one of the dictionary's keys, then we know there exist two numbers that sum to `k`.
+With this approach, each key in the dictionary corresponds to a new target value. If one of the successive numbers from the array is equal to one of the dictionary's keys, then we know there exist two numbers that sum.
 
 ```swift
-func twoSumProblem(_ a: [Int], k: Int) -> ((Int, Int))? {
-  var dict = [Int: Int]()
-
-  for i in 0 ..< a.count {
-    if let newK = dict[a[i]] {
-      return (newK, i)
+func twoSumProblem(_ numbers: [Int], target: Int) -> (Int, Int)? {
+  var dict: [Int: Int] = [:]
+  
+  for (index, number) in numbers.enumerated() {
+    if let otherIndex = dict[number] {
+      return (index, otherIndex)
     } else {
-      dict[k - a[i]] =  i
+      dict[target - number] = index
     }
   }
 

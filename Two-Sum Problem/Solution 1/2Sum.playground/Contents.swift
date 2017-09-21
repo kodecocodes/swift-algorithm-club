@@ -4,26 +4,21 @@
 print("Hello, Swift 4!")
 #endif
 
-func twoSumProblem(_ a: [Int], k: Int) -> ((Int, Int))? {
-  var map = [Int: Int]()
-
-  for i in 0 ..< a.count {
-    if let newK = map[a[i]] {
-      return (newK, i)
+func twoSum(_ numbers: [Int], target: Int) -> (Int, Int)? {
+  var dict: [Int: Int] = [:]
+  
+  for (index, number) in numbers.enumerated() {
+    if let otherIndex = dict[number] {
+      return (index, otherIndex)
     } else {
-      map[k - a[i]] =  i
+      dict[target - number] = index
     }
   }
+  
   return nil
 }
 
-let a = [7, 100, 2, 21, 12, 10, 22, 14, 3, 4, 8, 4, 9]
-if let (i, j) = twoSumProblem(a, k: 33) {
-  i            // 3
-  a[i]         // 21
-  j            // 4
-  a[j]         // 12
-  a[i] + a[j]  // 33
-}
+let numbers = [3, 2, 4]
+let target = 6
 
-twoSumProblem(a, k: 37)  // nil
+twoSum(numbers, target: target) // expected output: indices 2 and 1
