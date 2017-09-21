@@ -26,7 +26,7 @@ func twoSumProblem(_ numbers: [Int], target: Int) -> (Int, Int)? {
 }
 ```
 
-The `twoSumProblem()` function takes two parameters: the array `a` with the numbers, and `k`, the sum we're looking for. It returns the first set of indices `(i, j)` where `a[i] + a[j] == k`, or `nil` if no two numbers add up to `k`.
+The `twoSumProble` function takes two parameters: the `numbers` array and the target sum you're looking for. It returns the 2 indices with elements that sums up to the target, or `nil` if it can't be found.
 
 Let's take a look at an example and run through the algorithm to see how it works. Given is the array:
 
@@ -38,7 +38,7 @@ Let's find out if there exist two entries whose sum is equal to 10.
 
 Initially, our dictionary is empty. We begin looping through each element:
 
-- **i = 0**: Is `7` in the dictionary? No. We add the difference between the target `k` and the current number to the dictionary. The difference is `10 - 7 = 3`, so the dictionary key is `3`. The value for that key is the current index, `0`. The dictionary now looks like this:
+- **i = 0**: Is `7` in the dictionary? No. We add the difference between the `target` and the current number to the dictionary. The difference is `10 - 7 = 3`, so the dictionary key is `3`. The value for that key is the current index, `0`. The dictionary now looks like this:
 
 ```swift
 [ 3: 0 ]
