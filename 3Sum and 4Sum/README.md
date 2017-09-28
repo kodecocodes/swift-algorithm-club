@@ -1,24 +1,127 @@
 # 3Sum and 4Sum
 
+3Sum and 4Sum are extensions of a popular algorithm question, the [2Sum][5]. This article will talk about the problem and describe possible solutions.
+
 ## 3Sum
-Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? 
-Find all unique triplets in the array which gives the sum of zero.
 
-**Note**: The solution set must not contain duplicate triplets.
+Given an array of integers, find all subsets of the array with 3 values where the 3 values sum up to a target number. 
 
-> For example, given array S = [-1, 0, 1, 2, -1, -4],
-> A solution set is: [[-1, 0, 1], [-1, -1, 2]]
+**Note**: The solution subsets must not contain duplicate triplets. (Each element in the array can only be used once)
 
-### Solution
-Like [2Sum][5], we can sort the array first, then use 2 pointers method to solve the problem. But here, we need 3 numbers, so we need add one more pointer. But how to play with 3 pointers?
+> For example, given the array [-1, 0, 1, 2, -1, -4], and the target **0**:
+> The solution set is: [[-1, 0, 1], [-1, -1, 2]] // The two **-1** values in the array are considered to be distinct
 
-The key idea here is we split the array into 2 parts, if we have a pointer `i`, let’s assume we got `i` position already. What’ next? Actually, next is just a 2Sum problem right? We can just apply 2 pointers method in 2Sum. But what’s 2Sum’s target sum? Is it `target2Sum = target3Sum - nums[i]` ? That’s awesome! 
+### Example
 
-How we figure out `i`? We can loop i from `0` to `nums.count - 1`.
+Consider the following array of integers, and a target sum of **0**:
 
-How we avoid duplicate triplets? Since the array has been sorted, we just need to check if `a[i] == a[i-1]`. Why? Because if `a[i] == a[i-1]`, it means that `a[i-1]` already covers all `a[i]` solutions, we should not do it, otherwise it will have duplicate answers. The same for `j` and `k` which runs for 2Sum.
+```
+[-1, 0, 1, 2, -1, -4]
+```
 
-So, we successfully downgrade 3Sum to 2Sum problem with some tricks. Next, you will see how we downgrade 4Sum to 3Sum.
+#### 1. Sorting
+
+You'll first sort the array in ascending order:
+
+```
+[-4, -1, -1, 0, 1, 2]
+```
+
+#### 2. Two Sum's Methodology
+
+The 3Sum problem can be solved by augmenting the 2Sum solution, so let's begin by doing a quick explanation on how 2Sum handles the solution. 2Sum begins by comparing the left and right most values:
+
+```
+[-4, -1, -1, 0, 1, 2]
+  l                r
+```
+
+Your target sum is **0**. Given the current left and right values, you won't be able to make the target number. However, you've gained a valuable hint for your next step. 
+
+```
+-4 + 2 = -2 // too small!
+```
+
+The result of `l + r` gave you a value that is smaller than the target number. Thus, you have two options:
+
+1. Increase the lower number. 
+2. Increase the higher number.
+
+Because your array is sorted, you can quickly identify that you cannot pick option **2**, since the rightmost number is already the biggest number. Thus, you have no choice but to try for a different number from the left end of the array:
+
+```
+[-4, -1, -1, 0, 1, 2]
+      l            r
+```
+
+This time, you'll get the following result from summing `l` and `r`:
+
+```
+-1 + 2 = 1 // too big!
+```
+
+This time, the value is too big! I hope you see where it goes from here. Since the array is already sorted, you can only decrease the value on the right side in an attempt to balance things out. Hence, the next iteration of your algorithm will look like this:
+
+```
+[-4, -1, -1, 0, 1, 2]
+      l         r 
+```
+
+And then you've found a match :]
+
+```
+-1 + 1 = 0
+```
+
+#### Augmenting 2Sum
+
+Let's start from scratch and consider the same problem where you've sorted your input and you're target sum is **0**:
+
+```
+[-4, -1, -1, 0, 1, 2]
+  l                r
+```
+
+Your goal this time is the following equation:
+
+```
+l + r + m = 0
+```
+
+You have the values of `l` and `r`:
+
+```
+-4 + 2 + m = 0
+
+// in other words
+m = 4 - 2 = 2
+```
+
+For the current values of `l` and `r`, you need to find a value of **2** in the array to satisfy your target sum...
+
+#### Finding `m`
+
+```
+         m -- where?
+[-4, -1, -1, 0, 1, 2]
+  l                r 
+```
+
+There are slight optimizations you can do to find `m`, but to keep things simple, you'll just iterate through the array from `l` index to the `r` index. Once you find a value where `l + r + m = target`, you've found your first match! 
+
+#### Avoiding Duplicates
+
+// TODO: Work in progress
+
+Avoiding duplicate values is fairly straightforward if you've understood everything so far. Let's consider a sample array that has a few duplicates:
+
+```
+target = 0
+
+[-1, -1, -1, -1, 0, 1, 1, 1]
+```
+
+One possible subset is `[-1, 0, 1]`, and in fact is the only subset for 3Sum. 
 
 ## 4Sum
 Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
