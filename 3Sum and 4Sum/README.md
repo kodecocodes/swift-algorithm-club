@@ -111,8 +111,6 @@ There are slight optimizations you can do to find `m`, but to keep things simple
 
 #### Avoiding Duplicates
 
-// TODO: Work in progress
-
 Avoiding duplicate values is fairly straightforward if you've understood everything so far. Let's consider a sample array that has a few duplicates:
 
 ```
@@ -123,25 +121,44 @@ target = 0
 
 One possible subset is `[-1, 0, 1]`, and in fact is the only subset for 3Sum. 
 
+The easiet way is using set. We can maintain a solution set, then we can check if the triplets is in the set or not to determine whether it's duplicate.
+
+Set introduces space complexity. So we still want to avoid extra space using. Let's change an angle consider, we can loop the array first find `m` then next thing is to find `l` and `r`. 
+
+For example
+
+```
+​```
+[-1, 0, 1, 2, -1, -4] // unsorted
+
+1)
+[-4, -1, -1, 0, 1, 2]
+      m   l        r
+
+2)
+[-4, -1, -1, 0, 1, 2]
+          m  l     r
+
+3)
+[-4, -1, -1, 0, 1, 2]
+      m      l     r
+​```
+
+We loop `m` in `0..<n`. We will do another inner loop at the same time, `l..r` loops in `i+1..<n`. 
+In 1), we will check if `a[i] == a[i-1]`? It's not in this case, then the problem is 2sum (`l..r`).
+In 2), Since `a[i] == a[i-1]`, it means `a[i-1]` covers `a[i]` case. Because case 3) contains case 2) solutions.
+```
+
+
+
 ## 4Sum
-Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
+Given an array S of n integers, find all subsets of the array with 4 values where the 4 values sum up to a target number. 
 
 **Note**: The solution set must not contain duplicate quadruplets.
 
 ### Solution
-After 3Sum, you should have feeling actually we just need a same idea to downgrade it to 3Sum, and then 2Sum, and then solve it.
+After 3Sum, we already have the idea to change to a problem to a familiar problem we solved before. So, the idea here is straightforward. We just need to downgrade 4Sum to 3Sum. Then we can solve 4Sum.
 
-How? I will leave it as a challenge for you to figure out first and see if you really master the idea behind this kind of problems.
-
-Feel free to check out the solution if you are blocked.
-
-## Where to go next?
-If it’s a KSum, and `K` is a big number, do we need to create `K` pointers and solve it?
-
-I will write another topic to present how we will solve this KSum problem with a generic way soon.
-
-
-
-
+It's easy to think that we loop the array and get the first the element, then the rest array is 3Sum problem. Since the code is pretty simple, I will avoid duplicate introducation here.
 
 [5]:	https://github.com/raywenderlich/swift-algorithm-club/tree/master/Two-Sum%20Problem
