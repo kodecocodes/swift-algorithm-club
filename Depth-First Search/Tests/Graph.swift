@@ -47,9 +47,9 @@ public func == (lhs: Node, rhs: Node) -> Bool {
   return lhs.label == rhs.label && lhs.neighbors == rhs.neighbors
 }
 
-// MARK: - Graph
+// MARK: - Digraph
 
-open class Graph: CustomStringConvertible, Equatable {
+open class Digraph: CustomStringConvertible, Equatable {
   open fileprivate(set) var nodes: [Node]
 
   public init() {
@@ -82,8 +82,8 @@ open class Graph: CustomStringConvertible, Equatable {
     return nodes.filter { $0.label == label }.first!
   }
 
-  open func duplicate() -> Graph {
-    let duplicated = Graph()
+  open func duplicate() -> Digraph {
+    let duplicated = Digraph()
 
     for node in nodes {
       _ = duplicated.addNode(node.label)
@@ -101,6 +101,6 @@ open class Graph: CustomStringConvertible, Equatable {
   }
 }
 
-public func == (lhs: Graph, rhs: Graph) -> Bool {
+public func == (lhs: Digraph, rhs: Digraph) -> Bool {
   return lhs.nodes == rhs.nodes
 }
