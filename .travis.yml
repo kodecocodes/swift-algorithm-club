@@ -28,6 +28,7 @@ script:
 - xcodebuild test -project ./Insertion\ Sort/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./K-Means/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Linked\ List/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Singly\ Linked\ List/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Longest\ Common\ Subsequence/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Minimum\ Spanning\ Tree\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
