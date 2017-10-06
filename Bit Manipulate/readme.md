@@ -2,11 +2,11 @@
 
 ## Find Unique Number
 
-Given an array of Int, every element appears twice, only one number appears once. We need to find that unique number.
+You are given an array of integers where every element except one appears twice. Find the unique number.
 
 ### Solution 1
 
-We can enumerate the number and then check if this number appears exactly once. Here is the code
+Iterate through the array and compare each number with the rest of the array to check for uniqueness:
 
 ```swift
 for i in 0..<a.count {
@@ -22,11 +22,12 @@ for i in 0..<a.count {
 }
 ```
 
-Time complexity will be `O(n^2)` 
+Time complexity for this solution is `O(n^2)` 
 
 ### Solution 2
 
-Dig deep into Solution 1, we can find that we did a lot of duplicate calculation to count the number apperance. Could we avoid the duplicate count? How about we find a way to store the number appearance? Like hash table? Then we can loop all elements in the hash table, if the count is 1, that's the number we want.
+A hash table (aka dictionary) can be used to keep track of the # of occurrences of each number. Each key in the dictionary represents a number, and the value of each key will be the # of occurences. This is similar to counting sort, and uses the same methodology as the ![Multiset](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Multiset).
+
 
 ```swift
 var count: [Int: Int] = [:]
@@ -45,19 +46,11 @@ for (key, val) in count {
 }
 ```
 
-In this algorithm, we reduce the time complexity to `O(n)`
+The time complexity of this solution is `O(n)`. Since you've had to use an hashmap as an intermediate store for this algorithm, there's also a space complexity of `O(n)`.
 
 ### Solution 3
 
-In Solution 2, the time complexity is the best already. But it still needs `O(n)` extra space. Is there a way to reduce `O(n)` space to `O(1)` ?
-
-The answer is : YES! 
-
-How? Bit manipulation.
-
-Do you still remember `XOR` operation? How it works?
-
-Here is a quick review for you.
+You can also make use of the **XOR** logical gate. Here's a quick review in case you've forgot how XOR works:
 
 ```swift
 0 ^ 0 = 0
@@ -69,7 +62,7 @@ Here is a quick review for you.
 1 ^ 1 = 0
 ```
 
-So, the most important idea here is if two numbers are the same, their result is 0. That means `a ^ a = 0`
+The first condition is of particular interest. That means `a ^ a = 0`
 
 That's exactly what we want, right?
 
@@ -86,7 +79,7 @@ return ret
 
 ## Find Unique Number 2
 
-Follow up - If every element appears 3 times, and only one number appears once. How to solve it?
+You're given an array where each value appears 3 times, except for one value which appears once. Return the unique value.
 
 ### Solution
 
