@@ -73,7 +73,7 @@ And then you've found a match :]
 -1 + 1 = 0
 ```
 
-#### Augmenting 2Sum
+# Augmenting 2Sum
 
 Let's start from scratch and consider the same problem where you've sorted your input and you're target sum is **0**:
 
