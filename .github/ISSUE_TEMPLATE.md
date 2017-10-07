@@ -1,9 +1,3 @@
-### Category
-
-- [ ] Bug
-- [ ] Feature Request
-- [ ] Question
-
 ### Brief Intro
 
 <!-- Describe the issue briefly.-->
