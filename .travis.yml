@@ -9,6 +9,7 @@ install:
 
 script:
 
+- xcodebuild test -project ./A-Star/Tests/AStarTests.xcodeproj -scheme AStarTests | xcpretty -f `xcpretty-travis-formatter`
 - xcodebuild test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
 - xcodebuild test -project ./All-Pairs\ Shortest\ Paths/APSP/APSP.xcodeproj -scheme APSPTests | xcpretty -f `xcpretty-travis-formatter`
 - xcodebuild test -project ./AVL\ Tree/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
