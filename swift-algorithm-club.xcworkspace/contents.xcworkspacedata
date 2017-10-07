@@ -40,6 +40,16 @@
    </FileRef>
    <Group
       location = "container:"
+      name = "Bit Manipulate">
+      <FileRef
+         location = "group:Bit Manipulate/readme.md">
+      </FileRef>
+      <FileRef
+         location = "group:Bit Manipulate/BitManipulate.playground">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "Dijkstra">
       <Group
          location = "group:Dijkstra Algorithm/Images"
