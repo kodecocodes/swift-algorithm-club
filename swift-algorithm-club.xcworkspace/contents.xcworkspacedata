@@ -39,6 +39,29 @@
       location = "group:Why Algorithms.markdown">
    </FileRef>
    <Group
+      location = "container:A-Star"
+      name = "A-Star">
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <FileRef
+         location = "group:AStar.swift">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <FileRef
+            location = "group:AStarTests.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:AStarTests.swift">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
       location = "container:"
       name = "3Sum and 4Sum">
       <FileRef
