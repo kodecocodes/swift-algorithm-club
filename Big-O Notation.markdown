@@ -18,7 +18,7 @@ Big-O | Name | Description
 **O(n!)** | factorial | **Intolerably slow.** It literally takes a million years to do anything.  
   
 
-Some examples to better understand the Big(O) notation:
+Below are some examples for each category of performance:
 
 **O(1)**
 
