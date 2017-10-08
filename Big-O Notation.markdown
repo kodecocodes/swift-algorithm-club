@@ -24,8 +24,8 @@ Some examples to better understand the Big(O) notation:
 
   The most common example with O(1) complexity is accessing an array index.
   
-  ```c++
-  int i = a[5];
+  ```swift
+  let value = array[5]
   ```
     
   Another example of O(1) is Pushing and Popping from Stack.
@@ -33,20 +33,25 @@ Some examples to better understand the Big(O) notation:
  
 **O(log n)**
 
-  ```c++
-  for(int i=0; i<n; i *= 2){
-      cout<<i<<endl;  // instead of simply incrementing, 'i' is increased by 2 times itself in each run.
+  ```swift
+  var j = 1
+  while j < n {
+    // do constant time stuff
+    j *= 2
   }
-  ```
+  ```  
+  
+  Instead of simply incrementing, 'j' is increased by 2 times itself in each run.
+  
   Binary Search Algorithm is an example of O(log n) complexity.
   
   
 **O(n)**
 
-  ```c++
-  for(int i=0; i<n; i++){
-      cout<<a[i]<<endl;
-  } 
+  ```swift
+  for i in stride(from: 0, to: n, by: 1) {
+    print(array[i])
+  }
   ```
   
   Array Traversal and Linear Search are examples of O(n) complexity.  
@@ -54,25 +59,40 @@ Some examples to better understand the Big(O) notation:
   
 **O(n log n)**
 
-  ```c++
-  for(int i = 0; i < n; i++) { //linear
-    for(int j = 1; j < n; j *= 2){ // log (n)
-        //do constant time stuff
+  ```swift
+  for i in stride(from: 0, to: n, by: 1) {
+  var j = 1
+    while j < n {
+      j *= 2
+      // do constant time stuff
     }
   }
-```
+  ```
+  
+  OR
+  
+  ```swift
+  for i in stride(from: 0, to: n, by: 1) {
+    func index(after i: Int) -> Int? { // multiplies `i` by 2 until `i` >= `n`
+      return i < n ? i * 2 : nil 
+    }
+    for j in sequence(first: 1, next: index(after:)) {
+      // do constant time stuff
+    }
+  }
+  ```
   
   Merge Sort and Heap Sort are examples of O(n log n) complexity.  
   
   
 **O(n^2)**
 
-  ```c++
-  for(int i = 0; i < n; i++) { 
-    for(int j = 1; j < n; j++){ 
-        //do constant time stuff
+  ```swift
+  for i  in stride(from: 0, to: n, by: 1) {
+    for j in stride(from: 1, to: n, by: 1) {
+      // do constant time stuff
     }
-  }  
+  }
   ```
   
   Traversing a simple 2-D array and Bubble Sort are examples of O(n^2) complexity.
@@ -80,14 +100,14 @@ Some examples to better understand the Big(O) notation:
   
 **O(n^3)**
 
-  ```c++
-  for(int i = 0; i < n; i++) { 
-    for(int j = 1; j < n; j++){ 
-      for(int k = 1; k < n; k++){
-        //do constant time stuff
+  ```swift
+  for i in stride(from: 0, to: n, by: 1) {
+    for j in stride(from: 1, to: n, by: 1) {
+      for k in stride(from: 1, to: n, by: 1) {
+        // do constant time stuff
       }
     }
-  }  
+  }
   ```  
   
 **O(2^n)**
@@ -95,19 +115,15 @@ Some examples to better understand the Big(O) notation:
   Algorithms with running time O(2^N) are often recursive algorithms that solve a problem of size N by recursively solving two smaller problems of size N-1.
   The following example prints all the moves necessary to solve the famous "Towers of Hanoi" problem for N disks.
 
-  ```c++
-  void solve_hanoi(int N, string from, string to, string spare) {
-    if (N<1) {
-        return;
+  ```swift
+  func solveHanoi(N: Int, from: String, to: String, spare: String) {
+    guard n >= 1 else { return }
+    if N > 1 {
+      solveHanoi(N: N - 1, from: from, to: spare, spare: to)
+    } else {
+      solveHanoi(N: N-1, from: spare, to: to, spare: from)
     }
-    if (N>1) {
-        solve_hanoi(N-1, from, spare, to);
-    }
-    print "move from " + from + " to " + to;
-    if (N>1) {
-        solve_hanoi(N-1, spare, to, from);
-    }
-  } 
+  }
   ```
   
   
@@ -115,12 +131,12 @@ Some examples to better understand the Big(O) notation:
 
   The most trivial example of function that takes O(n!) time is given below.
 
-  ```c++
-    void nFacFunc(int n) {
-      for(int i=0; i<n; i++) {
-        nFacFunc(n-1);
-      }
-    } 
+  ```swift
+  func nFacFunc(n: Int) {
+    for i in stride(from: 0, to: n, by: 1) {
+      nFactFunc(n - 1)
+    }
+  }
   ``` 
   
 Often you don't need math to figure out what the Big-O of an algorithm is but you can simply use your intuition. If your code uses a single loop that looks at all **n** elements of your input, the algorithm is **O(n)**. If the code has two nested loops, it is **O(n^2)**. Three nested loops gives **O(n^3)**, and so on.
