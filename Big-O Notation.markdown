@@ -28,7 +28,7 @@ Some examples to better understand the Big(O) notation:
   let value = array[5]
   ```
     
-  Another example of O(1) is Pushing and Popping from Stack.
+  Another example of O(1) is pushing and popping from Stack.
   
  
 **O(log n)**
