@@ -15,8 +15,114 @@ Big-O | Name | Description
 **O(n^2)** | quadratic | **Kinda slow.** If you have 100 items, this does 100^2 = 10,000 units of work. Doubling the number of items makes it four times slower (because 2 squared equals 4). Example: algorithms using nested loops, such as insertion sort.
 **O(n^3)** | cubic | **Poor performance.** If you have 100 items, this does 100^3 = 1,000,000 units of work. Doubling the input size makes it eight times slower. Example: matrix multiplication.
 **O(2^n)** | exponential | **Very poor performance.** You want to avoid these kinds of algorithms, but sometimes you have no choice. Adding just one bit to the input doubles the running time. Example: traveling salesperson problem.
-**O(n!)** | factorial | **Intolerably slow.** It literally takes a million years to do anything.
+**O(n!)** | factorial | **Intolerably slow.** It literally takes a million years to do anything.  
+  
 
+Some examples to better understand the Big(O) notation:
+
+**O(1)**
+
+  The most common example with O(1) complexity is accessing an array index.
+  
+  ```c++
+  int i = a[5];
+  ```
+    
+  Another example of O(1) is Pushing and Popping from Stack.
+  
+ 
+**O(log n)**
+
+  ```c++
+  for(int i=0; i<n; i *= 2){
+      cout<<i<<endl;  // instead of simply incrementing, 'i' is increased by 2 times itself in each run.
+  }
+  ```
+  Binary Search Algorithm is an example of O(log n) complexity.
+  
+  
+**O(n)**
+
+  ```c++
+  for(int i=0; i<n; i++){
+      cout<<a[i]<<endl;
+  } 
+  ```
+  
+  Array Traversal and Linear Search are examples of O(n) complexity.  
+  
+  
+**O(n log n)**
+
+  ```c++
+  for(int i = 0; i < n; i++) { //linear
+    for(int j = 1; j < n; j *= 2){ // log (n)
+        //do constant time stuff
+    }
+  }
+```
+  
+  Merge Sort and Heap Sort are examples of O(n log n) complexity.  
+  
+  
+**O(n^2)**
+
+  ```c++
+  for(int i = 0; i < n; i++) { 
+    for(int j = 1; j < n; j++){ 
+        //do constant time stuff
+    }
+  }  
+  ```
+  
+  Traversing a simple 2-D array and Bubble Sort are examples of O(n^2) complexity.
+  
+  
+**O(n^3)**
+
+  ```c++
+  for(int i = 0; i < n; i++) { 
+    for(int j = 1; j < n; j++){ 
+      for(int k = 1; k < n; k++){
+        //do constant time stuff
+      }
+    }
+  }  
+  ```  
+  
+**O(2^n)**
+
+  Algorithms with running time O(2^N) are often recursive algorithms that solve a problem of size N by recursively solving two smaller problems of size N-1.
+  The following example prints all the moves necessary to solve the famous "Towers of Hanoi" problem for N disks.
+
+  ```c++
+  void solve_hanoi(int N, string from, string to, string spare) {
+    if (N<1) {
+        return;
+    }
+    if (N>1) {
+        solve_hanoi(N-1, from, spare, to);
+    }
+    print "move from " + from + " to " + to;
+    if (N>1) {
+        solve_hanoi(N-1, spare, to, from);
+    }
+  } 
+  ```
+  
+  
+**O(n!)**
+
+  The most trivial example of function that takes O(n!) time is given below.
+
+  ```c++
+    void nFacFunc(int n) {
+      for(int i=0; i<n; i++) {
+        nFacFunc(n-1);
+      }
+    } 
+  ``` 
+  
 Often you don't need math to figure out what the Big-O of an algorithm is but you can simply use your intuition. If your code uses a single loop that looks at all **n** elements of your input, the algorithm is **O(n)**. If the code has two nested loops, it is **O(n^2)**. Three nested loops gives **O(n^3)**, and so on.
 
 Note that Big-O notation is an estimate and is only really useful for large values of **n**. For example, the worst-case running time for the [insertion sort](Insertion%20Sort/) algorithm is **O(n^2)**. In theory that is worse than the running time for [merge sort](Merge%20Sort/), which is **O(n log n)**. But for small amounts of data, insertion sort is actually faster, especially if the array is partially sorted already!
