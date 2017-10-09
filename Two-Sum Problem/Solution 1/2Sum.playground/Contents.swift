@@ -1,5 +1,5 @@
-//: Playground - noun: a place where people can play
-// Last checked with: Version 9.0 beta 4 (9M189t)
+//: Two Sum
+// Last checked with: Version 9.0 (9A235)
 #if swift(>=4.0)
 print("Hello, Swift 4!")
 #endif
@@ -20,7 +20,4 @@ func twoSum(_ nums: [Int], target: Int) -> (Int, Int)? {
     return nil
 }
 
-let numbers = [3, 2, 8, 4]
-let target = 6
-
-twoSum(numbers, target: target) // expected output: indices 1 and 3
+twoSum([3, 2, 8, 4], target: 6) // expected output: indices 1 and 3
