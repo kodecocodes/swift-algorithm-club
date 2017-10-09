@@ -201,7 +201,8 @@ See the playground for more examples of how to use the segment tree.
 
 ## See also
 
-[Lazy Propagation](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation)
+[Lazy Propagation](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation) implementation and explanation.
+
 [Segment tree at PEGWiki](http://wcipeg.com/wiki/Segment_tree)
 
 *Written for Swift Algorithm Club by [Artur Antonov](https://github.com/goingreen)*
