@@ -4,21 +4,23 @@
 print("Hello, Swift 4!")
 #endif
 
-func twoSum(_ numbers: [Int], target: Int) -> (Int, Int)? {
-  var dict: [Int: Int] = [:]
-  
-  for (index, number) in numbers.enumerated() {
-    if let otherIndex = dict[number] {
-      return (index, otherIndex)
-    } else {
-      dict[target - number] = index
+func twoSum(_ nums: [Int], target: Int) -> (Int, Int)? {
+    var dict = [Int: Int]()
+    
+    for (currentIndex, n) in nums.enumerated() {
+        let complement = target - n
+        
+        if let complementIndex = dict[complement] {
+            return (complementIndex, currentIndex)
+        }
+        
+        dict[n] = currentIndex
     }
-  }
-  
-  return nil
+    
+    return nil
 }
 
-let numbers = [3, 2, 4]
+let numbers = [3, 2, 8, 4]
 let target = 6
 
-twoSum(numbers, target: target) // expected output: indices 2 and 1
+twoSum(numbers, target: target) // expected output: indices 1 and 3
