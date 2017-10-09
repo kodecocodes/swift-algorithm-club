@@ -20,4 +20,4 @@ func twoSum(_ nums: [Int], target: Int) -> (Int, Int)? {
     return nil
 }
 
-twoSum([3, 2, 8, 4], target: 6) // expected output: indices 1 and 3
+twoSum([3, 2, 9, 8], target: 10) // expected output: indices 1 and 3
