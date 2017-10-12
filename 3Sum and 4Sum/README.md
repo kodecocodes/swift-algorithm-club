@@ -1,6 +1,6 @@
 # 3Sum and 4Sum
 
-3Sum and 4Sum are extensions of a popular algorithm question, the [2Sum][5]. This article will talk about the problem and describe possible solutions.
+3Sum and 4Sum are extensions of a popular algorithm question, the [2Sum][5]. 
 
 ## 3Sum
 
