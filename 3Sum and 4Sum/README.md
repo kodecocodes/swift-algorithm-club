@@ -111,45 +111,51 @@ There are slight optimizations you can do to find `m`, but to keep things simple
 
 #### Avoiding Duplicates
 
-Avoiding duplicate values is fairly straightforward if you've understood everything so far. Let's consider a sample array that has a few duplicates:
+Since you pre-sort the array, duplicates will be adjacent to each other. You just need to skip over duplicates by comparing adjacent values:
 
 ```
-target = 0
-
-[-1, -1, -1, -1, 0, 1, 1, 1]
+extension Collection where Element: Equatable {
+  
+  /// Returns next index with unique value. Works only on sorted arrays.
+  ///
+  /// - Parameter index: The current `Int` index.
+  /// - Returns: The new `Int` index. Will return `nil` if new index happens to be the `endIndex` (out of bounds)
+  func uniqueIndex(after index: Index) -> Index? {
+    guard index < endIndex else { return nil }
+    var index = index
+    var nextIndex = self.index(after: index)
+    while nextIndex < endIndex && self[index] == self[nextIndex] {
+      formIndex(after: &index)
+      formIndex(after: &nextIndex)
+    }
+    
+    if nextIndex == endIndex {
+      return nil
+    } else {
+      return nextIndex
+    }
+  }
+}
 ```
 
-One possible subset is `[-1, 0, 1]`, and in fact is the only subset for 3Sum. 
-
-The easiet way is using set. We can maintain a solution set, then we can check if the triplets is in the set or not to determine whether it's duplicate.
-
-Set introduces space complexity. So we still want to avoid extra space using. Let's change an angle consider, we can loop the array first find `m` then next thing is to find `l` and `r`. 
-
-For example
+A similar implementation is used to get the unique index *before* a given index:
 
 ```
-​```
-[-1, 0, 1, 2, -1, -4] // unsorted
-
-1)
-[-4, -1, -1, 0, 1, 2]
-      m   l        r
-
-2)
-[-4, -1, -1, 0, 1, 2]
-          m  l     r
-
-3)
-[-4, -1, -1, 0, 1, 2]
-      m      l     r
-​```
-
-We loop `m` in `0..<n`. We will do another inner loop at the same time, `l..r` loops in `i+1..<n`. 
-In 1), we will check if `a[i] == a[i-1]`? It's not in this case, then the problem is 2sum (`l..r`).
-In 2), Since `a[i] == a[i-1]`, it means `a[i-1]` covers `a[i]` case. Because case 3) contains case 2) solutions.
+extension BidirectionalCollection where Element: Equatable {
+  
+  /// Returns next index with unique value. Works only on sorted arrays.
+  ///
+  /// - Parameter index: The current `Int` index.
+  /// - Returns: The new `Int` index. Will return `nil` if new index happens to come before the `startIndex` (out of bounds)
+  func uniqueIndex(before index: Index) -> Index? {
+    return indices[..<index].reversed().first { index -> Bool in
+      let nextIndex = self.index(after: index)
+      guard nextIndex >= startIndex && self[index] != self[nextIndex] else { return false }
+      return true
+    }
+  }
+}
 ```
-
-
 
 ## 4Sum
 Given an array S of n integers, find all subsets of the array with 4 values where the 4 values sum up to a target number. 
