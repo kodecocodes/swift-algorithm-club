@@ -13,7 +13,7 @@
 
 There are 2 key procedures in solving this algorithm. Sorting the array, and avoiding duplicates.
 
-### Pre-sorting
+### Sorting
 
 Sorting your input array allows for powerful assumptions:
 
@@ -22,7 +22,7 @@ Sorting your input array allows for powerful assumptions:
 
 You'll make use of these two rules to create an efficient algorithm.
 
-#### Avoiding Duplicates
+### Avoiding Duplicates
 
 Since you pre-sort the array, duplicates will be adjacent to each other. You just need to skip over duplicates by comparing adjacent values:
 
