@@ -12,7 +12,6 @@ extension Collection where Element: Equatable {
       formIndex(after: &index)
       formIndex(after: &nextIndex)
     }
-    
     return nextIndex != endIndex ? nextIndex : nil
   }
 }
