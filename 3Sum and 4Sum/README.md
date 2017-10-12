@@ -31,8 +31,8 @@ extension Collection where Element: Equatable {
   
   /// Returns next index with unique value. Works only on sorted arrays.
   ///
-  /// - Parameter index: The current `Int` index.
-  /// - Returns: The new `Int` index. Will return `nil` if new index happens to be the `endIndex` (out of bounds)
+  /// - Parameter index: The current index.
+  /// - Returns: The new index. Will return `nil` if new index happens to be the `endIndex` (out of bounds)
   func uniqueIndex(after index: Index) -> Index? {
     guard index < endIndex else { return nil }
     var index = index
@@ -41,12 +41,7 @@ extension Collection where Element: Equatable {
       formIndex(after: &index)
       formIndex(after: &nextIndex)
     }
-    
-    if nextIndex == endIndex {
-      return nil
-    } else {
-      return nextIndex
-    }
+    return nextIndex != endIndex ? nextIndex : nil
   }
 }
 ```
@@ -58,8 +53,8 @@ extension BidirectionalCollection where Element: Equatable {
   
   /// Returns next index with unique value. Works only on sorted arrays.
   ///
-  /// - Parameter index: The current `Int` index.
-  /// - Returns: The new `Int` index. Will return `nil` if new index happens to come before the `startIndex` (out of bounds)
+  /// - Parameter index: The current index.
+  /// - Returns: The new index. Will return `nil` if new index happens to come before the `startIndex` (out of bounds)
   func uniqueIndex(before index: Index) -> Index? {
     return indices[..<index].reversed().first { index -> Bool in
       let nextIndex = self.index(after: index)
@@ -83,29 +78,29 @@ You'll keep track of 3 indices to represent the 3 numbers. The sum at any given 
 The premise is quite straightforward (given that you're familiar with 2Sum). You'll iterate `l` through the array. For every iteration, you also apply the 2Sum algorithm to elements after `l`. You'll check the sum every time you moving the indices to check if you found match. Here's the algorithm:
 
 ```
-func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> [[T.Element]] where T.Element: BinaryInteger & Comparable {
-  let sorted = collection.sorted()
+func threeSum<T: BidirectionalCollection>(_ c: T, target: T.Element) -> [[T.Element]] where T.Element: Numeric & Comparable {
+  let sorted = c.sorted()
   var ret: [[T.Element]] = []
   
   for l in sequence(first: sorted.startIndex, next: sorted.uniqueIndex(after:)) {
     var m = sorted.index(after: l)
     var r = sorted.index(before: sorted.endIndex)
-
+    
     while m < r {
       let sum = sorted[l] + sorted[m] + sorted[r]
-      switch target {
-      case sum:
+      switch sum {
+      case target:
         ret.append([sorted[l], sorted[m], sorted[r]])
-        guard let nextMid = sorted.uniqueIndex(after: m), let nextRight = sorted.uniqueIndex(before: r) else { break }
-        m = nextMid
-        r = nextRight
+        guard let nextM = sorted.uniqueIndex(after: m), let nextR = sorted.uniqueIndex(before: r) else { break }
+        m = nextM
+        r = nextR
       case ..<target:
-        guard let nextMid = sorted.uniqueIndex(after: m) else { break }
-        m = nextMid
+        guard let nextM = sorted.uniqueIndex(after: m) else { break }
+        m = nextM
       case target...:
-        guard let nextRight = sorted.uniqueIndex(before: r) else { break }
-        r = nextRight
-      default: fatalError("Swift isn't smart enough to detect that this switch statement is exhausive")
+        guard let nextR = sorted.uniqueIndex(before: m) else { break }
+        r = nextR
+      default: fatalError()
       }
     }
   }
