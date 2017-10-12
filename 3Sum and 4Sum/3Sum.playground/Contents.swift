@@ -3,7 +3,7 @@ extension Collection where Element: Equatable {
   /// Returns next index with unique value. Works only on sorted arrays.
   ///
   /// - Parameter index: The current `Int` index.
-  /// - Returns: The new `Int` index. Will return `nil` if new index happens to be the `endIndex` (out of bounds)
+  /// - Returns: The new index. Will return `nil` if new index happens to be the `endIndex` (out of bounds)
   func uniqueIndex(after index: Index) -> Index? {
     guard index < endIndex else { return nil }
     var index = index
@@ -13,11 +13,7 @@ extension Collection where Element: Equatable {
       formIndex(after: &nextIndex)
     }
     
-    if nextIndex == endIndex {
-      return nil
-    } else {
-      return nextIndex
-    }
+    return nextIndex != endIndex ? nextIndex : nil
   }
 }
 
@@ -25,8 +21,8 @@ extension BidirectionalCollection where Element: Equatable {
   
   /// Returns next index with unique value. Works only on sorted arrays.
   ///
-  /// - Parameter index: The current `Int` index.
-  /// - Returns: The new `Int` index. Will return `nil` if new index happens to come before the `startIndex` (out of bounds)
+  /// - Parameter index: The current index.
+  /// - Returns: The new index. Will return `nil` if new index happens to come before the `startIndex` (out of bounds)
   func uniqueIndex(before index: Index) -> Index? {
     return indices[..<index].reversed().first { index -> Bool in
       let nextIndex = self.index(after: index)
@@ -36,7 +32,7 @@ extension BidirectionalCollection where Element: Equatable {
   }
 }
 
-func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> [[T.Element]] where T.Element: BinaryInteger & Comparable {
+func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> [[T.Element]] where T.Element: Numeric & Comparable {
   let sorted = collection.sorted()
   var ret: [[T.Element]] = []
   
