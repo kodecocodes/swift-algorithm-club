@@ -70,6 +70,53 @@ extension BidirectionalCollection where Element: Equatable {
 }
 ```
 
+### Assembling the Subsets
+
+You'll keep track of 3 indices to represent the 3 numbers. The sum at any given moment is `array[l] + array[m] + array[r]`:
+
+```
+      m ->      <- r
+[-4, -1, -1, 0, 1, 2]
+  l   
+```
+
+The premise is quite straightforward (given that you're familiar with 2Sum). You'll iterate `l` through the array. For every iteration, you also apply the 2Sum algorithm to elements after `l`. You'll check the sum every time you moving the indices to check if you found match. Here's the algorithm:
+
+```
+func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> [[T.Element]] where T.Element: BinaryInteger & Comparable {
+  let sorted = collection.sorted()
+  var ret: [[T.Element]] = []
+  
+  for l in sequence(first: sorted.startIndex, next: sorted.uniqueIndex(after:)) {
+    var m = sorted.index(after: l)
+    var r = sorted.index(before: sorted.endIndex)
+
+    while m < r {
+      let sum = sorted[l] + sorted[m] + sorted[r]
+      switch target {
+      case sum:
+        ret.append([sorted[l], sorted[m], sorted[r]])
+        guard let nextMid = sorted.uniqueIndex(after: m), let nextRight = sorted.uniqueIndex(before: r) else { break }
+        m = nextMid
+        r = nextRight
+      case ..<target:
+        guard let nextMid = sorted.uniqueIndex(after: m) else { break }
+        m = nextMid
+      case target...:
+        guard let nextRight = sorted.uniqueIndex(before: r) else { break }
+        r = nextRight
+      default: fatalError("Swift isn't smart enough to detect that this switch statement is exhausive")
+      }
+    }
+  }
+  
+  return ret
+}
+```
+
+
+
+
 ## 4Sum
 Given an array S of n integers, find all subsets of the array with 4 values where the 4 values sum up to a target number. 
 
