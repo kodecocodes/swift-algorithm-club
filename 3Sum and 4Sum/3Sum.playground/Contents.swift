@@ -47,7 +47,7 @@ func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) ->
         sorted.formUniqueIndex(after: &m)
       case target...:
         sorted.formUniqueIndex(before: &r)
-      default: fatalError("Sw ift isn't smart enough to detect that this switch statement is exhausive")
+      default: fatalError("Swift isn't smart enough to detect that this switch statement is exhausive")
       }
     }
     sorted.formUniqueIndex(after: &l)
