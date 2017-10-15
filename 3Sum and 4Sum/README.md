@@ -102,9 +102,9 @@ func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) ->
 
 ## 4Sum
 
-Given an array S of n integers, find all subsets of the array with 4 values where the 4 values sum up to a target number. 
-
-**Note**: The solution set must not contain duplicate quadruplets.
+> Given an array S of n integers, find all subsets of the array with 4 values where the 4 values sum up to a target number. 
+>
+> **Note**: The solution set must not contain duplicate quadruplets.
 
 ### Solution
 
