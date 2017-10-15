@@ -78,7 +78,7 @@ func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) ->
   var ret: [[T.Element]] = []
   var l = sorted.startIndex
   
-  while l < sorted.endIndex {
+  while l < sorted.endIndex { defer { sorted.formUniqueIndex(after: &l) }
     var m = sorted.index(after: l)
     var r = sorted.index(before: sorted.endIndex)
     
@@ -96,7 +96,6 @@ func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) ->
       default: fatalError("Swift isn't smart enough to detect that this switch statement is exhausive")
       }
     }
-    sorted.formUniqueIndex(after: &l)
   }
   
   return ret
