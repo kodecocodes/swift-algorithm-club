@@ -1,61 +1,56 @@
+
 extension Collection where Element: Equatable {
   
-  /// Returns next index with unique value. Works only on sorted arrays.
+  /// In a sorted collection, replaces the given index with a successor mapping to a unique element.
   ///
-  /// - Parameter index: The current `Int` index.
-  /// - Returns: The new index. Will return `nil` if new index happens to be the `endIndex` (out of bounds)
-  func uniqueIndex(after index: Index) -> Index? {
-    guard index < endIndex else { return nil }
-    var index = index
-    var nextIndex = self.index(after: index)
-    while nextIndex < endIndex && self[index] == self[nextIndex] {
+  /// - Parameter index: A valid index of the collection. `index` must be less than `endIndex`
+  func formUniqueIndex(after index: inout Index) {
+    var prev = index
+    repeat {
+      prev = index
       formIndex(after: &index)
-      formIndex(after: &nextIndex)
-    }
-    return nextIndex != endIndex ? nextIndex : nil
+    } while index < endIndex && self[prev] == self[index]
   }
 }
 
 extension BidirectionalCollection where Element: Equatable {
   
-  /// Returns next index with unique value. Works only on sorted arrays.
+  /// In a sorted collection, replaces the given index with a predecessor that maps to a unique element.
   ///
-  /// - Parameter index: The current index.
-  /// - Returns: The new index. Will return `nil` if new index happens to come before the `startIndex` (out of bounds)
-  func uniqueIndex(before index: Index) -> Index? {
-    return indices[..<index].reversed().first { index -> Bool in
-      let nextIndex = self.index(after: index)
-      guard nextIndex >= startIndex && self[index] != self[nextIndex] else { return false }
-      return true
-    }
+  /// - Parameter index: A valid index of the collection. `index` must be greater than `startIndex`.
+  func formUniqueIndex(before index: inout Index) {
+    var prev = index
+    repeat {
+      prev = index
+      formIndex(before: &index)
+    } while index > startIndex && self[prev] == self[index]
   }
 }
 
 func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> [[T.Element]] where T.Element: Numeric & Comparable {
   let sorted = collection.sorted()
   var ret: [[T.Element]] = []
+  var l = sorted.startIndex
   
-  ThreeSum: for l in sequence(first: sorted.startIndex, next: sorted.uniqueIndex(after:)) {
+  while l < sorted.endIndex {
     var m = sorted.index(after: l)
     var r = sorted.index(before: sorted.endIndex)
-
-    TwoSum: while m < r {
+    
+    while m < r && r < sorted.endIndex {
       let sum = sorted[l] + sorted[m] + sorted[r]
       switch target {
       case sum:
         ret.append([sorted[l], sorted[m], sorted[r]])
-        guard let nextMid = sorted.uniqueIndex(after: m), let nextRight = sorted.uniqueIndex(before: r) else { break TwoSum }
-        m = nextMid
-        r = nextRight
+        sorted.formUniqueIndex(after: &m)
+        sorted.formUniqueIndex(before: &r)
       case ..<target:
-        guard let nextMid = sorted.uniqueIndex(after: m) else { break TwoSum }
-        m = nextMid
+        sorted.formUniqueIndex(after: &m)
       case target...:
-        guard let nextRight = sorted.uniqueIndex(before: r) else { break TwoSum }
-        r = nextRight
-      default: fatalError("Swift isn't smart enough to detect that this switch statement is exhausive")
+        sorted.formUniqueIndex(before: &r)
+      default: fatalError("Sw ift isn't smart enough to detect that this switch statement is exhausive")
       }
     }
+    sorted.formUniqueIndex(after: &l)
   }
   
   return ret
