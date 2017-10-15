@@ -1,61 +1,58 @@
-func FourSum(_ nums: [Int], target: Int) -> [[Int]] {
-    let a = nums.sorted()
-    var ret: [[Int]] = []
-    
-    for i in 0..<nums.count {
-        if i != 0 && a[i] == a[i-1] {
-            continue
-        }
-        for j in i+1..<nums.count {
-            if j != i+1 && a[j] == a[j-1] {
-                continue
-            }
-            
-            var k = j + 1
-            var t = nums.count - 1
-            
-            while k < t {
-                let sum = a[i] + a[j] + a[k] + a[t]
-                
-                if sum == target {
-                    ret.append([a[i], a[j], a[k], a[t]])
-                    k += 1
-                } else if sum < target {
-                    k += 1
-                } else {
-                    t -= 1
-                }
-                
-                if sum == target {
-                    while k < t {
-                        var flag = true
-                        if k != j + 1 && a[k] == a[k-1] {
-                            k += 1
-                            flag = false
-                        }
-                        
-                        if t != nums.count - 1 && a[t] == a[t+1] {
-                            t -= 1
-                            flag = false
-                        }
-                        
-                        if flag {
-                            break
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    return ret
+extension Collection where Element: Equatable {
+  
+  /// In a sorted collection, replaces the given index with a successor mapping to a unique element.
+  ///
+  /// - Parameter index: A valid index of the collection. `index` must be less than `endIndex`
+  func formUniqueIndex(after index: inout Index) {
+    var prev = index
+    repeat {
+      prev = index
+      formIndex(after: &index)
+    } while index < endIndex && self[prev] == self[index]
+  }
 }
 
-/* Answer
-[
-    [-1,  0, 0, 1],
-    [-2, -1, 1, 2],
-    [-2,  0, 0, 2]
-]
-*/
-FourSum([1, 0, -1, 0, -2, 2], target: 0)
+extension BidirectionalCollection where Element: Equatable {
+  
+  /// In a sorted collection, replaces the given index with a predecessor that maps to a unique element.
+  ///
+  /// - Parameter index: A valid index of the collection. `index` must be greater than `startIndex`.
+  func formUniqueIndex(before index: inout Index) {
+    var prev = index
+    repeat {
+      prev = index
+      formIndex(before: &index)
+    } while index > startIndex && self[prev] == self[index]
+  }
+}
+
+func fourSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> [[T.Element]] where T.Element: Numeric & Comparable {
+  let sorted = collection.sorted()
+  var ret: [[T.Element]] = []
+  
+  var l = sorted.startIndex
+  while l < sorted.endIndex { defer { sorted.formUniqueIndex(after: &l) }
+    var ml = sorted.index(after: l)
+    while ml < sorted.endIndex { defer { sorted.formUniqueIndex(after: &ml) }
+      var mr = sorted.index(after: ml)
+      var r = sorted.index(before: sorted.endIndex)
+      
+      while mr < r && r < sorted.endIndex {
+        let sum = sorted[l] + sorted[ml] + sorted[mr] + sorted[r]
+        if sum == target {
+          ret.append([sorted[l], sorted[ml], sorted[mr], sorted[r]])
+          sorted.formUniqueIndex(after: &mr)
+          sorted.formUniqueIndex(before: &r)
+        } else if sum < target {
+          sorted.formUniqueIndex(after: &mr)
+        } else {
+          sorted.formUniqueIndex(before: &r)
+        }
+      }
+    }
+  }
+  return ret
+}
+
+// answer: [[-2, -1, 1, 2], [-2, 0, 0, 2], [-1, 0, 0, 1]]
+fourSum([1, 0, -1, 0, -2, 2], target: 0)
