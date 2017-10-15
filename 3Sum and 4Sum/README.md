@@ -158,3 +158,5 @@ func fourSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> 
 ```
 
 [5]:	https://github.com/raywenderlich/swift-algorithm-club/tree/master/Two-Sum%20Problem
+
+*Written for the Swift Algorithm Club by Kai Chen and Kelvin Lau*
