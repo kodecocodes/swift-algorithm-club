@@ -164,4 +164,8 @@ It's possible, of course, that there are no values for `a[i] + a[j]` that sum to
 
 I'm quite enamored by this little algorithm. It shows that with some basic preprocessing on the input data -- sorting it from low to high -- you can turn a tricky problem into a very simple and beautiful algorithm.
 
+## Additional Reading
+
+* [3Sum / 4Sum](https://github.com/raywenderlich/swift-algorithm-club/tree/master/3Sum%20and%204Sum)
+
 *Written for Swift Algorithm Club by Matthijs Hollemans and Daniel Speiser*
