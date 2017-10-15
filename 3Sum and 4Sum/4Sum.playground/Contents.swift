@@ -31,13 +31,13 @@ func fourSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> 
   var ret: [[T.Element]] = []
   
   var l = sorted.startIndex
-  while l < sorted.endIndex { defer { sorted.formUniqueIndex(after: &l) }
+  FourSum: while l < sorted.endIndex { defer { sorted.formUniqueIndex(after: &l) }
     var ml = sorted.index(after: l)
-    while ml < sorted.endIndex { defer { sorted.formUniqueIndex(after: &ml) }
+    ThreeSum: while ml < sorted.endIndex { defer { sorted.formUniqueIndex(after: &ml) }
       var mr = sorted.index(after: ml)
       var r = sorted.index(before: sorted.endIndex)
       
-      while mr < r && r < sorted.endIndex {
+      TwoSum: while mr < r && r < sorted.endIndex {
         let sum = sorted[l] + sorted[ml] + sorted[mr] + sorted[r]
         if sum == target {
           ret.append([sorted[l], sorted[ml], sorted[mr], sorted[r]])
