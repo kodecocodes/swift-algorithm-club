@@ -33,6 +33,7 @@ func fourSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> 
   var l = sorted.startIndex
   FourSum: while l < sorted.endIndex { defer { sorted.formUniqueIndex(after: &l) }
     var ml = sorted.index(after: l)
+                                      
     ThreeSum: while ml < sorted.endIndex { defer { sorted.formUniqueIndex(after: &ml) }
       var mr = sorted.index(after: ml)
       var r = sorted.index(before: sorted.endIndex)
