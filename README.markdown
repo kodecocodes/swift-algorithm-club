@@ -193,6 +193,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 A lot of software developer interview questions consist of algorithmic puzzles. Here is a small selection of fun ones. For more puzzles (with answers), see [here](http://elementsofprogramminginterviews.com/) and [here](http://www.crackingthecodinginterview.com).
 
 - [Two-Sum Problem](Two-Sum%20Problem/)
+- [Three-Sum/Four-Sum Problem](3Sum%20and%204Sum/)
 - [Fizz Buzz](Fizz%20Buzz/)
 - [Monty Hall Problem](Monty%20Hall%20Problem/)
 - [Finding Palindromes](Palindromes/)
