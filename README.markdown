@@ -163,6 +163,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Trie](Trie/). A special type of tree used to store associative data structures.
 - [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
 - [QuadTree](QuadTree/). A tree with 4 children.
+- [Octree](Octree/). A tree with 8 children. 
 
 ### Hashing
 
