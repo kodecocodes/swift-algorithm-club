@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7B80C3CE1C77A256003CECC7 /* BoyerMooreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B80C3CD1C77A256003CECC7 /* BoyerMooreTests.swift */; };
-		9AED567C1E0ED6DE00958DCC /* BoyerMoore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AED567B1E0ED6DE00958DCC /* BoyerMoore.swift */; };
+		8ED7591C1F9A064A00440D89 /* BoyerMooreHorspool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED7591B1F9A064A00440D89 /* BoyerMooreHorspool.swift */; };
 		9AED56801E0EE60B00958DCC /* BoyerMooreHorspoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AED567F1E0EE60B00958DCC /* BoyerMooreHorspoolTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -16,7 +16,7 @@
 		7B2BBC801C779D720067B71D /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B2BBC941C779E7B0067B71D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		7B80C3CD1C77A256003CECC7 /* BoyerMooreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyerMooreTests.swift; sourceTree = SOURCE_ROOT; };
-		9AED567B1E0ED6DE00958DCC /* BoyerMoore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoyerMoore.swift; path = ../BoyerMoore.swift; sourceTree = SOURCE_ROOT; };
+		8ED7591B1F9A064A00440D89 /* BoyerMooreHorspool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoyerMooreHorspool.swift; path = ../BoyerMooreHorspool.swift; sourceTree = "<group>"; };
 		9AED567F1E0EE60B00958DCC /* BoyerMooreHorspoolTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyerMooreHorspoolTests.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -34,7 +34,10 @@
 		7B2BBC681C779D710067B71D = {
 			isa = PBXGroup;
 			children = (
-				7B2BBC831C779D720067B71D /* Tests */,
+				8ED7591B1F9A064A00440D89 /* BoyerMooreHorspool.swift */,
+				7B80C3CD1C77A256003CECC7 /* BoyerMooreTests.swift */,
+				7B2BBC941C779E7B0067B71D /* Info.plist */,
+				9AED567F1E0EE60B00958DCC /* BoyerMooreHorspoolTests.swift */,
 				7B2BBC721C779D710067B71D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -45,18 +48,6 @@
 				7B2BBC801C779D720067B71D /* Tests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		7B2BBC831C779D720067B71D /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				9AED567B1E0ED6DE00958DCC /* BoyerMoore.swift */,
-				7B80C3CD1C77A256003CECC7 /* BoyerMooreTests.swift */,
-				7B2BBC941C779E7B0067B71D /* Info.plist */,
-				9AED567F1E0EE60B00958DCC /* BoyerMooreHorspoolTests.swift */,
-			);
-			name = Tests;
-			path = TestsTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,8 +136,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8ED7591C1F9A064A00440D89 /* BoyerMooreHorspool.swift in Sources */,
 				9AED56801E0EE60B00958DCC /* BoyerMooreHorspoolTests.swift in Sources */,
-				9AED567C1E0ED6DE00958DCC /* BoyerMoore.swift in Sources */,
 				7B80C3CE1C77A256003CECC7 /* BoyerMooreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
