@@ -12,7 +12,7 @@ script:
 - xcodebuild test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./AVL\ Tree/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Binary\ Search/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Boyer-Moore/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Boyer-Moore-Horspool/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Binary\ Search\ Tree/Solution\ 1/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Bloom\ Filter/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Bounded\ Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
@@ -20,6 +20,7 @@ script:
 - xcodebuild test -project ./Bucket\ Sort/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./B-Tree/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Comb\ Sort/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Convex\ Hull/Convex\ Hull.xcodeproj -scheme Tests -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.0'
 - xcodebuild test -project ./Counting\ Sort/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Depth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
 - xcodebuild test -project ./Graph/Graph.xcodeproj -scheme GraphTests

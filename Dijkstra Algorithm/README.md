@@ -1,6 +1,6 @@
 # Weighted graph general concepts
 
-Every weighted graph should contain: 
+Every weighted graph should contain:
 1. Vertices/Nodes (I will use "vertex" in this readme).
 
 <img src="Images/Vertices.png" height="250" />
@@ -11,11 +11,11 @@ Every weighted graph should contain:
 
 <img src="Images/DirectedGraph.png" height="250" />
 
-3. Weights for every edge. 
+3. Weights for every edge.
 
 <img src="Images/WeightedDirectedGraph.png" height="250" />
 
-Final result. 
+Final result.
 Directed weighted graph:
 
 <img src="Images/WeightedDirectedGraphFinal.png" height="250" />
@@ -44,7 +44,9 @@ When all vertices are marked as visited, the algorithm's job is done. Now, you c
 
 I have created **VisualizedDijkstra.playground** game/tutorial to improve your understanding of the algorithm's flow. Besides, below is step by step algorithm's description.
 
-## Example 
+A short sidenote. The Swift Algorithm Club also contains the A* algorithm, which essentially is a faster version of Dijkstra's algorithm for which the only extra prerequisite is you have to know where the destination is located.
+
+## Example
 Let's imagine that you want to go to the shop. Your house is A vertex and there are 4 possible stores around your house. How to find the closest one/ones? Luckily, you have a graph that connects your house with all these stores. So, you know what to do :)
 
 ### Initialisation
@@ -95,7 +97,7 @@ After this step graph has this state:
 
 ### Step 1
 
-Then we check all of its neighbours. 
+Then we check all of its neighbours.
 If checking vertex path length from start + edge weight is smaller than neighbour's path length from start then we set neighbour's path length from start new value and append to its pathVerticesFromStart array new vertex: checkingVertex. Repeat this action for every vertex.
 
 for clarity:
@@ -120,7 +122,7 @@ And its state is here:
 
 ### Step 2
 
-From now we repeat all actions again and fill our table with new info! 
+From now we repeat all actions again and fill our table with new info!
 
 <img src="Images/image4.png" height="250" />
 
@@ -161,7 +163,7 @@ From now we repeat all actions again and fill our table with new info!
 | Path Vertices From Start  |    [A]     |   [A, B]   |   [A, B, C]|   [A, D]   | [A, D, E ] |
 
 
-## Code implementation 
+## Code implementation
 First of all, let’s create class that will describe any Vertex in the graph.
 It is pretty simple
 ```swift
@@ -169,12 +171,12 @@ open class Vertex {
 
     //Every vertex should be unique that's why we set up identifier
     open var identifier: String
-	
-    //For Dijkstra every vertex in the graph should be connected with at least one other vertex. But there can be some usecases 
+
+    //For Dijkstra every vertex in the graph should be connected with at least one other vertex. But there can be some usecases
     //when you firstly initialize all vertices without neighbours. And then on next iteration you set up their neighbours. So, initially neighbours is an empty array.
     //Array contains tuples (Vertex, Double). Vertex is a neighbour and Double is as edge weight to that neighbour.
     open var neighbours: [(Vertex, Double)] = []
-	
+
     //As it was mentioned in the algorithm description, default path length from start for all vertices should be as much as possible.
     //It is var because we will update it during the algorithm execution.
     open var pathLengthFromStart = Double.infinity
@@ -215,7 +217,7 @@ We've created a base for our algorithm. Now let's create a house :)
 Dijkstra's realisation is really straightforward.
 ```swift
 public class Dijkstra {
-    //This is a storage for vertices in the graph. 
+    //This is a storage for vertices in the graph.
     //Assuming that our vertices are unique we can use Set instead of array. This approach will bring some benefits later.
     private var totalVertices: Set<Vertex>
 
@@ -223,69 +225,69 @@ public class Dijkstra {
         totalVertices = vertices
     }
 
-    //Remember clearCache function in the Vertex class implementation? 
+    //Remember clearCache function in the Vertex class implementation?
     //This is just a wrapper that cleans cache for all stored vertices.
     private func clearCache() {
         totalVertices.forEach { $0.clearCache() }
     }
 
     public func findShortestPaths(from startVertex: Vertex) {
-	//Before we start searching the shortest path from startVertex, 
+	//Before we start searching the shortest path from startVertex,
 	//we need to clear vertices cache just to be sure that out graph is clean.
-	//Remember that every Vertex is a class and classes are passed by reference. 
+	//Remember that every Vertex is a class and classes are passed by reference.
 	//So whenever you change vertex outside of this class it will affect this vertex inside totalVertices Set
         clearCache()
 	//Now all our vertices have Double.infinity pathLengthFromStart and an empty pathVerticesFromStart array.
-		
+
 	//The next step in the algorithm is to set startVertex pathLengthFromStart and pathVerticesFromStart
         startVertex.pathLengthFromStart = 0
         startVertex.pathVerticesFromStart.append(startVertex)
-		
+
 	//Here starts the main part. We will use while loop to iterate through all vertices in the graph.
 	//For this purpose we define currentVertex variable which we will change in the end of each while cycle.
         var currentVertex: Vertex? = startVertex
-		
+
         while let vertex = currentVertex {
-    			
+
     	    //Next line of code is an implementation of setting vertex as visited.
     	    //As it has been said, we should check only unvisited vertices in the graph,
 	    //So why don't just delete it from the set? This approach let us skip checking for *"if !vertex.visited then"*
             totalVertices.remove(vertex)
-			
+
 	    //filteredNeighbours is an array that contains current vertex neighbours which aren't yet visited
             let filteredNeighbours = vertex.neighbours.filter { totalVertices.contains($0.0) }
-			
+
 	    //Let's iterate through them
             for neighbour in filteredNeighbours {
 		//These variable are more representative, than neighbour.0 or neighbour.1
                 let neighbourVertex = neighbour.0
                 let weight = neighbour.1
-				
-		//Here we calculate new weight, that we can offer to neighbour. 
+
+		//Here we calculate new weight, that we can offer to neighbour.
                 let theoreticNewWeight = vertex.pathLengthFromStart + weight
-				
+
 		//If it is smaller than neighbour's current pathLengthFromStart
 		//Then we perform this code
                 if theoreticNewWeight < neighbourVertex.pathLengthFromStart {
-					
+
 		    //set new pathLengthFromStart
                     neighbourVertex.pathLengthFromStart = theoreticNewWeight
-					
+
 		    //set new pathVerticesFromStart
                     neighbourVertex.pathVerticesFromStart = vertex.pathVerticesFromStart
-					
+
 		    //append current vertex to neighbour's pathVerticesFromStart
                     neighbourVertex.pathVerticesFromStart.append(neighbourVertex)
                 }
             }
-			
+
 	    //If totalVertices is empty, i.e. all vertices are visited
 	    //Than break the loop
             if totalVertices.isEmpty {
                 currentVertex = nil
                 break
             }
-			
+
 	    //If loop is not broken, than pick next vertex for checkin from not visited.
 	    //Next vertex pathLengthFromStart should be the smallest one.
             currentVertex = totalVertices.min { $0.pathLengthFromStart < $1.pathLengthFromStart }

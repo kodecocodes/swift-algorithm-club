@@ -50,6 +50,19 @@
    </Group>
    <Group
       location = "container:"
+      name = "3Sum and 4Sum">
+      <FileRef
+         location = "group:3Sum and 4Sum/README.md">
+      </FileRef>
+      <FileRef
+         location = "group:3Sum and 4Sum/3Sum.playground">
+      </FileRef>
+      <FileRef
+         location = "group:3Sum and 4Sum/4Sum.playground">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "Dijkstra">
       <Group
          location = "group:Dijkstra Algorithm/Images"

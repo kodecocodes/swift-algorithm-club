@@ -720,7 +720,7 @@ assert(l2.count == 8)
 assert(l2.contains(67) == true)
 
 
-//: Notice that becuase our implementation conforms to the Collection protocol, we can use a lot of methods already implemented for us in Swift's standard library, for example, contains, dropLast, etc.
+//: Notice that because our implementation conforms to the Collection protocol, we can use a lot of methods already implemented for us in Swift's standard library, for example, contains, dropLast, etc.
 
 let l3 = l2.dropLast()
 assert(l3.count == 7)
