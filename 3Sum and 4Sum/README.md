@@ -26,7 +26,7 @@ You'll make use of these two rules to create an efficient algorithm.
 
 Since you pre-sort the array, duplicates will be adjacent to each other. You just need to skip over duplicates by comparing adjacent values:
 
-```
+```swift
 extension Collection where Element: Equatable {
   
   /// In a sorted collection, replaces the given index with a successor mapping to a unique element.
@@ -44,7 +44,7 @@ extension Collection where Element: Equatable {
 
 A similar implementation is used to get the unique index *before* a given index:
 
-```
+```swift
 extension BidirectionalCollection where Element: Equatable {
   
   /// In a sorted collection, replaces the given index with a predecessor that maps to a unique element.
@@ -64,7 +64,7 @@ extension BidirectionalCollection where Element: Equatable {
 
 You'll keep track of 3 indices to represent the 3 numbers. The sum at any given moment is `array[l] + array[m] + array[r]`:
 
-```
+```swift
       m ->      <- r
 [-4, -1, -1, 0, 1, 2]
   l   
@@ -72,7 +72,7 @@ You'll keep track of 3 indices to represent the 3 numbers. The sum at any given 
 
 The premise is quite straightforward (given that you're familiar with 2Sum). You'll iterate `l` through the array. For every iteration, you also apply the 2Sum algorithm to elements after `l`. You'll check the sum every time you moving the indices to check if you found match. Here's the algorithm:
 
-```
+```swift
 func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> [[T.Element]] where T.Element: Numeric & Comparable {
   let sorted = collection.sorted()
   var ret: [[T.Element]] = []
@@ -110,7 +110,7 @@ func threeSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) ->
 
 Foursum is a very straightforward extension to the threeSum algorithm. In threeSum, you kept track of 3 indices:
 
-```
+```swift
       m ->      <- r
 [-4, -1, -1, 0, 1, 2]
   l   
@@ -118,7 +118,7 @@ Foursum is a very straightforward extension to the threeSum algorithm. In threeS
 
 For fourSum, you'll keep track of 4:
 
-```
+```swift
          mr ->  <- r
 [-4, -1, -1, 0, 1, 2]
   l  ml -> 
@@ -126,7 +126,7 @@ For fourSum, you'll keep track of 4:
 
 Here's the code for it (notice it is very similar to 3Sum):
 
-```
+```swift
 func fourSum<T: BidirectionalCollection>(_ collection: T, target: T.Element) -> [[T.Element]] where T.Element: Numeric & Comparable {
   let sorted = collection.sorted()
   var ret: [[T.Element]] = []
