@@ -102,7 +102,7 @@ In code:
 
 ```swift
 func lcm(_ m: Int, _ n: Int) -> Int {
-  return m*n / gcd(m, n)
+  return m / gcd(m, n) * n
 }
 ```
 
