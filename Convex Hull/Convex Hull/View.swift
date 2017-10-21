@@ -93,23 +93,11 @@ class View: UIView {
     }
 
     var pts = points
-
-    // calculate parameters of general line equation y = a * x + b
-    let a = (p1.y - p2.y) / (p1.x - p2.x)
-    let b = p1.y - a * p1.x
-
-    // calculate normal line's growth factor
-    let a1 = -1 / a
-
     var maxDist: CGFloat = -1
     var maxPoint: CGPoint = pts.first!
 
     for p in pts { // for every point check the distance from our line
-      let b1 = p.y - a1 * p.x // calculate offset to line equation for given point p
-      let x = -(b - b1)/(a - a1) // calculate x where the two lines intersect
-      let y = a * x + b // calculate y value of this intersect point
-
-      let dist = pow(x - p.x, 2) + pow(y - p.y, 2) // calculate distance squared between intersection point and point p
+      let dist = distance(from: p, to: (p1, p2))
       if dist > maxDist { // if distance is larger than current maxDist remember new point p
         maxDist = dist
         maxPoint = p
@@ -148,6 +136,22 @@ class View: UIView {
     // find new hull points
     findHull(s1, p1, maxPoint)
     findHull(s2, maxPoint, p2)
+  }
+
+  func distance(from p: CGPoint, to line: (CGPoint, CGPoint)) -> CGFloat {
+    // If line.0 and line.1 are the same point, they don't define a line (and, besides,
+    // would cause division by zero in the distance formula). Return the distance between
+    // line.0 and point p instead.
+    if line.0 == line.1 {
+      return sqrt(pow(p.x - line.0.x, 2) + pow(p.y - line.0.y, 2))
+    }
+
+    // from Deza, Michel Marie; Deza, Elena (2013), Encyclopedia of Distances (2nd ed.), Springer, p. 86, ISBN 9783642309588
+    return abs((line.1.y - line.0.y) * p.x
+      - (line.1.x - line.0.x) * p.y
+      + line.1.x * line.0.y
+      - line.1.y * line.0.x)
+      / sqrt(pow(line.1.y - line.0.y, 2) + pow(line.1.x - line.0.x, 2))
   }
 
   override func draw(_ rect: CGRect) {

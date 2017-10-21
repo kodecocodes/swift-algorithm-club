@@ -22,9 +22,9 @@
 
 public class TreeNode<Key: Comparable, Payload> {
   public typealias Node = TreeNode<Key, Payload>
-
+  
   var payload: Payload?   // Value held by the node
-
+  
   fileprivate var key: Key    // Node's name
   internal var leftChild: Node?
   internal var rightChild: Node?
@@ -116,7 +116,7 @@ extension AVLTree {
   public func search(input: Key) -> Payload? {
     return search(key: input, node: root)?.payload
   }
-
+  
   fileprivate func search(key: Key, node: Node?) -> Node? {
     if let node = node {
       if key == node.key {
@@ -186,14 +186,14 @@ extension AVLTree {
     guard let node = node else {
       return
     }
-
+    
     updateHeightUpwards(node: node.leftChild)
     updateHeightUpwards(node: node.rightChild)
-
+    
     var nodes = [Node?](repeating: nil, count: 3)
     var subtrees = [Node?](repeating: nil, count: 4)
     let nodeParent = node.parent
-
+    
     let lrFactor = lrDifference(node: node)
     if lrFactor > 1 {
       // left-left or left-right
@@ -246,9 +246,9 @@ extension AVLTree {
       balance(node: node.parent)
       return
     }
-
+    
     // nodes[2] is always the head
-
+    
     if node.isRoot {
       root = nodes[2]
       root?.parent = nil
@@ -259,25 +259,25 @@ extension AVLTree {
       nodeParent?.rightChild = nodes[2]
       nodes[2]?.parent = nodeParent
     }
-
+    
     nodes[2]?.leftChild = nodes[1]
     nodes[1]?.parent = nodes[2]
     nodes[2]?.rightChild = nodes[0]
     nodes[0]?.parent = nodes[2]
-
+    
     nodes[1]?.leftChild = subtrees[0]
     subtrees[0]?.parent = nodes[1]
     nodes[1]?.rightChild = subtrees[1]
     subtrees[1]?.parent = nodes[1]
-
+    
     nodes[0]?.leftChild = subtrees[2]
     subtrees[2]?.parent = nodes[0]
     nodes[0]?.rightChild = subtrees[3]
     subtrees[3]?.parent = nodes[0]
-
+    
     updateHeightUpwards(node: nodes[1])    // Update height from left
     updateHeightUpwards(node: nodes[0])    // Update height from right
-
+    
     balance(node: nodes[2]?.parent)
   }
 }
@@ -299,12 +299,12 @@ extension AVLTree {
       display(node: node.leftChild, level: level + 1)
     }
   }
-
+  
   public func display(node: Node) {
     display(node: node, level: 0)
     print("")
   }
-
+  
   public func inorder(node: Node?) -> String {
     var output = ""
     if let node = node {
@@ -312,7 +312,7 @@ extension AVLTree {
     }
     return output
   }
-
+  
   public func preorder(node: Node?) -> String {
     var output = ""
     if let node = node {
