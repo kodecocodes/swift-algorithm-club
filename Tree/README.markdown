@@ -1,5 +1,8 @@
 # Trees
 
+> This topic has been tutorialized [here](https://www.raywenderlich.com/138190/swift-algorithm-club-swift-tree-data-structure)
+
+
 A tree represents hierarchical relationships between objects. This is a tree:
 
 ![A tree](Images/Tree.png)

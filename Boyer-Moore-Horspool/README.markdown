@@ -1,5 +1,8 @@
 # Boyer-Moore String Search
 
+> This topic has been tutorialized [here](https://www.raywenderlich.com/163964/swift-algorithm-club-booyer-moore-string-search-algorithm)
+
+
 Goal: Write a string search algorithm in pure Swift without importing Foundation or using `NSString`'s `rangeOfString()` method.
 
 In other words, we want to implement an `indexOf(pattern: String)` extension on `String` that returns the `String.Index` of the first occurrence of the search pattern, or `nil` if the pattern could not be found inside the string.

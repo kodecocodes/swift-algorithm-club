@@ -1,5 +1,7 @@
 # Linked List
 
+> This topic has been tutorialized [here](https://www.raywenderlich.com/144083/swift-algorithm-club-swift-linked-list-data-structure)
+
 A linked list is a sequence of data items, just like an array. But where an array allocates a big block of memory to store the objects, the elements in a linked list are totally separate objects in memory and are connected through links:
 
 	+--------+    +--------+    +--------+    +--------+

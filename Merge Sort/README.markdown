@@ -1,5 +1,7 @@
 # Merge Sort
 
+> This topic has been tutorialized [here](https://www.raywenderlich.com/154256/swift-algorithm-club-swift-merge-sort)
+
 Goal: Sort an array from low to high (or high to low)
 
 Invented in 1945 by John von Neumann, merge-sort is an efficient algorithm with a best, worst, and average time complexity of **O(n log n)**.
