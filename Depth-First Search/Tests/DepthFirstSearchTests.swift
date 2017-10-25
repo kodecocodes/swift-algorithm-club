@@ -9,7 +9,7 @@ class DepthFirstSearchTests: XCTestCase {
         #endif
     }
     func testExploringTree() {
-        let tree = Digraph()
+        let tree = Graph()
         
         let nodeA = tree.addNode("a")
         let nodeB = tree.addNode("b")
@@ -34,7 +34,7 @@ class DepthFirstSearchTests: XCTestCase {
     }
     
     func testExploringDigraph() {
-        let digraph = Digraph()
+        let digraph = Graph()
         
         let nodeA = digraph.addNode("a")
         let nodeB = digraph.addNode("b")
@@ -81,7 +81,7 @@ class DepthFirstSearchTests: XCTestCase {
     }
     
     func testExploringDigraphWithASingleNode() {
-        let digraph = Digraph()
+        let digraph = Graph()
         let node = digraph.addNode("a")
         
         let nodesExplored = depthFirstSearch(digraph, source: node)
