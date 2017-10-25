@@ -32,7 +32,7 @@ func gcd(m: Int, _ n: Int) -> Int {
 */
 
 func lcm(_ m: Int, _ n: Int) -> Int {
-  return m*n / gcd(m, n)
+  return m / gcd(m, n) * n // we divide before multiplying to avoid integer overflow
 }
 
 gcd(52, 39)       // 13

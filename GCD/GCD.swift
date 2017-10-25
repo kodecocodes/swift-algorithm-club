@@ -30,5 +30,5 @@ func gcd(_ a: Int, _ b: Int) -> Int {
   Returns the least common multiple of two numbers.
 */
 func lcm(_ m: Int, _ n: Int) -> Int {
-  return m*n / gcd(m, n)
+  return m / gcd(m, n) * n
 }
