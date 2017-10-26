@@ -29,6 +29,6 @@ enum Slope {
 ```
 `Line2D` also contains a `Direction` enum. This is introduced in order to make lines directional in order to be able to determine what is left and right of a certain line. It is `.increasing` if the line points in positive y direction and `.decreasing` if it points in the negative y direction.
 
-`Line2D`'s offset is the the y-coordinate where the line crosses the vertical x=0 line
+`Line2D`'s offset is the the y-coordinate where the line crosses the vertical `x=0` line.
 
 *Written for the Swift Algorithm Club by Jaap Wijnen.*
