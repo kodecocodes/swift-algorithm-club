@@ -52,10 +52,8 @@ SEARCH
 Collections are sequences, therefore the first step is to conform to the Sequence protocol.
 
 ```
-extension SinglyLinkedList : Sequence
-{
-    public func makeIterator() -> SinglyLinkedListForwardIterator<T>
-    {
+extension SinglyLinkedList: Sequence {
+    public func makeIterator() -> SinglyLinkedListForwardIterator<T> {
         return SinglyLinkedListForwardIterator(head: self.storage.head)
     }
 }
@@ -70,8 +68,7 @@ public struct SinglyLinkedListForwardIterator<T> : IteratorProtocol {
 
     private(set) var head: SinglyLinkedListNode<T>?
 
-    mutating public func next() -> T?
-    {
+    mutating public func next() -> T? {
         let result = self.head?.value
         self.head = self.head?.next
         return result
@@ -82,8 +79,7 @@ public struct SinglyLinkedListForwardIterator<T> : IteratorProtocol {
 Next, a collection needs to be indexable. Indexes are implemented by the data structure class. We have encapsulated this knowledge in instances of the class `SinglyLinkedListIndex`. 
 
 ```
-public struct SinglyLinkedListIndex<T> : Comparable
-{
+public struct SinglyLinkedListIndex<T>: Comparable {
     fileprivate let node: SinglyLinkedListNode<T>?
     fileprivate let tag: Int
 
