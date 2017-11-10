@@ -121,7 +121,7 @@ Below are some examples for each category of performance:
     if n > 1 {
       solveHanoi(n: n - 1, from: from, to: spare, spare: to)
     } else {
-      solveHanoi(n: n-1, from: spare, to: to, spare: from)
+      solveHanoi(n: n - 1, from: spare, to: to, spare: from)
     }
   }
   ```
