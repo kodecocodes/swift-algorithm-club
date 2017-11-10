@@ -16,21 +16,21 @@ Big-O | Name | Description
 **O(n^3)** | cubic | **Poor performance.** If you have 100 items, this does 100^3 = 1,000,000 units of work. Doubling the input size makes it eight times slower. Example: matrix multiplication.
 **O(2^n)** | exponential | **Very poor performance.** You want to avoid these kinds of algorithms, but sometimes you have no choice. Adding just one bit to the input doubles the running time. Example: traveling salesperson problem.
 **O(n!)** | factorial | **Intolerably slow.** It literally takes a million years to do anything.  
-  
+
 
 Below are some examples for each category of performance:
 
 **O(1)**
 
   The most common example with O(1) complexity is accessing an array index.
-  
+
   ```swift
   let value = array[5]
   ```
-    
+
   Another example of O(1) is pushing and popping from Stack.
-  
- 
+
+
 **O(log n)**
 
   ```swift
@@ -40,12 +40,12 @@ Below are some examples for each category of performance:
     j *= 2
   }
   ```  
-  
+
   Instead of simply incrementing, 'j' is increased by 2 times itself in each run.
-  
+
   Binary Search Algorithm is an example of O(log n) complexity.
-  
-  
+
+
 **O(n)**
 
   ```swift
@@ -53,10 +53,10 @@ Below are some examples for each category of performance:
     print(array[i])
   }
   ```
-  
+
   Array Traversal and Linear Search are examples of O(n) complexity.  
-  
-  
+
+
 **O(n log n)**
 
   ```swift
@@ -68,23 +68,23 @@ Below are some examples for each category of performance:
     }
   }
   ```
-  
+
   OR
-  
+
   ```swift
   for i in stride(from: 0, to: n, by: 1) {
     func index(after i: Int) -> Int? { // multiplies `i` by 2 until `i` >= `n`
-      return i < n ? i * 2 : nil 
+      return i < n ? i * 2 : nil
     }
     for j in sequence(first: 1, next: index(after:)) {
       // do constant time stuff
     }
   }
   ```
-  
+
   Merge Sort and Heap Sort are examples of O(n log n) complexity.  
-  
-  
+
+
 **O(n^2)**
 
   ```swift
@@ -94,10 +94,10 @@ Below are some examples for each category of performance:
     }
   }
   ```
-  
+
   Traversing a simple 2-D array and Bubble Sort are examples of O(n^2) complexity.
-  
-  
+
+
 **O(n^3)**
 
   ```swift
@@ -109,24 +109,24 @@ Below are some examples for each category of performance:
     }
   }
   ```  
-  
+
 **O(2^n)**
 
   Algorithms with running time O(2^N) are often recursive algorithms that solve a problem of size N by recursively solving two smaller problems of size N-1.
   The following example prints all the moves necessary to solve the famous "Towers of Hanoi" problem for N disks.
 
   ```swift
-  func solveHanoi(N: Int, from: String, to: String, spare: String) {
+  func solveHanoi(n: Int, from: String, to: String, spare: String) {
     guard n >= 1 else { return }
-    if N > 1 {
-      solveHanoi(N: N - 1, from: from, to: spare, spare: to)
+    if n > 1 {
+      solveHanoi(n: n - 1, from: from, to: spare, spare: to)
     } else {
-      solveHanoi(N: N-1, from: spare, to: to, spare: from)
+      solveHanoi(n: n-1, from: spare, to: to, spare: from)
     }
   }
   ```
-  
-  
+
+
 **O(n!)**
 
   The most trivial example of function that takes O(n!) time is given below.
@@ -137,8 +137,8 @@ Below are some examples for each category of performance:
       nFactFunc(n - 1)
     }
   }
-  ``` 
-  
+  ```
+
 Often you don't need math to figure out what the Big-O of an algorithm is but you can simply use your intuition. If your code uses a single loop that looks at all **n** elements of your input, the algorithm is **O(n)**. If the code has two nested loops, it is **O(n^2)**. Three nested loops gives **O(n^3)**, and so on.
 
 Note that Big-O notation is an estimate and is only really useful for large values of **n**. For example, the worst-case running time for the [insertion sort](Insertion%20Sort/) algorithm is **O(n^2)**. In theory that is worse than the running time for [merge sort](Merge%20Sort/), which is **O(n log n)**. But for small amounts of data, insertion sort is actually faster, especially if the array is partially sorted already!
