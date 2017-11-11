@@ -27,7 +27,7 @@ As a result of this heap property, a max-heap always stores its largest item at 
 
 > **Note:** The root of the heap has the maximum or minimum element, but the sort order of other elements are not predictable. For example, the maximum element is always at index 0 in a max-heap, but the minimum element isn’t necessarily the last one. -- the only guarantee you have is that it is one of the leaf nodes, but not which one.
 
-## How does a heap can be compared to regular trees?
+## How does a heap compare to regular trees?
 
 A heap is not a replacement for a binary search tree, and there are similarities and differnces between them. Here are some main differences:
 
