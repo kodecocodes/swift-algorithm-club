@@ -33,17 +33,86 @@ Here's an example of this operation in code:
 
 ```swift
 extension BinaryNode {
+  // 1
+  private var splitter: String { return "," }
+  private var nilNode: String { return "nil" }
+  
+  // 2
   var encodedString: String {
     var str = ""
-    preOrderTraversal { str.append($0) }
+    preOrderTraversal { data in
+      if let data = data {
+        let string = String(describing: data)
+        str.append(string)
+      } else {
+        str.append(nilNode)
+      }
+      str.append(splitter)
+    }
     return str
   }
   
-  func preOrderTraversal(visit: (T) -> ()) {
+  // 3
+  func preOrderTraversal(visit: (T?) -> ()) {
     visit(data)
-    leftChild?.preOrderTraversal(visit: visit)
-    rightChild?.preOrderTraversal(visit: visit)
+    
+    if let leftChild = leftChild {
+      leftChild.preOrderTraversal(visit: visit)
+    } else {
+      visit(nil)
+    }
+    
+    if let rightChild = rightChild {
+      rightChild.preOrderTraversal(visit: visit)
+    } else {
+      visit(nil)
+    }
   }
 }
 ```
+
+Here's a high level overview of the above code:
+
+1. `splitter` is a way to distinguish the nodes in a string. To illustrate its importance, consider the following encoded string "banana". How did the tree structure look like before encoding? Without the `splitter`, you can't tell.
+
+2. `encodedString` is the result of the encoding process. Returns a string representation of the tree. For example: "ba,nana,nil" represents a tree with two nodes - "ba" and "nana" - in pre-order format.
+
+3. It is interesting to note that this pre-order traversal implementation also emits `nil` values in place of absent children.
+
+## Decoding
+
+Your decoding strategy is the exact opposite of your encoding strategy. You'll take an encoded string, and turn it back into your binary tree.
+
+Your encoding strategy followed the following rules:
+
+1. The result of the encoding will be a `String` object.
+2. You'll encode using *pre-order* traversal.
+
+The implementation also added a few important details:
+
+* node values are separated by `,` 
+* `nil` children are denoted by the `nil` string
+
+These details will shape your `decode` operation. Here's a possible implementation:
+
+```swift
+extension BinaryTree {
+  
+  static func decode<Element>(from string: String) -> BinaryNode<Element>? {
+    let array = string.split(separator: ",")
+    let deque: Deque<String> = array
+    return decode(from: deque)
+  }
+  
+  static func decode<Elements: RangeReplaceableCollection>(from deque: RangeReplaceableCollection) 
+    -> BinaryNode<Elements.Element>? {
+    
+  }
+}
+```
+
+
+
+
+
 
