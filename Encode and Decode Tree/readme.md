@@ -34,8 +34,8 @@ Here's an example of this operation in code:
 ```swift
 extension BinaryNode {
   // 1
-  private var splitter: String { return "," }
-  private var nilNode: String { return "nil" }
+  fileprivate var splitter: String { return "," }
+  fileprivate var nilNode: String { return "nil" }
   
   // 2
   var encodedString: String {
@@ -98,19 +98,32 @@ These details will shape your `decode` operation. Here's a possible implementati
 ```swift
 extension BinaryTree {
   
+  // 1
   static func decode<Element>(from string: String) -> BinaryNode<Element>? {
     let array = string.split(separator: ",")
-    let deque: Deque<String> = array
-    return decode(from: deque)
+    return decode(from: array)
   }
   
-  static func decode<Elements: RangeReplaceableCollection>(from deque: RangeReplaceableCollection) 
+  // 2
+  static func decode<Elements: Sequence>(from sequence: Sequence) 
     -> BinaryNode<Elements.Element>? {
     
+    guard let value = sequence.first else { return nil }
+    if value == nilNode {
+      return nil
+    } else {
+      let node = BinaryNode<Elements.Element>(value: value)
+      node.leftChild = decode(from: AnySequence<Elements.Element>(sequence.dropFirst()))
+      node.rightChild = decode(from: AnySequence<Elements.Element>(sequence.dropFirst()))
+    }    
   }
 }
 ```
 
+Here's a high level overview of the above code:
+
+1. Takes a `String`, and uses `split` to partition the contents of `string` into an array based on the `","` character. 
+2. Takes any `Sequence` type and recursively creates a binary tree based on the rules declared in the encoding operation.
 
 
 
