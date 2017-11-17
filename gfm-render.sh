@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+USERNAME="raywenderlich"
+
 # $1 - readme
 function render_markdown_to_html {
   # escape escaping characters
