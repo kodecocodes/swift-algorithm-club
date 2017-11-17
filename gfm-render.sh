@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 USERNAME="raywenderlich"
+TOKEN="e64530973ec12f12c94ac26cce8c93caf466fc89"
 
 # $1 - readme
 function render_markdown_to_html {
