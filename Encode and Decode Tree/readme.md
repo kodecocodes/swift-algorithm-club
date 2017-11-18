@@ -125,9 +125,47 @@ Here's a high level overview of the above code:
 
 2. Using an array as a stack, you recursively decode each node. The array keeps track of sequence of nodes and progress.
 
+Here's an example output of a tree undergoing the encoding and decoding process:
 
+```
+Original Tree
 
+  ┌──8423
+ ┌──8391
+ │ └──nil
+┌──7838
+│ │ ┌──4936
+│ └──3924
+│  └──2506
+830
+│ ┌──701
+└──202
+ └──169
 
+Encoded tree: 830,202,169,X,X,701,X,X,7838,3924,2506,X,X,4936,X,X,8391,X,8423,X,X,
+
+Decoded tree
+
+  ┌──8423
+ ┌──8391
+ │ └──nil
+┌──7838
+│ │ ┌──4936
+│ └──3924
+│  └──2506
+830
+│ ┌──701
+└──202
+ └──169
+ ```
+
+Notice the original tree and decoded tree are identical. 
+
+## Further Reading & References
+
+- [LeetCode](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/description/)
+
+*Written for the Swift Algorithm Club by Kai Chen & Kelvin Lau*
 
 
 
