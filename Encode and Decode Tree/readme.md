@@ -34,8 +34,8 @@ Here's an example of this operation in code:
 ```swift
 extension BinaryNode {
   // 1
-  fileprivate var splitter: String { return "," }
-  fileprivate var nilNode: String { return "nil" }
+  fileprivate var separator: String { return "," }
+  fileprivate var nilNode: String { return "X" }
   
   // 2
   var encodedString: String {
@@ -47,25 +47,25 @@ extension BinaryNode {
       } else {
         str.append(nilNode)
       }
-      str.append(splitter)
+      str.append(separator)
     }
     return str
   }
   
   // 3
-  func preOrderTraversal(visit: (T?) -> ()) {
-    visit(data)
+  func preOrderTraversal(visit: (Element?) throws -> ()) rethrows {
+    try visit(data)
     
     if let leftChild = leftChild {
-      leftChild.preOrderTraversal(visit: visit)
+      try leftChild.preOrderTraversal(visit: visit)
     } else {
-      visit(nil)
+      try visit(nil)
     }
     
     if let rightChild = rightChild {
-      rightChild.preOrderTraversal(visit: visit)
+      try rightChild.preOrderTraversal(visit: visit)
     } else {
-      visit(nil)
+      try visit(nil)
     }
   }
 }
@@ -73,7 +73,7 @@ extension BinaryNode {
 
 Here's a high level overview of the above code:
 
-1. `splitter` is a way to distinguish the nodes in a string. To illustrate its importance, consider the following encoded string "banana". How did the tree structure look like before encoding? Without the `splitter`, you can't tell.
+1. `separator` is a way to distinguish the nodes in a string. To illustrate its importance, consider the following encoded string "banana". How did the tree structure look like before encoding? Without the `separator`, you can't tell.
 
 2. `encodedString` is the result of the encoding process. Returns a string representation of the tree. For example: "ba,nana,nil" represents a tree with two nodes - "ba" and "nana" - in pre-order format.
 
@@ -96,34 +96,36 @@ The implementation also added a few important details:
 These details will shape your `decode` operation. Here's a possible implementation:
 
 ```swift
-extension BinaryTree {
-  
+extension BinaryNode {
+
   // 1
-  static func decode<Element>(from string: String) -> BinaryNode<Element>? {
-    let array = string.split(separator: ",")
-    return decode(from: array)
+  public static func decode(from str: String) -> AVLNode<String>? {
+    let components = encoded.lazy.split(separator: separator).reversed().map(String.init)
+    return decode(from: components)
   }
-  
-  // 2
-  static func decode<Elements: Sequence>(from sequence: Sequence) 
-    -> BinaryNode<Elements.Element>? {
+
+  public static func decode(from array: inout [String])
+    -> AVLNode<String>? {
     
-    guard let value = sequence.first else { return nil }
-    if value == nilNode {
-      return nil
-    } else {
-      let node = BinaryNode<Elements.Element>(value: value)
-      node.leftChild = decode(from: AnySequence<Elements.Element>(sequence.dropFirst()))
-      node.rightChild = decode(from: AnySequence<Elements.Element>(sequence.dropFirst()))
-    }    
+      guard !array.isEmpty else { return nil }
+      let value = array.removeLast()
+      guard value != "\(nilNode)" else { return nil }
+      
+      let node = AVLNode<String>(value: value)
+      node.leftChild = decode(from: &array)
+      node.rightChild = decode(from: &array)
+      return node
   }
 }
 ```
 
 Here's a high level overview of the above code:
 
-1. Takes a `String`, and uses `split` to partition the contents of `string` into an array based on the `","` character. 
-2. Takes any `Sequence` type and recursively creates a binary tree based on the rules declared in the encoding operation.
+1. Takes a `String`, and uses `split` to partition the contents of `string` into an array based on the `separator` defined in the encoding step. The result is first `reversed`, and then mapped to a `String`. The `reverse` step is an optimization for the next function, allowing us to use `array.removeLast()` instead of `array.removeFirst()`.
+
+2. Using an array as a stack, you recursively decode each node. The array keeps track of sequence of nodes and progress.
+
+
 
 
 
