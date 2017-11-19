@@ -2,7 +2,7 @@
 
 //: # Example 3: multiple entries with the same value
 
-var repeatedSet = OrderedSet<Player>()
+var repeatedSet = SortedSet<Player>()
 
 repeatedSet.insert(Player(name: "Player 1", points: 100))
 repeatedSet.insert(Player(name: "Player 2", points: 100))

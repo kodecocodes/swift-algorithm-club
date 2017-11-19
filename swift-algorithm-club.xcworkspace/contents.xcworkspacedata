@@ -2,6 +2,19 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "container:"
+      name = "Sorted Set">
+      <FileRef
+         location = "group:Sorted Set/README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:Sorted Set/SortedSet.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Sorted Set/SortedSet.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Egg Drop Problem"
       name = "Egg Drop Problem">
       <FileRef
@@ -1807,12 +1820,6 @@
    <Group
       location = "group:Ordered Set"
       name = "Ordered Set">
-      <FileRef
-         location = "group:AppleOrderedSet.playground">
-      </FileRef>
-      <FileRef
-         location = "group:AppleOrderedSet.swift">
-      </FileRef>
       <FileRef
          location = "group:OrderedSet.playground">
       </FileRef>

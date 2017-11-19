@@ -1,4 +1,4 @@
-let s = AppleOrderedSet<Int>()
+let s = OrderedSet<Int>()
 
 s.add(1)
 s.add(2)

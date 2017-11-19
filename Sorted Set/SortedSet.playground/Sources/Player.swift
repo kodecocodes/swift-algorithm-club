@@ -3,12 +3,12 @@
 public struct Player: Comparable {
   public var name: String
   public var points: Int
-
+  
   public init() {
     self.name = String.random()
     self.points = random(min: 0, max: 5000)
   }
-
+  
   public init(name: String, points: Int) {
     self.name = name
     self.points = points
@@ -31,7 +31,7 @@ public func print(player: Player) {
   print("Player: \(player.name) | Points: \(player.points)")
 }
 
-public func print(set: OrderedSet<Player>) {
+public func print(set: SortedSet<Player>) {
   for i in 0..<set.count {
     print(set[set.count - i - 1])
   }
