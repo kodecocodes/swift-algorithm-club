@@ -1,3 +1,8 @@
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 func breadthFirstSearchShortestPath(graph: Graph, source: Node) -> Graph {
   let shortestPathGraph = graph.duplicate()
 
@@ -18,8 +23,6 @@ func breadthFirstSearchShortestPath(graph: Graph, source: Node) -> Graph {
 
   return shortestPathGraph
 }
-
-
 
 let graph = Graph()
 

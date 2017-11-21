@@ -1,5 +1,8 @@
 //: Playground - noun: a place where people can play
-
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
 public class BloomFilter<T> {
   fileprivate var array: [Bool]
   private var hashFunctions: [(T) -> Int]
@@ -10,7 +13,7 @@ public class BloomFilter<T> {
   }
 
   private func computeHashes(_ value: T) -> [Int] {
-    return hashFunctions.map() { hashFunc in abs(hashFunc(value) % array.count) }
+    return hashFunctions.map { hashFunc in abs(hashFunc(value) % array.count) }
   }
 
   public func insert(_ element: T) {
@@ -29,7 +32,7 @@ public class BloomFilter<T> {
     let hashValues = computeHashes(value)
 
     // Map hashes to indices in the Bloom Filter
-    let results = hashValues.map() { hashValue in array[hashValue] }
+    let results = hashValues.map { hashValue in array[hashValue] }
 
     // All values must be 'true' for the query to return true
 
@@ -46,8 +49,6 @@ public class BloomFilter<T> {
     return array.reduce(true) { prev, next in prev && !next }
   }
 }
-
-
 
 /* Two hash functions, adapted from http://www.cse.yorku.ca/~oz/hash.html */
 
@@ -66,8 +67,6 @@ func sdbm(x: String) -> Int {
   }
   return Int(hash)
 }
-
-
 
 /* A simple test */
 

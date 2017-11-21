@@ -6,14 +6,8 @@
 //  Copyright © 2016 Ali Hafizji. All rights reserved.
 //
 
-enum CountingSortError: Error {
-  case arrayEmpty
-}
-
-func countingSort(_ array: [Int]) throws -> [Int] {
-  guard array.count > 0 else {
-    throw CountingSortError.arrayEmpty
-  }
+func countingSort(_ array: [Int])-> [Int] {
+  guard array.count > 0 else {return []}
 
   // Step 1
   // Create an array to store the count of each element

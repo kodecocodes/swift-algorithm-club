@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 /* Calculates n! */
 func factorial(_ n: Int) -> Int {
   var n = n
@@ -13,8 +18,6 @@ func factorial(_ n: Int) -> Int {
 
 factorial(5)
 factorial(20)
-
-
 
 /*
  Calculates P(n, k), the number of permutations of n distinct symbols
@@ -34,8 +37,6 @@ permutations(5, 3)
 permutations(50, 6)
 permutations(9, 4)
 
-
-
 /*
  Prints out all the permutations of the given array.
  Original algorithm by Niklaus Wirth.
@@ -48,9 +49,9 @@ func permuteWirth<T>(_ a: [T], _ n: Int) {
     var a = a
     permuteWirth(a, n - 1)
     for i in 0..<n {
-      swap(&a[i], &a[n])
+      a.swapAt(i, n)
       permuteWirth(a, n - 1)
-      swap(&a[i], &a[n])
+      a.swapAt(i, n)
     }
   }
 }
@@ -62,8 +63,6 @@ permuteWirth(letters, letters.count - 1)
 let xyz = [ "x", "y", "z" ]
 print("\nPermutations of \(xyz):")
 permuteWirth(xyz, 2)
-
-
 
 /*
  Prints out all the permutations of an n-element collection.
@@ -97,8 +96,6 @@ let numbers = [0, 0, 0, 0]  // must be all zeros
 var pos = -1
 permuteSedgewick(numbers, 0, &pos)
 
-
-
 /*
  Calculates C(n, k), or "n-choose-k", i.e. how many different selections
  of size k out of a total number of distinct elements (n) you can make.
@@ -114,8 +111,6 @@ print("\nCombinations:")
 for i in 1...20 {
     print("\(20)-choose-\(i) = \(combinations(20, choose: i))")
 }
-
-
 
 /*
  Calculates C(n, k), or "n-choose-k", i.e. the number of ways to choose
@@ -133,8 +128,6 @@ func quickBinomialCoefficient(_ n: Int, choose k: Int) -> Int {
 
 quickBinomialCoefficient(8, choose: 2)
 quickBinomialCoefficient(30, choose: 15)
-
-
 
 /* Supporting code because Swift doesn't have a built-in 2D array. */
 struct Array2D<T> {

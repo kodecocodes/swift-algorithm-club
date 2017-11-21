@@ -2,6 +2,11 @@
 
 import Foundation
 
+// last checked with Xcode 4.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 let carAge: [Double] = [10, 8, 3, 3, 2, 1]
 let carPrice: [Double] = [500, 400, 7000, 8500, 11000, 10500]
 var intercept = 0.0
@@ -34,7 +39,7 @@ func average(_ input: [Double]) -> Double {
 }
 
 func multiply(_ a: [Double], _ b: [Double]) -> [Double] {
-    return zip(a,b).map(*)
+    return zip(a, b).map(*)
 }
 
 func linearRegression(_ xs: [Double], _ ys: [Double]) -> (Double) -> Double {

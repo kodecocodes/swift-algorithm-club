@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 enum CountingSortError: Error {
   case arrayEmpty
 }
@@ -36,6 +41,5 @@ func countingSort(array: [Int]) throws -> [Int] {
   }
   return sortedArray
 }
-
 
 try countingSort(array: [10, 9, 8, 7, 1, 2, 7, 3])

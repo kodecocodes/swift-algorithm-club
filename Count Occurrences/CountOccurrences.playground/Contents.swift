@@ -1,4 +1,7 @@
-//: Playground - noun: a place where people can play
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+  print("Hello, Swift 4!")
+#endif
 
 func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
   func leftBoundary() -> Int {
@@ -32,12 +35,10 @@ func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
   return rightBoundary() - leftBoundary()
 }
 
-
 // Simple test
 
 let a = [ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
 countOccurrencesOfKey(3, inArray: a)
-
 
 // Test with arrays of random size and contents (see debug output)
 

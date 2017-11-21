@@ -2,6 +2,11 @@
 
 import Foundation
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 let bTree = BTree<Int, Int>(order: 1)!
 
 bTree.insert(1, for: 1)
@@ -14,9 +19,8 @@ bTree[3]
 
 bTree.remove(2)
 
-bTree.traverseKeysInOrder {
-  key in
-  print(key)
+bTree.traverseKeysInOrder { key in
+    print(key)
 }
 
 bTree.numberOfKeys

@@ -1,10 +1,12 @@
 # Merge Sort
 
+> This topic has been tutorialized [here](https://www.raywenderlich.com/154256/swift-algorithm-club-swift-merge-sort)
+
 Goal: Sort an array from low to high (or high to low)
 
 Invented in 1945 by John von Neumann, merge-sort is an efficient algorithm with a best, worst, and average time complexity of **O(n log n)**.
 
-The merge-sort algorithm uses the **divide and conquer** approach which is to divide a big problem into smaller problems and solve them. I think of the merge-sort algorithm as **split first** and **merge after**. 
+The merge-sort algorithm uses the **divide and conquer** approach which is to divide a big problem into smaller problems and solve them. I think of the merge-sort algorithm as **split first** and **merge after**.
 
 Assume you need to sort an array of *n* numbers in the right order. The merge-sort algorithm works as follows:
 
@@ -17,13 +19,13 @@ Assume you need to sort an array of *n* numbers in the right order. The merge-so
 
 ### Splitting
 
-Assume you are given an array of *n* numbers as`[2, 1, 5, 4, 9]`. This is an unsorted pile. The goal is to keep splitting the pile until you cannot split anymore. 
+Assume you are given an array of *n* numbers as`[2, 1, 5, 4, 9]`. This is an unsorted pile. The goal is to keep splitting the pile until you cannot split anymore.
 
 First, split the array into two halves: `[2, 1]` and `[5, 4, 9]`. Can you keep splitting them? Yes, you can!
 
 Focus on the left pile. Split`[2, 1]` into `[2]` and `[1]`. Can you keep splitting them? No. Time to check the other pile.
 
-Split `[5, 4, 9]` into `[5]` and `[4, 9]`. Unsurprisingly, `[5]` cannot be split anymore, but `[4, 9]` can be split into `[4]` and `[9]`. 
+Split `[5, 4, 9]` into `[5]` and `[4, 9]`. Unsurprisingly, `[5]` cannot be split anymore, but `[4, 9]` can be split into `[4]` and `[9]`.
 
 The splitting process ends with the following piles: `[2]` `[1]` `[5]` `[4]` `[9]`. Notice that each pile consists of just one element.
 
@@ -31,11 +33,11 @@ The splitting process ends with the following piles: `[2]` `[1]` `[5]` `[4]` `[9
 
 Now that you have split the array, you should **merge** the piles together **while sorting them**. Remember, the idea is to solve many small problems rather than a big one. For each merge iteration, you must be concerned at merging one pile with another.
 
-Given the piles `[2]` `[1]` `[5]` `[4]` `[9]`, the first pass will result in `[1, 2]` and `[4, 5]` and `[9]`. Since `[9]` is the odd one out, you cannot merge it with anything during this pass. 
+Given the piles `[2]` `[1]` `[5]` `[4]` `[9]`, the first pass will result in `[1, 2]` and `[4, 5]` and `[9]`. Since `[9]` is the odd one out, you cannot merge it with anything during this pass.
 
-The next pass will merge `[1, 2]` and `[4, 5]` together. This results in `[1, 2, 4, 5]`, with the `[9]` left out again because it is the odd one out. 
+The next pass will merge `[1, 2]` and `[4, 5]` together. This results in `[1, 2, 4, 5]`, with the `[9]` left out again because it is the odd one out.
 
-You are left with only two piles and `[9]`, finally gets its chance to merge, resulting in the sorted array as `[1, 2, 4, 5, 9]`. 
+You are left with only two piles `[1, 2, 4, 5]` and `[9]`, finally gets its chance to merge, resulting in the sorted array as `[1, 2, 4, 5, 9]`.
 
 ## Top-down implementation
 
@@ -59,7 +61,7 @@ A step-by-step explanation of how the code works:
 
 1. If the array is empty or contains a single element, there is no way to split it into smaller pieces. You must just return the array.
 
-2. Find the middle index. 
+2. Find the middle index.
 
 3. Using the middle index from the previous step, recursively split the left side of the array.
 
@@ -75,7 +77,7 @@ func merge(leftPile: [Int], rightPile: [Int]) -> [Int] {
   var leftIndex = 0
   var rightIndex = 0
 
-  // 2 
+  // 2
   var orderedPile = [Int]()
 
   // 3
@@ -142,16 +144,16 @@ This process repeats. At each step, we pick the smallest item from either the `l
 	leftPile       rightPile       orderedPile
 	[ 1, 7, 8 ]    [ 3, 6, 9 ]     [ 1, 3, 6 ]
          l              -->r
-	
+
 	leftPile       rightPile       orderedPile
 	[ 1, 7, 8 ]    [ 3, 6, 9 ]     [ 1, 3, 6, 7 ]
          -->l              r
-	
+
 	leftPile       rightPile       orderedPile
 	[ 1, 7, 8 ]    [ 3, 6, 9 ]     [ 1, 3, 6, 7, 8 ]
             -->l           r
 
-Now, there are no more items in the left pile. We simply add the remaining items from the right pile, and we are done. The merged pile is `[ 1, 3, 6, 7, 8, 9 ]`. 
+Now, there are no more items in the left pile. We simply add the remaining items from the right pile, and we are done. The merged pile is `[ 1, 3, 6, 7, 8, 9 ]`.
 
 Notice that, this algorithm is very simple: it moves from left-to-right through the two piles and at every step picks the smallest item. This works because we guarantee that each of the piles is already sorted.
 
@@ -167,20 +169,20 @@ func mergeSortBottomUp<T>(_ a: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
 
   var z = [a, a]      // 1
   var d = 0
-    
+
   var width = 1
   while width < n {   // 2
-  
+
     var i = 0
     while i < n {     // 3
 
       var j = i
       var l = i
       var r = i + width
-      
+
       let lmax = min(l + width, n)
       let rmax = min(r + width, n)
-      
+
       while l < lmax && r < rmax {                // 4
         if isOrderedBefore(z[d][l], z[d][r]) {
           z[1 - d][j] = z[d][l]
@@ -204,7 +206,7 @@ func mergeSortBottomUp<T>(_ a: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
 
       i += width*2
     }
-    
+
     width *= 2
     d = 1 - d      // 5
   }
@@ -237,11 +239,11 @@ mergeSortBottomUp(array, <)   // [1, 2, 4, 5, 9]
 
 ## Performance
 
-The speed of the merge-sort algorithm is dependent on the size of the array it needs to sort. The larger the array, the more work it needs to do. 
+The speed of the merge-sort algorithm is dependent on the size of the array it needs to sort. The larger the array, the more work it needs to do.
 
-Whether or not the initial array is sorted already doesnot affect the speed of the merge-sort algorithm since you will be doing the same amount splits and comparisons regardless of the initial order of the elements.
+Whether or not the initial array is sorted already does not affect the speed of the merge-sort algorithm since you will be doing the same amount splits and comparisons regardless of the initial order of the elements.
 
-Therefore, the time complexity for the best, worst, and average case will always be **O(n log n)**. 
+Therefore, the time complexity for the best, worst, and average case will always be **O(n log n)**.
 
 A disadvantage of the merge-sort algorithm is that it needs a temporary "working" array equal in size to the array being sorted. It is not an **in-place** sort, unlike for example [quicksort](../Quicksort/).
 

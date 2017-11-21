@@ -1,7 +1,13 @@
 import Graph
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
+
 for graph in [AdjacencyMatrixGraph<Int>(), AdjacencyListGraph<Int>()] {
-    
+
   let v1 = graph.createVertex(1)
   let v2 = graph.createVertex(2)
   let v3 = graph.createVertex(3)

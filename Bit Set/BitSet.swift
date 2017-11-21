@@ -1,30 +1,30 @@
 /*
-  A fixed-size sequence of n bits. Bits have indices 0 to n-1.
-*/
+ A fixed-size sequence of n bits. Bits have indices 0 to n-1.
+ */
 public struct BitSet {
   /* How many bits this object can hold. */
   private(set) public var size: Int
-
+  
   /*
-    We store the bits in a list of unsigned 64-bit integers.
-    The first entry, `words[0]`, is the least significant word.
-  */
+   We store the bits in a list of unsigned 64-bit integers.
+   The first entry, `words[0]`, is the least significant word.
+   */
   private let N = 64
   public typealias Word = UInt64
   fileprivate(set) public var words: [Word]
-
+  
   private let allOnes = ~Word()
-
+  
   /* Creates a bit set that can hold `size` bits. All bits are initially 0. */
   public init(size: Int) {
     precondition(size > 0)
     self.size = size
-
+    
     // Round up the count to the next multiple of 64.
     let n = (size + (N-1)) / N
     words = [Word](repeating: 0, count: n)
   }
-
+  
   /* Converts a bit index into an array index and a mask inside the word. */
   private func indexOf(_ i: Int) -> (Int, Word) {
     precondition(i >= 0)
@@ -33,7 +33,7 @@ public struct BitSet {
     let m = Word(i - o*N)
     return (o, 1 << m)
   }
-
+  
   /* Returns a mask that has 1s for all bits that are in the last word. */
   private func lastWordMask() -> Word {
     let diff = words.count*N - size
@@ -41,33 +41,33 @@ public struct BitSet {
       // Set the highest bit that's still valid.
       let mask = 1 << Word(63 - diff)
       // Subtract 1 to turn it into a mask, and add the high bit back in.
-      return mask | (mask - 1)
+      return (Word)(mask | (mask - 1))
     } else {
       return allOnes
     }
   }
-
+  
   /*
-    If the size is not a multiple of N, then we have to clear out the bits
-    that we're not using, or bitwise operations between two differently sized
-    BitSets will go wrong.
-  */
+   If the size is not a multiple of N, then we have to clear out the bits
+   that we're not using, or bitwise operations between two differently sized
+   BitSets will go wrong.
+   */
   fileprivate mutating func clearUnusedBits() {
     words[words.count - 1] &= lastWordMask()
   }
-
+  
   /* So you can write bitset[99] = ... */
   public subscript(i: Int) -> Bool {
     get { return isSet(i) }
     set { if newValue { set(i) } else { clear(i) } }
   }
-
+  
   /* Sets the bit at the specified index to 1. */
   public mutating func set(_ i: Int) {
     let (j, m) = indexOf(i)
     words[j] |= m
   }
-
+  
   /* Sets all the bits to 1. */
   public mutating func setAll() {
     for i in 0..<words.count {
@@ -75,37 +75,37 @@ public struct BitSet {
     }
     clearUnusedBits()
   }
-
+  
   /* Sets the bit at the specified index to 0. */
   public mutating func clear(_ i: Int) {
     let (j, m) = indexOf(i)
     words[j] &= ~m
   }
-
+  
   /* Sets all the bits to 0. */
   public mutating func clearAll() {
     for i in 0..<words.count {
       words[i] = 0
     }
   }
-
+  
   /* Changes 0 into 1 and 1 into 0. Returns the new value of the bit. */
   public mutating func flip(_ i: Int) -> Bool {
     let (j, m) = indexOf(i)
     words[j] ^= m
     return (words[j] & m) != 0
   }
-
+  
   /* Determines whether the bit at the specific index is 1 (true) or 0 (false). */
   public func isSet(_ i: Int) -> Bool {
     let (j, m) = indexOf(i)
     return (words[j] & m) != 0
   }
-
+  
   /*
-    Returns the number of bits that are 1. Time complexity is O(s) where s is
-    the number of 1-bits.
-  */
+   Returns the number of bits that are 1. Time complexity is O(s) where s is
+   the number of 1-bits.
+   */
   public var cardinality: Int {
     var count = 0
     for var x in words {
@@ -117,7 +117,7 @@ public struct BitSet {
     }
     return count
   }
-
+  
   /* Checks if all the bits are set. */
   public func all1() -> Bool {
     for i in 0..<words.count - 1 {
@@ -125,7 +125,7 @@ public struct BitSet {
     }
     return words[words.count - 1] == lastWordMask()
   }
-
+  
   /* Checks if any of the bits are set. */
   public func any1() -> Bool {
     for x in words {
@@ -133,7 +133,7 @@ public struct BitSet {
     }
     return false
   }
-
+  
   /* Checks if none of the bits are set. */
   public func all0() -> Bool {
     for x in words {
@@ -167,7 +167,7 @@ extension BitSet: Hashable {
 
 // MARK: - Bitwise operations
 
-extension BitSet: BitwiseOperations {
+extension BitSet {
   public static var allZeros: BitSet {
     return BitSet(size: 64)
   }
@@ -178,11 +178,11 @@ private func copyLargest(_ lhs: BitSet, _ rhs: BitSet) -> BitSet {
 }
 
 /*
-  Note: In all of these bitwise operations, lhs and rhs are allowed to have a
-  different number of bits. The new BitSet always has the larger size.
-  The extra bits that get added to the smaller BitSet are considered to be 0.
-  That will strip off the higher bits from the larger BitSet when doing &.
-*/
+ Note: In all of these bitwise operations, lhs and rhs are allowed to have a
+ different number of bits. The new BitSet always has the larger size.
+ The extra bits that get added to the smaller BitSet are considered to be 0.
+ That will strip off the higher bits from the larger BitSet when doing &.
+ */
 
 public func & (lhs: BitSet, rhs: BitSet) -> BitSet {
   let m = max(lhs.size, rhs.size)
@@ -245,3 +245,4 @@ extension BitSet: CustomStringConvertible {
     return s
   }
 }
+

@@ -1,19 +1,24 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 public class SegmentTree<T> {
-	
+
 	private var value: T
 	private var function: (T, T) -> T
 	private var leftBound: Int
 	private var rightBound: Int
 	private var leftChild: SegmentTree<T>?
 	private var rightChild: SegmentTree<T>?
-	
+
 	public init(array: [T], leftBound: Int, rightBound: Int, function: @escaping (T, T) -> T) {
 		self.leftBound = leftBound
 		self.rightBound = rightBound
 		self.function = function
-		
+
 		if leftBound == rightBound {
 			value = array[leftBound]
 		} else {
@@ -23,19 +28,19 @@ public class SegmentTree<T> {
 			value = function(leftChild!.value, rightChild!.value)
 		}
 	}
-	
+
 	public convenience init(array: [T], function: @escaping (T, T) -> T) {
 		self.init(array: array, leftBound: 0, rightBound: array.count-1, function: function)
 	}
-	
+
 	public func query(leftBound: Int, rightBound: Int) -> T {
 		if self.leftBound == leftBound && self.rightBound == rightBound {
 			return self.value
 		}
-		
+
 		guard let leftChild = leftChild else { fatalError("leftChild should not be nil") }
 		guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
-		
+
 		if leftChild.rightBound < leftBound {
 			return rightChild.query(leftBound: leftBound, rightBound: rightBound)
 		} else if rightChild.leftBound > rightBound {
@@ -46,7 +51,7 @@ public class SegmentTree<T> {
 			return function(leftResult, rightResult)
 		}
 	}
-	
+
 	public func replaceItem(at index: Int, withItem item: T) {
 		if leftBound == rightBound {
 			value = item
@@ -61,9 +66,6 @@ public class SegmentTree<T> {
 	}
 }
 
-
-
-
 let array = [1, 2, 3, 4]
 
 let sumSegmentTree = SegmentTree(array: array, function: +)
@@ -77,13 +79,12 @@ sumSegmentTree.replaceItem(at: 0, withItem: 2) //our array now is [2, 2, 3, 4]
 print(sumSegmentTree.query(leftBound: 0, rightBound: 0)) // 2 = 2
 print(sumSegmentTree.query(leftBound: 0, rightBound: 1)) // 2 + 2 = 4
 
-
 //you can use any associative function (i.e (a+b)+c == a+(b+c)) as function for segment tree
 func gcd(_ m: Int, _ n: Int) -> Int {
 	var a = 0
 	var b = max(m, n)
 	var r = min(m, n)
-	
+
 	while r != 0 {
 		a = b
 		b = r
@@ -105,7 +106,6 @@ gcdSegmentTree.replaceItem(at: 3, withItem: 10) //gcdArray now is [2, 4, 6, 10, 
 
 print(gcdSegmentTree.query(leftBound: 3, rightBound: 4)) // gcd(10, 5) = 5
 
-
 //example of segment tree which finds minimum on given range
 let minArray = [2, 4, 1, 5, 3]
 
@@ -117,7 +117,6 @@ print(minSegmentTree.query(leftBound: 0, rightBound: 1)) // min(2, 4) = 2
 minSegmentTree.replaceItem(at: 2, withItem: 10) // minArray now is [2, 4, 10, 5, 3]
 
 print(minSegmentTree.query(leftBound: 0, rightBound: 4)) // min(2, 4, 10, 5, 3) = 2
-
 
 //type of elements in array can be any type which has some associative function
 let stringArray = ["a", "b", "c", "A", "B", "C"]

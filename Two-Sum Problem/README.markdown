@@ -1,66 +1,82 @@
 # Two-Sum Problem
 
-You're given an array `a` with numbers. Write an algorithm that checks if there are any two entries in the array that add up to a given number `k`. In other words, is there any `a[i] + a[j] == k`?
+Given an array of integers and an integer target, return the indices of two numbers that add up to the target.
 
 There are a variety of solutions to this problem (some better than others). The following solutions both run in **O(n)** time.
 
 # Solution 1
 
-This solution uses a dictionary to store differences between each element in the array and the sum `k` that we're looking for. The dictionary also stores the indices of each element.
+This solution looks at one number at a time, storing each number in the dictionary. It uses the number as the key and the number's index in the array as the value.
 
-With this approach, each key in the dictionary corresponds to a new target value. If one of the successive numbers from the array is equal to one of the dictionary's keys, then we know there exist two numbers that sum to `k`.
+For each number n, we know the complementing number to sum up to the target is `target - n`. By looking up the complement in the dictionary, we'd know whether we've seen the complement before and what its index is.
 
 ```swift
-func twoSumProblem(_ a: [Int], k: Int) -> ((Int, Int))? {
-  var dict = [Int: Int]()
-
-  for i in 0 ..< a.count {
-    if let newK = dict[a[i]] {
-      return (newK, i)
-    } else {
-      dict[k - a[i]] =  i
+func twoSum(_ nums: [Int], target: Int) -> (Int, Int)? {
+    var dict = [Int: Int]()
+    
+    // For every number n,
+    for (currentIndex, n) in nums.enumerated() {
+        // Find the complement to n that would sum up to the target.
+        let complement = target - n
+        
+        // Check if the complement is in the dictionary.
+        if let complementIndex = dict[complement] {
+            return (complementIndex, currentIndex)
+        }
+        
+        // Store n and its index into the dictionary.
+        dict[n] = currentIndex
     }
-  }
-
-  return nil  // if empty array or no entries sum to target k
+    
+    return nil
 }
 ```
 
-The `twoSumProblem()` function takes two parameters: the array `a` with the numbers, and `k`, the sum we're looking for. It returns the first set of indices `(i, j)` where `a[i] + a[j] == k`, or `nil` if no two numbers add up to `k`.
+The `twoSum` function takes two parameters: the `numbers` array and the target sum. It returns the two indicies of the pair of elements that sums up to the target, or `nil` if they can't be found.
 
-Let's take a look at an example and run through the algorithm to see how it works. Given is the array:
+Let's run through the algorithm to see how it works. Given the array:
 
 ```swift
-[ 7, 2, 23, 8, -1, 0, 11, 6  ]
+[3, 2, 9, 8]
 ```
 
-Let's find out if there exist two entries whose sum is equal to 10.
+Let's find out if there exist two entries whose sum is 10.
 
 Initially, our dictionary is empty. We begin looping through each element:
 
-- **i = 0**: Is `7` in the dictionary? No. We add the difference between the target `k` and the current number to the dictionary. The difference is `10 - 7 = 3`, so the dictionary key is `3`. The value for that key is the current index, `0`. The dictionary now looks like this:
+- **currentIndex = 0** | n = nums[0] = 3 | complement = 10 - 3 = 7
+
+Is the complement `7` in the dictionary? No, so we add `3` and its index `0` to the dictionary.
 
 ```swift
-[ 3: 0 ]
+[3: 0]
 ```
 
-- **i = 1:** Is `2` in the dictionary? No. Let's do as above and add the difference (`10 - 2 = 8`) and the array index (`1`). The dictionary is:
+- **currentIndex = 1** | n = 2 | complement = 10 - 2 = 8
+
+Is the complement `8` in the dictionary? No, so we add `2` and its index `1` to the dictionary.
 
 ```swift
-[ 3: 0, 8: 1 ]
+[3: 0, 2: 1]
 ```
 
-- **i = 2:** Is `23` in the dictionary? No. Again, we add it to the dictionary. The difference is `10 - 23 = -13` and the index is `2`:
+- **currentIndex = 2** | n = 9 | complement = 10 - 9 = 1
+
+Is the complement `1` in the dictionary? No, so we add `9` and its index `2` to the dictionary.:
 
 ```swift
-[ 3: 0, 8: 1, -13: 2 ]
+[3: 0, 2: 1, 9: 2]
 ```
 
-- **i = 3:** Is `8` in the dictionary? Yes! That means that we have found a pair of entries that sum to our target. Namely the current number `8` and `array[dict[8]]` because `dict[8] = 1`, `array[1] = 2`, and `8 + 2 = 10`. Therefore, we return the corresponding indices of these numbers. For `8` that is the current loop index, `3`. For `2` that is `dict[8]` or `1`. The tuple we return is `(1, 3)`.
+- **currentIndex = 3** | n = 8 | complement = 10 - 8 = 2
 
-The given array actually has multiple solutions: `(1, 3)` and `(4, 6)`. However, only the first solution is returned.
+Is the complement `2` in the dictionary? Yes! That means that we have found a pair of entries that sum to the target!
 
-The running time of this algorithm is **O(n)** because it potentially may need to look at all array elements. It also requires **O(n)** additional storage space for the dictionary.
+Therefore, the `complementIndex = dict[2] = 1` and the `currentIndex = 3`. The tuple we return is `(1, 3)`.
+
+If the given array has multiple solutions, only the first solution is returned.
+
+The running time of this algorithm is **O(n)** because it may look at every element in the array. It also requires **O(n)** additional storage space for the dictionary.
 
 # Solution 2
 
@@ -147,5 +163,9 @@ And finally, we have the answer: `12 + 21 = 33`. Yay!
 It's possible, of course, that there are no values for `a[i] + a[j]` that sum to `k`. In that case, eventually `i` and `j` will point at the same number. Then we can conclude that no answer exists and we return `nil`.
 
 I'm quite enamored by this little algorithm. It shows that with some basic preprocessing on the input data -- sorting it from low to high -- you can turn a tricky problem into a very simple and beautiful algorithm.
+
+## Additional Reading
+
+* [3Sum / 4Sum](https://github.com/raywenderlich/swift-algorithm-club/tree/master/3Sum%20and%204Sum)
 
 *Written for Swift Algorithm Club by Matthijs Hollemans and Daniel Speiser*

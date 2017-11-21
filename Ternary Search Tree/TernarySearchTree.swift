@@ -23,7 +23,7 @@ public class TernarySearchTree<Element> {
      */
     public init() {}
 
-    //MARK: - Insertion
+    // MARK: - Insertion
 
     /**
     Public insertion method.
@@ -84,8 +84,7 @@ public class TernarySearchTree<Element> {
         }
     }
 
-
-    //MARK: - Finding
+    // MARK: - Finding
 
     /**
     Public find method.

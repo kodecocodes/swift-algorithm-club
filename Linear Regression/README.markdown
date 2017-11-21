@@ -75,7 +75,7 @@ for n in 1...numberOfIterations {
 
 The program loops through each data point (each car age and car price). For each data point it adjusts the intercept and the slope to bring them closer to the correct values. The equations used in the code to adjust the intercept and the slope are based on moving in the direction of the maximal reduction of these variables. This is a *gradient descent*.
 
-We want to minimse the square of the distance between the line and the points. We define a function `J` which represents this distance - for simplicity we consider only one point here. This function `J` is proprotional to `((slope.carAge + intercept) - carPrice)) ^ 2`.
+We want to minimise the square of the distance between the line and the points. We define a function `J` which represents this distance - for simplicity we consider only one point here. This function `J` is proportional to `((slope.carAge + intercept) - carPrice)) ^ 2`.
 
 In order to move in the direction of maximal reduction, we take the partial derivative of this function with respect to the slope, and similarly for the intercept. We multiply these derivatives by our factor alpha and then use them to adjust the values of slope and intercept on each iteration.
 
@@ -98,7 +98,7 @@ Here is the same data shown as a graph. Each of the blue lines on the graph repr
 
 After 18,000 iterations it looks as if the line is getting closer to what we would expect (just by looking) to be the correct line of best fit. Also, each additional 2,000 iterations has less and less effect on the final result - the values of the intercept and the slope are converging on the correct values.
 
-##A closed form solution
+## A closed form solution
 
 There is another way we can calculate the line of best fit, without having to do multiple iterations. We can solve the equations describing the least squares minimisation and just work out the intercept and slope directly. 
 
@@ -139,7 +139,7 @@ This function takes as arguments two arrays of Doubles, and returns a function w
 Using this line, we would predict a price for our 4 year old car of £6952.
 
 
-##Summary
+## Summary
 We've seen two different ways to implement a simple linear regression in Swift. An obvious question is: why bother with the iterative approach at all? 
 
 Well, the line we've found doesn't fit the data perfectly. For one thing, the graph includes some negative values at high car ages! Possibly we would have to pay someone to tow away a very old car... but really these negative values just show that we have not modelled the real life situation very accurately. The relationship between the car age and the car price is not linear but instead is some other function. We also know that a car's price is not just related to its age but also other factors such as the make, model and engine size of the car. We would need to use additional variables to describe these other factors. 

@@ -23,7 +23,7 @@
 import Foundation
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+fileprivate func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l < r
@@ -36,7 +36,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
-fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+fileprivate func >= <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l >= r
@@ -45,11 +45,9 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
 //////////////////////////////////////
 // MARK: Main algorithm
 //////////////////////////////////////
-
 
 /**
     Performs bucket sort algorithm on the given input elements.
@@ -63,7 +61,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     - Returns: A new array with sorted elements
  */
 
-public func bucketSort<T: Sortable>(_ elements: [T], distributor: Distributor, sorter: Sorter, buckets: [Bucket<T>]) -> [T] {
+public func bucketSort<T>(_ elements: [T], distributor: Distributor, sorter: Sorter, buckets: [Bucket<T>]) -> [T] {
     precondition(allPositiveNumbers(elements))
     precondition(enoughSpaceInBuckets(buckets, elements: elements))
 
@@ -85,7 +83,7 @@ private func allPositiveNumbers<T: Sortable>(_ array: [T]) -> Bool {
     return array.filter { $0.toInt() >= 0 }.count > 0
 }
 
-private func enoughSpaceInBuckets<T: Sortable>(_ buckets: [Bucket<T>], elements: [T]) -> Bool {
+private func enoughSpaceInBuckets<T>(_ buckets: [Bucket<T>], elements: [T]) -> Bool {
     let maximumValue = elements.max()?.toInt()
     let totalCapacity = buckets.count * (buckets.first?.capacity)!
 
@@ -96,9 +94,8 @@ private func enoughSpaceInBuckets<T: Sortable>(_ buckets: [Bucket<T>], elements:
 // MARK: Distributor
 //////////////////////////////////////
 
-
 public protocol Distributor {
-    func distribute<T: Sortable>(_ element: T, buckets: inout [Bucket<T>])
+    func distribute<T>(_ element: T, buckets: inout [Bucket<T>])
 }
 
 /*
@@ -120,7 +117,7 @@ public struct RangeDistributor: Distributor {
 
     public init() {}
 
-    public func distribute<T: Sortable>(_ element: T, buckets: inout [Bucket<T>]) {
+    public func distribute<T>(_ element: T, buckets: inout [Bucket<T>]) {
         let value = element.toInt()
         let bucketCapacity = buckets.first!.capacity
 
@@ -173,7 +170,7 @@ public struct InsertionSorter: Sorter {
 // MARK: Bucket
 //////////////////////////////////////
 
-public struct Bucket<T:Sortable> {
+public struct Bucket<T: Sortable> {
     var elements: [T]
     let capacity: Int
 

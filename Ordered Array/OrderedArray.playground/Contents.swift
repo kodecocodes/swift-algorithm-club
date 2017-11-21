@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 public struct OrderedArray<T: Comparable> {
   fileprivate var array = [T]()
 
@@ -49,7 +54,7 @@ public struct OrderedArray<T: Comparable> {
   private func findInsertionPoint(_ newElement: T) -> Int {
     var startIndex = 0
     var endIndex = array.count
-    
+
     while startIndex < endIndex {
         let midIndex = startIndex + (endIndex - startIndex) / 2
         if array[midIndex] == newElement {
@@ -69,8 +74,6 @@ extension OrderedArray: CustomStringConvertible {
     return array.description
   }
 }
-
-
 
 var a = OrderedArray<Int>(array: [5, 1, 3, 9, 7, -1])
 a              // [-1, 1, 3, 5, 7, 9]

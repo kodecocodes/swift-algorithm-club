@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 import Foundation
 
 let originalString = "aaaaabbbcdeeeeeeef"
@@ -12,16 +17,16 @@ originalString == restoredString
 
 func encodeAndDecode(_ bytes: [UInt8]) -> Bool {
     var bytes = bytes
-    
+
     var data1 = Data(bytes: &bytes, count: bytes.count)
     print("data1 is \(data1.count) bytes")
-    
+
     var rleData = data1.compressRLE()
     print("encoded data is \(rleData.count) bytes")
-    
+
     var data2 = rleData.decompressRLE()
     print("data2 is \(data2.count) bytes")
-    
+
     return data1 == data2
 }
 
@@ -66,10 +71,10 @@ func testBufferWithoutSpans() -> Bool {
 
 func testBufferWithSpans(_ spanSize: Int) -> Bool {
     print("span size \(spanSize)")
-    
+
     let length = spanSize * 32
     var bytes: [UInt8] = Array<UInt8>(repeating: 0, count: length)
-    
+
     for t in stride(from: 0, to: length, by: spanSize) {
         for i in 0..<spanSize {
             bytes[t + i] = UInt8(t % 256)
@@ -109,7 +114,7 @@ func runTests() -> Bool {
     for bool in tests {
         result = result && bool
     }
-    
+
     return result
 }
 

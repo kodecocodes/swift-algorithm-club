@@ -3,13 +3,9 @@
  */
 
 func maximum<T: Comparable>(_ array: [T]) -> T? {
-    var array = array
-    guard !array.isEmpty else {
-        return nil
-    }
-
-    var maximum = array.removeFirst()
-    for element in array {
+    guard var maximum = array.first else { return nil }
+    
+    for element in array.dropFirst() {
         maximum = element > maximum ? element : maximum
     }
     return maximum

@@ -1,5 +1,7 @@
 # Segment Tree
 
+> For an example on lazy propagation, see this [article](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation).
+
 I'm pleased to present to you Segment Tree. It's actually one of my favorite data structures because it's very flexible and simple in realization.
 
 Let's suppose that you have an array **a** of some type and some associative function **f**. For example, the function can be sum, multiplication, min, max, [gcd](../GCD/), and so on.
@@ -18,7 +20,7 @@ var a = [ 20, 3, -1, 101, 14, 29, 5, 61, 99 ]
 We want to query this array on the interval from 3 to 7 for the function "sum". That means we do the following:
 
 	101 + 14 + 29 + 5 + 61 = 210
-	
+
 because `101` is at index 3 in the array and `61` is at index 7. So we pass all the numbers between `101` and `61` to the sum function, which adds them all up. If we had used the "min" function, the result would have been `5` because that's the smallest number in the interval from 3 to 7.
 
 Here's naive approach if our array's type is `Int` and **f** is just the sum of two integers:
@@ -43,7 +45,7 @@ The main idea of segment trees is simple: we precalculate some segments in our a
 
 ## Structure of segment tree
 
-A segment tree is just a [binary tree](../Binary Tree/) where each node is an instance of the `SegmentTree` class:
+A segment tree is just a [binary tree](../Binary%20Tree/) where each node is an instance of the `SegmentTree` class:
 
 ```swift
 public class SegmentTree<T> {
@@ -116,18 +118,18 @@ Here's the code:
     if self.leftBound == leftBound && self.rightBound == rightBound {
       return self.value
     }
-    
+
     guard let leftChild = leftChild else { fatalError("leftChild should not be nil") }
     guard let rightChild = rightChild else { fatalError("rightChild should not be nil") }
-    
+
     // 2
     if leftChild.rightBound < leftBound {
       return rightChild.query(withLeftBound: leftBound, rightBound: rightBound)
-      
+
     // 3
     } else if rightChild.leftBound > rightBound {
       return leftChild.query(withLeftBound: leftBound, rightBound: rightBound)
-      
+
     // 4
     } else {
       let leftResult = leftChild.query(withLeftBound: leftBound, rightBound: leftChild.rightBound)
@@ -198,6 +200,8 @@ Replacing an item takes **O(log n)** time.
 See the playground for more examples of how to use the segment tree.
 
 ## See also
+
+[Lazy Propagation](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation) implementation and explanation.
 
 [Segment tree at PEGWiki](http://wcipeg.com/wiki/Segment_tree)
 

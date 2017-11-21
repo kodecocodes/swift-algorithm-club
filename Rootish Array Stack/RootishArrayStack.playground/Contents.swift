@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 import Darwin
 
 public struct RootishArrayStack<T> {
@@ -177,13 +182,11 @@ list[0]       // "Hello"
 list[1]       // "World"
 //list[2]     // crash!
 
-
 list.memoryDescription
 //	{
 //		[Optional("Hello")]
 //		[Optional("World"), nil]
 //	}
-
 
 list.insert(element: "Swift", atIndex: 1)
 list.isEmpty  // false

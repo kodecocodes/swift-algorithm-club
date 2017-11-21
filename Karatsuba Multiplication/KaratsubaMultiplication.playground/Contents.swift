@@ -1,7 +1,10 @@
 //: Playground - noun: a place where people can play
 
 import Foundation
-
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4")
+#endif
 precedencegroup ExponentiativePrecedence {
   higherThan: MultiplicationPrecedence
   lowerThan: BitwiseShiftPrecedence
@@ -15,11 +18,11 @@ func ^^ (radix: Int, power: Int) -> Int {
 
 // Long Multiplication - O(n^2)
 func multiply(_ num1: Int, by num2: Int, base: Int = 10) -> Int {
-  let num1Array = String(num1).characters.reversed().map{ Int(String($0))! }
-  let num2Array = String(num2).characters.reversed().map{ Int(String($0))! }
+  let num1Array = String(num1).characters.reversed().map { Int(String($0))! }
+  let num2Array = String(num2).characters.reversed().map { Int(String($0))! }
   
   var product = Array(repeating: 0, count: num1Array.count + num2Array.count)
-
+  
   for i in num1Array.indices {
     var carry = 0
     for j in num2Array.indices {
@@ -30,7 +33,7 @@ func multiply(_ num1: Int, by num2: Int, base: Int = 10) -> Int {
     product[i + num2Array.count] += carry
   }
   
-  return Int(product.reversed().map{ String($0) }.reduce("", +))!
+  return Int(product.reversed().map { String($0) }.reduce("", +))!
 }
 
 // Karatsuba Multiplication - O(n^log2(3))

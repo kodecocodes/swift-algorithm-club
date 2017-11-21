@@ -1,3 +1,9 @@
+
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 /*
   Queue
 
@@ -38,9 +44,6 @@ public struct Queue<T> {
     return array.first
   }
 }
-
-
-
 
 // Create a queue and put some elements on it already.
 var queueOfNames = Queue(array: ["Carl", "Lisa", "Stephanie", "Jeff", "Wade"])

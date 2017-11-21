@@ -1,5 +1,10 @@
 /* Top-down recursive version */
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 func mergeSort<T: Comparable>(_ array: [T]) -> [T] {
   guard array.count > 1 else { return array }
   let middleIndex = array.count / 2
@@ -16,31 +21,24 @@ func merge<T: Comparable>(leftPile: [T], rightPile: [T]) -> [T] {
     orderedPile.reserveCapacity(leftPile.count + rightPile.count)
   }
 
-  while leftIndex < leftPile.count && rightIndex < rightPile.count {
+  while true {
+    guard leftIndex < leftPile.endIndex else {
+      orderedPile.append(contentsOf: rightPile[rightIndex..<rightPile.endIndex])
+      break
+    }
+    guard rightIndex < rightPile.endIndex else {
+      orderedPile.append(contentsOf: leftPile[leftIndex..<leftPile.endIndex])
+      break
+    }
+    
     if leftPile[leftIndex] < rightPile[rightIndex] {
       orderedPile.append(leftPile[leftIndex])
       leftIndex += 1
-    } else if leftPile[leftIndex] > rightPile[rightIndex] {
-      orderedPile.append(rightPile[rightIndex])
-      rightIndex += 1
     } else {
-      orderedPile.append(leftPile[leftIndex])
-      leftIndex += 1
       orderedPile.append(rightPile[rightIndex])
       rightIndex += 1
     }
   }
-
-  while leftIndex < leftPile.count {
-    orderedPile.append(leftPile[leftIndex])
-    leftIndex += 1
-  }
-
-  while rightIndex < rightPile.count {
-    orderedPile.append(rightPile[rightIndex])
-    rightIndex += 1
-  }
-
   return orderedPile
 }
 
@@ -48,8 +46,6 @@ let array = [2, 1, 5, 4, 9]
 let sortedArray = mergeSort(array)
 let array2 = ["Tom", "Harry", "Ron", "Chandler", "Monica"]
 let sortedArray2 = mergeSort(array2)
-
-
 
 /* Bottom-up iterative version */
 

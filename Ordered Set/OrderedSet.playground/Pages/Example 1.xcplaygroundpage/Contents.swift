@@ -1,3 +1,8 @@
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 //: # Example 1 with type Int
 
 var mySet = OrderedSet<Int>()

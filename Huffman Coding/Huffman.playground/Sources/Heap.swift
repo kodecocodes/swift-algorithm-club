@@ -143,7 +143,7 @@ public struct Heap<T> {
   public mutating func removeAtIndex(i: Int) -> T? {
     let size = elements.count - 1
     if i != size {
-      swap(&elements[i], &elements[size])
+      elements.swapAt(i, size)
       shiftDown(index: i, heapSize: size)
       shiftUp(index: i)
     }
@@ -196,7 +196,7 @@ public struct Heap<T> {
       }
       if first == parentIndex { return }
 
-      swap(&elements[parentIndex], &elements[first])
+      elements.swapAt(parentIndex, first)
       parentIndex = first
     }
   }

@@ -1,5 +1,8 @@
 # Breadth-First Search
 
+> This topic has been tutorialized [here](https://www.raywenderlich.com/155801/swift-algorithm-club-swift-breadth-first-search)
+
+
 Breadth-first search (BFS) is an algorithm for traversing or searching [tree](../Tree/) or [graph](../Graph/) data structures. It starts at a source node and explores the immediate neighbor nodes first, before moving to the next level neighbors.
 
 Breadth-first search can be used on both directed and undirected graphs.
@@ -148,7 +151,7 @@ This will output: `["a", "b", "c", "d", "e", "f", "g", "h"]`
 
 Breadth-first search can be used to solve many problems. A small selection:
 
-* Computing the [shortest path](../Shortest Path/) between a source node and each of the other nodes (only for unweighted graphs).
-* Calculating the [minimum spanning tree](../Minimum Spanning Tree (Unweighted)/) on an unweighted graph.
+* Computing the [shortest path](../Shortest%20Path/) between a source node and each of the other nodes (only for unweighted graphs).
+* Calculating the [minimum spanning tree](../Minimum%20Spanning%20Tree%20(Unweighted)/) on an unweighted graph.
 
 *Written by [Chris Pilcher](https://github.com/chris-pilcher) and Matthijs Hollemans*

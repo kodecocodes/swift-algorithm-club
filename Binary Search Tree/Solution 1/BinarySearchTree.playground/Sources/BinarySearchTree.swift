@@ -155,7 +155,7 @@ extension BinarySearchTree {
   */
   public func search(value: T) -> BinarySearchTree? {
     var node: BinarySearchTree? = self
-    while case let n? = node {
+    while let n = node {
       if value < n.value {
         node = n.left
       } else if value > n.value {
@@ -189,7 +189,7 @@ extension BinarySearchTree {
   */
   public func minimum() -> BinarySearchTree {
     var node = self
-    while case let next? = node.left {
+    while let next = node.left {
       node = next
     }
     return node
@@ -200,7 +200,7 @@ extension BinarySearchTree {
   */
   public func maximum() -> BinarySearchTree {
     var node = self
-    while case let next? = node.right {
+    while let next = node.right {
       node = next
     }
     return node
@@ -213,7 +213,7 @@ extension BinarySearchTree {
   public func depth() -> Int {
     var node = self
     var edges = 0
-    while case let parent? = node.parent {
+    while let parent = node.parent {
       node = parent
       edges += 1
     }
@@ -240,7 +240,7 @@ extension BinarySearchTree {
       return left.maximum()
     } else {
       var node = self
-      while case let parent? = node.parent {
+      while let parent = node.parent {
         if parent.value < value { return parent }
         node = parent
       }
@@ -256,7 +256,7 @@ extension BinarySearchTree {
       return right.minimum()
     } else {
       var node = self
-      while case let parent? = node.parent {
+      while let parent = node.parent {
         if parent.value > value { return parent }
         node = parent
       }
