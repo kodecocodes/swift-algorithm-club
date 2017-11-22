@@ -13,12 +13,30 @@ Encoding and decoding are synonyms to *serializing* and *deserializing* trees.
 As a reference, the following code represents the typical `Node` type of a binary tree:
 
 ```swift
-class BinaryNode<Element: Comparable> {
+class BinaryNode<Element: Comparable & Encodable> {
   var data: Element
   var leftChild: BinaryNode?
   var rightChild: BinaryNode?
 
   // ... (rest of the implementation)
+}
+```
+
+Your encoding and decoding methods will reside in the `BinaryNodeEncoder` and `BinaryNodeDecoder` classes:
+
+```swift
+class BinaryNodeCoder {
+ 
+  // transforms nodes into string representation
+  func encode<T>(_ node: BinaryNode<T>) throws -> String where T: Encodable {
+    
+  }
+  
+  // transforms string into `BinaryNode` representation
+  func decode<T>(_ node: BinaryNode<T>Type, from string: String) 
+    throws -> BinaryNode<T> where T: Decodable {
+  
+  }
 }
 ```
 
@@ -32,27 +50,9 @@ As mentioned before, there are different ways to do encoding. For no particular 
 Here's an example of this operation in code:
 
 ```swift
-extension BinaryNode {
+fileprivate extension BinaryNode {
+  
   // 1
-  fileprivate var separator: String { return "," }
-  fileprivate var nilNode: String { return "X" }
-  
-  // 2
-  var encodedString: String {
-    var str = ""
-    preOrderTraversal { data in
-      if let data = data {
-        let string = String(describing: data)
-        str.append(string)
-      } else {
-        str.append(nilNode)
-      }
-      str.append(separator)
-    }
-    return str
-  }
-  
-  // 3
   func preOrderTraversal(visit: (Element?) throws -> ()) rethrows {
     try visit(data)
     
@@ -69,15 +69,41 @@ extension BinaryNode {
     }
   }
 }
+
+class BinaryNodeCoder {
+
+  // 2
+  private var separator: String { return "," }
+  
+  // 3
+  private var nilNode: String { return "X" }
+  
+  // 4
+  func encode<T: Encodable>(_ node: BinaryNode<T>) -> String {
+    var str = ""
+    node.preOrderTraversal { data in
+      if let data = data {
+        let string = String(describing: data)
+        str.append(string)
+      } else {
+        str.append(nilNode)
+      }
+      str.append(separator)
+    }
+    return str
+  }
+  
+  // ...
+}
 ```
 
 Here's a high level overview of the above code:
 
-1. `separator` is a way to distinguish the nodes in a string. To illustrate its importance, consider the following encoded string "banana". How did the tree structure look like before encoding? Without the `separator`, you can't tell.
+2. `separator` is a way to distinguish the nodes in a string. To illustrate its importance, consider the following encoded string "banana". How did the tree structure look like before encoding? Without the `separator`, you can't tell.
 
-2. `encodedString` is the result of the encoding process. Returns a string representation of the tree. For example: "ba,nana,nil" represents a tree with two nodes - "ba" and "nana" - in pre-order format.
+3. `nilNode` is used to identify empty children. This a necesssary piece of information to retain in order to rebuild the tree later.
 
-3. It is interesting to note that this pre-order traversal implementation also emits `nil` values in place of absent children.
+4. `encode` returns a `String` representation of the `BinaryNode`. For example: "ba,nana,nil" represents a tree with two nodes - "ba" and "nana" - in pre-order format.
 
 ## Decoding
 
@@ -96,28 +122,29 @@ The implementation also added a few important details:
 These details will shape your `decode` operation. Here's a possible implementation:
 
 ```swift
-extension BinaryNode {
 
+class BinaryNodeCoder {
+
+  // ...
+  
   // 1
-  public static func decode(from str: String) -> AVLNode<String>? {
+  func decode<T: Decodable>(_ string: String) -> BinaryNode<T>? {
     let components = encoded.lazy.split(separator: separator).reversed().map(String.init)
     return decode(from: components)
   }
-
-  public static func decode(from array: inout [String])
-    -> AVLNode<String>? {
+  
+  // 2
+  private func decode(from array: inout [String]) -> AVLNode<String>? {
+    guard !array.isEmpty else { return nil }
+    let value = array.removeLast()
+    guard value != "\(nilNode)" else { return nil }
     
-      guard !array.isEmpty else { return nil }
-      let value = array.removeLast()
-      guard value != "\(nilNode)" else { return nil }
-      
-      let node = AVLNode<String>(value: value)
-      node.leftChild = decode(from: &array)
-      node.rightChild = decode(from: &array)
-      return node
+    let node = AVLNode<String>(value: value)
+    node.leftChild = decode(from: &array)
+    node.rightChild = decode(from: &array)
+    return node
   }
 }
-```
 
 Here's a high level overview of the above code:
 
