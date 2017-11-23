@@ -33,7 +33,7 @@ class BinaryNodeCoder {
   }
   
   // transforms string into `BinaryNode` representation
-  func decode<T>(_ node: BinaryNode<T>Type, from string: String) 
+  func decode<T>(from string: String) 
     throws -> BinaryNode<T> where T: Decodable {
   
   }
@@ -145,6 +145,7 @@ class BinaryNodeCoder {
     return node
   }
 }
+```
 
 Here's a high level overview of the above code:
 
