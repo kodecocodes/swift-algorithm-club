@@ -13,7 +13,7 @@ Encoding and decoding are synonyms to *serializing* and *deserializing* trees.
 As a reference, the following code represents the typical `Node` type of a binary tree:
 
 ```swift
-class BinaryNode<Element: Comparable & Encodable> {
+class BinaryNode<Element: Comparable> {
   var data: Element
   var leftChild: BinaryNode?
   var rightChild: BinaryNode?
@@ -79,7 +79,7 @@ class BinaryNodeCoder {
   private var nilNode: String { return "X" }
   
   // 4
-  func encode<T: Encodable>(_ node: BinaryNode<T>) -> String {
+  func encode<T>(_ node: BinaryNode<T>) -> String {
     var str = ""
     node.preOrderTraversal { data in
       if let data = data {
@@ -128,13 +128,13 @@ class BinaryNodeCoder {
   // ...
   
   // 1
-  func decode<T: Decodable>(_ string: String) -> BinaryNode<T>? {
+  func decode<T>(_ string: String) -> BinaryNode<T>? {
     let components = encoded.lazy.split(separator: separator).reversed().map(String.init)
     return decode(from: components)
   }
   
   // 2
-  private func decode(from array: inout [String]) -> AVLNode<String>? {
+  private func decode(from array: inout [String]) -> BinaryNode<String>? {
     guard !array.isEmpty else { return nil }
     let value = array.removeLast()
     guard value != "\(nilNode)" else { return nil }
