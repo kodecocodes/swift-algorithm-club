@@ -25,21 +25,21 @@ public final class LinkedList<T> {
     }
 
     public var last: Node? {
-        if var node = head {
-            while let next = node.next {
-                node = next
-            }
-            return node
-        } else {
+        guard var node = head else {
             return nil
         }
+        
+        while let next = node.next {
+            node = next
+        }
+        return node
     }
 
     public var count: Int {
-        guard let head = head else {
+        guard var node = head else {
             return 0
         }
-        var node = head
+        
         var count = 1
         while let next = node.next {
             node = next
