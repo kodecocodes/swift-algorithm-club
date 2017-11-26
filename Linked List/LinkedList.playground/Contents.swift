@@ -144,17 +144,17 @@ public final class LinkedList<T> {
   ///   - node: The node containing the value to be inserted
   ///   - index: Integer value of the index to be inserted at
   public func insert(_ node: Node, atIndex index: Int) {
-    let newNode = LinkedListNode(value: node.value)
+    let newNode = node
     if index == 0 {
       newNode.next = head
       head?.previous = newNode
       head = newNode
     } else {
-      let separator = self.node(atIndex: index-1)
-      newNode.previous = separator
-      newNode.next = separator.next
-      separator.next?.previous = newNode
-      separator.next = newNode
+      let prev = self.node(atIndex: index-1)
+      newNode.previous = prev
+      newNode.next = prev.next
+      prev.next?.previous = newNode
+      prev.next = newNode
     }
   }
     
@@ -171,11 +171,11 @@ public final class LinkedList<T> {
       head = list.head
       list.last?.next = temp
     } else {
-      let separate = self.node(atIndex: index-1)
-      let temp = separate.next
+      let prev = self.node(atIndex: index-1)
+      let temp = prev.next
 
-      separate.next = list.head
-      list.head?.previous = separate
+      prev.next = list.head
+      list.head?.previous = prev
 
       list.last?.next = temp
       temp?.previous = list.last?.next
