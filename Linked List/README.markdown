@@ -330,7 +330,7 @@ Finally, replace the head with the new node.
              |    C    |    |    A    |     |    B    |
      nil <---|         |<---|         |<----|         |<----//------
              +---------+    +---------+     +---------+ 
-                 [0]            [1]
+                 [0]            [1]             [2]
 
 
 However, when the given index is greater than 0, it is necessary to get the node previous and next index and insert between them.
@@ -338,10 +338,10 @@ You can also obtain the previous and next node using node(atIndex:) as follows:
 
              +---------+         +---------+     +---------+    
     head --->|         |---//--->|         |---->|         |----
-             |    0    |         |    A    |     |    B    |    
+             |         |         |    A    |     |    B    |    
      nil <---|         |---//<---|         |<----|         |<---
              +---------+         +---------+     +---------+    
-                                  [index-1]        [index]      
+                 [0]              [index-1]        [index]      
                                       ^               ^ 
                                       |               | 
                                      prev            next
@@ -356,10 +356,10 @@ Now insert new node between the prev and the next.
 
              +---------+         +---------+     +---------+     +---------+
     head --->|         |---//--->|         |---->|         |---->|         |
-             |    0    |         |    A    |     |    C    |     |    B    |
+             |         |         |    A    |     |    C    |     |    B    |
      nil <---|         |---//<---|         |<----|         |<----|         |
              +---------+         +---------+     +---------+     +---------+
-                                  [index-1]        [index]        [index+1]
+                 [0]              [index-1]        [index]        [index+1]
                                       ^               ^               ^
                                       |               |               |
                                      prev            new             next
