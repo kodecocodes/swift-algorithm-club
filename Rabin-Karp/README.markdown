@@ -1,6 +1,6 @@
 # Rabin-Karp string search algorithm
 
-The Rabin-Karp string search alogrithm is used to search text for a pattern.
+The Rabin-Karp string search algorithm is used to search text for a pattern.
 
 A practical application of the algorithm is detecting plagiarism. Given source material, the algorithm can rapidly search through a paper for instances of sentences from the source material, ignoring details such as case and punctuation. Because of the abundance of the sought strings, single-string searching algorithms are impractical.
 
@@ -12,10 +12,10 @@ at a time (e.g. "he ") and subtracts out the previous hash from the "T".
 
 ## Algorithm
 
-The Rabin-Karp alogrithm uses a sliding window the size of the search pattern.  It starts by hashing the search pattern, then
+The Rabin-Karp algorithm uses a sliding window the size of the search pattern.  It starts by hashing the search pattern, then
 hashing the first x characters of the text string where x is the length of the search pattern.  It then slides the window one character over and uses
 the previous hash value to calculate the new hash faster.  Only when it finds a hash that matches the hash of the search pattern will it compare
-the two strings it see if they are the same (prevent a hash collision from producing a false positive)
+the two strings it see if they are the same (to prevent a hash collision from producing a false positive).
 
 ## The code
 
@@ -24,8 +24,8 @@ The major search method is next.  More implementation details are in rabin-karp.
 ```swift
 public func search(text: String , pattern: String) -> Int {
     // convert to array of ints
-    let patternArray = pattern.characters.flatMap { $0.asInt }
-    let textArray = text.characters.flatMap { $0.asInt }
+    let patternArray = pattern.flatMap { $0.asInt }
+    let textArray = text.flatMap { $0.asInt }
 
     if textArray.count < patternArray.count {
         return -1
@@ -37,7 +37,7 @@ public func search(text: String , pattern: String) -> Int {
     let firstHash = hash(array: firstChars)
 
     if (patternHash == firstHash) {
-        // Verify this was not a hash collison
+        // Verify this was not a hash collision
         if firstChars == patternArray {
             return 0
         }
