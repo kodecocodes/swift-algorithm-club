@@ -48,7 +48,7 @@ public final class LinkedList<T> {
         return count
     }
     
-    public func node(atIndex index: Int) -> Node {
+    public func node(at index: Int) -> Node {
         assert(head != nil, "List is empty")
         assert(index >= 0, "index must be greater than 0")
         if index == 0 {
@@ -68,7 +68,7 @@ public final class LinkedList<T> {
     }
 
     public subscript(index: Int) -> T {
-        let node = self.node(atIndex: index)
+        let node = self.node(at: index)
         return node.value
     }
 
@@ -95,18 +95,18 @@ public final class LinkedList<T> {
         }
     }
 
-    public func insert(_ value: T, atIndex index: Int) {
+    public func insert(_ value: T, at index: Int) {
         let newNode = Node(value: value)
-        self.insert(newNode, atIndex: index)
+        self.insert(newNode, at: index)
     }
 
-    public func insert(_ newNode: Node, atIndex index: Int) {
+    public func insert(_ newNode: Node, at index: Int) {
         if index == 0 {
             newNode.next = head
             head?.previous = newNode
             head = newNode
         } else {
-            let prev = node(atIndex: index-1)
+            let prev = node(at: index-1)
             let next = prev.next
             newNode.previous = prev
             newNode.next = next
@@ -115,14 +115,14 @@ public final class LinkedList<T> {
         }
     }
     
-    public func insert(_ list: LinkedList, atIndex index: Int) {
+    public func insert(_ list: LinkedList, at index: Int) {
         if list.isEmpty { return }
         
         if index == 0 {
             list.last?.next = head
             head = list.head
         } else {
-            let prev = self.node(atIndex: index-1)
+            let prev = self.node(at: index-1)
             let next = prev.next
             
             prev.next = list.head
@@ -158,8 +158,8 @@ public final class LinkedList<T> {
         return remove(node: last!)
     }
 
-    @discardableResult public func remove(atIndex index: Int) -> T {
-        let node = self.node(atIndex: index)
+    @discardableResult public func remove(at index: Int) -> T {
+        let node = self.node(at: index)
         return remove(node: node)
     }
 }

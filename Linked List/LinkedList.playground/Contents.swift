@@ -70,7 +70,7 @@ public final class LinkedList<T> {
   ///
   /// - Parameter index: Integer value of the node's index to be returned
   /// - Returns: Optional LinkedListNode
-  public func node(atIndex index: Int) -> Node {
+  public func node(at index: Int) -> Node {
     assert(head != nil, "List is empty")
     assert(index >= 0, "index must be greater than 0")
     
@@ -94,7 +94,7 @@ public final class LinkedList<T> {
   ///
   /// - Parameter index: Integer value of the requested value's index
   public subscript(index: Int) -> T {
-    let node = self.node(atIndex: index)
+    let node = self.node(at: index)
     return node.value
   }
 
@@ -135,9 +135,9 @@ public final class LinkedList<T> {
   /// - Parameters:
   ///   - value: The data value to be inserted
   ///   - index: Integer value of the index to be insterted at
-  public func insert(_ value: T, atIndex index: Int) {
+  public func insert(_ value: T, at index: Int) {
     let newNode = Node(value: value)
-    self.insert(newNode, atIndex: index)
+    self.insert(newNode, at: index)
   }
 
   /// Insert a copy of a node at a specific index. Crashes if index is out of bounds (0...self.count)
@@ -145,13 +145,13 @@ public final class LinkedList<T> {
   /// - Parameters:
   ///   - node: The node containing the value to be inserted
   ///   - index: Integer value of the index to be inserted at
-  public func insert(_ newNode: Node, atIndex index: Int) {
+  public func insert(_ newNode: Node, at index: Int) {
     if index == 0 {
       newNode.next = head
       head?.previous = newNode
       head = newNode
     } else {
-      let prev = node(atIndex: index-1)
+      let prev = node(at: index-1)
       let next = prev.next
       newNode.previous = prev
       newNode.next = next
@@ -165,14 +165,14 @@ public final class LinkedList<T> {
   /// - Parameters:
   ///   - list: The LinkedList to be copied and inserted
   ///   - index: Integer value of the index to be inserted at
-  public func insert(_ list: LinkedList, atIndex index: Int) {
+  public func insert(_ list: LinkedList, at index: Int) {
     if list.isEmpty { return }
     
     if index == 0 {
       list.last?.next = head
       head = list.head
     } else {
-      let prev = node(atIndex: index-1)
+      let prev = node(at: index-1)
       let next = prev.next
 
       prev.next = list.head
@@ -220,8 +220,8 @@ public final class LinkedList<T> {
   ///
   /// - Parameter index: Integer value of the index of the node to be removed
   /// - Returns: The data value contained in the deleted node
-  @discardableResult public func remove(atIndex index: Int) -> T {
-    let node = self.node(atIndex: index)
+  @discardableResult public func remove(at index: Int) -> T {
+    let node = self.node(at: index)
     return remove(node: node)
   }
 }
@@ -323,9 +323,9 @@ list.first!.next!.value       // "World"
 list.last!.previous!.value    // "Hello"
 list.last!.next               // nil
 
-list.node(atIndex: 0).value    // "Hello"
-list.node(atIndex: 1).value    // "World"
-//list.node(atIndex: 2)           // crash!
+list.node(at: 0).value    // "Hello"
+list.node(at: 1).value    // "World"
+//list.node(at: 2)           // crash!
 
 list[0]     // "Hello"
 list[1]     // "World"
@@ -338,9 +338,9 @@ list.append(list2)            // [Hello, World, Goodbye, World]
 list2.removeAll()             // [ ]
 list2.isEmpty                 // true
 list.removeLast()             // "World"
-list.remove(atIndex: 2)       // "Goodbye"
+list.remove(at: 2)       // "Goodbye"
 
-list.insert("Swift", atIndex: 1)
+list.insert("Swift", at: 1)
 list[0]     // "Hello"
 list[1]     // "Swift"
 list[2]     // "World"
@@ -348,8 +348,8 @@ print(list)
 
 list.reverse()   // [World, Swift, Hello]
 
-list.node(atIndex: 0).value = "Universe"
-list.node(atIndex: 1).value = "Swifty"
+list.node(at: 0).value = "Universe"
+list.node(at: 1).value = "Swifty"
 let m = list.map { s in s.count }
 m    // [8, 6, 5]
 let f = list.filter { s in s.count > 5 }
@@ -366,28 +366,28 @@ list.head?.value
 list.count                     // 1
 list[0]                        // "Swifty"
 
-list.remove(atIndex: 0)        // "Swifty"
+list.remove(at: 0)        // "Swifty"
 list.count                     // 0
 
 let list3 = LinkedList<String>()
-list3.insert("2", atIndex: 0) // [2]
+list3.insert("2", at: 0) // [2]
 list3.count                   // 1
-list3.insert("4", atIndex: 1) // [2,4]
+list3.insert("4", at: 1) // [2,4]
 list3.count                   // 2
-list3.insert("5", atIndex: 2) // [2,4,5]
+list3.insert("5", at: 2) // [2,4,5]
 list3.count                   // 3
-list3.insert("3", atIndex: 1) // [2,3,4,5]
-list3.insert("1", atIndex: 0) // [1,2,3,4,5]
+list3.insert("3", at: 1) // [2,3,4,5]
+list3.insert("1", at: 0) // [1,2,3,4,5]
 
 let list4 = LinkedList<String>()
-list4.insert(list3, atIndex: 0) // [1,2,3,4,5]
+list4.insert(list3, at: 0) // [1,2,3,4,5]
 list4.count                     // 5
 
 let list5 = LinkedList<String>()
 list5.append("0")                // [0]
-list5.insert("End", atIndex:1)   // [0,End]
+list5.insert("End", at:1)   // [0,End]
 list5.count                      // 2
-list5.insert(list4, atIndex: 1)  // [0,1,2,3,4,5,End]
+list5.insert(list4, at: 1)  // [0,1,2,3,4,5,End]
 list5.count                      // 7
 
 
