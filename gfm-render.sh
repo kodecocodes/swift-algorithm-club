@@ -85,7 +85,7 @@ echo "> Generating index.html..."
 cat > index.html << EOF
 <!DOCTYPE html>
 <head>
-  <link rel="stylesheet" type="text/css" href="../github-light.css">
+  <link rel="stylesheet" type="text/css" href="github-light.css">
 </head>
 <body>
   <div id="container">$(render_markdown_to_html README.markdown)</div>
