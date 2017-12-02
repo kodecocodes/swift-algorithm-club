@@ -1,25 +1,17 @@
 #!/usr/bin/env bash
 
+set -e
+
 # $1 - readme file name
 function render_markdown_to_html {
-  # escape escaping characters
-  if [[ $(uname) == "Darwin" ]]; then
-    content=$(
-      cat "$1"                                          \
-        | sed 's/\\/\\\\/g'                             \
-        | sed 's/"/\\"/g'                               \
-        | sed $'s/\t/\\\\t/g'                           \
-        | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/\\\n/g' \
-    )
-  else
-    content=$(
-      cat "$1"                          \
-        | sed 's/\\/\\\\/g'             \
-        | sed 's/"/\\"/g'               \
-        | sed 's/\t/\\t/g'              \
-        | sed ':a;N;$!ba;s/\n/\\n/g'    \
-    )
-  fi
+  # escape escaping characters on Darwin only
+  content=$(
+    cat "$1"                                          \
+      | sed 's/\\/\\\\/g'                             \
+      | sed 's/"/\\"/g'                               \
+      | sed $'s/\t/\\\\t/g'                           \
+      | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/\\\n/g' \
+  )
 
   # network call to GitHub API
   json="{\"text\":\"$content\",\"mode\":\"gfm\",\"context\":\"$USERNAME/swift-algorithm-club\"}"
@@ -31,6 +23,7 @@ echo "> Downloading github-light.css..."
 curl -s -O https://raw.githubusercontent.com/primer/github-syntax-light/master/lib/github-light.css
 
 # slightly modify the main stylesheet
+echo "> Modifying github-light.css..."
 cat >> github-light.css << EOF
 #container {
   margin: 0 auto;
@@ -79,16 +72,34 @@ pre code {
 }
 EOF
 
+# other markdown articles
+for title in "What are Algorithms" "Big-O Notation" "Algorithm Design" "Why Algorithms"; do
+  echo "> Generating $title.html..."
+
+  cat > "$title.html" << EOF
+<!DOCTYPE html>
+<head>
+  <title>$title</title>
+  <link rel="stylesheet" type="text/css" href="github-light.css">
+</head>
+<body>
+  <div id="container">$(render_markdown_to_html "$title.markdown")</div>
+</body>
+</html>
+EOF
+done
+
 # if index.html does not exist, create one;
 # otherwise, empty its content.
 echo "> Generating index.html..."
 cat > index.html << EOF
 <!DOCTYPE html>
 <head>
+  <title>Swift Algorithm Club</title>
   <link rel="stylesheet" type="text/css" href="github-light.css">
 </head>
 <body>
-  <div id="container">$(render_markdown_to_html README.markdown)</div>
+  <div id="container">$(render_markdown_to_html README.markdown | sed 's/.markdown/.html/g')</div>
 </body>
 </html>
 EOF
@@ -101,14 +112,17 @@ find . -maxdepth 1 -type d | while read folder; do
   if [[ -f $folder/README.md ]]; then readme="$folder/README.md"; fi
   if [[ -f $folder/README.markdown ]]; then readme="$folder/README.markdown"; fi
 
-  # exclude the repository's README
-  if [[ !(-z $readme) && ($readme != "./README.markdown") ]]; then
-    name=$(basename "$folder")
-    echo "> Generating $name/index.html..."
+  # skip if there is no README or it it the README of the repository
+  if [[ (-z $readme) || $readme == "./README.markdown" ]]; then continue; fi
 
-    cat > "$folder/index.html" << EOF
+  # render README to HTML
+  name=$(basename "$folder")
+  echo "> Generating $name/index.html..."
+
+  cat > "$folder/index.html" << EOF
 <!DOCTYPE html>
 <head>
+  <title>$name</title>
   <link rel="stylesheet" type="text/css" href="../github-light.css">
 </head>
 <body>
@@ -116,7 +130,6 @@ find . -maxdepth 1 -type d | while read folder; do
 </body>
 </html>
 EOF
-  fi
 done
 
 # push to gh-pages
