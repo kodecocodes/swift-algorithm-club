@@ -50,4 +50,5 @@ script:
 - xcodebuild test -project ./Ternary\ Search\ Tree/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
 
 after_success:
+
 - if [[ "$TRAVIS_BRANCH" == "master" ]]; then ./gfm-render.sh; fi
