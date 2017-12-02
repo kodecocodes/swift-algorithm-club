@@ -1,4 +1,4 @@
-![Swift Algorithm Club](/Images/SwiftAlgorithm-410-transp.png)
+![Swift Algorithm Club](Images/SwiftAlgorithm-410-transp.png)
 
 # Welcome to the Swift Algorithm Club!
 
@@ -156,14 +156,14 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Splay Tree](Splay%20Tree/). A self balancing binary search tree that enables fast retrieval of recently updated elements.
 - [Threaded Binary Tree](Threaded%20Binary%20Tree/). A binary tree that maintains a few extra variables for cheap and fast in-order traversals.
 - [Segment Tree](Segment%20Tree/). Can quickly compute a function over a portion of an array.
-  - [Lazy Propagation](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation) 
+  - [Lazy Propagation](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation)
 - kd-Tree
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
 - [Trie](Trie/). A special type of tree used to store associative data structures.
 - [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
 - [QuadTree](QuadTree/). A tree with 4 children.
-- [Octree](Octree/). A tree with 8 children. 
+- [Octree](Octree/). A tree with 8 children.
 
 ### Hashing
 
@@ -208,7 +208,7 @@ For more information, check out these great books:
 - [The Algorithm Design Manual](http://www.algorist.com) by Skiena
 - [Elements of Programming Interviews](http://elementsofprogramminginterviews.com) by Aziz, Lee, Prakash
 - [Algorithms](http://www.cs.princeton.edu/~rs/) by Sedgewick
-- [Grokking Algorithms](https://www.manning.com/books/grokking-algorithms) by Aditya Bhargava 
+- [Grokking Algorithms](https://www.manning.com/books/grokking-algorithms) by Aditya Bhargava
 
 The following books are available for free online:
 
