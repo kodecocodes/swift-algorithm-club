@@ -171,7 +171,8 @@ extension AVLTree {
     if let node = node {
       let lHeight = node.leftChild?.height ?? 0
       let rHeight = node.rightChild?.height ?? 0
-      node.height = max(lHeight, rHeight) + 1
+
+      node.height = max(lHeight, rHeight) + (node.hasAnyChild ? 1 : 0)  // Based on the definition of the height of an basic tree, the height of a leaf is 0.
       updateHeightUpwards(node: node.parent)
     }
   }
