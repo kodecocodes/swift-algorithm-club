@@ -3,38 +3,38 @@
 print("Hello, Swift 4!")
 #endif
 
-func depthFirstSearch(_ graph: Graph, source: Node) -> [String] {
+func depthFirstSearch(_ digraph: Digraph, source: Node) -> [String] {
     var nodesExplored = [source.label]
     source.visited = true
     
     for edge in source.neighbors {
         if !edge.neighbor.visited {
-            nodesExplored += depthFirstSearch(graph, source: edge.neighbor)
+            nodesExplored += depthFirstSearch(digraph, source: edge.neighbor)
         }
     }
     return nodesExplored
 }
 
-let graph = Graph()
+let digraph = Digraph()
 
-let nodeA = graph.addNode("a")
-let nodeB = graph.addNode("b")
-let nodeC = graph.addNode("c")
-let nodeD = graph.addNode("d")
-let nodeE = graph.addNode("e")
-let nodeF = graph.addNode("f")
-let nodeG = graph.addNode("g")
-let nodeH = graph.addNode("h")
+let nodeA = digraph.addNode("a")
+let nodeB = digraph.addNode("b")
+let nodeC = digraph.addNode("c")
+let nodeD = digraph.addNode("d")
+let nodeE = digraph.addNode("e")
+let nodeF = digraph.addNode("f")
+let nodeG = digraph.addNode("g")
+let nodeH = digraph.addNode("h")
 
-graph.addEdge(nodeA, neighbor: nodeB)
-graph.addEdge(nodeA, neighbor: nodeC)
-graph.addEdge(nodeB, neighbor: nodeD)
-graph.addEdge(nodeB, neighbor: nodeE)
-graph.addEdge(nodeC, neighbor: nodeF)
-graph.addEdge(nodeC, neighbor: nodeG)
-graph.addEdge(nodeE, neighbor: nodeH)
-graph.addEdge(nodeE, neighbor: nodeF)
-graph.addEdge(nodeF, neighbor: nodeG)
+digraph.addEdge(nodeA, neighbor: nodeB)
+digraph.addEdge(nodeA, neighbor: nodeC)
+digraph.addEdge(nodeB, neighbor: nodeD)
+digraph.addEdge(nodeB, neighbor: nodeE)
+digraph.addEdge(nodeC, neighbor: nodeF)
+digraph.addEdge(nodeC, neighbor: nodeG)
+digraph.addEdge(nodeE, neighbor: nodeH)
+digraph.addEdge(nodeE, neighbor: nodeF)
+digraph.addEdge(nodeF, neighbor: nodeG)
 
-let nodesExplored = depthFirstSearch(graph, source: nodeA)
+let nodesExplored = depthFirstSearch(digraph, source: nodeA)
 print(nodesExplored)

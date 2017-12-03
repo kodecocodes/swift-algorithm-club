@@ -1,4 +1,4 @@
-public class Graph: CustomStringConvertible, Equatable {
+public class Digraph: CustomStringConvertible, Equatable {
   public private(set) var nodes: [Node]
   
   public init() {
@@ -31,8 +31,8 @@ public class Graph: CustomStringConvertible, Equatable {
     return nodes.filter { $0.label == label }.first!
   }
   
-  public func duplicate() -> Graph {
-    let duplicated = Graph()
+  public func duplicate() -> Digraph {
+    let duplicated = Digraph()
     
     for node in nodes {
       duplicated.addNode(node.label)
@@ -50,6 +50,6 @@ public class Graph: CustomStringConvertible, Equatable {
   }
 }
 
-public func == (_ lhs: Graph, rhs: Graph) -> Bool {
+public func == (_ lhs: Digraph, rhs: Digraph) -> Bool {
   return lhs.nodes == rhs.nodes
 }

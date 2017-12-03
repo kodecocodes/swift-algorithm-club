@@ -30,7 +30,7 @@ public class TreeNode<Key: Comparable, Payload> {
   internal var rightChild: Node?
   fileprivate var height: Int
   weak fileprivate var parent: Node?
-  
+
   public init(key: Key, payload: Payload?, leftChild: Node?, rightChild: Node?, parent: Node?, height: Int) {
     self.key = key
     self.payload = payload
@@ -38,47 +38,47 @@ public class TreeNode<Key: Comparable, Payload> {
     self.rightChild = rightChild
     self.parent = parent
     self.height = height
-    
+
     self.leftChild?.parent = self
     self.rightChild?.parent = self
   }
-  
+
   public convenience init(key: Key, payload: Payload?) {
     self.init(key: key, payload: payload, leftChild: nil, rightChild: nil, parent: nil, height: 1)
   }
-  
+
   public convenience init(key: Key) {
     self.init(key: key, payload: nil)
   }
-  
+
   var isRoot: Bool {
     return parent == nil
   }
-  
+
   var isLeaf: Bool {
     return rightChild == nil && leftChild == nil
   }
-  
+
   var isLeftChild: Bool {
     return parent?.leftChild === self
   }
-  
+
   var isRightChild: Bool {
     return parent?.rightChild === self
   }
-  
+
   var hasLeftChild: Bool {
     return leftChild != nil
   }
-  
+
   var hasRightChild: Bool {
     return rightChild != nil
   }
-  
+
   var hasAnyChild: Bool {
     return leftChild != nil || rightChild != nil
   }
-  
+
   var hasBothChildren: Bool {
     return leftChild != nil && rightChild != nil
   }
@@ -88,10 +88,10 @@ public class TreeNode<Key: Comparable, Payload> {
 
 open class AVLTree<Key: Comparable, Payload> {
   public typealias Node = TreeNode<Key, Payload>
-  
+
   fileprivate(set) var root: Node?
   fileprivate(set) var size = 0
-  
+
   public init() { }
 }
 
@@ -101,7 +101,7 @@ extension TreeNode {
   public func minimum() -> TreeNode? {
     return leftChild?.minimum() ?? self
   }
-  
+
   public func maximum() -> TreeNode? {
     return rightChild?.maximum() ?? self
   }
@@ -112,7 +112,7 @@ extension AVLTree {
     get { return search(input: key) }
     set { insert(key: key, payload: newValue) }
   }
-  
+
   public func search(input: Key) -> Payload? {
     return search(key: input, node: root)?.payload
   }
@@ -142,7 +142,7 @@ extension AVLTree {
     }
     size += 1
   }
-  
+
   private func insert(input: Key, payload: Payload?, node: Node) {
     if input < node.key {
       if let child = node.leftChild {
@@ -175,13 +175,13 @@ extension AVLTree {
       updateHeightUpwards(node: node.parent)
     }
   }
-  
+
   fileprivate func lrDifference(node: Node?) -> Int {
     let lHeight = node?.leftChild?.height ?? 0
     let rHeight = node?.rightChild?.height ?? 0
     return lHeight - rHeight
   }
-  
+
   fileprivate func balance(node: Node?) {
     guard let node = node else {
       return
@@ -202,7 +202,7 @@ extension AVLTree {
         nodes[0] = node
         nodes[2] = node.leftChild
         nodes[1] = nodes[2]?.leftChild
-        
+
         subtrees[0] = nodes[1]?.leftChild
         subtrees[1] = nodes[1]?.rightChild
         subtrees[2] = nodes[2]?.rightChild
@@ -212,7 +212,7 @@ extension AVLTree {
         nodes[0] = node
         nodes[1] = node.leftChild
         nodes[2] = nodes[1]?.rightChild
-        
+
         subtrees[0] = nodes[1]?.leftChild
         subtrees[1] = nodes[2]?.leftChild
         subtrees[2] = nodes[2]?.rightChild
@@ -225,7 +225,7 @@ extension AVLTree {
         nodes[1] = node
         nodes[2] = node.rightChild
         nodes[0] = nodes[2]?.rightChild
-        
+
         subtrees[0] = nodes[1]?.leftChild
         subtrees[1] = nodes[2]?.leftChild
         subtrees[2] = nodes[0]?.leftChild
@@ -235,7 +235,7 @@ extension AVLTree {
         nodes[1] = node
         nodes[0] = node.rightChild
         nodes[2] = nodes[0]?.leftChild
-        
+
         subtrees[0] = nodes[1]?.leftChild
         subtrees[1] = nodes[2]?.leftChild
         subtrees[2] = nodes[2]?.rightChild
@@ -320,7 +320,7 @@ extension AVLTree {
     }
     return output
   }
-  
+
   public func postorder(node: Node?) -> String {
     var output = ""
     if let node = node {
@@ -342,7 +342,7 @@ extension AVLTree {
       size -= 1
     }
   }
-  
+
   private func delete(node: Node) {
     if node.isLeaf {
       // Just remove and balance up
@@ -351,13 +351,13 @@ extension AVLTree {
           // just in case
           fatalError("Error: tree is invalid.")
         }
-        
+
         if node.isLeftChild {
           parent.leftChild = nil
         } else if node.isRightChild {
           parent.rightChild = nil
         }
-        
+
         balance(node: parent)
       } else {
         // at root
@@ -392,7 +392,7 @@ extension AVLTree {
       }
     }
   }
-  
+
   public func doInPreOrder(node: Node?, _ completion: (Node) -> Void) {
     if let node = node {
       completion(node)
@@ -404,7 +404,7 @@ extension AVLTree {
       }
     }
   }
-  
+
   public func doInPostOrder(node: Node?, _ completion: (Node) -> Void) {
     if let node = node {
       doInPostOrder(node: node.leftChild) { lnode in
