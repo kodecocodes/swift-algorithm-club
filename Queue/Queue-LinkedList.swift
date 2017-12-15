@@ -8,24 +8,32 @@
   Enqueuing and dequeuing are O(1) operations.
  */
 
-public class QueueLinkedList<T> {
+protocol QueueProtocol {
+    associatedtype T
+    var isEmpty: Bool { get }
+    func enqueue(item: T)
+    func dequeue() -> T?
+}
+
+class LinkedList<T>: QueueProtocol {
     
-    private class QueueNode<T> {
+    public class LinkedListNode<T> {
         var value: T
-        var next: QueueNode?
+        var next: LinkedListNode?
         
-        public init(value: T) {
+        init(value: T) {
             self.value = value
         }
     }
     
-    private var first: QueueNode<T>?
-    private var last: QueueNode<T>?
-    private var counter = 0
+    private var first: LinkedListNode<T>?
+    private var last: LinkedListNode<T>?
     
     var isEmpty: Bool {
         return first == nil
     }
+    
+    private var counter = 0
     
     var count: Int {
         return counter
@@ -33,7 +41,7 @@ public class QueueLinkedList<T> {
     
     func enqueue(item: T) {
         let oldLast = last
-        last = QueueNode(value: item)
+        last = LinkedListNode(value: item)
         last?.next = nil
         
         if isEmpty {

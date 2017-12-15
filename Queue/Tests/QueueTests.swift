@@ -68,7 +68,8 @@ class QueueTest: XCTestCase {
   }
   
   func testQLLEmpty() {
-    let queue = QueueLinkedList<Int>()
+    let queue = LinkedList<Int>()
+    
     XCTAssertTrue(queue.isEmpty)
     XCTAssertEqual(queue.count, 0)
     XCTAssertEqual(queue.front, nil)
@@ -76,8 +77,8 @@ class QueueTest: XCTestCase {
   }
   
   func testQLLOneElement() {
-    let queue = QueueLinkedList<Int>()
-    
+    let queue = LinkedList<Int>()
+
     queue.enqueue(item: 123)
     XCTAssertFalse(queue.isEmpty)
     XCTAssertEqual(queue.count, 1)
@@ -91,8 +92,8 @@ class QueueTest: XCTestCase {
   }
   
   func testQLLTwoElements() {
-    let queue = QueueLinkedList<Int>()
-    
+    let queue = LinkedList<Int>()
+
     queue.enqueue(item: 123)
     queue.enqueue(item: 456)
     XCTAssertFalse(queue.isEmpty)
@@ -113,8 +114,8 @@ class QueueTest: XCTestCase {
   }
   
   func testQLLMakeEmpty() {
-    let queue = QueueLinkedList<Int>()
-    
+    let queue = LinkedList<Int>()
+
     queue.enqueue(item: 123)
     queue.enqueue(item: 456)
     XCTAssertNotNil(queue.dequeue())
