@@ -35,50 +35,58 @@ extension Stack: Sequence {
   }
 }
 
+protocol StackProtocol {
+  associatedtype T
+  var count: Int { get }
+  var isEmpty: Bool { get }
+  func push(item: T)
+  func pop() -> T?
+}
 
-public class StackLinkedList<T> {
+// LinkedList implementation of Stack
+class LinkedList<T>: StackProtocol {
+  
+  public class LinkedListNode<T> {
+    var value: T
+    var next: LinkedListNode?
     
-    private class LLNodeS<T> {
-        var value: T
-        var next: LLNodeS?
-        
-        public init(value: T) {
-            self.value = value
-        }
+    init(value: T) {
+      self.value = value
     }
+  }
+  
+  private var counter = 0
+  
+  // the number of items - O(1)
+  var count: Int {
+    return counter
+  }
+  
+  private var first: LinkedListNode<T>?
+  
+  var isEmpty: Bool {
+    return first == nil
+  }
+  
+  public func push(item: T) {
+    let oldFirst = first
+    first = LinkedListNode(value: item)
+    first?.value = item
+    first?.next = oldFirst
     
-    private var counter = 0
-    
-    // the number of items - O(1)
-    var count: Int {
-        return counter
+    counter += 1
+  }
+  
+  func pop() -> T? {
+    if let item = first?.value {
+      
+      first = first?.next
+      
+      counter -= 1
+      return item
     }
-    
-    private var first: LLNodeS<T>?
-    
-    public func isEmpty() -> Bool {
-        return first == nil
-    }
-    
-    public func push(item: T) {
-        let oldFirst = first
-        first = LLNodeS(value: item)
-        first?.value = item
-        first?.next = oldFirst
-        
-        counter += 1
-    }
-    
-    func pop() -> T? {
-        if let item = first?.value {
-            
-            first = first?.next
-            
-            counter -= 1
-            return item
-        }
-        return nil
-    }
+    return nil
+  }
 }
 
 
