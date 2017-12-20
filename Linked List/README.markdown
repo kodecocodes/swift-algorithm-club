@@ -559,6 +559,72 @@ The big difference with the class-based version is that any modification you mak
 
 [I might fill out this section in more detail if there's a demand for it.]
 
+## Conforming to the Collection protocol
+Types that conform to the Sequence protocol, whose elements can be traversed multiple times, nondestructively, and accessed by indexed subscript should conform to the Collection protocol defined in Swift's Standard Library.
+
+Doing so grants access to a very large number of properties and operations that are common when dealing collections of data. In addition to this, it lets custom types follow the patterns that are common to Swift developers.
+
+In order to conform to this protocol, classes need to provide:
+  1 `startIndex` and `endIndex` properties.
+  2 Subscript access to elements as O(1). Diversions of this time complexity need to be documented.
+  
+```swift
+/// The position of the first element in a nonempty collection.
+public var startIndex: Index {
+  get {
+    return LinkedListIndex<T>(node: head, tag: 0)
+  }
+}
+  
+/// The collection's "past the end" position---that is, the position one
+/// greater than the last valid subscript argument.
+/// - Complexity: O(n), where n is the number of elements in the list.
+///   This diverts from the protocol's expectation.
+public var endIndex: Index {
+  get {
+    if let h = self.head {
+      return LinkedListIndex<T>(node: h, tag: count)
+    } else {
+      return LinkedListIndex<T>(node: nil, tag: startIndex.tag)
+    }
+  }
+}
+```
+
+```swift
+public subscript(position: Index) -> T {
+  get {
+    return position.node!.value
+  }
+}
+```
+
+Becuase collections are responsible for managing their own indexes, the implementation below keeps a reference to a node in the list. A tag property in the index represents the position of the node in the list.
+
+```swift
+/// Custom index type that contains a reference to the node at index 'tag'
+public struct LinkedListIndex<T> : Comparable
+{
+  fileprivate let node: LinkedList<T>.LinkedListNode<T>?
+  fileprivate let tag: Int
+
+  public static func==<T>(lhs: LinkedListIndex<T>, rhs: LinkedListIndex<T>) -> Bool {
+    return (lhs.tag == rhs.tag)
+  }
+
+  public static func< <T>(lhs: LinkedListIndex<T>, rhs: LinkedListIndex<T>) -> Bool {
+    return (lhs.tag < rhs.tag)
+  }
+}
+```
+
+Finally, the linked is is able to calculate the index after a given one with the following implementation.
+```swift
+public func index(after idx: Index) -> Index {
+  return LinkedListIndex<T>(node: idx.node?.next, tag: idx.tag+1)
+}
+```
+
 ## Some things to keep in mind
 
 Linked lists are flexible but many operations are **O(n)**.
