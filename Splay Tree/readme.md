@@ -159,7 +159,7 @@ Now suppose a *insert(7)* operation was performed and we're in a *ZigZag* case.
 
 ## Advantages 
 
-Splay trees provide an efficient way to quickly access elements that are frequently requested. This characteristic makes then a good choice to implement, for exmaple, caches or garbage collection algorithms, or in any other problem involving frequent access to a certain numbers of elements from a data set.
+Splay trees provide an efficient way to quickly access elements that are frequently requested. This characteristic makes then a good choice to implement, for example, caches or garbage collection algorithms, or in any other problem involving frequent access to a certain numbers of elements from a data set.
 
 ## Disadvantages
 
