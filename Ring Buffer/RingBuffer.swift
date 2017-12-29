@@ -16,29 +16,28 @@ public struct RingBuffer<T> {
   private var writeIndex = 0
 
   public init(count: Int) {
-    array = [T?](count: count, repeatedValue: nil)
+    array = [T?](repeating: nil, count: count)
   }
 
   /* Returns false if out of space. */
-  public mutating func write(element: T) -> Bool {
-    if !isFull {
-      array[writeIndex % array.count] = element
-      writeIndex += 1
-      return true
-    } else {
-      return false
+  @discardableResult
+  public mutating func write(_ element: T) -> Bool {
+    guard !isFull else { return false }
+    defer {
+        writeIndex += 1
     }
+    array[wrapped: writeIndex] = element
+    return true
   }
 
   /* Returns nil if the buffer is empty. */
   public mutating func read() -> T? {
-    if !isEmpty {
-      let element = array[readIndex % array.count]
-      readIndex += 1
-      return element
-    } else {
-      return nil
+    guard !isEmpty else { return nil }
+    defer {
+        array[wrapped: readIndex] = nil
+        readIndex += 1
     }
+    return array[wrapped: readIndex]
   }
 
   private var availableSpaceForReading: Int {
@@ -55,5 +54,29 @@ public struct RingBuffer<T> {
 
   public var isFull: Bool {
     return availableSpaceForWriting == 0
+  }
+}
+
+public extension RingBuffer: Sequence {
+  public func makeIterator() -> AnyIterator<T> {
+    var index = readIndex
+    return AnyIterator {
+        guard index < self.writeIndex else { return nil }
+        defer {
+            index += 1
+        }
+        return self.array[wrapped: index]
+    }
+  }
+}
+
+private extension Array {
+  subscript (wrapped index: Int) -> Element {
+    get {
+      return self[index % count]
+    }
+    set {
+      self[index % count] = newValue
+    }
   }
 }

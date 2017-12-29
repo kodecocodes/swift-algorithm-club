@@ -32,19 +32,19 @@ func select<T>(from a: [T], count requested: Int) -> [T] {
   var b = [T]()
 
   while selected < requested {
-    examined += 1
-
     // Calculate random variable 0.0 <= r < 1.0 (exclusive!).
     let r = Double(arc4random()) / 0x100000000
 
-    let leftToExamine = a.count - examined + 1
+    let leftToExamine = a.count - examined
     let leftToAdd = requested - selected
 
     // Decide whether to use the next record from the input.
     if Double(leftToExamine) * r < Double(leftToAdd) {
       selected += 1
-      b.append(a[examined - 1])
+      b.append(a[examined])
     }
+
+    examined += 1
   }
   return b
 }

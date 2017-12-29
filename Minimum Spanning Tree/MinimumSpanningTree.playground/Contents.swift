@@ -3,65 +3,70 @@
  Kruskal's and Prim's algorithms.
  */
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 func minimumSpanningTreeKruskal<T>(graph: Graph<T>) -> (cost: Int, tree: Graph<T>) {
-  var cost: Int = 0
-  var tree = Graph<T>()
-  let sortedEdgeListByWeight = graph.edgeList.sorted(by: { $0.weight < $1.weight })
-
-  var unionFind = UnionFind<T>()
-  for vertex in graph.vertices {
-    unionFind.addSetWith(vertex)
-  }
-
-  for edge in sortedEdgeListByWeight {
-    let v1 = edge.vertex1
-    let v2 = edge.vertex2
-    if !unionFind.inSameSet(v1, and: v2) {
-      cost += edge.weight
-      tree.addEdge(edge)
-      unionFind.unionSetsContaining(v1, and: v2)
+    var cost: Int = 0
+    var tree = Graph<T>()
+    let sortedEdgeListByWeight = graph.edgeList.sorted(by: { $0.weight < $1.weight })
+    
+    var unionFind = UnionFind<T>()
+    for vertex in graph.vertices {
+        unionFind.addSetWith(vertex)
     }
-  }
-
-  return (cost: cost, tree: tree)
+    
+    for edge in sortedEdgeListByWeight {
+        let v1 = edge.vertex1
+        let v2 = edge.vertex2
+        if !unionFind.inSameSet(v1, and: v2) {
+            cost += edge.weight
+            tree.addEdge(edge)
+            unionFind.unionSetsContaining(v1, and: v2)
+        }
+    }
+    
+    return (cost: cost, tree: tree)
 }
 
 func minimumSpanningTreePrim<T>(graph: Graph<T>) -> (cost: Int, tree: Graph<T>) {
-  var cost: Int = 0
-  var tree = Graph<T>()
-
-  guard let start = graph.vertices.first else {
-    return (cost: cost, tree: tree)
-  }
-
-  var visited = Set<T>()
-  var priorityQueue = PriorityQueue<(vertex: T, weight: Int, parent: T?)>(
-    sort: { $0.weight < $1.weight })
-
-  priorityQueue.enqueue((vertex: start, weight: 0, parent: nil))
-  while let head = priorityQueue.dequeue() {
-    let vertex = head.vertex
-    if visited.contains(vertex) {
-      continue
+    var cost: Int = 0
+    var tree = Graph<T>()
+    
+    guard let start = graph.vertices.first else {
+        return (cost: cost, tree: tree)
     }
-    visited.insert(vertex)
-
-    cost += head.weight
-    if let prev = head.parent {
-      tree.addEdge(vertex1: prev, vertex2: vertex, weight: head.weight)
-    }
-
-    if let neighbours = graph.adjList[vertex] {
-      for neighbour in neighbours {
-        let nextVertex = neighbour.vertex
-        if !visited.contains(nextVertex) {
-          priorityQueue.enqueue((vertex: nextVertex, weight: neighbour.weight, parent: vertex))
+    
+    var visited = Set<T>()
+    var priorityQueue = PriorityQueue<(vertex: T, weight: Int, parent: T?)>(
+        sort: { $0.weight < $1.weight })
+    
+    priorityQueue.enqueue((vertex: start, weight: 0, parent: nil))
+    while let head = priorityQueue.dequeue() {
+        let vertex = head.vertex
+        if visited.contains(vertex) {
+            continue
         }
-      }
+        visited.insert(vertex)
+        
+        cost += head.weight
+        if let prev = head.parent {
+            tree.addEdge(vertex1: prev, vertex2: vertex, weight: head.weight)
+        }
+        
+        if let neighbours = graph.adjList[vertex] {
+            for neighbour in neighbours {
+                let nextVertex = neighbour.vertex
+                if !visited.contains(nextVertex) {
+                    priorityQueue.enqueue((vertex: nextVertex, weight: neighbour.weight, parent: vertex))
+                }
+            }
+        }
     }
-  }
-
-  return (cost: cost, tree: tree)
+    
+    return (cost: cost, tree: tree)
 }
 
 /*:

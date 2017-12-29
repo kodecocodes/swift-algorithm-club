@@ -1,29 +1,23 @@
-//: Playground - noun: a place where people can play
-// Last checked with: Version 9.0 beta 4 (9M189t)
+//: Two Sum
+// Last checked with: Version 9.0 (9A235)
 #if swift(>=4.0)
 print("Hello, Swift 4!")
 #endif
 
-func twoSumProblem(_ a: [Int], k: Int) -> ((Int, Int))? {
-  var map = [Int: Int]()
-
-  for i in 0 ..< a.count {
-    if let newK = map[a[i]] {
-      return (newK, i)
-    } else {
-      map[k - a[i]] =  i
+func twoSum(_ nums: [Int], target: Int) -> (Int, Int)? {
+    var dict = [Int: Int]()
+    
+    for (currentIndex, n) in nums.enumerated() {
+        let complement = target - n
+        
+        if let complementIndex = dict[complement] {
+            return (complementIndex, currentIndex)
+        }
+        
+        dict[n] = currentIndex
     }
-  }
-  return nil
+    
+    return nil
 }
 
-let a = [7, 100, 2, 21, 12, 10, 22, 14, 3, 4, 8, 4, 9]
-if let (i, j) = twoSumProblem(a, k: 33) {
-  i            // 3
-  a[i]         // 21
-  j            // 4
-  a[j]         // 12
-  a[i] + a[j]  // 33
-}
-
-twoSumProblem(a, k: 37)  // nil
+twoSum([3, 2, 9, 8], target: 10) // expected output: indices 1 and 3

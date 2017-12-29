@@ -7,13 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1CB614301F89456C00A14493 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6142F1F89456C00A14493 /* Tests.swift */; };
+		1CB614371F8945B300A14493 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D68CB1E599CF100161780 /* View.swift */; };
 		8E6D68BA1E59989400161780 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D68B91E59989400161780 /* AppDelegate.swift */; };
 		8E6D68C11E59989400161780 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E6D68C01E59989400161780 /* Assets.xcassets */; };
 		8E6D68C41E59989400161780 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E6D68C21E59989400161780 /* LaunchScreen.storyboard */; };
 		8E6D68CC1E599CF100161780 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D68CB1E599CF100161780 /* View.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		1CB614321F89456C00A14493 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8E6D68AE1E59989400161780 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8E6D68B51E59989400161780;
+			remoteInfo = "Convex Hull";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		1CB6142D1F89456C00A14493 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CB6142F1F89456C00A14493 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		1CB614311F89456C00A14493 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E6D68B61E59989400161780 /* Convex Hull.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Convex Hull.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E6D68B91E59989400161780 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E6D68C01E59989400161780 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -23,6 +38,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1CB6142A1F89456C00A14493 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8E6D68B31E59989400161780 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,10 +55,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1CB6142E1F89456C00A14493 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				1CB6142F1F89456C00A14493 /* Tests.swift */,
+				1CB614311F89456C00A14493 /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		8E6D68AD1E59989400161780 = {
 			isa = PBXGroup;
 			children = (
 				8E6D68B81E59989400161780 /* Convex Hull */,
+				1CB6142E1F89456C00A14493 /* Tests */,
 				8E6D68B71E59989400161780 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -45,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				8E6D68B61E59989400161780 /* Convex Hull.app */,
+				1CB6142D1F89456C00A14493 /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,6 +97,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1CB6142C1F89456C00A14493 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1CB614341F89456C00A14493 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				1CB614291F89456C00A14493 /* Sources */,
+				1CB6142A1F89456C00A14493 /* Frameworks */,
+				1CB6142B1F89456C00A14493 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1CB614331F89456C00A14493 /* PBXTargetDependency */,
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = 1CB6142D1F89456C00A14493 /* Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8E6D68B51E59989400161780 /* Convex Hull */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8E6D68C81E59989400161780 /* Build configuration list for PBXNativeTarget "Convex Hull" */;
@@ -87,10 +138,15 @@
 		8E6D68AE1E59989400161780 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Workmoose;
 				TargetAttributes = {
+					1CB6142C1F89456C00A14493 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 8E6D68B51E59989400161780;
+					};
 					8E6D68B51E59989400161780 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 7C4LVS3ZVC;
@@ -112,11 +168,19 @@
 			projectRoot = "";
 			targets = (
 				8E6D68B51E59989400161780 /* Convex Hull */,
+				1CB6142C1F89456C00A14493 /* Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1CB6142B1F89456C00A14493 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8E6D68B41E59989400161780 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -129,6 +193,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1CB614291F89456C00A14493 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CB614371F8945B300A14493 /* View.swift in Sources */,
+				1CB614301F89456C00A14493 /* Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8E6D68B21E59989400161780 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,6 +212,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1CB614331F89456C00A14493 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8E6D68B51E59989400161780 /* Convex Hull */;
+			targetProxy = 1CB614321F89456C00A14493 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8E6D68C21E59989400161780 /* LaunchScreen.storyboard */ = {
@@ -152,6 +233,60 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1CB614351F89456C00A14493 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mnespor.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Convex Hull.app/Convex Hull";
+			};
+			name = Debug;
+		};
+		1CB614361F89456C00A14493 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mnespor.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Convex Hull.app/Convex Hull";
+			};
+			name = Release;
+		};
 		8E6D68C61E59989400161780 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -254,7 +389,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "workmoose.Convex-Hull";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -267,13 +402,22 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "workmoose.Convex-Hull";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1CB614341F89456C00A14493 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1CB614351F89456C00A14493 /* Debug */,
+				1CB614361F89456C00A14493 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8E6D68B11E59989400161780 /* Build configuration list for PBXProject "Convex Hull" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -290,6 +434,7 @@
 				8E6D68CA1E59989400161780 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

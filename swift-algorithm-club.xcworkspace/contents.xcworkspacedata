@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:Egg Drop Problem"
+      name = "Egg Drop Problem">
+      <FileRef
+         location = "group:/Users/arkalyk/Desktop/SwiftAlgorithmClub/swift-algorithm-club/Egg Drop Problem/EggDrop.swift">
+      </FileRef>
+      <FileRef
+         location = "group:EggDrop.playground">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:README.markdown">
    </FileRef>
@@ -25,6 +38,72 @@
    <FileRef
       location = "group:Why Algorithms.markdown">
    </FileRef>
+   <Group
+      location = "container:"
+      name = "3Sum and 4Sum">
+      <FileRef
+         location = "group:3Sum and 4Sum/README.md">
+      </FileRef>
+      <FileRef
+         location = "group:3Sum and 4Sum/3Sum.playground">
+      </FileRef>
+      <FileRef
+         location = "group:3Sum and 4Sum/4Sum.playground">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Dijkstra">
+      <Group
+         location = "group:Dijkstra Algorithm/Images"
+         name = "Images">
+         <FileRef
+            location = "group:DirectedGraph.png">
+         </FileRef>
+         <FileRef
+            location = "group:image1.png">
+         </FileRef>
+         <FileRef
+            location = "group:image2.png">
+         </FileRef>
+         <FileRef
+            location = "group:image3.png">
+         </FileRef>
+         <FileRef
+            location = "group:image4.png">
+         </FileRef>
+         <FileRef
+            location = "group:image5.png">
+         </FileRef>
+         <FileRef
+            location = "group:image6.png">
+         </FileRef>
+         <FileRef
+            location = "group:image7.png">
+         </FileRef>
+         <FileRef
+            location = "group:Vertices.png">
+         </FileRef>
+         <FileRef
+            location = "group:WeightedDirectedGraph.png">
+         </FileRef>
+         <FileRef
+            location = "group:WeightedDirectedGraphFinal.png">
+         </FileRef>
+         <FileRef
+            location = "group:WeightedUndirectedGraph.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:Dijkstra Algorithm/README.md">
+      </FileRef>
+      <FileRef
+         location = "group:Dijkstra Algorithm/VisualizedDijkstra.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Dijkstra Algorithm/Dijkstra.playground">
+      </FileRef>
+   </Group>
    <Group
       location = "container:"
       name = "LRU Cache">
@@ -1391,9 +1470,6 @@
          location = "group:kthLargest.playground">
       </FileRef>
       <FileRef
-         location = "group:kthLargest.swift">
-      </FileRef>
-      <FileRef
          location = "group:README.markdown">
       </FileRef>
    </Group>
@@ -1454,6 +1530,52 @@
          <FileRef
             location = "group:LinkedListTests.swift">
          </FileRef>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Singly Linked List"
+      name = "Singly Linked List">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:CopiedIndirectStorage.png">
+         </FileRef>
+         <FileRef
+            location = "group:SharedIndirectStorage.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:KeyValuePair.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Queue.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:SinglyLinkedList.playground">
+      </FileRef>
+      <FileRef
+         location = "group:SinglyLinkedList.swift">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <Group
+            location = "group:Tests"
+            name = "Tests">
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+            <FileRef
+               location = "group:SinglyLinkedListTests.swift">
+            </FileRef>
+         </Group>
          <FileRef
             location = "group:Tests.xcodeproj">
          </FileRef>
@@ -1660,6 +1782,16 @@
       </FileRef>
    </Group>
    <Group
+      location = "container:"
+      name = "Multiset">
+      <FileRef
+         location = "group:Multiset/Multiset.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Multiset/README.markdown">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Ordered Array"
       name = "Ordered Array">
       <FileRef
@@ -1844,9 +1976,6 @@
          <FileRef
             location = "group:SortingTestHelpers.swift">
          </FileRef>
-         <FileRef
-            location = "group:Tests.xcodeproj">
-         </FileRef>
       </Group>
    </Group>
    <Group
@@ -1915,10 +2044,10 @@
       location = "group:Red-Black Tree"
       name = "Red-Black Tree">
       <FileRef
-         location = "group:README.markdown">
+         location = "group:RedBlackTree.playground">
       </FileRef>
       <FileRef
-         location = "group:Red-Black Tree 2.playground">
+         location = "group:README.markdown">
       </FileRef>
    </Group>
    <Group
@@ -2260,6 +2389,9 @@
    <Group
       location = "group:Skip-List"
       name = "Skip-List">
+      <FileRef
+         location = "group:SkipList.playground">
+      </FileRef>
       <Group
          location = "group:Images"
          name = "Images">
@@ -2316,6 +2448,9 @@
    <Group
       location = "group:Slow Sort"
       name = "Slow Sort">
+      <FileRef
+         location = "group:SlowSort.playground">
+      </FileRef>
       <FileRef
          location = "group:README.markdown">
       </FileRef>

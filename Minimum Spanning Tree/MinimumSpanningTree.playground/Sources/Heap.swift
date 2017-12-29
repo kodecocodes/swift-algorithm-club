@@ -147,7 +147,7 @@ public struct Heap<T> {
 
     let size = elements.count - 1
     if index != size {
-      swap(&elements[index], &elements[size])
+      elements.swapAt(index,size)
       shiftDown(index, heapSize: size)
       shiftUp(index)
     }
@@ -200,7 +200,7 @@ public struct Heap<T> {
       }
       if first == parentIndex { return }
 
-      swap(&elements[parentIndex], &elements[first])
+      elements.swapAt(parentIndex,first)
       parentIndex = first
     }
   }

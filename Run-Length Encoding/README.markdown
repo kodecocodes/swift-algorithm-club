@@ -51,6 +51,7 @@ extension Data {
         }
         return data
     }
+ }
 ```
 
 How it works:

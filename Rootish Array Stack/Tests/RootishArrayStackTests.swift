@@ -205,4 +205,11 @@ class RootishArrayStackTests: XCTestCase {
 		XCTAssertEqual(list.first, 0)
 		XCTAssertTrue(list.equal(toArray: array))
 	}
+
+  func testSwift4() {
+    // last checked with Xcode 9.0b4
+    #if swift(>=4.0)
+      print("Hello, Swift 4!")
+    #endif
+  }
 }

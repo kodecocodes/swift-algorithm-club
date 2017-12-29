@@ -19,7 +19,7 @@ It works as follows:
 - Find the lowest number in the rest of the array, starting from index 2, and swap it with the one at index 2. Now, the array is sorted from index 0 to 2; this range contains the three lowest numbers in the array.
 - And continue until no numbers remain to be sorted.
 
-It nis called a "selection" sort because at every step you search through the rest of the array to select the next lowest number.
+It is called a "selection" sort because at every step you search through the rest of the array to select the next lowest number.
 
 ## An example
 
@@ -74,7 +74,7 @@ func selectionSort(_ array: [Int]) -> [Int] {
     }
 
     if x != lowest {               // 5
-      swap(&a[x], &a[lowest])
+      a.swapAt(x, lowest)
     }
   }
   return a
@@ -108,7 +108,7 @@ The source file [SelectionSort.swift](SelectionSort.swift) has a version of this
 
 ## Performance
 
-The selection sort is easy to understand but it performs slow as **O(n^2)**. It is worse than [insertion sort](../Insertion%20Sort/) but better than [bubble sort](../Bubble%20Sort/). Finding the lowest element in the rest of the array is slow, especially since the inner loop will be performed repeatedly .
+The selection sort is easy to understand but it performs slow as **O(n^2)**. It is worse than [insertion sort](../Insertion%20Sort/) but better than [bubble sort](../Bubble%20Sort/). Finding the lowest element in the rest of the array is slow, especially since the inner loop will be performed repeatedly.
 
 The [Heap sort](../Heap%20Sort/) uses the same principle as selection sort but has a fast method for finding the minimum value in the rest of the array. The heap sort' performance is **O(n log n)**.
 

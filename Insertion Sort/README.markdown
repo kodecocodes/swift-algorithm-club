@@ -91,16 +91,18 @@ Here is an implementation of insertion sort in Swift:
 
 ```swift
 func insertionSort(_ array: [Int]) -> [Int] {
-  var a = array                             // 1
-  for x in 1..<a.count {                    // 2
-    var y = x
-    while y > 0 && a[y] < a[y - 1] {        // 3
-      swap(&a[y - 1], &a[y])
-      y -= 1
+    var a = array			 // 1
+    for x in 1..<a.count {		 // 2
+        var y = x
+        while y > 0 && a[y] < a[y - 1] { // 3
+            a.swapAt(y - 1, y)
+            y -= 1
+        }
     }
-  }
-  return a
+    return a
 }
+
+
 ```
 
 Put this code in a playground and test it like so:

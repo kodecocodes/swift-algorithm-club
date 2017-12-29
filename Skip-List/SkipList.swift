@@ -50,18 +50,12 @@ public struct Stack<T> {
 extension Stack: Sequence {
   public func makeIterator() -> AnyIterator<T> {
     var curr = self
-    return AnyIterator { _ -> T? in
-      return curr.pop()
-    }
+    return AnyIterator { curr.pop() }
   }
 }
 
 private func coinFlip() -> Bool {
-  #if os(Linux)
-      return random() % 2 == 0
-  #elseif os(OSX)
-      return arc4random_uniform(2) == 1
-  #endif
+  return arc4random_uniform(2) == 1
 }
 
 public class DataNode<Key: Comparable, Payload> {
@@ -221,7 +215,7 @@ extension SkipList {
   func insert(key: Key, data: Payload) {
     if head != nil {
       if let node = findNode(key: key) {
-        // replace, in case of key already exists. 
+        // replace, in case of key already exists.
         var currentNode = node.next
         while currentNode != nil && currentNode!.key == key {
           currentNode!.data = data
@@ -274,3 +268,4 @@ extension SkipList {
     return search(key: key)
   }
 }
+
