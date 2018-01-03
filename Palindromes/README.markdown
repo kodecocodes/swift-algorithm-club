@@ -104,4 +104,4 @@ racecar -> left index == right index -> return true
 [Palindrome Wikipedia](https://en.wikipedia.org/wiki/Palindrome)
 
 
-*Written by [Joshua Alvarado](https://github.com/https://github.com/lostatseajoshua)*
+*Written by [Joshua Alvarado](https://github.com/lostatseajoshua)*
