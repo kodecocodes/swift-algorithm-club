@@ -4,58 +4,55 @@
 //
 
 public struct Heap<T> {
-  /** The array that stores the heap's nodes. */
-  var elements = [T]()
   
-  /** Determines whether this is a max-heap (>) or min-heap (<). */
-  fileprivate var isOrderedBefore: (T, T) -> Bool
+  /** The array that stores the heap's nodes. */
+  private(set) var nodes = [T]()
+  
+  /**
+   * Determines how to compare two nodes in the heap.
+   * Use '>' for a max-heap or '<' for a min-heap,
+   * or provide a comparing method if the heap is made
+   * of custom elements, for example tuples.
+   */
+  private var orderCriteria: (T, T) -> Bool
   
   /**
    * Creates an empty heap.
    * The sort function determines whether this is a min-heap or max-heap.
-   * For integers, > makes a max-heap, < makes a min-heap.
+   * For comparable data types, > makes a max-heap, < makes a min-heap.
    */
   public init(sort: @escaping (T, T) -> Bool) {
-    self.isOrderedBefore = sort
+    self.orderCriteria = sort
   }
   
   /**
    * Creates a heap from an array. The order of the array does not matter;
    * the elements are inserted into the heap in the order determined by the
-   * sort function.
+   * sort function. For comparable data types, '>' makes a max-heap,
+   * '<' makes a min-heap.
    */
   public init(array: [T], sort: @escaping (T, T) -> Bool) {
-    self.isOrderedBefore = sort
+    self.orderCriteria = sort
     buildHeap(fromArray: array)
   }
   
-  /*
-   // This version has O(n log n) performance.
-   private mutating func buildHeap(array: [T]) {
-   elements.reserveCapacity(array.count)
-   for value in array {
-   insert(value)
-   }
-   }
-   */
-  
   /**
-   * Converts an array to a max-heap or min-heap in a bottom-up manner.
+   * Creates the max-heap or min-heap from an array, in a bottom-up manner.
    * Performance: This runs pretty much in O(n).
    */
-  fileprivate mutating func buildHeap(fromArray array: [T]) {
-    elements = array
-    for i in stride(from: (elements.count/2 - 1), through: 0, by: -1) {
-      shiftDown(i, heapSize: elements.count)
+  private mutating func buildHeap(fromArray array: [T]) {
+    nodes = array
+    for i in stride(from: (nodes.count/2-1), through: 0, by: -1) {
+      shiftDown(i)
     }
   }
   
   public var isEmpty: Bool {
-    return elements.isEmpty
+    return nodes.isEmpty
   }
   
   public var count: Int {
-    return elements.count
+    return nodes.count
   }
   
   /**
@@ -89,7 +86,13 @@ public struct Heap<T> {
    * value (for a min-heap).
    */
   public func peek() -> T? {
-    return elements.first
+    return nodes.first
+  }
+  
+  /** Returns the node at given index */
+  public func node(at i: Int) -> T? {
+    guard i < nodes.count else { return nil }
+    return nodes[i]
   }
   
   /**
@@ -97,10 +100,14 @@ public struct Heap<T> {
    * or min-heap property still holds. Performance: O(log n).
    */
   public mutating func insert(_ value: T) {
-    elements.append(value)
-    shiftUp(elements.count - 1)
+    nodes.append(value)
+    shiftUp(nodes.count - 1)
   }
   
+  /**
+   * Adds a sequence of values to the heap. This reorders the heap so that
+   * the max-heap or min-heap property still holds. Performance: O(log n).
+   */
   public mutating func insert<S: Sequence>(_ sequence: S) where S.Iterator.Element == T {
     for value in sequence {
       insert(value)
@@ -108,15 +115,14 @@ public struct Heap<T> {
   }
   
   /**
-   * Allows you to change an element. In a max-heap, the new element should be
-   * larger than the old one; in a min-heap it should be smaller.
+   * Allows you to change an element. This reorders the heap so that
+   * the max-heap or min-heap property still holds.
    */
   public mutating func replace(index i: Int, value: T) {
-    guard i < elements.count else { return }
+    guard i < nodes.count else { return }
     
-    assert(isOrderedBefore(value, elements[i]))
-    elements[i] = value
-    shiftUp(i)
+    removeAt(i)
+    insert(value)
   }
   
   /**
@@ -124,34 +130,35 @@ public struct Heap<T> {
    * value; for a min-heap it is the minimum value. Performance: O(log n).
    */
   @discardableResult public mutating func remove() -> T? {
-    if elements.isEmpty {
-      return nil
-    } else if elements.count == 1 {
-      return elements.removeLast()
-    } else {
-      // Use the last node to replace the first one, then fix the heap by
-      // shifting this new first node into its proper position.
-      let value = elements[0]
-      elements[0] = elements.removeLast()
-      shiftDown()
-      return value
+    if !nodes.isEmpty {
+      if nodes.count == 1 {
+        return nodes.removeLast()
+      } else {
+        // Use the last node to replace the first one, then fix the heap by
+        // shifting this new first node into its proper position.
+        let value = nodes[0]
+        nodes[0] = nodes.removeLast()
+        shiftDown(0)
+        return value
+      }
     }
+    return nil
   }
   
   /**
-   * Removes an arbitrary node from the heap. Performance: O(log n). You need
-   * to know the node's index, which may actually take O(n) steps to find.
+   * Removes an arbitrary node from the heap. Performance: O(log n).
+   * Note that you need to know the node's index.
    */
-  public mutating func removeAt(_ index: Int) -> T? {
-    guard index < elements.count else { return nil }
+  @discardableResult public mutating func removeAt(_ index: Int) -> T? {
+    guard index < nodes.count else { return nil }
     
-    let size = elements.count - 1
+    let size = nodes.count - 1
     if index != size {
-      elements.swapAt(index, size)
-      shiftDown(index, heapSize: size)
+      nodes.swapAt(index, size)
+      shiftDown(from: index, until: size)
       shiftUp(index)
     }
-    return elements.removeLast()
+    return nodes.removeLast()
   }
   
   /**
@@ -160,68 +167,64 @@ public struct Heap<T> {
    */
   mutating func shiftUp(_ index: Int) {
     var childIndex = index
-    let child = elements[childIndex]
+    let child = nodes[childIndex]
     var parentIndex = self.parentIndex(ofIndex: childIndex)
     
-    while childIndex > 0 && isOrderedBefore(child, elements[parentIndex]) {
-      elements[childIndex] = elements[parentIndex]
+    while childIndex > 0 && orderCriteria(child, nodes[parentIndex]) {
+      nodes[childIndex] = nodes[parentIndex]
       childIndex = parentIndex
       parentIndex = self.parentIndex(ofIndex: childIndex)
     }
     
-    elements[childIndex] = child
-  }
-  
-  mutating func shiftDown() {
-    shiftDown(0, heapSize: elements.count)
+    nodes[childIndex] = child
   }
   
   /**
    * Looks at a parent node and makes sure it is still larger (max-heap) or
    * smaller (min-heap) than its childeren.
    */
-  mutating func shiftDown(_ index: Int, heapSize: Int) {
-    var parentIndex = index
+  private mutating func shiftDown(from index: Int, until endIndex: Int) {
+    let leftChildIndex = self.leftChildIndex(ofIndex: index)
+    let rightChildIndex = leftChildIndex + 1
     
-    while true {
-      let leftChildIndex = self.leftChildIndex(ofIndex: parentIndex)
-      let rightChildIndex = leftChildIndex + 1
-      
-      // Figure out which comes first if we order them by the sort function:
-      // the parent, the left child, or the right child. If the parent comes
-      // first, we're done. If not, that element is out-of-place and we make
-      // it "float down" the tree until the heap property is restored.
-      var first = parentIndex
-      if leftChildIndex < heapSize && isOrderedBefore(elements[leftChildIndex], elements[first]) {
-        first = leftChildIndex
-      }
-      if rightChildIndex < heapSize && isOrderedBefore(elements[rightChildIndex], elements[first]) {
-        first = rightChildIndex
-      }
-      if first == parentIndex { return }
-      
-      elements.swapAt(parentIndex, first)
-      parentIndex = first
+    // Figure out which comes first if we order them by the sort function:
+    // the parent, the left child, or the right child. If the parent comes
+    // first, we're done. If not, that element is out-of-place and we make
+    // it "float down" the tree until the heap property is restored.
+    var first = index
+    if leftChildIndex < endIndex && orderCriteria(nodes[leftChildIndex], nodes[first]) {
+      first = leftChildIndex
     }
+    if rightChildIndex < endIndex && orderCriteria(nodes[rightChildIndex], nodes[first]) {
+      first = rightChildIndex
+    }
+    if first == index { return }
+    
+    nodes.swapAt(index, first)
+    shiftDown(from: first, until: endIndex)
   }
+  
+  private mutating func shiftDown(_ index: Int) {
+    shiftDown(from: index, until: nodes.count)
+  }
+  
 }
 
 // MARK: - Searching
 
 extension Heap where T: Equatable {
-  /**
-   * Searches the heap for the given element. Performance: O(n).
-   */
-  public func index(of element: T) -> Int? {
-    return index(of: element, 0)
+  
+  /** Get the index of a node in the heap. Performance: O(n). */
+  public func index(of node: T) -> Int? {
+    return nodes.index(where: { $0 == node })
   }
   
-  fileprivate func index(of element: T, _ i: Int) -> Int? {
-    if i >= count { return nil }
-    if isOrderedBefore(element, elements[i]) { return nil }
-    if element == elements[i] { return i }
-    if let j = index(of: element, self.leftChildIndex(ofIndex: i)) { return j }
-    if let j = index(of: element, self.rightChildIndex(ofIndex: i)) { return j }
+  /** Removes the first occurrence of a node from the heap. Performance: O(n log n). */
+  @discardableResult public mutating func remove(node: T) -> T? {
+    if let index = index(of: node) {
+      return removeAt(index)
+    }
     return nil
   }
+  
 }
