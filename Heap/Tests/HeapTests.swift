@@ -154,14 +154,14 @@ class HeapTests: XCTestCase {
     XCTAssertEqual(h4.peek()!, 0)
   }
   
-  func testCreateMaxHeapEqualElements() {
+  func testCreateMaxHeapEqualnodes() {
     let heap = Heap(array: [1, 1, 1, 1, 1], sort: >)
     XCTAssertTrue(verifyMaxHeap(heap))
     XCTAssertTrue(verifyMinHeap(heap))
     XCTAssertEqual(heap.nodes, [1, 1, 1, 1, 1])
   }
   
-  func testCreateMinHeapEqualElements() {
+  func testCreateMinHeapEqualnodes() {
     let heap = Heap(array: [1, 1, 1, 1, 1], sort: <)
     XCTAssertTrue(verifyMinHeap(heap))
     XCTAssertTrue(verifyMaxHeap(heap))
@@ -198,33 +198,33 @@ class HeapTests: XCTestCase {
     }
   }
   
-  func testRemovingAtIndex() {
+  func testRemoving() {
     var h = Heap(array: [100, 50, 70, 10, 20, 60, 65], sort: >)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.nodes, [100, 50, 70, 10, 20, 60, 65])
     
     //test index out of bounds
-    let v = h.removeAt(10)
+    let v = h.remove(at: 10)
     XCTAssertEqual(v, nil)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.nodes, [100, 50, 70, 10, 20, 60, 65])
     
-    let v1 = h.removeAt(5)
+    let v1 = h.remove(at: 5)
     XCTAssertEqual(v1, 60)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.nodes, [100, 50, 70, 10, 20, 65])
     
-    let v2 = h.removeAt(4)
+    let v2 = h.remove(at: 4)
     XCTAssertEqual(v2, 20)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.nodes, [100, 65, 70, 10, 50])
     
-    let v3 = h.removeAt(4)
+    let v3 = h.remove(at: 4)
     XCTAssertEqual(v3, 50)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.nodes, [100, 65, 70, 10])
     
-    let v4 = h.removeAt(0)
+    let v4 = h.remove(at: 0)
     XCTAssertEqual(v4, 100)
     XCTAssertTrue(verifyMaxHeap(h))
     XCTAssertEqual(h.nodes, [70, 65, 10])
@@ -267,17 +267,6 @@ class HeapTests: XCTestCase {
     XCTAssertEqual(h.nodes, [13, 12, 9, 5, 6, 8, 7, 4, 0, 1, 2])
   }
   
-  func testRemoveNode() {
-    var h = Heap(array: [15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1], sort: >)
-    XCTAssertTrue(verifyMaxHeap(h))
-    XCTAssertEqual(h.nodes, [15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1])
-    XCTAssertEqual(h.node(at: 3)!, 5)
-    let v = h.remove(node: 5)
-    XCTAssertEqual(v, 5)
-    XCTAssertTrue(verifyMaxHeap(h))
-    XCTAssertFalse(h.nodes.contains(5))
-  }
-  
   func testRemoveRandomItems() {
     for n in 1...40 {
       var a = randomArray(n)
@@ -288,16 +277,8 @@ class HeapTests: XCTestCase {
       let m = (n + 1)/2
       for k in 1...m {
         let i = Int(arc4random_uniform(UInt32(n - k + 1)))
-        
-        var v: Int? = nil
-        if k == 2 || k == m {
-          v = h.remove(node: h.node(at: i)!)
-        } else {
-          v = h.removeAt(i)
-        }
-        XCTAssertNotNil(v)
-        
-        let j = a.index(of: v!)!
+        let v = h.remove(at: i)!
+        let j = a.index(of: v)!
         a.remove(at: j)
         
         XCTAssertTrue(verifyMaxHeap(h))

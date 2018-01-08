@@ -6,7 +6,7 @@
 public struct Heap<T> {
   
   /** The array that stores the heap's nodes. */
-  private(set) var nodes = [T]()
+  internal var nodes = [T]()
   
   /**
    * Determines how to compare two nodes in the heap.
@@ -33,14 +33,14 @@ public struct Heap<T> {
    */
   public init(array: [T], sort: @escaping (T, T) -> Bool) {
     self.orderCriteria = sort
-    buildHeap(fromArray: array)
+    configureHeap(from: array)
   }
   
   /**
-   * Creates the max-heap or min-heap from an array, in a bottom-up manner.
+   * Configures the max-heap or min-heap from an array, in a bottom-up manner.
    * Performance: This runs pretty much in O(n).
    */
-  private mutating func buildHeap(fromArray array: [T]) {
+  private mutating func configureHeap(from array: [T]) {
     nodes = array
     for i in stride(from: (nodes.count/2-1), through: 0, by: -1) {
       shiftDown(i)
@@ -59,7 +59,7 @@ public struct Heap<T> {
    * Returns the index of the parent of the element at index i.
    * The element at index 0 is the root of the tree and has no parent.
    */
-  @inline(__always) func parentIndex(ofIndex i: Int) -> Int {
+  @inline(__always) internal func parentIndex(ofIndex i: Int) -> Int {
     return (i - 1) / 2
   }
   
@@ -68,7 +68,7 @@ public struct Heap<T> {
    * Note that this index can be greater than the heap size, in which case
    * there is no left child.
    */
-  @inline(__always) func leftChildIndex(ofIndex i: Int) -> Int {
+  @inline(__always) internal func leftChildIndex(ofIndex i: Int) -> Int {
     return 2*i + 1
   }
   
@@ -77,7 +77,7 @@ public struct Heap<T> {
    * Note that this index can be greater than the heap size, in which case
    * there is no right child.
    */
-  @inline(__always) func rightChildIndex(ofIndex i: Int) -> Int {
+  @inline(__always) internal func rightChildIndex(ofIndex i: Int) -> Int {
     return 2*i + 2
   }
   
@@ -87,12 +87,6 @@ public struct Heap<T> {
    */
   public func peek() -> T? {
     return nodes.first
-  }
-  
-  /** Returns the node at given index */
-  public func node(at i: Int) -> T? {
-    guard i < nodes.count else { return nil }
-    return nodes[i]
   }
   
   /**
@@ -121,7 +115,7 @@ public struct Heap<T> {
   public mutating func replace(index i: Int, value: T) {
     guard i < nodes.count else { return }
     
-    removeAt(i)
+    remove(at: i)
     insert(value)
   }
   
@@ -130,26 +124,25 @@ public struct Heap<T> {
    * value; for a min-heap it is the minimum value. Performance: O(log n).
    */
   @discardableResult public mutating func remove() -> T? {
-    if !nodes.isEmpty {
-      if nodes.count == 1 {
-        return nodes.removeLast()
-      } else {
-        // Use the last node to replace the first one, then fix the heap by
-        // shifting this new first node into its proper position.
-        let value = nodes[0]
-        nodes[0] = nodes.removeLast()
-        shiftDown(0)
-        return value
-      }
+    guard !nodes.isEmpty else { return nil }
+    
+    if nodes.count == 1 {
+      return nodes.removeLast()
+    } else {
+      // Use the last node to replace the first one, then fix the heap by
+      // shifting this new first node into its proper position.
+      let value = nodes[0]
+      nodes[0] = nodes.removeLast()
+      shiftDown(0)
+      return value
     }
-    return nil
   }
   
   /**
    * Removes an arbitrary node from the heap. Performance: O(log n).
    * Note that you need to know the node's index.
    */
-  @discardableResult public mutating func removeAt(_ index: Int) -> T? {
+  @discardableResult public mutating func remove(at index: Int) -> T? {
     guard index < nodes.count else { return nil }
     
     let size = nodes.count - 1
@@ -165,7 +158,7 @@ public struct Heap<T> {
    * Takes a child node and looks at its parents; if a parent is not larger
    * (max-heap) or not smaller (min-heap) than the child, we exchange them.
    */
-  mutating func shiftUp(_ index: Int) {
+  internal mutating func shiftUp(_ index: Int) {
     var childIndex = index
     let child = nodes[childIndex]
     var parentIndex = self.parentIndex(ofIndex: childIndex)
@@ -183,7 +176,7 @@ public struct Heap<T> {
    * Looks at a parent node and makes sure it is still larger (max-heap) or
    * smaller (min-heap) than its childeren.
    */
-  private mutating func shiftDown(from index: Int, until endIndex: Int) {
+  internal mutating func shiftDown(from index: Int, until endIndex: Int) {
     let leftChildIndex = self.leftChildIndex(ofIndex: index)
     let rightChildIndex = leftChildIndex + 1
     
@@ -204,7 +197,7 @@ public struct Heap<T> {
     shiftDown(from: first, until: endIndex)
   }
   
-  private mutating func shiftDown(_ index: Int) {
+  internal mutating func shiftDown(_ index: Int) {
     shiftDown(from: index, until: nodes.count)
   }
   
@@ -222,7 +215,7 @@ extension Heap where T: Equatable {
   /** Removes the first occurrence of a node from the heap. Performance: O(n log n). */
   @discardableResult public mutating func remove(node: T) -> T? {
     if let index = index(of: node) {
-      return removeAt(index)
+      return remove(at: index)
     }
     return nil
   }
