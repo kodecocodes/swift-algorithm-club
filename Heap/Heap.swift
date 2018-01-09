@@ -6,7 +6,7 @@
 public struct Heap<T> {
   
   /** The array that stores the heap's nodes. */
-  internal var nodes = [T]()
+  var nodes = [T]()
   
   /**
    * Determines how to compare two nodes in the heap.
