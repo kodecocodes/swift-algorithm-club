@@ -268,7 +268,7 @@ If there are no more nodes to look at -- when `left` or `right` is nil -- then w
 Searching is a recursive process, but you can also implement it with a simple loop instead:
 
 ```swift
-  public func search(value: T) -> BinarySearchTree? {
+  public func search(_ value: T) -> BinarySearchTree? {
     var node: BinarySearchTree? = self
     while let n = node {
       if value < n.value {
