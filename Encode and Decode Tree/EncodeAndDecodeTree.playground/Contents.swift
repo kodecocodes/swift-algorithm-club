@@ -1,12 +1,9 @@
 //: Playground - noun: a place where people can play
 
-
-func printTree(_ root: TreeNode?) {
+func printTree(_ root: BinaryNode<String>?) {
     guard let root = root else {
         return
     }
-
-    var pointer = root
 
     let leftVal = root.left == nil ? "nil" : root.left!.val
     let rightVal = root.right == nil ? "nil" : root.right!.val
@@ -17,25 +14,25 @@ func printTree(_ root: TreeNode?) {
     printTree(root.right)
 }
 
-let s = EncodeAndDecodeTree()
+let coder = BinaryNodeCoder<String>()
 
-let node1 = TreeNode("a")
-let node2 = TreeNode("b")
-let node3 = TreeNode("c")
-let node4 = TreeNode("d")
-let node5 = TreeNode("e")
+let node1 = BinaryNode("a")
+let node2 = BinaryNode("b")
+let node3 = BinaryNode("c")
+let node4 = BinaryNode("d")
+let node5 = BinaryNode("e")
 
 node1.left = node2
 node1.right = node3
 node3.left = node4
 node3.right = node5
 
-let encodeStr = s.encode(node1)
+let encodeStr = try coder.encode(node1)
 print(encodeStr)
 // "a b # # c d # # e # #"
 
 
-let root = s.decode(encodeStr)
+let root: BinaryNode<String> = coder.decode(from: encodeStr)!
 print("Tree:")
 printTree(root)
 /*
