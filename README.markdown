@@ -200,6 +200,7 @@ A lot of software developer interview questions consist of algorithmic puzzles. 
 - [Finding Palindromes](Palindromes/)
 - [Dining Philosophers](DiningPhilosophers/)
 - [Egg Drop Problem](Egg%20Drop%20Problem/)
+- [Encoding and Decoding Binary Tree](Encode%20and%20Decode%20Tree/)
 ## Learn more!
 
 For more information, check out these great books:
