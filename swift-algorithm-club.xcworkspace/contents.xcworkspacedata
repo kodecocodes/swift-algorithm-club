@@ -118,6 +118,16 @@
       </FileRef>
    </Group>
    <Group
+      location = "container:"
+      name = "Encode and Decode Tree">
+      <FileRef
+         location = "group:Encode and Decode Tree/EncodeAndDecodeTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Encode and Decode Tree/EncodeAndDecodeTree.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Miller-Rabin Primality Test"
       name = "Miller-Rabin Primality Test">
       <Group
