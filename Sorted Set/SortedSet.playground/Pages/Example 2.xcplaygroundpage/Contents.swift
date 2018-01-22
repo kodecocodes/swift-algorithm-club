@@ -2,7 +2,7 @@
 
 //: # Example 2 with Player objects
 
-var playerSet = OrderedSet<Player>()
+var playerSet = SortedSet<Player>()
 
 // Populate the set with random players.
 for _ in 0..<20 {

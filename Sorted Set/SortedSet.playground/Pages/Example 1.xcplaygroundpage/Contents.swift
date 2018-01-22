@@ -5,7 +5,7 @@ print("Hello, Swift 4!")
 
 //: # Example 1 with type Int
 
-var mySet = OrderedSet<Int>()
+var mySet = SortedSet<Int>()
 
 // Insert random numbers into the set
 for _ in 0..<50 {
