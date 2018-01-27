@@ -40,7 +40,7 @@ Now, all we must do is take the value at index `a.count - k`:
 a[a.count - k] = a[8 - 4] = a[4] = 9
 ```
 
-Of course, if you were looking for the k-th *smallest* element, you'd use `a[k]`.
+Of course, if you were looking for the k-th *smallest* element, you'd use `a[k-1]`.
 
 ## A faster solution
 
