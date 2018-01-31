@@ -4,6 +4,7 @@
 > 注：本文译自 [Swift Algorithm Club](https://github.com/raywenderlich/swift-algorithm-club)。
 >
 > 注：由于早先[swift-algorithm-club-cn](https://github.com/ksco/swift-algorithm-club-cn) 翻译不全且已经停止维护，本项目是在此基础上的进行的翻译和更新，感谢 [ksco](https://github.com/ksco) 及其小伙伴的先前付出
+>
 > 想体验更好的点[这里](https://keithmorning.github.io/swift-algorithm-club-cn/)
 
 在这里，你可以找到很多流行的算法和数据结构的具体实现，使用的是大家最喜欢的新语言 Swift，并对他们的工作原理配有详细的解释。
