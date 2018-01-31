@@ -1,208 +1,214 @@
 ![Swift Algorithm Club](Images/SwiftAlgorithm-410-transp.png)
+# 欢迎来到 Swift 算法俱乐部！
 
-# Welcome to the Swift Algorithm Club!
+> 注：本文译自 [Swift Algorithm Club](https://github.com/raywenderlich/swift-algorithm-club)。
+>
+> 注：由于早先[swift-algorithm-club-cn](https://github.com/ksco/swift-algorithm-club-cn) 翻译不全且已经停止维护，本项目是在此基础上的进行的翻译和更新，感谢 [ksco](https://github.com/ksco) 及其小伙伴的先前付出
 
-Here you'll find implementations of popular algorithms and data structures in everyone's favorite new language Swift, with detailed explanations of how they work.
+在这里，你可以找到很多流行的算法和数据结构的具体实现，使用的是大家最喜欢的新语言 Swift，并对他们的工作原理配有详细的解释。
 
-If you're a computer science student who needs to learn this stuff for exams -- or if you're a self-taught programmer who wants to brush up on the theory behind your craft -- you've come to the right place!
+如果你是一个计算机学院的学生，为了考试想学习一下算法；又或者你是一个自学成才的程序员，想提高一下自身的理论姿势水平－－你真 TM 来对地方了！
 
-The goal of this project is to **explain how algorithms work**. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use but you may need to tweak it to fit into your own codebase.
+这个项目的目的是**解释各种算法的工作方式**。所以我们主要关注代码的清晰性和可读性，而不是为了产出一个可复用的库，让读者可以直接拖进自己的工程使用。换句话说，绝大多数的代码都是可以用于实际的项目中的，不过需要你根据自己的项目需求进行一些修整。
 
-Code is compatible with **Xcode 9** and **Swift 4**. We'll keep this updated with the latest version of Swift.
+所有的代码都是兼容 **Xcode 9** 以及 **Swift 4** 的。如果 Swift 有更新，我们也会及时跟进。
 
-:heart_eyes: **Suggestions and contributions are welcome!** :heart_eyes:
+这个项目目前正在进行中。更多的算法将被加入，敬请期待。:-)
 
-## Important links
+:heart_eyes:**欢迎提供建议和贡献！**:heart_eyes:
 
-[What are algorithms and data structures?](What%20are%20Algorithms.markdown) Pancakes!
+## 重要链接
 
-[Why learn algorithms?](Why%20Algorithms.markdown) Worried this isn't your cup of tea? Then read this.
+[什么是算法和数据结构？](What%20are%20Algorithms.markdown)－做薄饼！
 
-[Big-O notation](Big-O%20Notation.markdown). We often say things like, "This algorithm is **O(n)**." If you don't know what that means, read this first.
+[为什么要学习算法？](Why%20Algorithms.markdown)－还在担心这不是你的菜吗？请读一下这篇文章。
 
-[Algorithm design techniques](Algorithm%20Design.markdown). How do you create your own algorithms?
+[大 O 表示法](Big-O%20Notation.markdown)－我们经常会听到这样的话：“这个算法是 O(n) 的”。如果你不知道这是啥意思，请读读这篇文章。
 
-[How to contribute](https://github.com/raywenderlich/swift-algorithm-club/blob/master/.github/CONTRIBUTING.md). Report an issue to leave feedback, or submit a pull request.
+[*算法设计技巧](Algorithm%20Design.markdown)－怎样设计自己的算法？
 
-## Where to start?
+[欢迎参与翻译！](How%20to%20Contribute.markdown)－如果有意参与翻译，请阅读注意事项！
 
-If you're new to algorithms and data structures, here are a few good ones to start out with:
+## 从哪开始？
 
-- [Stack](Stack/)
-- [Queue](Queue/)
-- [Insertion Sort](Insertion%20Sort/)
-- [Binary Search](Binary%20Search/) and [Binary Search Tree](Binary%20Search%20Tree/)
-- [Merge Sort](Merge%20Sort/)
-- [Boyer-Moore string search](Boyer-Moore-Horspool/)
+如果你之前没有接触过算法和数据结构，你可以从下面这些简单易懂的算法开始看起：
 
-## The algorithms
+- [栈](Stack/)
+- [队列](Queue/)
+- [插入排序](Insertion%20Sort/)
+- [二分搜索](Binary%20Search/)和[二分搜索树](Binary%20Search%20Tree/)
+- [归并排序](Merge%20Sort/)
+- [Boyer-Moore 字符串搜索算法](Boyer-Moore-Horspool/)
 
-### Searching
+## 算法列表
 
-- [Linear Search](Linear%20Search/). Find an element in an array.
-- [Binary Search](Binary%20Search/). Quickly find elements in a sorted array.
-- [Count Occurrences](Count%20Occurrences/). Count how often a value appears in an array.
-- [Select Minimum / Maximum](Select%20Minimum%20Maximum). Find the minimum/maximum value in an array.
-- [k-th Largest Element](Kth%20Largest%20Element/). Find the *k*-th largest element in an array, such as the median.
-- [Selection Sampling](Selection%20Sampling/). Randomly choose a bunch of items from a collection.
-- [Union-Find](Union-Find/). Keeps track of disjoint sets and lets you quickly merge them.
+### 搜索算法
 
+- [*线性搜索](Linear%20Search/)－从数组中查找某个元素。
+- [二分搜索](Binary%20Search/)－从已排序的数组中快速查找元素。
+- [统计出现次数](Count%20Occurrences/)－统计某个值在数组中的出现次数。
+- [查找最大／最小值](Select%20Minimum%20Maximum)－找到数组中的最大／最小值。
+- [第 K 大元素](Kth%20Largest%20Element/)－找到数组中的第 **K** 大元素，例如中位数。
+- [*选取样本](Selection%20Sampling/)－随机地从集合中选取一些元素作为样本。
+- [*并查集](Union-Find/)－保持一些不相交的集合，帮助你快速合并它们。
 
-### String Search
+### 字符串搜索算法
 
-- [Brute-Force String Search](Brute-Force%20String%20Search/). A naive method.
-- [Boyer-Moore](Boyer-Moore-Horspool/). A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.
-- [Knuth-Morris-Pratt](Knuth-Morris-Pratt/). A linear-time string algorithm that returns indexes of all occurrencies of a given pattern.
-- [Rabin-Karp](Rabin-Karp/)  Faster search by using hashing.
-- [Longest Common Subsequence](Longest%20Common%20Subsequence/). Find the longest sequence of characters that appear in the same order in both strings.
-- [Z-Algorithm](Z-Algorithm/). Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.
+- [*Brute-Force 算法](Brute-Force%20String%20Search/)－一个简单粗暴的方法。
+- [Boyer-Moore 算法](Boyer-Moore-Horspool/)－一种高效的字符串子串搜索算法（BM算法）。它不需要对被搜索的字符串中的字符进行逐一比较，而是根据一个查找表跳过其中的某些部分。
+- [*Knuth-Morris-Pratt 算法](Knuth-Morris-Pratt/) - 一个线性复杂度字符串搜索算法（KMP算法），通过模式字符进行匹配返回所有的字符串的位置
+- [*Rabin-Karp 算法](Rabin-Karp/) - 通过哈希算法快速搜索
+- [*最长公共子序列算法](Longest%20Common%20Subsequence/)－找到两个字符串中的最长公共子序列。
+- [*Z-Algorithm](Z-Algorithm/) 在一个字符串中找到所有的模式字符，并返回模式字符在字符串中的开始位置
 
-### Sorting
+### 排序算法
 
-It's fun to see how sorting algorithms work, but in practice you'll almost never have to provide your own sorting routines. Swift's own `sort()` is more than up to the job. But if you're curious, read on...
+探究排序算法的工作原理是非常有趣的，但在实际的编码中，你几乎永远也不会需要自己编写排序算法，Swift 自带的 `sort()` 函数已经非常够用了，但如果你还是好奇背后的原理，请继续阅读。
 
-Basic sorts:
+基本的排序算法：
 
-- [Insertion Sort](Insertion%20Sort/)
-- [Selection Sort](Selection%20Sort/)
-- [Shell Sort](Shell%20Sort/)
+- [插入排序](Insertion%20Sort/)
+- [*选择排序](Selection%20Sort/)
+- [*希尔排序](Shell%20Sort/)
 
-Fast sorts:
+快速的排序算法：
 
-- [Quicksort](Quicksort/)
-- [Merge Sort](Merge%20Sort/)
-- [Heap Sort](Heap%20Sort/)
+- [*快速排序](Quicksort/)
+- [归并排序](Merge%20Sort/)
+- [*堆排序](Heap%20Sort/)
 
-Special-purpose sorts:
+特殊的排序算法
 
-- [Counting Sort](Counting%20Sort/)
-- [Radix Sort](Radix%20Sort/)
-- [Topological Sort](Topological%20Sort/)
+- [*计数排序](Counting%20Sort/)
+- [*基数排序](Radix%20Sort/)
+- [*拓扑排序](Topological%20Sort/)
 
-Bad sorting algorithms (don't use these!):
+不好的排序算法（知道就行了，不要用！）：
 
-- [Bubble Sort](Bubble%20Sort/)
-- [Slow Sort](Slow%20Sort/)
+- [*冒泡排序](Bubble%20Sort/)
+- [*慢速排序](Slow%20Sort/)
 
-### Compression
+### 压缩算法
 
-- [Run-Length Encoding (RLE)](Run-Length%20Encoding/). Store repeated values as a single byte and a count.
-- [Huffman Coding](Huffman%20Coding/). Store more common elements using a smaller number of bits.
+- [*变动长度编码法(RLE)](Run-Length%20Encoding/)。将重复的值存储为一个单字节及其计数。
+- [*哈夫曼编码](Huffman%20Coding/)。将常见的元素使用更小的单位存储。
 
-### Miscellaneous
+### 杂项
 
-- [Shuffle](Shuffle/). Randomly rearranges the contents of an array.
-- [Comb Sort](Comb%20Sort/). An improve upon the Bubble Sort algorithm.
-- [Convex Hull](Convex%20Hull/).
-- [Miller-Rabin Primality Test](Miller-Rabin%20Primality%20Test/). Is the number a prime number?
-- [MinimumCoinChange](MinimumCoinChange/). A showcase for dynamic programming.
+- [*搅乱算法](Shuffle/)－随机搅乱数组中的内容。
+- [*梳排序](Comb%20Sort/) - 基于冒泡算法后提高的算法
+- [*凸包算法](Convex%20Hull/)
+- [*米勒-拉宾素性测试](Miller-Rabin%20Primality%20Test/) 这是一个素数吗？
+- [*换硬币数量最小问题](MinimumCoinChange/) 一个动态规划的例子
 
-### Mathematics
+### 数学算法
 
-- [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
-- [Permutations and Combinations](Combinatorics/). Get your combinatorics on!
-- [Shunting Yard Algorithm](Shunting%20Yard/). Convert infix expressions to postfix.
-- [Karatsuba Multiplication](Karatsuba%20Multiplication/). Another take on elementary multiplication.
-- [Haversine Distance](HaversineDistance/). Calculating the distance between 2 points from a sphere.
-- [Strassen's Multiplication Matrix](Strassen%20Matrix%20Multiplication/). Efficient way to handle matrix multiplication.
+- [*最大公约数算法(GCD)](GCD/)－特殊福利：最小公倍数算法。
+- [*排列组合算法](Combinatorics/)－还记得高中学过排列组合数学吗？
+- [*调度场算法](Shunting%20Yard/)－用于将中缀表达式转换为后缀表达式的经典算法。
+- [*Karatsuba Multiplication](Karatsuba%20Multiplication/)- 另一种初等乘法
+- [*Haversine 距离](HaversineDistance/) 计算球面上两点距离
+- [*Strassen 矩阵乘法算法](Strassen%20Matrix%20Multiplication/) 高效处理矩阵乘法的算法
 
-### Machine learning
+### 机器学习
 
-- [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters.
-- k-Nearest Neighbors
-- [Linear Regression](Linear%20Regression/). A technique for creating a model of the relationship between two (or more) variable quantities.
-- Logistic Regression
-- Neural Networks
-- PageRank
-- [Naive Bayes Classifier](Naive%20Bayes%20Classifier/)
+- [*k-Means 聚类算法](K-Means/)－无监督的分类器，将数据聚类为 K 个簇。
+- K-近邻算法
+- [*线性回归](Linear%20Regression/) 一种建立两个或者更多变量关系模型的技术
+- 逻辑回归
+- 神经网络
+- 网页排名算法
+- [*朴素贝叶斯算法](Naive%20Bayes%20Classifier/))
+## 数据结构
 
-## Data structures
+对于特定的任务，数据结构的选择需要基于以下几点考量。
 
-The choice of data structure for a particular task depends on a few things.
+首先，你的数据是具有某种形态的，并且有一些必要的操作方法。如果你想基于关键字来查找对象，需要的是字典类型的数据结构；如果你的数据原生就是分层级的，就需要某种类型的树形结构；而如果你的数据是线性的，则你需要的是数据结构可能就是栈或队列等。
 
-First, there is the shape of your data and the kinds of operations that you'll need to perform on it. If you want to look up objects by a key you need some kind of dictionary; if your data is hierarchical in nature you want a tree structure of some sort; if your data is sequential you want a stack or queue.
+其次，具体的选择还与你在实际使用中最常用的操作方法有关，因为不同的数据结构都对不同的操作方法做了优化。举例来说，如果你经常需要获取集合中的某些较为重要的元素，那么使用堆或优先队列就比普通的数组要好很多。
 
-Second, it matters what particular operations you'll be performing most, as certain data structures are optimized for certain actions. For example, if you often need to find the most important object in a collection, then a heap or priority queue is more optimal than a plain array.
+绝大多数情况下，使用 Swift 内建的 `Array`、`Dictinary`、`Set` 就足够高效了，但某些时候，可能还是需要某些更合适的数据结构...
 
-Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types is sufficient, but sometimes you may want something more fancy...
+### 数组变体
 
-### Variations on arrays
+- [*二维数组](Array2D/)－固定尺寸的二维数组，可用于棋盘游戏。
+- [*比特集](Bit%20Set/)－**n** 位大小固定尺度的序列。
+- [*固定长度数组](Fixed%20Size%20Array/)－如果你确切的知道数据的大小，使用老式的固定长度的数组会更加高效。
+- [*有序数组](Ordered%20Array/)－一个永远有序的数组。
+- [*Rootish Array Stack](Rootish%20Array%20Stack/) - 空间时间高效率的Swift数组
 
-- [Array2D](Array2D/). A two-dimensional array with fixed dimensions. Useful for board games.
-- [Bit Set](Bit%20Set/). A fixed-size sequence of *n* bits.
-- [Fixed Size Array](Fixed%20Size%20Array/). When you know beforehand how large your data will be, it might be more efficient to use an old-fashioned array with a fixed size.
-- [Ordered Array](Ordered%20Array/). An array that is always sorted.
-- [Rootish Array Stack](Rootish%20Array%20Stack/). A space and time efficient variation on Swift arrays.
+### 队列
 
-### Queues
+- [栈](Stack/)－后进先出！
+- [队列](Queue/)－先进先出！
+- [*双端队列](Deque/)
+- [*优先队列](Priority%20Queue)－一个保持最重要的元素总是在最前面的队列。
+- [*环形缓冲区](Ring%20Buffer/)－一个语义上的固定大小的环形缓冲区，实际使用的是一维序列头尾相接实现。
 
-- [Stack](Stack/). Last-in, first-out!
-- [Queue](Queue/). First-in, first-out!
-- [Deque](Deque/). A double-ended queue.
-- [Priority Queue](Priority%20Queue). A queue where the most important element is always at the front.
-- [Ring Buffer](Ring%20Buffer/). Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.
+### 列表
 
-### Lists
+- [*链表](Linked%20List/)－链接起来的数据序列。包含单向和双向链表。
+- [*跳跃表](Skip-List/)- 跳跃表是一种随机化的数据结构与AVL/红黑树有着相同的时间复杂度O(logN),并且更新和搜索更加高效简单。
 
-- [Linked List](Linked%20List/). A sequence of data items connected through links. Covers both singly and doubly linked lists.
-- [Skip-List](Skip-List/). Skip List is a probabilistic data-structure with same logarithmic time bound and efficiency as AVL/ or Red-Black tree and provides a clever compromise to efficiently support search and update operations.
+### 树
 
-### Trees
-
-- [Tree](Tree/). A general-purpose tree structure.
-- [Binary Tree](Binary%20Tree/). A tree where each node has at most two children.
-- [Binary Search Tree (BST)](Binary%20Search%20Tree/). A binary tree that orders its nodes in a way that allows for fast queries.
-- [Red-Black Tree](Red-Black%20Tree/). A self balancing binary search tree.
-- [Splay Tree](Splay%20Tree/). A self balancing binary search tree that enables fast retrieval of recently updated elements.
-- [Threaded Binary Tree](Threaded%20Binary%20Tree/). A binary tree that maintains a few extra variables for cheap and fast in-order traversals.
-- [Segment Tree](Segment%20Tree/). Can quickly compute a function over a portion of an array.
+- [*树](Tree/)－通用目的的树形结构。
+- [*二叉树](Binary%20Tree/)－一种节点最多有两个孩子节点的树形结构。
+- [二叉搜索树(BST)](Binary%20Search%20Tree/)－以某种方式组织自己的节点的二叉树，以求较快的查询速度。
+- [*红黑树](Red-Black%20Tree/) - 自平衡二叉搜索树
+- [*AVL 树](AVL%20Tree/)－一种通过旋转来维持平衡的二叉搜索树。 
+- [*伸展树](Splay%20Tree/)- 自平衡二叉搜索树允许快速检索最近更新的节点
+- [*线索二叉树](Threaded%20Binary%20Tree/) - 一种二叉搜索树通过额外的数据加快遍历并降低消耗
+- [*线段树](Segment%20Tree/)－能够快速地对某区间进行计算。
   - [Lazy Propagation](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation)
-- kd-Tree
-- [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
-- Fibonacci Heap
-- [Trie](Trie/). A special type of tree used to store associative data structures.
-- [B-Tree](B-Tree/). A self-balancing search tree, in which nodes can have more than two children.
-- [QuadTree](QuadTree/). A tree with 4 children.
-- [Octree](Octree/). A tree with 8 children.
+- k-d 树
+- [*堆](Heap/)－存储在一维数组中的二叉树，所以它不需要使用指针。很适合做为优先队列使用。
+- 斐波那契堆
+- [*字典树](Trie/) - 一种特殊类型的树结构用来保存关联数据的结构
+- [*B 树](B-Tree/) - 自平衡搜索树，每个节点可以超过两个子节点
+- [*基数树](Radix%20Tree/)是将指针与long整数键值相关联的机制，它存储有效率，并且可快速查询
+- [*四叉树](QuadTree/) 
+- [*八叉树](Octree/)
 
-### Hashing
+### 哈希
 
-- [Hash Table](Hash%20Table/). Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented.
-- Hash Functions
+- [*哈希表](Hash%20Table/)－允许你通过一个关键词来存取数据。字典通常都是基于哈希表实现的。
+- 哈希函数
 
-### Sets
+### 集合
 
-- [Bloom Filter](Bloom%20Filter/). A constant-memory data structure that probabilistically tests whether an element is in a set.
-- [Hash Set](Hash%20Set/). A set implemented using a hash table.
-- [Multiset](Multiset/). A set where the number of times an element is added matters. (Also known as a bag.)
-- [Ordered Set](Ordered%20Set/). A set where the order of items matters.
+- [*布隆过滤器](Bloom%20Filter/)－一个常量内存数据结构，用于概率性的检测某个元素是否在集合中。
+- [*哈希集合](Hash%20Set/)－使用哈希表实现的集合。
+- [*多重集](Multiset/) - 可以重复添加元素的集合
+- [*有序集](Ordered%20Set/)－很看重元素顺序的集合。
 
-### Graphs
+### 图
 
-- [Graph](Graph/)
-- [Breadth-First Search (BFS)](Breadth-First%20Search/)
-- [Depth-First Search (DFS)](Depth-First%20Search/)
-- [Shortest Path](Shortest%20Path%20%28Unweighted%29/) on an unweighted tree
-- [Single-Source Shortest Paths](Single-Source%20Shortest%20Paths%20(Weighted)/)
-- [Minimum Spanning Tree](Minimum%20Spanning%20Tree%20%28Unweighted%29/) on an unweighted tree
-- [Minimum Spanning Tree](Minimum%20Spanning%20Tree/)
-- [All-Pairs Shortest Paths](All-Pairs%20Shortest%20Paths/)
-- [Dijkstra's shortest path algorithm](Dijkstra%20Algorithm/)
+- [*图](Graph/)
+- [*广度优先搜索(BFS)](Breadth-First%20Search/)
+- [*深度优先搜索(DFS)](Depth-First%20Search/)
+- [*最短路径算法](Shortest%20Path%20%28Unweighted%29/)－作用对象为无权值树。
+- [*单源最短路径算法](Single-Source%20Shortest%20Paths%20(Weighted)/)
+- [*最小生成树](Minimum%20Spanning%20Tree%20%28Unweighted%29/)－作用对象为无权值树。
+- [*最小生成树](Minimum%20Spanning%20Tree/)- 作用对象为有权值的树
+- [*任意两点间的最短路径算法](All-Pairs%20Shortest%20Paths/)
+- [*Dijkstra's 最短路径算法](Dijkstra%20Algorithm/)
 
-## Puzzles
+## 智力题
 
-A lot of software developer interview questions consist of algorithmic puzzles. Here is a small selection of fun ones. For more puzzles (with answers), see [here](http://elementsofprogramminginterviews.com/) and [here](http://www.crackingthecodinginterview.com).
+很多程序员在面试时都会被问到一些算法性质的智力题。这里只囊括了一点比较有趣的。想了解更多的智力题（及答案），请浏览[这里](http://elementsofprogramminginterviews.com/)，还有[这里](http://www.crackingthecodinginterview.com)。
 
-- [Two-Sum Problem](Two-Sum%20Problem/)
-- [Three-Sum/Four-Sum Problem](3Sum%20and%204Sum/)
-- [Fizz Buzz](Fizz%20Buzz/)
-- [Monty Hall Problem](Monty%20Hall%20Problem/)
-- [Finding Palindromes](Palindromes/)
-- [Dining Philosophers](DiningPhilosophers/)
-- [Egg Drop Problem](Egg%20Drop%20Problem/)
-## Learn more!
+- [*二和问题](Two-Sum%20Problem/)
+- [*三和问题/四和问题](3Sum%20and%204Sum/)
+- [*Fizz Buzz](Fizz%20Buzz/)
+- [*蒙提霍尔问题](Monty%20Hall%20Problem/)
+- [*寻找回文串](Palindromes/)
+- [*哲学家进餐问题](DiningPhilosophers/)
+- [*扔🥚问题](Egg%20Drop%20Problem/)
 
-For more information, check out these great books:
+## 学无止境！
+
+请参阅以下书籍获取更多内容：
 
 - [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms) by Cormen, Leiserson, Rivest, Stein
 - [The Algorithm Design Manual](http://www.algorist.com) by Skiena
@@ -210,7 +216,7 @@ For more information, check out these great books:
 - [Algorithms](http://www.cs.princeton.edu/~rs/) by Sedgewick
 - [Grokking Algorithms](https://www.manning.com/books/grokking-algorithms) by Aditya Bhargava
 
-The following books are available for free online:
+下面的书籍均可在网上**免费**阅读：
 
 - [Algorithms](http://www.beust.com/algorithms.pdf) by Dasgupta, Papadimitriou, Vazirani
 - [Algorithms, Etc.](http://jeffe.cs.illinois.edu/teaching/algorithms/) by Erickson
@@ -219,26 +225,25 @@ The following books are available for free online:
 - [Open Data Structures](http://opendatastructures.org) by Pat Morin
 - [Wikibooks: Algorithms and Implementations](https://en.wikibooks.org/wiki/Algorithm_Implementation)
 
-Other algorithm repositories:
+其它关于算法的资源：
 
-- [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). A great collection of algorithms in Objective-C.
-- [@lorentey](https://github.com/lorentey/). Production-quality Swift implementations of common algorithms and data structures.
-- [Rosetta Code](http://rosettacode.org). Implementations in pretty much any language you can think of.
-- [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). Visualize algorithms on your browser.
-- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) Data Structures with directions on how to use them [here](http://waynewbishop.com/swift)
+- [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms)－非常棒的使用 Objective-C 编写的算法集合。
+- [@lorentey](https://github.com/lorentey/)－使用 Swift 实现的产品级质量的常用算法和数据结构实现。
+- [Rosetta Code](http://rosettacode.org)－提供了很多中语言的算法实现。
+- [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/)－在浏览器中的图形化算法演示。
+- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) 在哪里使用这些数据结构 [这里](http://waynewbishop.com/swift)
 
-## Credits
+## 声明
 
-The Swift Algorithm Club was originally created by [Matthijs Hollemans](https://github.com/hollance).
+Swift算法俱乐部最初是由 [Matthijs Hollemans](https://github.com/hollance) 创建的。
+现在由 [Vincent Ngo](https://www.raywenderlich.com/u/jomoka), [Kelvin Lau](https://github.com/kelvinlauKL) 和 [Ross O'brien](https://www.raywenderlich.com/u/narrativium) 进行维护.
 
-It is now maintained by [Vincent Ngo](https://www.raywenderlich.com/u/jomoka), [Kelvin Lau](https://github.com/kelvinlauKL) and [Ross O'brien](https://www.raywenderlich.com/u/narrativium).
+Swift算法俱乐部由 [算法贡献者](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) 和[raywenderlich.com](https://www.raywenderlich.com)社区大力支持。 我们一直在寻找联盟者，为什么不[加入](.github/CONTRIBUTING.md)呢？:]
 
-The Swift Algorithm Club is a collaborative effort from the [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](.github/CONTRIBUTING.md)? :]
+## 许可(License)
 
-## License
+本项目(包括[原项目](https://github.com/raywenderlich/swift-algorithm-club))都是基于 MIT 协议的
 
-All content is licensed under the terms of the MIT open source license.
+我们所有提交的 pull request 都是通过这个平台，所有代码和文章因此都是遵循该许可的。 根据该许可，Razeware, LLC 和其他人都对相关的文档保留权利。你可以[这里](https://github.com/raywenderlich/swift-algorithm-club/blob/master/LICENSE.txt)找到许可文档。
 
-By posting here, or by submitting any pull request through this forum, you agree that all content you submit or create, both code and text, is subject to this license.  Razeware, LLC, and others will have all the rights described in the license regarding this content.  The precise terms of this license may be found [here](https://github.com/raywenderlich/swift-algorithm-club/blob/master/LICENSE.txt).
-
-[![Build Status](https://travis-ci.org/raywenderlich/swift-algorithm-club.svg?branch=master)](https://travis-ci.org/raywenderlich/swift-algorithm-club)
+> 所有中文文档的翻译来自[Swift 算法叙缘](https://github.com/raywenderlich/swift-algorithm-club)，因此也将遵循原项目协议

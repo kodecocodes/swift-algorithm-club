@@ -1,49 +1,51 @@
-# Insertion Sort
+# 插入排序
 
-Goal: Sort an array from low to high (or high to low).
+目标：将一个数组按照从低到高（或从高到低）来排序。
 
-You are given an array of numbers and need to put them in the right order. The insertion sort algorithm works as follows:
+现有一个数字类型的数组需要进行排序，插入排序的工作方式如下：
 
-- Put the numbers on a pile. This pile is unsorted.
-- Pick a number from the pile. It doesn't really matter which one you pick, but it's easiest to pick from the top of the pile. 
-- Insert this number into a new array. 
-- Pick the next number from the unsorted pile and also insert that into the new array. It either goes before or after the first number you picked, so that now these two numbers are sorted.
-- Again, pick the next number from the pile and insert it into the array in the proper sorted position.
-- Keep doing this until there are no more numbers on the pile. You end up with an empty pile and an array that is sorted.
+- 首先，将这些待排序的数字放在一个数组中，成为未排序的原始数组。
+- 从其中取出一个数字，具体取哪个无所谓。为简单起见，每次都直接取出第一个元素。
+- 将这个数字插入到一个新的已排序数组中。
+- 然后再次从未排序数组中取出一个数字，将其插入到已排序数组中。它要么插在第一个元素的前面，要么插在后面，来保证这两个数字是有序的。
+- 再一次从未排序数组中取出一个元素，安插在新数组的合适位置，以求新数组依然有序。
+- 一直这样做下去，直到未排序数组中没有数字了为止。这样就可以达到排序的目的了。
 
-That's why this is called an "insertion" sort, because you take a number from the pile and insert it in the array in its proper sorted position. 
+这就是算法叫“插入”排序的原因，因为排序过程中不断地从未排序数组中取出元素插入到已排序的目标数组。
 
-## An example
+*译者注：类似于打牌的时候抓牌的过程！*
 
-Let's say the numbers to sort are `[ 8, 3, 5, 4, 6 ]`. This is our unsorted pile.
+## 举例
 
-Pick the first number, `8`, and insert it into the new array. There is nothing in that array yet, so that's easy. The sorted array is now `[ 8 ]` and the pile is `[ 3, 5, 4, 6 ]`.
+例如，待排序的数组为 `[ 8, 3, 5, 4, 6 ]`。
 
-Pick the next number from the pile, `3`, and insert it into the sorted array. It should go before the `8`, so the sorted array is now `[ 3, 8 ]` and the pile is reduced to `[ 5, 4, 6 ]`.
+取出第一个数字 `8`，将它插入到已排序数组中。已排序数组目前还是空的，所以这个过程非常简单。已排序数组现在为 `[ 8 ]`，未排序数组为 `[ 3, 5, 4, 6 ]`。
 
-Pick the next number from the pile, `5`, and insert it into the sorted array. It goes in between the `3` and `8`. The sorted array is `[ 3, 5, 8 ]` and the pile is `[ 4, 6 ]`.
+取出下一个数字 `3`，将其插入到已排序数组。他应该在 `8` 的前面，所以已排序数组现在为 `[ 3, 8 ]`，未排序数组缩减为 `[ 5, 4, 6 ]`
 
-Repeat this process until the pile is empty.
+取出下一个数字 `5`，将其插入到已排序数组中。它应该在 `3` 和 `8` 之间。所以，现在已排序数组为 `[ 3, 5, 8]`,未排序数组为 `[ 4, 6 ]`。
 
-## In-place sort
+重复以上过程，直到未排序数组为空为止。
 
-The above explanation makes it seem like you need two arrays: one for the unsorted pile and one that contains the numbers in sorted order.
+## 原地排序
 
-But you can perform the insertion sort *in-place*, without having to create a separate array. You just keep track of which part of the array is sorted already and which part is the unsorted pile.
+根据上面的解释，排序过程中似乎使用了两个数组，一个用于存放未排序的的元素，另一个存放已排序的元素。
 
-Initially, the array is `[ 8, 3, 5, 4, 6 ]`. The `|` bar shows where the sorted portion ends and the pile begins:
+但实际上插入排序可以“原地”进行，无需再创建另一个数组。只需要标记好哪部分是未排序的，哪部分是已排序的即可。
+
+初始数组为 `[ 8, 3, 5, 4, 6 ]`。我们使用 `|` 符号来分隔已排序和未排序部分：
 
 	[| 8, 3, 5, 4, 6 ]
 
-This shows that the sorted portion is empty and the pile starts at `8`.
+上图显示已排序部分为空，未排序部分的第一个数字为 `8`。
 
-After processing the first number, we have:
+处理完第一个数字之后，数组如下所示：
 
 	[ 8 | 3, 5, 4, 6 ]
 
-The sorted portion is `[ 8 ]` and the pile is `[ 3, 5, 4, 6 ]`. The `|` bar has shifted one position to the right.
+目前，已排序的部分为 `[ 8 ]`，未排序的部分为 `[ 3, 5, 4, 6 ]`。分隔符 `|` 向右位移了一个单位。
 
-This is how the content of the array changes during the sort:
+下面列出了排序过程中数组内容的变化：
 
 	[| 8, 3, 5, 4, 6 ]
 	[ 8 | 3, 5, 4, 6 ]
@@ -52,42 +54,42 @@ This is how the content of the array changes during the sort:
 	[ 3, 4, 5, 8 | 6 ]
 	[ 3, 4, 5, 6, 8 |]
 
-In each step, the `|` bar moves up one position. As you can see, the beginning of the array up to the `|` is always sorted. The pile shrinks by one and the sorted portion grows by one, until the pile is empty and there are no more unsorted numbers left.
+每一步分隔符 `|` 都向右位移一个单位。可以观察到，数组开头到分隔符之间的部分总是已排序的。未排序部分每减少一个元素，已排序部分就增加一个，直到未排序元素为空为止。
 
-## How to insert
+## 如何插入
 
-At each step you pick the top-most number from the unsorted pile and insert it into the sorted portion of the array. You must put that number in the proper place so that the beginning of the array remains sorted. How does that work?
+每个周期开始，取出未排序数组的头部元素，将其插入到已排序数组中。这时候，必须要保证元素被插入到了正确的位置。怎么做呢？
 
-Let's say we've already done the first few elements and the array looks like this:
+现在假设已经完成了前面几个元素的排序，数组看起来像下面这样：
 
 	[ 3, 5, 8 | 4, 6 ]
 
-The next number to sort is `4`. We need to insert that into the sorted portion `[ 3, 5, 8 ]` somewhere. 
+下一个待排序的数字是 `4`。我们要做的就是将其插入到已排序数组 `[ 3, 5, 8 ]` 的某个位置。
 
-Here's one way to do this: Look at the previous element, `8`. 
+下面提供了一个实现思路：跟前面的元素 `8` 进行比较。
 
 	[ 3, 5, 8, 4 | 6 ]
 	        ^
 	        
-Is this greater than `4`? Yes it is, so the `4` should come before the `8`. We swap these two numbers to get:
+它比 `4` 大吗？是的，所以 `4` 应该放到 `8` 的前面去。我们将两个数字交换位置来达到目的：
 
 	[ 3, 5, 4, 8 | 6 ]
 	        <-->
-	       swapped
+	       已交换
 
-We're not done yet. The new previous element, `5`, is also greater than `4`. We also swap these two numbers:
+至此还没有结束。交换之后，新的排在前面的元素 `5` 也比 `4` 大。我们如法炮制，也将这两个数字交换位置：
 
 	[ 3, 4, 5, 8 | 6 ]
 	     <-->
-	    swapped
+	    已交换
 
-Again, look at the previous element. Is `3` greater than `4`? No, it is not. That means we're done with number `4`. The beginning of the array is sorted again.
+继续，再次检查排在前面的新元素 `3`，它比 `4` 大吗？不，它必 `4` 小，这就意味着 `4` 已经在正确的位置上了。已排序的数组也再次变得有序了。
 
-This was a description of the inner loop of the insertion sort algorithm, which you'll see in the next section. It inserts the number from the top of the pile into the sorted portion by swapping numbers.
+这就是插入排序算法的内循环的文字描述了，具体的代码在下一节给出。通过交换数字的方式，我们将待排序的元素移动到了已排序数组的正确位置上
 
-## The code
+## 代码
 
-Here is an implementation of insertion sort in Swift:
+下面是Swift实现的插入排序：
 
 ```swift
 func insertionSort(_ array: [Int]) -> [Int] {
@@ -105,28 +107,28 @@ func insertionSort(_ array: [Int]) -> [Int] {
 
 ```
 
-Put this code in a playground and test it like so:
+把下面代码放入Playground中玩一下:
 
 ```swift
 let list = [ 10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26 ]
 insertionSort(list)
 ```
+下面介绍代码是如何工作的。
 
-Here is how the code works.
+1. 由于参数 `array` 无法直接修改，我们需要先复制一下数组，类似 Swift 自己 `sort()` 函数， `insertionSort()` 会返回的排序后的新数组。
 
-1. Make a copy of the array. This is necessary because we cannot modify the contents of the `array` parameter directly. Like Swift's own `sort()`, the `insertionSort()` function will return a sorted *copy* of the original array.
+2. 这个函数中有两层循环。外层循环数组中的每一个元素，就是从|数组中取最顶层的，x变量是排序部分最后位置和管道符开始的位置（`|`的位置），请记住在任何时候，数组开始部分从0至 `x` 是已经排好的，从 `x` 到最后是没有排序的部分。
 
-2. There are two loops inside this function. The outer loop looks at each of the elements in the array in turn; this is what picks the top-most number from the pile. The variable `x` is the index of where the sorted portion ends and the pile begins (the position of the `|` bar). Remember, at any given moment the beginning of the array -- from index 0 up to `x` -- is always sorted. The rest, from index `x` until the last element, is the unsorted pile.
+3. 内层循环获取 `x` 位置的数字，就是未排序数组的头部，它可能比之前的数字都笑，内层循环会反向遍历已经排序的数字，每次比较发现之前排序中的数字较大后就交换一下位置，当内层循环结束后，数组头部就完成一次排序，已经排序的部分增加一个数字。
 
-3. The inner loop looks at the element at position `x`. This is the number at the top of the pile, and it may be smaller than any of the previous elements. The inner loop steps backwards through the sorted array; every time it finds a previous number that is larger, it swaps them. When the inner loop completes, the beginning of the array is sorted again, and the sorted portion has grown by one element.
+> **注意** 外层循环不是从0开始而是从1开始。把开始位置的数字移动到已排序区没有什么意义，因此我们直接跳过。
 
-> **Note:** The outer loop starts at index 1, not 0. Moving the very first element from the pile to the sorted portion doesn't actually change anything, so we might as well skip it. 
+## 不用 swap
 
-## No more swaps
 
-The above version of insertion sort works fine, but it can be made a tiny bit faster by removing the call to `swap()`. 
+之前版本插入排序已经工作的很好了，但是可以通过省略 `swap()` 变的更快一些
 
-You've seen that we swap numbers to move the next element into its sorted position:
+可以看到我们通过交换数字位置把下一个数字插入排序区：
 
 	[ 3, 5, 8, 4 | 6 ]
 	        <-->
@@ -136,21 +138,22 @@ You've seen that we swap numbers to move the next element into its sorted positi
          <-->
 	     swap
 
-Instead of swapping with each of the previous elements, we can just shift all those elements one position to the right, and then copy the new number into the right position.
 
-	[ 3, 5, 8, 4 | 6 ]   remember 4
+不用通过位置交换的方法实现，我们可以把所有的元素右移一个位置，然后把新数字复制到正确的位置。
+
+	[ 3, 5, 8, 4 | 6 ]   保存 4
 	           *
 	
-	[ 3, 5, 8, 8 | 6 ]   shift 8 to the right
+	[ 3, 5, 8, 8 | 6 ]   向右挪动 8 
 	        --->
 	        
-	[ 3, 5, 5, 8 | 6 ]   shift 5 to the right
+	[ 3, 5, 5, 8 | 6 ]   向右挪动 5
 	     --->
 	     
-	[ 3, 4, 5, 8 | 6 ]   copy 4 into place
+	[ 3, 4, 5, 8 | 6 ]   复制 4 到正确的位置
 	     *
 
-In code that looks like this:
+代码如下:
 
 ```swift
 func insertionSort(_ array: [Int]) -> [Int] {
@@ -168,31 +171,31 @@ func insertionSort(_ array: [Int]) -> [Int] {
 }
 ```
 
-The line at `//1` is what shifts up the previous elements by one position. At the end of the inner loop, `y` is the destination index for the new number in the sorted portion, and the line at `//2` copies this number into place.
+`//1`一行把之前的数字移动一位。在内层循环结束后， `y` 是新数字的下标的位置， `//2` 这行复制新数字到这个位置。
 
-## Making it generic
+## 更普遍适用
 
-It would be nice to sort other things than just numbers. We can make the datatype of the array generic and use a user-supplied function (or closure) to perform the less-than comparison. This only requires two changes to the code.
+如果可以排序其他类型比仅仅排序数字更加吸引人。我们可以创建一个数据泛型，并使用自定义的比较函数或者匿名函数。只需要修改两处就可以了。
 
-The function signature becomes:
+函数定义如下:
 
 ```swift
 func insertionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
 ```
 
-The array has type `[T]` where `T` is the placeholder type for the generics. Now `insertionSort()` will accept any kind of array, whether it contains numbers, strings, or something else.
+这个数组类型为 `[T]` , `T` 是泛型模板。现在 `insertionSort() ` 可以接受任意的类型数组， 无论是数字，字符或者什么。。
 
-The new parameter `isOrderedBefore: (T, T) -> Bool` is a function that takes two `T` objects and returns true if the first object comes before the second, and false if the second object should come before the first. This is exactly what Swift's built-in `sort()` function does.
+这个新参数 `isOrderedBefore: (T, T) -> Bool` 是一个函数，函数定义为比较两个 `T` 类型的对象并返回比较结果， 如果第一个对象比第二个对象在前，返回 `true`, 否则返回 `false`。 Swift 内置的 `sort()` 函数也正是如此。 
 
-The only other change is in the inner loop, which now becomes:
+只需要改变内层循环，修改如下：
 
 ```swift
       while y > 0 && isOrderedBefore(temp, a[y - 1]) {
 ```
 
-Instead of writing `temp < a[y - 1]`, we call the `isOrderedBefore()` function. It does the exact same thing, except we can now compare any kind of object, not just numbers.
+通过 `isOrderedBefore ()` 代替 ``temp < a[y - 1] `, 功能不变，但是我们现在可以比较任意类型对象，不只是数字。
 
-To test this in a playground, do:
+在 playground 玩一下看看:
 
 ```swift
 let numbers = [ 10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26 ]
@@ -200,38 +203,39 @@ insertionSort(numbers, <)
 insertionSort(numbers, >)
 ```
 
-The `<` and `>` determine the sort order, low-to-high and high-to-low, respectively.
+`<` 和 `>` 定义排序的顺序，分别是从低到高和从高到底。
 
-Of course, you can also sort other things such as strings,
+当然你也能对其他类型排序如字符串。
 
 ```swift
 let strings = [ "b", "a", "d", "c", "e" ]
 insertionSort(strings, <)
 ```
 
-or even more complex objects:
+或者其他复杂对象:
 
 ```swift
 let objects = [ obj1, obj2, obj3, ... ]
 insertionSort(objects) { $0.priority < $1.priority }
 ```
 
-The closure tells `insertionSort()` to sort on the `priority` property of the objects.
+这个匿名函数告诉 `insertionSort()` 需要排序的对象的优先级。
 
-Insertion sort is a *stable* sort. A sort is stable when elements that have identical sort keys remain in the same relative order after sorting. This is not important for simple values such as numbers or strings, but it is important when sorting more complex objects. In the example above, if two objects have the same `priority`, regardless of the values of their other properties, those two objects don't get swapped around.
+插入排序是一个**稳定**排序算法。稳定是指当元素有相同的关键值的情况下在排序后仍然保持相对位置。对于简单的数字或者字符并不重要，但是当排序复杂的对象时是非常重要的。在上面的例子里，如果两个对象有相同的 `priority`, 忽略他们其他的属性，这两个对象不会交换位置。
 
-## Performance
+## 性能
 
-Insertion sort is really fast if the array is already sorted. That sounds obvious, but this is not true for all search algorithms. In practice, a lot of data will already be largely -- if not entirely -- sorted and insertion sort works quite well in that case.
 
-The worst-case and average case performance of insertion sort is **O(n^2)**. That's because there are two nested loops in this function. Other sort algorithms, such as quicksort and merge sort, have **O(n log n)** performance, which is faster on large inputs.
+插入排序在数组已经排序好的情况下非常快。听起来有些荒唐，但是不是所有的搜索算法都是能这样。 实际情况下，对于非常大的数据集的一部分进行排序，插入排序还是很不错的。
 
-Insertion sort is actually very fast for sorting small arrays. Some standard libraries have sort functions that switch from a quicksort to insertion sort when the partition size is 10 or less.
+最坏和平均排序的时间复杂度为 **O(n^2)** 。这是因为有两层循环，其他的算法如快速排序和归并排序为 **O(n log n)** ，在数据集很大时也很快。
 
-I did a quick test comparing our `insertionSort()` with Swift's built-in `sort()`. On arrays of about 100 items or so, the difference in speed is tiny. However, as your input becomes larger, **O(n^2)** quickly starts to perform a lot worse than **O(n log n)** and insertion sort just can't keep up.
+插入排序在很小的数组时排序很快。一些标准库在排序区小于等于10的时候把快速排序换成插入排序。
 
-## See also
+我做了简单比较了`insertionSort() ` 和 Swift 内置的 `sort() ` 。在100个左右的数据的数组时，二者差距非常小，但是当你输入变得更大时，**O(n^2)** 很快比 **O(n log n)** 性能差很多，插入排序已经跟不上班了。。
+
+## 其他
 
 [Insertion sort on Wikipedia](https://en.wikipedia.org/wiki/Insertion_sort)
 
-*Written for Swift Algorithm Club by Matthijs Hollemans*
+*作者 Matthijs Hollemans， 翻译 ksco，keithMorning*

@@ -1,26 +1,26 @@
-# Select Minimum / Maximum
+# 查找最小值 / 最大值
 
-Goal: Find the minimum/maximum object in an unsorted array.
+目标：在非排序数组中查找最小值 / 最大值。 
 
-## Maximum or minimum
+## 最大值 or 最小值
 
-We have an array of generic objects and we iterate over all the objects keeping track of the minimum/maximum element so far.
+可以通过遍历数组的方式来查找最小/最大的值。
 
-### An example
+### 举例
 
-Let's say the we want to find the maximum value in the unsorted list `[ 8, 3, 9, 4, 6 ]`.
+比如需要从非排序数组  `[ 8, 3, 9, 4, 6 ]` 中查找最大值。
 
-Pick the first number, `8`, and store it as the maximum element so far. 
+选第一个值 `8` 作为当前最大值。
 
-Pick the next number from the list, `3`, and compare it to the current maximum. `3` is less than `8` so the maximum `8` does not change.
+然后取数组之后的值 `3` 并与当前的值做对比。 `3` 比 `8` 小，因此最大值保持不变。
 
-Pick the next number from the list, `9`, and compare it to the current maximum. `9` is greater than `8` so we store `9` as the maximum.
+继续选后面的值，`9` 比当前值大，因此当前最大值为 `9`。 
 
-Repeat this process until the all elements in the list have been processed.
+重复该过程直到遍历结束。
 
-### The code
+### 代码
 
-Here is a simple implementation in Swift:
+Swift 的简单实现：
 
 ```swift
 func minimum<T: Comparable>(_ array: [T]) -> T? {
@@ -46,7 +46,7 @@ func maximum<T: Comparable>(_ array: [T]) -> T? {
 }
 ```
 
-Put this code in a playground and test it like so:
+放 Playground中试一下:
 
 ```swift
 let array = [ 8, 3, 9, 4, 6 ]
@@ -54,9 +54,9 @@ minimum(array)   // This will return 3
 maximum(array)   // This will return 9
 ```
 
-### In the Swift standard library
+### Swift 标准库
 
-The Swift library already contains an extension to `SequenceType` that returns the minimum/maximum element in a sequence.
+Swift 标准库中包含一个 `SequenceType` 的扩展，返回序列中最小值/最大值。
 
 ```swift
 let array = [ 8, 3, 9, 4, 6 ]
@@ -71,27 +71,27 @@ array.min()   // This will return 3
 array.max()   // This will return 9
 ```
 
-## Maximum and minimum
+## 最大值/最小值
 
-To find both the maximum and minimum values contained in array while minimizing the number of comparisons we can compare the items in pairs. 
+为了同时找到最大值和最小值，可以通过两两比较缩小比较次数。
 
-### An example
+### 举例
 
-Let's say the we want to find the minimum and maximum value in the unsorted list `[ 8, 3, 9, 6, 4 ]`.
+比如需要从非排序数组 `[8, 3, 9, 6, 4]` 中查找最大值和最小值。
 
-Pick the first number, `8`, and store it as the minimum and maximum element so far. 
+取第一个值 `8` 最为当前最大值和当前最小值。
 
-Because we have an odd number of items we remove `8` from the list which leaves the pairs `[ 3, 9 ]` and `[ 6, 4 ]`.
+因为数组中有奇数个元素，从数组中移除 `8` 后剩下 `[3, 9]` 和 `[6, 4]`。
 
-Pick the next pair of numbers from the list, `[ 3, 9 ]`. Of these two numbers, `3` is the smaller one, so we compare `3` to the current minimum `8`, and we compare `9` to the current maximum `8`. `3` is less than `8` so the new minimum is `3`. `9` is greater than `8` so the new maximum is `9`.
+取下一组数组`[3, 9]` ， `3` 是最小的与当前最小值 `8` 比较，`9` 与当前最大值 `8` 比。`3` 比 `8` 小，因此当前最小值为 `3` ，`9` 比当前值大因此最大值变成 `9`。
 
-Pick the next pair of numbers from the list, `[ 6, 4 ]`. Here, `4` is the smaller one, so we compare `4` to the current minimum `3`, and we compare `6` to the current maximum `9`. `4` is greater than `3` so the minimum does not change. `6` is less than `9` so the maximum does not change.
+取下一组数字 `[6, 4]`，`4` 更小些， `4` 与当前最小值 `3` 比， `6` 与当前最大值 `9` 比。 因为 `4 > 3` ，因此最小值不变，`6` 比 `9` 小，因此最大值不变。
 
-The result is a minimum of `3` and a maximum of `9`.
+结果最小值为 `3` 最大值为 `9`。
 
-### The code
+### 代码
 
-Here is a simple implementation in Swift:
+Swift实现:
 
 ```swift
 func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
@@ -126,7 +126,7 @@ func minimumMaximum<T: Comparable>(_ array: [T]) -> (minimum: T, maximum: T)? {
 }
 ```
 
-Put this code in a playground and test it like so:
+运行如下:
 
 ```swift
 let result = minimumMaximum(array)!
@@ -134,10 +134,10 @@ result.minimum   // This will return 3
 result.maximum   // This will return 9
 ```
 
-By picking elements in pairs and comparing their maximum and minimum with the running minimum and maximum we reduce the number of comparisons to 3 for every 2 elements.
+通过每一组中比较大小后在运行 `minimum` 和 `maximum`，每两个元素可以少比较 3 次。
 
-## Performance
+## 性能
 
-These algorithms run at **O(n)**. Each object in the array is compared with the running minimum/maximum so the time it takes is proportional to the array length.
+这些算法的时间复杂度为 **O(n)**. 每个元素都需要运行minimum或者maximum，因此时间与数组的长度成正比。
 
-*Written by [Chris Pilcher](https://github.com/chris-pilcher)*
+*作者： [Chris Pilcher](https://github.com/chris-pilcher)，译者：KeithMorning*
