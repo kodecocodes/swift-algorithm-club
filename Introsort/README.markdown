@@ -6,7 +6,7 @@ IntroSort is the algorithm used by swift to sort a collection. Introsort is an h
 
 The number 20 is an empiric number obtained observing the behaviour of InsertionSort with lists of this size.
 
-Here's an implementation in Pseudocode:
+Here's an implementation in pseudocode:
 
 ```
 procedure sort(A : array):
@@ -32,9 +32,9 @@ Let's walk through the example. The array is initially:
 	[ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
 
 
-for this example let's assume that `maxDepth` is **2** and that the size of the partition for the insertionSort to kick in is **5**
+For this example let's assume that `maxDepth` is **2** and that the size of the partition for the insertionSort to kick in is **5**
 
-At the first iteration we run introSort on the full collection that counts 13 elements. the maxDepth is 2, therefore we fall in the else case where quicksort acts.
+The first iteration of introsort begins by attempting to use insertionSort. The collection has 13 elements, so it tries to do heapsort instead. The condition for heapsort to occur is if `maxdepth == 0` evaluates true. Since `maxdepth` is currently **2** for the first iteration, introsort will default to quicksort.
 
 The `partition`  method picks the first element, the median and the last, it sorts them and uses the new median as pivot.
 
@@ -106,5 +106,6 @@ The array is now successfully sorted
 
 [Introsort on Wikipedia](https://en.wikipedia.org/wiki/Introsort)
 [Introsort comparison with other sorting algorithms](http://agostini.tech/2017/12/18/swift-sorting-algorithm/)
+[Introsort implementation from the Swift standard library](https://github.com/apple/swift/blob/09f77ff58d250f5d62855ea359fc304f40b531df/stdlib/public/core/Sort.swift.gyb)
 
 *Written for Swift Algorithm Club by Giuseppe Lanza*
