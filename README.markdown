@@ -73,6 +73,10 @@ Fast sorts:
 - [Merge Sort](Merge%20Sort/)
 - [Heap Sort](Heap%20Sort/)
 
+Hybrid sorts:
+
+- [Introsort](Introsort/)
+
 Special-purpose sorts:
 
 - [Counting Sort](Counting%20Sort/)
