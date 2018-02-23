@@ -114,7 +114,9 @@ func calculateFitness(dna:[UInt8], optimal:[UInt8]) -> Int {
 }
 ```
 
-The above is a very simple fitness calculation, but it'll work for our example. In a real world problem, the optimal solution is unknown or impossible. [Here](https://iccl.inf.tu-dresden.de/w/images/b/b7/GA_for_TSP.pdf) is a paper about optimizing a solution for the famous [traveling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) using GA. In this example the problem is unsolvable by modern computers, but you can rate a individual solution by distance traveled. The optimal fitness here is an impossible 0. The closer the solution is to 0, the better chance for survival.
+The above will produce a fitness value to an individual. The perfect solution, "Hello, World" will have a fitness of 0. "Gello, World" will have a fitness of 1 since it is one ASCII value off from the optimal.
+
+This example is very, but it'll work for our example. In a real world problem, the optimal solution is unknown or impossible. [Here](https://iccl.inf.tu-dresden.de/w/images/b/b7/GA_for_TSP.pdf) is a paper about optimizing a solution for the famous [traveling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) using GA. In this example the problem is unsolvable by modern computers, but you can rate a individual solution by distance traveled. The optimal fitness here is an impossible 0. The closer the solution is to 0, the better chance for survival.
 
 The second part to selection is weighted choice, also called roulette wheel selection. This defines how individuals are selected for the reproduction process out of the current population. Just because you are the best choice for natural selection doesn't mean the environment will select you. The individual could fall off a cliff, get dysentery or not be able to reproduce.
 
@@ -146,13 +148,13 @@ The above function takes a list of individuals with their calculated fitness. Th
 The all powerful mutation. The great randomization that turns bacteria into humans, just add time. So powerful yet so simple:
 
 ```swift
-func mutate(dna:[UInt8], mutationChance:Int) -> [UInt8] {
+func mutate(lexicon: [UInt8], dna:[UInt8], mutationChance:Int) -> [UInt8] {
     var outputDna = dna
 
     for i in 0..<dna.count {
         let rand = Int(arc4random_uniform(UInt32(mutationChance)))
         if rand == 1 {
-            outputDna[i] = randomChar()
+            outputDna[i] = randomChar(from: lexicon)
         }
     }
 
@@ -165,3 +167,25 @@ Takes a mutation chance and a individual and returns that individual with mutati
 This allows for a population to explore all the possibilities of it's building blocks and randomly stumble on a better solution. If there is too much mutation, the evolution process will get nowhere. If there is too little the populations will become too similar and never be able to branch out of a defect to meet their changing environment.
 
 ## Crossover
+
+Crossover, the sexy part of a GA, is how offspring are created from 2 selected individuals in the current population. This is done by splitting the parents into 2 parts, then combining 1 part from each parent to create the offspring. To promote diversity, we randomly select a index to split the parents:
+
+```swift
+func crossover(dna1:[UInt8], dna2:[UInt8], dnaSize:Int) -> (dna1:[UInt8], dna2:[UInt8]) {
+    let pos = Int(arc4random_uniform(UInt32(dnaSize-1)))
+
+    let dna1Index1 = dna1.index(dna1.startIndex, offsetBy: pos)
+    let dna2Index1 = dna2.index(dna2.startIndex, offsetBy: pos)
+
+    return (
+        [UInt8](dna1.prefix(upTo: dna1Index1) + dna2.suffix(from: dna2Index1)),
+        [UInt8](dna2.prefix(upTo: dna2Index1) + dna1.suffix(from: dna1Index1))
+    )
+}
+```
+
+The above is used to generate a completely new generation based on the current generation.
+
+## Putting it all together -- Running the Genetic Algorithm
+
+We now have all the methods we need to kick off the process. What is missing a `main()` function that loops though each generation of the GA.

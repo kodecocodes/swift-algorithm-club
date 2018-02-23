@@ -60,7 +60,7 @@ func calculateFitness(dna:[UInt8], optimal:[UInt8]) -> Int {
     return fitness
 }
 
-calculateFitness(dna: "Hillo, World".asciiArray, optimal: "Hello, World".asciiArray)
+calculateFitness(dna: "Gello, World".asciiArray, optimal: "Hello, World".asciiArray)
 
 func weightedChoice(items:[(item:[UInt8], weight:Double)]) -> (item:[UInt8], weight:Double) {
 
@@ -77,15 +77,28 @@ func weightedChoice(items:[(item:[UInt8], weight:Double)]) -> (item:[UInt8], wei
     return items[1]
 }
 
-func mutate(dna:[UInt8], mutationChance:Int) -> [UInt8] {
+func mutate(lexicon: [UInt8], dna:[UInt8], mutationChance:Int) -> [UInt8] {
     var outputDna = dna
     
     for i in 0..<dna.count {
         let rand = Int(arc4random_uniform(UInt32(mutationChance)))
         if rand == 1 {
-            outputDna[i] = randomChar()
+            outputDna[i] = randomChar(from: lexicon)
         }
     }
     
     return outputDna
+}
+
+
+func crossover(dna1:[UInt8], dna2:[UInt8], dnaSize:Int) -> (dna1:[UInt8], dna2:[UInt8]) {
+    let pos = Int(arc4random_uniform(UInt32(dnaSize-1)))
+    
+    let dna1Index1 = dna1.index(dna1.startIndex, offsetBy: pos)
+    let dna2Index1 = dna2.index(dna2.startIndex, offsetBy: pos)
+    
+    return (
+        [UInt8](dna1.prefix(upTo: dna1Index1) + dna2.suffix(from: dna2Index1)),
+        [UInt8](dna2.prefix(upTo: dna2Index1) + dna1.suffix(from: dna1Index1))
+    )
 }
