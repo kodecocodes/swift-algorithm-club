@@ -5,13 +5,17 @@
 print("Hello, Swift 4!")
 #endif
 
-func linearSearch<T: Equatable>(_ array: [T], _ object: T) -> Int? {
-    for (index, obj) in array.enumerated() where obj == object {
-        return index
+extension Array where Element: Equatable {
+    func linearSearch(_ element: Element) -> Int? {
+        for (index, candidate) in self.enumerated() {
+            if candidate == element {
+                return index
+            }
+        }
+        return nil
     }
-    return nil
 }
 
 let array = [5, 2, 4, 7]
-linearSearch(array, 2) 	// returns 1
-linearSearch(array, 3) 	// returns nil
+array.linearSearch(2)	// returns 1
+array.linearSearch(3) 	// returns nil
