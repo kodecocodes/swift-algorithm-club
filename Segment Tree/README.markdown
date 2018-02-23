@@ -1,5 +1,7 @@
 # Segment Tree
 
+> For an example on lazy propagation, see this [article](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation).
+
 I'm pleased to present to you Segment Tree. It's actually one of my favorite data structures because it's very flexible and simple in realization.
 
 Let's suppose that you have an array **a** of some type and some associative function **f**. For example, the function can be sum, multiplication, min, max, [gcd](../GCD/), and so on.
@@ -198,6 +200,8 @@ Replacing an item takes **O(log n)** time.
 See the playground for more examples of how to use the segment tree.
 
 ## See also
+
+[Lazy Propagation](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation) implementation and explanation.
 
 [Segment tree at PEGWiki](http://wcipeg.com/wiki/Segment_tree)
 

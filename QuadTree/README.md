@@ -6,11 +6,11 @@ A quadtree is a [tree](https://github.com/raywenderlich/swift-algorithm-club/tre
 
 ### Problem
 
-Consider the following problem: your need to store a number of points (each point is a pair of `X` and `Y` coordinates) and then you need to answer which points lie in a certain rectangular region. A naive solution would be to store the points inside an array and then iterate over the points and check each one individually. This solution runs in O(n) though. 
+Consider the following problem: your need to store a number of points (each point is a pair of `X` and `Y` coordinates) and then you need to answer which points lie in a certain rectangular region. A naive solution would be to store the points inside an array and then iterate over the points and check each one individually. This solution runs in O(n) though.
 
 ### A Better Approach
 
-Quadrees are most commonly used to partition a two-dimensional space by recursively subdividing it into four regions(quadrants). Let's see how we can use a Quadtree to store the points.
+Quadtrees are most commonly used to partition a two-dimensional space by recursively subdividing it into four regions(quadrants). Let's see how we can use a Quadtree to store the points.
 
 Each node in the tree represents a rectangular region and stores a limited number(`maxPointCapacity`) of points that all lie in its region.
 
@@ -40,7 +40,7 @@ class QuadTreeNode {
   init(rect: Rect) {
     self.rect = rect
   }
-  
+
   ...
 }
 
@@ -52,11 +52,11 @@ extension QuadTreeNode {
 
   @discardableResult
   func add(point: Point) -> Bool {
-    
-    if !rect.containts(point: point) {
+
+    if !rect.contains(point: point) {
       return false
     }
-    
+
     switch type {
     case .internal(let children):
       // pass the point to one of the children
@@ -75,7 +75,7 @@ extension QuadTreeNode {
     }
     return true
   }
-  
+
   private func subdivide() {
     switch type {
     case .leaf:
@@ -105,9 +105,9 @@ To find the points that lie in a given region we can now traverse the tree from 
 class QuadTree {
 
   ...
-  
+
   let root: QuadTreeNode
-  
+
    public func points(inRect rect: Rect) -> [Point] {
     return root.points(inRect: rect)
   }
@@ -115,23 +115,23 @@ class QuadTree {
 
 extension QuadTreeNode {
   func points(inRect rect: Rect) -> [Point] {
-    
+
     // if the node's rect and the given rect don't intersect, return an empty array,
     // because there can't be any points that lie the node's (or its children's) rect and
     // in the given rect
     if !self.rect.intersects(rect: rect) {
       return []
     }
-    
+
     var result: [Point] = []
-    
+
     // collect the node's points that lie in the rect
     for point in points {
-      if rect.containts(point: point) {
+      if rect.contains(point: point) {
         result.append(point)
       }
     }
-    
+
     switch type {
     case .leaf:
       break
@@ -141,7 +141,7 @@ extension QuadTreeNode {
         result.append(contentsOf: childNode.points(inRect: rect))
       }
     }
-    
+
     return result
   }
 }
@@ -154,7 +154,6 @@ Both adding a point and searching can still take up to O(n) in the worst case, s
 
 Displaying a large amount of objects in a MapView - a great use case for a Quadtree ([Thoughtbot Article](https://robots.thoughtbot.com/how-to-handle-large-amounts-of-data-on-maps))
 
-More info on [Wiki](https://en.wikipedia.org/wiki/Quadtree)
+More info on [Wikipedia](https://en.wikipedia.org/wiki/Quadtree)
 
 *Written for Swift Algorithm Club by Timur Galimov*
-

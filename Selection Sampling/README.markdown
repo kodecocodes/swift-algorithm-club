@@ -89,17 +89,17 @@ func select<T>(from a: [T], count requested: Int) -> [T] {
   var b = [T]()
   
   while selected < requested {                          // 1
-    examined += 1
-    
     let r = Double(arc4random()) / 0x100000000          // 2
     
-    let leftToExamine = a.count - examined + 1          // 3
+    let leftToExamine = a.count - examined              // 3
     let leftToAdd = requested - selected
 
     if Double(leftToExamine) * r < Double(leftToAdd) {  // 4
       selected += 1
-      b.append(a[examined - 1])
+      b.append(a[examined])
     }
+
+    examined += 1
   }
   return b
 }
@@ -193,7 +193,7 @@ print(output.count)
 
 The performance of this second algorithm is **O(n)** as it may require a pass through the entire input array.
 
-> **Note:** If `k > n/2`, then it's more efficient to do it the other way around and choose `k` items to remove.
+> **Note:** If `k > n/2`, then it's more efficient to do it the other way around and choose `a.count - k` items to remove.
 
 Based on code from Algorithm Alley, Dr. Dobb's Magazine, October 1993.
 

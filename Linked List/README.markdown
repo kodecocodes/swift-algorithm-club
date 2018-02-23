@@ -1,5 +1,7 @@
 # Linked List
 
+> This topic has been tutorialized [here](https://www.raywenderlich.com/144083/swift-algorithm-club-swift-linked-list-data-structure)
+
 A linked list is a sequence of data items, just like an array. But where an array allocates a big block of memory to store the objects, the elements in a linked list are totally separate objects in memory and are connected through links:
 
 	+--------+    +--------+    +--------+    +--------+
@@ -108,14 +110,14 @@ Let's also add a property that gives you the last node in the list. This is wher
 
 ```swift
   public var last: Node? {
-    if var node = head {
-      while let next = node.next {
-        node = next
-      }
-      return node
-    } else {
+    guard var node = head else {
       return nil
     }
+  
+    while let next = node.next {
+      node = next
+    }
+    return node
   }
 ```
 
@@ -196,16 +198,16 @@ Let's add a method to count how many nodes are in the list. This will look very 
 
 ```swift
   public var count: Int {
-    if var node = head {
-      var c = 1
-      while let next = node.next {
-        node = next
-        c += 1
-      }
-      return c
-    } else {
+    guard var node = head else {
       return 0
     }
+  
+    var count = 1
+    while let next = node.next {
+      node = next
+      count += 1
+    }
+    return count
   }
 ```
 
@@ -216,37 +218,43 @@ It loops through the list in the same manner but this time increments a counter 
 What if we wanted to find the node at a specific index in the list? With an array we can just write `array[index]` and it's an **O(1)** operation. It's a bit more involved with linked lists, but again the code follows a similar pattern:
 
 ```swift
-  public func nodeAt(_ index: Int) -> Node? {
-    if index >= 0 {
-      var node = head
-      var i = index
-      while node != nil {
-        if i == 0 { return node }
-        i -= 1
-        node = node!.next
+  public func node(atIndex index: Int) -> Node {
+    if index == 0 {
+      return head!
+    } else {
+      var node = head!.next
+      for _ in 1..<index {
+        node = node?.next
+        if node == nil { //(*1)
+          break
+        }
       }
+      return node!
     }
-    return nil
   }
 ```
 
-The loop looks a little different but it does the same thing: it starts at `head` and then keeps following the `node.next` pointers to step through the list. We're done when we've seen `index` nodes, i.e. when the counter has reached 0.
+First we check whether the given index is 0 or not. Because if it is 0, it returns the head as it is.
+However, when the given index is greater than 0, it starts at head then keeps following the node.next pointers to step through the list.
+The difference from count method at this time is that there are two termination conditions.
+One is when the for-loop statement reaches index, and we were able to acquire the node of the given index.
+The second is when `node.next` in for-loop statement returns nil and cause break. (*1)
+This means that the given index is out of bounds and it causes a crash.
 
 Try it out:
 
 ```swift
 list.nodeAt(0)!.value    // "Hello"
 list.nodeAt(1)!.value    // "World"
-list.nodeAt(2)           // nil
+// list.nodeAt(2)           // crash
 ```
 
 For fun we can implement a `subscript` method too:
 
 ```swift
   public subscript(index: Int) -> T {
-    let node = nodeAt(index)
-    assert(node != nil)
-    return node!.value
+    let node = node(atIndex: index)
+    return node.value
   }
 ```
 
@@ -262,84 +270,100 @@ It crashes on `list[2]` because there is no node at that index.
 
 So far we've written code to add new nodes to the end of the list, but that's slow because you need to find the end of the list first. (It would be fast if we used a tail pointer.) For this reason, if the order of the items in the list doesn't matter, you should insert at the front of the list instead. That's always an **O(1)** operation.
 
-Let's write a method that lets you insert a new node at any index in the list. First, we'll define a helper function:
+
+Let's write a method that lets you insert a new node at any index in the list.
 
 ```swift
-  private func nodesBeforeAndAfter(index: Int) -> (Node?, Node?) {
-    assert(index >= 0)
+  public func insert(_ node: Node, atIndex index: Int) {
+   let newNode = node
+   if index == 0 {
+     newNode.next = head                      
+     head?.previous = newNode
+     head = newNode
+   } else {
+     let prev = self.node(atIndex: index-1)
+     let next = prev.next
 
-    var i = index
-    var next = head
-    var prev: Node?
-
-    while next != nil && i > 0 {
-      i -= 1
-      prev = next
-      next = next!.next
-    }
-    assert(i == 0)
-
-    return (prev, next)
-  }
+     newNode.previous = prev
+     newNode.next = prev.next
+     prev.next = newNode
+     next?.previous = newNode
+   }
+}
 ```
 
-This returns a tuple containing the node currently at the specified index and the node that immediately precedes it, if any. The loop is very similar to `nodeAtIndex()`, except that here we also keep track of what the previous node is as we iterate through the list.
+As with node(atIndex :) method, insert(_: at:) method also branches depending on whether the given index is 0 or not.
+First let's look at the former case. Suppose we have the following list and the new node(C).
 
-Let's look at an example. Suppose we have the following list:
+             +---------+     +---------+
+    head --->|         |---->|         |-----//----->
+             |    A    |     |    B    |
+     nil <---|         |<----|         |<----//------
+             +---------+     +---------+ 
+                 [0]             [1]
+                  
+                  
+             +---------+ 
+     new --->|         |----> nil
+             |    C    |
+             |         |
+             +---------+
+    
+Now put the new node before the first node. In this way: 
 
-	head --> A --> B --> C --> D --> E --> nil
+    new.next = head
+    head.previous = new
+    
+             +---------+            +---------+     +---------+
+     new --->|         |--> head -->|         |---->|         |-----//----->
+             |    C    |            |    A    |     |    B    |
+             |         |<-----------|         |<----|         |<----//------
+             +---------+            +---------+     +---------+ 
 
-We want to find the nodes before and after index 3. As we start the loop, `i = 3`, `next` points at `"A"`, and `prev` is nil.
 
-	head --> A --> B --> C --> D --> E --> nil
-	        next
+Finally, replace the head with the new node.
 
-We decrement `i`, make `prev` point to `"A"`, and move `next` to the next node, `"B"`:
+    head = new
+    
+             +---------+    +---------+     +---------+
+    head --->|         |--->|         |---->|         |-----//----->
+             |    C    |    |    A    |     |    B    |
+     nil <---|         |<---|         |<----|         |<----//------
+             +---------+    +---------+     +---------+ 
+                 [0]            [1]             [2]
 
-	head --> A --> B --> C --> D --> E --> F --> nil
-	        prev  next
 
-Again, we decrement `i` and update the pointers. Now `prev` points to `"B"`, and `next` points to `"C"`:
+However, when the given index is greater than 0, it is necessary to get the node previous and next index and insert between them.
+You can also obtain the previous and next node using node(atIndex:) as follows:
 
-	head --> A --> B --> C --> D --> E --> F --> nil
-	              prev  next
+             +---------+         +---------+     +---------+    
+    head --->|         |---//--->|         |---->|         |----
+             |         |         |    A    |     |    B    |    
+     nil <---|         |---//<---|         |<----|         |<---
+             +---------+         +---------+     +---------+    
+                 [0]              [index-1]        [index]      
+                                      ^               ^ 
+                                      |               | 
+                                     prev            next
+    
+    prev = node(at: index-1)
+    next = prev.next
 
-As you can see, `prev` always follows one behind `next`. We do this one more time and then `i` equals 0 and we exit the loop:
+Now insert new node between the prev and the next.
 
-	head --> A --> B --> C --> D --> E --> F --> nil
-	                    prev  next
+    new.prev = prev; prev.next = new  // connect prev and new.
+    new.next = next; next.prev = new  // connect new and next.
 
-The `assert()` after the loop checks whether there really were enough nodes in the list. If `i > 0` at this point, then the specified index was too large.
+             +---------+         +---------+     +---------+     +---------+
+    head --->|         |---//--->|         |---->|         |---->|         |
+             |         |         |    A    |     |    C    |     |    B    |
+     nil <---|         |---//<---|         |<----|         |<----|         |
+             +---------+         +---------+     +---------+     +---------+
+                 [0]              [index-1]        [index]        [index+1]
+                                      ^               ^               ^
+                                      |               |               |
+                                     prev            new             next
 
-> **Note:** If any of the loops in this article don't make much sense to you, then draw a linked list on a piece of paper and step through the loop by hand, just like what we did here.
-
-For this example, the function returns `("C", "D")` because `"D"` is the node at index 3 and `"C"` is the one right before that.
-
-Now that we have this helper function, we can write the method for inserting nodes:
-
-```swift
-  public func insert(value: T, atIndex index: Int) {
-    let (prev, next) = nodesBeforeAndAfter(index)     // 1
-
-    let newNode = Node(value: value)    // 2
-    newNode.previous = prev
-    newNode.next = next
-    prev?.next = newNode
-    next?.previous = newNode
-
-    if prev == nil {                    // 3
-      head = newNode
-    }
-  }
-```
-
-Some remarks about this method:
-
-1. First, we need to find where to insert this node. After calling the helper method, `prev` points to the previous node and `next` is the node currently at the given index. We'll insert the new node in between these two. Note that `prev` can be nil (index is 0), `next` can be nil (index equals size of the list), or both can be nil if the list is empty.
-
-2. Create the new node and connect the `previous` and `next` pointers. Because the local `prev` and `next` variables are optionals and may be nil, so we use optional chaining here.
-
-3. If the new node is being inserted at the front of the list, we need to update the `head` pointer. (Note: If the list had a tail pointer, you'd also need to update that pointer here if `next == nil`, because that means the last element has changed.)
 
 Try it out:
 
@@ -351,8 +375,7 @@ list[2]     // "World"
 ```
 
 Also try adding new nodes to the front and back of the list, to verify that this works properly.
-
-> **Note:** The `nodesBeforeAndAfter()` and `insert(atIndex)` functions can also be used with a singly linked list because we don't depend on the node's `previous` pointer to find the previous element.
+> **Note:** The `node(atIndex:)` and `insert(_: atIndex:)` functions can also be used with a singly linked list because we don't depend on the node's `previous` pointer to find the previous element.
 
 What else do we need? Removing nodes, of course! First we'll do `removeAll()`, which is really simple:
 
@@ -513,7 +536,7 @@ And here's filter:
 And a silly example:
 
 ```swift
-let f = list.filter { s in s.characters.count > 5 }
+let f = list.filter { s in s.count > 5 }
 f    // [Universe, Swifty]
 ```
 
@@ -535,6 +558,72 @@ enum ListNode<T> {
 The big difference with the class-based version is that any modification you make to this list will result in a *new copy* being created. Whether that's what you want or not depends on the application.
 
 [I might fill out this section in more detail if there's a demand for it.]
+
+## Conforming to the Collection protocol
+Types that conform to the Sequence protocol, whose elements can be traversed multiple times, nondestructively, and accessed by indexed subscript should conform to the Collection protocol defined in Swift's Standard Library.
+
+Doing so grants access to a very large number of properties and operations that are common when dealing collections of data. In addition to this, it lets custom types follow the patterns that are common to Swift developers.
+
+In order to conform to this protocol, classes need to provide:
+  1 `startIndex` and `endIndex` properties.
+  2 Subscript access to elements as O(1). Diversions of this time complexity need to be documented.
+  
+```swift
+/// The position of the first element in a nonempty collection.
+public var startIndex: Index {
+  get {
+    return LinkedListIndex<T>(node: head, tag: 0)
+  }
+}
+  
+/// The collection's "past the end" position---that is, the position one
+/// greater than the last valid subscript argument.
+/// - Complexity: O(n), where n is the number of elements in the list.
+///   This diverts from the protocol's expectation.
+public var endIndex: Index {
+  get {
+    if let h = self.head {
+      return LinkedListIndex<T>(node: h, tag: count)
+    } else {
+      return LinkedListIndex<T>(node: nil, tag: startIndex.tag)
+    }
+  }
+}
+```
+
+```swift
+public subscript(position: Index) -> T {
+  get {
+    return position.node!.value
+  }
+}
+```
+
+Becuase collections are responsible for managing their own indexes, the implementation below keeps a reference to a node in the list. A tag property in the index represents the position of the node in the list.
+
+```swift
+/// Custom index type that contains a reference to the node at index 'tag'
+public struct LinkedListIndex<T> : Comparable
+{
+  fileprivate let node: LinkedList<T>.LinkedListNode<T>?
+  fileprivate let tag: Int
+
+  public static func==<T>(lhs: LinkedListIndex<T>, rhs: LinkedListIndex<T>) -> Bool {
+    return (lhs.tag == rhs.tag)
+  }
+
+  public static func< <T>(lhs: LinkedListIndex<T>, rhs: LinkedListIndex<T>) -> Bool {
+    return (lhs.tag < rhs.tag)
+  }
+}
+```
+
+Finally, the linked is is able to calculate the index after a given one with the following implementation.
+```swift
+public func index(after idx: Index) -> Index {
+  return LinkedListIndex<T>(node: idx.node?.next, tag: idx.tag+1)
+}
+```
 
 ## Some things to keep in mind
 

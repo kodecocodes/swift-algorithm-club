@@ -4,7 +4,9 @@ Want to help out with the Swift Algorithm Club? Great! While we don't have stric
 
 **Readability**
 
-The `README` file is the cake, and the sample code is the cherry on top. Readablity is really important for us. A good contribution has succinct explanations supported by diagrams. Code is best introduced in chunks, weaved into the explanations where relevant. 
+Our repo is all about learning. The `README` file is the cake, and the sample code is the cherry on top. A good contribution has succinct explanations supported by diagrams. Code is best introduced in chunks, weaved into the explanations where relevant. 
+
+> When choosing between brievity and performance, err to the side of brievity as long as the time complexity of the particular implementation is the same. You can make a note afterwards suggesting a more performant way of doing things. 
 
 **API Design Guidelines**
 

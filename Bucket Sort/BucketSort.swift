@@ -61,7 +61,7 @@ fileprivate func >= <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
     - Returns: A new array with sorted elements
  */
 
-public func bucketSort<T: Sortable>(_ elements: [T], distributor: Distributor, sorter: Sorter, buckets: [Bucket<T>]) -> [T] {
+public func bucketSort<T>(_ elements: [T], distributor: Distributor, sorter: Sorter, buckets: [Bucket<T>]) -> [T] {
     precondition(allPositiveNumbers(elements))
     precondition(enoughSpaceInBuckets(buckets, elements: elements))
 
@@ -83,7 +83,7 @@ private func allPositiveNumbers<T: Sortable>(_ array: [T]) -> Bool {
     return array.filter { $0.toInt() >= 0 }.count > 0
 }
 
-private func enoughSpaceInBuckets<T: Sortable>(_ buckets: [Bucket<T>], elements: [T]) -> Bool {
+private func enoughSpaceInBuckets<T>(_ buckets: [Bucket<T>], elements: [T]) -> Bool {
     let maximumValue = elements.max()?.toInt()
     let totalCapacity = buckets.count * (buckets.first?.capacity)!
 
@@ -95,7 +95,7 @@ private func enoughSpaceInBuckets<T: Sortable>(_ buckets: [Bucket<T>], elements:
 //////////////////////////////////////
 
 public protocol Distributor {
-    func distribute<T: Sortable>(_ element: T, buckets: inout [Bucket<T>])
+    func distribute<T>(_ element: T, buckets: inout [Bucket<T>])
 }
 
 /*
@@ -117,7 +117,7 @@ public struct RangeDistributor: Distributor {
 
     public init() {}
 
-    public func distribute<T: Sortable>(_ element: T, buckets: inout [Bucket<T>]) {
+    public func distribute<T>(_ element: T, buckets: inout [Bucket<T>]) {
         let value = element.toInt()
         let bucketCapacity = buckets.first!.capacity
 

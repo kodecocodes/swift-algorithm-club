@@ -4,44 +4,51 @@ osx_image: xcode9
 
 install:
 
+- gem install xcpretty-travis-formatter
 # - ./install_swiftlint.sh
 
 script:
 
-- xcodebuild test -project ./All-Pairs\ Shortest\ Paths/APSP/APSP.xcodeproj -scheme APSPTests
-- xcodebuild test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./AVL\ Tree/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Binary\ Search/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Boyer-Moore/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Binary\ Search\ Tree/Solution\ 1/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Bloom\ Filter/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Bounded\ Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Breadth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Bucket\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./B-Tree/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Comb\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Counting\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Depth-First\ Search/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Graph/Graph.xcodeproj -scheme GraphTests
-- xcodebuild test -project ./Heap/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Heap\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Insertion\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./K-Means/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Linked\ List/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Longest\ Common\ Subsequence/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Minimum\ Spanning\ Tree\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Queue/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Quicksort/Tests/Tests-Quicksort.xcodeproj -scheme Tests-Quicksort
-- xcodebuild test -project ./Radix\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Rootish\ Array\ Stack/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Select\ Minimum\ Maximum/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Selection\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Shell\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Shortest\ Path\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Single-Source\ Shortest\ Paths\ \(Weighted\)/SSSP.xcodeproj -scheme SSSPTests
-- xcodebuild test -project ./Stack/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Topological\ Sort/Tests/Tests.xcodeproj -scheme Tests
-- xcodebuild test -project ./Treap/Treap/Treap.xcodeproj -scheme Tests
-- xcodebuild test -project ./Palindromes/Test/Test.xcodeproj -scheme Test
-- xcodebuild test -project ./Ternary\ Search\ Tree/Tests/Tests.xcodeproj -scheme Tests
+- xcodebuild test -project ./Array2D/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./All-Pairs\ Shortest\ Paths/APSP/APSP.xcodeproj -scheme APSPTests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./AVL\ Tree/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Binary\ Search/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Boyer-Moore-Horspool/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Binary\ Search\ Tree/Solution\ 1/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Bloom\ Filter/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Bounded\ Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Breadth-First\ Search/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Bucket\ Sort/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./B-Tree/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Comb\ Sort/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Convex\ Hull/Convex\ Hull.xcodeproj -scheme Tests -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.0' | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Counting\ Sort/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Depth-First\ Search/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Graph/Graph.xcodeproj -scheme GraphTests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Heap/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Heap\ Sort/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Insertion\ Sort/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./K-Means/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Linked\ List/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Singly\ Linked\ List/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Longest\ Common\ Subsequence/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Minimum\ Spanning\ Tree\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Priority\ Queue/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Queue/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Quicksort/Tests/Tests-Quicksort.xcodeproj -scheme Test-Quicksort | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Radix\ Sort/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Rootish\ Array\ Stack/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Select\ Minimum\ Maximum/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Selection\ Sort/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Shell\ Sort/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Shortest\ Path\ \(Unweighted\)/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Single-Source\ Shortest\ Paths\ \(Weighted\)/SSSP.xcodeproj -scheme SSSPTests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Stack/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Topological\ Sort/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Treap/Treap/Treap.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Palindromes/Test/Test.xcodeproj -scheme Test | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Ternary\ Search\ Tree/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+
+after_success:
+
+- if [[ "$TRAVIS_BRANCH" == "master" ]]; then ./gfm-render.sh; fi

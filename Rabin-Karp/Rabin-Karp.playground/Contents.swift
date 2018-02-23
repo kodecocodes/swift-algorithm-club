@@ -30,8 +30,8 @@ extension Character {
 // Find first position of pattern in the text using Rabin Karp algorithm
 public func search(text: String, pattern: String) -> Int {
     // convert to array of ints
-    let patternArray = pattern.characters.flatMap { $0.asInt }
-    let textArray = text.characters.flatMap { $0.asInt }
+    let patternArray = pattern.flatMap { $0.asInt }
+    let textArray = text.flatMap { $0.asInt }
 
     if textArray.count < patternArray.count {
         return -1

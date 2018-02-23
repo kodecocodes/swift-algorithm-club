@@ -2,6 +2,19 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "container:"
+      name = "Sorted Set">
+      <FileRef
+         location = "group:Sorted Set/README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:Sorted Set/SortedSet.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Sorted Set/SortedSet.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Egg Drop Problem"
       name = "Egg Drop Problem">
       <FileRef
@@ -38,6 +51,19 @@
    <FileRef
       location = "group:Why Algorithms.markdown">
    </FileRef>
+   <Group
+      location = "container:"
+      name = "3Sum and 4Sum">
+      <FileRef
+         location = "group:3Sum and 4Sum/README.md">
+      </FileRef>
+      <FileRef
+         location = "group:3Sum and 4Sum/3Sum.playground">
+      </FileRef>
+      <FileRef
+         location = "group:3Sum and 4Sum/4Sum.playground">
+      </FileRef>
+   </Group>
    <Group
       location = "container:"
       name = "Dijkstra">
@@ -102,6 +128,16 @@
       </FileRef>
       <FileRef
          location = "group:LRU Cache/Readme.md">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Encode and Decode Tree">
+      <FileRef
+         location = "group:Encode and Decode Tree/EncodeAndDecodeTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Encode and Decode Tree/EncodeAndDecodeTree.swift">
       </FileRef>
    </Group>
    <Group
@@ -1523,6 +1559,52 @@
       </Group>
    </Group>
    <Group
+      location = "group:Singly Linked List"
+      name = "Singly Linked List">
+      <Group
+         location = "group:Images"
+         name = "Images">
+         <FileRef
+            location = "group:CopiedIndirectStorage.png">
+         </FileRef>
+         <FileRef
+            location = "group:SharedIndirectStorage.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:KeyValuePair.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Queue.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:SinglyLinkedList.playground">
+      </FileRef>
+      <FileRef
+         location = "group:SinglyLinkedList.swift">
+      </FileRef>
+      <Group
+         location = "group:Tests"
+         name = "Tests">
+         <Group
+            location = "group:Tests"
+            name = "Tests">
+            <FileRef
+               location = "group:Info.plist">
+            </FileRef>
+            <FileRef
+               location = "group:SinglyLinkedListTests.swift">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:Tests.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
       location = "group:Longest Common Subsequence"
       name = "Longest Common Subsequence">
       <FileRef
@@ -1753,12 +1835,6 @@
       </FileRef>
       <FileRef
          location = "group:OrderedSet.swift">
-      </FileRef>
-      <FileRef
-         location = "group:AppleOrderedSet.swift">
-      </FileRef>
-      <FileRef
-         location = "group:AppleOrderedSet.playground">
       </FileRef>
       <FileRef
          location = "group:README.markdown">

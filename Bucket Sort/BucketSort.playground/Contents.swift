@@ -34,9 +34,9 @@ extension Int: IntConvertible, Sortable {
 // MARK: Playing code
 //////////////////////////////////////
 
-let input = [1, 2, 4, 6, 10]
+let input = [1, 2, 4, 6, 10, 5]
 var buckets = [Bucket<Int>(capacity: 15), Bucket<Int>(capacity: 15), Bucket<Int>(capacity: 15)]
 
-let sortedElements = bucketSort(elements: input, distributor: RangeDistributor(), sorter: InsertionSorter(), buckets: &buckets)
+let sortedElements = bucketSort(input, distributor: RangeDistributor(), sorter: InsertionSorter(), buckets: buckets)
 
 print(sortedElements)

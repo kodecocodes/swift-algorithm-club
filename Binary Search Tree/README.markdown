@@ -1,5 +1,8 @@
 # Binary Search Tree (BST)
 
+> This topic has been tutorialized [here](https://www.raywenderlich.com/139821/swift-algorithm-club-swift-binary-search-tree-data-structure)
+
+
 A binary search tree is a special kind of [binary tree](../Binary%20Tree/) (a tree in which each node has at most two children) that performs insertions and deletions such that the tree is always sorted.
 
 For more information about a tree, [read this first](../Tree/).
@@ -265,7 +268,7 @@ If there are no more nodes to look at -- when `left` or `right` is nil -- then w
 Searching is a recursive process, but you can also implement it with a simple loop instead:
 
 ```swift
-  public func search(value: T) -> BinarySearchTree? {
+  public func search(_ value: T) -> BinarySearchTree? {
     var node: BinarySearchTree? = self
     while let n = node {
       if value < n.value {

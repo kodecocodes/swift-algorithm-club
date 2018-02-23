@@ -1,5 +1,7 @@
 # Minimum Spanning Tree (Weighted Graph)
 
+> This topic has been tutorialized [here](https://www.raywenderlich.com/169392/swift-algorithm-club-minimum-spanning-tree-with-prims-algorithm)
+
 A [minimum spanning tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree) (MST) of a connected undirected weighted graph has a subset of the edges from the original graph that connects all the vertices together, without any cycles and with the minimum possible total edge weight. There can be more than one MSTs of a graph.
 
 There are two popular algorithms to calculate MST of a graph - [Kruskal's algorithm](https://en.wikipedia.org/wiki/Kruskal's_algorithm) and [Prim's algorithm](https://en.wikipedia.org/wiki/Prim's_algorithm). Both algorithms have a total time complexity of `O(ElogE)` where `E` is the number of edges from the original graph.
