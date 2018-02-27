@@ -2,7 +2,7 @@
 
 Myers Difference Algorithm is the algorithm to find a longest common subsequence or shortest edit scripts (LCS/SES dual probrem) of two sequences by a simple O(ND) time, where N is the sum of the lengths of the two sequences. Common subsequence is the sequence of elements that appear in the same order in both sequences. Edit script will be discussed below.
 
-For example, assuming that sequence `A = ["1", "2", "3"]` and sequence `B = ["2", "3", "4"]`, `["2"], ["2", "3"]` are common sequences. Furthermore, the latter `["2", "3"]` is the longest common subsequence.  But `["1", "2"], ["3", "2"]` are not. Because, `["1", "2"]` contains `"1"` that is not included in `B`, `["3", 2]` has elements are included in both, but the appearing order is not correct.
+For example, assuming that sequence `A = ["1", "2", "3"]` and sequence `B = ["2", "3", "4"]`, `["2"], ["2", "3"]` are common sequences. Furthermore, the latter `["2", "3"]` is the longest common subsequence.  But `["1", "2"], ["3", "2"]` are not. Because, `["1", "2"]` contains `"1"` that is not included in `B`, `["3", "2"]` has elements are included in both, but the appearing order is not correct.
 
 ## Finding the length of the Longest Common Subsequence with Myers Algorithm on Edit Graph
 
@@ -10,7 +10,7 @@ For example, assuming that sequence `A = ["1", "2", "3"]` and sequence `B = ["2"
 
 Myers Algorithm uses Edit Graph for solving LCS/SES problem. Edit Graph is the graph like below.
 
-<img src='Images/EditGraph.png' height="250">
+<img src='Images/EditGraph.png' height="400">
 
 Here, we think about the length of the LCS of sequences `X = [A, B, C, A, B, B, A]`, `Y = [C, B, A, B, A, C]`.
 
@@ -18,15 +18,15 @@ In Myers Algorithm, edit graph are prepared by
 
 1. Line the element of sequence `X` on the x axis. And do for `Y` on the y axis.
 2. Make grid and vertex at each point in the grid (x, y), `x in [0, N] and y in [0, M]`. `N` is the length of sequence `X`, `M` is of `Y`
-3. Line for `x - y = k`, this line called k-line. Pink line is this.
-3. Check the points `(i, j)`, where `X[i] = Y[j]`, called match point.
-4. Connect vertex `(i - 1, j - 1)` and vertex `(i, j)`, then diagonal edge appears.
+3. Line for `x - y = k`, this line called k-line. Black dot line is this and pink number is the value of k.
+3. Check the points `(i, j)`, where `X[i] = Y[j]`, called match point, light green one.
+4. Connect vertex `(i - 1, j - 1)` and vertex `(i, j)`, where `(i, j)` is match point, then diagonal edge appears.
 
 > **Note:** Here, the sequences' start index is 1 not 0, so `X[1] = A`, `Y[1] = C`
 
 We discuss about which path is the shortest from `source` to `sink`. Can move on the edges on the graph. I mean we can move on  the grid, horizontal and vertical edges, and the diagonal edges.
 
-The movements are compatible with the `Edit Scripts`, insert or delete. The word `Edit Scripts` appeared here, as referred at Introduction SES is Shortest Edit Scripts.
+The movements are compatible with the `Edit Scripts`, insert or delete. The word `Edit Scripts` appeared here, as referred at Introduction, SES is Shortest Edit Scripts.
 
 Let's get back on track. On this edit graph, the horizontal movement to vertex `(i, j)` is compatible with the script  `delete at index i from X`, the vertical movement to vertex `(i, j)` is compatible with the script `insert the element of Y at index j to immediately after the element of X at index i`. How about for the diagonal movement?. This movement to vertex `(i, j)` means `X[i] = Y[j]`, so no script needs.
 
@@ -38,7 +38,7 @@ Next, add cost 1 for non-diagonal movement, because they can be compatible with 
 
 The total cost for the minimum path, exploring from `source` to `sink`, is the same as the length of the Longest Common Subsequence or Shortest Edit Script.
 
-So, LSC/SES problem can be solved by finding the shortest path from `source` to `sink`.
+So, LCS/SES problem can be solved by finding the shortest path from `source` to `sink`.
 
 ### Myers Algorithm
 
@@ -52,9 +52,9 @@ By a simple induction, D-path must consist of a (D-1)-path followed by a non-dia
 for D in 0...N + M
 ```
 
-Next, thinking about, where is the furthest reaching point for D-path on k-line. Like below, moving horizontally from k-line reaches (k+1)-line, moving vertically from k-line reaches (k-1)-line.
+Next, thinking about, where is the furthest reaching point for D-path on k-line. Like below, moving horizontally from k-line reaches (k+1)-line, moving vertically from k-line reaches (k-1)-line. Red chalky line shows that.
 
-<img src='Images/EditGraph_k_move.png' height="250">
+<img src='Images/EditGraph_k_move.png' height="400">
 
 So, threre are several end points of D-path, or D-path can end on several k-line. We need the information to get the next path ((D+1)-path) as mentioned above. In fact, D-path must end on
 k-line, where k in { -D, -D + 2, ....., D - 2, D }. This is so simple, starting point, `source` is `(0, 0)` on (k=0)-line. D is the number of non-diagonal edges and non-diagonal movement changes current k-line to (kpm1)-line. Because 0 is even number, if D is even number D-path will end on (even_k)-line, if D is odd number D-path will end on (odd_k)-line.
