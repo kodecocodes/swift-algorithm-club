@@ -52,6 +52,13 @@
       location = "group:Why Algorithms.markdown">
    </FileRef>
    <Group
+      location = "group:Myers Difference Algorithm"
+      name = "Myers Difference Algorithm">
+      <FileRef
+         location = "group:MyersDifferenceAlgorithm.playground">
+      </FileRef>
+   </Group>
+   <Group
       location = "container:"
       name = "3Sum and 4Sum">
       <FileRef
