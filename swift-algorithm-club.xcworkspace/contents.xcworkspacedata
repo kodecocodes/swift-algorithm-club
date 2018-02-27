@@ -54,6 +54,13 @@
    <Group
       location = "group:Myers Difference Algorithm"
       name = "Myers Difference Algorithm">
+      <Group
+         location = "container:"
+         name = "Images">
+         <FileRef
+            location = "group:Myers Difference Algorithm/Images/EditGraph_k_move.png">
+         </FileRef>
+      </Group>
       <FileRef
          location = "group:/Users/a14757/Documents/Commiter/swift-algorithm-club/Myers Difference Algorithm/MyersDifferenceAlgorithm.swift">
       </FileRef>
