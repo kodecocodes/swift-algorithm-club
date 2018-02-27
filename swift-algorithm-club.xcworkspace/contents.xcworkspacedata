@@ -55,7 +55,13 @@
       location = "group:Myers Difference Algorithm"
       name = "Myers Difference Algorithm">
       <FileRef
+         location = "group:/Users/a14757/Documents/Commiter/swift-algorithm-club/Myers Difference Algorithm/MyersDifferenceAlgorithm.swift">
+      </FileRef>
+      <FileRef
          location = "group:MyersDifferenceAlgorithm.playground">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
       </FileRef>
    </Group>
    <Group
