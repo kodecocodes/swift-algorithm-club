@@ -102,3 +102,55 @@ func crossover(dna1:[UInt8], dna2:[UInt8], dnaSize:Int) -> (dna1:[UInt8], dna2:[
         [UInt8](dna2.prefix(upTo: dna2Index1) + dna1.suffix(from: dna1Index1))
     )
 }
+
+func main() {
+    
+    // generate the starting random population
+    var population:[[UInt8]] = randomPopulation(from: lex, populationSize: POP_SIZE, dnaSize: DNA_SIZE)
+    // print("population: \(population), dnaSize: \(DNA_SIZE) ")
+    var fittest = [UInt8]()
+    
+    for generation in 0...GENERATIONS {
+        print("Generation \(generation) with random sample: \(String(bytes: population[0], encoding:.ascii)!)")
+        
+        var weightedPopulation = [(item:[UInt8], weight:Double)]()
+        
+        // calulcated the fitness of each individual in the population
+        // and add it to the weight population (weighted = 1.0/fitness)
+        for individual in population {
+            let fitnessValue = calculateFitness(dna: individual, optimal: OPTIMAL)
+            
+            let pair = ( individual, fitnessValue == 0 ? 1.0 : 1.0/Double( fitnessValue ) )
+            
+            weightedPopulation.append(pair)
+        }
+        
+        population = []
+        
+        // create a new generation using the individuals in the origional population
+        for _ in 0...POP_SIZE/2 {
+            let ind1 = weightedChoice(items: weightedPopulation)
+            let ind2 = weightedChoice(items: weightedPopulation)
+            
+            let offspring = crossover(dna1: ind1.item, dna2: ind2.item, dnaSize: DNA_SIZE)
+            
+            // append to the population and mutate
+            population.append(mutate(lexicon: lex, dna: offspring.dna1, mutationChance: MUTATION_CHANCE))
+            population.append(mutate(lexicon: lex, dna: offspring.dna2, mutationChance: MUTATION_CHANCE))
+        }
+        
+        fittest = population[0]
+        var minFitness = calculateFitness(dna: fittest, optimal: OPTIMAL)
+        
+        // parse the population for the fittest string
+        for indv in population {lex
+            let indvFitness = calculateFitness(dna: indv, optimal: OPTIMAL)
+            if indvFitness < minFitness {
+                fittest = indv
+                minFitness = indvFitness
+            }
+        }
+        if minFitness == 0 { break; }
+    }
+    print("fittest string: \(String(bytes: fittest, encoding: .ascii)!)")
+}

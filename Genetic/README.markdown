@@ -188,4 +188,51 @@ The above is used to generate a completely new generation based on the current g
 
 ## Putting it all together -- Running the Genetic Algorithm
 
-We now have all the methods we need to kick off the process. What is missing a `main()` function that loops though each generation of the GA.
+We now have all the functions we need to kick off the algorthim. Let's start from the beginning, first we need a random population to serve as a starting point. We will also initialize a fittest variable to hold the fittest individual, we will initialize it with the first individual of our random population.
+
+```swift
+var population:[[UInt8]] = randomPopulation(from: lex, populationSize: POP_SIZE, dnaSize: DNA_SIZE)
+var fittest = population[0]
+```
+
+Now for the meat, the remainder of the code will take place in the generation loop, running once for every generation:
+
+```swift
+for generation in 0...GENERATIONS {
+  // run
+}
+```
+
+Now, for each individual in the population, we need to calculate its fitness and weighted value. For weighted choice we store the fitness as a percent `1 / fitness`.
+
+```swift
+var weightedPopulation = [(item:[UInt8], weight:Double)]()
+
+for individual in population {
+  let fitnessValue = calculateFitness(dna: individual, optimal: OPTIMAL)
+  let pair = ( individual, fitnessValue == 0 ? 1.0 : 1.0/Double( fitnessValue ) )
+  weightedPopulation.append(pair)
+}
+```
+
+To understand weighted choice, let walk though a smaller example, let's say we have the following population, where 0 is the best fitness:
+
+```txt
+1: 10
+2: 5
+3: 4
+4: 7
+5: 11
+```
+
+Now here is the weight of each:
+
+```txt
+1:
+2:
+3:
+4:
+5:
+
+total =
+```
