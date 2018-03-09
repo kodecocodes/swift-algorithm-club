@@ -21,7 +21,7 @@ let DNA_SIZE = OPTIMAL.count
 let POP_SIZE = 50
 
 // max number of generations, script will stop when it reach 5000 if the optimal value is not found
-let GENERATIONS = 5000
+let MAX_GENERATIONS = 5000
 
 // The chance in which a random nucleotide can mutate (1/n)
 let MUTATION_CHANCE = 100
@@ -100,7 +100,7 @@ func main() {
     // print("population: \(population), dnaSize: \(DNA_SIZE) ")
     var fittest = [UInt8]()
 
-    for generation in 0...GENERATIONS {
+    for generation in 0...MAX_GENERATIONS {
 
         var weightedPopulation = [(dna:[UInt8], weight:Double)]()
 
