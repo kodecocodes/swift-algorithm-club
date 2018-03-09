@@ -18,7 +18,7 @@ let OPTIMAL:[UInt8] = "Hello, World".asciiArray
 let DNA_SIZE = OPTIMAL.count
 
 // size of each generation
-let POP_SIZE = 200
+let POP_SIZE = 50
 
 // max number of generations, script will stop when it reach 5000 if the optimal value is not found
 let GENERATIONS = 5000
@@ -91,16 +91,13 @@ func mutate(lexicon: [UInt8], dna:[UInt8], mutationChance:Int) -> [UInt8] {
 }
 
 
-func crossover(dna1:[UInt8], dna2:[UInt8], dnaSize:Int) -> (dna1:[UInt8], dna2:[UInt8]) {
+func crossover(dna1:[UInt8], dna2:[UInt8], dnaSize:Int) -> [UInt8] {
     let pos = Int(arc4random_uniform(UInt32(dnaSize-1)))
 
     let dna1Index1 = dna1.index(dna1.startIndex, offsetBy: pos)
     let dna2Index1 = dna2.index(dna2.startIndex, offsetBy: pos)
 
-    return (
-        [UInt8](dna1.prefix(upTo: dna1Index1) + dna2.suffix(from: dna2Index1)),
-        [UInt8](dna2.prefix(upTo: dna2Index1) + dna1.suffix(from: dna1Index1))
-    )
+    return [UInt8](dna1.prefix(upTo: dna1Index1) + dna2.suffix(from: dna2Index1))
 }
 
 func main() {
@@ -128,15 +125,14 @@ func main() {
         population = []
 
         // create a new generation using the individuals in the origional population
-        for _ in 0...POP_SIZE/2 {
+        (0...POP_SIZE).forEach { _ in
             let ind1 = weightedChoice(items: weightedPopulation)
             let ind2 = weightedChoice(items: weightedPopulation)
 
             let offspring = crossover(dna1: ind1.item, dna2: ind2.item, dnaSize: DNA_SIZE)
 
             // append to the population and mutate
-            population.append(mutate(lexicon: lex, dna: offspring.dna1, mutationChance: MUTATION_CHANCE))
-            population.append(mutate(lexicon: lex, dna: offspring.dna2, mutationChance: MUTATION_CHANCE))
+            population.append(mutate(lexicon: lex, dna: offspring, mutationChance: MUTATION_CHANCE))
         }
 
         fittest = population[0]
@@ -151,11 +147,10 @@ func main() {
             }
         }
         if minFitness == 0 { break; }
-        if generation % 1000 == 0 {
-          print("\(generation): \(String(bytes: fittest, encoding: .utf8)!)")
-        }
+        print("\(generation): \(String(bytes: fittest, encoding: .utf8)!)")
+
     }
-    print("fittest string: \(String(bytes: fittest, encoding: .ascii)!)")
+    print("fittest string: \(String(bytes: fittest, encoding: .utf8)!)")
 }
 
 main()

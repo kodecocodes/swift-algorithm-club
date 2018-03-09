@@ -63,7 +63,7 @@ func calculateFitness(dna:[UInt8], optimal:[UInt8]) -> Int {
 calculateFitness(dna: "Gello, World".asciiArray, optimal: "Hello, World".asciiArray)
 
 func weightedChoice(items:[(item:[UInt8], weight:Double)]) -> (item:[UInt8], weight:Double) {
-
+    
     let total = items.reduce(0.0) { return $0 + $1.weight}
     
     var n = Double(arc4random_uniform(UInt32(total * 1000000.0))) / 1000000.0
@@ -91,16 +91,13 @@ func mutate(lexicon: [UInt8], dna:[UInt8], mutationChance:Int) -> [UInt8] {
 }
 
 
-func crossover(dna1:[UInt8], dna2:[UInt8], dnaSize:Int) -> (dna1:[UInt8], dna2:[UInt8]) {
+func crossover(dna1:[UInt8], dna2:[UInt8], dnaSize:Int) -> [UInt8] {
     let pos = Int(arc4random_uniform(UInt32(dnaSize-1)))
     
     let dna1Index1 = dna1.index(dna1.startIndex, offsetBy: pos)
     let dna2Index1 = dna2.index(dna2.startIndex, offsetBy: pos)
     
-    return (
-        [UInt8](dna1.prefix(upTo: dna1Index1) + dna2.suffix(from: dna2Index1)),
-        [UInt8](dna2.prefix(upTo: dna2Index1) + dna1.suffix(from: dna1Index1))
-    )
+    return [UInt8](dna1.prefix(upTo: dna1Index1) + dna2.suffix(from: dna2Index1))
 }
 
 func main() {
@@ -111,7 +108,7 @@ func main() {
     var fittest = [UInt8]()
     
     for generation in 0...GENERATIONS {
-        print("Generation \(generation) with random sample: \(String(bytes: population[0], encoding:.ascii)!)")
+        // print("Generation \(generation) with random sample: \(String(bytes: population[0], encoding:.ascii)!)")
         
         var weightedPopulation = [(item:[UInt8], weight:Double)]()
         
@@ -120,7 +117,7 @@ func main() {
         for individual in population {
             let fitnessValue = calculateFitness(dna: individual, optimal: OPTIMAL)
             
-            let pair = ( individual, fitnessValue == 0 ? 1.0 : 1.0/Double( fitnessValue ) )
+            let pair = ( individual, fitnessValue == 0 ? 1.0 : Double(100/POP_SIZE)/Double( fitnessValue ) )
             
             weightedPopulation.append(pair)
         }
@@ -128,15 +125,14 @@ func main() {
         population = []
         
         // create a new generation using the individuals in the origional population
-        for _ in 0...POP_SIZE/2 {
+        (0...POP_SIZE).forEach { _ in
             let ind1 = weightedChoice(items: weightedPopulation)
             let ind2 = weightedChoice(items: weightedPopulation)
             
             let offspring = crossover(dna1: ind1.item, dna2: ind2.item, dnaSize: DNA_SIZE)
             
             // append to the population and mutate
-            population.append(mutate(lexicon: lex, dna: offspring.dna1, mutationChance: MUTATION_CHANCE))
-            population.append(mutate(lexicon: lex, dna: offspring.dna2, mutationChance: MUTATION_CHANCE))
+            population.append(mutate(lexicon: lex, dna: offspring, mutationChance: MUTATION_CHANCE))
         }
         
         fittest = population[0]
@@ -151,6 +147,11 @@ func main() {
             }
         }
         if minFitness == 0 { break; }
+        print("\(generation): \(String(bytes: fittest, encoding: .utf8)!)")
+        
     }
-    print("fittest string: \(String(bytes: fittest, encoding: .ascii)!)")
+    print("fittest string: \(String(bytes: fittest, encoding: .utf8)!)")
 }
+
+main()
+

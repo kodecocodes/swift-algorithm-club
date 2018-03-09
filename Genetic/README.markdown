@@ -1,4 +1,4 @@
-# Genetic Algorthim
+individual# Genetic Algorthim
 
 ## What is it?
 
@@ -20,7 +20,9 @@ The randomization that allows for organisms to change over time. In GAs we build
 Simply reproduction. A generation will a mixed representation of the previous generation, with offspring taking data (DNA) from both parents. GAs do this by randomly, but weightily, mating offspring to create new generations.
 
 ### Resources:
-* [Wikipedia]()
+* [Genetic Algorithms in Search Optimization, and Machine Learning](https://www.amazon.com/Genetic-Algorithms-Optimization-Machine-Learning/dp/0201157675/ref=sr_1_sc_1?ie=UTF8&qid=1520628364&sr=8-1-spell&keywords=Genetic+Algortithms+in+search)
+* [Wikipedia](https://en.wikipedia.org/wiki/Genetic_algorithm)
+* [My Original Gist](https://gist.github.com/blainerothrock/efda6e12fe10792c99c990f8ff3daeba)
 
 
 ## The Code
@@ -141,7 +143,7 @@ func weightedChoice(items:[(item:[UInt8], weight:Double)]) -> (item:[UInt8], wei
 }
 ```
 
-The above function takes a list of individuals with their calculated fitness. Then selects one at random offset by their fitness value.
+The above function takes a list of individuals with their calculated fitness. Then selects one at random offset by their fitness value. The horrible 1,000,000 multiplication and division is to insure precision by calculating decimals. `arc4random` only uses integers so this is required to convert to a precise Double, it's not perfect, but enough for our example.
 
 ## Mutation
 
@@ -168,19 +170,16 @@ This allows for a population to explore all the possibilities of it's building b
 
 ## Crossover
 
-Crossover, the sexy part of a GA, is how offspring are created from 2 selected individuals in the current population. This is done by splitting the parents into 2 parts, then combining 1 part from each parent to create the offspring. To promote diversity, we randomly select a index to split the parents:
+Crossover, the sexy part of a GA, is how offspring are created from 2 selected individuals in the current population. This is done by splitting the parents into 2 parts, then combining 1 part from each parent to create the offspring. To promote diversity, we randomly select a index to split the parents.
 
 ```swift
-func crossover(dna1:[UInt8], dna2:[UInt8], dnaSize:Int) -> (dna1:[UInt8], dna2:[UInt8]) {
+func crossover(dna1:[UInt8], dna2:[UInt8], dnaSize:Int) -> [UInt8] {
     let pos = Int(arc4random_uniform(UInt32(dnaSize-1)))
 
     let dna1Index1 = dna1.index(dna1.startIndex, offsetBy: pos)
     let dna2Index1 = dna2.index(dna2.startIndex, offsetBy: pos)
 
-    return (
-        [UInt8](dna1.prefix(upTo: dna1Index1) + dna2.suffix(from: dna2Index1)),
-        [UInt8](dna2.prefix(upTo: dna2Index1) + dna1.suffix(from: dna1Index1))
-    )
+    return [UInt8](dna1.prefix(upTo: dna1Index1) + dna2.suffix(from: dna2Index1))
 }
 ```
 
@@ -203,7 +202,7 @@ for generation in 0...GENERATIONS {
 }
 ```
 
-Now, for each individual in the population, we need to calculate its fitness and weighted value. For weighted choice we store the fitness as a percent `1 / fitness`.
+Now, for each individual in the population, we need to calculate its fitness and weighted value. Since 0 is the best value we will use `1/fitness` to represent the weighted value. Note this is not a percent, but just how much more likely the value is to be selected over others. If the highest number was the most fit, the weight calculation would be `fitness/totalFitness`, which would be a percent.
 
 ```swift
 var weightedPopulation = [(item:[UInt8], weight:Double)]()
@@ -215,24 +214,118 @@ for individual in population {
 }
 ```
 
-To understand weighted choice, let walk though a smaller example, let's say we have the following population, where 0 is the best fitness:
+From here we can start to build the next generation.
 
-```txt
-1: 10
-2: 5
-3: 4
-4: 7
-5: 11
+```swift
+var nextGeneration = []
 ```
 
-Now here is the weight of each:
+The below loop is where we pull everything together. We loop for `POP_SIZE`, selecting 2 individuals by weighted choice, crossover their values to produce a offspring, then finial subject the new individual to mutation. Once completed we have a completely new generation based on the last generation.
 
-```txt
-1:
-2:
-3:
-4:
-5:
+```swift
+0...POP_SIZE).forEach { _ in
+    let ind1 = weightedChoice(items: weightedPopulation)
+    let ind2 = weightedChoice(items: weightedPopulation)
 
-total =
+    let offspring = crossover(dna1: ind1.item, dna2: ind2.item, dnaSize: DNA_SIZE)
+
+    // append to the population and mutate
+    nextGeneration.append(mutate(lexicon: lex, dna: offspring, mutationChance: MUTATION_CHANCE))
+}
 ```
+
+The final piece to the main loop is to select the fittest individual of a population:
+
+```swift
+fittest = population[0]
+var minFitness = calculateFitness(dna: fittest, optimal: OPTIMAL)
+
+for indv in population {lex
+    let indvFitness = calculateFitness(dna: indv, optimal: OPTIMAL)
+    if indvFitness < minFitness {
+        fittest = indv
+        minFitness = indvFitness
+    }
+}
+if minFitness == 0 { break; }
+print("\(generation): \(String(bytes: fittest, encoding: .utf8)!)")
+```
+
+Since we know the fittest string, I've added a `break` to kill the program if we find it. At the end of a loop at a print statement for the fittest string:
+
+```swift
+print("fittest string: \(String(bytes: fittest, encoding: .utf8)!)")
+```
+
+Now we can run the program! Playgrounds are a nice place to develop, but are going to run this program **very slow**. I highly suggest running in Terminal: `swift gen.swift`. When running you should see something like this and it should not take too long to get `Hello, World`:
+
+```text
+0: RXclh F HDko
+1: DkyssjgElk];
+2: TiM4u) DrKvZ
+3: Dkysu) DrKvZ
+4: -kysu) DrKvZ
+5: Tlwsu) DrKvZ
+6: Tlwsu) Drd}k
+7: Tlwsu) Drd}k
+8: Tlwsu) Drd}k
+9: Tlwsu) Drd}k
+10: G^csu) |zd}k
+11: G^csu) |zdko
+12: G^csu) |zdko
+13: Dkysu) Drd}k
+14: G^wsu) `rd}k
+15: Dkysu) `rdko
+16: Dkysu) `rdko
+17: Glwsu) `rdko
+18: TXysu) `rdkc
+19: U^wsu) `rdko
+20: G^wsu) `rdko
+21: Glysu) `rdko
+22: G^ysu) `rdko
+23: G^ysu) `ryko
+24: G^wsu) `rdko
+25: G^wsu) `rdko
+26: G^wsu) `rdko
+...
+1408: Hello, Wormd
+1409: Hello, Wormd
+1410: Hello, Wormd
+1411: Hello, Wormd
+1412: Hello, Wormd
+1413: Hello, Wormd
+1414: Hello, Wormd
+1415: Hello, Wormd
+1416: Hello, Wormd
+1417: Hello, Wormd
+1418: Hello, Wormd
+1419: Hello, Wormd
+1420: Hello, Wormd
+1421: Hello, Wormd
+1422: Hello, Wormd
+1423: Hello, Wormd
+1424: Hello, Wormd
+1425: Hello, Wormd
+1426: Hello, Wormd
+1427: Hello, Wormd
+1428: Hello, Wormd
+1429: Hello, Wormd
+1430: Hello, Wormd
+1431: Hello, Wormd
+1432: Hello, Wormd
+1433: Hello, Wormd
+1434: Hello, Wormd
+1435: Hello, Wormd
+fittest string: Hello, World
+```
+
+How long it takes will vary since this is based on randomization, but it should almost always finish in under 5000 generations. Woo!
+
+
+## Now What?
+
+We did it, we have a running simple genetic algorithm. Take some time a play around with the global variables, `POP_SIZE`, `OPTIMAL`, `MUTATION_CHANCE`, `GENERATIONS`. Just make sure to only add characters that are in the lexicon, but go ahead and update too!
+
+For an example let's try something much longer: `Ray Wenderlich's Swift Algorithm Club Rocks`. Plug that string into `OPTIMAL` and change `GENERATIONS` to `10000`. You'll be able to see that the we are getting somewhere, but you most likely will not reach the optimal string in 10,000 generations. Since we have a larger string let's raise our mutation chance to `200` (1/2 as likely to mutate). You may not get there, but you should get a lot closer than before. With a longer string, too much mutate can make it hard for fit strings to survive. Now try either upping `POP_SIZE` or increase `GENERATIONS`. Either way you should eventually get the value, but there will be a "sweet spot" for an individual of a certain size.
+
+Please submit any kind of update to this tutorial or add more examples!
