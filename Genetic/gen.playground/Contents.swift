@@ -3,16 +3,16 @@
 import Foundation
 
 extension String {
-    var asciiArray: [UInt8] {
+    var unicodeArray: [UInt8] {
         return [UInt8](self.utf8)
     }
 }
 
 
-let lex: [UInt8] = " !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~".asciiArray
+let lex: [UInt8] = " !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~".unicodeArray
 
 // This is the end goal and what we will be using to rate fitness. In the real world this will not exist
-let OPTIMAL:[UInt8] = "Hello, World".asciiArray
+let OPTIMAL:[UInt8] = "Hello, World".unicodeArray
 
 // The length of the string in our population. Organisms need to be similar
 let DNA_SIZE = OPTIMAL.count
@@ -34,13 +34,11 @@ func randomChar(from lexicon: [UInt8]) -> UInt8 {
 
 func randomPopulation(from lexicon: [UInt8], populationSize: Int, dnaSize: Int) -> [[UInt8]] {
     
-    let len = UInt32(lexicon.count)
-    
     var pop = [[UInt8]]()
     
-    for _ in 0..<populationSize {
+    (0..<populationSize).forEach { _ in
         var dna = [UInt8]()
-        for _ in 0..<dnaSize {
+        (0..<dnaSize).forEach { _ in
             let char = randomChar(from: lexicon)
             dna.append(char)
         }
@@ -49,30 +47,25 @@ func randomPopulation(from lexicon: [UInt8], populationSize: Int, dnaSize: Int) 
     return pop
 }
 
-randomPopulation(from: lex, populationSize: POP_SIZE, dnaSize: DNA_SIZE)
-
 func calculateFitness(dna:[UInt8], optimal:[UInt8]) -> Int {
-    
     var fitness = 0
-    for c in 0...dna.count-1 {
+    (0...dna.count-1).forEach { c in
         fitness += abs(Int(dna[c]) - Int(optimal[c]))
     }
     return fitness
 }
 
-calculateFitness(dna: "Gello, World".asciiArray, optimal: "Hello, World".asciiArray)
-
-func weightedChoice(items:[(item:[UInt8], weight:Double)]) -> (item:[UInt8], weight:Double) {
+func weightedChoice(items:[(dna:[UInt8], weight:Double)]) -> (dna:[UInt8], weight:Double) {
     
     let total = items.reduce(0.0) { return $0 + $1.weight}
     
     var n = Double(arc4random_uniform(UInt32(total * 1000000.0))) / 1000000.0
     
-    for itemTuple in items {
-        if n < itemTuple.weight {
-            return itemTuple
+    for item in items {
+        if n < item.weight {
+            return item
         }
-        n = n - itemTuple.weight
+        n = n - item.weight
     }
     return items[1]
 }
@@ -80,7 +73,7 @@ func weightedChoice(items:[(item:[UInt8], weight:Double)]) -> (item:[UInt8], wei
 func mutate(lexicon: [UInt8], dna:[UInt8], mutationChance:Int) -> [UInt8] {
     var outputDna = dna
     
-    for i in 0..<dna.count {
+    (0..<dna.count).forEach { i in
         let rand = Int(arc4random_uniform(UInt32(mutationChance)))
         if rand == 1 {
             outputDna[i] = randomChar(from: lexicon)
@@ -108,9 +101,8 @@ func main() {
     var fittest = [UInt8]()
     
     for generation in 0...GENERATIONS {
-        // print("Generation \(generation) with random sample: \(String(bytes: population[0], encoding:.ascii)!)")
         
-        var weightedPopulation = [(item:[UInt8], weight:Double)]()
+        var weightedPopulation = [(dna:[UInt8], weight:Double)]()
         
         // calulcated the fitness of each individual in the population
         // and add it to the weight population (weighted = 1.0/fitness)
@@ -129,7 +121,7 @@ func main() {
             let ind1 = weightedChoice(items: weightedPopulation)
             let ind2 = weightedChoice(items: weightedPopulation)
             
-            let offspring = crossover(dna1: ind1.item, dna2: ind2.item, dnaSize: DNA_SIZE)
+            let offspring = crossover(dna1: ind1.dna, dna2: ind2.dna, dnaSize: DNA_SIZE)
             
             // append to the population and mutate
             population.append(mutate(lexicon: lex, dna: offspring, mutationChance: MUTATION_CHANCE))
@@ -139,7 +131,7 @@ func main() {
         var minFitness = calculateFitness(dna: fittest, optimal: OPTIMAL)
         
         // parse the population for the fittest string
-        for indv in population {lex
+        population.forEach { indv in
             let indvFitness = calculateFitness(dna: indv, optimal: OPTIMAL)
             if indvFitness < minFitness {
                 fittest = indv
@@ -154,4 +146,3 @@ func main() {
 }
 
 main()
-

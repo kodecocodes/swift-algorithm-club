@@ -29,7 +29,7 @@ The randomization that allows for organisms to change over time. In GAs we build
 ### Problem
 For this quick and dirty example, we are going to produce an optimized string using a simple genetic algorithm. More specifically we are trying to take a randomly generated origin string of a fixed length and evolve it into the most optimized string of our choosing.
 
-We will be creating a bio-inspired world where the absolute existence is the string `Hello, World!`. Nothing in this universe is better and it's our goal to get as close to it as possible to ensure survival. 
+We will be creating a bio-inspired world where the absolute existence is the string `Hello, World!`. Nothing in this universe is better and it's our goal to get as close to it as possible to ensure survival.
 
 ### Define the Universe
 
@@ -73,8 +73,8 @@ let MUTATION_CHANCE = 100
      return lexicon[rand]
  }
  ```
- 
- **Note**: `arc4random_uniform` is strickly used in this example. It would be fun to play around with some of the [randomization in GameKit](https://developer.apple.com/library/content/documentation/General/Conceptual/GameplayKit_Guide/RandomSources.html)
+
+ **Note**: `arc4random_uniform` is strictly used in this example. It would be fun to play around with some of the [randomization in GameKit](https://developer.apple.com/library/content/documentation/General/Conceptual/GameplayKit_Guide/RandomSources.html)
 
  ### Population Zero
 
@@ -82,8 +82,6 @@ Before selecting, crossover and mutation, we need a population to start with. No
 
  ```swift
  func randomPopulation(from lexicon: [UInt8], populationSize: Int, dnaSize: Int) -> [[UInt8]] {
-
-    let len = UInt32(lexicon.count)
 
     var pop = [[UInt8]]()
 
@@ -96,7 +94,7 @@ Before selecting, crossover and mutation, we need a population to start with. No
         pop.append(dna)
     }
     return pop
-}
+ }
  ```
 
 ### Selection
@@ -124,17 +122,17 @@ Let's take a second and ask why on this one. Why would you not always want to se
 With all that, here is our weight choice function:
 
 ```swift
-func weightedChoice(items:[(item:[UInt8], weight:Double)]) -> (item:[UInt8], weight:Double) {
+func weightedChoice(items:[(dna:[UInt8], weight:Double)]) -> (dna:[UInt8], weight:Double) {
 
     let total = items.reduce(0.0) { return $0 + $1.weight}
 
     var n = Double(arc4random_uniform(UInt32(total * 1000000.0))) / 1000000.0
 
-    for itemTuple in items {
-        if n < itemTuple.weight {
-            return itemTuple
+    for item in items {
+        if n < item.weight {
+            return item
         }
-        n = n - itemTuple.weight
+        n = n - item.weight
     }
     return items[1]
 }
@@ -144,7 +142,7 @@ The above function takes a list of individuals with their calculated fitness. Th
 
 ## Mutation
 
-The all powerful mutation, the thing that introduces otherwise non exisitant fitness variance. It can either hurt of improve a individuals fitness but over time it will cause evolution towards more fit populations. Imagine if our initial random population was missing the charachter `H`, in that case we need to rely on mutation to introduce that character into the population in order to achive the optimal solution.
+The all powerful mutation, the thing that introduces otherwise non existent fitness variance. It can either hurt of improve a individuals fitness but over time it will cause evolution towards more fit populations. Imagine if our initial random population was missing the charachter `H`, in that case we need to rely on mutation to introduce that character into the population in order to achieve the optimal solution.
 
 ```swift
 func mutate(lexicon: [UInt8], dna:[UInt8], mutationChance:Int) -> [UInt8] {
@@ -184,7 +182,7 @@ The above is used to generate a completely new generation based on the current g
 
 ## Putting it all together -- Running the Genetic Algorithm
 
-We now have all the functions we need to kick off the algorthim. Let's start from the beginning, first we need a random population to serve as a starting point. We will also initialize a fittest variable to hold the fittest individual, we will initialize it with the first individual of our random population.
+We now have all the functions we need to kick off the algorithm. Let's start from the beginning, first we need a random population to serve as a starting point. We will also initialize a fittest variable to hold the fittest individual, we will initialize it with the first individual of our random population.
 
 ```swift
 var population:[[UInt8]] = randomPopulation(from: lex, populationSize: POP_SIZE, dnaSize: DNA_SIZE)
@@ -202,7 +200,7 @@ for generation in 0...GENERATIONS {
 Now, for each individual in the population, we need to calculate its fitness and weighted value. Since 0 is the best value we will use `1/fitness` to represent the weight. Note this is not a percent, but just how much more likely the value is to be selected over others. If the highest number was the most fit, the weight calculation would be `fitness/totalFitness`, which would be a percent.
 
 ```swift
-var weightedPopulation = [(item:[UInt8], weight:Double)]()
+var weightedPopulation = [(dna:[UInt8], weight:Double)]()
 
 for individual in population {
   let fitnessValue = calculateFitness(dna: individual, optimal: OPTIMAL)
@@ -224,7 +222,7 @@ The below loop is where we pull everything together. We loop for `POP_SIZE`, sel
     let ind1 = weightedChoice(items: weightedPopulation)
     let ind2 = weightedChoice(items: weightedPopulation)
 
-    let offspring = crossover(dna1: ind1.item, dna2: ind2.item, dnaSize: DNA_SIZE)
+    let offspring = crossover(dna1: ind1.dna, dna2: ind2.dna, dnaSize: DNA_SIZE)
 
     // append to the population and mutate
     nextGeneration.append(mutate(lexicon: lex, dna: offspring, mutationChance: MUTATION_CHANCE))
@@ -237,7 +235,7 @@ The final piece to the main loop is to select the fittest individual of a popula
 fittest = population[0]
 var minFitness = calculateFitness(dna: fittest, optimal: OPTIMAL)
 
-for indv in population {lex
+population.forEach { indv in
     let indvFitness = calculateFitness(dna: indv, optimal: OPTIMAL)
     if indvFitness < minFitness {
         fittest = indv
