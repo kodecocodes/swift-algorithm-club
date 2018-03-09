@@ -2,35 +2,34 @@ individual# Genetic Algorthim
 
 ## What is it?
 
-A genetic algorithm (GA) is process inspired by natural selection to find high quality solutions. Most commonly used for optimization. GAs rely on the bio-inspired processes of natural selection, more specifically the process of selection (fitness), mutation and crossover. To understand more, let's walk through these process in terms of biology:
+A genetic algorithm (GA) is process inspired by natural selection to find high quality solutions. Most commonly used for optimization. GAs rely on the bio-inspired processes of natural selection, more specifically the process of selection (fitness), crossover and mutation. To understand more, let's walk through these processes in terms of biology:
 
 ### Selection
 >**Selection**, in biology, the preferential survival and reproduction or preferential elimination of individuals with certain genotypes (genetic compositions), by means of natural or artificial controlling factors. [Britannica](britannica)
 
-In other words, survival of the fittest. Organism that survive in their environment tend to reproduce more. With GAs we generate a fitness model that will rank offspring and give them a better chance for reproduction.
-
-### Mutation
->**Mutation**, an alteration in the genetic material (the genome) of a cell of a living organism or of a virus that is more or less permanent and that can be transmitted to the cell’s or the virus’s descendants. [Britannica](https://www.britannica.com/science/mutation-genetics)
-
-The randomization that allows for organisms to change over time. In GAs we build a randomization process that will mutate offspring in a populate in order to randomly introduce fitness variance.
+In other words, survival of the fittest. Organisms that survive in their environment tend to reproduce more. With GAs we generate a fitness model that will rank individuals and give them a better chance for reproduction.
 
 ### Crossover
 >**Chromosomal crossover** (or crossing over) is the exchange of genetic material between homologous chromosomes that results in recombinant chromosomes during sexual reproduction [Wikipedia](https://en.wikipedia.org/wiki/Chromosomal_crossover)
 
-Simply reproduction. A generation will a mixed representation of the previous generation, with offspring taking data (DNA) from both parents. GAs do this by randomly, but weightily, mating offspring to create new generations.
+Simply reproduction. A generation will be a mixed representation of the previous generation, with offspring taking DNA from both parents. GAs do this by randomly, but weightily, mating offspring to create new generations.
+
+### Mutation
+>**Mutation**, an alteration in the genetic material (the genome) of a cell of a living organism or of a virus that is more or less permanent and that can be transmitted to the cell’s or the virus’s descendants. [Britannica](https://www.britannica.com/science/mutation-genetics)
+
+The randomization that allows for organisms to change over time. In GAs we build a randomization process that will mutate offspring in a population in order to introduce fitness variance.
 
 ### Resources:
 * [Genetic Algorithms in Search Optimization, and Machine Learning](https://www.amazon.com/Genetic-Algorithms-Optimization-Machine-Learning/dp/0201157675/ref=sr_1_sc_1?ie=UTF8&qid=1520628364&sr=8-1-spell&keywords=Genetic+Algortithms+in+search)
 * [Wikipedia](https://en.wikipedia.org/wiki/Genetic_algorithm)
 * [My Original Gist](https://gist.github.com/blainerothrock/efda6e12fe10792c99c990f8ff3daeba)
 
-
 ## The Code
 
 ### Problem
-For this quick and dirty example, we are going to obtain a optimize string using a simple genetic algorithm. More specifically we are trying to take a randomly generated origin string of a fixed length and evolve it into the most optimized string of our choosing.
+For this quick and dirty example, we are going to produce an optimized string using a simple genetic algorithm. More specifically we are trying to take a randomly generated origin string of a fixed length and evolve it into the most optimized string of our choosing.
 
-We will be creating a bio-inspired world where the absolute existence is string `Hello, World!`. Nothing in this universe is better and it's our goal to get as close to it as possible.  
+We will be creating a bio-inspired world where the absolute existence is the string `Hello, World!`. Nothing in this universe is better and it's our goal to get as close to it as possible to ensure survival. 
 
 ### Define the Universe
 
@@ -40,36 +39,32 @@ Before we dive into the core processes we need to set up our "universe". First l
 let lex: [UInt8] = " !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~".asciiArray
 ```
 
-To make things easier, we are actually going to work in ASCII values, so let's define a String extension to help with that.
+To make things easier, we are actually going to work in [Unicode values](https://en.wikipedia.org/wiki/List_of_Unicode_characters), so let's define a String extension to help with that.
 
 ```swift
 extension String {
-  var asciiArray: [UInt8] {
+  var unicodeArray: [UInt8] {
     return [UInt8](self.utf8)
   }
 }
 ```
 
  Now, let's define a few global variables for the universe:
+ * `OPTIMAL`: This is the end goal and what we will be using to rate fitness. In the real world this will not exist
+ * `DNA_SIZE`: The length of the string in our population. Organisms need to be similar
+ * `POP_SIZE`: Size of each generation
+ * `MAX_GENERATIONS`: Max number of generations, script will stop when it reach 5000 if the optimal value is not found
+ * `MUTATION_CHANCE`: The chance in which a random nucleotide can mutate (`1/MUTATION_CHANCE`)
 
  ```swift
-// This is the end goal and what we will be using to rate fitness. In the real world this will not exist
-let OPTIMAL:[UInt8] = "Hello, World".asciiArray
-
-// The length of the string in our population. Organisms need to be similar
+let OPTIMAL:[UInt8] = "Hello, World".unicodeArray
 let DNA_SIZE = OPTIMAL.count
-
-// size of each generation
 let POP_SIZE = 50
-
-// max number of generations, script will stop when it reach 5000 if the optimal value is not found
-let GENERATIONS = 5000
-
-// The chance in which a random nucleotide can mutate (1/n)
+let MAX_GENERATIONS = 5000
 let MUTATION_CHANCE = 100
  ```
 
- The last piece we need for set up is a function to give us a random ASCII value from our lexicon:
+ The last piece we need for set up is a function to give us a random unicode value from our lexicon:
 
  ```swift
  func randomChar(from lexicon: [UInt8]) -> UInt8 {
@@ -78,10 +73,12 @@ let MUTATION_CHANCE = 100
      return lexicon[rand]
  }
  ```
+ 
+ **Note**: `arc4random_uniform` is strickly used in this example. It would be fun to play around with some of the [randomization in GameKit](https://developer.apple.com/library/content/documentation/General/Conceptual/GameplayKit_Guide/RandomSources.html)
 
  ### Population Zero
 
- Before selecting, mutating and reproduction, we need population to start with. Now that we have the universe defined we can write that function:
+Before selecting, crossover and mutation, we need a population to start with. Now that we have the universe defined we can write that function:
 
  ```swift
  func randomPopulation(from lexicon: [UInt8], populationSize: Int, dnaSize: Int) -> [[UInt8]] {
@@ -90,9 +87,9 @@ let MUTATION_CHANCE = 100
 
     var pop = [[UInt8]]()
 
-    for _ in 0..<populationSize {
+    (0..<populationSize).forEach { _ in
         var dna = [UInt8]()
-        for _ in 0..<dnaSize {
+        (0..<dnaSize).forEach { _ in
             let char = randomChar(from: lexicon)
             dna.append(char)
         }
@@ -104,27 +101,27 @@ let MUTATION_CHANCE = 100
 
 ### Selection
 
-There are two parts to the selection process, the first is calculating the fitness, which will assign a rating to a individual. We do this by simply calculating how close the individual is to the optimal string using ASCII values:
+There are two parts to the selection process, the first is calculating the fitness, which will assign a rating to a individual. We do this by simply calculating how close the individual is to the optimal string using unicode values:
 
 ```swift
 func calculateFitness(dna:[UInt8], optimal:[UInt8]) -> Int {
     var fitness = 0
-    for c in 0...dna.count-1 {
+    (0...dna.count-1).forEach { c in
         fitness += abs(Int(dna[c]) - Int(optimal[c]))
     }
     return fitness
 }
 ```
 
-The above will produce a fitness value to an individual. The perfect solution, "Hello, World" will have a fitness of 0. "Gello, World" will have a fitness of 1 since it is one ASCII value off from the optimal.
+The above will produce a fitness value to an individual. The perfect solution, "Hello, World" will have a fitness of 0. "Gello, World" will have a fitness of 1 since it is one unicode value off from the optimal (`H->G`).
 
-This example is very, but it'll work for our example. In a real world problem, the optimal solution is unknown or impossible. [Here](https://iccl.inf.tu-dresden.de/w/images/b/b7/GA_for_TSP.pdf) is a paper about optimizing a solution for the famous [traveling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) using GA. In this example the problem is unsolvable by modern computers, but you can rate a individual solution by distance traveled. The optimal fitness here is an impossible 0. The closer the solution is to 0, the better chance for survival.
+This example is very simple, but it'll work for our example. In a real world problem, the optimal solution is unknown or impossible. [Here](https://iccl.inf.tu-dresden.de/w/images/b/b7/GA_for_TSP.pdf) is a paper about optimizing a solution for the famous [traveling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) using a GA. In this example the problem is unsolvable by modern computers, but you can rate a individual solution by distance traveled. The optimal fitness here is an impossible 0. The closer the solution is to 0, the better chance for survival. In our example we will reach our goal, a fitness of 0.
 
-The second part to selection is weighted choice, also called roulette wheel selection. This defines how individuals are selected for the reproduction process out of the current population. Just because you are the best choice for natural selection doesn't mean the environment will select you. The individual could fall off a cliff, get dysentery or not be able to reproduce.
+The second part to selection is weighted choice, also called roulette wheel selection. This defines how individuals are selected for the reproduction process out of the current population. Just because you are the best choice for natural selection doesn't mean the environment will select you. The individual could fall off a cliff, get dysentery or be unable to reproduce.
 
-Let's take a second and ask why on this one. Why would you not always want to select the most fit from a population? It's hard to see from this simple example, but let's think about dog breeding, because breeders remove this process and hand select dogs for the next generation. As a result you get improved desired characteristics, but the individuals will also continue to carry genetic disorders that come along with those traits. This is essentially leading the evolution down a linear path. A certain "branch" of evolution may beat out the current fittest solution at a later time.
+Let's take a second and ask why on this one. Why would you not always want to select the most fit from a population? It's hard to see from this simple example, but let's think about dog breeding, because breeders remove this process and hand select dogs for the next generation. As a result you get improved desired characteristics, but the individuals will also continue to carry genetic disorders that come along with those traits. A certain "branch" of evolution may beat out the current fittest solution at a later time. This may be ok depending on the problem, but to keep this educational we will go with the bio-inspired way.
 
-ok, back to code. Here is our weighted choice function:
+With all that, here is our weight choice function:
 
 ```swift
 func weightedChoice(items:[(item:[UInt8], weight:Double)]) -> (item:[UInt8], weight:Double) {
@@ -147,13 +144,13 @@ The above function takes a list of individuals with their calculated fitness. Th
 
 ## Mutation
 
-The all powerful mutation. The great randomization that turns bacteria into humans, just add time. So powerful yet so simple:
+The all powerful mutation, the thing that introduces otherwise non exisitant fitness variance. It can either hurt of improve a individuals fitness but over time it will cause evolution towards more fit populations. Imagine if our initial random population was missing the charachter `H`, in that case we need to rely on mutation to introduce that character into the population in order to achive the optimal solution.
 
 ```swift
 func mutate(lexicon: [UInt8], dna:[UInt8], mutationChance:Int) -> [UInt8] {
     var outputDna = dna
 
-    for i in 0..<dna.count {
+    (0..<dna.count).forEach { i in
         let rand = Int(arc4random_uniform(UInt32(mutationChance)))
         if rand == 1 {
             outputDna[i] = randomChar(from: lexicon)
@@ -202,7 +199,7 @@ for generation in 0...GENERATIONS {
 }
 ```
 
-Now, for each individual in the population, we need to calculate its fitness and weighted value. Since 0 is the best value we will use `1/fitness` to represent the weighted value. Note this is not a percent, but just how much more likely the value is to be selected over others. If the highest number was the most fit, the weight calculation would be `fitness/totalFitness`, which would be a percent.
+Now, for each individual in the population, we need to calculate its fitness and weighted value. Since 0 is the best value we will use `1/fitness` to represent the weight. Note this is not a percent, but just how much more likely the value is to be selected over others. If the highest number was the most fit, the weight calculation would be `fitness/totalFitness`, which would be a percent.
 
 ```swift
 var weightedPopulation = [(item:[UInt8], weight:Double)]()
@@ -251,7 +248,7 @@ if minFitness == 0 { break; }
 print("\(generation): \(String(bytes: fittest, encoding: .utf8)!)")
 ```
 
-Since we know the fittest string, I've added a `break` to kill the program if we find it. At the end of a loop at a print statement for the fittest string:
+Since we know the fittest string, I've added a `break` to kill the program if we find it. At the end of a loop add a print statement for the fittest string:
 
 ```swift
 print("fittest string: \(String(bytes: fittest, encoding: .utf8)!)")
@@ -324,8 +321,8 @@ How long it takes will vary since this is based on randomization, but it should 
 
 ## Now What?
 
-We did it, we have a running simple genetic algorithm. Take some time a play around with the global variables, `POP_SIZE`, `OPTIMAL`, `MUTATION_CHANCE`, `GENERATIONS`. Just make sure to only add characters that are in the lexicon, but go ahead and update too!
+We did it, we have a running simple genetic algorithm. Take some time a play around with the global variables, `POP_SIZE`, `OPTIMAL`, `MUTATION_CHANCE`, `GENERATIONS`. Just make sure to only add characters that are in the lexicon or update the lexicon.
 
-For an example let's try something much longer: `Ray Wenderlich's Swift Algorithm Club Rocks`. Plug that string into `OPTIMAL` and change `GENERATIONS` to `10000`. You'll be able to see that the we are getting somewhere, but you most likely will not reach the optimal string in 10,000 generations. Since we have a larger string let's raise our mutation chance to `200` (1/2 as likely to mutate). You may not get there, but you should get a lot closer than before. With a longer string, too much mutate can make it hard for fit strings to survive. Now try either upping `POP_SIZE` or increase `GENERATIONS`. Either way you should eventually get the value, but there will be a "sweet spot" for an individual of a certain size.
+For an example let's try something much longer: `Ray Wenderlich's Swift Algorithm Club Rocks`. Plug that string into `OPTIMAL` and change `GENERATIONS` to `10000`. You'll be able to see that the we are getting somewhere, but you most likely will not reach the optimal string in 10,000 generations. Since we have a larger string let's raise our mutation chance to `200` (1/2 as likely to mutate). You may not get there, but you should get a lot closer than before. With a longer string, too much mutation can make it hard for fit strings to survive. Now try either upping `POP_SIZE` or increase `GENERATIONS`. Either way you should eventually get the value, but there will be a "sweet spot" for an string of a certain size.
 
 Please submit any kind of update to this tutorial or add more examples!
