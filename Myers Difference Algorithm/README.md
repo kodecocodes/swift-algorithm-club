@@ -1,6 +1,6 @@
 #  Myers Difference Algorithm
 
-Myers Difference Algorithm is the algorithm to find a longest common subsequence or shortest edit scripts (LCS/SES dual probrem) of two sequences by a simple O(ND) time, where N is the sum of the lengths of the two sequences. Common subsequence is the sequence of elements that appear in the same order in both sequences. Edit script will be discussed below.
+Myers Difference Algorithm is an algorithm that finds a longest common subsequence or shortest edit scripts (LCS/SES dual probrem) of two sequences. MDA can accomplish this in O(ND) time, where N is the sum of the lengths of the two sequences. The common subsequence of two sequences is the sequence of elements that appear in the same order in both sequences. The edit scripts will be discussed below.
 
 For example, assuming that sequence `A = ["1", "2", "3"]` and sequence `B = ["2", "3", "4"]`, `["2"], ["2", "3"]` are common sequences. Furthermore, the latter `["2", "3"]` is the longest common subsequence.  But `["1", "2"], ["3", "2"]` are not. Because, `["1", "2"]` contains `"1"` that is not included in `B`, `["3", "2"]` has elements are included in both, but the appearing order is not correct.
 
