@@ -1,20 +1,32 @@
 #  Myers Difference Algorithm
 
-Myers Difference Algorithm is an algorithm that finds a longest common subsequence or shortest edit scripts (LCS/SES dual probrem) of two sequences. MDA can accomplish this in O(ND) time, where N is the sum of the lengths of the two sequences. The common subsequence of two sequences is the sequence of elements that appear in the same order in both sequences. The edit scripts will be discussed below.
+Myers Difference Algorithm is an algorithm that finds a longest common subsequence(LCS) or shortest edit scripts(SES) of two sequences. MDA can accomplish this in O(ND) time, where N is the sum of the lengths of the two sequences. The common subsequence of two sequences is the sequence of elements that appear in the same order in both sequences. 
 
-For example, assuming that sequence `A = ["1", "2", "3"]` and sequence `B = ["2", "3", "4"]`, `["2"], ["2", "3"]` are common sequences. Furthermore, the latter `["2", "3"]` is the longest common subsequence.  But `["1", "2"], ["3", "2"]` are not. Because, `["1", "2"]` contains `"1"` that is not included in `B`, `["3", "2"]` has elements are included in both, but the appearing order is not correct.
+For example, let's assume you have two arrays:
+
+```
+A = [1, 2, 3]
+B = [2, 3, 4]
+```
+
+The common subsequences of these two arrays are `[2]`, and `[2,3]`. The longest common sequence in this case is `[2,3]`.
 
 ## Finding the length of the Longest Common Subsequence with Myers Algorithm on Edit Graph
 
 ### Edit Graph
 
-Myers Algorithm uses Edit Graph for solving LCS/SES problem. Edit Graph is the graph like below.
+MDA uses an **Edit Graph** to solve the LCS/SES problem. Below is a illustration depicting an edit graph:
 
 <img src='Images/EditGraph.png' height="400">
 
-Here, we think about the length of the LCS of sequences `X = [A, B, C, A, B, B, A]`, `Y = [C, B, A, B, A, C]`.
+In this case, the arrays are:
 
-In Myers Algorithm, edit graph are prepared by
+```
+X = [A, B, C, A, B, B, A]
+Y = [C, B, A, B, A, C]
+```
+
+MDA generates the edit graph through the following steps:
 
 1. Line the element of sequence `X` on the x axis. And do for `Y` on the y axis.
 2. Make grid and vertex at each point in the grid (x, y), `x in [0, N] and y in [0, M]`. `N` is the length of sequence `X`, `M` is of `Y`
