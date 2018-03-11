@@ -19,7 +19,7 @@ MDA uses an **Edit Graph** to solve the LCS/SES problem. Below is a illustration
 
 <img src='Images/EditGraph.png' height="400">
 
-In this case, the arrays are:
+The x-axis at the top of the graph represents one of the sequences, `X`. The y-axis at the left side of the graph represents the other sequence, `Y`. Hence, the two sequences in question is the following:
 
 ```
 X = [A, B, C, A, B, B, A]
