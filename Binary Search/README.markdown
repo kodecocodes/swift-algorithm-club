@@ -4,15 +4,15 @@ Goal: Quickly find an element in an array.
 
 Let's say you have an array of numbers and you want to determine whether a specific number is in that array, and if so, at which index.
 
-In most cases, Swift's `indexOf()` function is good enough for that:
+In most cases, Swift's `Collection.index(of:)` function is good enough for that:
 
 ```swift
 let numbers = [11, 59, 3, 2, 53, 17, 31, 7, 19, 67, 47, 13, 37, 61, 29, 43, 5, 41, 23]
 
-numbers.indexOf(43)  // returns 15
+numbers.index(of: 43)  // returns 15
 ```
 
-The built-in `indexOf()` function performs a [linear search](../Linear%20Search/). In code that looks something like this:
+The built-in `Collection.index(of:)` function performs a [linear search](../Linear%20Search/). In code that looks something like this:
 
 ```swift
 func linearSearch<T: Equatable>(_ a: [T], _ key: T) -> Int? {
