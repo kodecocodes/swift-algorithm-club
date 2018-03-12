@@ -99,7 +99,7 @@ And so on... this is how `lcsLength(_:)` fills in the entire matrix.
 
 ## Backtracking to find the actual subsequence
 
-So far we've calculated the length of every possible subsequence. The length of the longest subsequence is found in the bottom-left corner of matrix, at `matrix[n+1][m+1]`. In the above example it is 4, so the LCS consists of 4 characters.
+So far we've calculated the length of every possible subsequence. The length of the longest subsequence is found in the bottom-right corner of matrix, at `matrix[n+1][m+1]`. In the above example it is 4, so the LCS consists of 4 characters.
 
 Having the length of every combination of substrings makes it possible to determine *which* characters are part of the LCS itself by using a backtracking strategy.
 
