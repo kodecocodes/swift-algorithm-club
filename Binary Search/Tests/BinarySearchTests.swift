@@ -1,59 +1,72 @@
-import Foundation
 import XCTest
 
 class BinarySearchTest: XCTestCase {
-  var searchList = [Int]()
+  let searchList = Array(stride(from: 1, through: 500, by: 1))
 
-  override func setUp() {
-    super.setUp()
-    for number in 1...500 {
-      searchList.append(number)
-    }
-  }
-
-  func testEmptyArray() {
-    let array = [Int]()
-    let index = binarySearch(array, key: 123)
-    XCTAssertNil(index)
+  func testEmptyCollection() {
+    let collection = EmptyCollection<Int>()
+    XCTAssertNil(collection.binarySearchIterative(key: 123))
+    XCTAssertNil(collection.binarySearchRecursive(key: 123))
   }
 
   func testBinarySearch() {
     for i in 1...100 {
-      var array = [Int]()
-      for number in 1...i {
-        array.append(number)
-      }
+      let array = Array(stride(from: 1, through: i, by: 1))
       let randomIndex = Int(arc4random_uniform(UInt32(i)))
       let testValue = array[randomIndex]
-
-      let index = binarySearch(array, key: testValue)
-      XCTAssertNotNil(index)
-      XCTAssertEqual(index!, randomIndex)
-      XCTAssertEqual(array[index!], testValue)
+      
+      if let index = array.binarySearchIterative(key: testValue) {
+        XCTAssertEqual(index, randomIndex)
+        XCTAssertEqual(array[index], testValue)
+      } else {
+        XCTFail()
+      }
+      if let index = array.binarySearchRecursive(key: testValue) {
+        XCTAssertEqual(index, randomIndex)
+        XCTAssertEqual(array[index], testValue)
+      } else {
+        XCTFail()
+      }
     }
   }
 
   func testLowerBound() {
-    let index = binarySearch(searchList, key: 1)
-    XCTAssertNotNil(index)
-    XCTAssertEqual(index!, 0)
-    XCTAssertEqual(searchList[index!], 1)
+    if let index = searchList.binarySearchIterative(key: 1) {
+      XCTAssertEqual(index, searchList.startIndex)
+      XCTAssertEqual(searchList[index], 1)
+    } else {
+      XCTFail()
+    }
+    if let index = searchList.binarySearchRecursive(key: 1) {
+      XCTAssertEqual(index, searchList.startIndex)
+      XCTAssertEqual(searchList[index], 1)
+    } else {
+      XCTFail()
+    }
   }
 
   func testUpperBound() {
-    let index = binarySearch(searchList, key: 500)
-    XCTAssertNotNil(index)
-    XCTAssertEqual(index!, 499)
-    XCTAssertEqual(searchList[index!], 500)
+    if let index = searchList.binarySearchIterative(key: 500) {
+      XCTAssertEqual(index, searchList.index(before: searchList.endIndex))
+      XCTAssertEqual(searchList[index], 500)
+    } else {
+      XCTFail()
+    }
+    if let index = searchList.binarySearchRecursive(key: 500) {
+      XCTAssertEqual(index, searchList.index(before: searchList.endIndex))
+      XCTAssertEqual(searchList[index], 500)
+    } else {
+      XCTFail()
+    }
   }
 
   func testOutOfLowerBound() {
-    let index = binarySearch(searchList, key: 0)
-    XCTAssertNil(index)
+    XCTAssertNil(searchList.binarySearchIterative(key: 0))
+    XCTAssertNil(searchList.binarySearchRecursive(key: 0))
   }
 
   func testOutOfUpperBound() {
-    let index = binarySearch(searchList, key: 501)
-    XCTAssertNil(index)
+    XCTAssertNil(searchList.binarySearchIterative(key: 501))
+    XCTAssertNil(searchList.binarySearchRecursive(key: 501))
   }
 }
