@@ -279,7 +279,7 @@ Overall time is: **O(NlgN + Q)** to build the table and answer all queries.
 The naive approach is to do a for loop for each query. The overall time for the naive approach is: **O(NQ)**. 
 For very large **Q**, the naive approach will scale poorly. For example if `Q = O(N*N)`
 then the naive approach is `O(N*N*N)` where a Sparse Table takes time `O(N*N)`.
-- **Space**-  The number of possible **w** is **lgN** and the number of possible **i** our table is **N**. So the table
+- **Space**-  The number of possible **w** is **lgN** and the number of possible **l** our table is **N**. So the table
 has uses **O(NlgN)** additional space.
 
 ### Comparison with Segment Trees
