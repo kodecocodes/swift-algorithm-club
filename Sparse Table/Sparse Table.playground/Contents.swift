@@ -14,14 +14,14 @@ public class SparseTable<T> {
   private var defaultT: T
   private var table: [[T]]
   private var function: (T, T) -> T
-  
+
   public init(array: [T], function: @escaping (T, T) -> T, defaultT: T) {
     let N = array.count
     let W = Int(ceil(log2(Double(N))))
     table = [[T]](repeating: [T](repeating: defaultT, count: N), count: W)
     self.function = function
     self.defaultT = defaultT
-    
+
     for w in 0..<W {
       for l in 0..<N {
         if w == 0 {
@@ -35,7 +35,7 @@ public class SparseTable<T> {
       }
     }
   }
-  
+
   public func query(from l: Int, until r: Int) -> T {
     let width = r - l
     let N = table[0].count
@@ -97,14 +97,14 @@ print("-------------------------------------------------------------------------
 print("---------------------------- EXAMPLE 4 -------------------------------------")
 // An array of positive integers and we're repeatedly finding
 // the gcd (greatest common divisor) over various ranges. The gcd operator is
-// associative and idempontent so we can use it with sparse tables
+// associative and idempotent so we can use it with sparse tables
 
 let posIntArray = [7, 2, 3, 4, 6, 5, 25, 75, 100]
 func gcd(_ m: Int, _ n: Int) -> Int {
   var a = 0
   var b = max(m, n)
   var r = min(m, n)
-  
+
   while r != 0 {
     a = b
     b = r
@@ -127,7 +127,7 @@ print("------------------------------------------------------------------------\
 print("---------------------------- EXAMPLE 5 -------------------------------------")
 // An array of nonnegative integers where for each integer we consider its binary representation.
 // We're repeatedly finding the binary OR (|) over various ranges. The binary operator is
-// associative and idempontent so we can use it with sparse tables
+// associative and idempotent so we can use it with sparse tables
 
 let binArray = [0b1001, 0b1100, 0b0000, 0b0001, 0b0010, 0b0100, 0b0000, 0b1111]
 
