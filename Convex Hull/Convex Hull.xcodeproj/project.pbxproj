@@ -149,7 +149,7 @@
 					};
 					8E6D68B51E59989400161780 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 7C4LVS3ZVC;
+						DevelopmentTeam = 4SQG5NJNPF;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -384,7 +384,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7C4LVS3ZVC;
+				DEVELOPMENT_TEAM = 4SQG5NJNPF;
 				INFOPLIST_FILE = "Convex Hull/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "workmoose.Convex-Hull";
@@ -397,7 +397,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7C4LVS3ZVC;
+				DEVELOPMENT_TEAM = 4SQG5NJNPF;
 				INFOPLIST_FILE = "Convex Hull/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "workmoose.Convex-Hull";
