@@ -34,3 +34,59 @@ extension Stack: Sequence {
     }
   }
 }
+
+protocol StackProtocol {
+  associatedtype T
+  var count: Int { get }
+  var isEmpty: Bool { get }
+  func push(item: T)
+  func pop() -> T?
+}
+
+// LinkedList implementation of Stack
+class LinkedList<T>: StackProtocol {
+  
+  public class LinkedListNode<T> {
+    var value: T
+    var next: LinkedListNode?
+    
+    init(value: T) {
+      self.value = value
+    }
+  }
+  
+  private var counter = 0
+  
+  // the number of items - O(1)
+  var count: Int {
+    return counter
+  }
+  
+  private var first: LinkedListNode<T>?
+  
+  var isEmpty: Bool {
+    return first == nil
+  }
+  
+  public func push(item: T) {
+    let oldFirst = first
+    first = LinkedListNode(value: item)
+    first?.value = item
+    first?.next = oldFirst
+    
+    counter += 1
+  }
+  
+  func pop() -> T? {
+    if let item = first?.value {
+      
+      first = first?.next
+      
+      counter -= 1
+      return item
+    }
+    return nil
+  }
+}
+
+
