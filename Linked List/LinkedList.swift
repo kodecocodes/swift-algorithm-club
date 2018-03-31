@@ -153,7 +153,7 @@ public final class LinkedList<T> {
     ///   - list: The LinkedList to be copied and inserted
     ///   - index: Integer value of the index to be inserted at
     public func insert(_ list: LinkedList, at index: Int) {
-        if list.isEmpty { return }
+        guard !list.isEmpty else { return }
         
         if index == 0 {
             list.last?.next = head
