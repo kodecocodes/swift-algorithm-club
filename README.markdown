@@ -162,6 +162,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Segment Tree](Segment%20Tree/). Can quickly compute a function over a portion of an array.
   - [Lazy Propagation](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation)
 - kd-Tree
+- [Sparse Table](Sparse%20Table/). Another take on quickly computing a function over a portion of an array, but this time we'll make it even quicker!.
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
 - [Trie](Trie/). A special type of tree used to store associative data structures.
