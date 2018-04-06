@@ -34,6 +34,11 @@ MDA generates the edit graph through the following steps:
 3. Check the points `(i, j)`, where `X[i] = Y[j]`, called match point, light green one.
 4. Connect vertex `(i - 1, j - 1)` and vertex `(i, j)`, where `(i, j)` is match point, then diagonal edge appears.
 
+Each elements on the figure shows that,
+- `Red number and dotted lines`: The red number is the value of k and dotted lines are k-line.
+- `Green dots: The match points`, which is the point `(i, j)` where `X[i] == Y[j]`
+- `Blue line`: The shortest path from source to sink, which is the path we are going to find finally.
+
 > **Note:** Here, the sequences' start index is 1 not 0, so `X[1] = A`, `Y[1] = C`
 
 We discuss about which path is the shortest from `source` to `sink`. Can move on the edges on the graph. I mean we can move on  the grid, horizontal and vertical edges, and the diagonal edges.
