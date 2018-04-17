@@ -211,7 +211,7 @@ A lot of software developer interview questions consist of algorithmic puzzles. 
 
 Like what you see? Check out [Data Structures & Algorithms in Swift](https://store.raywenderlich.com/products/data-structures-and-algorithms-in-swift), the official book by the Swift Algorithm Club team!
 
-![Data Structures & Algorithms in Swift Book](Images/DataStructuresAndAlgorithmsInSwift.png)
+![Data Structures & Algorithms in Swift Book](Images/DataStructuresAndAlgorithmsInSwiftBook.png)
 
 You’ll start with the fundamental structures of linked lists, queues and stacks, and see how to implement them in a highly Swift-like way. Move on to working with various types of trees, including general purpose trees, binary trees, AVL trees, binary search trees, and tries. 
 
