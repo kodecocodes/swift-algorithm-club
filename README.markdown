@@ -206,32 +206,18 @@ A lot of software developer interview questions consist of algorithmic puzzles. 
 - [Dining Philosophers](DiningPhilosophers/)
 - [Egg Drop Problem](Egg%20Drop%20Problem/)
 - [Encoding and Decoding Binary Tree](Encode%20and%20Decode%20Tree/)
+
 ## Learn more!
 
-For more information, check out these great books:
+Like what you see? Check out [Data Structures & Algorithms in Swift](https://store.raywenderlich.com/products/data-structures-and-algorithms-in-swift), the official book by the Swift Algorithm Club team!
 
-- [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms) by Cormen, Leiserson, Rivest, Stein
-- [The Algorithm Design Manual](http://www.algorist.com) by Skiena
-- [Elements of Programming Interviews](http://elementsofprogramminginterviews.com) by Aziz, Lee, Prakash
-- [Algorithms](http://www.cs.princeton.edu/~rs/) by Sedgewick
-- [Grokking Algorithms](https://www.manning.com/books/grokking-algorithms) by Aditya Bhargava
+![Data Structures & Algorithms in Swift Book](Images/DataStructuresAndAlgorithmsInSwift.png)
 
-The following books are available for free online:
+You’ll start with the fundamental structures of linked lists, queues and stacks, and see how to implement them in a highly Swift-like way. Move on to working with various types of trees, including general purpose trees, binary trees, AVL trees, binary search trees, and tries. 
 
-- [Algorithms](http://www.beust.com/algorithms.pdf) by Dasgupta, Papadimitriou, Vazirani
-- [Algorithms, Etc.](http://jeffe.cs.illinois.edu/teaching/algorithms/) by Erickson
-- [Algorithms + Data Structures = Programs](http://www.ethoberon.ethz.ch/WirthPubl/AD.pdf) by Wirth
-- Algorithms and Data Structures: The Basic Toolbox by Mehlhorn and Sanders
-- [Open Data Structures](http://opendatastructures.org) by Pat Morin
-- [Wikibooks: Algorithms and Implementations](https://en.wikibooks.org/wiki/Algorithm_Implementation)
+Go beyond bubble and insertion sort with better-performing algorithms, including mergesort, radix sort, heap sort, and quicksort. Learn how to construct directed, non-directed and weighted graphs to represent many real-world models, and traverse graphs and trees efficiently with breadth-first, depth-first, Dijkstra’s and Prim’s algorithms to solve problems such as finding the shortest path or lowest cost in a network.
 
-Other algorithm repositories:
-
-- [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). A great collection of algorithms in Objective-C.
-- [@lorentey](https://github.com/lorentey/). Production-quality Swift implementations of common algorithms and data structures.
-- [Rosetta Code](http://rosettacode.org). Implementations in pretty much any language you can think of.
-- [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). Visualize algorithms on your browser.
-- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) Data Structures with directions on how to use them [here](http://waynewbishop.com/swift)
+By the end of this book, you’ll have hands-on experience solving common issues with data structures and algorithms — and you’ll be well on your way to developing your own efficient and useful implementations!
 
 ## Credits
 
