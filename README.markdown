@@ -219,6 +219,8 @@ Go beyond bubble and insertion sort with better-performing algorithms, including
 
 By the end of this book, you’ll have hands-on experience solving common issues with data structures and algorithms — and you’ll be well on your way to developing your own efficient and useful implementations!
 
+You can find the book on the [raywenderlich.com store](https://store.raywenderlich.com/products/data-structures-and-algorithms-in-swift).
+
 ## Credits
 
 The Swift Algorithm Club was originally created by [Matthijs Hollemans](https://github.com/hollance).
