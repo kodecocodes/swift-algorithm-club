@@ -156,7 +156,7 @@ func backtrack(_ matrix: [[Int]]) -> String {
 }
 ```  
 
-This backtracks from `matrix[n+1][m+1]` (bottom-right corner) to `matrix[1][1]` (top-right corner), looking for characters that are common to both strings. It adds those characters to a new string, `lcs`.
+This backtracks from `matrix[n+1][m+1]` (bottom-right corner) to `matrix[1][1]` (top-left corner), looking for characters that are common to both strings. It adds those characters to a new string, `lcs`.
 
 The `charInSequence` variable is an index into the string given by `self`. Initially this points to the last character of the string. Each time we decrement `i`, we also move back `charInSequence`. When the two characters are found to be equal, we add the character at `self[charInSequence]` to the new `lcs` string. (We can't just write `self[i]` because `i` may not map to the current position inside the Swift string.)
 
