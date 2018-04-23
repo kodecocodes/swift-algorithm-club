@@ -1,4 +1,4 @@
-individual# Genetic Algorthim
+# Genetic Algorthim
 
 ## What is it?
 
