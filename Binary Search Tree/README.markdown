@@ -375,7 +375,7 @@ As an exercise, see if you can implement filter and reduce.
 We can make the code more readable by defining some helper functions.
 
 ```swift
-  private func reconnectParentToNode(node: BinarySearchTree?) {
+  private func reconnectParentTo(node: BinarySearchTree?) {
     if let parent = parent {
       if isLeftChild {
         parent.left = node
