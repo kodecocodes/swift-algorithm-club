@@ -1,10 +1,10 @@
 extension Heap {
   public mutating func sort() -> [T] {
-    for i in stride(from: (elements.count - 1), through: 1, by: -1) {
-      elements.swapAt(0, i)
-      shiftDown(0, heapSize: i)
+    for i in stride(from: (nodes.count - 1), through: 1, by: -1) {
+      nodes.swapAt(0, i)
+      shiftDown(from: 0, until: i)
     }
-    return elements
+    return nodes
   }
 }
 

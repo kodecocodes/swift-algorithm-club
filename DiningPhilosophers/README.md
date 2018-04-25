@@ -44,7 +44,7 @@ Based on the Chandy and Misra's analysis, a system of preference levels is deriv
 
 # Swift implementation
 
-This Swift 3.0 implementation of the Chandy/Misra solution is based on the GCD and Semaphore tecnique that can be built on both macOS and Linux.
+This Swift 3.0 implementation of the Chandy/Misra solution is based on the GCD and Semaphore technique that can be built on both macOS and Linux.
 
 The code is based on a ForkPair struct used for holding an array of DispatchSemaphore and a Philosopher struct for associate a couple of forks to each Philosopher.
 

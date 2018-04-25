@@ -2,6 +2,19 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "container:"
+      name = "Sorted Set">
+      <FileRef
+         location = "group:Sorted Set/README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:Sorted Set/SortedSet.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Sorted Set/SortedSet.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Egg Drop Problem"
       name = "Egg Drop Problem">
       <FileRef
@@ -115,6 +128,16 @@
       </FileRef>
       <FileRef
          location = "group:LRU Cache/Readme.md">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Encode and Decode Tree">
+      <FileRef
+         location = "group:Encode and Decode Tree/EncodeAndDecodeTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Encode and Decode Tree/EncodeAndDecodeTree.swift">
       </FileRef>
    </Group>
    <Group
@@ -1812,12 +1835,6 @@
       </FileRef>
       <FileRef
          location = "group:OrderedSet.swift">
-      </FileRef>
-      <FileRef
-         location = "group:AppleOrderedSet.swift">
-      </FileRef>
-      <FileRef
-         location = "group:AppleOrderedSet.playground">
       </FileRef>
       <FileRef
          location = "group:README.markdown">

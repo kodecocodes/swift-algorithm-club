@@ -132,9 +132,9 @@ Below are some examples for each category of performance:
   The most trivial example of function that takes O(n!) time is given below.
 
   ```swift
-  func nFacFunc(n: Int) {
+  func nFactFunc(n: Int) {
     for i in stride(from: 0, to: n, by: 1) {
-      nFactFunc(n - 1)
+      nFactFunc(n: n - 1)
     }
   }
   ```
