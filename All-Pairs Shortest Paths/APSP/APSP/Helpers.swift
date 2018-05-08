@@ -10,7 +10,7 @@ import Foundation
 /**
  Print a matrix, optionally specifying only the cells to display with the triplet (i, j, k) -> matrix[i][j], matrix[i][k], matrix[k][j]
  */
-func printMatrix(matrix: [[Double]], i: Int = -1, j: Int = -1, k: Int = -1) {
+func printMatrix(_ matrix: [[Double]], i: Int = -1, j: Int = -1, k: Int = -1) {
 
   if i >= 0 {
     print("  k: \(k); i: \(i); j: \(j)\n")
@@ -31,12 +31,12 @@ func printMatrix(matrix: [[Double]], i: Int = -1, j: Int = -1, k: Int = -1) {
     }
     grid.append(row)
   }
-  print((grid as NSArray).componentsJoinedByString("\n"))
+  print((grid as NSArray).componentsJoined(by: "\n"))
   print(" =======================")
 
 }
 
-func printIntMatrix(matrix: [[Int?]]) {
+func printIntMatrix(_ matrix: [[Int?]]) {
 
   var grid = [String]()
 
@@ -46,14 +46,14 @@ func printIntMatrix(matrix: [[Int?]]) {
     for y in 0..<n {
       if let value = matrix[x][y] {
         let valueString = NSString(format: "%i", value)
-        row += "\(matrix[x][y] >= 0 ? " " : "")\(valueString) "
+        row += "\(value >= 0 ? " " : "")\(valueString) "
       } else {
         row += "  ø  "
       }
     }
     grid.append(row)
   }
-  print((grid as NSArray).componentsJoinedByString("\n"))
+  print((grid as NSArray).componentsJoined(by: "\n"))
   print(" =======================")
 
 }

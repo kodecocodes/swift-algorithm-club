@@ -1,7 +1,7 @@
 // MARK: - Edge
 
-public class Edge: Equatable {
-  public var neighbor: Node
+open class Edge: Equatable {
+  open var neighbor: Node
 
   public init(neighbor: Node) {
     self.neighbor = neighbor
@@ -14,12 +14,12 @@ public func == (lhs: Edge, rhs: Edge) -> Bool {
 
 // MARK: - Node
 
-public class Node: CustomStringConvertible, Equatable {
-  public var neighbors: [Edge]
+open class Node: CustomStringConvertible, Equatable {
+  open var neighbors: [Edge]
 
-  public private(set) var label: String
-  public var distance: Int?
-  public var visited: Bool
+  open fileprivate(set) var label: String
+  open var distance: Int?
+  open var visited: Bool
 
   public init(label: String) {
     self.label = label
@@ -27,19 +27,19 @@ public class Node: CustomStringConvertible, Equatable {
     visited = false
   }
 
-  public var description: String {
+  open var description: String {
     if let distance = distance {
       return "Node(label: \(label), distance: \(distance))"
     }
     return "Node(label: \(label), distance: infinity)"
   }
 
-  public var hasDistance: Bool {
+  open var hasDistance: Bool {
     return distance != nil
   }
 
-  public func remove(edge: Edge) {
-    neighbors.removeAtIndex(neighbors.indexOf { $0 === edge }!)
+  open func remove(_ edge: Edge) {
+    neighbors.remove(at: neighbors.index { $0 === edge }!)
   }
 }
 
@@ -49,25 +49,25 @@ public func == (lhs: Node, rhs: Node) -> Bool {
 
 // MARK: - Graph
 
-public class Graph: CustomStringConvertible, Equatable {
-  public private(set) var nodes: [Node]
+open class Graph: CustomStringConvertible, Equatable {
+  open fileprivate(set) var nodes: [Node]
 
   public init() {
     self.nodes = []
   }
 
-  public func addNode(label: String) -> Node {
+  open func addNode(_ label: String) -> Node {
     let node = Node(label: label)
     nodes.append(node)
     return node
   }
 
-  public func addEdge(source: Node, neighbor: Node) {
+  open func addEdge(_ source: Node, neighbor: Node) {
     let edge = Edge(neighbor: neighbor)
     source.neighbors.append(edge)
   }
 
-  public var description: String {
+  open var description: String {
     var description = ""
 
     for node in nodes {
@@ -78,15 +78,15 @@ public class Graph: CustomStringConvertible, Equatable {
     return description
   }
 
-  public func findNodeWithLabel(label: String) -> Node {
+  open func findNodeWithLabel(_ label: String) -> Node {
     return nodes.filter { $0.label == label }.first!
   }
 
-  public func duplicate() -> Graph {
+  open func duplicate() -> Graph {
     let duplicated = Graph()
 
     for node in nodes {
-      duplicated.addNode(node.label)
+      _ = duplicated.addNode(node.label)
     }
 
     for node in nodes {

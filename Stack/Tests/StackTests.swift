@@ -6,7 +6,7 @@ class StackTest: XCTestCase {
     var stack = Stack<Int>()
     XCTAssertTrue(stack.isEmpty)
     XCTAssertEqual(stack.count, 0)
-    XCTAssertEqual(stack.peek(), nil)
+    XCTAssertEqual(stack.top, nil)
     XCTAssertNil(stack.pop())
   }
 
@@ -16,13 +16,13 @@ class StackTest: XCTestCase {
     stack.push(123)
     XCTAssertFalse(stack.isEmpty)
     XCTAssertEqual(stack.count, 1)
-    XCTAssertEqual(stack.peek(), 123)
+    XCTAssertEqual(stack.top, 123)
 
     let result = stack.pop()
     XCTAssertEqual(result, 123)
     XCTAssertTrue(stack.isEmpty)
     XCTAssertEqual(stack.count, 0)
-    XCTAssertEqual(stack.peek(), nil)
+    XCTAssertEqual(stack.top, nil)
     XCTAssertNil(stack.pop())
   }
 
@@ -33,19 +33,19 @@ class StackTest: XCTestCase {
     stack.push(456)
     XCTAssertFalse(stack.isEmpty)
     XCTAssertEqual(stack.count, 2)
-    XCTAssertEqual(stack.peek(), 456)
+    XCTAssertEqual(stack.top, 456)
 
     let result1 = stack.pop()
     XCTAssertEqual(result1, 456)
     XCTAssertFalse(stack.isEmpty)
     XCTAssertEqual(stack.count, 1)
-    XCTAssertEqual(stack.peek(), 123)
+    XCTAssertEqual(stack.top, 123)
 
     let result2 = stack.pop()
     XCTAssertEqual(result2, 123)
     XCTAssertTrue(stack.isEmpty)
     XCTAssertEqual(stack.count, 0)
-    XCTAssertEqual(stack.peek(), nil)
+    XCTAssertEqual(stack.top, nil)
     XCTAssertNil(stack.pop())
   }
 
@@ -60,13 +60,13 @@ class StackTest: XCTestCase {
 
     stack.push(789)
     XCTAssertEqual(stack.count, 1)
-    XCTAssertEqual(stack.peek(), 789)
+    XCTAssertEqual(stack.top, 789)
 
     let result = stack.pop()
     XCTAssertEqual(result, 789)
     XCTAssertTrue(stack.isEmpty)
     XCTAssertEqual(stack.count, 0)
-    XCTAssertEqual(stack.peek(), nil)
+    XCTAssertEqual(stack.top, nil)
     XCTAssertNil(stack.pop())
   }
 }

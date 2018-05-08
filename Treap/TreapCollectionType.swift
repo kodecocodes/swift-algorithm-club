@@ -24,78 +24,88 @@ THE SOFTWARE.*/
 
 import Foundation
 
-extension Treap: MutableCollectionType {
-    public typealias Index = TreapIndex<Key>
+extension Treap: MutableCollection {
 
-    public subscript(index: TreapIndex<Key>) -> Element {
-        get {
-            guard let result = self.get(index.keys[index.keyIndex]) else {
-                fatalError("Invalid index!")
-            }
+  public typealias Index = TreapIndex<Key>
 
-            return result
-        }
+  public subscript(index: TreapIndex<Key>) -> Element {
+    get {
+      guard let result = self.get(index.keys[index.keyIndex]) else {
+        fatalError("Invalid index!")
+      }
 
-        mutating set {
-            let key = index.keys[index.keyIndex]
-            self = self.set(key, val: newValue)
-        }
+      return result
     }
 
-    public subscript(key: Key) -> Element? {
-        get {
-            return self.get(key)
-        }
+    mutating set {
+      let key = index.keys[index.keyIndex]
+      self = self.set(key: key, val: newValue)
+    }
+  }
 
-        mutating set {
-            guard let value = newValue else {
-                let _ = try? self.delete(key)
-                return
-            }
-
-            self = self.set(key, val: value)
-        }
+  public subscript(key: Key) -> Element? {
+    get {
+      return self.get(key)
     }
 
-    public var startIndex: TreapIndex<Key> {
-        return TreapIndex<Key>(keys: keys, keyIndex: 0)
+    mutating set {
+      guard let value = newValue else {
+        _ = try? self.delete(key: key)
+        return
+      }
+
+      self = self.set(key: key, val: value)
+    }
+  }
+
+  public var startIndex: TreapIndex<Key> {
+    return TreapIndex<Key>(keys: keys, keyIndex: 0)
+  }
+
+  public var endIndex: TreapIndex<Key> {
+    let keys = self.keys
+    return TreapIndex<Key>(keys: keys, keyIndex: keys.count)
+  }
+
+  public func index(after i: TreapIndex<Key>) -> TreapIndex<Key> {
+    return i.successor()
+  }
+
+  fileprivate var keys: [Key] {
+    var results: [Key] = []
+    if case let .node(key, _, _, left, right) = self {
+      results.append(contentsOf: left.keys)
+      results.append(key)
+      results.append(contentsOf: right.keys)
     }
 
-    public var endIndex: TreapIndex<Key> {
-        let keys = self.keys
-        return TreapIndex<Key>(keys: keys, keyIndex: keys.count)
-    }
-
-    private var keys: [Key] {
-        var results: [Key] = []
-        if case let .Node(key, _, _, left, right) = self {
-            results.appendContentsOf(left.keys)
-            results.append(key)
-            results.appendContentsOf(right.keys)
-        }
-
-        return results
-    }
+    return results
+  }
 }
 
-public struct TreapIndex<Key: Comparable>: BidirectionalIndexType {
-    private let keys: [Key]
-    private let keyIndex: Int
+public struct TreapIndex<Key: Comparable>: Comparable {
 
-    public func successor() -> TreapIndex {
-        return TreapIndex(keys: keys, keyIndex: keyIndex + 1)
-    }
+  public static func < (lhs: TreapIndex<Key>, rhs: TreapIndex<Key>) -> Bool {
+    return lhs.keyIndex < rhs.keyIndex
+  }
 
-    public func predecessor() -> TreapIndex {
-        return TreapIndex(keys: keys, keyIndex: keyIndex - 1)
-    }
+  fileprivate let keys: [Key]
+  fileprivate let keyIndex: Int
 
-    private init(keys: [Key] = [], keyIndex: Int = 0) {
-        self.keys = keys
-        self.keyIndex = keyIndex
-    }
+  public func successor() -> TreapIndex {
+    return TreapIndex(keys: keys, keyIndex: keyIndex + 1)
+  }
+
+  public func predecessor() -> TreapIndex {
+    return TreapIndex(keys: keys, keyIndex: keyIndex - 1)
+  }
+
+  fileprivate init(keys: [Key] = [], keyIndex: Int = 0) {
+    self.keys = keys
+    self.keyIndex = keyIndex
+  }
 }
 
 public func ==<Key: Comparable>(lhs: TreapIndex<Key>, rhs: TreapIndex<Key>) -> Bool {
-    return lhs.keys == rhs.keys && lhs.keyIndex == rhs.keyIndex
+  return lhs.keys == rhs.keys && lhs.keyIndex == rhs.keyIndex
 }

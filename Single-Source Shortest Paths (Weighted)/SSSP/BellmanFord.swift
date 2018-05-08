@@ -8,7 +8,7 @@
 import Foundation
 import Graph
 
-public struct BellmanFord<T where T: Hashable> {
+public struct BellmanFord<T> where T: Hashable {
   public typealias Q = T
 }
 
@@ -30,18 +30,18 @@ extension BellmanFord: SSSPAlgorithm {
    - returns a `BellmanFordResult` struct which can be queried for
    shortest paths and their total weights, or `nil` if a negative weight cycle exists
  */
-  public static func apply(graph: AbstractGraph<T>, source: Vertex<Q>) -> BellmanFordResult<T>? {
+  public static func apply(_ graph: AbstractGraph<T>, source: Vertex<Q>) -> BellmanFordResult<T>? {
     let vertices = graph.vertices
     let edges = graph.edges
 
-    var predecessors = Array<Int?>(count: vertices.count, repeatedValue: nil)
-    var weights = Array(count: vertices.count, repeatedValue: Double.infinity)
+    var predecessors = Array<Int?>(repeating: nil, count: vertices.count)
+    var weights = Array(repeating: Double.infinity, count: vertices.count)
     predecessors[source.index] = source.index
     weights[source.index] = 0
 
     for _ in 0 ..< vertices.count - 1 {
       var weightsUpdated = false
-      edges.forEach() { edge in
+      edges.forEach { edge in
         let weight = edge.weight!
         let relaxedDistance = weights[edge.from.index] + weight
         let nextVertexIdx = edge.to.index
@@ -78,10 +78,10 @@ extension BellmanFord: SSSPAlgorithm {
  It conforms to the `SSSPResult` procotol which provides methods to
  retrieve distances and paths between given pairs of start and end nodes.
  */
-public struct BellmanFordResult<T where T: Hashable> {
+public struct BellmanFordResult<T> where T: Hashable {
 
-  private var predecessors: [Int?]
-  private var weights: [Double]
+  fileprivate var predecessors: [Int?]
+  fileprivate var weights: [Double]
 
 }
 
@@ -112,11 +112,11 @@ extension BellmanFordResult: SSSPResult {
       return nil
     }
 
-    guard let path = recursePath(to, inGraph: graph, path: [to]) else {
+    guard let path = recursePath(to: to, inGraph: graph, path: [to]) else {
       return nil
     }
 
-    return path.map() { vertex in
+    return path.map { vertex in
       return vertex.data
     }
   }
@@ -126,7 +126,7 @@ extension BellmanFordResult: SSSPResult {
 
    - returns: the list of predecessors discovered so far, or `nil` if the next vertex has no predecessor
    */
-  private func recursePath(to: Vertex<T>, inGraph graph: AbstractGraph<T>, path: [Vertex<T>]) -> [Vertex<T>]? {
+  fileprivate func recursePath(to: Vertex<T>, inGraph graph: AbstractGraph<T>, path: [Vertex<T>]) -> [Vertex<T>]? {
     guard let predecessorIdx = predecessors[to.index] else {
       return nil
     }
@@ -136,7 +136,7 @@ extension BellmanFordResult: SSSPResult {
       return [ to ]
     }
 
-    guard let buildPath = recursePath(predecessor, inGraph: graph, path: path) else {
+    guard let buildPath = recursePath(to: predecessor, inGraph: graph, path: path) else {
       return nil
     }
 

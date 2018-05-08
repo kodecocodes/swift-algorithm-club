@@ -8,21 +8,19 @@
 
 import Foundation
 
-
 public class TernarySearchTree<Element> {
 
     var root: TSTNode<Element>?
 
     public init() {}
 
-    //MARK: - Insertion
+    // MARK: - Insertion
 
     public func insert(data: Element, withKey key: String) -> Bool {
-        return insertNode(&root, withData: data, andKey: key, atIndex: 0)
-
+        return insert(node: &root, withData: data, andKey: key, atIndex: 0)
     }
 
-    private func insertNode(inout aNode: TSTNode<Element>?, withData data: Element, andKey key: String, atIndex charIndex: Int) -> Bool {
+    private func insert(node: inout TSTNode<Element>?, withData data: Element, andKey key: String, atIndex charIndex: Int) -> Bool {
 
         //sanity check.
         if key.characters.count == 0 {
@@ -30,66 +28,63 @@ public class TernarySearchTree<Element> {
         }
 
         //create a new node if necessary.
-        if aNode == nil {
-            let index = key.startIndex.advancedBy(charIndex)
-            aNode = TSTNode<Element>(key: key[index])
+        if node == nil {
+            let index = key.index(key.startIndex, offsetBy: charIndex)
+            node = TSTNode<Element>(key: key[index])
         }
 
         //if current char is less than the current node's char, go left
-        let index = key.startIndex.advancedBy(charIndex)
-        if key[index] < aNode!.key {
-            return insertNode(&aNode!.left, withData: data, andKey: key, atIndex: charIndex)
+        let index = key.index(key.startIndex, offsetBy: charIndex)
+        if key[index] < node!.key {
+            return insert(node: &node!.left, withData: data, andKey: key, atIndex: charIndex)
         }
             //if it's greater, go right.
-        else if key[index] > aNode!.key {
-            return insertNode(&aNode!.right, withData: data, andKey: key, atIndex: charIndex)
+        else if key[index] > node!.key {
+            return insert(node: &node!.right, withData: data, andKey: key, atIndex: charIndex)
         }
             //current char is equal to the current nodes, go middle
         else {
             //continue down the middle.
             if charIndex + 1 < key.characters.count {
-                return insertNode(&aNode!.middle, withData: data, andKey: key, atIndex: charIndex + 1)
+                return insert(node: &node!.middle, withData: data, andKey: key, atIndex: charIndex + 1)
             }
                 //otherwise, all done.
             else {
-                aNode!.data = data
-                aNode?.hasData = true
+                node!.data = data
+                node?.hasData = true
                 return true
             }
         }
     }
 
-
-    //MARK: - Finding
-
+    // MARK: - Finding
 
     public func find(key: String) -> Element? {
-        return findNode(root, withKey: key, atIndex: 0)
+        return find(node: root, withKey: key, atIndex: 0)
     }
 
-
-    private func findNode(aNode: TSTNode<Element>?, withKey key: String, atIndex charIndex: Int) -> Element? {
+    private func find(node: TSTNode<Element>?, withKey key: String, atIndex charIndex: Int) -> Element? {
 
         //Given key does not exist in tree.
-        if aNode == nil {
+        if node == nil {
             return nil
         }
 
-        let index = key.startIndex.advancedBy(charIndex)
+        let index = key.index(key.startIndex, offsetBy: charIndex)
         //go left
-        if key[index] < aNode!.key {
-            return findNode(aNode!.left, withKey: key, atIndex: charIndex)
+        if key[index] < node!.key {
+            return find(node: node!.left, withKey: key, atIndex: charIndex)
         }
             //go right
-        else if key[index] > aNode!.key {
-            return findNode(aNode!.right, withKey: key, atIndex: charIndex)
+        else if key[index] > node!.key {
+            return find(node: node!.right, withKey: key, atIndex: charIndex)
         }
             //go middle
         else {
             if charIndex + 1 < key.characters.count {
-                return findNode(aNode!.middle, withKey: key, atIndex: charIndex + 1)
+                return find(node: node!.middle, withKey: key, atIndex: charIndex + 1)
             } else {
-                return aNode!.data
+                return node!.data
             }
         }
     }

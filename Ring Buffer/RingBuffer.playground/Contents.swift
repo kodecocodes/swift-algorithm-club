@@ -1,35 +1,41 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 public struct RingBuffer<T> {
-  private var array: [T?]
-  private var readIndex = 0
-  private var writeIndex = 0
+  fileprivate var array: [T?]
+  fileprivate var readIndex = 0
+  fileprivate var writeIndex = 0
 
   public init(count: Int) {
-    array = [T?](count: count, repeatedValue: nil)
+    array = [T?](repeating: nil, count: count)
   }
 
-  public mutating func write(element: T) -> Bool {
-    if !isFull {
-      array[writeIndex % array.count] = element
-      writeIndex += 1
-      return true
-    } else {
-      return false
+  /* Returns false if out of space. */
+  @discardableResult
+  public mutating func write(_ element: T) -> Bool {
+    guard !isFull else { return false }
+    defer {
+        writeIndex += 1
     }
+    array[wrapped: writeIndex] = element
+    return true
   }
-
+    
+  /* Returns nil if the buffer is empty. */
   public mutating func read() -> T? {
-    if !isEmpty {
-      let element = array[readIndex % array.count]
-      readIndex += 1
-      return element
-    } else {
-      return nil
+    guard !isEmpty else { return nil }
+    defer {
+        array[wrapped: readIndex] = nil
+        readIndex += 1
     }
+    return array[wrapped: readIndex]
   }
 
-  private var availableSpaceForReading: Int {
+  fileprivate var availableSpaceForReading: Int {
     return writeIndex - readIndex
   }
 
@@ -37,12 +43,36 @@ public struct RingBuffer<T> {
     return availableSpaceForReading == 0
   }
 
-  private var availableSpaceForWriting: Int {
+  fileprivate var availableSpaceForWriting: Int {
     return array.count - availableSpaceForReading
   }
 
   public var isFull: Bool {
     return availableSpaceForWriting == 0
+  }
+}
+
+extension RingBuffer: Sequence {
+  public func makeIterator() -> AnyIterator<T> {
+    var index = readIndex
+    return AnyIterator {
+      guard index < self.writeIndex else { return nil }
+      defer {
+        index += 1
+        }
+      return self.array[wrapped: index]
+    }
+  }
+}
+
+private extension Array {
+  subscript (wrapped index: Int) -> Element {
+    get {
+      return self[index % count]
+    }
+    set {
+      self[index % count] = newValue
+    }
   }
 }
 

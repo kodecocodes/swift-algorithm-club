@@ -7,32 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E1E34DC71C7670240023AF4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DC61C7670240023AF4D /* AppDelegate.swift */; };
-		E1E34DC91C7670240023AF4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1E34DC81C7670240023AF4D /* Assets.xcassets */; };
-		E1E34DCC1C7670240023AF4D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E34DCA1C7670240023AF4D /* MainMenu.xib */; };
+		750439C01DA9924E0045C660 /* Treap.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DE11C7670350023AF4D /* Treap.swift */; };
+		750439C11DA992510045C660 /* TreapMergeSplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DE21C7670350023AF4D /* TreapMergeSplit.swift */; };
+		750439C21DA992530045C660 /* TreapCollectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DE91C7671200023AF4D /* TreapCollectionType.swift */; };
 		E1E34DD71C7670250023AF4D /* TreapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DD61C7670250023AF4D /* TreapTests.swift */; };
-		E1E34DE31C7670350023AF4D /* Treap.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DE11C7670350023AF4D /* Treap.swift */; };
-		E1E34DE41C7670350023AF4D /* TreapMergeSplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DE21C7670350023AF4D /* TreapMergeSplit.swift */; };
-		E1E34DEA1C7671200023AF4D /* TreapCollectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E34DE91C7671200023AF4D /* TreapCollectionType.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		E1E34DD31C7670250023AF4D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E1E34DBB1C7670240023AF4D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E1E34DC21C7670240023AF4D;
-			remoteInfo = Treap;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		E1E34DC31C7670240023AF4D /* Treap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Treap.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E1E34DC61C7670240023AF4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E1E34DC81C7670240023AF4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E1E34DCB1C7670240023AF4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E1E34DCD1C7670240023AF4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1E34DD21C7670250023AF4D /* TreapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TreapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1E34DD21C7670250023AF4D /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E34DD61C7670250023AF4D /* TreapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreapTests.swift; sourceTree = "<group>"; };
 		E1E34DD81C7670250023AF4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1E34DE11C7670350023AF4D /* Treap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Treap.swift; path = ../../Treap.swift; sourceTree = "<group>"; };
@@ -41,13 +24,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E1E34DC01C7670240023AF4D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E1E34DCF1C7670250023AF4D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -70,8 +46,7 @@
 		E1E34DC41C7670240023AF4D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E1E34DC31C7670240023AF4D /* Treap.app */,
-				E1E34DD21C7670250023AF4D /* TreapTests.xctest */,
+				E1E34DD21C7670250023AF4D /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,9 +54,6 @@
 		E1E34DC51C7670240023AF4D /* Treap */ = {
 			isa = PBXGroup;
 			children = (
-				E1E34DC61C7670240023AF4D /* AppDelegate.swift */,
-				E1E34DC81C7670240023AF4D /* Assets.xcassets */,
-				E1E34DCA1C7670240023AF4D /* MainMenu.xib */,
 				E1E34DE11C7670350023AF4D /* Treap.swift */,
 				E1E34DE21C7670350023AF4D /* TreapMergeSplit.swift */,
 				E1E34DE91C7671200023AF4D /* TreapCollectionType.swift */,
@@ -102,26 +74,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E1E34DC21C7670240023AF4D /* Treap */ = {
+		E1E34DD11C7670250023AF4D /* Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E1E34DDB1C7670250023AF4D /* Build configuration list for PBXNativeTarget "Treap" */;
-			buildPhases = (
-				E1E34DBF1C7670240023AF4D /* Sources */,
-				E1E34DC01C7670240023AF4D /* Frameworks */,
-				E1E34DC11C7670240023AF4D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Treap;
-			productName = Treap;
-			productReference = E1E34DC31C7670240023AF4D /* Treap.app */;
-			productType = "com.apple.product-type.application";
-		};
-		E1E34DD11C7670250023AF4D /* TreapTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E1E34DDE1C7670250023AF4D /* Build configuration list for PBXNativeTarget "TreapTests" */;
+			buildConfigurationList = E1E34DDE1C7670250023AF4D /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
 				E1E34DCE1C7670250023AF4D /* Sources */,
 				E1E34DCF1C7670250023AF4D /* Frameworks */,
@@ -130,11 +85,10 @@
 			buildRules = (
 			);
 			dependencies = (
-				E1E34DD41C7670250023AF4D /* PBXTargetDependency */,
 			);
-			name = TreapTests;
+			name = Tests;
 			productName = TreapTests;
-			productReference = E1E34DD21C7670250023AF4D /* TreapTests.xctest */;
+			productReference = E1E34DD21C7670250023AF4D /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -144,15 +98,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "WillowTree, Inc.";
 				TargetAttributes = {
-					E1E34DC21C7670240023AF4D = {
-						CreatedOnToolsVersion = 7.2.1;
-					};
 					E1E34DD11C7670250023AF4D = {
 						CreatedOnToolsVersion = 7.2.1;
-						TestTargetID = E1E34DC21C7670240023AF4D;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -169,22 +120,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E1E34DC21C7670240023AF4D /* Treap */,
-				E1E34DD11C7670250023AF4D /* TreapTests */,
+				E1E34DD11C7670250023AF4D /* Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E1E34DC11C7670240023AF4D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E1E34DC91C7670240023AF4D /* Assets.xcassets in Resources */,
-				E1E34DCC1C7670240023AF4D /* MainMenu.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E1E34DD01C7670250023AF4D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -195,45 +136,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E1E34DBF1C7670240023AF4D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E1E34DEA1C7671200023AF4D /* TreapCollectionType.swift in Sources */,
-				E1E34DE31C7670350023AF4D /* Treap.swift in Sources */,
-				E1E34DC71C7670240023AF4D /* AppDelegate.swift in Sources */,
-				E1E34DE41C7670350023AF4D /* TreapMergeSplit.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E1E34DCE1C7670250023AF4D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				750439C01DA9924E0045C660 /* Treap.swift in Sources */,
 				E1E34DD71C7670250023AF4D /* TreapTests.swift in Sources */,
+				750439C21DA992530045C660 /* TreapCollectionType.swift in Sources */,
+				750439C11DA992510045C660 /* TreapMergeSplit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E1E34DD41C7670250023AF4D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E1E34DC21C7670240023AF4D /* Treap */;
-			targetProxy = E1E34DD31C7670250023AF4D /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		E1E34DCA1C7670240023AF4D /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E1E34DCB1C7670240023AF4D /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E1E34DD91C7670250023AF4D /* Debug */ = {
@@ -249,8 +163,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -293,8 +209,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -313,56 +231,31 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-			};
-			name = Release;
-		};
-		E1E34DDC1C7670250023AF4D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Treap/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.willowtree.Treap;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		E1E34DDD1C7670250023AF4D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Treap/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.willowtree.Treap;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
 		E1E34DDF1C7670250023AF4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TreapTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.willowtree.TreapTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Treap.app/Contents/MacOS/Treap";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
 		E1E34DE01C7670250023AF4D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TreapTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.willowtree.TreapTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Treap.app/Contents/MacOS/Treap";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -378,21 +271,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E1E34DDB1C7670250023AF4D /* Build configuration list for PBXNativeTarget "Treap" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E1E34DDC1C7670250023AF4D /* Debug */,
-				E1E34DDD1C7670250023AF4D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-		};
-		E1E34DDE1C7670250023AF4D /* Build configuration list for PBXNativeTarget "TreapTests" */ = {
+		E1E34DDE1C7670250023AF4D /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1E34DDF1C7670250023AF4D /* Debug */,
 				E1E34DE01C7670250023AF4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

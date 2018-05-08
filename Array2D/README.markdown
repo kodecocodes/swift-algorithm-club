@@ -1,14 +1,14 @@
 # Array2D
 
-In C and Objective-C you can write the following line,
+In C and Objective-C, you can write the following line,
 
 	int cookies[9][7];
 	
-to make a 9x7 grid of cookies. This would create a two-dimensional array of 63 elements. To find the cookie at column 3, row 6, you'd write:
+to make a 9x7 grid of cookies. This creates a two-dimensional array of 63 elements. To find the cookie at column 3 and row 6, you can write:
 
 	myCookie = cookies[3][6];
 	
-Unfortunately, you can't write the above in Swift. To create a multi-dimensional array in Swift you'd have to do something like this:
+This statement is not acceptable in Swift. To create a multi-dimensional array in Swift, you can write:
 
 ```swift
 var cookies = [[Int]]()
@@ -21,33 +21,33 @@ for _ in 1...9 {
 }
 ```
 
-And then to find a cookie:
+Then, to find a cookie, you can write:
 
 ```swift
 let myCookie = cookies[3][6]
 ```
 
-Actually, you could create the array in a single line of code, like so:
+You can also create the array in a single line of code:
 
 ```swift
-var cookies = [[Int]](count: 9, repeatedValue: [Int](count: 7, repeatedValue: 0))
+var cookies = [[Int]](repeating: [Int](repeating: 0, count: 7), count: 9)
 ```
 
-but that's just ugly. To be fair, you can hide the ugliness in a helper function:
+This looks complicated, but you can simplify it with a helper function:
 
 ```swift
-func dim<T>(count: Int, _ value: T) -> [T] {
-  return [T](count: count, repeatedValue: value)
+func dim<T>(_ count: Int, _ value: T) -> [T] {
+  return [T](repeating: value, count: count)
 }
 ```
 
-And then creating the array looks like this:
+Then, you can create the array:
 
 ```swift
 var cookies = dim(9, dim(7, 0))
 ```
 
-Swift infers that the datatype of the array should be `Int` because you specified `0` as the default value of the array elements. To use a string instead, you'd write:
+Swift infers that the datatype of the array must be `Int` because you specified `0` as the default value of the array elements. To use a string instead, you can write:
 
 ```swift
 var cookies = dim(9, dim(7, "yum"))
@@ -59,27 +59,31 @@ The `dim()` function makes it easy to go into even more dimensions:
 var threeDimensions = dim(2, dim(3, dim(4, 0)))
 ```
 
-The downside of using multi-dimensional arrays in this fashion -- actually, multiple nested arrays -- is that it's easy to lose track of what dimension represents what.
+The downside of using multi-dimensional arrays or multiple nested arrays in this way is to lose track of what dimension represents what.
 
-So instead let's create our own type that acts like a 2-D array and that is more convenient to use. Here it is, short and sweet:
+Instead, you can create your own type that acts like a 2-D array which is more convenient to use:
 
 ```swift
 public struct Array2D<T> {
   public let columns: Int
   public let rows: Int
-  private var array: [T]
-
+  fileprivate var array: [T]
+  
   public init(columns: Int, rows: Int, initialValue: T) {
     self.columns = columns
     self.rows = rows
-    array = .init(count: rows*columns, repeatedValue: initialValue)
+    array = .init(repeating: initialValue, count: rows*columns)
   }
-
+  
   public subscript(column: Int, row: Int) -> T {
     get {
+      precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
+      precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
       return array[row*columns + column]
     }
     set {
+      precondition(column < columns, "Column \(column) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
+      precondition(row < rows, "Row \(row) Index is out of range. Array<T>(columns: \(columns), rows:\(rows))")
       array[row*columns + column] = newValue
     }
   }
@@ -88,26 +92,24 @@ public struct Array2D<T> {
 
 `Array2D` is a generic type, so it can hold any kind of object, not just numbers.
 
-To create an instance of `Array2D` you'd write:
+To create an instance of `Array2D`, you can write:
 
 ```swift
 var cookies = Array2D(columns: 9, rows: 7, initialValue: 0)
 ```
 
-Thanks to the `subscript` function, you can do the following to retrieve an object from the array:
+By using the `subscript` function, you can retrieve an object from the array:
 
 ```swift
 let myCookie = cookies[column, row]
 ```
 
-Or change it:
+Or, you can change it:
 
 ```swift
 cookies[column, row] = newCookie
 ```
 
-Internally, `Array2D` uses a single one-dimensional array to store the data. The index of an object in that array is given by `(row x numberOfColumns) + column`. But as a user of `Array2D` you don't have to worry about that; you only have to think in terms of "column" and "row", and let `Array2D` figure out the details for you. That's the advantage of wrapping primitive types into a wrapper class or struct.
-
-And that's all there is to it.
+Internally, `Array2D` uses a single one-dimensional array to store the data. The index of an object in that array is given by `(row x numberOfColumns) + column`, but as a user of `Array2D`, you only need to think in terms of "column" and "row", and the details will be done by `Array2D`. This is the advantage of wrapping primitive types into a wrapper class or struct.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*

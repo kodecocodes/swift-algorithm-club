@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 // Recursive version
 func gcd(_ a: Int, _ b: Int) -> Int {
   let r = a % b
@@ -27,7 +32,7 @@ func gcd(m: Int, _ n: Int) -> Int {
 */
 
 func lcm(_ m: Int, _ n: Int) -> Int {
-  return m*n / gcd(m, n)
+  return m / gcd(m, n) * n // we divide before multiplying to avoid integer overflow
 }
 
 gcd(52, 39)       // 13

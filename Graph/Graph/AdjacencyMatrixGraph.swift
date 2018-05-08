@@ -7,12 +7,12 @@
 
 import Foundation
 
-public class AdjacencyMatrixGraph<T where T: Equatable, T: Hashable>: AbstractGraph<T> {
+open class AdjacencyMatrixGraph<T>: AbstractGraph<T> where T: Hashable {
 
   // If adjacencyMatrix[i][j] is not nil, then there is an edge from
   // vertex i to vertex j.
-  private var adjacencyMatrix: [[Double?]] = []
-  private var _vertices: [Vertex<T>] = []
+  fileprivate var adjacencyMatrix: [[Double?]] = []
+  fileprivate var _vertices: [Vertex<T>] = []
 
   public required init() {
     super.init()
@@ -22,31 +22,27 @@ public class AdjacencyMatrixGraph<T where T: Equatable, T: Hashable>: AbstractGr
     super.init(fromGraph: graph)
   }
 
-  public override var vertices: [Vertex<T>] {
-    get {
-      return _vertices
-    }
+  open override var vertices: [Vertex<T>] {
+    return _vertices
   }
 
-  public override var edges: [Edge<T>] {
-    get {
-      var edges = [Edge<T>]()
-      for row in 0 ..< adjacencyMatrix.count {
-        for column in 0 ..< adjacencyMatrix.count {
-          if let weight = adjacencyMatrix[row][column] {
-            edges.append(Edge(from: vertices[row], to: vertices[column], weight: weight))
-          }
+  open override var edges: [Edge<T>] {
+    var edges = [Edge<T>]()
+    for row in 0 ..< adjacencyMatrix.count {
+      for column in 0 ..< adjacencyMatrix.count {
+        if let weight = adjacencyMatrix[row][column] {
+          edges.append(Edge(from: vertices[row], to: vertices[column], weight: weight))
         }
       }
-      return edges
     }
+    return edges
   }
 
   // Adds a new vertex to the matrix.
   // Performance: possibly O(n^2) because of the resizing of the matrix.
-  public override func createVertex(data: T) -> Vertex<T> {
+  open override func createVertex(_ data: T) -> Vertex<T> {
     // check if the vertex already exists
-    let matchingVertices = vertices.filter() { vertex in
+    let matchingVertices = vertices.filter { vertex in
       return vertex.data == data
     }
 
@@ -63,7 +59,7 @@ public class AdjacencyMatrixGraph<T where T: Equatable, T: Hashable>: AbstractGr
     }
 
     // Add one new row at the bottom.
-    let newRow = [Double?](count: adjacencyMatrix.count + 1, repeatedValue: nil)
+    let newRow = [Double?](repeating: nil, count: adjacencyMatrix.count + 1)
     adjacencyMatrix.append(newRow)
 
     _vertices.append(vertex)
@@ -71,20 +67,20 @@ public class AdjacencyMatrixGraph<T where T: Equatable, T: Hashable>: AbstractGr
     return vertex
   }
 
-  public override func addDirectedEdge(from: Vertex<T>, to: Vertex<T>, withWeight weight: Double?) {
+  open override func addDirectedEdge(_ from: Vertex<T>, to: Vertex<T>, withWeight weight: Double?) {
     adjacencyMatrix[from.index][to.index] = weight
   }
 
-  public override func addUndirectedEdge(vertices: (Vertex<T>, Vertex<T>), withWeight weight: Double?) {
+  open override func addUndirectedEdge(_ vertices: (Vertex<T>, Vertex<T>), withWeight weight: Double?) {
     addDirectedEdge(vertices.0, to: vertices.1, withWeight: weight)
     addDirectedEdge(vertices.1, to: vertices.0, withWeight: weight)
   }
 
-  public override func weightFrom(sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>) -> Double? {
+  open override func weightFrom(_ sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>) -> Double? {
     return adjacencyMatrix[sourceVertex.index][destinationVertex.index]
   }
 
-  public override func edgesFrom(sourceVertex: Vertex<T>) -> [Edge<T>] {
+  open override func edgesFrom(_ sourceVertex: Vertex<T>) -> [Edge<T>] {
     var outEdges = [Edge<T>]()
     let fromIndex = sourceVertex.index
     for column in 0..<adjacencyMatrix.count {
@@ -95,24 +91,22 @@ public class AdjacencyMatrixGraph<T where T: Equatable, T: Hashable>: AbstractGr
     return outEdges
   }
 
-  public override var description: String {
-    get {
-      var grid = [String]()
-      let n = self.adjacencyMatrix.count
-      for i in 0..<n {
-        var row = ""
-        for j in 0..<n {
-          if let value = self.adjacencyMatrix[i][j] {
-            let number = NSString(format: "%.1f", value)
-            row += "\(value >= 0 ? " " : "")\(number) "
-          } else {
-            row += "  ø  "
-          }
+  open override var description: String {
+    var grid = [String]()
+    let n = self.adjacencyMatrix.count
+    for i in 0..<n {
+      var row = ""
+      for j in 0..<n {
+        if let value = self.adjacencyMatrix[i][j] {
+          let number = NSString(format: "%.1f", value)
+          row += "\(value >= 0 ? " " : "")\(number) "
+        } else {
+          row += "  ø  "
         }
-        grid.append(row)
       }
-      return (grid as NSArray).componentsJoinedByString("\n")
+      grid.append(row)
     }
+    return (grid as NSArray).componentsJoined(by: "\n")
   }
 
 }

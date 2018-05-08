@@ -40,7 +40,7 @@ And fix up the heap to make it valid max-heap again:
 
 As you can see, the largest items are making their way to the back. We repeat this process until we arrive at the root node and then the whole array is sorted.
 
-> **Note:** This process is very similar to [selection sort](../Selection Sort/), which repeatedly looks for the minimum item in the remainder of the array. Extracting the minimum or maximum value is what heaps are good at.
+> **Note:** This process is very similar to [selection sort](../Selection%20Sort/), which repeatedly looks for the minimum item in the remainder of the array. Extracting the minimum or maximum value is what heaps are good at.
 
 Performance of heap sort is **O(n lg n)** in best, worst, and average case. Because we modify the array directly, heap sort can be performed in-place. But it is not a stable sort: the relative order of identical elements is not preserved.
 
@@ -49,9 +49,9 @@ Here's how you can implement heap sort in Swift:
 ```swift
 extension Heap {
   public mutating func sort() -> [T] {
-    for i in (elements.count - 1).stride(through: 1, by: -1) {
+    for i in stride(from: (elements.count - 1), through: 1, by: -1) {
       swap(&elements[0], &elements[i])
-      shiftDown(index: 0, heapSize: i)
+      shiftDown(0, heapSize: i)
     }
     return elements
   }
@@ -70,7 +70,7 @@ Because we need a max-heap to sort from low-to-high, you need to give `Heap` the
 We can write a handy helper function for that:
 
 ```swift
-public func heapsort<T>(a: [T], _ sort: (T, T) -> Bool) -> [T] {
+public func heapsort<T>(_ a: [T], _ sort: @escaping (T, T) -> Bool) -> [T] {
   let reverseOrder = { i1, i2 in sort(i2, i1) }
   var h = Heap(array: a, sort: reverseOrder)
   return h.sort()

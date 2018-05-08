@@ -1,3 +1,10 @@
+// SetCover
+
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 let universe1 = Set(1...7)
 let array1 = randomArrayOfSets(covering: universe1)
 let cover1 = universe1.cover(within: array1)

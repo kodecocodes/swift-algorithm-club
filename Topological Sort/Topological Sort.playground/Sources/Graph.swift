@@ -4,10 +4,10 @@ public class Graph: CustomStringConvertible {
   private(set) public var adjacencyLists: [Node : [Node]]
 
   public init() {
-    adjacencyLists = [Node : [Node]]()
+    adjacencyLists = [Node: [Node]]()
   }
 
-  public func addNode(value: Node) -> Node {
+  public func addNode(_ value: Node) -> Node {
     adjacencyLists[value] = []
     return value
   }
@@ -35,7 +35,7 @@ extension Graph {
   typealias InDegree = Int
 
   func calculateInDegreeOfNodes() -> [Node : InDegree] {
-    var inDegrees = [Node : InDegree]()
+    var inDegrees = [Node: InDegree]()
 
     for (node, _) in adjacencyLists {
       inDegrees[node] = 0

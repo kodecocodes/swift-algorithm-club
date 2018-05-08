@@ -1,5 +1,10 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 // Create a bit set that stores 140 bits
 var bits = BitSet(size: 140)
 
@@ -28,9 +33,6 @@ bits.cardinality  // 140
 print(bits)
 
 print("")
-
-
-
 
 // Bitwise operations
 
@@ -69,9 +71,6 @@ print(~c)  // 0101110000000000000000000000000000000000000000000000000000000000
 (~b).cardinality  // 5
 (~c).cardinality  // 4
 
-
-
-
 var z = BitSet(size: 66)
 z.all0()        // true
 z.all1()        // false
@@ -92,9 +91,6 @@ z.all1()        // true
 
 z[65] = false
 z.all1()        // false
-
-
-
 
 //var bigBits = BitSet(size: 10000)
 //print(bigBits)

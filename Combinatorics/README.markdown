@@ -3,7 +3,7 @@
 A *permutation* is a certain arrangement of the objects from a collection. For example, if we have the first five letters from the alphabet, then this is a permutation:
 
 	a, b, c, d, e
-	
+
 This is another permutation:
 
 	b, e, d, a, c
@@ -28,7 +28,7 @@ After picking the second letter, there are only three letters left to choose fro
 To calculate the factorial in Swift:
 
 ```swift
-func factorial(n: Int) -> Int {
+func factorial(_ n: Int) -> Int {
   var n = n
   var result = 1
   while n > 1 {
@@ -62,7 +62,7 @@ You could implement this in terms of the `factorial()` function from earlier, bu
 Here is an algorithm that can deal with larger numbers:
 
 ```swift
-func permutations(n: Int, _ k: Int) -> Int {
+func permutations(_ n: Int, _ k: Int) -> Int {
   var n = n
   var answer = n
   for _ in 1..<k {
@@ -98,18 +98,18 @@ So far we've counted how many permutations exist for a given collection, but how
 Here's a recursive algorithm by Niklaus Wirth:
 
 ```swift
-func permuteWirth<T>(a: [T], _ n: Int) {
-  if n == 0 {
-    print(a)   // display the current permutation
-  } else {
-    var a = a
-    permuteWirth(a, n - 1)
-    for i in 0..<n {
-      swap(&a[i], &a[n])
-      permuteWirth(a, n - 1)
-      swap(&a[i], &a[n])
+func permuteWirth<T>(_ a: [T], _ n: Int) {
+    if n == 0 {
+        print(a)   // display the current permutation
+    } else {
+        var a = a
+        permuteWirth(a, n - 1)
+        for i in 0..<n {
+            a.swapAt(i, n)
+            permuteWirth(a, n - 1)
+            a.swapAt(i, n)
+        }
     }
-  }
 }
 ```
 
@@ -216,7 +216,7 @@ If the above is still not entirely clear, then I suggest you give it a go in the
 For fun, here is an alternative algorithm, by Robert Sedgewick:
 
 ```swift
-func permuteSedgewick(a: [Int], _ n: Int, inout _ pos: Int) {
+func permuteSedgewick(_ a: [Int], _ n: Int, _ pos: inout Int) {
   var a = a
   pos += 1
   a[n] = pos
@@ -282,7 +282,7 @@ The formula for `C(n, k)` is:
 
 As you can see, you can derive it from the formula for `P(n, k)`. There are always more permutations than combinations. You divide the number of permutations by `k!` because a total of `k!` of these permutations give the same combination.
 
-Above I showed that the number of permutations of `k` `l` `m` is 6, but if you pick only two of those letters the number of combinations is 3. If we use the formula we should get the same answer. We want to calculate `C(3, 2)` because we choose 2 letters out of a collection of 3. 
+Above I showed that the number of permutations of `k` `l` `m` is 6, but if you pick only two of those letters the number of combinations is 3. If we use the formula we should get the same answer. We want to calculate `C(3, 2)` because we choose 2 letters out of a collection of 3.
 
 	          3 * 2 * 1    6
 	C(3, 2) = --------- = --- = 3
@@ -291,7 +291,7 @@ Above I showed that the number of permutations of `k` `l` `m` is 6, but if you p
 Here's a simple function to calculate `C(n, k)`:
 
 ```swift
-func combinations(n: Int, _ k: Int) -> Int {
+func combinations(_ n: Int, choose k: Int) -> Int {
   return permutations(n, k) / factorial(k)
 }
 ```
@@ -299,7 +299,7 @@ func combinations(n: Int, _ k: Int) -> Int {
 Use it like this:
 
 ```swift
-combinations(28, 5)    // prints 98280
+combinations(28, choose: 5)    // prints 98280
 ```
 
 Because this uses the `permutations()` and `factorial()` functions under the hood, you're still limited by how large these numbers can get. For example, `combinations(30, 15)` is "only" `155,117,520` but because the intermediate results don't fit into a 64-bit integer, you can't calculate it with the given function.
@@ -319,7 +319,7 @@ After the reduction of fractions, we get the following formula:
 We can implement this formula as follows:
 
 ```swift
-func quickBinomialCoefficient(n: Int, _ k: Int) -> Int {
+func quickBinomialCoefficient(_ n: Int, choose k: Int) -> Int {
   var result = 1
   for i in 0..<k {
     result *= (n - i)
@@ -334,8 +334,8 @@ This algorithm can create larger numbers than the previous method. Instead of ca
 Here's how you can use this improved algorithm:
 
 ```swift
-quickBinomialCoefficient(8, 2)     // prints 28
-quickBinomialCoefficient(30, 15)   // prints 155117520
+quickBinomialCoefficient(8, choose: 2)     // prints 28
+quickBinomialCoefficient(30, choose: 15)   // prints 155117520
 ```
 
 This new method is quite fast but you're still limited in how large the numbers can get. You can calculate `C(30, 15)` without any problems, but something like `C(66, 33)` will still cause integer overflow in the numerator.
@@ -345,10 +345,10 @@ Here is an algorithm that uses dynamic programming to overcome the need for calc
 	0:               1
 	1:             1   1
 	2:           1   2   1
-	3:         1   3   3   1 
-	4:       1   4   6   4   1 
-	5:     1   5  10   10  5   1 
-	6:   1   6  15  20   15  6   1 
+	3:         1   3   3   1
+	4:       1   4   6   4   1
+	5:     1   5  10   10  5   1
+	6:   1   6  15  20   15  6   1
 
 Each number in the next row is made up by adding two numbers from the previous row. For example in row 6, the number 15 is made by adding the 5 and 10 from row 5. These numbers are called the binomial coefficients and as it happens they are the same as `C(n, k)`.
 
@@ -365,8 +365,8 @@ For example, for row 6:
 The following code calculates Pascal's triangle in order to find the `C(n, k)` you're looking for:
 
 ```swift
-func binomialCoefficient(n: Int, _ k: Int) -> Int {
-  var bc = Array(count: n + 1, repeatedValue: Array(count: n + 1, repeatedValue: 0))
+func binomialCoefficient(_ n: Int, choose k: Int) -> Int {
+  var bc = Array(repeating: Array(repeating: 0, count: n + 1), count: n + 1)
 
   for i in 0...n {
     bc[i][0] = 1
@@ -390,7 +390,7 @@ The algorithm itself is quite simple: the first loop fills in the 1s at the oute
 Now you can calculate `C(66, 33)` without any problems:
 
 ```swift
-binomialCoefficient(66, 33)   // prints a very large number
+binomialCoefficient(66, choose: 33)   // prints a very large number
 ```
 
 You may wonder what the point is in calculating these permutations and combinations, but many algorithm problems are really combinatorics problems in disguise. Often you may need to look at all possible combinations of your data to see which one gives the right solution. If that means you need to search through `n!` potential solutions, you may want to consider a different approach -- as you've seen, these numbers become huge very quickly!

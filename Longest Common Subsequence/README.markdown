@@ -99,7 +99,7 @@ And so on... this is how `lcsLength(_:)` fills in the entire matrix.
 
 ## Backtracking to find the actual subsequence
 
-So far we've calculated the length of every possible subsequence. The length of the longest subsequence is found in the bottom-left corner of matrix, at `matrix[n+1][m+1]`. In the above example it is 4, so the LCS consists of 4 characters.
+So far we've calculated the length of every possible subsequence. The length of the longest subsequence is found in the bottom-right corner of matrix, at `matrix[n+1][m+1]`. In the above example it is 4, so the LCS consists of 4 characters.
 
 Having the length of every combination of substrings makes it possible to determine *which* characters are part of the LCS itself by using a backtracking strategy.
 
@@ -152,15 +152,15 @@ func backtrack(_ matrix: [[Int]]) -> String {
 	}
   }
   
-  return String(lcs.characters.reverse())
+  return String(lcs.characters.reversed())
 }
 ```  
 
-This backtracks from `matrix[n+1][m+1]` (bottom-right corner) to `matrix[1][1]` (top-right corner), looking for characters that are common to both strings. It adds those characters to a new string, `lcs`.
+This backtracks from `matrix[n+1][m+1]` (bottom-right corner) to `matrix[1][1]` (top-left corner), looking for characters that are common to both strings. It adds those characters to a new string, `lcs`.
 
 The `charInSequence` variable is an index into the string given by `self`. Initially this points to the last character of the string. Each time we decrement `i`, we also move back `charInSequence`. When the two characters are found to be equal, we add the character at `self[charInSequence]` to the new `lcs` string. (We can't just write `self[i]` because `i` may not map to the current position inside the Swift string.)
 
-Due to backtracking, characters are added in reverse order, so at the end of the function we call `reverse()` to put the string in the right order. (Appending new characters to the end of the string and then reversing it once is faster than always inserting the characters at the front of the string.)
+Due to backtracking, characters are added in reverse order, so at the end of the function we call `reversed()` to put the string in the right order. (Appending new characters to the end of the string and then reversing it once is faster than always inserting the characters at the front of the string.)
 
 ## Putting it all together
 

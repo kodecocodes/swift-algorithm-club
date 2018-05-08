@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Vertex<T where T: Equatable, T: Hashable>: Equatable {
+public struct Vertex<T>: Equatable where T: Hashable {
 
   public var data: T
   public let index: Int
@@ -17,9 +17,7 @@ public struct Vertex<T where T: Equatable, T: Hashable>: Equatable {
 extension Vertex: CustomStringConvertible {
 
   public var description: String {
-    get {
-      return "\(index): \(data)"
-    }
+    return "\(index): \(data)"
   }
 
 }
@@ -27,14 +25,12 @@ extension Vertex: CustomStringConvertible {
 extension Vertex: Hashable {
 
   public var hashValue: Int {
-    get {
-      return "\(data)\(index)".hashValue
-    }
+    return "\(data)\(index)".hashValue
   }
 
 }
 
-public func ==<T: Equatable>(lhs: Vertex<T>, rhs: Vertex<T>) -> Bool {
+public func ==<T>(lhs: Vertex<T>, rhs: Vertex<T>) -> Bool {
   guard lhs.index == rhs.index else {
     return false
   }

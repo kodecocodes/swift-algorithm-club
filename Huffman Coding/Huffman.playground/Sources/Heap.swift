@@ -8,14 +8,14 @@ public struct Heap<T> {
   var elements = [T]()
 
   /** Determines whether this is a max-heap (>) or min-heap (<). */
-  private var isOrderedBefore: (T, T) -> Bool
+  fileprivate var isOrderedBefore: (T, T) -> Bool
 
   /**
    * Creates an empty heap.
    * The sort function determines whether this is a min-heap or max-heap.
    * For integers, > makes a max-heap, < makes a min-heap.
    */
-  public init(sort: (T, T) -> Bool) {
+  public init(sort: @escaping (T, T) -> Bool) {
     self.isOrderedBefore = sort
   }
 
@@ -24,9 +24,9 @@ public struct Heap<T> {
    * the elements are inserted into the heap in the order determined by the
    * sort function.
    */
-  public init(array: [T], sort: (T, T) -> Bool) {
+  public init(array: [T], sort: @escaping (T, T) -> Bool) {
     self.isOrderedBefore = sort
-    buildHeap(array)
+    buildHeap(array: array)
   }
 
   /*
@@ -45,7 +45,7 @@ public struct Heap<T> {
    */
   private mutating func buildHeap(array: [T]) {
     elements = array
-    for i in (elements.count/2 - 1).stride(through: 0, by: -1) {
+    for i in stride(from: elements.count/2 - 1, to: 0, by: -1) {
       shiftDown(index: i, heapSize: elements.count)
     }
   }
@@ -96,12 +96,12 @@ public struct Heap<T> {
    * Adds a new value to the heap. This reorders the heap so that the max-heap
    * or min-heap property still holds. Performance: O(log n).
    */
-  public mutating func insert(value: T) {
+  public mutating func insert(_ value: T) {
     elements.append(value)
     shiftUp(index: elements.count - 1)
   }
 
-  public mutating func insert<S: SequenceType where S.Generator.Element == T>(sequence: S) {
+  public mutating func insert<S: Sequence>(sequence: S) where S.Iterator.Element == T {
     for value in sequence {
       insert(value)
     }
@@ -143,7 +143,7 @@ public struct Heap<T> {
   public mutating func removeAtIndex(i: Int) -> T? {
     let size = elements.count - 1
     if i != size {
-      swap(&elements[i], &elements[size])
+      elements.swapAt(i, size)
       shiftDown(index: i, heapSize: size)
       shiftUp(index: i)
     }
@@ -154,15 +154,15 @@ public struct Heap<T> {
    * Takes a child node and looks at its parents; if a parent is not larger
    * (max-heap) or not smaller (min-heap) than the child, we exchange them.
    */
-  mutating func shiftUp(index index: Int) {
+  mutating func shiftUp(index: Int) {
     var childIndex = index
     let child = elements[childIndex]
-    var parentIndex = indexOfParent(childIndex)
+    var parentIndex = indexOfParent(i: childIndex)
 
     while childIndex > 0 && isOrderedBefore(child, elements[parentIndex]) {
       elements[childIndex] = elements[parentIndex]
       childIndex = parentIndex
-      parentIndex = indexOfParent(childIndex)
+      parentIndex = indexOfParent(i: childIndex)
     }
 
     elements[childIndex] = child
@@ -176,11 +176,11 @@ public struct Heap<T> {
    * Looks at a parent node and makes sure it is still larger (max-heap) or
    * smaller (min-heap) than its childeren.
    */
-  mutating func shiftDown(index index: Int, heapSize: Int) {
+  mutating func shiftDown(index: Int, heapSize: Int) {
     var parentIndex = index
 
     while true {
-      let leftChildIndex = indexOfLeftChild(parentIndex)
+      let leftChildIndex = indexOfLeftChild(i: parentIndex)
       let rightChildIndex = leftChildIndex + 1
 
       // Figure out which comes first if we order them by the sort function:
@@ -196,7 +196,7 @@ public struct Heap<T> {
       }
       if first == parentIndex { return }
 
-      swap(&elements[parentIndex], &elements[first])
+      elements.swapAt(parentIndex, first)
       parentIndex = first
     }
   }
@@ -208,16 +208,16 @@ extension Heap where T: Equatable {
   /**
    * Searches the heap for the given element. Performance: O(n).
    */
-  public func indexOf(element: T) -> Int? {
-    return indexOf(element, 0)
+  public func index(of element: T) -> Int? {
+    return index(of: element, 0)
   }
 
-  private func indexOf(element: T, _ i: Int) -> Int? {
+  private func index(of element: T, _ i: Int) -> Int? {
     if i >= count { return nil }
     if isOrderedBefore(element, elements[i]) { return nil }
     if element == elements[i] { return i }
-    if let j = indexOf(element, indexOfLeftChild(i)) { return j }
-    if let j = indexOf(element, indexOfRightChild(i)) { return j }
+    if let j = index(of: element, indexOfLeftChild(i: i)) { return j }
+    if let j = index(of: element, indexOfRightChild(i: i)) { return j }
     return nil
   }
 }

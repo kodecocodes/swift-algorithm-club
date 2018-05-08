@@ -2,5 +2,15 @@
 <Timeline
    version = "3.0">
    <TimelineItems>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "file:///Users/kachen/src/swift-algorithm-club/Huffman%20Coding/Huffman.playground#CharacterRangeLen=0&amp;CharacterRangeLoc=752&amp;EndingColumnNumber=0&amp;EndingLineNumber=28&amp;StartingColumnNumber=0&amp;StartingLineNumber=28&amp;Timestamp=523212028.643394"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "file:///Users/kachen/src/swift-algorithm-club/Huffman%20Coding/Huffman.playground#CharacterRangeLen=14&amp;CharacterRangeLoc=433&amp;EndingColumnNumber=36&amp;EndingLineNumber=17&amp;StartingColumnNumber=22&amp;StartingLineNumber=17&amp;Timestamp=523212028.643973"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
    </TimelineItems>
 </Timeline>

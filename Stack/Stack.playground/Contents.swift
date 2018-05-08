@@ -1,3 +1,9 @@
+
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 /*
   Stack
 
@@ -30,7 +36,7 @@ public struct Stack<T> {
     return array.popLast()
   }
 
-  public func peek() -> T? {
+  public var top: T? {
     return array.last
   }
 }
@@ -49,7 +55,7 @@ stackOfNames.pop()
 
 // Look at the first element from the stack.
 // Returns "Wade" since "Mike" was popped on the previous line.
-stackOfNames.peek()
+stackOfNames.top
 
 // Check to see if the stack is empty.
 // Returns "false" since the stack still has elements in it.

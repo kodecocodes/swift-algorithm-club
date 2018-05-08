@@ -1,12 +1,17 @@
 //: Playground - noun: a place where people can play
 
+// last checked with Xcode 9.0b4
+#if swift(>=4.0)
+print("Hello, Swift 4!")
+#endif
+
 extension String {
   func indexOf(_ pattern: String) -> String.Index? {
-    
+
     for i in self.characters.indices {
       var j = i
       var found = true
-      for p in pattern.characters.indices{
+      for p in pattern.characters.indices {
         if j == self.characters.endIndex || self[j] != pattern[p] {
           found = false
           break
@@ -21,8 +26,6 @@ extension String {
     return nil
   }
 }
-
-
 
 // A few simple tests
 

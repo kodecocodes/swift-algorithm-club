@@ -10,6 +10,13 @@ import XCTest
 @testable import SSSP
 
 class SSSPTests: XCTestCase {
+  
+  func testSwift4() {
+    // last checked with Xcode 9.0b4
+    #if swift(>=4.0)
+      print("Hello, Swift 4!")
+    #endif
+  }
 
   /**
    See Figure 24.4 of “Introduction to Algorithms” by Cormen et al, 3rd ed., pg 652
@@ -40,11 +47,11 @@ class SSSPTests: XCTestCase {
     let result = BellmanFord<String>.apply(graph, source: s)!
 
     let expectedPath = ["s", "y", "x", "t", "z"]
-    let computedPath = result.path(z, inGraph: graph)!
+    let computedPath = result.path(to: z, inGraph: graph)!
     XCTAssertEqual(expectedPath, computedPath, "expected path of \(expectedPath) but got \(computedPath)")
 
     let expectedWeight = -2.0
-    let computedWeight = result.distance(z)
+    let computedWeight = result.distance(to: z)
     XCTAssertEqual(expectedWeight, computedWeight, "expected weight of \(expectedWeight) but got \(computedWeight)")
   }
 
@@ -71,11 +78,11 @@ class SSSPTests: XCTestCase {
     let result = BellmanFord<String>.apply(graph, source: a)!
 
     let expectedPath = ["a", "b", "c", "e", "d"]
-    let computedPath = result.path(d, inGraph: graph)!
+    let computedPath = result.path(to: d, inGraph: graph)!
     XCTAssertEqual(expectedPath, computedPath, "expected path of \(expectedPath) but got \(computedPath)")
 
     let expectedWeight = 7.0
-    let computedWeight = result.distance(d)
+    let computedWeight = result.distance(to: d)
     XCTAssertEqual(expectedWeight, computedWeight, "expected weight of \(expectedWeight) but got \(computedWeight)")
   }
 
@@ -104,12 +111,12 @@ class SSSPTests: XCTestCase {
 
     let result = BellmanFord<String>.apply(graph, source: a)!
 
-    XCTAssertNil(result.path(b, inGraph: graph), "a path should not be defined from a ~> b")
-    XCTAssertNil(result.distance(b), "a path should not be defined from a ~> b")
-    XCTAssertNotNil(result.path(s, inGraph: graph), "a path should be defined from a ~> s")
-    XCTAssertNotNil(result.distance(s), "a path should be defined from a ~> s")
-    XCTAssertNotNil(result.path(t, inGraph: graph), "a path should be defined from a ~> t")
-    XCTAssertNotNil(result.distance(t), "a path should be defined from a ~> t")
+    XCTAssertNil(result.path(to: b, inGraph: graph), "a path should not be defined from a ~> b")
+    XCTAssertNil(result.distance(to: b), "a path should not be defined from a ~> b")
+    XCTAssertNotNil(result.path(to: s, inGraph: graph), "a path should be defined from a ~> s")
+    XCTAssertNotNil(result.distance(to: s), "a path should be defined from a ~> s")
+    XCTAssertNotNil(result.path(to: t, inGraph: graph), "a path should be defined from a ~> t")
+    XCTAssertNotNil(result.distance(to: t), "a path should be defined from a ~> t")
   }
 
   func testNegativeWeightCycle() {

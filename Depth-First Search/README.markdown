@@ -1,5 +1,7 @@
 # Depth-First Search
 
+> This topic has been tutorialized [here](https://www.raywenderlich.com/157949/swift-algorithm-club-depth-first-search)
+
 Depth-first search (DFS) is an algorithm for traversing or searching [tree](../Tree/) or [graph](../Graph/) data structures. It starts at a source node and explores as far as possible along each branch before backtracking.
 
 Depth-first search can be used on both directed and undirected graphs.
@@ -40,7 +42,7 @@ func depthFirstSearch(_ graph: Graph, source: Node) -> [String] {
 }
 ```
 
-Where a [breadth-first search](../Breadth-First Search/) visits all immediate neighbors first, a depth-first search tries to go as deep down the tree or graph as it can.
+Where a [breadth-first search](../Breadth-First%20Search/) visits all immediate neighbors first, a depth-first search tries to go as deep down the tree or graph as it can.
 
 Put this code in a playground and test it like so:
 
@@ -71,13 +73,13 @@ print(nodesExplored)
 ```
 
 This will output: `["a", "b", "d", "e", "h", "f", "g", "c"]`
-   
+
 ## What is DFS good for?
 
 Depth-first search can be used to solve many problems, for example:
 
 * Finding connected components of a sparse graph
-* [Topological sorting](../Topological Sort/) of nodes in a graph
+* [Topological sorting](../Topological%20Sort/) of nodes in a graph
 * Finding bridges of a graph (see: [Bridges](https://en.wikipedia.org/wiki/Bridge_(graph_theory)#Bridge-finding_algorithm))
 * And lots of others!
 

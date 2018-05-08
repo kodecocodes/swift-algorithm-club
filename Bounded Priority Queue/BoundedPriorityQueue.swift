@@ -1,4 +1,4 @@
-public class LinkedListNode<T: Comparable> {
+open class LinkedListNode<T: Comparable> {
   var value: T
   var next: LinkedListNode?
   var previous: LinkedListNode?
@@ -8,27 +8,27 @@ public class LinkedListNode<T: Comparable> {
   }
 }
 
-public class BoundedPriorityQueue<T: Comparable> {
-  private typealias Node = LinkedListNode<T>
+open class BoundedPriorityQueue<T: Comparable> {
+  fileprivate typealias Node = LinkedListNode<T>
 
-  private(set) public var count = 0
-  private var head: Node?
-  private var tail: Node?
-  private var maxElements: Int
+  fileprivate(set) open var count = 0
+  fileprivate var head: Node?
+  fileprivate var tail: Node?
+  fileprivate var maxElements: Int
 
   public init(maxElements: Int) {
     self.maxElements = maxElements
   }
 
-  public var isEmpty: Bool {
+  open var isEmpty: Bool {
     return count == 0
   }
 
-  public func peek() -> T? {
+  open func peek() -> T? {
     return head?.value
   }
 
-  public func enqueue(value: T) {
+  open func enqueue(_ value: T) {
     if let node = insert(value, after: findInsertionPoint(value)) {
       // If the newly inserted node is the last one in the list, then update
       // the tail pointer.
@@ -44,7 +44,7 @@ public class BoundedPriorityQueue<T: Comparable> {
     }
   }
 
-  private func insert(value: T, after: Node?) -> Node? {
+  fileprivate func insert(_ value: T, after: Node?) -> Node? {
     if let previous = after {
 
       // If the queue is full and we have to insert at the end of the list,
@@ -78,18 +78,18 @@ public class BoundedPriorityQueue<T: Comparable> {
 
   /* Find the node after which to insert the new value. If this returns nil,
    the new value should be inserted at the head of the list. */
-  private func findInsertionPoint(value: T) -> Node? {
+  fileprivate func findInsertionPoint(_ value: T) -> Node? {
     var node = head
     var prev: Node? = nil
 
-    while let current = node where value < current.value {
+    while let current = node, value < current.value {
       prev = node
       node = current.next
     }
     return prev
   }
 
-  private func removeLeastImportantElement() {
+  fileprivate func removeLeastImportantElement() {
     if let last = tail {
       tail = last.previous
       tail?.next = nil
@@ -101,7 +101,7 @@ public class BoundedPriorityQueue<T: Comparable> {
     // this is much slower on large lists.
   }
 
-  public func dequeue() -> T? {
+  open func dequeue() -> T? {
     if let first = head {
       count -= 1
       if count == 0 {

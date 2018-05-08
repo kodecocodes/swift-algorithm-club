@@ -49,7 +49,7 @@ class MinimumTests: XCTestCase {
 
         let result = minimum(array)
 
-        XCTAssertEqual(result, array.minElement())
+        XCTAssertEqual(result, array.min())
       }
     }
   }

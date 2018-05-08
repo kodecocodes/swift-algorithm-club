@@ -1,6 +1,6 @@
 # Bounded Priority queue
 
-A bounded priority queue is similar to a regular [priority queue](../Priority Queue/), except that there is a fixed upper bound on the number of elements that can be stored. When a new element is added to the queue while the queue is at capacity, the element with the highest priority value is ejected from the queue.
+A bounded priority queue is similar to a regular [priority queue](../Priority%20Queue/), except that there is a fixed upper bound on the number of elements that can be stored. When a new element is added to the queue while the queue is at capacity, the element with the highest priority value is ejected from the queue.
 
 ## Example
 
@@ -26,7 +26,7 @@ Suppose that we wish to insert the element `G` with priority 0.1 into this BPQ. 
 
 ## Implementation
 
-While a [heap](../Heap/) may be a really simple implementation for a priority queue, a sorted [linked list](../Linked List/) allows for **O(k)** insertion and **O(1)** deletion, where **k** is the bounding number of elements.
+While a [heap](../Heap/) may be a really simple implementation for a priority queue, a sorted [linked list](../Linked%20List/) allows for **O(k)** insertion and **O(1)** deletion, where **k** is the bounding number of elements.
 
 Here's how you could implement it in Swift:
 

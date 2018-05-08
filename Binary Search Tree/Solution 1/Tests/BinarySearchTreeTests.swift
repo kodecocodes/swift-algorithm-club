@@ -17,8 +17,8 @@ class BinarySearchTreeTest: XCTestCase {
     XCTAssertEqual(tree.count, 8)
     XCTAssertEqual(tree.toArray(), [3, 5, 6, 8, 9, 10, 12, 16])
 
-    XCTAssertEqual(tree.search(9)!.value, 9)
-    XCTAssertNil(tree.search(99))
+    XCTAssertEqual(tree.search(value: 9)!.value, 9)
+    XCTAssertNil(tree.search(value: 99))
 
     XCTAssertEqual(tree.minimum().value, 3)
     XCTAssertEqual(tree.maximum().value, 16)
@@ -26,17 +26,17 @@ class BinarySearchTreeTest: XCTestCase {
     XCTAssertEqual(tree.height(), 3)
     XCTAssertEqual(tree.depth(), 0)
 
-    let node1 = tree.search(16)
+    let node1 = tree.search(value: 16)
     XCTAssertNotNil(node1)
     XCTAssertEqual(node1!.height(), 0)
     XCTAssertEqual(node1!.depth(), 3)
 
-    let node2 = tree.search(12)
+    let node2 = tree.search(value: 12)
     XCTAssertNotNil(node2)
     XCTAssertEqual(node2!.height(), 1)
     XCTAssertEqual(node2!.depth(), 2)
 
-    let node3 = tree.search(10)
+    let node3 = tree.search(value: 10)
     XCTAssertNotNil(node3)
     XCTAssertEqual(node3!.height(), 2)
     XCTAssertEqual(node3!.depth(), 1)
@@ -45,32 +45,32 @@ class BinarySearchTreeTest: XCTestCase {
   func testInsert() {
     let tree = BinarySearchTree(value: 8)
 
-    tree.insert(5)
+    tree.insert(value: 5)
     XCTAssertEqual(tree.count, 2)
     XCTAssertEqual(tree.height(), 1)
     XCTAssertEqual(tree.depth(), 0)
 
-    let node1 = tree.search(5)
+    let node1 = tree.search(value: 5)
     XCTAssertNotNil(node1)
     XCTAssertEqual(node1!.height(), 0)
     XCTAssertEqual(node1!.depth(), 1)
 
-    tree.insert(10)
+    tree.insert(value: 10)
     XCTAssertEqual(tree.count, 3)
     XCTAssertEqual(tree.height(), 1)
     XCTAssertEqual(tree.depth(), 0)
 
-    let node2 = tree.search(10)
+    let node2 = tree.search(value: 10)
     XCTAssertNotNil(node2)
     XCTAssertEqual(node2!.height(), 0)
     XCTAssertEqual(node2!.depth(), 1)
 
-    tree.insert(3)
+    tree.insert(value: 3)
     XCTAssertEqual(tree.count, 4)
     XCTAssertEqual(tree.height(), 2)
     XCTAssertEqual(tree.depth(), 0)
 
-    let node3 = tree.search(3)
+    let node3 = tree.search(value: 3)
     XCTAssertNotNil(node3)
     XCTAssertEqual(node3!.height(), 0)
     XCTAssertEqual(node3!.depth(), 2)
@@ -84,9 +84,9 @@ class BinarySearchTreeTest: XCTestCase {
 
   func testInsertDuplicates() {
     let tree = BinarySearchTree(array: [8, 5, 10])
-    tree.insert(8)
-    tree.insert(5)
-    tree.insert(10)
+    tree.insert(value: 8)
+    tree.insert(value: 5)
+    tree.insert(value: 10)
     XCTAssertEqual(tree.count, 6)
     XCTAssertEqual(tree.toArray(), [5, 5, 8, 8, 10, 10])
   }
@@ -108,7 +108,7 @@ class BinarySearchTreeTest: XCTestCase {
   }
 
   func testInsertSorted() {
-    let tree = BinarySearchTree(array: [8, 5, 10, 3, 12, 9, 6, 16].sort(<))
+    let tree = BinarySearchTree(array: [8, 5, 10, 3, 12, 9, 6, 16].sorted(by: <))
     XCTAssertEqual(tree.count, 8)
     XCTAssertEqual(tree.toArray(), [3, 5, 6, 8, 9, 10, 12, 16])
 
@@ -118,7 +118,7 @@ class BinarySearchTreeTest: XCTestCase {
     XCTAssertEqual(tree.height(), 7)
     XCTAssertEqual(tree.depth(), 0)
 
-    let node1 = tree.search(16)
+    let node1 = tree.search(value: 16)
     XCTAssertNotNil(node1)
     XCTAssertEqual(node1!.height(), 0)
     XCTAssertEqual(node1!.depth(), 7)
@@ -127,15 +127,15 @@ class BinarySearchTreeTest: XCTestCase {
   func testRemoveLeaf() {
     let tree = BinarySearchTree(array: [8, 5, 10, 4])
 
-    let node10 = tree.search(10)!
+    let node10 = tree.search(value: 10)!
     XCTAssertNil(node10.left)
     XCTAssertNil(node10.right)
     XCTAssertTrue(tree.right === node10)
 
-    let node5 = tree.search(5)!
+    let node5 = tree.search(value: 5)!
     XCTAssertTrue(tree.left === node5)
 
-    let node4 = tree.search(4)!
+    let node4 = tree.search(value: 4)!
     XCTAssertTrue(node5.left === node4)
     XCTAssertNil(node5.right)
 
@@ -158,8 +158,8 @@ class BinarySearchTreeTest: XCTestCase {
   func testRemoveOneChildLeft() {
     let tree = BinarySearchTree(array: [8, 5, 10, 4, 9])
 
-    let node4 = tree.search(4)!
-    let node5 = tree.search(5)!
+    let node4 = tree.search(value: 4)!
+    let node5 = tree.search(value: 5)!
     XCTAssertTrue(node5.left === node4)
     XCTAssertTrue(node5 === node4.parent)
 
@@ -171,8 +171,8 @@ class BinarySearchTreeTest: XCTestCase {
     XCTAssertEqual(tree.count, 4)
     XCTAssertEqual(tree.toArray(), [4, 8, 9, 10])
 
-    let node9 = tree.search(9)!
-    let node10 = tree.search(10)!
+    let node9 = tree.search(value: 9)!
+    let node10 = tree.search(value: 10)!
     XCTAssertTrue(node10.left === node9)
     XCTAssertTrue(node10 === node9.parent)
 
@@ -188,8 +188,8 @@ class BinarySearchTreeTest: XCTestCase {
   func testRemoveOneChildRight() {
     let tree = BinarySearchTree(array: [8, 5, 10, 6, 11])
 
-    let node6 = tree.search(6)!
-    let node5 = tree.search(5)!
+    let node6 = tree.search(value: 6)!
+    let node5 = tree.search(value: 5)!
     XCTAssertTrue(node5.right === node6)
     XCTAssertTrue(node5 === node6.parent)
 
@@ -201,8 +201,8 @@ class BinarySearchTreeTest: XCTestCase {
     XCTAssertEqual(tree.count, 4)
     XCTAssertEqual(tree.toArray(), [6, 8, 10, 11])
 
-    let node11 = tree.search(11)!
-    let node10 = tree.search(10)!
+    let node11 = tree.search(value: 11)!
+    let node10 = tree.search(value: 10)!
     XCTAssertTrue(node10.right === node11)
     XCTAssertTrue(node10 === node11.parent)
 
@@ -218,9 +218,9 @@ class BinarySearchTreeTest: XCTestCase {
   func testRemoveTwoChildrenSimple() {
     let tree = BinarySearchTree(array: [8, 5, 10, 4, 6, 9, 11])
 
-    let node4 = tree.search(4)!
-    let node5 = tree.search(5)!
-    let node6 = tree.search(6)!
+    let node4 = tree.search(value: 4)!
+    let node5 = tree.search(value: 5)!
+    let node6 = tree.search(value: 6)!
     XCTAssertTrue(node5.left === node4)
     XCTAssertTrue(node5.right === node6)
     XCTAssertTrue(node5 === node4.parent)
@@ -241,9 +241,9 @@ class BinarySearchTreeTest: XCTestCase {
     XCTAssertEqual(tree.count, 6)
     XCTAssertEqual(tree.toArray(), [4, 6, 8, 9, 10, 11])
 
-    let node9 = tree.search(9)!
-    let node10 = tree.search(10)!
-    let node11 = tree.search(11)!
+    let node9 = tree.search(value: 9)!
+    let node10 = tree.search(value: 10)!
+    let node11 = tree.search(value: 11)!
     XCTAssertTrue(node10.left === node9)
     XCTAssertTrue(node10.right === node11)
     XCTAssertTrue(node10 === node9.parent)
@@ -268,11 +268,12 @@ class BinarySearchTreeTest: XCTestCase {
   func testRemoveTwoChildrenComplex() {
     let tree = BinarySearchTree(array: [8, 5, 10, 4, 9, 20, 11, 15, 13])
 
-    let node9 = tree.search(9)!
-    let node10 = tree.search(10)!
-    let node11 = tree.search(11)!
-    let node15 = tree.search(15)!
-    let node20 = tree.search(20)!
+    let node9 = tree.search(value: 9)!
+    let node10 = tree.search(value: 10)!
+    let node11 = tree.search(value: 11)!
+    let node13 = tree.search(value: 13)!
+    let node15 = tree.search(value: 15)!
+    let node20 = tree.search(value: 20)!
     XCTAssertTrue(node10.left === node9)
     XCTAssertTrue(node10 === node9.parent)
     XCTAssertTrue(node10.right === node20)
@@ -290,8 +291,8 @@ class BinarySearchTreeTest: XCTestCase {
     XCTAssertTrue(node11 === node9.parent)
     XCTAssertTrue(node11.right === node20)
     XCTAssertTrue(node11 === node20.parent)
-    XCTAssertTrue(node20.left === node15)
-    XCTAssertTrue(node20 === node15.parent)
+    XCTAssertTrue(node20.left === node13)
+    XCTAssertTrue(node20 === node13.parent)
     XCTAssertNil(node20.right)
     XCTAssertNil(node10.left)
     XCTAssertNil(node10.right)
@@ -303,7 +304,7 @@ class BinarySearchTreeTest: XCTestCase {
   func testRemoveRoot() {
     let tree = BinarySearchTree(array: [8, 5, 10, 4, 9, 20, 11, 15, 13])
 
-    let node9 = tree.search(9)!
+    let node9 = tree.search(value: 9)!
 
     let newRoot = tree.remove()
     XCTAssertTrue(newRoot === node9)
@@ -319,7 +320,7 @@ class BinarySearchTreeTest: XCTestCase {
 
   func testPredecessor() {
     let tree = BinarySearchTree(array: [3, 1, 2, 5, 4])
-    let node = tree.search(5)
+    let node = tree.search(value: 5)
 
     XCTAssertEqual(node!.value, 5)
     XCTAssertEqual(node!.predecessor()!.value, 4)
@@ -331,7 +332,7 @@ class BinarySearchTreeTest: XCTestCase {
 
   func testSuccessor() {
     let tree = BinarySearchTree(array: [3, 1, 2, 5, 4])
-    let node = tree.search(1)
+    let node = tree.search(value: 1)
 
     XCTAssertEqual(node!.value, 1)
     XCTAssertEqual(node!.successor()!.value, 2)
