@@ -2,7 +2,7 @@
 
 Closest Pair is an algorithm that finds the closest pair of a given array of points By utilizing the Divide and Conquer methodology of solving problems so that it reaches the correct solution with O(nlogn) complexity.
 
-![Given points and we're required to find the two red ones](../Closest\ Pair/Images/1200px-Closest_pair_of_points.png)
+![Given points and we're required to find the two red ones](../Images/1200px-Closest_pair_of_points.png)
 
 As we see in the above image there are an array of points and we need to find the closest two, But how do we do that without having to compare each two points which results in a whopping O(n^2) complexity?
 
