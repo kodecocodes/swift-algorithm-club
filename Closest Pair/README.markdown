@@ -2,7 +2,7 @@
 
 Closest Pair is an algorithm that finds the closest pair of a given array of points By utilizing the Divide and Conquer methodology of solving problems so that it reaches the correct solution with O(nlogn) complexity.
 
-![Given points and we're required to find the two red ones](../Closest Pair/Images/1200px-Closest_pair_of_points.png)
+![Given points and we're required to find the two red ones](Closest Pair/Images/1200px-Closest_pair_of_points.png)
 
 As we see in the above image there are an array of points and we need to find the closest two, But how do we do that without having to compare each two points which results in a whopping O(n^2) complexity?
 
@@ -26,7 +26,7 @@ let line:Double = (p[mid].x + p[mid+1].x)/2
 
 and just recursively calls itself until it reaches the base case we don't detect those points.
 
-![ Points lying near the division line](../Closest Pair/Images/Case.png)
+![ Points lying near the division line](Closest Pair/Images/Case.png)
 
 - To solve this we start by sorting the array on the Y-axis to get the points in their natural order and then we start getting the difference between the X position of the point and the line we drew to divide and if it is less than the min we got so far from the recursion we add it to the strip 
 
@@ -46,7 +46,7 @@ while i<n
 
 - After you insert the points that could possibly give you a better min distance we get to another observation in the image below.
 
-![The strip with 4 points shown](..//Closest Pair/Images/Strip.png)
+![The strip with 4 points shown](Closest Pair/Images/Strip.png)
 
 - Searching the strip is a brute force loop (But doesn't that just destroy everything we did? You ask) but it has an advantage it could never iterate on more than 8 points (worst case).
 
