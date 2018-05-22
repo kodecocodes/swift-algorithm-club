@@ -151,7 +151,7 @@ This will output: `["a", "b", "c", "d", "e", "f", "g", "h"]`
 
 Breadth-first search can be used to solve many problems. A small selection:
 
-* Computing the [shortest path](../Shortest%20Path/) between a source node and each of the other nodes (only for unweighted graphs).
+* Computing the [shortest path](../Shortest%20Path%20(Unweighted)/) between a source node and each of the other nodes (only for unweighted graphs).
 * Calculating the [minimum spanning tree](../Minimum%20Spanning%20Tree%20(Unweighted)/) on an unweighted graph.
 
 *Written by [Chris Pilcher](https://github.com/chris-pilcher) and Matthijs Hollemans*
