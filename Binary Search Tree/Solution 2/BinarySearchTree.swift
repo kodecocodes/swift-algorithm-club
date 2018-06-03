@@ -20,8 +20,8 @@ public enum BinarySearchTree<T: Comparable> {
   /* Distance of this node to its lowest leaf. Performance: O(n). */
   public var height: Int {
     switch self {
-    case .empty: return 0
-    case .leaf: return 1
+    case .empty: return -1
+    case .leaf: return 0
     case let .node(left, _, right): return 1 + max(left.height, right.height)
     }
   }
