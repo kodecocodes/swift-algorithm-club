@@ -1,15 +1,13 @@
 #  Myers Difference Algorithm
 
-Myers Difference Algorithm is an algorithm that finds a longest common subsequence(LCS) or shortest edit scripts(SES) of two sequences. MDA can accomplish this in O(ND) time, where N is the sum of the lengths of the two sequences. The common subsequence of two sequences is the sequence of elements that appear in the same order in both sequences. 
-
-For example, let's assume you have two arrays:
+Myers Difference Algorithm(MDA) is an algorithm that finds a longest common subsequence(LCS) or shortest edit scripts(SES) of two sequences. The common subsequence of two sequences is the sequence of elements that appear in the same order in both sequences. For example, let's assume you have two arrays:
 
 ```
-A = [1, 2, 3]
-B = [2, 3, 4]
+let firstArray = [1, 2, 3]
+let secondArray = [2, 3, 4]
 ```
 
-The common subsequences of these two arrays are `[2]`, and `[2,3]`. The longest common sequence in this case is `[2,3]`.
+The common subsequences of these two arrays are `[2]`, and `[2, 3]`. The longest common sequence in this case is `[2, 3]`. MDA can accomplish this in O(ND) time, where N is the sum of the lengths of the two sequences. 
 
 ## Finding the length of the Longest Common Subsequence with Myers Algorithm on Edit Graph
 
