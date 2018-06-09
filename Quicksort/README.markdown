@@ -287,7 +287,7 @@ func partitionHoare<T: Comparable>(_ a: inout [T], low: Int, high: Int) -> Int {
     repeat { i += 1 } while a[i] < pivot
 
     if i < j {
-      swap(&a[i], &a[j])
+      a.swapAt(i, j)
     } else {
       return j
     }
