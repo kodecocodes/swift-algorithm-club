@@ -176,7 +176,7 @@ public final class LinkedList<T> {
             list.head?.previous = prev
             
             list.last?.next = next
-            next?.previous = list.last?.next
+            next?.previous = list.last
         }
     }
     
