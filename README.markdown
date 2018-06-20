@@ -119,6 +119,7 @@ Bad sorting algorithms (don't use these!):
 - Neural Networks
 - PageRank
 - [Naive Bayes Classifier](Naive%20Bayes%20Classifier/)
+- [Simulated annealing](Simulated%20annealing/). Probabilistic technique for approximating the global maxima in a (often discrete) large search space.
 
 ## Data structures
 
