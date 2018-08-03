@@ -22,16 +22,6 @@
   import Glibc
 #endif
 
-public extension Double {  
-  public static func random(_ lower: Double, _ upper: Double) -> Double {
-    #if os(OSX)
-      return (Double(arc4random()) / 0xFFFFFFFF) * (upper - lower) + lower
-    #elseif os(Linux)
-      return (Double(random()) / 0xFFFFFFFF) * (upper - lower) + lower
-    #endif
-  }
-}
-
 protocol Clonable {
   init(current: Self)
 }
@@ -85,13 +75,13 @@ func SimulatedAnnealing<T: SAObject>(initial: T, temperature: Double, coolingRat
   
   while temp > 1 {    
     let newSolution: T = currentSolution.clone()
-    let pos1: Int = Int(arc4random_uniform(UInt32(newSolution.count)))
-    let pos2: Int = Int(arc4random_uniform(UInt32(newSolution.count)))
+    let pos1: Int = Int.random(in: 0 ..< newSolution.count)
+    let pos2: Int = Int.random(in: 0 ..< newSolution.count)
     newSolution.randSwap(a: pos1, b: pos2)
     let currentEnergy: Double  = currentSolution.currentEnergy()
     let newEnergy: Double = newSolution.currentEnergy()
     
-    if acceptance(currentEnergy, newEnergy, temp) > Double.random(0, 1) {
+    if acceptance(currentEnergy, newEnergy, temp) > Double.random(in: 0 ..< 1) {
       currentSolution = newSolution.clone()
     }
     if currentSolution.currentEnergy() < bestSolution.currentEnergy() {
