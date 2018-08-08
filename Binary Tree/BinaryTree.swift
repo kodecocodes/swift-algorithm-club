@@ -29,7 +29,7 @@ extension BinaryTree: CustomStringConvertible {
 }
 
 extension BinaryTree {
-  public func traverseInOrder(process: T -> Void) {
+  public func traverseInOrder(process: (T) -> Void) {
     if case let .node(left, value, right) = self {
       left.traverseInOrder(process: process)
       process(value)
@@ -37,7 +37,7 @@ extension BinaryTree {
     }
   }
 
-  public func traversePreOrder(process: T -> Void) {
+  public func traversePreOrder(process: (T) -> Void) {
     if case let .node(left, value, right) = self {
       process(value)
       left.traversePreOrder(process: process)
@@ -45,7 +45,7 @@ extension BinaryTree {
     }
   }
 
-  public func traversePostOrder(process: T -> Void) {
+  public func traversePostOrder(process: (T) -> Void) {
     if case let .node(left, value, right) = self {
       left.traversePostOrder(process: process)
       right.traversePostOrder(process: process)
