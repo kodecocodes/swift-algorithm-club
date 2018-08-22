@@ -18,20 +18,10 @@
 
 #if os(OSX)
   import Foundation
+  import Cocoa
 #elseif os(Linux)
   import Glibc
 #endif
-
-public extension Double {
-  
-  public static func random(_ lower: Double, _ upper: Double) -> Double {
-    #if os(OSX)
-      return (Double(arc4random()) / 0xFFFFFFFF) * (upper - lower) + lower
-    #elseif os(Linux)
-      return (Double(random()) / 0xFFFFFFFF) * (upper - lower) + lower
-    #endif
-  }
-}
 
 protocol Clonable {
   init(current: Self)
@@ -96,8 +86,8 @@ extension Point {
   static func <-> (left: Point, right: Point) -> Double {
     let xDistance = (left.x - right.x)
     let yDistance = (left.y - right.y)
-    
-    return Double(sqrt(Double((xDistance * xDistance) + (yDistance * yDistance))))
+
+    return Double((xDistance * xDistance) + (yDistance * yDistance)).squareRoot()
   }
 }
 
@@ -128,15 +118,6 @@ extension Tour {
     self[a] = cpos2
     self[b] = cpos1
   }
-  
-  func shuffle() {
-    for i in stride(from:  self.count - 1, through: 1, by: -1) {
-      let j = Int(arc4random()) % (i + 1)
-      if i != j {
-        swap(&self.tour[i], &self.tour[j])
-      }
-    }
-  }
 
   func currentEnergy() -> Double {
     if self.energy == 0 {
@@ -155,7 +136,10 @@ extension Tour {
     }
     return self.energy
   }
-  
+
+  func shuffle() {
+    self.shuffle()
+  }
 }
 
 // MARK: - subscript to manipulate elements of Tour.
@@ -180,13 +164,13 @@ func SimulatedAnnealing<T: SAObject>(initial: T, temperature: Double, coolingRat
   
   while temp > 1 {
     let newSolution: T = currentSolution.clone()
-    let pos1: Int = Int(arc4random_uniform(UInt32(newSolution.count)))
-    let pos2: Int = Int(arc4random_uniform(UInt32(newSolution.count)))
+    let pos1: Int = Int.random(in: 0 ..< newSolution.count)
+    let pos2: Int = Int.random(in: 0 ..< newSolution.count)
     newSolution.randSwap(a: pos1, b: pos2)
     let currentEnergy: Double  = currentSolution.currentEnergy()
     let newEnergy: Double = newSolution.currentEnergy()
     
-    if acceptance(currentEnergy, newEnergy, temp) > Double.random(0, 1) {
+    if acceptance(currentEnergy, newEnergy, temp) > Double.random(in: 0 ..< 1) {
       currentSolution = newSolution.clone()
     }
     if currentSolution.currentEnergy() < bestSolution.currentEnergy() {
