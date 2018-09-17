@@ -15,6 +15,15 @@ func mergeSort<T: Comparable>(_ array: [T]) -> [T] {
 }
 
 func merge<T: Comparable>(leftPile: [T], rightPile: [T]) -> [T] {
+  if let leftLastElem = leftPile.last , let rightFirstElem = rightPile.first {
+      if leftLastElem < rightFirstElem {
+          return leftPile + rightPile
+      }
+  }else if leftPile.isEmpty {
+      return rightPile
+  }else if rightPile.isEmpty {
+      return leftPile
+  }
   var leftIndex = 0
   var rightIndex = 0
   var orderedPile: [T] = []
