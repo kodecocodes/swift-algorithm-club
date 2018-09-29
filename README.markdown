@@ -228,7 +228,7 @@ The Swift Algorithm Club was originally created by [Matthijs Hollemans](https://
 
 It is now maintained by [Vincent Ngo](https://www.raywenderlich.com/u/jomoka), [Kelvin Lau](https://github.com/kelvinlauKL), and [Richard Ash](https://github.com/richard-ash).
 
-The Swift Algorithm Club is a collaborative effort from the [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](.github/CONTRIBUTING.md)? :]
+The Swift Algorithm Club is a collaborative effort from the [most algorithmic members](https://github.com/raywenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](.github/CONTRIBUTING.md)? :]
 
 ## License
 
