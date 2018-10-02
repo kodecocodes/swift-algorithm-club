@@ -29,10 +29,10 @@ public func BubbleSort<T> (_ elements: [T]) -> [T] where T: Comparable {
     var array = elements
     
     for i in 0..<array.count {
-        for j in i+1..<array.count {
-            if array[j] < array[i] {
-                let tmp = array[i]
-                array[i] = array[j]
+        for j in 1..<array.count-i {
+            if array[j] < array[j-1] {
+                let tmp = array[j-1]
+                array[j-1] = array[j]
                 array[j] = tmp
             }
         }
