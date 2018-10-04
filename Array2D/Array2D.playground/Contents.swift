@@ -1,8 +1,3 @@
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 /*
  Two-dimensional array with a fixed number of rows and columns.
  This is mostly handy for games that are played on a grid, such as chess.
