@@ -100,4 +100,29 @@ public func query(_ value: T) -> Bool {
 
 If you're coming from another imperative language, you might notice the unusual syntax in the `exists` assignment. Swift makes use of functional paradigms when it makes code more consise and readable, and in this case `reduce` is a much more consise way to check if all the required bits are `true` than a `for` loop.
 
-*Written for Swift Algorithm Club by Jamil Dhanani. Edited by Matthijs Hollemans.*
+## Another approach
+
+Another approach to create different hashes of an element for use in the Bloom filter, is to use the same hash function for every iteration, but combine it with different random numbers. This can help, because finding good hashing functions is hard, but combining them is equally non-trivial.
+
+```
+hash("Hello world!") >> hash(987654321) // would flip bit 8
+hash("Hello world!") >> hash(123456789) // would flip bit 2
+```
+
+Since Swift 4.2, `Hasher` is now included in the Standard library, which is designed to reduce multiple hashes to a single hash in an efficient manner. This makes combining the hashes trivial.
+
+```
+private func computeHashes(_ value: T) -> [Int] {
+  return randomSeeds.map() { seed in
+		let hasher = Hasher()
+		hasher.combine(seed)
+		hasher.combine(value)
+		let hashValue = hasher.finalize()
+		return abs(hashValue % array.count)
+	}
+}
+```
+
+If you want to learn more about this approach, you can read about the [Hasher documentation](https://developer.apple.com/documentation/swift/hasher) or Soroush Khanlou's [Swift 4.2 Bloom filter](http://khanlou.com/2018/09/bloom-filters/) implementation.
+
+*Written for Swift Algorithm Club by Jamil Dhanani. Edited by Matthijs Hollemans. Updated by Bruno Scheele.*
