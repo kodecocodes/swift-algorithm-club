@@ -1,11 +1,6 @@
 //: Playground - noun: a place where people can play
 import Foundation
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 var vertices: Set<Vertex> = Set()
 
 func createNotConnectedVertices() {
