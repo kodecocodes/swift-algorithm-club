@@ -1,10 +1,7 @@
 //: Playground - noun: a place where people can play
 
 import Foundation
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4")
-#endif
+
 precedencegroup ExponentiativePrecedence {
   higherThan: MultiplicationPrecedence
   lowerThan: BitwiseShiftPrecedence
@@ -18,8 +15,8 @@ func ^^ (radix: Int, power: Int) -> Int {
 
 // Long Multiplication - O(n^2)
 func multiply(_ num1: Int, by num2: Int, base: Int = 10) -> Int {
-  let num1Array = String(num1).characters.reversed().map { Int(String($0))! }
-  let num2Array = String(num2).characters.reversed().map { Int(String($0))! }
+  let num1Array = String(num1).reversed().map { Int(String($0))! }
+  let num2Array = String(num2).reversed().map { Int(String($0))! }
   
   var product = Array(repeating: 0, count: num1Array.count + num2Array.count)
   
@@ -38,14 +35,14 @@ func multiply(_ num1: Int, by num2: Int, base: Int = 10) -> Int {
 
 // Karatsuba Multiplication - O(n^log2(3))
 func karatsuba(_ num1: Int, by num2: Int) -> Int {
-  let num1Array = String(num1).characters
-  let num2Array = String(num2).characters
+  let num1String = String(num1)
+  let num2String = String(num2)
   
-  guard num1Array.count > 1 && num2Array.count > 1 else {
+  guard num1String.count > 1 && num2String.count > 1 else {
     return multiply(num1, by: num2)
   }
   
-  let n = max(num1Array.count, num2Array.count)
+  let n = max(num1String.count, num2String.count)
   let nBy2 = n / 2
   
   let a = num1 / 10^^nBy2
