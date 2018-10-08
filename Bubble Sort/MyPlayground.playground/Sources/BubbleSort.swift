@@ -26,17 +26,17 @@ import Foundation
 /// - Parameter elements: the array to be sorted
 /// - Returns: an array with the same elements but in order
 public func BubbleSort<T> (_ elements: [T]) -> [T] where T: Comparable {
-    var array = elements
-    
-    for i in 0..<array.count {
-        for j in 1..<array.count-i {
-            if array[j] < array[j-1] {
-                let tmp = array[j-1]
-                array[j-1] = array[j]
-                array[j] = tmp
-            }
-        }
+  var array = elements
+  
+  for i in 0..<array.count {
+    for j in 1..<array.count-i {
+      if array[j] < array[j-1] {
+        let tmp = array[j-1]
+        array[j-1] = array[j]
+        array[j] = tmp
+      }
     }
-    
-    return array
+  }
+  
+  return array
 }
