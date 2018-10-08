@@ -1,10 +1,5 @@
 //: Playground - noun: a place where people can play
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 import Foundation
 
 /**
@@ -14,7 +9,7 @@ import Foundation
  */
 func isPalindrome(_ str: String) -> Bool {
     let strippedString = str.replacingOccurrences(of: "\\W", with: "", options: .regularExpression, range: nil)
-    let length = strippedString.characters.count
+    let length = strippedString.count
 
     if length > 1 {
         return palindrome(strippedString.lowercased(), left: 0, right: length - 1)

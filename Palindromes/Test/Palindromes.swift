@@ -2,7 +2,7 @@ import Foundation
 
 func isPalindrome(_ str: String) -> Bool {
     let strippedString = str.replacingOccurrences(of: "\\W", with: "", options: .regularExpression, range: nil)
-    let length = strippedString.characters.count
+    let length = strippedString.count
 
     if length > 1 {
         return palindrome(strippedString.lowercased(), left: 0, right: length - 1)
