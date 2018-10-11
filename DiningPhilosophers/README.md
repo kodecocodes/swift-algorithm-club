@@ -57,3 +57,4 @@ A background DispatchQueue is then used to let any Philosopher run asyncrounosly
 Dining Philosophers on Wikipedia https://en.wikipedia.org/wiki/Dining_philosophers_problem
 
 Written for Swift Algorithm Club by Jacopo Mangiavacchi
+Swift 4.2 check by Bruno Scheele
