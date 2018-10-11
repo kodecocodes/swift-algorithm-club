@@ -2,11 +2,6 @@
 // Test for  the RedBlackTree implementation provided in the Source folder of this Playground
 import Foundation
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 let redBlackTree = RedBlackTree<Double>()
 
 let randomMax = Double(0x10000000)
