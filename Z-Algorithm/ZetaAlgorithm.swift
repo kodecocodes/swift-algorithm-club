@@ -11,7 +11,7 @@ import Foundation
 extension String {
 
   func indexesOf(pattern: String) -> [Int]? {
-    let patternLength = pattern.characters.count
+    let patternLength = pattern.count
     let zeta = ZetaAlgorithm(ptrn: pattern + "💲" + self)
 
     guard zeta != nil else {
