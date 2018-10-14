@@ -1,13 +1,8 @@
 //: Playground - noun: a place where people can play
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift4!")
-#endif
-
 func ZetaAlgorithm(ptnr: String) -> [Int]? {
   
-  let pattern = Array(ptnr.characters)
+  let pattern = Array(ptnr)
   let patternLength: Int = pattern.count
   
   guard patternLength > 0 else {
@@ -65,7 +60,7 @@ extension String {
   
   func indexesOf(ptnr: String) -> [Int]? {
     
-    let text = Array(self.characters)
+    let text = Array(self)
     let pattern = Array(ptnr.characters)
     
     let textLength: Int = text.count
