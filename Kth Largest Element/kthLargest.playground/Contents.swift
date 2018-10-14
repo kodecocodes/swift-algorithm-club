@@ -1,9 +1,5 @@
 //: Playground - noun: a place where people can play
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
 
 let a = [5, 1, 3, 2, 7, 6, 4]
 
