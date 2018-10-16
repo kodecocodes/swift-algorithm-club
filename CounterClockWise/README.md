@@ -70,9 +70,9 @@ var p3 = Point(x: 3, y: 6)
 print(ccw(points: [p1,p2,p3])) // -1 means ClockWise
 ```
 
-![triangle](/Users/taejoongyoon/Developer/Swift/swift-algorithm-club/CounterClockWise/Images/Triangle_img.jpg)
+![triangle](./Images/Triangle_img.jpg)
 
-![triangleExpression](/Users/taejoongyoon/Developer/Swift/swift-algorithm-club/CounterClockWise/Images/triangle.png)
+![triangleExpression](./Images/triangle.png)
 
 
 
@@ -87,9 +87,9 @@ var p7 = Point(x: 9, y: 3)
 print(ccw(points: [p4,p5,p6,p7])) // 1 means CounterClockWise
 ```
 
-![Quadrilateral](/Users/taejoongyoon/Developer/Swift/swift-algorithm-club/CounterClockWise/Images/Quadrilateral_img.jpg)
+![Quadrilateral](./Images/Quadrilateral_img.jpg)
 
-![triangleExpression](/Users/taejoongyoon/Developer/Swift/swift-algorithm-club/CounterClockWise/Images/quadrilateral.png)
+![triangleExpression](./Images/quadrilateral.png)
 
 
 
@@ -105,9 +105,9 @@ var p12 = Point(x: 12, y: 8)
 print(ccw(points: [p8,p9,p10,p11,p12])) // 1 means CounterClockWise
 ```
 
-![triangle](/Users/taejoongyoon/Developer/Swift/swift-algorithm-club/CounterClockWise/Images/Pentagon_img.png)
+![triangle](./Images/Pentagon_img.png)
 
-![triangleExpression](/Users/taejoongyoon/Developer/Swift/swift-algorithm-club/CounterClockWise/Images/pentagon.png)
+![triangleExpression](./Images/pentagon.png)
 
 
 
