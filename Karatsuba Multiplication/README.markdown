@@ -72,14 +72,14 @@ Here's the full implementation. Note that the recursive algorithm is most effici
 ```swift
 // Karatsuba Multiplication
 func karatsuba(_ num1: Int, by num2: Int) -> Int {
-  let num1Array = String(num1).characters
-  let num2Array = String(num2).characters
+  let num1String = String(num1)
+  let num2String = String(num2)
   
-  guard num1Array.count > 1 && num2Array.count > 1 else {
-    return num1*num2
+  guard num1String.count > 1 && num2String.count > 1 else {
+    return multiply(num1, by: num2)
   }
   
-  let n = max(num1Array.count, num2Array.count)
+  let n = max(num1String.count, num2String.count)
   let nBy2 = n / 2
   
   let a = num1 / 10^^nBy2
