@@ -100,7 +100,7 @@ public struct Heap<T> {
   
   /**
    * Adds a sequence of values to the heap. This reorders the heap so that
-   * the max-heap or min-heap property still holds. Performance: O(log n).
+   * the max-heap or min-heap property still holds. Performance: O(n log n).
    */
   public mutating func insert<S: Sequence>(_ sequence: S) where S.Iterator.Element == T {
     for value in sequence {
