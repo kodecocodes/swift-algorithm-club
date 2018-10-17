@@ -555,7 +555,7 @@ enum ListNode<T> {
 }
 ```
 
-The big difference with the class-based version is that any modification you make to this list will result in a *new copy* being created. Whether that's what you want or not depends on the application.
+The big difference with the enum-based version is that any modification you make to this list will result in a *new copy* being created because of [Swift's value semantics](https://developer.apple.com/swift/blog/?id=10). Whether that's what you want or not depends on the application.
 
 [I might fill out this section in more detail if there's a demand for it.]
 
