@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		9437D8841E0D960A00A38FB8 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9437D8831E0D960A00A38FB8 /* Test.swift */; };
-		9437D88B1E0D969500A38FB8 /* Palindromes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9437D8791E0D948A00A38FB8 /* Palindromes.swift */; };
+		9437D88B1E0D969500A38FB8 /* Palindrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9437D8791E0D948A00A38FB8 /* Palindrome.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9437D8791E0D948A00A38FB8 /* Palindromes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Palindromes.swift; sourceTree = "<group>"; };
+		9437D8791E0D948A00A38FB8 /* Palindrome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Palindrome.swift; sourceTree = "<group>"; };
 		9437D8811E0D960A00A38FB8 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9437D8831E0D960A00A38FB8 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		9437D8851E0D960A00A38FB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -32,7 +32,7 @@
 		9437D8651E0D945200A38FB8 = {
 			isa = PBXGroup;
 			children = (
-				9437D8791E0D948A00A38FB8 /* Palindromes.swift */,
+				9437D8791E0D948A00A38FB8 /* Palindrome.swift */,
 				9437D8821E0D960A00A38FB8 /* Test */,
 				9437D86F1E0D945200A38FB8 /* Products */,
 			);
@@ -87,6 +87,7 @@
 				TargetAttributes = {
 					9437D8801E0D960A00A38FB8 = {
 						CreatedOnToolsVersion = 8.2;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -123,7 +124,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9437D88B1E0D969500A38FB8 /* Palindromes.swift in Sources */,
+				9437D88B1E0D969500A38FB8 /* Palindrome.swift in Sources */,
 				9437D8841E0D960A00A38FB8 /* Test.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,7 +230,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -243,7 +245,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -266,6 +269,7 @@
 				9437D8881E0D960A00A38FB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
