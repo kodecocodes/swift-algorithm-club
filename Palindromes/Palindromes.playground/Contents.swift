@@ -2,7 +2,7 @@
 
 import Foundation
 
-//true
+// true
 isPalindrome("A man, a plan, a canal, Panama!")
 isPalindrome("abbcbba")
 isPalindrome("racecar")
