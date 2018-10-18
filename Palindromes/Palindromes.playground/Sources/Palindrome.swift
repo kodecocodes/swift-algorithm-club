@@ -5,7 +5,7 @@ import Foundation
  - parameter str: The string to validate
  - returns: `true` if string is plaindrome, `false` if string is not
  */
-func isPalindrome(_ str: String) -> Bool {
+public func isPalindrome(_ str: String) -> Bool {
     let strippedString = str.replacingOccurrences(of: "\\W", with: "", options: .regularExpression, range: nil)
     let length = strippedString.count
     
