@@ -33,7 +33,7 @@ func contains(word: String) -> Bool {
 	var currentNode = root
   
 	// 2
-	var characters = Array(word.lowercased().characters)
+	var characters = Array(word.lowercased())
 	var currentIndex = 0
  
 	// 3
@@ -74,7 +74,7 @@ func insert(word: String) {
   var currentNode = root
 
   // 2
-  for character in word.lowercased().characters {
+  for character in word.lowercased() {
     // 3
     if let childNode = currentNode.children[character] {
       currentNode = childNode
