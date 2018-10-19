@@ -490,9 +490,9 @@ Recursive Approach:
       return head
     }
     let temp = reverse(head.next)
-    head.next.next = head;
-    head.next = NULL;
-    return temp;
+    head.next.next = head
+    head.next = NULL
+    return temp
   }
 ```
 
