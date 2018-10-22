@@ -12,7 +12,7 @@ If the object is incredibly resilient, and you may need to do the testing on the
 
 ## Description
 
-You're in a building with **m** floors and you are given **n** eggs. What is the maximum number of attempts it will take to find out the floor that breaks the egg?
+You're in a building with **m** floors and you are given **n** eggs. What is the minimum number of attempts it will take to find out the floor that breaks the egg?
 
 For convenience, here are a few rules to keep in mind:
 
