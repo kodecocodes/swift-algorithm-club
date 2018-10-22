@@ -28,8 +28,7 @@ This a simple description of the idea that is behind this algorithm. There are a
 Here is the code of the function that computes the Z-array:
 ```swift
 func ZetaAlgorithm(ptrn: String) -> [Int]? {
-
-    let pattern = Array(ptrn.characters)
+    let pattern = Array(ptrn)
     let patternLength: Int = pattern.count
 
     guard patternLength > 0 else {
@@ -131,7 +130,7 @@ The Z-Algorithm discussed above leads to the simplest linear-time string matchin
 extension String {
 
     func indexesOf(pattern: String) -> [Int]? {
-        let patternLength: Int = pattern.characters.count
+        let patternLength: Int = pattern.count
         /* Let's calculate the Z-Algorithm on the concatenation of pattern and text */
         let zeta = ZetaAlgorithm(ptrn: pattern + "💲" + self)
 

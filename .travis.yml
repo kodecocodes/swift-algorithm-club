@@ -48,6 +48,7 @@ script:
 - xcodebuild test -project ./Treap/Treap/Treap.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
 - xcodebuild test -project ./Palindromes/Test/Test.xcodeproj -scheme Test | xcpretty -f `xcpretty-travis-formatter`
 - xcodebuild test -project ./Ternary\ Search\ Tree/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
+- xcodebuild test -project ./Karatsuba\ Multiplication/Tests/Tests.xcodeproj -scheme Tests | xcpretty -f `xcpretty-travis-formatter`
 
 after_success:
 

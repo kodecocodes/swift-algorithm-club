@@ -1472,6 +1472,13 @@
       <FileRef
          location = "group:README.markdown">
       </FileRef>
+      <Group
+         location = "group:"
+         name = "Tests">
+         <FileRef
+            location = "group:Tests/Tests.xcodeproj">
+         </FileRef>
+      </Group>
    </Group>
    <Group
       location = "group:Knuth-Morris-Pratt"
