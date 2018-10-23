@@ -1,8 +1,8 @@
 # Greatest Common Divisor
 
-The *greatest common divisor* (or Greatest Common Factor) of two numbers `a` and `b` is the largest positive integer that divides both `a` and `b` without a remainder.
+The *greatest common divisor* (or Greatest Common Factor) of two numbers `a` and `b` is the largest positive integer that divides both `a` and `b` without a remainder. The GCD.swift file contains three different algorithms of how to calculate the greatest common divisor.
 
-For example, `gcd(39, 52) = 13` because 13 divides 39 (`39/13 = 3`) as well as 52 (`52/13 = 4`). But there is no larger number than 13 that divides them both.
+For example, `gcdIterativeEuklid(39, 52) = 13` because 13 divides 39 (`39/13 = 3`) as well as 52 (`52/13 = 4`). But there is no larger number than 13 that divides them both.
 
 You've probably had to learn about this in school at some point. :-)
 
@@ -17,25 +17,25 @@ where `a % b` calculates the remainder of `a` divided by `b`.
 Here is an implementation of this idea in Swift:
 
 ```swift
-func gcd(_ a: Int, _ b: Int) -> Int {
-  let r = a % b
-  if r != 0 {
-    return gcd(b, r)
-  } else {
-    return b
-  }
+func gcdRecursiveEuklid(_ m: Int, _ n: Int) -> Int {
+    let r: Int = m % n
+    if r != 0 {
+        return gcdRecursiveEuklid(n, r)
+    } else {
+        return n
+    }
 }
 ```
 
 Put it in a playground and try it out with these examples:
 
 ```swift
-gcd(52, 39)        // 13
-gcd(228, 36)       // 12
-gcd(51357, 3819)   // 57
+gcdBinaryRecursiveStein(52, 39)        // 13
+gcdRecursiveEuklid(228, 36)       // 12
+gcdIterativeEuklid(51357, 3819)   // 57
 ```
 
-Let's step through the third example:
+Let's step through the third example using gcd as a representation of the gcdRecursiveEuklid here:
 
 	gcd(51357, 3819)
 
@@ -47,10 +47,10 @@ because the remainder of `51357 % 3819` is `1710`. If you work out this division
 
 So `gcd(51357, 3819)` is the same as `gcd(3819, 1710)`. That's useful because we can keep simplifying:
 
-	gcd(3819, 1710) = gcd(1710, 3819 % 1710) = 
-	gcd(1710, 399)  = gcd(399, 1710 % 399)   = 
-	gcd(399, 114)   = gcd(114, 399 % 114)    = 
-	gcd(114, 57)    = gcd(57, 114 % 57)      = 
+	gcd(3819, 1710) = gcd(1710, 3819 % 1710) =
+	gcd(1710, 399)  = gcd(399, 1710 % 399)   =
+	gcd(399, 114)   = gcd(114, 399 % 114)    =
+	gcd(114, 57)    = gcd(57, 114 % 57)      =
 	gcd(57, 0)
 
 And now can't divide any further. The remainder of `114 / 57` is zero because `114 = 57 * 2` exactly. That means we've found the answer:
@@ -68,17 +68,17 @@ gcd(841, 299)     // 1
 Here is a slightly different implementation of Euclid's algorithm. Unlike the first version this doesn't use recursion but only a basic `while` loop.
 
 ```swift
-func gcd(_ m: Int, _ n: Int) -> Int {
-  var a = 0
-  var b = max(m, n)
-  var r = min(m, n)
+func gcdIterativeEuklid(_ m: Int, _ n: Int) -> Int {
+    var a: Int = 0
+    var b: Int = max(m, n)
+    var r: Int = min(m, n)
 
-  while r != 0 {
-    a = b
-    b = r
-    r = a % b
-  }
-  return b
+    while r != 0 {
+        a = b
+        b = r
+        r = a % b
+    }
+    return b
 }
 ```
 
@@ -88,9 +88,9 @@ The `max()` and `min()` at the top of the function make sure we always divide th
 
 An idea related to the GCD is the *least common multiple* or LCM.
 
-The least common multiple of two numbers `a` and `b` is the smallest positive integer that is a multiple of both. In other words, the LCM is evenly divisible by `a` and `b`. 
+The least common multiple of two numbers `a` and `b` is the smallest positive integer that is a multiple of both. In other words, the LCM is evenly divisible by `a` and `b`. The example implementation of the LCM takes two numbers and a specification which GCD algorithm is used.
 
-For example: `lcm(2, 3) = 6` because 6 can be divided by 2 and also by 3.
+For example: `lcm(2, 3, using: gcdIterativeEuklid) = 6` because 6 can be divided by 2 and also by 3.
 
 We can calculate the LCM using Euclid's algorithm too:
 
@@ -101,17 +101,19 @@ We can calculate the LCM using Euclid's algorithm too:
 In code:
 
 ```swift
-func lcm(_ m: Int, _ n: Int) -> Int {
-  return m / gcd(m, n) * n
+func lcm(_ m: Int, _ n: Int, using gcdAlgorithm: (Int, Int) -> (Int)) throws -> Int {
+    guard (m & n) != 0 else { throw LCMError.divisionByZero }
+    return m / gcdAlgorithm(m, n) * n
 }
 ```
 
 And to try it out in a playground:
 
 ```swift
-lcm(10, 8)    // 40
+lcm(10, 8, using: gcdIterativeEuklid)    // 40
 ```
 
 You probably won't need to use the GCD or LCM in any real-world problems, but it's cool to play around with this ancient algorithm. It was first described by Euclid in his [Elements](http://publicdomainreview.org/collections/the-first-six-books-of-the-elements-of-euclid-1847/) around 300 BC. Rumor has it that he discovered this algorithm while he was hacking on his Commodore 64.
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*
+*Extended by Simon Krüger*
