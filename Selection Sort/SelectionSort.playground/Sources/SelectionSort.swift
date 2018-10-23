@@ -3,7 +3,7 @@
 /// - Parameter array: array of elements that conform to the Comparable protocol
 /// - Returns: an array in ascending order
 public func selectionSort<T: Comparable>(_ array: [T]) -> [T] {
-  return insertionSort(array, <)
+  return selectionSort(array, <)
 }
 
 /// Performs the Selection sort algorithm on a array using the provided comparisson method
