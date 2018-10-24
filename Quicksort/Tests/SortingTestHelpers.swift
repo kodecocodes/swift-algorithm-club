@@ -1,4 +1,3 @@
-import Foundation
 import XCTest
 
 func randomArray(_ size: Int) -> [Int] {
