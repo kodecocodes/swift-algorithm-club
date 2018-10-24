@@ -17,19 +17,17 @@ We can decompose the problem of sorting n numbers in ascending order into
 Here is an implementation of slow sort in Swift:
 
 ```swift
-public func slowsort(_ i: Int, _ j: Int) {
-    if i>=j {
-        return
-    }
+func slowSort(_ i: Int, _ j: Int, _ numberList: inout [Int]) {
+    guard if i < j else { return }
     let m = (i+j)/2
-    slowsort(i,m)
-    slowsort(m+1,j)
+    slowSort(i, m, &numberList)
+    slowSort(m+1, j, &numberList)
     if numberList[j] < numberList[m] {
         let temp = numberList[j]
         numberList[j] = numberList[m]
         numberList[m] = temp
     }
-    slowsort(i,j-1)
+    slowSort(i, j-1, &numberList)
 }
 ```
 
