@@ -6,12 +6,9 @@
 //
 //
 
-import Foundation
-
 public func slowsort(_ i: Int, _ j: Int, _ numberList: inout [Int]) {
-  if i>=j {
-    return
-  }
+  guard i<j else { return }
+    
   let m = (i+j)/2
   slowsort(i, m, &numberList)
   slowsort(m+1, j, &numberList)
