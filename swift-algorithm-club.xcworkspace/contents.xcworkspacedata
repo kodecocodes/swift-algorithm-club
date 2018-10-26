@@ -633,7 +633,7 @@
             location = "group:Info.plist">
          </FileRef>
          <FileRef
-            location = "group:/Users/mroedder/workspace/swift-algorithm-club/Boyer-Moore-Horspool/Tests/Tests.xcodeproj">
+            location = "group:Tests/Tests.xcodeproj">
          </FileRef>
       </Group>
    </Group>
