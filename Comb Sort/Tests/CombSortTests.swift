@@ -17,6 +17,7 @@ class CombSortTests: XCTestCase {
             print("Hello, Swift 4!")
         #endif
     }
+    
     override func setUp() {
         super.setUp()
         sequence = [2, 32, 9, -1, 89, 101, 55, -10, -12, 67]
