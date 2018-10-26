@@ -5,7 +5,7 @@ public class Graph: CustomStringConvertible, Equatable {
     self.nodes = []
   }
 
-  public func addNode(_ label: String) -> Node {
+  @discardableResult public func addNode(_ label: String) -> Node {
     let node = Node(label)
     nodes.append(node)
     return node
