@@ -612,16 +612,16 @@
       location = "group:Boyer-Moore"
       name = "Boyer-Moore">
       <FileRef
-         location = "group:BoyerMoore.playground">
+         location = "group:Boyer-Moore-Horspool/BoyerMooreHorspool.playground">
       </FileRef>
       <FileRef
-         location = "group:BoyerMoore.swift">
+         location = "group:Boyer-Moore-Horspool/BoyerMooreHorspool.swift">
       </FileRef>
       <FileRef
          location = "group:README.markdown">
       </FileRef>
       <Group
-         location = "group:Tests"
+         location = "group:Boyer-Moore-Horspool/Tests"
          name = "Tests">
          <FileRef
             location = "group:BoyerMooreHorspoolTests.swift">
