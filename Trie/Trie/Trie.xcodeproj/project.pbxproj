@@ -87,7 +87,9 @@
 				EB798E191DFEF79900F0628D /* TrieUITests */,
 				EB798DFB1DFEF79900F0628D /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		EB798DFB1DFEF79900F0628D /* Products */ = {
 			isa = PBXGroup;
