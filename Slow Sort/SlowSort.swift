@@ -5,6 +5,7 @@
 //  Created by Pope Lukas Schramm (Dabendorf Orthodox Religion) on 16-07-16.
 //
 //
+
 func slowSort(_ i: Int, _ j: Int, _ numberList: inout [Int]) {
     guard if i < j else { return }
     let m = (i+j)/2
