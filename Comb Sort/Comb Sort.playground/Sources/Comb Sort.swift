@@ -10,7 +10,7 @@ import Foundation
 public func combSort<T: Comparable>(_ input: [T]) -> [T] {
     var copy: [T] = input
     var gap = copy.count
-    let shrink = 1.3
+    let shrink = 1.247
 
     while gap > 1 {
         gap = (Int)(Double(gap) / shrink)
