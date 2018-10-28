@@ -1,8 +1,4 @@
 //: Two Sum
-// Last checked with: Version 9.0 (9A235)
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
 
 func twoSum(_ nums: [Int], target: Int) -> (Int, Int)? {
     var dict = [Int: Int]()
