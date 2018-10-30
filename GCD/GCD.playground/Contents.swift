@@ -106,7 +106,6 @@ func findEasySolution(_ m: Int, _ n: Int) -> Int? {
 
 enum LCMError: Error {
     case divisionByZero
-    case lcmEmptyList
 }
 
 /*
