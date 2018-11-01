@@ -102,7 +102,9 @@ If you're coming from another imperative language, you might notice the unusual 
 
 ## Another approach
 
-Another approach to create different hashes of an element for use in the Bloom filter, is to use the same hash function for every iteration, but combine it with different random numbers. This can help, because finding good hashing functions is hard, but combining them is equally non-trivial.
+In the previous section, you learnt about how using multiple different hash functions can help reduce the chance of collisions in the bloom filter. However, good hash functions are difficult to design. A simple alternative to multiple hash functions is to use a set of random numbers.
+
+As an example, let's say a bloom filter wants to hash each element 15 times during insertion. Instead of using 15 different hash functions, you can rely on just one hash function. The hash value can then be combined with 15 different values to form the indices for flipping. This bloom filter would initialize a set of 15 random numbers ahead of time and use these values during each insertion.
 
 ```
 hash("Hello world!") >> hash(987654321) // would flip bit 8
