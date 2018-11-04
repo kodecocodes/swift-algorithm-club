@@ -1,10 +1,5 @@
 /* Top-down recursive version */
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 func mergeSort<T: Comparable>(_ array: [T]) -> [T] {
   guard array.count > 1 else { return array }
   let middleIndex = array.count / 2
