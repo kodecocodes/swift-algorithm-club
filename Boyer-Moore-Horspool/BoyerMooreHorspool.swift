@@ -6,7 +6,7 @@
   http://www.drdobbs.com/database/faster-string-searches/184408171
 */
 extension String {
-    func index(of pattern: String, usingHorspoolImprovement: Bool = false) -> Int? {
+    func index(of pattern: String, usingHorspoolImprovement: Bool = false) -> Index? {
         // Cache the length of the search pattern because we're going to
         // use it a few times and it's expensive to calculate.
         let patternLength = pattern.count
@@ -50,7 +50,7 @@ extension String {
             if c == lastChar {
 
                 // There is a possible match. Do a brute-force search backwards.
-                if let k = backwards() { return k.encodedOffset }
+                if let k = backwards() { return k }
 
                 if !usingHorspoolImprovement {
                     // If no match, we can only safely skip one character ahead.
