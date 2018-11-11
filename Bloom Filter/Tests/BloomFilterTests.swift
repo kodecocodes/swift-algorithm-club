@@ -6,7 +6,7 @@ import XCTest
 func djb2(_ x: String) -> Int {
   var hash = 5381
 
-  for char in x.characters {
+  for char in x {
     hash = ((hash << 5) &+ hash) &+ char.hashValue
   }
 
@@ -16,7 +16,7 @@ func djb2(_ x: String) -> Int {
 func sdbm(_ x: String) -> Int {
   var hash = 0
 
-  for char in x.characters {
+  for char in x {
     hash = char.hashValue &+ (hash << 6) &+ (hash << 16) &- hash
   }
 
