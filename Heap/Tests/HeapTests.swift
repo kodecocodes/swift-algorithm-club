@@ -7,13 +7,6 @@ import XCTest
 
 class HeapTests: XCTestCase {
   
-  func testSwift4() {
-    // last checked with Xcode 9.0b4
-    #if swift(>=4.0)
-      print("Hello, Swift 4!")
-    #endif
-  }
-  
   fileprivate func verifyMaxHeap(_ h: Heap<Int>) -> Bool {
     for i in 0..<h.count {
       let left = h.leftChildIndex(ofIndex: i)
