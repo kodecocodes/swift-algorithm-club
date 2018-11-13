@@ -1,8 +1,5 @@
 //: Playground - noun: a place where people can play
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
+
 public class BloomFilter<T> {
   fileprivate var array: [Bool]
   private var hashFunctions: [(T) -> Int]
@@ -54,7 +51,7 @@ public class BloomFilter<T> {
 
 func djb2(x: String) -> Int {
   var hash = 5381
-  for char in x.characters {
+  for char in x {
     hash = ((hash << 5) &+ hash) &+ char.hashValue
   }
   return Int(hash)
@@ -62,7 +59,7 @@ func djb2(x: String) -> Int {
 
 func sdbm(x: String) -> Int {
   var hash = 0
-  for char in x.characters {
+  for char in x {
     hash = char.hashValue &+ (hash << 6) &+ (hash << 16) &- hash
   }
   return Int(hash)

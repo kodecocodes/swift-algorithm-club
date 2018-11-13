@@ -100,4 +100,31 @@ public func query(_ value: T) -> Bool {
 
 If you're coming from another imperative language, you might notice the unusual syntax in the `exists` assignment. Swift makes use of functional paradigms when it makes code more consise and readable, and in this case `reduce` is a much more consise way to check if all the required bits are `true` than a `for` loop.
 
-*Written for Swift Algorithm Club by Jamil Dhanani. Edited by Matthijs Hollemans.*
+## Another approach
+
+In the previous section, you learnt about how using multiple different hash functions can help reduce the chance of collisions in the bloom filter. However, good hash functions are difficult to design. A simple alternative to multiple hash functions is to use a set of random numbers.
+
+As an example, let's say a bloom filter wants to hash each element 15 times during insertion. Instead of using 15 different hash functions, you can rely on just one hash function. The hash value can then be combined with 15 different values to form the indices for flipping. This bloom filter would initialize a set of 15 random numbers ahead of time and use these values during each insertion.
+
+```
+hash("Hello world!") >> hash(987654321) // would flip bit 8
+hash("Hello world!") >> hash(123456789) // would flip bit 2
+```
+
+Since Swift 4.2, `Hasher` is now included in the Standard library, which is designed to reduce multiple hashes to a single hash in an efficient manner. This makes combining the hashes trivial.
+
+```
+private func computeHashes(_ value: T) -> [Int] {
+  return randomSeeds.map() { seed in
+		let hasher = Hasher()
+		hasher.combine(seed)
+		hasher.combine(value)
+		let hashValue = hasher.finalize()
+		return abs(hashValue % array.count)
+	}
+}
+```
+
+If you want to learn more about this approach, you can read about the [Hasher documentation](https://developer.apple.com/documentation/swift/hasher) or Soroush Khanlou's [Swift 4.2 Bloom filter](http://khanlou.com/2018/09/bloom-filters/) implementation.
+
+*Written for Swift Algorithm Club by Jamil Dhanani. Edited by Matthijs Hollemans. Updated by Bruno Scheele.*

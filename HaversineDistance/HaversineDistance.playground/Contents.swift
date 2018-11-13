@@ -16,7 +16,7 @@ func haversineDinstance(la1: Double, lo1: Double, la2: Double, lo2: Double, radi
     
     // Converts from degrees to radians
     let dToR = { (angle: Double) -> Double in
-        return (angle / 360) * 2 * M_PI
+        return (angle / 360) * 2 * .pi
     }
     
     let lat1 = dToR(la1)
