@@ -11,7 +11,7 @@ extension String {
         // use it a few times and it's expensive to calculate.
         let patternLength = pattern.count
         guard patternLength > 0, patternLength <= self.count else { return nil }
-
+      
         // Make the skip table. This table determines how far we skip ahead
         // when a character from the pattern is found.
         var skipTable = [Character: Int]()

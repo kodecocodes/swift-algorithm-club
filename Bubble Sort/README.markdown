@@ -57,9 +57,9 @@ This is the same for the forth and fifth passes.
 ```swift
 for i in 0..<array.count {
   for j in 1..<array.count {
-    if array[j] < array[i] {
-      let tmp = array[i]
-      array[i] = array[j]
+    if array[j] < array[j-1] {
+      let tmp = array[j-1]
+      array[j-1] = array[j]
       array[j] = tmp
     }
   }
@@ -73,9 +73,9 @@ The bubble sort algorithm can be easily optimized by observing that the `n-th` p
 ```swift
 for i in 0..<array.count {
   for j in 1..<array.count - i {
-    if array[j] < array[i] {
-      let tmp = array[i]
-      array[i] = array[j]
+    if array[j] < array[j-1] {
+      let tmp = array[j-1]
+      array[j-1] = array[j]
       array[j] = tmp
     }
   }
@@ -117,7 +117,7 @@ There is no Fifth pass
 
 #### Conclusion
 
-Even with the proposed optimizations, this is still a terribly inefficient sorting algorithm. A good alternative is [Merge Sort](), that not only is better performing, has a similar degree of dificulty to implement.
+Even with the proposed optimizations, this is still a terribly inefficient sorting algorithm. A good alternative is [Merge Sort](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Merge%20Sort), that not only is better performing, has a similar degree of dificulty to implement.
 
 *Updated for the Swift Algorithm Club by Julio Brazil*
 
