@@ -186,4 +186,4 @@ The overall runtime of delete is O(log n).
 ## Resources:
 [CLRS]  T. Cormen, C. Leiserson, R. Rivest, and C. Stein. "Introduction to Algorithms", Third Edition. 2009
 
-*Written for Swift Algorithm Club by Ute Schiehlen. Updated from Jaap Wijnen and Ashwin Raghuraman's contributions.*
+*Written for Swift Algorithm Club by Ute Schiehlen. Updated from Jaap Wijnen and Ashwin Raghuraman's contributions. Swift 4.2 check by Bruno Scheele.*
