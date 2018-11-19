@@ -45,19 +45,6 @@
    <FileRef
       location = "group:Under Construction.markdown">
    </FileRef>
-   <Group
-      location = "container:"
-      name = "Lapindrome Checker">
-      <FileRef
-         location = "group:LapindromeChecker.swift">
-      </FileRef>
-      <FileRef
-         location = "group:LapindromeChecker.playground">
-      </FileRef>
-      <FileRef
-         location = "group:README.md">
-      </FileRef>
-   </Group>
    <FileRef
       location = "group:What are Algorithms.markdown">
    </FileRef>
@@ -1514,6 +1501,19 @@
       </FileRef>
       <FileRef
          location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Lapindrome Checker">
+      <FileRef
+         location = "group:LapindromeChecker.swift">
+      </FileRef>
+      <FileRef
+         location = "group:LapindromeChecker.playground">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
       </FileRef>
    </Group>
    <Group
