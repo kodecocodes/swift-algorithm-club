@@ -1,10 +1,5 @@
 //: Playground - noun: a place where people can play
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 // Create a bit set that stores 140 bits
 var bits = BitSet(size: 140)
 
