@@ -26,8 +26,8 @@ class BoyerMooreTest: XCTestCase {
         XCTAssertNotNil(index)
 
         let startIndex = index!
-        let endIndex = string.index(index!, offsetBy: pattern.characters.count)
-        let match = string.substring(with: startIndex..<endIndex)
+        let endIndex = string.index(index!, offsetBy: pattern.count)
+        let match = String(string[startIndex..<endIndex])
         XCTAssertEqual(match, pattern)
     }
 

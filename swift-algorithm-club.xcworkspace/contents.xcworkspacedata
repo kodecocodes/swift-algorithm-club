@@ -609,13 +609,13 @@
       </Group>
    </Group>
    <Group
-      location = "group:Boyer-Moore"
+      location = "group:Boyer-Moore-Horspool"
       name = "Boyer-Moore">
       <FileRef
-         location = "group:BoyerMoore.playground">
+         location = "group:BoyerMooreHorspool.playground">
       </FileRef>
       <FileRef
-         location = "group:BoyerMoore.swift">
+         location = "group:BoyerMooreHorspool.swift">
       </FileRef>
       <FileRef
          location = "group:README.markdown">
@@ -633,7 +633,7 @@
             location = "group:Info.plist">
          </FileRef>
          <FileRef
-            location = "group:Tests.xcodeproj">
+            location = "group:Tests/Tests.xcodeproj">
          </FileRef>
       </Group>
    </Group>
