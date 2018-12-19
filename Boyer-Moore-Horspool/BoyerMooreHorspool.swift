@@ -10,8 +10,8 @@ extension String {
         // Cache the length of the search pattern because we're going to
         // use it a few times and it's expensive to calculate.
         let patternLength = pattern.count
-        guard patternLength > 0, patternLength <= count else { return nil }
-
+        guard patternLength > 0, patternLength <= self.count else { return nil }
+      
         // Make the skip table. This table determines how far we skip ahead
         // when a character from the pattern is found.
         var skipTable = [Character: Int]()
