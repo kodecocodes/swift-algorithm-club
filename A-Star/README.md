@@ -16,7 +16,7 @@ On the first step we expand the root node on the left (blue). We set the cost `g
 
 ![Step 1](Images/step1.png)
 
-We put the first not in the closed list (light blue) so that we don't try expanding it again if there were to be loops in the graph. Next we take the node on the open list with the smallest value of `g + h` where `g` is the current cost (0) plus the edge cost (1). Since all nodes in the open list have the same value we choose the top one.
+We put the first node in the closed list (light blue) so that we don't try expanding it again if there were to be loops in the graph. Next we take the node on the open list with the smallest value of `g + h` where `g` is the current cost (0) plus the edge cost (1). Since all nodes in the open list have the same value we choose the top one.
 
 ![Step 2](Images/step2.png)
 
