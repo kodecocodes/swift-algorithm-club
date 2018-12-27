@@ -17,7 +17,7 @@ The quickhull algorithm works as follows:
 - Keep on doing so on until no more points are left, the recursion has come to an end and the points selected constitute the convex hull.
 
 
-Our functioni will have the following defininition:
+Our function will have the following defininition:
 
 `findHull(points: [CGPoint], p1: CGPoint, p2: CGPoint)`
 
