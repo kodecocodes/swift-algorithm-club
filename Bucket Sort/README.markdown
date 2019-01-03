@@ -256,4 +256,4 @@ The following are some of the variation to the general [Bucket Sort](https://en.
 - [Postman Sort](https://en.wikipedia.org/wiki/Bucket_sort#Postman.27s_sort)
 - [Shuffle Sort](https://en.wikipedia.org/wiki/Bucket_sort#Shuffle_sort)
 
-*Written for Swift Algorithm Club by Barbara Rodeker. Images from Wikipedia.*
+*Written for Swift Algorithm Club by Barbara Rodeker. Images from Wikipedia. Updated by Bruno Scheele.*

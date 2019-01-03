@@ -12,7 +12,7 @@ class KMeans<Label: Hashable> {
   }
 
   private func indexOfNearestCenter(_ x: Vector, centers: [Vector]) -> Int {
-    var nearestDist = DBL_MAX
+    var nearestDist = Double.greatestFiniteMagnitude
     var minIndex = 0
 
     for (idx, center) in centers.enumerated() {

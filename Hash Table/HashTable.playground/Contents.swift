@@ -1,8 +1,5 @@
 //: Playground - noun: a place where people can play
 
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
 // Playing with hash values
 
 "firstName".hashValue

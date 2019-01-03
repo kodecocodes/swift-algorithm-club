@@ -3,10 +3,6 @@
 // For best results, don't forget to select "Show Rendered Markup" from XCode's "Editor" menu
 
 //: Linked List Class Declaration:
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
 
 public final class LinkedList<T> {
     
@@ -459,7 +455,7 @@ var sum = 0
 for element in collection {
     sum += element
 }
-// sum is 15
+sum //15
 
 // Another way of achieving the same result though 'reduce', another method defined in an extension of Sequence. Collections are Sequences.
 let result = collection.reduce(0) {$0 + $1} // 15

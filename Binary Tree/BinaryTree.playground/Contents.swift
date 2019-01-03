@@ -1,10 +1,5 @@
 //: Playground - noun: a place where people can play
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 public indirect enum BinaryTree<T> {
   case node(BinaryTree<T>, T, BinaryTree<T>)
   case empty

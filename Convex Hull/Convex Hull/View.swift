@@ -27,8 +27,8 @@ class View: UIView {
   func generateRandomPoints() {
     for _ in 0..<MAX_POINTS {
       let offset: CGFloat = 50
-      let xrand = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * (self.frame.width - offset) + 0.5 * offset
-      let yrand = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * (self.frame.height - offset) + 0.5 * offset
+      let xrand = CGFloat(arc4random()) / CGFloat(UInt32.max) * (self.frame.width - offset) + 0.5 * offset
+      let yrand = CGFloat(arc4random()) / CGFloat(UInt32.max) * (self.frame.height - offset) + 0.5 * offset
       let point = CGPoint(x: xrand, y: yrand)
       points.append(point)
     }

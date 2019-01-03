@@ -2,7 +2,7 @@
 
 Given a group of points on a plane. The Convex Hull algorithm calculates the shape (made up from the points itself) containing all these points. It can also be used on a collection of points of different dimensions. This implementation however covers points on a plane. It essentially calculates the lines between points which together contain all points. In comparing different solutions to this problem we can describe each algorithm in terms of it's big-O time complexity.
 
-There are multiple Convex Hull algorithms but this solution is called Quickhull, is comes from the work of both W. Eddy in 1977 and also separately A. Bykat in 1978, this algorithm has an expected time complexity of O(n log n), but it's worst-case time-complexity can be O(n^2) . With average conditions the algorithm has ok efficiency, but it's time-complexity can start to head become more exponential in cases of high symmetry or where there are points lying on the circumference of a circle for example.
+There are multiple Convex Hull algorithms but this solution is called Quickhull, is comes from the work of both W. Eddy in 1977 and also separately A. Bykat in 1978, this algorithm has an expected time complexity of O(n log n), but it's worst-case time-complexity can be O(n^2) . With average conditions the algorithm has ok efficiency, but it's time-complexity can start to become more exponential in cases of high symmetry or where there are points lying on the circumference of a circle for example.
 
 ## Quickhull
 
@@ -17,7 +17,7 @@ The quickhull algorithm works as follows:
 - Keep on doing so on until no more points are left, the recursion has come to an end and the points selected constitute the convex hull.
 
 
-Our functioni will have the following defininition:
+Our function will have the following defininition:
 
 `findHull(points: [CGPoint], p1: CGPoint, p2: CGPoint)`
 

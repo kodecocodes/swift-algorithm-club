@@ -2,11 +2,6 @@
 
 import Foundation
 
-// last checked with Xcode 4.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 let carAge: [Double] = [10, 8, 3, 3, 2, 1]
 let carPrice: [Double] = [500, 400, 7000, 8500, 11000, 10500]
 var intercept = 0.0
@@ -22,7 +17,7 @@ let numberOfCarAdvertsWeSaw = carPrice.count
 let numberOfIterations = 100
 let alpha = 0.0001
 
-for n in 1...numberOfIterations {
+for _ in 1...numberOfIterations {
     for i in 0..<numberOfCarAdvertsWeSaw {
         let difference = carPrice[i] - predictedCarPrice(carAge[i])
         intercept += alpha * difference

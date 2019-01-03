@@ -38,13 +38,13 @@ extension String {
     func index(of pattern: String) -> Index? {
         // Cache the length of the search pattern because we're going to
         // use it a few times and it's expensive to calculate.
-        let patternLength = pattern.characters.count
-        guard patternLength > 0, patternLength <= characters.count else { return nil }
+        let patternLength = pattern.count
+        guard patternLength > 0, patternLength <= count else { return nil }
 
         // Make the skip table. This table determines how far we skip ahead
         // when a character from the pattern is found.
         var skipTable = [Character: Int]()
-        for (i, c) in pattern.characters.enumerated() {
+        for (i, c) in pattern.enumerated() {
             skipTable[c] = patternLength - i - 1
         }
 
@@ -162,13 +162,13 @@ extension String {
     func index(of pattern: String) -> Index? {
         // Cache the length of the search pattern because we're going to
         // use it a few times and it's expensive to calculate.
-        let patternLength = pattern.characters.count
+        let patternLength = pattern.count
         guard patternLength > 0, patternLength <= characters.count else { return nil }
 
         // Make the skip table. This table determines how far we skip ahead
         // when a character from the pattern is found.
         var skipTable = [Character: Int]()
-        for (i, c) in pattern.characters.enumerated() {
+        for (i, c) in pattern.enumerated() {
             skipTable[c] = patternLength - i - 1
         }
 
