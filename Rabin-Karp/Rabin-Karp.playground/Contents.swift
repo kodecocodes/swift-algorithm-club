@@ -8,7 +8,7 @@ print("Hello, Swift 4!")
 import UIKit
 
 struct Constants {
-    static let hashMultiplier = 69069
+    static let hashMultiplier = 69061
 }
 
 precedencegroup PowerPrecedence { higherThan: MultiplicationPrecedence }
