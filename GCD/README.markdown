@@ -190,4 +190,5 @@ While these algorithms all calculate the same result, comparing their plane comp
 _If a fast calculation of the gcd is necessary, a runtime comparison for the specific platform and compiler optimization level should be done for the rekursive Euklidean and Stein's algorithm._
 
 *Written for Swift Algorithm Club by Matthijs Hollemans*
+
 *Extended by Simon C. Krüger*
