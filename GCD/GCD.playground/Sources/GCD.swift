@@ -1,3 +1,17 @@
+/*
+ Finds the largest positive integer that divides both
+ m and n without a remainder.
+
+ - Parameter m: First natural number
+ - Parameter n: Second natural number
+ - Parameter using: The used algorithm to calculate the gcd.
+                    If nothing provided, the Iterative Euclidean
+                    algorithm is used.
+ - Returns: The natural gcd of m and n.
+ */
+public func gcd(_ m: Int, _ n: Int, using gcdAlgorithm: (Int, Int) -> (Int) = gcdIterativeEuklid) -> Int {
+    return gcdAlgorithm(m, n)
+}
 
 /*
  Iterative approach based on the Euclidean algorithm.
@@ -6,9 +20,9 @@
  is replaced by its difference with the smaller number.
  - Parameter m: First natural number
  - Parameter n: Second natural number
- - Returns: The natural gcd if m and n
+ - Returns: The natural gcd of m and n.
  */
-func gcdIterativeEuklid(_ m: Int, _ n: Int) -> Int {
+public func gcdIterativeEuklid(_ m: Int, _ n: Int) -> Int {
     var a: Int = 0
     var b: Int = max(m, n)
     var r: Int = min(m, n)
@@ -26,7 +40,7 @@ func gcdIterativeEuklid(_ m: Int, _ n: Int) -> Int {
  
  - Parameter m: First natural number
  - Parameter n: Second natural number
- - Returns: The natural gcd of m and n
+ - Returns: The natural gcd of m and n.
  - Note: The recursive version makes only tail recursive calls.
  Most compilers for imperative languages do not optimize these.
  The swift compiler as well as the obj-c compiler is able to do
@@ -34,7 +48,7 @@ func gcdIterativeEuklid(_ m: Int, _ n: Int) -> Int {
  up to be the same in terms of complexity. That said, tail call
  elimination is not mutually exclusive to recursion.
  */
-func gcdRecursiveEuklid(_ m: Int, _ n: Int) -> Int {
+public func gcdRecursiveEuklid(_ m: Int, _ n: Int) -> Int {
     let r: Int = m % n
     if r != 0 {
         return gcdRecursiveEuklid(n, r)
@@ -59,7 +73,7 @@ func gcdRecursiveEuklid(_ m: Int, _ n: Int) -> Int {
  the subtract and shift operations take linear time for very
  large integers
  */
-func gcdBinaryRecursiveStein(_ m: Int, _ n: Int) -> Int {
+public func gcdBinaryRecursiveStein(_ m: Int, _ n: Int) -> Int {
     if let easySolution = findEasySolution(m, n) { return easySolution }
     
     if (m & 1) == 0 {
@@ -85,6 +99,9 @@ func gcdBinaryRecursiveStein(_ m: Int, _ n: Int) -> Int {
 
 /*
  Finds an easy solution for the gcd.
+ - Parameter m: First natural number
+ - Parameter n: Second natural number
+ - Returns: A natural gcd of m and n if possible.
  - Note: It might be relevant for different usecases to
  try finding an easy solution for the GCD calculation
  before even starting more difficult operations.
@@ -103,7 +120,7 @@ func findEasySolution(_ m: Int, _ n: Int) -> Int? {
 }
 
 
-enum LCMError: Error {
+public enum LCMError: Error {
     case divisionByZero
 }
 
@@ -113,12 +130,14 @@ enum LCMError: Error {
  - Parameter m: First natural number.
  - Parameter n: Second natural number.
  - Parameter using: The used gcd algorithm to calculate the lcm.
+                    If nothing provided, the Iterative Euclidean
+                    algorithm is used.
  - Throws: Can throw a `divisionByZero` error if one of the given
  attributes turns out to be zero or less.
  - Returns: The least common multiplier of the two attributes as
  an unsigned integer
  */
-func lcm(_ m: Int, _ n: Int, using gcdAlgorithm: (Int, Int) -> (Int)) throws -> Int {
-    guard (m & n) != 0 else { throw LCMError.divisionByZero }
+public func lcm(_ m: Int, _ n: Int, using gcdAlgorithm: (Int, Int) -> (Int) = gcdIterativeEuklid) throws -> Int {
+    guard m & n != 0 else { throw LCMError.divisionByZero }
     return m / gcdAlgorithm(m, n) * n
 }
