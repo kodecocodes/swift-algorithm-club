@@ -45,7 +45,7 @@ public struct Stack<T> {
   }
 
   /**
-     Removes and returns the item at the top of the sack.
+     Removes and returns the item at the top of the stack.
      
      - Returns: The item at the top of the stack.
   */
