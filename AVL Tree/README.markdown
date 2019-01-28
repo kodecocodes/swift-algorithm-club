@@ -88,4 +88,4 @@ The interesting bits are in the `balance()` method which is called after inserti
 
 AVL tree was the first self-balancing binary tree. These days, the [red-black tree](../Red-Black%20Tree/) seems to be more popular.
 
-*Written for Swift Algorithm Club by Mike Taghavi and Matthijs Hollemans*
+*Written for Swift Algorithm Club by [Mike Taghavi](https://github.com/mitghi) and [Matthijs Hollemans](https://github.com/hollance)*
