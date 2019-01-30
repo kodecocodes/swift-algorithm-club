@@ -1,6 +1,20 @@
+// Written by John Gill and Matthijs Hollemans
+// For https://github.com/raywenderlich/swift-algorithm-club
+// Modified by Nicolas Zinovieff
+
 import Foundation
 
-class KMeans<Label: Hashable> {
+#if os(Linux)
+	import Glibc
+    srandom(UInt32(time(nil)))
+#endif
+
+protocol VectorProtocol {
+    func distanceTo(_ o: Self) -> Double
+    static func average(_ items: [Self]) -> Self
+}
+
+class KMeans<Label: Hashable, Vector : VectorProtocol > {
   let numCenters: Int
   let labels: [Label]
   private(set) var centroids = [Vector]()
@@ -26,8 +40,6 @@ class KMeans<Label: Hashable> {
   }
 
   func trainCenters(_ points: [Vector], convergeDistance: Double) {
-    let zeroVector = Vector([Double](repeating: 0, count: points[0].length))
-
     // Randomly take k objects from the input data to make the initial centroids.
     var centers = reservoirSample(points, k: numCenters)
 
@@ -44,8 +56,8 @@ class KMeans<Label: Hashable> {
 
       // Take the average of all the data points that belong to each centroid.
       // This moves the centroid to a new position.
-      let newCenters = classification.map { assignedPoints in
-        assignedPoints.reduce(zeroVector, +) / Double(assignedPoints.count)
+      let newCenters = classification.map { assignedPoints -> Vector in
+        return Vector.average(assignedPoints)
       }
 
       // Find out how far each centroid moved since the last iteration. If it's
@@ -86,10 +98,46 @@ func reservoirSample<T>(_ samples: [T], k: Int) -> [T] {
 
   // Randomly replace elements from remaining pool
   for i in k..<samples.count {
+  	#if os(Linux)
+    let j = Int(random() % (i + 1))
+    #else
     let j = Int(arc4random_uniform(UInt32(i + 1)))
+    #endif
     if j < k {
       result[j] = samples[i]
     }
   }
   return result
+}
+
+// EXAMPLE : points (as in the README)
+struct Point : VectorProtocol {
+	let x : Double
+	let y : Double
+	
+	func distanceTo(_ o: Point) -> Double {
+		let aSquared : Double = (o.y-self.y)*(o.y-self.y)
+		let bSquared : Double = (o.x-self.x)*(o.x-self.x)
+		return sqrt(aSquared+bSquared) // Pythagoras 🥰
+	}
+	
+	static func average(_ items: [Point]) -> Point { // barycenter
+		if items.count == 0 { // division by zero is bad news
+			return Point(x:0, y:0)
+		}
+		
+		var sumX = 0.0
+		var sumY = 0.0
+		
+		for i in items {
+			sumX += i.x
+			sumY += i.y
+		}
+		
+		let doubleCount = Double(items.count)
+		sumX /= doubleCount
+		sumY /= doubleCount
+		
+		return Point(x: sumX, y: sumY)
+	}
 }
