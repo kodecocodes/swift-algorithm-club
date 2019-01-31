@@ -1,6 +1,6 @@
 import Foundation
 
-struct Vector: CustomStringConvertible, Equatable {
+struct Vector: CustomStringConvertible, Equatable, VectorProtocol {
   private(set) var length = 0
   private(set) var data: [Double]
 
@@ -20,6 +20,12 @@ struct Vector: CustomStringConvertible, Equatable {
     }
     return sqrt(result)
   }
+    
+    static func average(_ points: [Vector]) -> Vector {
+        let zeroVector = Vector([Double](repeating: 0, count: points[0].length))
+        
+        return points.reduce(zeroVector, +) / Double(points.count)
+    }
 }
 
 func == (left: Vector, right: Vector) -> Bool {
@@ -66,3 +72,6 @@ func / (left: Vector, right: Double) -> Vector {
 func /= (left: inout Vector, right: Double) {
   left = left / right
 }
+
+
+

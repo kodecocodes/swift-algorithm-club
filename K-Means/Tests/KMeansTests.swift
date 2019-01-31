@@ -26,7 +26,7 @@ class KMeansTests: XCTestCase {
     let points = genPoints(10, numDimensions: 2)
 
     print("\nCenters")
-    let kmm = KMeans<Character>(labels: ["A", "B", "C"])
+    let kmm = KMeans<Character,Vector>(labels: ["A", "B", "C"])
     kmm.trainCenters(points, convergeDistance: 0.01)
 
     for (label, centroid) in zip(kmm.labels, kmm.centroids) {
@@ -43,7 +43,7 @@ class KMeansTests: XCTestCase {
     let points = genPoints(10, numDimensions: 10)
 
     print("\nCenters")
-    let kmm = KMeans<Int>(labels: [1, 2, 3])
+    let kmm = KMeans<Int,Vector>(labels: [1, 2, 3])
     kmm.trainCenters(points, convergeDistance: 0.01)
     for c in kmm.centroids {
       print(c)
@@ -54,7 +54,7 @@ class KMeansTests: XCTestCase {
     let points = genPoints(10000, numDimensions: 2)
 
     print("\nCenters")
-    let kmm = KMeans<Character>(labels: ["A", "B", "C", "D", "E"])
+    let kmm = KMeans<Character,Vector>(labels: ["A", "B", "C", "D", "E"])
     kmm.trainCenters(points, convergeDistance: 0.01)
     for c in kmm.centroids {
       print(c)
@@ -65,7 +65,7 @@ class KMeansTests: XCTestCase {
     let points = genPoints(10000, numDimensions: 10)
 
     print("\nCenters")
-    let kmm = KMeans<Int>(labels: [1, 2, 3, 4, 5])
+    let kmm = KMeans<Int,Vector>(labels: [1, 2, 3, 4, 5])
     kmm.trainCenters(points, convergeDistance: 0.01)
     for c in kmm.centroids {
       print(c)
