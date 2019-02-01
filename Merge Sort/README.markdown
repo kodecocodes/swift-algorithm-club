@@ -79,6 +79,7 @@ func merge(leftPile: [Int], rightPile: [Int]) -> [Int] {
 
   // 2
   var orderedPile = [Int]()
+  orderedPile.reserveCapacity(leftPile.count + rightPile.count)
 
   // 3
   while leftIndex < leftPile.count && rightIndex < rightPile.count {
@@ -115,7 +116,7 @@ This method may look scary, but it is quite straightforward:
 
 1. You need two indexes to keep track of your progress for the two arrays while merging.
 
-2. This is the merged array. It is empty right now, but you will build it up in subsequent steps by appending elements from the other arrays.
+2. This is the merged array. It is empty right now, but you will build it up in subsequent steps by appending elements from the other arrays. Since you already know number of elements that will end up in this array, you reserve capacity to avoid reallocation overhead later.
 
 3. This while-loop will compare the elements from the left and right sides and append them into the `orderedPile` while making sure that the result stays in order.
 
