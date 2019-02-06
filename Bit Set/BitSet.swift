@@ -235,10 +235,10 @@ public func << (lhs: BitSet, numBitsLeft: Int) -> BitSet {
     let shift = numBitsLeft % lhs.N
     for i in 0..<lhs.words.count {
         out.words[i] = 0
-        if( i - offset >= 0 ) {
+        if (i - offset >= 0) {
             out.words[i] = lhs.words[i - offset] << shift
         }
-        if( i - offset - 1 >= 0 ) {
+        if (i - offset - 1 >= 0) {
             out.words[i] |= lhs.words[i - offset - 1] >> (lhs.N - shift)
         }
     }
@@ -253,10 +253,10 @@ public func >> (lhs: BitSet, numBitsRight: Int) -> BitSet {
     let shift = numBitsRight % lhs.N
     for i in 0..<lhs.words.count {
         out.words[i] = 0
-        if( i + offset < lhs.words.count ) {
+        if (i + offset < lhs.words.count) {
             out.words[i] = lhs.words[i + offset] >> shift
         }
-        if( i + offset + 1 < lhs.words.count ) {
+        if (i + offset + 1 < lhs.words.count) {
             out.words[i] |= lhs.words[i + offset + 1] << (lhs.N - shift)
         }
     }

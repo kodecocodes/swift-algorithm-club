@@ -93,8 +93,8 @@ z.all1()        // false
 var smallBitSet = BitSet(size: 16)
 smallBitSet[5] = true
 smallBitSet[10] = true
-print( smallBitSet >> 3 )
-print( smallBitSet << 6 ) // one bit shifts off the end
+print(smallBitSet >> 3)
+print(smallBitSet << 6) // one bit shifts off the end
 
 var bigBitSet = BitSet( size: 120 )
 bigBitSet[1] = true
@@ -104,8 +104,8 @@ bigBitSet[32] = true
 bigBitSet[55] = true
 bigBitSet[64] = true
 bigBitSet[80] = true
-print( bigBitSet )
-print( bigBitSet << 32 )
-print( bigBitSet << 64 )
-print( bigBitSet >> 32 )
-print( bigBitSet >> 64 )
+print(bigBitSet)
+print(bigBitSet << 32)
+print(bigBitSet << 64)
+print(bigBitSet >> 32)
+print(bigBitSet >> 64)
