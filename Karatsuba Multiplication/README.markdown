@@ -115,10 +115,10 @@ What about the running time of this algorithm? Is all this extra work worth it? 
  
 ## Resources
 
-[Wikipedia] (https://en.wikipedia.org/wiki/Karatsuba_algorithm)
+[Wikipedia](https://en.wikipedia.org/wiki/Karatsuba_algorithm)
 
-[WolframMathWorld] (http://mathworld.wolfram.com/KaratsubaMultiplication.html) 
+[WolframMathWorld](http://mathworld.wolfram.com/KaratsubaMultiplication.html) 
 
-[Master Theorem] (https://en.wikipedia.org/wiki/Master_theorem)
+[Master Theorem](https://en.wikipedia.org/wiki/Master_theorem)
 
 *Written for Swift Algorithm Club by Richard Ash*
