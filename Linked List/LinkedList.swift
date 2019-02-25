@@ -67,7 +67,7 @@ public final class LinkedList<T> {
     /// - Returns: LinkedListNode
     public func node(at index: Int) -> Node {
         assert(head != nil, "List is empty")
-        assert(index >= 0, "index must be greater than 0")
+        assert(index >= 0, "index must be greater or equal to 0")
         
         if index == 0 {
             return head!
