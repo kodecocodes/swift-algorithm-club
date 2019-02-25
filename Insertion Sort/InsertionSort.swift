@@ -22,7 +22,7 @@ func insertionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
 
 /// Performs the Insertion sort algorithm to a given array
 ///
-/// - Parameter array: the array to be sorted, conatining elements that conform to the Comparable protocol
+/// - Parameter array: the array to be sorted, containing elements that conform to the Comparable protocol
 /// - Returns: a sorted array containing the same elements
 func insertionSort<T: Comparable>(_ array: [T]) -> [T] {
     guard array.count > 1 else { return array }
