@@ -550,9 +550,6 @@
          location = "group:BitSet.playground">
       </FileRef>
       <FileRef
-         location = "group:BitSet.swift">
-      </FileRef>
-      <FileRef
          location = "group:README.markdown">
       </FileRef>
    </Group>

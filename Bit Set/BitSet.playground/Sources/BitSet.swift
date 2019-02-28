@@ -9,7 +9,7 @@ public struct BitSet {
     We store the bits in a list of unsigned 64-bit integers.
     The first entry, `words[0]`, is the least significant word.
   */
-  private let N = 64
+  fileprivate let N = 64
   public typealias Word = UInt64
   fileprivate(set) public var words: [Word]
 
@@ -219,6 +219,50 @@ prefix public func ~ (rhs: BitSet) -> BitSet {
   }
   out.clearUnusedBits()
   return out
+}
+
+// MARK: - Bit shift operations
+
+/*
+ Note: For bitshift operations, the assumption is that any bits that are
+ shifted off the end of the end of the declared size are not still set.
+ In other words, we are maintaining the original number of bits.
+ */
+
+public func << (lhs: BitSet, numBitsLeft: Int) -> BitSet {
+    var out = lhs
+    let offset = numBitsLeft / lhs.N
+    let shift = numBitsLeft % lhs.N
+    for i in 0..<lhs.words.count {
+        out.words[i] = 0
+        if (i - offset >= 0) {
+            out.words[i] = lhs.words[i - offset] << shift
+        }
+        if (i - offset - 1 >= 0) {
+            out.words[i] |= lhs.words[i - offset - 1] >> (lhs.N - shift)
+        }
+    }
+    
+    out.clearUnusedBits()
+    return out
+}
+
+public func >> (lhs: BitSet, numBitsRight: Int) -> BitSet {
+    var out = lhs
+    let offset = numBitsRight / lhs.N
+    let shift = numBitsRight % lhs.N
+    for i in 0..<lhs.words.count {
+        out.words[i] = 0
+        if (i + offset < lhs.words.count) {
+            out.words[i] = lhs.words[i + offset] >> shift
+        }
+        if (i + offset + 1 < lhs.words.count) {
+            out.words[i] |= lhs.words[i + offset + 1] << (lhs.N - shift)
+        }
+    }
+    
+    out.clearUnusedBits()
+    return out
 }
 
 // MARK: - Debugging
