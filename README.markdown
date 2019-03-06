@@ -100,7 +100,7 @@ Bad sorting algorithms (don't use these!):
 - [Convex Hull](Convex%20Hull/).
 - [Miller-Rabin Primality Test](Miller-Rabin%20Primality%20Test/). Is the number a prime number?
 - [MinimumCoinChange](MinimumCoinChange/). A showcase for dynamic programming.
-
+- [Genetic](Genetic/). A simple example on how to slowly mutate a value to its ideal form, in the context of biological evolution.
 ### Mathematics
 
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
