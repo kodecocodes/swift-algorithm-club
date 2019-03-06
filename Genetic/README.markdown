@@ -5,7 +5,7 @@
 A genetic algorithm (GA) is process inspired by natural selection to find high quality solutions. Most commonly used for optimization. GAs rely on the bio-inspired processes of natural selection, more specifically the process of selection (fitness), crossover and mutation. To understand more, let's walk through these processes in terms of biology:
 
 ### Selection
->**Selection**, in biology, the preferential survival and reproduction or preferential elimination of individuals with certain genotypes (genetic compositions), by means of natural or artificial controlling factors. [Britannica](britannica)
+>**Selection**, in biology, the preferential survival and reproduction or preferential elimination of individuals with certain genotypes (genetic compositions), by means of natural or artificial controlling factors.
 
 In other words, survival of the fittest. Organisms that survive in their environment tend to reproduce more. With GAs we generate a fitness model that will rank individuals and give them a better chance for reproduction.
 
@@ -60,21 +60,9 @@ extension String {
 let OPTIMAL:[UInt8] = "Hello, World".unicodeArray
 let DNA_SIZE = OPTIMAL.count
 let POP_SIZE = 50
-let MAX_GENERATIONS = 5000
+let GENERATIONS = 5000
 let MUTATION_CHANCE = 100
  ```
-
- The last piece we need for set up is a function to give us a random unicode value from our lexicon:
-
- ```swift
- func randomChar(from lexicon: [UInt8]) -> UInt8 {
-     let len = UInt32(lexicon.count-1)
-     let rand = Int(arc4random_uniform(len))
-     return lexicon[rand]
- }
- ```
-
- **Note**: `arc4random_uniform` is strictly used in this example. It would be fun to play around with some of the [randomization in GameKit](https://developer.apple.com/library/content/documentation/General/Conceptual/GameplayKit_Guide/RandomSources.html)
 
  ### Population Zero
 
@@ -82,13 +70,13 @@ Before selecting, crossover and mutation, we need a population to start with. No
 
  ```swift
  func randomPopulation(from lexicon: [UInt8], populationSize: Int, dnaSize: Int) -> [[UInt8]] {
-
+    guard lexicon.count > 1 else { return [] }
     var pop = [[UInt8]]()
 
     (0..<populationSize).forEach { _ in
         var dna = [UInt8]()
         (0..<dnaSize).forEach { _ in
-            let char = randomChar(from: lexicon)
+            let char = lexicon.randomElement()! // guaranteed to be non-nil by initial guard statement
             dna.append(char)
         }
         pop.append(dna)
@@ -102,10 +90,11 @@ Before selecting, crossover and mutation, we need a population to start with. No
 There are two parts to the selection process, the first is calculating the fitness, which will assign a rating to a individual. We do this by simply calculating how close the individual is to the optimal string using unicode values:
 
 ```swift
-func calculateFitness(dna:[UInt8], optimal:[UInt8]) -> Int {
+func calculateFitness(dna: [UInt8], optimal: [UInt8]) -> Int {
+    guard dna.count == optimal.count else { return -1 }
     var fitness = 0
-    (0...dna.count-1).forEach { c in
-        fitness += abs(Int(dna[c]) - Int(optimal[c]))
+    for index in dna.indices {
+        fitness += abs(Int(dna[index]) - Int(optimal[index]))
     }
     return fitness
 }
@@ -121,13 +110,11 @@ Let's take a second and ask why on this one. Why would you not always want to se
 
 With all that, here is our weight choice function:
 
-```swift
-func weightedChoice(items:[(dna:[UInt8], weight:Double)]) -> (dna:[UInt8], weight:Double) {
-
-    let total = items.reduce(0.0) { return $0 + $1.weight}
-
-    var n = Double(arc4random_uniform(UInt32(total * 1000000.0))) / 1000000.0
-
+func weightedChoice(items: [(dna: [UInt8], weight: Double)]) -> (dna: [UInt8], weight: Double) {
+    
+    let total = items.reduce(0) { $0 + $1.weight }
+    var n = Double.random(in: 0..<(total * 1000000)) / 1000000.0
+    
     for item in items {
         if n < item.weight {
             return item
@@ -136,25 +123,24 @@ func weightedChoice(items:[(dna:[UInt8], weight:Double)]) -> (dna:[UInt8], weigh
     }
     return items[1]
 }
-```
 
-The above function takes a list of individuals with their calculated fitness. Then selects one at random offset by their fitness value. The horrible 1,000,000 multiplication and division is to insure precision by calculating decimals. `arc4random` only uses integers so this is required to convert to a precise Double, it's not perfect, but enough for our example.
+
+The above function takes a list of individuals with their calculated fitness. Then selects one at random offset by their fitness value. The horrible 1,000,000 multiplication and division is to insure precision by calculating decimals. `Double.random` only uses integers so this is required to convert to a precise Double, it's not perfect, but enough for our example.
 
 ## Mutation
 
 The all powerful mutation, the thing that introduces otherwise non existent fitness variance. It can either hurt of improve a individuals fitness but over time it will cause evolution towards more fit populations. Imagine if our initial random population was missing the charachter `H`, in that case we need to rely on mutation to introduce that character into the population in order to achieve the optimal solution.
 
 ```swift
-func mutate(lexicon: [UInt8], dna:[UInt8], mutationChance:Int) -> [UInt8] {
+func mutate(lexicon: [UInt8], dna: [UInt8], mutationChance: Int) -> [UInt8] {
     var outputDna = dna
-
     (0..<dna.count).forEach { i in
-        let rand = Int(arc4random_uniform(UInt32(mutationChance)))
+        let rand = Int.random(in: 0..<mutationChance)
         if rand == 1 {
-            outputDna[i] = randomChar(from: lexicon)
+            outputDna[i] = lexicon.randomElement()!
         }
     }
-
+    
     return outputDna
 }
 ```
@@ -168,12 +154,12 @@ This allows for a population to explore all the possibilities of it's building b
 Crossover, the sexy part of a GA, is how offspring are created from 2 selected individuals in the current population. This is done by splitting the parents into 2 parts, then combining 1 part from each parent to create the offspring. To promote diversity, we randomly select a index to split the parents.
 
 ```swift
-func crossover(dna1:[UInt8], dna2:[UInt8], dnaSize:Int) -> [UInt8] {
-    let pos = Int(arc4random_uniform(UInt32(dnaSize-1)))
-
+func crossover(dna1: [UInt8], dna2: [UInt8], dnaSize: Int) -> [UInt8] {
+    let pos = Int.random(in: 0..<dnaSize)
+    
     let dna1Index1 = dna1.index(dna1.startIndex, offsetBy: pos)
     let dna2Index1 = dna2.index(dna2.startIndex, offsetBy: pos)
-
+    
     return [UInt8](dna1.prefix(upTo: dna1Index1) + dna2.suffix(from: dna2Index1))
 }
 ```
