@@ -9,10 +9,6 @@ struct Point2D: Equatable {
     var x: Double
     var y: Double
     
-    static func ==(lhs: Point2D, rhs: Point2D) -> Bool {
-        return lhs.x == rhs.x && lhs.y == rhs.y
-    }
-    
     // returns true if point is on or right of line
     func isRight(of line: Line2D) -> Bool {
         switch line.slope {
