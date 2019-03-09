@@ -14,27 +14,11 @@ struct Line2D: Equatable {
     enum Slope: Equatable {
         case finite(slope: Double)
         case infinite(offset: Double)
-        
-        static func ==(lhs: Slope, rhs: Slope) -> Bool {
-            switch (lhs, rhs) {
-            case (.finite(let slope1), .finite(let slope2)): return slope1 == slope2
-            case (.infinite(let offset1), .infinite(let offset2)): return offset1 == offset2
-            default: return false
-            }
-        }
     }
     
     enum Direction: Equatable {
         case increasing
         case decreasing
-        
-        static func ==(lhs: Direction, rhs: Direction) -> Bool {
-            switch (lhs, rhs) {
-            case (.increasing, .increasing): return true
-            case (.decreasing, .decreasing): return true
-            default: return false
-            }
-        }
     }
     
     init(from p1: Point2D, to p2: Point2D) {
@@ -153,9 +137,5 @@ struct Line2D: Equatable {
             let dir: Direction = self.direction == .increasing ? .increasing : .decreasing
             return Line2D(slope: .finite(slope: 0), offset: p.y, direction: dir)
         }
-    }
-    
-    static func ==(lhs: Line2D, rhs: Line2D) -> Bool {
-        return lhs.slope == rhs.slope && lhs.offset == rhs.offset && lhs.direction == rhs.direction
     }
 }
