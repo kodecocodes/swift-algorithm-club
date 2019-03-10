@@ -101,7 +101,7 @@ Bad sorting algorithms (don't use these!):
 - [Miller-Rabin Primality Test](Miller-Rabin%20Primality%20Test/). Is the number a prime number?
 - [MinimumCoinChange](MinimumCoinChange/). A showcase for dynamic programming.
 - [Genetic](Genetic/). A simple example on how to slowly mutate a value to its ideal form, in the context of biological evolution.
-- [Myers Difference Algorithm](Myers Difference Algorithm/). Finding the longest common subsequence of two sequences.
+- [Myers Difference Algorithm](Myers%20Difference%20Algorithm/). Finding the longest common subsequence of two sequences.
 ### Mathematics
 
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
