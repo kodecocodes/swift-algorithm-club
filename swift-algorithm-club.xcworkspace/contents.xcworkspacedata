@@ -52,6 +52,29 @@
       location = "group:Why Algorithms.markdown">
    </FileRef>
    <Group
+      location = "group:Myers Difference Algorithm"
+      name = "Myers Difference Algorithm">
+      <Group
+         location = "container:"
+         name = "Images">
+         <FileRef
+            location = "group:Myers Difference Algorithm/Images/EditGraph_k_move.png">
+         </FileRef>
+         <FileRef
+            location = "group:Myers Difference Algorithm/Images/EditGraph.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:/Users/a14757/Documents/Commiter/swift-algorithm-club/Myers Difference Algorithm/MyersDifferenceAlgorithm.swift">
+      </FileRef>
+      <FileRef
+         location = "group:MyersDifferenceAlgorithm.playground">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+   </Group>
+   <Group
       location = "container:"
       name = "3Sum and 4Sum">
       <FileRef
