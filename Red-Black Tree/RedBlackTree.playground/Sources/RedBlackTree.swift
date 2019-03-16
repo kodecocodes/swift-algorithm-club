@@ -60,6 +60,10 @@ public class RBTreeNode<T: Comparable>: Equatable {
     self.init(key: nil, leftChild: nil, rightChild: nil, parent: nil)
     self.color = .black
   }
+
+  public func getKey() -> T? {
+    return key
+  }
   
   var isRoot: Bool {
     return parent == nil
@@ -120,9 +124,30 @@ extension RBTreeNode {
   }
 }
 
-// MARK: - Finding a nodes successor
+// MARK: - Finding a nodes successor and predecessor
 
 extension RBTreeNode {
+  /*
+  * Returns the inorder predecessor node of a node
+  * The predecessor is a node with the next smaller key value of the current node
+  */
+  public func getPredecessor() -> RBNode? {
+    // if node has left child: predecessor is min of this left tree
+    if let leftChild = leftChild, !leftChild.isNullLeaf {
+      return leftChild.maximum()
+    }
+    // else go upward while node is left child
+    var currentNode = self
+    var parent = currentNode.parent
+    while currentNode.isLeftChild {
+      if let parent = parent {
+        currentNode = parent
+      }
+      parent = currentNode.parent
+    }
+    return parent
+  }
+
   /*
    * Returns the inorder successor node of a node
    * The successor is a node with the next larger key value of the current node

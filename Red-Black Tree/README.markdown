@@ -29,6 +29,7 @@ From [CLRS]
 ## Methods
 
 Nodes:
+* `nodeX.getPredecessor()` Returns the inorder predecessor of nodeX
 * `nodeX.getSuccessor()` Returns the inorder successor of nodeX
 * `nodeX.minimum()` Returns the node with the minimum key of the subtree of nodeX
 * `nodeX.maximum()` Returns the node with the maximum key of the subtree of nodeX
