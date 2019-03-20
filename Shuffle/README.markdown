@@ -96,9 +96,6 @@ public func shuffledArray(_ n: Int) -> [Int] {
   var a = [Int](repeating: 0, count: n)
   for i in 0..<n {
     let j = Int.random(in: 0...i)
-    if i != j {
-      a[i] = a[j]
-    }
     a[j] = i
   }
   return a
