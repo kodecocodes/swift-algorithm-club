@@ -12,9 +12,9 @@ func slowSort(_ i: Int, _ j: Int, _ numberList: inout [Int]) {
   slowSort(i, m, &numberList)
   slowSort(m+1, j, &numberList)
   if numberList[j] < numberList[m] {
-      let temp = numberList[j]
-      numberList[j] = numberList[m]
-      numberList[m] = temp
+    let temp = numberList[j]
+    numberList[j] = numberList[m]
+    numberList[m] = temp
   }
   slowSort(i, j-1, &numberList)
 }
