@@ -41,7 +41,7 @@ k-Nearest Neighbor is quite easy to implement. Below is one of the possible impl
         for (index, feature) in self.data.enumerated() {
             distances.append((index: index, value: euclideanDistance(feature, instance)))
         }
-        // Sort in descending order
+        // Sort in ascending order
         distances.sort {
             $0.value < $1.value
         }
