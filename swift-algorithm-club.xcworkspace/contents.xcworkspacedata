@@ -2,6 +2,26 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "group:K-Nearest Neighbor"
+      name = "K-Nearest Neighbor">
+      <Group
+         location = "container:"
+         name = "Images">
+         <FileRef
+            location = "group:K-Nearest Neighbor/Images/knn.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:KNearestNeighbor.playground">
+      </FileRef>
+      <FileRef
+         location = "group:kNearestNeighbors.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.markdown">
+      </FileRef>
+   </Group>
+   <Group
       location = "container:"
       name = "Sorted Set">
       <FileRef
