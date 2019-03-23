@@ -40,7 +40,7 @@ public class KNearestNeighbors<Label, Feature: Numeric> {
         for (index, feature) in self.data.enumerated() {
             distances.append((index: index, value: euclideanDistance(feature, instance)))
         }
-        // Sort in descending order
+        // Sort in ascending order
         distances.sort {
             $0.value < $1.value
         }

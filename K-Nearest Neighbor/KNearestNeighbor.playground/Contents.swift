@@ -1,11 +1,9 @@
 import Foundation
 
-var str = "Hello, playground"
+let xTrain = [[1.0, 1.0], [2.0, 2.0], [2.0, 3.0], [3.0, 4.0], [3.0, 6.0], [4.0, 5.0]]
+let yTrain = [1, 1, 1, 2, 2, 2]
+let xTest = [[4.0, 6.0], [1.0, 2.0]]
 
-let data: [[Double]] = [[1, 1], [2.0, 2.0], [2.0, 3.0], [3.0, 4.0], [3.0, 6.0], [4.0, 5.0]]
-let labels = [1, 1, 1, 2, 2, 2]
-let test = [[1, 1], [2.0, 2.0], [2.0, 3.0], [3.0, 4.0], [3.0, 6.0], [4.0, 5.0]]
+let model = KNearestNeighbors(xTrain, yTrain)
 
-let model = KNearestNeighbors(data, labels)
-var res = model.predict(test)
-assert(res == labels)
+let yTest = model.predict(xTest) // [2, 1]
