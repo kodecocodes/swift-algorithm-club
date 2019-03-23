@@ -114,7 +114,7 @@ Bad sorting algorithms (don't use these!):
 ### Machine learning
 
 - [k-Means Clustering](K-Means/). Unsupervised classifier that partitions data into *k* clusters.
-- k-Nearest Neighbors
+- [k-Nearest Neighbors](K-Nearest%20Neighbor/)
 - [Linear Regression](Linear%20Regression/). A technique for creating a model of the relationship between two (or more) variable quantities.
 - Logistic Regression
 - Neural Networks
