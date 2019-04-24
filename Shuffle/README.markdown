@@ -96,9 +96,8 @@ public func shuffledArray(_ n: Int) -> [Int] {
   var a = [Int](repeating: 0, count: n)
   for i in 0..<n {
     let j = Int.random(in: 0...i)
-    if i != j {
-      a[i] = a[j]
-    }
+    // for the Fisher–Yates_shuffle's pseudo code implement in wiki, it will check if i != j
+    a[i] = a[j]
     a[j] = i
   }
   return a
@@ -114,6 +113,8 @@ let numbers = shuffledArray(10)
 This returns something like `[3, 0, 9, 1, 8, 5, 2, 6, 7, 4]`. As you can see, every number between 0 and 10 is in that list, but shuffled around. Of course, when you try it for yourself the order of the numbers will be different. 
 
 The `shuffledArray()` function first creates a new array with `n` zeros. Then it loops `n` times and in each step adds the next number from the sequence to a random position in the array. The trick is to make sure that none of these numbers gets overwritten with the next one, so it moves the previous number out of the way first!
+
+For this function, `The condition that checks if j ≠ i may be omitted in languages that have no problems accessing uninitialized array values, and for which assigning is cheaper than comparing.`, you can check it in wiki. And also remove checking logic will optimise performance.
 
 The algoritm is quite clever and I suggest you walk through an example yourself, either on paper or in the playground. (Hint: Again it splits the array into two regions.)
 
