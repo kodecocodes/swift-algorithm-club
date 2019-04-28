@@ -1,30 +1,28 @@
 # ClosestPair
 
-Closest Pair is an algorithm that finds the closest pair of a given array of points By utilizing the Divide and Conquer methodology of solving problems so that it reaches the correct solution with O(nlogn) complexity.
+Closest Pair is an algorithm that finds the closest pair of a given array of points by utilizing the "Divide and Conquer" methodology of solving problems. The implementation that you'll see here achieves O(nlogn) time complexity.
 
 ![Given points and we're required to find the two red ones](Images/1200px-Closest_pair_of_points.png)
 
-As we see in the above image there are an array of points and we need to find the closest two, But how do we do that without having to compare each two points which results in a whopping O(n^2) complexity?
+The image above shows a number of points in a two dimensional space. The closest pair algorithm is implemented by the following steps:
 
-Here is the main algorithm (Steps) we'll follow.
+## Sorting
 
-- Sort the array according to their position on the X-axis so that they are sorted in the array as they are naturally in math.
+You'll first sort the array by using `mergeSort`, one of the most efficient general purpose sorting algorithms. Mergesort has a time complexity of `O(nlogn)`, which is as fast as you can achieve for general comparison based sorting algorithms:
 
 ```swift
 var innerPoints = mergeSort(points, sortAccording : true)
 ```
 
-- Divide the points into two arrays Left, Right and keep dividing until you reach to only having 3 points in your array.
+## Divide and Conquer
 
-- The base case is you have less than 3 points compare those against each other (Brute force) then return the minimum distance you found and the two points.
+The next step is to divide the sorted array into sub arrays. You'll stop the division once each sub-division have fewer than three elements. Once you've reached this point, you'll choose two of the three points that represent the minimum distance of the sub-array.
 
-- Now we get the first observation in the below image, There could be 2 points both very close to each other and indeed those two are the closest pair but since our algorithm so far divides from the middle
- 
-```swift
-let line:Double = (p[mid].x + p[mid+1].x)/2
-```
+As the recursive function unravels, the minimum distances will be compared and the ultimate mininum distance will be returned.
 
-and just recursively calls itself until it reaches the base case we don't detect those points.
+### Predicament
+
+The following image 
 
 ![ Points lying near the division line](Images/Case.png)
 
