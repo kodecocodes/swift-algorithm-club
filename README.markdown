@@ -208,6 +208,7 @@ A lot of software developer interview questions consist of algorithmic puzzles. 
 - [Dining Philosophers](DiningPhilosophers/)
 - [Egg Drop Problem](Egg%20Drop%20Problem/)
 - [Encoding and Decoding Binary Tree](Encode%20and%20Decode%20Tree/)
+- [Closest Pair](Closest%20Pair/)
 
 ## Learn more!
 
