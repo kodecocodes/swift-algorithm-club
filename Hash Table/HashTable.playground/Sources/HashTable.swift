@@ -131,7 +131,7 @@ public struct HashTable<Key: Hashable, Value> {
      Returns the given key's array index.
      */
     private func index(forKey key: Key) -> Int {
-        return abs(key.hashValue) % buckets.count
+        return abs(key.hashValue % buckets.count)
     }
 }
 
