@@ -6,7 +6,7 @@ Want to help out with the Swift Algorithm Club? Great! While we don't have stric
 
 Our repo is all about learning. The `README` file is the cake, and the sample code is the cherry on top. A good contribution has succinct explanations supported by diagrams. Code is best introduced in chunks, weaved into the explanations where relevant. 
 
-> When choosing between brievity and performance, err to the side of brievity as long as the time complexity of the particular implementation is the same. You can make a note afterwards suggesting a more performant way of doing things. 
+> When choosing between brevity and performance, err to the side of brevity as long as the time complexity of the particular implementation is the same. You can make a note afterwards suggesting a more performant way of doing things. 
 
 **API Design Guidelines**
 
@@ -22,7 +22,7 @@ We follow the following Swift [style guide](https://github.com/raywenderlich/swi
 
 Unit tests. Fixes for typos. No contribution is too small. :-)
 
-The repository has over 100 different data structures and algorithms. We're always interested in improvements to existing implementations and better explanations. Suggestions for making the code more Swift-like or to make it fit better with the standard library is most welcomed. 
+The repository has over 100 different data structures and algorithms. We're always interested in improvements to existing implementations and better explanations. Suggestions for making the code more Swift-like or to make it fit better with the standard library are most welcome.
 
 ### New Contributions
 
