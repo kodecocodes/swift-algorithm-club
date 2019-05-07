@@ -27,29 +27,29 @@ Tries are very useful for certain situations. Here are some of the advantages:
 
 ```swift
 func contains(word: String) -> Bool {
-	guard !word.isEmpty else { return false }
+  guard !word.isEmpty else { return false }
 
-	// 1
-	var currentNode = root
+  // 1
+  var currentNode = root
   
-	// 2
-	var characters = Array(word.lowercased().characters)
-	var currentIndex = 0
+  // 2
+  var characters = Array(word.lowercased())
+  var currentIndex = 0
  
-	// 3
-	while currentIndex < characters.count, 
-	  let child = currentNode.children[characters[currentIndex]] {
+  // 3
+  while currentIndex < characters.count, 
+    let child = currentNode.children[characters[currentIndex]] {
 
-	  currentNode = child
-	  currentIndex += 1
-	}
+    currentNode = child
+    currentIndex += 1
+  }
 
-	// 4
-	if currentIndex == characters.count && currentNode.isTerminating {
-	  return true
-	} else {
-	  return false
-	}
+  // 4
+  if currentIndex == characters.count && currentNode.isTerminating {
+    return true
+  } else {
+    return false
+  }
 }
 ```
 
@@ -74,7 +74,7 @@ func insert(word: String) {
   var currentNode = root
 
   // 2
-  for character in word.lowercased().characters {
+  for character in word.lowercased() {
     // 3
     if let childNode = currentNode.children[character] {
       currentNode = childNode

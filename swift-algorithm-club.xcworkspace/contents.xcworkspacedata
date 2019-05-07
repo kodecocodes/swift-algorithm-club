@@ -2,6 +2,19 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "container:"
+      name = "Sorted Set">
+      <FileRef
+         location = "group:Sorted Set/README.markdown">
+      </FileRef>
+      <FileRef
+         location = "group:Sorted Set/SortedSet.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Sorted Set/SortedSet.swift">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Egg Drop Problem"
       name = "Egg Drop Problem">
       <FileRef
@@ -38,6 +51,29 @@
    <FileRef
       location = "group:Why Algorithms.markdown">
    </FileRef>
+   <Group
+      location = "group:Myers Difference Algorithm"
+      name = "Myers Difference Algorithm">
+      <Group
+         location = "container:"
+         name = "Images">
+         <FileRef
+            location = "group:Myers Difference Algorithm/Images/EditGraph_k_move.png">
+         </FileRef>
+         <FileRef
+            location = "group:Myers Difference Algorithm/Images/EditGraph.png">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:/Users/a14757/Documents/Commiter/swift-algorithm-club/Myers Difference Algorithm/MyersDifferenceAlgorithm.swift">
+      </FileRef>
+      <FileRef
+         location = "group:MyersDifferenceAlgorithm.playground">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+   </Group>
    <Group
       location = "container:"
       name = "3Sum and 4Sum">
@@ -115,6 +151,16 @@
       </FileRef>
       <FileRef
          location = "group:LRU Cache/Readme.md">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Encode and Decode Tree">
+      <FileRef
+         location = "group:Encode and Decode Tree/EncodeAndDecodeTree.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Encode and Decode Tree/EncodeAndDecodeTree.swift">
       </FileRef>
    </Group>
    <Group
@@ -527,9 +573,6 @@
          location = "group:BitSet.playground">
       </FileRef>
       <FileRef
-         location = "group:BitSet.swift">
-      </FileRef>
-      <FileRef
          location = "group:README.markdown">
       </FileRef>
    </Group>
@@ -586,13 +629,13 @@
       </Group>
    </Group>
    <Group
-      location = "group:Boyer-Moore"
+      location = "group:Boyer-Moore-Horspool"
       name = "Boyer-Moore">
       <FileRef
-         location = "group:BoyerMoore.playground">
+         location = "group:BoyerMooreHorspool.playground">
       </FileRef>
       <FileRef
-         location = "group:BoyerMoore.swift">
+         location = "group:BoyerMooreHorspool.swift">
       </FileRef>
       <FileRef
          location = "group:README.markdown">
@@ -610,7 +653,7 @@
             location = "group:Info.plist">
          </FileRef>
          <FileRef
-            location = "group:Tests.xcodeproj">
+            location = "group:Tests/Tests.xcodeproj">
          </FileRef>
       </Group>
    </Group>
@@ -1449,6 +1492,13 @@
       <FileRef
          location = "group:README.markdown">
       </FileRef>
+      <Group
+         location = "group:"
+         name = "Tests">
+         <FileRef
+            location = "group:Tests/Tests.xcodeproj">
+         </FileRef>
+      </Group>
    </Group>
    <Group
       location = "group:Knuth-Morris-Pratt"
@@ -1812,12 +1862,6 @@
       </FileRef>
       <FileRef
          location = "group:OrderedSet.swift">
-      </FileRef>
-      <FileRef
-         location = "group:AppleOrderedSet.swift">
-      </FileRef>
-      <FileRef
-         location = "group:AppleOrderedSet.playground">
       </FileRef>
       <FileRef
          location = "group:README.markdown">

@@ -3,7 +3,6 @@
  Sorting Algorithm that sorts an input array of integers digit by digit.
  
  */
-import Foundation
 
 // NOTE: This implementation does not handle negative numbers
 public func radixSort(_ array: inout [Int] ) {

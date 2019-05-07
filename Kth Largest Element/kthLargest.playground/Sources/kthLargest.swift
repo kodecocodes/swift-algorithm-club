@@ -16,12 +16,6 @@ public func kthLargest(_ a: [Int], _ k: Int) -> Int? {
 
 // MARK: - Randomized selection
 
-/* Returns a random integer in the range min...max, inclusive. */
-public func random(min: Int, max: Int) -> Int {
-  assert(min < max)
-  return min + Int(arc4random_uniform(UInt32(max - min + 1)))
-}
-
 /*
   Returns the i-th smallest element from the array.
 
@@ -39,7 +33,7 @@ public func randomizedSelect<T: Comparable>(_ array: [T], order k: Int) -> T {
   var a = array
 
   func randomPivot<T: Comparable>(_ a: inout [T], _ low: Int, _ high: Int) -> T {
-    let pivotIndex = random(min: low, max: high)
+    let pivotIndex = Int.random(in: low...high)
     a.swapAt(pivotIndex, high)
     return a[high]
   }

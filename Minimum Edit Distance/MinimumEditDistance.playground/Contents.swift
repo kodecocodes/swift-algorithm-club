@@ -1,15 +1,11 @@
 
 // Minimum Edit Distance
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
 
 extension String {
     
     public func minimumEditDistance(other: String) -> Int {
-        let m = self.characters.count
-        let n = other.characters.count
+        let m = self.count
+        let n = other.count
         var matrix = [[Int]](repeating: [Int](repeating: 0, count: n + 1), count: m + 1)
         
         // initialize matrix
@@ -24,8 +20,8 @@ extension String {
         }
         
         // compute Levenshtein distance
-        for (i, selfChar) in self.characters.enumerated() {
-            for (j, otherChar) in other.characters.enumerated() {
+        for (i, selfChar) in self.enumerated() {
+            for (j, otherChar) in other.enumerated() {
                 if otherChar == selfChar {
                     // substitution of equal symbols with cost 0
                     matrix[i + 1][j + 1] = matrix[i][j]

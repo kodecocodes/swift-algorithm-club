@@ -9,8 +9,7 @@
 import Foundation
 
 func ZetaAlgorithm(ptrn: String) -> [Int]? {
-
-  let pattern = Array(ptrn.characters)
+  let pattern = Array(ptrn)
   let patternLength = pattern.count
 
   guard patternLength > 0 else {

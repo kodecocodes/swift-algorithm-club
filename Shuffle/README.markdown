@@ -33,8 +33,6 @@ You should see three different arrangements -- or [permutations](../Combinatoric
 
 This shuffle works *in place*, it modifies the contents of the original array. The algorithm works by creating a new array, `temp`, that is initially empty. Then we randomly choose an element from the original array and append it to `temp`, until the original array is empty. Finally, the temporary array is copied back into the original one.
 
-> **Note:** `random()` is a helper function that returns a random integer between 0 and the given maximum.
-
 This code works just fine but it's not very efficient. Removing an element from an array is an **O(n)** operation and we perform this **n** times, making the total algorithm **O(n^2)**. We can do better!
 
 ## The Fisher-Yates / Knuth shuffle
@@ -45,7 +43,7 @@ Here is a much improved version of the shuffle algorithm:
 extension Array {
   public mutating func shuffle() {
     for i in stride(from: count - 1, through: 1, by: -1) {
-      let j = random(i + 1)
+      let j = Int.random(in: 0...i)
       if i != j {
         swap(&self[i], &self[j])
       }
@@ -55,8 +53,6 @@ extension Array {
 ```
 
 Again, this picks objects at random. In the naive version we placed those objects into a new temporary array so we could keep track of which objects were already shuffled and which still remained to be done. In this improved algorithm, however, we'll move the shuffled objects to the end of the original array. 
-
-> **Note**: When you write `random(x)`, the largest number it will return is `x - 1`. We want to have `j <= i`, not `j < i`, so the largest number from the random number generator needs to be `i`, not `i - 1`. That's why we do `random(i + 1)`. If we didn't add that 1 to compensate, it would make some shuffle orders more likely to occur than others.
 
 Let's walk through the example. We have the array:
 
@@ -99,10 +95,9 @@ Here is the code:
 public func shuffledArray(_ n: Int) -> [Int] {
   var a = [Int](repeating: 0, count: n)
   for i in 0..<n {
-    let j = random(i + 1)
-    if i != j {
-      a[i] = a[j]
-    }
+    let j = Int.random(in: 0...i)
+    // for the Fisher–Yates_shuffle's pseudo code implement in wiki, it will check if i != j
+    a[i] = a[j]
     a[j] = i
   }
   return a
@@ -118,6 +113,8 @@ let numbers = shuffledArray(10)
 This returns something like `[3, 0, 9, 1, 8, 5, 2, 6, 7, 4]`. As you can see, every number between 0 and 10 is in that list, but shuffled around. Of course, when you try it for yourself the order of the numbers will be different. 
 
 The `shuffledArray()` function first creates a new array with `n` zeros. Then it loops `n` times and in each step adds the next number from the sequence to a random position in the array. The trick is to make sure that none of these numbers gets overwritten with the next one, so it moves the previous number out of the way first!
+
+For this function, `The condition that checks if j ≠ i may be omitted in languages that have no problems accessing uninitialized array values, and for which assigning is cheaper than comparing.`, you can check it in wiki. And also remove checking logic will optimise performance.
 
 The algoritm is quite clever and I suggest you walk through an example yourself, either on paper or in the playground. (Hint: Again it splits the array into two regions.)
 

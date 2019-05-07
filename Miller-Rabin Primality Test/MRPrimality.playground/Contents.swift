@@ -1,29 +1,26 @@
 //: Playground - noun: a place where people can play
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
-// Real primes
-mrPrimalityTest(5)
-mrPrimalityTest(439)
-mrPrimalityTest(1201)
-mrPrimalityTest(143477)
-mrPrimalityTest(1299869)
-mrPrimalityTest(15487361)
-mrPrimalityTest(179426363)
-mrPrimalityTest(32416187747)
-
-// Fake primes
-mrPrimalityTest(15)
-mrPrimalityTest(435)
-mrPrimalityTest(1207)
-mrPrimalityTest(143473)
-mrPrimalityTest(1291869)
-mrPrimalityTest(15487161)
-mrPrimalityTest(178426363)
-mrPrimalityTest(32415187747)
-
-// With iteration
-mrPrimalityTest(32416190071, iteration: 10)
+do {
+    // Real primes
+    try checkWithMillerRabin(5)
+    try checkWithMillerRabin(439)
+    try checkWithMillerRabin(1201)
+    try checkWithMillerRabin(143477)
+    try checkWithMillerRabin(1299869)
+    try checkWithMillerRabin(15487361)
+    try checkWithMillerRabin(179426363)
+    
+    // Fake primes
+    try checkWithMillerRabin(15)
+    try checkWithMillerRabin(435)
+    try checkWithMillerRabin(1207)
+    try checkWithMillerRabin(143473)
+    try checkWithMillerRabin(1291869)
+    try checkWithMillerRabin(15487161)
+    try checkWithMillerRabin(178426363)
+    
+    // Specifying accuracy
+    try checkWithMillerRabin(179426363, accuracy: 10)
+} catch {
+    dump(error)
+}

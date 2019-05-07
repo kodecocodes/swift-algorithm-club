@@ -1,8 +1,3 @@
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 func breadthFirstSearchMinimumSpanningTree(_ graph: Graph, source: Node) -> Graph {
   let minimumSpanningTree = graph.duplicate()
 

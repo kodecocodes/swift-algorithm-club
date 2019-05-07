@@ -21,7 +21,7 @@ Let's start by looking at the data plotted out:
 
 We could imagine a straight line drawn through the points on this graph. It's not (in this case) going to go exactly through every point, but we could place the line so that it goes as close to all the points as possible.
 
-To say this in another way, we want to make the distance from the line to each point as small as possible. This is most often done by minimising the square of the distance from the line to each point.
+To say this in another way, we want to make the distance from the line to each point as small as possible. This is most often done by minimizing the square of the distance from the line to each point.
 
 We can describe the straight line in terms of two variables:
 
@@ -62,7 +62,7 @@ let numberOfCarAdvertsWeSaw = carPrice.count
 let numberOfIterations = 100
 let alpha = 0.0001
 
-for n in 1...numberOfIterations {
+for _ in 1...numberOfIterations {
     for i in 0..<numberOfCarAdvertsWeSaw {
         let difference = carPrice[i] - predictedCarPrice(carAge[i])
         intercept += alpha * difference
@@ -75,7 +75,7 @@ for n in 1...numberOfIterations {
 
 The program loops through each data point (each car age and car price). For each data point it adjusts the intercept and the slope to bring them closer to the correct values. The equations used in the code to adjust the intercept and the slope are based on moving in the direction of the maximal reduction of these variables. This is a *gradient descent*.
 
-We want to minimise the square of the distance between the line and the points. We define a function `J` which represents this distance - for simplicity we consider only one point here. This function `J` is proportional to `((slope.carAge + intercept) - carPrice)) ^ 2`.
+We want to minimize the square of the distance between the line and the points. We define a function `J` which represents this distance - for simplicity we consider only one point here. This function `J` is proportional to `((slope * carAge + intercept) - carPrice)) ^ 2`.
 
 In order to move in the direction of maximal reduction, we take the partial derivative of this function with respect to the slope, and similarly for the intercept. We multiply these derivatives by our factor alpha and then use them to adjust the values of slope and intercept on each iteration.
 

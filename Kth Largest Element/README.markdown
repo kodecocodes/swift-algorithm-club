@@ -40,7 +40,7 @@ Now, all we must do is take the value at index `a.count - k`:
 a[a.count - k] = a[8 - 4] = a[4] = 9
 ```
 
-Of course, if you were looking for the k-th *smallest* element, you'd use `a[k]`.
+Of course, if you were looking for the k-th *smallest* element, you'd use `a[k-1]`.
 
 ## A faster solution
 
@@ -84,29 +84,29 @@ The index of pivot `9` is 4, and that's exactly the *k* we're looking for. We're
 The following function implements these ideas:
 
 ```swift
-public func randomizedSelect<T: Comparable>(array: [T], order k: Int) -> T {
+public func randomizedSelect<T: Comparable>(_ array: [T], order k: Int) -> T {
   var a = array
 
-  func randomPivot<T: Comparable>(inout a: [T], _ low: Int, _ high: Int) -> T {
+  func randomPivot<T: Comparable>(_ a: inout [T], _ low: Int, _ high: Int) -> T {
     let pivotIndex = random(min: low, max: high)
-    swap(&a, pivotIndex, high)
+    a.swapAt(pivotIndex, high)
     return a[high]
   }
 
-  func randomizedPartition<T: Comparable>(inout a: [T], _ low: Int, _ high: Int) -> Int {
+  func randomizedPartition<T: Comparable>(_ a: inout [T], _ low: Int, _ high: Int) -> Int {
     let pivot = randomPivot(&a, low, high)
     var i = low
     for j in low..<high {
       if a[j] <= pivot {
-        swap(&a, i, j)
+        a.swapAt(i, j)
         i += 1
       }
     }
-    swap(&a, i, high)
+    a.swapAt(i, high)
     return i
   }
 
-  func randomizedSelect<T: Comparable>(inout a: [T], _ low: Int, _ high: Int, _ k: Int) -> T {
+  func randomizedSelect<T: Comparable>(_ a: inout [T], _ low: Int, _ high: Int, _ k: Int) -> T {
     if low < high {
       let p = randomizedPartition(&a, low, high)
       if k == p {

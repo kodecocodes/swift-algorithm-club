@@ -3,11 +3,6 @@
  Kruskal's and Prim's algorithms.
  */
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 func minimumSpanningTreeKruskal<T>(graph: Graph<T>) -> (cost: Int, tree: Graph<T>) {
     var cost: Int = 0
     var tree = Graph<T>()

@@ -8,7 +8,7 @@ If you're a computer science student who needs to learn this stuff for exams -- 
 
 The goal of this project is to **explain how algorithms work**. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use but you may need to tweak it to fit into your own codebase.
 
-Code is compatible with **Xcode 9** and **Swift 4**. We'll keep this updated with the latest version of Swift.
+Code is compatible with **Xcode 10** and **Swift 4.2**. We'll keep this updated with the latest version of Swift. If you're interested in a GitHub pages version of the repo, check out [this](https://aquarchitect.github.io/swift-algorithm-club/).
 
 :heart_eyes: **Suggestions and contributions are welcome!** :heart_eyes:
 
@@ -73,6 +73,10 @@ Fast sorts:
 - [Merge Sort](Merge%20Sort/)
 - [Heap Sort](Heap%20Sort/)
 
+Hybrid sorts:
+
+- [Introsort](Introsort/)
+
 Special-purpose sorts:
 
 - [Counting Sort](Counting%20Sort/)
@@ -96,7 +100,8 @@ Bad sorting algorithms (don't use these!):
 - [Convex Hull](Convex%20Hull/).
 - [Miller-Rabin Primality Test](Miller-Rabin%20Primality%20Test/). Is the number a prime number?
 - [MinimumCoinChange](MinimumCoinChange/). A showcase for dynamic programming.
-
+- [Genetic](Genetic/). A simple example on how to slowly mutate a value to its ideal form, in the context of biological evolution.
+- [Myers Difference Algorithm](Myers%20Difference%20Algorithm/). Finding the longest common subsequence of two sequences.
 ### Mathematics
 
 - [Greatest Common Divisor (GCD)](GCD/). Special bonus: the least common multiple.
@@ -115,6 +120,7 @@ Bad sorting algorithms (don't use these!):
 - Neural Networks
 - PageRank
 - [Naive Bayes Classifier](Naive%20Bayes%20Classifier/)
+- [Simulated annealing](Simulated%20annealing/). Probabilistic technique for approximating the global maxima in a (often discrete) large search space.
 
 ## Data structures
 
@@ -145,7 +151,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 ### Lists
 
 - [Linked List](Linked%20List/). A sequence of data items connected through links. Covers both singly and doubly linked lists.
-- [Skip-List](Skip-List/). Skip List is a probablistic data-structure with same logarithmic time bound and efficiency as AVL/ or Red-Black tree and provides a clever compromise to efficiently support search and update operations.
+- [Skip-List](Skip-List/). Skip List is a probabilistic data-structure with same logarithmic time bound and efficiency as AVL/ or Red-Black tree and provides a clever compromise to efficiently support search and update operations.
 
 ### Trees
 
@@ -158,6 +164,7 @@ Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types 
 - [Segment Tree](Segment%20Tree/). Can quickly compute a function over a portion of an array.
   - [Lazy Propagation](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation)
 - kd-Tree
+- [Sparse Table](Sparse%20Table/). Another take on quickly computing a function over a portion of an array, but this time we'll make it even quicker!.
 - [Heap](Heap/). A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.
 - Fibonacci Heap
 - [Trie](Trie/). A special type of tree used to store associative data structures.
@@ -200,40 +207,30 @@ A lot of software developer interview questions consist of algorithmic puzzles. 
 - [Finding Palindromes](Palindromes/)
 - [Dining Philosophers](DiningPhilosophers/)
 - [Egg Drop Problem](Egg%20Drop%20Problem/)
+- [Encoding and Decoding Binary Tree](Encode%20and%20Decode%20Tree/)
+- [Closest Pair](Closest%20Pair/)
+
 ## Learn more!
 
-For more information, check out these great books:
+Like what you see? Check out [Data Structures & Algorithms in Swift](https://store.raywenderlich.com/products/data-structures-and-algorithms-in-swift), the official book by the Swift Algorithm Club team!
 
-- [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms) by Cormen, Leiserson, Rivest, Stein
-- [The Algorithm Design Manual](http://www.algorist.com) by Skiena
-- [Elements of Programming Interviews](http://elementsofprogramminginterviews.com) by Aziz, Lee, Prakash
-- [Algorithms](http://www.cs.princeton.edu/~rs/) by Sedgewick
-- [Grokking Algorithms](https://www.manning.com/books/grokking-algorithms) by Aditya Bhargava
+![Data Structures & Algorithms in Swift Book](Images/DataStructuresAndAlgorithmsInSwiftBook.png)
 
-The following books are available for free online:
+You’ll start with the fundamental structures of linked lists, queues and stacks, and see how to implement them in a highly Swift-like way. Move on to working with various types of trees, including general purpose trees, binary trees, AVL trees, binary search trees, and tries. 
 
-- [Algorithms](http://www.beust.com/algorithms.pdf) by Dasgupta, Papadimitriou, Vazirani
-- [Algorithms, Etc.](http://jeffe.cs.illinois.edu/teaching/algorithms/) by Erickson
-- [Algorithms + Data Structures = Programs](http://www.ethoberon.ethz.ch/WirthPubl/AD.pdf) by Wirth
-- Algorithms and Data Structures: The Basic Toolbox by Mehlhorn and Sanders
-- [Open Data Structures](http://opendatastructures.org) by Pat Morin
-- [Wikibooks: Algorithms and Implementations](https://en.wikibooks.org/wiki/Algorithm_Implementation)
+Go beyond bubble and insertion sort with better-performing algorithms, including mergesort, radix sort, heap sort, and quicksort. Learn how to construct directed, non-directed and weighted graphs to represent many real-world models, and traverse graphs and trees efficiently with breadth-first, depth-first, Dijkstra’s and Prim’s algorithms to solve problems such as finding the shortest path or lowest cost in a network.
 
-Other algorithm repositories:
+By the end of this book, you’ll have hands-on experience solving common issues with data structures and algorithms — and you’ll be well on your way to developing your own efficient and useful implementations!
 
-- [EKAlgorithms](https://github.com/EvgenyKarkan/EKAlgorithms). A great collection of algorithms in Objective-C.
-- [@lorentey](https://github.com/lorentey/). Production-quality Swift implementations of common algorithms and data structures.
-- [Rosetta Code](http://rosettacode.org). Implementations in pretty much any language you can think of.
-- [AlgorithmVisualizer](http://jasonpark.me/AlgorithmVisualizer/). Visualize algorithms on your browser.
-- [Swift Structures](https://github.com/waynewbishop/SwiftStructures) Data Structures with directions on how to use them [here](http://waynewbishop.com/swift)
+You can find the book on the [raywenderlich.com store](https://store.raywenderlich.com/products/data-structures-and-algorithms-in-swift).
 
 ## Credits
 
 The Swift Algorithm Club was originally created by [Matthijs Hollemans](https://github.com/hollance).
 
-It is now maintained by [Vincent Ngo](https://www.raywenderlich.com/u/jomoka), [Kelvin Lau](https://github.com/kelvinlauKL) and [Ross O'brien](https://www.raywenderlich.com/u/narrativium).
+It is now maintained by [Vincent Ngo](https://www.raywenderlich.com/u/jomoka), [Kelvin Lau](https://github.com/kelvinlauKL), and [Richard Ash](https://github.com/richard-ash).
 
-The Swift Algorithm Club is a collaborative effort from the [most algorithmic members](https://github.com/rwenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](.github/CONTRIBUTING.md)? :]
+The Swift Algorithm Club is a collaborative effort from the [most algorithmic members](https://github.com/raywenderlich/swift-algorithm-club/graphs/contributors) of the [raywenderlich.com](https://www.raywenderlich.com) community. We're always looking for help - why not [join the club](.github/CONTRIBUTING.md)? :]
 
 ## License
 

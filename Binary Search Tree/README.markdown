@@ -268,7 +268,7 @@ If there are no more nodes to look at -- when `left` or `right` is nil -- then w
 Searching is a recursive process, but you can also implement it with a simple loop instead:
 
 ```swift
-  public func search(value: T) -> BinarySearchTree? {
+  public func search(_ value: T) -> BinarySearchTree? {
     var node: BinarySearchTree? = self
     while let n = node {
       if value < n.value {
@@ -375,7 +375,7 @@ As an exercise, see if you can implement filter and reduce.
 We can make the code more readable by defining some helper functions.
 
 ```swift
-  private func reconnectParentToNode(node: BinarySearchTree?) {
+  private func reconnectParentTo(node: BinarySearchTree?) {
     if let parent = parent {
       if isLeftChild {
         parent.left = node
@@ -615,8 +615,8 @@ This implementation is recursive, and each case of the enum will be treated diff
 
   public var height: Int {
     switch self {
-    case .Empty: return 0
-    case .Leaf: return 1
+    case .Empty: return -1
+    case .Leaf: return 0
     case let .Node(left, _, right): return 1 + max(left.height, right.height)
     }
   }

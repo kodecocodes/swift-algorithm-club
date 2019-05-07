@@ -329,6 +329,90 @@ This is the original value but with the lowest 1-bit removed.
 
 We keep repeating this process until the value consists of all zeros. The time complexity is **O(s)** where **s** is the number of 1-bits.
 
+## Bit Shift Operations
+
+Bit shifts are a common and very useful mechanism when dealing with bitsets. Here is the right-shift function:
+
+```
+public func >> (lhs: BitSet, numBitsRight: Int) -> BitSet {
+    var out = lhs
+    let offset = numBitsRight / lhs.N
+    let shift = numBitsRight % lhs.N
+    for i in 0..<lhs.words.count {
+        out.words[i] = 0
+        
+        if (i + offset < lhs.words.count) {
+            out.words[i] = lhs.words[i + offset] >> shift
+        }
+        
+        if (i + offset + 1 < lhs.words.count) {
+            out.words[i] |= lhs.words[i + offset + 1] << (lhs.N - shift)
+        }
+    }
+
+    out.clearUnusedBits()
+    return out
+}
+```
+
+Let's start with this line:
+
+```swift
+for i in 0..<lhs.words.count {
+```
+
+This indicates our strategy: we want to go through each word of the result and assign the correct bits.
+
+The two internal if-statements inside this loop are assigning some bits from one place in the source number and bitwise OR-ing them with some bits from a second place in the source number. The key insight here is that the bits for any one word of the result comes from at most two source words in the input. So the only remaining trick is to calculate which ones. For this, we need these two numbers:
+
+```swift
+let offset = numBitsRight / lhs.N
+let shift = numBitsRight % lhs.N
+```
+
+Offset gives us how many words away from the source word we start getting our bits (with the remainder coming from it's neighbour). Shift gives us how many bits we need to shift within that word. Note that both of these are calcuated using the word size `lhs.N`.
+
+All that's left if a little bit of protection against reading outside the bounds of the input. So these two if conditions protect against that:
+```swift
+if (i + offset < lhs.words.count) {
+```
+and
+```swift
+if (i + offset + 1 < lhs.words.count) {
+```
+
+Let's work through an example. Suppose our word length has been reduced to 8 bits, and we'd like to right-shift the following number by 10 bits:
+
+    01000010 11000000 00011100      >> 10
+
+I've grouped each part of the number by word to make it easier to see what happens. The for-loop goes from least significant word to most significant. So for index zero we're want to know what bits will make up our least significant word. Let's calculate our offset and shift values:
+
+    offset = 10 / 8 = 1     (remember this is integer division)
+    shift = 10 % 8 = 2
+
+So we consult the word at offset 1 to get some of our bits:
+
+    11000000 >> 2 = 00110000
+
+And we get the rest of them from the word one further away:
+
+    01000010 << (8 - 2) = 10000000
+    
+And we bitwise OR these together to get our least significant term
+
+    00110000
+    10000000
+    -------- OR
+    10110000
+
+We repeat this for the 2nd least significant term and obtain:
+
+    00010000
+
+The last term can't get any bits because they are past the end of our number so those are all zeros. Our result is:
+
+    00000000 00010000 10110000
+
 ## See also
 
 [Bit Twiddling Hacks](http://graphics.stanford.edu/~seander/bithacks.html)

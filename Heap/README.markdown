@@ -38,7 +38,7 @@ A heap is not a replacement for a binary search tree, and there are similarities
 
 **Balancing.** A binary search tree must be "balanced" so that most operations have **O(log n)** performance. You can either insert and delete your data in a random order or use something like an [AVL tree](../AVL%20Tree/) or [red-black tree](../Red-Black%20Tree/), but with heaps we don't actually need the entire tree to be sorted. We just want the heap property to be fulfilled, so balancing isn't an issue. Because of the way the heap is structured, heaps can guarantee **O(log n)** performance.
 
-**Searching.** Whereas searching is fast in a binary tree, it is slow in a heap. Searching isn't a top priority in a heap since the purpose of a heap is to put the largest (or smallest) node at the front and to allow relatively fast inserts and deletes. 
+**Searching.** Whereas searching is fast in a binary tree, it is slow in a heap. Searching isn't a top priority in a heap since the purpose of a heap is to put the largest (or smallest) node at the front and to allow relatively fast inserts and deletes.
 
 ## The tree inside an array
 
@@ -148,7 +148,7 @@ There are two primitive operations necessary to make sure the heap is a valid ma
 
 Shifting up or down is a recursive procedure that takes **O(log n)** time.
 
-Here are other operations that are built on primitive operations: 
+Here are other operations that are built on primitive operations:
 
 - `insert(value)`: Adds the new element to the end of the heap and then uses `shiftUp()` to fix the heap.
 
@@ -190,7 +190,7 @@ The `(16)` was added to the first available space on the last row.
 
 Unfortunately, the heap property is no longer satisfied because `(2)` is above `(16)`, and we want higher numbers above lower numbers. (This is a max-heap.)
 
-To restore the heap property, we swap `(16)` and `(2)`. 
+To restore the heap property, we swap `(16)` and `(2)`.
 
 ![The heap before insertion](Images/Insert2.png)
 
@@ -214,7 +214,7 @@ What happens to the empty spot at the top?
 
 ![The root is gone](Images/Remove1.png)
 
-When inserting, we put the new value at the end of the array. Here, we do the opposite: we take the last object we have, stick it up on top of the tree, and restore the heap property. 
+When inserting, we put the new value at the end of the array. Here, we do the opposite: we take the last object we have, stick it up on top of the tree, and restore the heap property.
 
 ![The last node goes to the root](Images/Remove2.png)
 
@@ -226,7 +226,7 @@ Keep shifting down until the node does not have any children or it is larger tha
 
 ![The last node goes to the root](Images/Remove4.png)
 
-The time required for shifting all the way down is proportional to the height of the tree which takes **O(log n)** time. 
+The time required for shifting all the way down is proportional to the height of the tree which takes **O(log n)** time.
 
 > **Note:** `shiftUp()` and `shiftDown()` can only fix one out-of-place element at a time. If there are multiple elements in the wrong place, you need to call these functions once for each of those elements.
 
@@ -279,7 +279,7 @@ In code:
 ```swift
   private mutating func buildHeap(fromArray array: [T]) {
     elements = array
-    for i in (elements.count/2 - 1).stride(through: 0, by: -1) {
+    for i in stride(from: (nodes.count/2-1), through: 0, by: -1) {
       shiftDown(index: i, heapSize: elements.count)
     }
   }

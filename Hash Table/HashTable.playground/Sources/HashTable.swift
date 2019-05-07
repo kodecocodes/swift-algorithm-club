@@ -30,7 +30,7 @@
  Insert:  O(1)     O(n)
  Delete:  O(1)     O(n)
  */
-public struct HashTable<Key: Hashable, Value>: CustomStringConvertible {
+public struct HashTable<Key: Hashable, Value> {
     private typealias Element = (key: Key, value: Value)
     private typealias Bucket = [Element]
     private var buckets: [Bucket]
@@ -40,23 +40,6 @@ public struct HashTable<Key: Hashable, Value>: CustomStringConvertible {
 
     /// A Boolean value that indicates whether the hash table is empty.
     public var isEmpty: Bool { return count == 0 }
-
-    /// A string that represents the contents of the hash table.
-    public var description: String {
-        let pairs = buckets.flatMap { b in b.map { e in "\(e.key) = \(e.value)" } }
-        return pairs.joined(separator: ", ")
-    }
-
-    /// A string that represents the contents of
-    /// the hash table, suitable for debugging.
-    public var debugDescription: String {
-        var str = ""
-        for (i, bucket) in buckets.enumerated() {
-            let pairs = bucket.map { e in "\(e.key) = \(e.value)" }
-            str += "bucket \(i): " + pairs.joined(separator: ", ") + "\n"
-        }
-        return str
-    }
 
     /**
      Create a hash table with the given capacity.
@@ -149,5 +132,24 @@ public struct HashTable<Key: Hashable, Value>: CustomStringConvertible {
      */
     private func index(forKey key: Key) -> Int {
         return abs(key.hashValue) % buckets.count
+    }
+}
+
+extension HashTable: CustomStringConvertible {
+    /// A string that represents the contents of the hash table.
+    public var description: String {
+        let pairs = buckets.flatMap { b in b.map { e in "\(e.key) = \(e.value)" } }
+        return pairs.joined(separator: ", ")
+    }
+    
+    /// A string that represents the contents of
+    /// the hash table, suitable for debugging.
+    public var debugDescription: String {
+        var str = ""
+        for (i, bucket) in buckets.enumerated() {
+            let pairs = bucket.map { e in "\(e.key) = \(e.value)" }
+            str += "bucket \(i): " + pairs.joined(separator: ", ") + "\n"
+        }
+        return str
     }
 }

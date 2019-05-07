@@ -9,11 +9,6 @@
 import UIKit
 import PlaygroundSupport
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 /*:
  First of all, let's set up colors for our window and graph. The visited color will be applied to visited vertices. The checking color will be applied to an edge and an edge neighbor every time the algorithm is checking some vertex neighbors. And default colors are just initial colors for elements.
  */

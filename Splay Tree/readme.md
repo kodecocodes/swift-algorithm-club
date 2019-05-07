@@ -263,7 +263,7 @@ If the rotations would had been taking first the parent and not the grandparent 
 
 [Splay Tree on Wikipedia](https://en.wikipedia.org/wiki/Splay_tree)
 
-[Splay Tree by University of California in Berkeley - CS 61B Lecture 34](https://www.youtube.com/watch?v=G5QIXywcJlY)
+[Splay Tree by University of California in Berkeley - CS 61B Lecture 34](https://www.youtube.com/watch?v=8Zs1lj_bUV0)
 
 
 ----------------
