@@ -29,7 +29,7 @@ As a result of this heap property, a max-heap always stores its largest item at 
 
 ## How does a heap compare to regular trees?
 
-A heap is not a replacement for a binary search tree, and there are similarities and differnces between them. Here are some main differences:
+A heap is not a replacement for a binary search tree, and there are similarities and differences between them. Here are some main differences:
 
 
 **Order of the nodes.** In a [binary search tree (BST)](../Binary%20Search%20Tree/), the left child must be smaller than its parent, and the right child must be greater. This is not true for a heap. In a max-heap both children must be smaller than the parent, while in a min-heap they both must be greater.
