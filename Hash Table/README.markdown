@@ -141,7 +141,7 @@ The hash table does not do anything yet, so let's add the remaining functionalit
 
 ```swift
   private func index(forKey key: Key) -> Int {
-    return abs(key.hashValue) % buckets.count
+    return abs(key.hashValue % buckets.count)
   }
 ```
 
