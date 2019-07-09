@@ -18,6 +18,11 @@ Big-O | Name | Description
 **O(n!)** | factorial | **Intolerably slow.** It literally takes a million years to do anything.  
 
 
+
+![Comparison of Big O computations](https://upload.wikimedia.org/wikipedia/commons/7/7e/Comparison_computational_complexity.svg)
+
+
+
 Below are some examples for each category of performance:
 
 **O(1)**
