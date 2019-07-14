@@ -55,7 +55,7 @@ Finding numbers divisible by five:
 
 ## The code
 
-Here is an implementation using Swift 5 isMultiple function and a Switch statement:
+Here is an implementation of the fizzBuzz algorithm using Swift 5 ".isMultiple" function with a Switch statement:
 
 ```swift
 (0...50).forEach { (num) in
