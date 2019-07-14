@@ -55,27 +55,25 @@ Finding numbers divisible by five:
 
 ## The code
 
-Here is a simple implementation in Swift:
+Here is an implementation using Swift 5 isMultiple function and a Switch statement:
 
 ```swift
-func fizzBuzz(_ numberOfTurns: Int) {
-  for i in 1...numberOfTurns {
-    var result = ""
-
-    if i % 3 == 0 {
-      result += "Fizz"
+(0...50).forEach { (num) in
+    
+    switch num {
+        //Check if 'x' is multiple of 3 and if 'x' is multiple of 5. If yes print fizzBuzz!
+    case let x where x.isMultiple(of: 3) && x.isMultiple(of: 5):
+        print("\(num): fizzBuzz")
+        
+    case let x where x.isMultiple(of: 3):
+        print("\(num): fizz")
+        
+    case let x where x.isMultiple(of: 5):
+        print("\(num): buzz")
+        
+    default:
+        print(num)
     }
-
-    if i % 5 == 0 {
-      result += (result.isEmpty ? "" : " ") + "Buzz"
-    }
-
-    if result.isEmpty {
-      result += "\(i)"
-    }
-
-    print(result)
-  }
 }
 ```
 
