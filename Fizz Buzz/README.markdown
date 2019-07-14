@@ -79,7 +79,8 @@ Here is an implementation of the fizzBuzz algorithm using Swift 5 ".isMultiple" 
 
 
 This will output:
-```0: Fizz Buzz
+```
+0: Fizz Buzz
 1
 2
 3: Fizz
