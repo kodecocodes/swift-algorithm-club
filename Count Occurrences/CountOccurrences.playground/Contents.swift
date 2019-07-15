@@ -1,11 +1,11 @@
 
-func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
-  func leftBoundary() -> Int {
+func countOccurrences<T: Comparable>(of key: T, in array: [T]) -> Int {
+  var leftBoundary: Int {
     var low = 0
-    var high = a.count
+    var high = array.count
     while low < high {
       let midIndex = low + (high - low)/2
-      if a[midIndex] < key {
+      if array[midIndex] < key {
         low = midIndex + 1
       } else {
         high = midIndex
@@ -14,12 +14,12 @@ func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
     return low
   }
 
-  func rightBoundary() -> Int {
+  var rightBoundary: Int {
     var low = 0
-    var high = a.count
+    var high = array.count
     while low < high {
       let midIndex = low + (high - low)/2
-      if a[midIndex] > key {
+      if array[midIndex] > key {
         high = midIndex
       } else {
         low = midIndex + 1
@@ -28,13 +28,13 @@ func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
     return low
   }
 
-  return rightBoundary() - leftBoundary()
+  return rightBoundary - leftBoundary
 }
 
 // Simple test
 
 let a = [ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
-countOccurrencesOfKey(3, inArray: a)
+countOccurrences(of: 3, in: a)
 
 // Test with arrays of random size and contents (see debug output)
 
@@ -59,6 +59,6 @@ for _ in 0..<10 {
 
   // Note: we also test -1 and 6 to check the edge cases.
   for k in -1...6 {
-    print("\t\(k): \(countOccurrencesOfKey(k, inArray: a))")
+    print("\t\(k): \(countOccurrences(of: k, in: a))")
   }
 }

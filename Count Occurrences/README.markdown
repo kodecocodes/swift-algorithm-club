@@ -22,8 +22,8 @@ The trick is to use two binary searches, one to find where the `3`s start (the l
 In code this looks as follows:
 
 ```swift
-func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
-  func leftBoundary() -> Int {
+func countOccurrences<T: Comparable>(of key: T, in array: [T]) -> Int {
+  var leftBoundary: Int {
     var low = 0
     var high = a.count
     while low < high {
@@ -37,7 +37,7 @@ func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
     return low
   }
 
-  func rightBoundary() -> Int {
+  var rightBoundary: Int {
     var low = 0
     var high = a.count
     while low < high {
@@ -51,11 +51,11 @@ func countOccurrencesOfKey(_ key: Int, inArray a: [Int]) -> Int {
     return low
   }
 
-  return rightBoundary() - leftBoundary()
+  return rightBoundary - leftBoundary
 }
 ```
 
-Notice that the helper functions `leftBoundary()` and `rightBoundary()` are very similar to the [binary search](../Binary%20Search/) algorithm. The big difference is that they don't stop when they find the search key, but keep going.
+Notice that the variables `leftBoundary` and `rightBoundary` are very similar to the [binary search](../Binary%20Search/) algorithm. The big difference is that they don't stop when they find the search key, but keep going.  Also, notice that we constrain the type `T` to be Comparable so that the algorithm can be applied to an array of Strings, Ints or other types that conform to the Swift Comparable protocol.
 
 To test this algorithm, copy the code to a playground and then do:
 
@@ -113,7 +113,7 @@ The right boundary is at index 7. The difference between the two boundaries is 7
 
 Each binary search took 4 steps, so in total this algorithm took 8 steps. Not a big gain on an array of only 12 items, but the bigger the array, the more efficient this algorithm becomes. For a sorted array with 1,000,000 items, it only takes 2 x 20 = 40 steps to count the number of occurrences for any particular value.
 
-By the way, if the value you're looking for is not in the array, then `rightBoundary()` and `leftBoundary()` return the same value and so the difference between them is 0.
+By the way, if the value you're looking for is not in the array, then `rightBoundary` and `leftBoundary` return the same value and so the difference between them is 0.
 
 This is an example of how you can modify the basic binary search to solve other algorithmic problems as well. Of course, it does require that the array is sorted.
 
