@@ -124,9 +124,8 @@ Below are some examples for each category of performance:
   func solveHanoi(n: Int, from: String, to: String, spare: String) {
     guard n >= 1 else { return }
     if n > 1 {
-      solveHanoi(n: n - 1, from: from, to: spare, spare: to)
-    } else {
-      solveHanoi(n: n - 1, from: spare, to: to, spare: from)
+        solveHanoi(n: n - 1, from: from, to: spare, spare: to)
+        solveHanoi(n: n - 1, from: spare, to: to, spare: from)
     }
   }
   ```
