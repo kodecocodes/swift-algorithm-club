@@ -2,11 +2,11 @@
 ///
 /// - Parameters:
 ///   - array: the array of elements to be sorted
-///   - sortedArray: copy the array to save stability
 ///   - isOrderedBefore: returns true if the elements provided are in the corect order
 /// - Returns: a sorted array containing the same elements
 func insertionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
     guard array.count > 1 else { return array }
+    ///   - sortedArray: copy the array to save stability
     var sortedArray = array
     for index in 1..<sortedArray.count {
         var currentIndex = index
