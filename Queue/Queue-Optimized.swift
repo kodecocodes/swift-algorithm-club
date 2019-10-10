@@ -23,7 +23,7 @@ public struct Queue<T> {
   }
 
   public mutating func dequeue() -> T? {
-    guard head < array.count, let element = array[head] else { return nil }
+    guard let element = array[guarded: head] else { return nil }
 
     array[head] = nil
     head += 1
@@ -44,4 +44,13 @@ public struct Queue<T> {
       return array[head]
     }
   }
+}
+
+extension Array {
+    subscript(guarded idx: Int) -> Element? {
+        guard (startIndex..<endIndex).contains(idx) else {
+            return nil
+        }
+        return self[idx]
+    }
 }
