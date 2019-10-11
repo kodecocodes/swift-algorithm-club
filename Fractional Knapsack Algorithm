@@ -1,0 +1,163 @@
+POINTS TO REMEMBER
+In this problem we have a Knapsack that has a weight limit W
+There are items i1, i2, ..., in each having weight w1, w2, … wn and some benefit (value or profit) associated with it v1, v2, ..., vn
+Our objective is to maximise the benefit such that the total weight inside the knapsack is at most W
+And we are also allowed to take an item in fractional part
+Problem
+Assume that we have a knapsack with max weight capacity, W = 16.
+our objective is to fill the knapsack with items such that the benefit (value or profit) is maximum.
+
+Consider the following items and their associated weight and value
+ITEM	WEIGHT	    VALUE
+i1  	6	        6
+i2	    10	        2
+i3	    3	        1
+i4	    5	        8
+i5	    1	        3
+i6	    3	        5
+
+STEPS
+
+Calculate value per weight for each item (we can call this value density)
+Sort the items as per the value density in descending order
+Take as much item as possible not already taken in the knapsack
+Compute density = (value/weight)
+ITEM	WEIGHT	VALUE	DENSITY
+i1  	6	    6	    1.000
+i2	    10	    2	    0.200
+i3	    3	    1   	0.333
+i4	    5	    8	    1.600
+i5	    1	    3	    3.000
+i6	    3	    5	    1.667
+Sort the items as per density in descending order
+ITEM	WEIGHT	VALUE	DENSITY
+i5	    1	    3	    3.000
+i6	    3	    5	    1.667
+i4	    5	    8	    1.600
+i1	    6	    6	    1.000
+i3	    3	    1	    0.333
+i2	    10	    2	    0.200
+Now we will pick items such that our benefit is maximum and total weight of the selected items is at most W.
+
+Knapsack table
+ITEM	WEIGHT	VALUE	TOTAL
+WEIGHT	BENEFIT
+ 
+
+ 
+Our objective is to fill the knapsack with items to get maximum benefit without crossing the weight limit W = 16.
+
+How to fill the knapsack table?
+
+is WEIGHT(i) + TOTAL WEIGHT <= W
+if its YES
+then we take the whole item
+Values after calculation
+
+ITEM	WEIGHT	VALUE	TOTAL WEIGHT	BENEFIT
+i5	    1	    3	    1.000	        3.000
+i6	    3	    5	    4.000	        8.000
+i4	    5	    8	    9.000	        16.000
+i1	    6	    6	    15.000	        22.000
+i3	    1	    0.333	16.000	        22.333
+So, total weight in the knapsack = 16 and total value inside it = 22.333336
+
+
+
+CODE
+
+#include <stdio.h>
+
+struct Item {
+  char id[5];
+  int weight;
+  int value;
+  float density;
+};
+
+void fractionalKnapsack(Item items[], int n, int W);
+
+int main(void) {
+  //variables
+  int i, j;
+
+  //list items
+  Item items[6] = {
+    {"i1",  6, 6, 0},
+    {"i2", 10, 2, 0},
+    {"i3",  3, 1, 0},
+    {"i4",  5, 8, 0},
+    {"i5",  1, 3, 0},
+    {"i6",  3, 5, 0}
+  };
+
+  //temp item
+  Item temp;
+
+  //number of items
+  int n = 6;
+
+  //max weight limit of knapsack
+  int W = 16;
+
+  //compute desity = (value/weight)
+  for(i = 0; i < n; i++) {
+    items[i].density = float(items[i].value) / items[i].weight;
+  }
+
+  //sort by density in descending order
+  for(i = 1; i < n; i++) {
+    for(j = 0; j < n - i; j++) {
+      if(items[j+1].density > items[j].density) {
+        temp = items[j+1];
+        items[j+1] = items[j];
+        items[j] = temp;
+      }
+    }
+  }
+
+  fractionalKnapsack(items, n, W);
+
+  return 0;
+}
+
+void fractionalKnapsack(Item items[], int n, int W) {
+  int i, wt;
+  float value;
+
+  float totalWeight = 0, totalBenefit = 0;
+
+  for(i = 0; i < n; i++) {
+    if(items[i].weight + totalWeight <= W) {
+
+      totalWeight += items[i].weight;
+      totalBenefit += items[i].value;
+
+      printf("Selected Item: %s\tWeight: %d\tValue: %d\tTotal Weight: %f\tTotal Benefit: %f\n", items[i].id, items[i].weight, items[i].value, totalWeight, totalBenefit);
+
+    } else {
+      wt = (W - totalWeight);
+      value = wt * (float(items[i].value) / items[i].weight);
+
+      totalWeight += wt;
+      totalBenefit += value;
+
+      printf("Selected Item: %s\tWeight: %d\tValue: %f\tTotal Weight: %f\tTotal Benefit: %f\n", items[i].id, wt, value, totalWeight, totalBenefit);
+
+      break;
+    }
+  }
+
+  printf("Total Weight: %f\n", totalWeight);
+printf("Total Benefit: %f\n", totalBenefit);
+}
+
+OUTPUT:
+
+Selected Item: i5  Weight: 1  Value: 3  Total Weight: 1.000000  Total Benefit: 3.000000
+Selected Item: i6  Weight: 3  Value: 5  Total Weight: 4.000000  Total Benefit: 8.000000
+Selected Item: i4  Weight: 5  Value: 8  Total Weight: 9.000000  Total Benefit: 16.000000
+Selected Item: i1  Weight: 6  Value: 6  Total Weight: 15.000000  Total Benefit: 22.000000
+Selected Item: i3  Weight: 1  Value: 0.333333  Total Weight: 16.000000  Total Benefit: 22.333334
+Total Weight: 16.000000
+Total Benefit: 22.333334
