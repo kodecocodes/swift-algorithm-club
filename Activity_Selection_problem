@@ -1,0 +1,81 @@
+
+Activity Selection Problem
+
+There are n different activities are given with their starting time and ending time.
+Select the maximum number of activities to solve by a single person. We will use the greedy approach to find the next activity whose finish time is minimum among rest activities, and the start time is more than or equal with the finish time of the last selected activity.
+
+The complexity of this problem is O(n log n) when the list is not sorted.
+When the sorted list is provided the complexity will be O(n).
+Input and Output
+Input:
+A list of different activities with starting and ending times.
+{(5,9), (1,2), (3,4), (0,6), (5,7), (8,9)}
+Output:
+Selected Activities are:
+Activity: 0 , Start: 1 End: 2
+Activity: 1 , Start: 3 End: 4
+Activity: 3 , Start: 5 End: 7
+Activity: 5 , Start: 8 End: 9
+
+
+Algorithm
+maxActivity(act, size)
+Input: A list of activity, and the number of elements in the list.
+
+Output: The order of activities how they have been chosen.
+
+Begin
+   initially sort the given activity List
+   set i := 1
+   display the ith activity //in this case it is the first activity
+
+   for j := 1 to n-1 do
+      if start time of act[j] >= end of act[i] then
+         display the jth activity
+         i := j
+   done
+End
+Source Code (C++)
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+struct Activitiy {
+   int start, end;
+};
+
+bool comp(Activitiy act1, Activitiy act2) {
+   return (act1.end < act2.end);
+}
+
+void maxActivity(Activitiy act[], int n) {
+   sort(act, act+n, comp); //sort activities using compare function
+
+   cout << "Selected Activities are: " << endl;
+   int i = 0;// first activity as 0 is selected
+   cout << "Activity: " << i << " , Start: " <<act[i].start << " End:
+      " << act[i].end <<endl;
+
+   for (int j = 1; j < n; j++) { //for all other activities
+      if (act[j].start >= act[i].end) { //when start time is >= end
+         time, print the activity
+         cout << "Activity: " << j << " , Start: " <<act[j].start << " End: " << act[j].end <<endl;
+         i = j;
+      }
+   }
+}
+
+int main() {
+   Activitiy actArr[] = {{5,9},{1,2},{3,4},{0,6},{5,7},{8,9}};
+   int n = 6;
+   maxActivity(actArr,n);
+   return 0;
+}
+
+
+Output
+Selected Activities are:
+Activity: 0 , Start: 1 End: 2
+Activity: 1 , Start: 3 End: 4
+Activity: 3 , Start: 5 End: 7
+Activity: 5 , Start: 8 End: 9
