@@ -1,14 +1,16 @@
 # Array2D
 
-In C and Objective-C, you can write the following line,
+In C or in Objective-C,we can write the following line,
 
 	int cookies[9][7];
 	
-to make a 9x7 grid of cookies. This creates a two-dimensional array of 63 elements. To find the cookie at column 3 and row 6, you can write:
+to make a 9x7 grid of cookies. This creates a two-dimensional array of 63 elements. To find the cookie at column 3 and row 6, we can write:
 
 	myCookie = cookies[3][6];
 	
-This statement is not acceptable in Swift. To create a multi-dimensional array in Swift, you can write:
+This statement is not acceptable in Swift. 
+
+To create a multi-dimensional array in Swift, you can write:
 
 ```swift
 var cookies = [[Int]]()
@@ -21,7 +23,7 @@ for _ in 1...9 {
 }
 ```
 
-Then, to find a cookie, you can write:
+Then,to find a cookie,we can write:
 
 ```swift
 let myCookie = cookies[3][6]
@@ -41,13 +43,13 @@ func dim<T>(_ count: Int, _ value: T) -> [T] {
 }
 ```
 
-Then, you can create the array:
+Then,we can create the array:
 
 ```swift
 var cookies = dim(9, dim(7, 0))
 ```
 
-Swift infers that the datatype of the array must be `Int` because you specified `0` as the default value of the array elements. To use a string instead, you can write:
+Swift infers that the datatype of the array must be `int` because you specified `0` as the default value of the array elements.To use a string instead,we can write:
 
 ```swift
 var cookies = dim(9, dim(7, "yum"))
@@ -59,9 +61,9 @@ The `dim()` function makes it easy to go into even more dimensions:
 var threeDimensions = dim(2, dim(3, dim(4, 0)))
 ```
 
-The downside of using multi-dimensional arrays or multiple nested arrays in this way is to lose track of what dimension represents what.
+The downside of using multi-dimensional arrays or multiple nested arrays in this way is to lose track of what dimension represents.
 
-Instead, you can create your own type that acts like a 2-D array which is more convenient to use:
+Instead,we can create our own type that acts like a 2-D array which is more convenient to use:
 
 ```swift
 public struct Array2D<T> {
