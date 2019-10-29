@@ -212,7 +212,7 @@ extension Heap where T: Equatable {
     return nodes.index(where: { $0 == node })
   }
   
-  /** Removes the first occurrence of a node from the heap. Performance: O(n log n). */
+  /** Removes the first occurrence of a node from the heap. Performance: O(n). */
   @discardableResult public mutating func remove(node: T) -> T? {
     if let index = index(of: node) {
       return remove(at: index)
