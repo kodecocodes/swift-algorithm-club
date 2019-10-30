@@ -5,6 +5,9 @@
       location = "group:AllPairsShortestPaths.playground">
    </FileRef>
    <FileRef
+      location = "group:Array2D.playground">
+   </FileRef>
+   <FileRef
       location = "group:SwiftAlgorithmClub.xcodeproj">
    </FileRef>
    <FileRef
