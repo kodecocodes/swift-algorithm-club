@@ -26,6 +26,9 @@
       location = "group:BinaryTree.playground">
    </FileRef>
    <FileRef
+      location = "group:BitSet.playground">
+   </FileRef>
+   <FileRef
       location = "group:SwiftAlgorithmClub.xcodeproj">
    </FileRef>
    <FileRef
