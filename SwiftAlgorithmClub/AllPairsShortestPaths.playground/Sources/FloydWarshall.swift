@@ -59,11 +59,11 @@ public struct FloydWarshall<T>: APSPAlgorithm where T: Hashable {
    shortest paths and the corresponding predecessor matrix
    */
   static fileprivate func nextStep<T>(_ intermediateIdx: Int, previousDistances: Distances,
-                               previousPredecessors: Predecessors, graph: AbstractGraph<T>) -> StepResult {
+                                      previousPredecessors: Predecessors, graph: AbstractGraph<T>) -> StepResult {
 
     let vertexCount = graph.vertices.count
     var nextDistances = Array(repeating: Array(repeating: Double.infinity, count: vertexCount), count: vertexCount)
-    var nextPredecessors = Array(repeating: Array<Int?>(repeating: nil, count: vertexCount), count: vertexCount)
+    var nextPredecessors = Array(repeating: [Int?](repeating: nil, count: vertexCount), count: vertexCount)
 
     for fromIdx in 0 ..< vertexCount {
       for toIndex in 0 ..< vertexCount {
@@ -127,7 +127,7 @@ public struct FloydWarshall<T>: APSPAlgorithm where T: Hashable {
   static fileprivate func constructInitialPredecessorMatrix(_ distances: Distances) -> Predecessors {
 
     let vertexCount = distances.count
-    var predecessors = Array(repeating: Array<Int?>(repeating: nil, count: vertexCount), count: vertexCount)
+    var predecessors = Array(repeating: [Int?](repeating: nil, count: vertexCount), count: vertexCount)
 
     for fromIdx in 0 ..< vertexCount {
       for toIdx in 0 ..< vertexCount {
@@ -190,7 +190,7 @@ public struct FloydWarshallResult<T>: APSPResult where T: Hashable {
    - returns: the list of predecessors discovered so far
    */
   fileprivate func recursePathFrom(fromVertex from: Vertex<T>, toVertex to: Vertex<T>, path: [Vertex<T>],
-                                          inGraph graph: AbstractGraph<T>) -> [Vertex<T>]? {
+                                   inGraph graph: AbstractGraph<T>) -> [Vertex<T>]? {
 
     if from.index == to.index {
       return [ from, to ]

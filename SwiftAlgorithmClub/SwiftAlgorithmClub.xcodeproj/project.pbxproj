@@ -8,9 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		60908F9123691B81004E53B2 /* SwiftAlgorithmClub.h in Headers */ = {isa = PBXBuildFile; fileRef = 60908F8F23691B81004E53B2 /* SwiftAlgorithmClub.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		896EC48BF398EBA0498F3F37 /* Pods_SwiftAlgorithmClub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E71A86B58EDBA0CFCF6ACDC /* Pods_SwiftAlgorithmClub.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		19B6A76A8179150D7F857F86 /* Pods-SwiftAlgorithmClub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftAlgorithmClub.release.xcconfig"; path = "Target Support Files/Pods-SwiftAlgorithmClub/Pods-SwiftAlgorithmClub.release.xcconfig"; sourceTree = "<group>"; };
+		1AC49BC223347449D9B873B3 /* Pods-SwiftAlgorithmClub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftAlgorithmClub.debug.xcconfig"; path = "Target Support Files/Pods-SwiftAlgorithmClub/Pods-SwiftAlgorithmClub.debug.xcconfig"; sourceTree = "<group>"; };
+		4E71A86B58EDBA0CFCF6ACDC /* Pods_SwiftAlgorithmClub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftAlgorithmClub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60908F8C23691B81004E53B2 /* SwiftAlgorithmClub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftAlgorithmClub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60908F8F23691B81004E53B2 /* SwiftAlgorithmClub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftAlgorithmClub.h; sourceTree = "<group>"; };
 		60908F9023691B81004E53B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -21,6 +25,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				896EC48BF398EBA0498F3F37 /* Pods_SwiftAlgorithmClub.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,6 +37,8 @@
 			children = (
 				60908F8E23691B81004E53B2 /* SwiftAlgorithmClub */,
 				60908F8D23691B81004E53B2 /* Products */,
+				BA921E75CF90836A6FFD54BD /* Pods */,
+				76C74A433C3D40B49A759205 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,6 +59,23 @@
 			path = SwiftAlgorithmClub;
 			sourceTree = "<group>";
 		};
+		76C74A433C3D40B49A759205 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E71A86B58EDBA0CFCF6ACDC /* Pods_SwiftAlgorithmClub.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA921E75CF90836A6FFD54BD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1AC49BC223347449D9B873B3 /* Pods-SwiftAlgorithmClub.debug.xcconfig */,
+				19B6A76A8179150D7F857F86 /* Pods-SwiftAlgorithmClub.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -70,10 +94,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 60908F9423691B81004E53B2 /* Build configuration list for PBXNativeTarget "SwiftAlgorithmClub" */;
 			buildPhases = (
+				5B0CDFC13A7E532D8AD759CD /* [CP] Check Pods Manifest.lock */,
 				60908F8723691B81004E53B2 /* Headers */,
 				60908F8823691B81004E53B2 /* Sources */,
 				60908F8923691B81004E53B2 /* Frameworks */,
 				60908F8A23691B81004E53B2 /* Resources */,
+				60B8E3912369304400940496 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -125,6 +151,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5B0CDFC13A7E532D8AD759CD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SwiftAlgorithmClub-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		60B8E3912369304400940496 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		60908F8823691B81004E53B2 /* Sources */ = {
@@ -258,6 +326,7 @@
 		};
 		60908F9523691B81004E53B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1AC49BC223347449D9B873B3 /* Pods-SwiftAlgorithmClub.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -282,6 +351,7 @@
 		};
 		60908F9623691B81004E53B2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 19B6A76A8179150D7F857F86 /* Pods-SwiftAlgorithmClub.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;

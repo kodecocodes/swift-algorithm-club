@@ -5,6 +5,9 @@
       location = "group:AllPairsShortestPaths.playground">
    </FileRef>
    <FileRef
-      location = "container:SwiftAlgorithmClub.xcodeproj">
+      location = "group:SwiftAlgorithmClub.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

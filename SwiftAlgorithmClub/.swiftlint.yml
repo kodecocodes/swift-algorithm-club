@@ -1,0 +1,92 @@
+opt_in_rules:
+  - array_init
+    - closure_spacing
+    - contains_over_filter_count
+    - contains_over_filter_is_empty
+    - contains_over_first_not_nil
+    - discouraged_object_literal
+    - empty_collection_literal
+    - empty_count
+    - empty_string
+    - explicit_init
+    - file_header
+    - first_where
+    - identical_operands
+    - implicit_return
+    - implicitly_unwrapped_optional
+    - joined_default_parameter
+    - last_where
+    - legacy_multiple
+    - legacy_random
+    - lower_acl_than_parent
+    - modifier_order
+    - multiline_parameters
+    - nimble_operator
+    - nslocalizedstring_key
+    - operator_usage_whitespace
+    - overridden_super_call
+    - override_in_extension
+    - pattern_matching_keywords
+    - private_action
+    - private_over_fileprivate
+    - prohibited_interface_builder
+    - prohibited_super_call
+    - quick_discouraged_call
+    - quick_discouraged_focused_test
+    - quick_discouraged_pending_test
+    - redundant_nil_coalescing
+    - single_test_class
+    - sorted_first_last
+    - sorted_imports
+    - toggle_bool
+    - trailing_closure
+    - unneeded_parentheses_in_closure_argument
+    - unowned_variable_capture
+    - untyped_error_in_catch
+    - vertical_parameter_alignment_on_call
+    - vertical_whitespace_opening_braces
+    - vertical_whitespace_closing_braces
+    - yoda_condition
+
+disabled_rules:
+  - identifier_name
+  - type_name
+  - line_length
+  - force_try
+  - force_cast
+
+file_length: 450
+nesting:
+  type_level: 3
+swiftlint_version: 0.36.0
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+explicit_type_interface:
+  excluded:
+    - local
+
+identifier_name:
+  excluded:
+    - id
+
+discouraged_object_literal:
+  color_literal: false
+
+trailing_closure:
+  only_single_muted_parameter: true
+
+modifier_order:
+  preferred_modifier_order:
+    - acl
+      - setter ACL
+        - override
+        - dynamic
+        - mutators
+        - lazy
+        - final
+        - required
+        - convenience
+        - typeMethods
+        - owned

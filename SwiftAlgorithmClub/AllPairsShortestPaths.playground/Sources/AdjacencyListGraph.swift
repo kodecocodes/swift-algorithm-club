@@ -43,7 +43,7 @@ open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Hashable {
     if let match = vertices.first(where: { $0.data == data }) {
       return match
     }
-    
+
     // if the vertex doesn't exist, create a new one
     let vertex = Vertex(data: data, index: adjacencyList.count)
     adjacencyList.append(EdgeList(vertex: vertex))
@@ -71,13 +71,7 @@ open class AdjacencyListGraph<T>: AbstractGraph<T> where T: Hashable {
       return nil
     }
 
-    for edge: Edge<T> in edges {
-      if edge.to == destinationVertex {
-        return edge.weight
-      }
-    }
-
-    return nil
+    return edges.first { $0.to == destinationVertex }?.weight
   }
 
   open override func edgesFrom(_ sourceVertex: Vertex<T>) -> [Edge<T>] {

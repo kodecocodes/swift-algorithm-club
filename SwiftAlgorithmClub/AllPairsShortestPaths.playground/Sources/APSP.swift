@@ -13,7 +13,6 @@ import Foundation
  returns an object conforming to `APSPResult`.
  */
 public protocol APSPAlgorithm {
-
   associatedtype Q: Hashable
   associatedtype P: APSPResult
 
