@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<head>
+  <title>Encode and Decode Tree</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Encode and Decode Binary Tree</h1>
+<blockquote>
+<p><strong>Note</strong>: The prerequisite for this article is an understanding of how <a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Binary%20Tree">binary trees</a> work.</p>
+</blockquote>
+<p>Trees are complex structures. Unlike linear collections such as arrays or linked lists, trees are <em>non-linear</em> and each element in a tree has positional information such as the <em>parent-child</em> relationship between nodes. When you want to send a tree structure to your backend, you need to send the data of each node, and a way to represent the parent-child relationship for each node.</p>
+<p>Your strategy in how you choose to represent this information is called your <strong>encoding</strong> strategy. The opposite of that - changing your encoded data back to its original form - is your <strong>decoding</strong> strategy.</p>
+<p>There are many ways to encode a tree and decode a tree. The important thing to keep in mind is that encoding and decoding strategies are closely related. The way you choose to encode a tree directly affects how you might decode a tree.</p>
+<p>Encoding and decoding are synonyms to <em>serializing</em> and <em>deserializing</em> trees.</p>
+<p>As a reference, the following code represents the typical <code>Node</code> type of a binary tree:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">class</span> <span class="pl-en">BinaryNode</span>&lt;<span class="pl-c1">Element</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt; {
+  <span class="pl-k">var</span> data<span class="pl-k">:</span> <span class="pl-c1">Element</span>
+  <span class="pl-k">var</span> leftChild<span class="pl-k">:</span> BinaryNode<span class="pl-k">?</span>
+  <span class="pl-k">var</span> rightChild<span class="pl-k">:</span> BinaryNode<span class="pl-k">?</span>
+
+  <span class="pl-c"><span class="pl-c">//</span> ... (rest of the implementation)</span>
+<span class="pl-c"></span>}</pre></div>
+<p>Your encoding and decoding methods will reside in the <code>BinaryNodeEncoder</code> and <code>BinaryNodeDecoder</code> classes:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">class</span> <span class="pl-en">BinaryNodeCoder</span> {
+ 
+  <span class="pl-c"><span class="pl-c">//</span> transforms nodes into string representation</span>
+<span class="pl-c"></span>  <span class="pl-k">func</span> <span class="pl-en">encode</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">node</span>: BinaryNode&lt;T&gt;) <span class="pl-k">throws</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span> <span class="pl-k">where</span> T<span class="pl-k">:</span> <span class="pl-e">Encodable</span> {
+    
+  }
+  
+  <span class="pl-c"><span class="pl-c">//</span> transforms string into `BinaryNode` representation</span>
+<span class="pl-c"></span>  <span class="pl-k">func</span> <span class="pl-en">decode</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">from</span> <span class="pl-smi">string</span>: <span class="pl-c1">String</span>) 
+    <span class="pl-k">throws</span> <span class="pl-k">-&gt;</span> BinaryNode<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span> <span class="pl-k">where</span> T<span class="pl-k">:</span> Decodable {
+  
+  }
+}</pre></div>
+<h2>Encoding</h2>
+<p>As mentioned before, there are different ways to do encoding. For no particular reason, you'll opt for the following rules:</p>
+<ol>
+<li>The result of the encoding will be a <code>String</code> object.</li>
+<li>You'll encode using <em>pre-order</em> traversal.</li>
+</ol>
+<p>Here's an example of this operation in code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">fileprivate</span> <span class="pl-k">extension</span> <span class="pl-en">BinaryNode</span> {
+  
+  <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>  <span class="pl-k">func</span> <span class="pl-en">preOrderTraversal</span>(<span class="pl-smi"><span class="pl-en">visit</span></span>: (<span class="pl-c1">Element</span><span class="pl-k">?</span>) <span class="pl-k">throws</span> <span class="pl-k">-&gt;</span> ()) <span class="pl-k">rethrows</span> {
+    <span class="pl-k">try</span> <span class="pl-c1">visit</span>(data)
+    
+    <span class="pl-k">if</span> <span class="pl-k">let</span> leftChild <span class="pl-k">=</span> leftChild {
+      <span class="pl-k">try</span> leftChild.<span class="pl-c1">preOrderTraversal</span>(<span class="pl-c1">visit</span>: visit)
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">try</span> <span class="pl-c1">visit</span>(<span class="pl-c1">nil</span>)
+    }
+    
+    <span class="pl-k">if</span> <span class="pl-k">let</span> rightChild <span class="pl-k">=</span> rightChild {
+      <span class="pl-k">try</span> rightChild.<span class="pl-c1">preOrderTraversal</span>(<span class="pl-c1">visit</span>: visit)
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">try</span> <span class="pl-c1">visit</span>(<span class="pl-c1">nil</span>)
+    }
+  }
+}
+
+<span class="pl-k">class</span> <span class="pl-en">BinaryNodeCoder</span> {
+
+  <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>  <span class="pl-k">private</span> <span class="pl-k">var</span> separator<span class="pl-k">:</span> <span class="pl-c1">String</span> { <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>,<span class="pl-pds">"</span></span> }
+  
+  <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>  <span class="pl-k">private</span> <span class="pl-k">var</span> nilNode<span class="pl-k">:</span> <span class="pl-c1">String</span> { <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>X<span class="pl-pds">"</span></span> }
+  
+  <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>  <span class="pl-k">func</span> <span class="pl-en">encode</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">node</span>: BinaryNode&lt;T&gt;) <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span> {
+    <span class="pl-k">var</span> str <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+    node.<span class="pl-smi">preOrderTraversal</span> { data <span class="pl-k">in</span>
+      <span class="pl-k">if</span> <span class="pl-k">let</span> data <span class="pl-k">=</span> data {
+        <span class="pl-k">let</span> string <span class="pl-k">=</span> <span class="pl-c1">String</span>(<span class="pl-c1">describing</span>: data)
+        str.<span class="pl-c1">append</span>(string)
+      } <span class="pl-k">else</span> {
+        str.<span class="pl-c1">append</span>(nilNode)
+      }
+      str.<span class="pl-c1">append</span>(separator)
+    }
+    <span class="pl-k">return</span> str
+  }
+  
+  <span class="pl-c"><span class="pl-c">//</span> ...</span>
+<span class="pl-c"></span>}</pre></div>
+<p>Here's a high level overview of the above code:</p>
+<ol start="2">
+<li>
+<p><code>separator</code> is a way to distinguish the nodes in a string. To illustrate its importance, consider the following encoded string "banana". How did the tree structure look like before encoding? Without the <code>separator</code>, you can't tell.</p>
+</li>
+<li>
+<p><code>nilNode</code> is used to identify empty children. This a necesssary piece of information to retain in order to rebuild the tree later.</p>
+</li>
+<li>
+<p><code>encode</code> returns a <code>String</code> representation of the <code>BinaryNode</code>. For example: "ba,nana,nil" represents a tree with two nodes - "ba" and "nana" - in pre-order format.</p>
+</li>
+</ol>
+<h2>Decoding</h2>
+<p>Your decoding strategy is the exact opposite of your encoding strategy. You'll take an encoded string, and turn it back into your binary tree.</p>
+<p>Your encoding strategy followed the following rules:</p>
+<ol>
+<li>The result of the encoding will be a <code>String</code> object.</li>
+<li>You'll encode using <em>pre-order</em> traversal.</li>
+</ol>
+<p>The implementation also added a few important details:</p>
+<ul>
+<li>node values are separated by <code>,</code></li>
+<li><code>nil</code> children are denoted by the <code>nil</code> string</li>
+</ul>
+<p>These details will shape your <code>decode</code> operation. Here's a possible implementation:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">class</span> <span class="pl-en">BinaryNodeCoder</span> {
+
+  <span class="pl-c"><span class="pl-c">//</span> ...</span>
+<span class="pl-c"></span>  
+  <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>  <span class="pl-k">func</span> <span class="pl-en">decode</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">string</span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> BinaryNode&lt;T&gt;<span class="pl-k">?</span> {
+    <span class="pl-k">let</span> components <span class="pl-k">=</span> encoded.<span class="pl-c1">lazy</span>.<span class="pl-c1">split</span>(<span class="pl-c1">separator</span>: separator).<span class="pl-c1">reversed</span>().<span class="pl-c1">map</span>(<span class="pl-c1">String</span>.<span class="pl-k">init</span>)
+    <span class="pl-k">return</span> <span class="pl-c1">decode</span>(<span class="pl-c1">from</span>: components)
+  }
+  
+  <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">decode</span>(<span class="pl-en">from</span> <span class="pl-smi">array</span>: <span class="pl-k">inout</span> [<span class="pl-c1">String</span>]) <span class="pl-k">-&gt;</span> BinaryNode&lt;<span class="pl-c1">String</span>&gt;<span class="pl-k">?</span> {
+    <span class="pl-k">guard</span> <span class="pl-k">!</span>array.<span class="pl-c1">isEmpty</span> <span class="pl-k">else</span> { <span class="pl-k">return</span> <span class="pl-c1">nil</span> }
+    <span class="pl-k">let</span> value <span class="pl-k">=</span> array.<span class="pl-c1">removeLast</span>()
+    <span class="pl-k">guard</span> value <span class="pl-k">!=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">nilNode</span><span class="pl-pse"><span class="pl-s1">)</span></span><span class="pl-pds">"</span></span> <span class="pl-k">else</span> { <span class="pl-k">return</span> <span class="pl-c1">nil</span> }
+    
+    <span class="pl-k">let</span> node <span class="pl-k">=</span> AVLNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: value)
+    node.<span class="pl-smi">leftChild</span> <span class="pl-k">=</span> <span class="pl-c1">decode</span>(<span class="pl-c1">from</span>: <span class="pl-k">&amp;</span>array)
+    node.<span class="pl-smi">rightChild</span> <span class="pl-k">=</span> <span class="pl-c1">decode</span>(<span class="pl-c1">from</span>: <span class="pl-k">&amp;</span>array)
+    <span class="pl-k">return</span> node
+  }
+}</pre></div>
+<p>Here's a high level overview of the above code:</p>
+<ol>
+<li>
+<p>Takes a <code>String</code>, and uses <code>split</code> to partition the contents of <code>string</code> into an array based on the <code>separator</code> defined in the encoding step. The result is first <code>reversed</code>, and then mapped to a <code>String</code>. The <code>reverse</code> step is an optimization for the next function, allowing us to use <code>array.removeLast()</code> instead of <code>array.removeFirst()</code>.</p>
+</li>
+<li>
+<p>Using an array as a stack, you recursively decode each node. The array keeps track of sequence of nodes and progress.</p>
+</li>
+</ol>
+<p>Here's an example output of a tree undergoing the encoding and decoding process:</p>
+<pre><code>Original Tree
+
+  ┌──8423
+ ┌──8391
+ │ └──nil
+┌──7838
+│ │ ┌──4936
+│ └──3924
+│  └──2506
+830
+│ ┌──701
+└──202
+ └──169
+
+Encoded tree: 830,202,169,X,X,701,X,X,7838,3924,2506,X,X,4936,X,X,8391,X,8423,X,X,
+
+Decoded tree
+
+  ┌──8423
+ ┌──8391
+ │ └──nil
+┌──7838
+│ │ ┌──4936
+│ └──3924
+│  └──2506
+830
+│ ┌──701
+└──202
+ └──169
+</code></pre>
+<p>Notice the original tree and decoded tree are identical.</p>
+<h2>Further Reading &amp; References</h2>
+<ul>
+<li><a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/description/" rel="nofollow">LeetCode</a></li>
+</ul>
+<p><em>Written for the Swift Algorithm Club by Kai Chen &amp; Kelvin Lau</em></p></div>
+</body>
+</html>

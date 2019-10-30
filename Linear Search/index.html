@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+  <title>Linear Search</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Linear Search</h1>
+<p>Goal: Find a particular value in an array.</p>
+<p>We have an array of generic objects. With linear search, we iterate over all the objects in the array and compare each one to the object we're looking for. If the two objects are equal, we stop and return the current array index. If not, we continue to look for the next object as long as we have objects in the array.</p>
+<h2>An example</h2>
+<p>Let's say we have an array of numbers <code>[5, 2, 4, 7]</code> and we want to check if the array contains the number <code>2</code>.</p>
+<p>We start by comparing the first number in the array, <code>5</code>, to the number we're looking for, <code>2</code>. They are obviously not the same, and so we continue to the next array element.</p>
+<p>We compare the number <code>2</code> from the array to our number <code>2</code> and notice they are equal. Now we can stop our iteration and return 1, which is the index of the number <code>2</code> in the array.</p>
+<h2>The code</h2>
+<p>Here is a simple implementation of linear search in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">linearSearch</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Equatable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">array</span>: [T], <span class="pl-en">_</span> <span class="pl-smi">object</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span><span class="pl-k">?</span> {
+  <span class="pl-k">for</span> (index, obj) <span class="pl-k">in</span> array.<span class="pl-c1">enumerated</span>() <span class="pl-k">where</span> obj <span class="pl-k">==</span> object {
+    <span class="pl-k">return</span> index
+  }
+  <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+}</pre></div>
+<p>Put this code in a playground and test it like so:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> array <span class="pl-k">=</span> [<span class="pl-c1">5</span>, <span class="pl-c1">2</span>, <span class="pl-c1">4</span>, <span class="pl-c1">7</span>]
+<span class="pl-c1">linearSearch</span>(array, <span class="pl-c1">2</span>) 	<span class="pl-c"><span class="pl-c">//</span> This will return 1</span></pre></div>
+<h2>Performance</h2>
+<p>Linear search runs at <strong>O(n)</strong>. It compares the object we are looking for with each object in the array and so the time it takes is proportional to the array length. In the worst case, we need to look at all the elements in the array.</p>
+<p>The best-case performance is <strong>O(1)</strong> but this case is rare because the object we're looking for has to be positioned at the start of the array to be immediately found. You might get lucky, but most of the time you won't. On average, linear search needs to look at half the objects in the array.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Linear_search" rel="nofollow">Linear search on Wikipedia</a></p>
+<p><em>Written by <a href="http://www.github.com/BalestraPatrick">Patrick Balestra</a></em></p></div>
+</body>
+</html>

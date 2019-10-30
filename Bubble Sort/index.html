@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<head>
+  <title>Bubble Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Bubble Sort</h1>
+<p>Bubble sort is a sorting algorithm that is implemented by starting in the beginning of the array and swapping the first two elements only if the first element is greater than the second element. This comparison is then moved onto the next pair and so on and so forth. This is done until the array is completely sorted. The smaller items slowly “bubble” up to the beginning of the array. Sometimes this algorithm is refered as Sinking sort, due to the larger, or heavier elements sinking to the end of the array.</p>
+<h5>Runtime:</h5>
+<ul>
+<li>Average: O(N^2)</li>
+<li>Worst: O(N^2)</li>
+</ul>
+<h5>Memory:</h5>
+<ul>
+<li>O(1)</li>
+</ul>
+<h3>Implementation:</h3>
+<p>The implementation will not be shown as the average and worst runtimes show that this is a very inefficient algorithm. However, having a grasp of the concept will help you understand the basics of simple sorting algorithms.</p>
+<p>Bubble sort is a very simple sorting algorithm, it consists in comparing pairs of adjacent elements in the array, if the first element is larger, swap them, otherwise, you do nothing and go for the next comparison.<br>
+This is accomplished by looking through the array <code>n</code> times, <code>n</code> being the amount of elements in the array.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/4e8a95d4d21c217332eb200220a33aa883a1e163/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636f6465636164656d792d636f6e74656e742f70726f6772616d732f7464642d6a732f61727469636c65732f427562626c65536f72742e676966"><img src="https://camo.githubusercontent.com/4e8a95d4d21c217332eb200220a33aa883a1e163/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636f6465636164656d792d636f6e74656e742f70726f6772616d732f7464642d6a732f61727469636c65732f427562626c65536f72742e676966" alt="animated gif of the bubble sort algorithm" data-canonical-src="https://s3.amazonaws.com/codecademy-content/programs/tdd-js/articles/BubbleSort.gif" style="max-width:100%;"></a></p>
+<p>This GIF shows a inverted implementation than</p>
+<h4>Example</h4>
+<p>Let us take the array <code>[5, 1, 4, 2, 8]</code>, and sort the array from lowest number to greatest number using bubble sort. In each step, elements written in bold are being compared. Three passes will be required.</p>
+<h5>First Pass</h5>
+<p>[ <strong>5 1</strong> 4 2 8 ] -&gt; [ <strong>1 5</strong> 4 2 8 ], Here, algorithm compares the first two elements, and swaps since 5 &gt; 1.</p>
+<p>[ 1 <strong>5 4</strong> 2 8 ] -&gt; [ 1 <strong>4 5</strong> 2 8 ], Swap since 5 &gt; 4</p>
+<p>[ 1 4 <strong>5 2</strong> 8 ] -&gt; [ 1 4 <strong>2 5</strong> 8 ], Swap since 5 &gt; 2</p>
+<p>[ 1 4 2 <strong>5 8</strong> ] -&gt; [ 1 4 2 <strong>5 8</strong> ], Now, since these elements are already in order (8 &gt; 5), algorithm does not swap them.</p>
+<h5>Second Pass</h5>
+<p>[ <strong>1 4</strong> 2 5 8 ] -&gt; [ <strong>1 4</strong> 2 5 8 ]</p>
+<p>[ 1 <strong>4 2</strong> 5 8 ] -&gt; [ 1 <strong>2 4</strong> 5 8 ], Swap since 4 &gt; 2</p>
+<p>[ 1 2 <strong>4 5</strong> 8 ] -&gt; [ 1 2 <strong>4 5</strong> 8 ]</p>
+<p>[ 1 2 4 <strong>5 8</strong> ] -&gt; [ 1 2 4 <strong>5 8</strong> ]<br>
+Now, the array is already sorted, but the algorithm does not know if it is completed. The algorithm needs one whole pass without any swap to know it is sorted.</p>
+<h5>Third Pass</h5>
+<p>[ <strong>1 2</strong> 4 5 8 ] -&gt; [ <strong>1 2</strong> 4 5 8 ]</p>
+<p>[ 1 <strong>2 4</strong> 5 8 ] -&gt; [ 1 <strong>2 4</strong> 5 8 ]</p>
+<p>[ 1 2 <strong>4 5</strong> 8 ] -&gt; [ 1 2 <strong>4 5</strong> 8 ]</p>
+<p>[ 1 2 4 <strong>5 8</strong> ] -&gt; [ 1 2 4 <strong>5 8</strong> ]</p>
+<p>This is the same for the forth and fifth passes.</p>
+<h4>Code</h4>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>array.<span class="pl-c1">count</span> {
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">..&lt;</span>array.<span class="pl-c1">count</span> {
+    <span class="pl-k">if</span> array[j] <span class="pl-k">&lt;</span> array[j<span class="pl-k">-</span><span class="pl-c1">1</span>] {
+      <span class="pl-k">let</span> tmp <span class="pl-k">=</span> array[j<span class="pl-k">-</span><span class="pl-c1">1</span>]
+      array[j<span class="pl-k">-</span><span class="pl-c1">1</span>] <span class="pl-k">=</span> array[j]
+      array[j] <span class="pl-k">=</span> tmp
+    }
+  }
+}
+<span class="pl-k">return</span> array</pre></div>
+<h4>Optimization</h4>
+<p>The bubble sort algorithm can be easily optimized by observing that the <code>n-th</code> pass finds the <code>n-th</code> largest element and puts it into its final place. So, the inner loop can avoid looking at the last <code>n-1</code> items when running for the <code>n-th</code> time:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>array.<span class="pl-c1">count</span> {
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">..&lt;</span>array.<span class="pl-c1">count</span> <span class="pl-k">-</span> i {
+    <span class="pl-k">if</span> array[j] <span class="pl-k">&lt;</span> array[j<span class="pl-k">-</span><span class="pl-c1">1</span>] {
+      <span class="pl-k">let</span> tmp <span class="pl-k">=</span> array[j<span class="pl-k">-</span><span class="pl-c1">1</span>]
+      array[j<span class="pl-k">-</span><span class="pl-c1">1</span>] <span class="pl-k">=</span> array[j]
+      array[j] <span class="pl-k">=</span> tmp
+    }
+  }
+}
+<span class="pl-k">return</span> array</pre></div>
+<p>The only change made was on the second line, changing the interval from <code>1..&lt;array.count</code> to <code>1..&lt;array.count - i</code>, effectively cutting the number of comparisons by half.</p>
+<p>The ordering with the optimized code would look something like this for the array  <code>[5, 1, 4, 2, 8]</code>:</p>
+<h5>First Pass</h5>
+<p>[ <strong>5 1</strong> 4 2 8 ] -&gt; [ <strong>1 5</strong> 4 2 8 ], Swaps since 5 &gt; 1</p>
+<p>[ 1 <strong>5 4</strong> 2 8 ] -&gt; [ 1 <strong>4 5</strong> 2 8 ], Swap since 5 &gt; 4</p>
+<p>[ 1 4 <strong>5 2</strong> 8 ] -&gt; [ 1 4 <strong>2 5</strong> 8 ], Swap since 5 &gt; 2</p>
+<p>[ 1 4 2 <strong>5 8</strong> ] -&gt; [ 1 4 2 <strong>5 8</strong> ], Now, since these elements are already in order (8 &gt; 5), algorithm does not swap them.</p>
+<p><em>by the end of the first pass, the last element is guaranteed to be the largest</em></p>
+<h5>Second Pass</h5>
+<p>[ <strong>1 4</strong> 2 5 8 ] -&gt; [ <strong>1 4</strong> 2 5 8 ]</p>
+<p>[ 1 <strong>4 2</strong> 5 8 ] -&gt; [ 1 <strong>2 4</strong> 5 8 ], Swap since 4 &gt; 2</p>
+<p>[ 1 2 <strong>4 5</strong> 8 ] -&gt; [ 1 2 <strong>4 5</strong> 8 ], As the first loop has occured once, the inner loop stops here, not comparing 5 with 8</p>
+<h5>Third Pass</h5>
+<p>[ <strong>1 2</strong> 4 5 8 ] -&gt; [ <strong>1 2</strong> 4 5 8 ]</p>
+<p>[ 1 <strong>2 4</strong> 5 8 ] -&gt; [ 1 <strong>2 4</strong> 5 8 ] again, stoping one comparison short</p>
+<h5>Fourth Pass</h5>
+<p>[ <strong>1 2</strong> 4 5 8 ] -&gt; [ <strong>1 2</strong> 4 5 8 ]</p>
+<p>There is no Fifth pass</p>
+<h4>Conclusion</h4>
+<p>Even with the proposed optimizations, this is still a terribly inefficient sorting algorithm. A good alternative is <a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Merge%20Sort">Merge Sort</a>, that not only is better performing, has a similar degree of dificulty to implement.</p>
+<p><em>Updated for the Swift Algorithm Club by Julio Brazil</em></p>
+<h5>Supporting Links</h5>
+<p><a href="https://codepumpkin.com/bubble-sort/" rel="nofollow">Code Pumpkin</a><br>
+<a href="https://en.wikipedia.org/wiki/Bubble_sort" rel="nofollow">Wikipedia</a><br>
+<a href="https://www.geeksforgeeks.org/bubble-sort/" rel="nofollow">GeeksforGeeks</a></p></div>
+</body>
+</html>

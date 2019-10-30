@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<head>
+  <title>Bounded Priority Queue</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Bounded Priority queue</h1>
+<p>A bounded priority queue is similar to a regular <a href="../Priority%20Queue/">priority queue</a>, except that there is a fixed upper bound on the number of elements that can be stored. When a new element is added to the queue while the queue is at capacity, the element with the highest priority value is ejected from the queue.</p>
+<h2>Example</h2>
+<p>Suppose we have a bounded-priority-queue with maximum size 5 that has the following values and priorities:</p>
+<pre><code>Value:    [ A,   B,   C,    D,    E   ]
+Priority: [ 4.6, 3.2, 1.33, 0.25, 0.1 ]
+</code></pre>
+<p>Here, we consider the object with the highest priority value to be the most important (so this is a <em>max-priority</em> queue). The larger the priority value, the more we care about the object. So <code>A</code> is more important than <code>B</code>, <code>B</code> is more important than <code>C</code>, and so on.</p>
+<p>Now we want to insert the element <code>F</code> with priority <code>0.4</code> into this bounded priority queue. Because the queue has maximum size 5, this will insert the element <code>F</code> but then evict the lowest-priority element (<code>E</code>), yielding the updated queue:</p>
+<pre><code>Value:    [ A,   B,   C,    F,   D    ]
+Priority: [ 4.6, 3.2, 1.33, 0.4, 0.25 ]
+</code></pre>
+<p><code>F</code> is inserted between <code>C</code> and <code>D</code> because of its priority value. It's less important than <code>C</code> but more important than <code>D</code>.</p>
+<p>Suppose that we wish to insert the element <code>G</code> with priority 0.1 into this BPQ. Because <code>G</code>'s priority value is less than the minimum-priority element in the queue, upon inserting <code>G</code> it will immediately be evicted. In other words, inserting an element into a BPQ with priority less than the minimum-priority element of the BPQ has no effect.</p>
+<h2>Implementation</h2>
+<p>While a <a href="../Heap/">heap</a> may be a really simple implementation for a priority queue, a sorted <a href="../Linked%20List/">linked list</a> allows for <strong>O(k)</strong> insertion and <strong>O(1)</strong> deletion, where <strong>k</strong> is the bounding number of elements.</p>
+<p>Here's how you could implement it in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">BoundedPriorityQueue</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt; {
+  <span class="pl-k">private</span> <span class="pl-k">typealias</span> <span class="pl-en">Node</span> <span class="pl-k">=</span> LinkedListNode&lt;T&gt;
+
+  <span class="pl-k">private</span>(<span class="pl-k">set</span>) <span class="pl-k">public</span> <span class="pl-k">var</span> count <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> head<span class="pl-k">:</span> Node<span class="pl-k">?</span>
+  <span class="pl-k">private</span> <span class="pl-k">var</span> tail<span class="pl-k">:</span> Node<span class="pl-k">?</span>
+  <span class="pl-k">private</span> <span class="pl-k">var</span> maxElements<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">maxElements</span></span>: <span class="pl-c1">Int</span>) {
+    <span class="pl-c1">self</span>.<span class="pl-smi">maxElements</span> <span class="pl-k">=</span> maxElements
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> count <span class="pl-k">==</span> <span class="pl-c1">0</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">peek</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> head<span class="pl-k">?</span>.<span class="pl-c1">value</span>
+  }</pre></div>
+<p>The <code>BoundedPriorityQueue</code> class contains a doubly linked list of <code>LinkedListNode</code> objects. Nothing special here yet. The fun stuff happens in the <code>enqueue()</code> method:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">enqueue</span>(<span class="pl-en">_</span> <span class="pl-smi">value</span>: T) {
+  <span class="pl-k">if</span> <span class="pl-k">let</span> node <span class="pl-k">=</span> <span class="pl-c1">insert</span>(value, <span class="pl-c1">after</span>: <span class="pl-c1">findInsertionPoint</span>(value)) {
+    <span class="pl-c"><span class="pl-c">//</span> If the newly inserted node is the last one in the list, then update</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> the tail pointer.</span>
+<span class="pl-c"></span>    <span class="pl-k">if</span> node.<span class="pl-smi">next</span> <span class="pl-k">==</span> <span class="pl-c1">nil</span> {
+      tail <span class="pl-k">=</span> node
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> If the queue is full, then remove an element from the back.</span>
+<span class="pl-c"></span>    count <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    <span class="pl-k">if</span> count <span class="pl-k">&gt;</span> maxElements {
+      <span class="pl-c1">removeLeastImportantElement</span>()
+    }
+  }
+}
+
+<span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-en">_</span> <span class="pl-smi">value</span>: T, <span class="pl-smi"><span class="pl-en">after</span></span>: Node<span class="pl-k">?</span>) <span class="pl-k">-&gt;</span> Node<span class="pl-k">?</span> {
+  <span class="pl-k">if</span> <span class="pl-k">let</span> previous <span class="pl-k">=</span> after {
+
+    <span class="pl-c"><span class="pl-c">//</span> If the queue is full and we have to insert at the end of the list,</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> then there's no reason to insert the new value.</span>
+<span class="pl-c"></span>    <span class="pl-k">if</span> count <span class="pl-k">==</span> maxElements <span class="pl-k">&amp;&amp;</span> previous.<span class="pl-smi">next</span> <span class="pl-k">==</span> <span class="pl-c1">nil</span> {
+      <span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Queue is full and priority of new object is too small<span class="pl-pds">"</span></span>)
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> Put the new node in between previous and previous.next (if exists).</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> node <span class="pl-k">=</span> <span class="pl-c1">Node</span>(<span class="pl-c1">value</span>: value)
+    node.<span class="pl-smi">next</span> <span class="pl-k">=</span> previous.<span class="pl-smi">next</span>
+    previous.<span class="pl-smi">next</span><span class="pl-k">?</span>.<span class="pl-smi">previous</span> <span class="pl-k">=</span> node
+    previous.<span class="pl-smi">next</span> <span class="pl-k">=</span> node
+    node.<span class="pl-smi">previous</span> <span class="pl-k">=</span> previous
+    <span class="pl-k">return</span> node
+
+  } <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-k">let</span> first <span class="pl-k">=</span> head {
+    <span class="pl-c"><span class="pl-c">//</span> Have to insert at the head, so shift the existing head up once place.</span>
+<span class="pl-c"></span>    head <span class="pl-k">=</span> <span class="pl-c1">Node</span>(<span class="pl-c1">value</span>: value)
+    head<span class="pl-k">!</span>.<span class="pl-smi">next</span> <span class="pl-k">=</span> first
+    first.<span class="pl-smi">previous</span> <span class="pl-k">=</span> head
+    <span class="pl-k">return</span> head
+
+  } <span class="pl-k">else</span> {
+    <span class="pl-c"><span class="pl-c">//</span> This is the very first item in the queue.</span>
+<span class="pl-c"></span>    head <span class="pl-k">=</span> <span class="pl-c1">Node</span>(<span class="pl-c1">value</span>: value)
+    <span class="pl-k">return</span> head
+  }
+}
+
+<span class="pl-c"><span class="pl-c">/*</span> Find the node after which to insert the new value. If this returns nil,</span>
+<span class="pl-c">   the new value should be inserted at the head of the list. <span class="pl-c">*/</span></span>
+<span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">findInsertionPoint</span>(<span class="pl-en">_</span> <span class="pl-smi">value</span>: T) <span class="pl-k">-&gt;</span> Node<span class="pl-k">?</span> {
+  <span class="pl-k">var</span> node <span class="pl-k">=</span> head
+  <span class="pl-k">var</span> prev<span class="pl-k">:</span> Node<span class="pl-k">?</span> <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+
+  <span class="pl-k">while</span> <span class="pl-k">let</span> current <span class="pl-k">=</span> node <span class="pl-k">where</span> value <span class="pl-k">&lt;</span> current.<span class="pl-c1">value</span> {
+    prev <span class="pl-k">=</span> node
+    node <span class="pl-k">=</span> current.<span class="pl-smi">next</span>
+  }
+  <span class="pl-k">return</span> prev
+}
+
+<span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">removeLeastImportantElement</span>() {
+  <span class="pl-k">if</span> <span class="pl-k">let</span> last <span class="pl-k">=</span> tail {
+    tail <span class="pl-k">=</span> last.<span class="pl-smi">previous</span>
+    tail<span class="pl-k">?</span>.<span class="pl-smi">next</span> <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    count <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> Note: Instead of using a tail pointer, we could just scan from the new</span>
+<span class="pl-c"></span>  <span class="pl-c"><span class="pl-c">//</span> node until the end. Then nodes also don't need a previous pointer. But</span>
+<span class="pl-c"></span>  <span class="pl-c"><span class="pl-c">//</span> this is much slower on large lists.</span>
+<span class="pl-c"></span>}</pre></div>
+<p>We first check if the queue already has the maximum number of elements. If so, and the new priority value is less than the <code>tail</code> element's priority value, then there is no room for this new element and we return without inserting it.</p>
+<p>If the new value is acceptable, then we search through the list to find the proper insertion location and update the <code>next</code> and <code>previous</code> pointers.</p>
+<p>Lastly, if the queue has now reached the maximum number of elements, then we <code>dequeue()</code> the one with the largest priority value.</p>
+<p>By keeping the most important element at the front of the list, it makes dequeueing very easy:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">dequeue</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+  <span class="pl-k">if</span> <span class="pl-k">let</span> first <span class="pl-k">=</span> head {
+    count <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+    <span class="pl-k">if</span> count <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+      head <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+      tail <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    } <span class="pl-k">else</span> {
+      head <span class="pl-k">=</span> first.<span class="pl-smi">next</span>
+      head<span class="pl-k">!</span>.<span class="pl-smi">previous</span> <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    }
+    <span class="pl-k">return</span> first.<span class="pl-c1">value</span>
+  } <span class="pl-k">else</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }
+}</pre></div>
+<p>This simply removes the <code>head</code> element from the list and returns it.</p>
+<p><em>Written for Swift Algorithm Club by John Gill and Matthijs Hollemans</em></p></div>
+</body>
+</html>

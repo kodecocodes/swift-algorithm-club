@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<head>
+  <title>Minimum Spanning Tree</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Minimum Spanning Tree (Weighted Graph)</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/169392/swift-algorithm-club-minimum-spanning-tree-with-prims-algorithm" rel="nofollow">here</a></p>
+</blockquote>
+<p>A <a href="https://en.wikipedia.org/wiki/Minimum_spanning_tree" rel="nofollow">minimum spanning tree</a> (MST) of a connected undirected weighted graph has a subset of the edges from the original graph that connects all the vertices together, without any cycles and with the minimum possible total edge weight. There can be more than one MSTs of a graph.</p>
+<p>There are two popular algorithms to calculate MST of a graph - <a href="https://en.wikipedia.org/wiki/Kruskal's_algorithm" rel="nofollow">Kruskal's algorithm</a> and <a href="https://en.wikipedia.org/wiki/Prim's_algorithm" rel="nofollow">Prim's algorithm</a>. Both algorithms have a total time complexity of <code>O(ElogE)</code> where <code>E</code> is the number of edges from the original graph.</p>
+<h3>Kruskal's Algorithm</h3>
+<p>Sort the edges base on weight. Greedily select the smallest one each time and add into the MST as long as it doesn't form a cycle.<br>
+Kruskal's algoritm uses <a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Union-Find">Union Find</a> data structure to check whether any additional edge causes a cycle. The logic is to put all connected vertices into the same set (in Union Find's concept). If the two vertices from a new edge do not belong to the same set, then it's safe to add that edge into the MST.</p>
+<p>The following graph demonstrates the steps:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/kruskal.png"><img src="Images/kruskal.png" alt="Graph" style="max-width:100%;"></a></p>
+<p>Preparation</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> Initialize the values to be returned and Union Find data structure.</span>
+<span class="pl-c"></span><span class="pl-k">var</span> cost<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+<span class="pl-k">var</span> tree <span class="pl-k">=</span> Graph<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>()
+<span class="pl-k">var</span> unionFind <span class="pl-k">=</span> UnionFind<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>()
+<span class="pl-k">for</span> vertex <span class="pl-k">in</span> graph.<span class="pl-smi">vertices</span> {
+
+<span class="pl-c"><span class="pl-c">//</span> Initially all vertices are disconnected.</span>
+<span class="pl-c"><span class="pl-c">//</span> Each of them belongs to it's individual set.</span>
+<span class="pl-c"></span>  unionFind.<span class="pl-c1">addSetWith</span>(vertex)
+}</pre></div>
+<p>Sort the edges</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> sortedEdgeListByWeight <span class="pl-k">=</span> graph.<span class="pl-smi">edgeList</span>.<span class="pl-c1">sorted</span>(<span class="pl-c1">by</span>: { <span class="pl-c1">$0</span>.<span class="pl-smi">weight</span> <span class="pl-k">&lt;</span> <span class="pl-c1">$1</span>.<span class="pl-smi">weight</span> })</pre></div>
+<p>Take one edge at a time and try to insert it into the MST.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> edge <span class="pl-k">in</span> sortedEdgeListByWeight {
+  <span class="pl-k">let</span> v1 <span class="pl-k">=</span> edge.<span class="pl-smi">vertex1</span>
+  <span class="pl-k">let</span> v2 <span class="pl-k">=</span> edge.<span class="pl-smi">vertex2</span> 
+  
+  <span class="pl-c"><span class="pl-c">//</span> Same set means the two vertices of this edge were already connected in the MST.</span>
+<span class="pl-c"></span>  <span class="pl-c"><span class="pl-c">//</span> Adding this one will cause a cycle.</span>
+<span class="pl-c"></span>  <span class="pl-k">if</span> <span class="pl-k">!</span>unionFind.<span class="pl-c1">inSameSet</span>(v1, <span class="pl-c1">and</span>: v2) {
+    <span class="pl-c"><span class="pl-c">//</span> Add the edge into the MST and update the final cost.</span>
+<span class="pl-c"></span>    cost <span class="pl-k">+=</span> edge.<span class="pl-smi">weight</span>
+    tree.<span class="pl-c1">addEdge</span>(edge)
+    
+    <span class="pl-c"><span class="pl-c">//</span> Put the two vertices into the same set.</span>
+<span class="pl-c"></span>    unionFind.<span class="pl-c1">unionSetsContaining</span>(v1, <span class="pl-c1">and</span>: v2)
+  }
+}</pre></div>
+<h3>Prim's Algorithm</h3>
+<p>Prim's algorithm doesn't pre-sort all edges. Instead, it uses a <a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Priority%20Queue">Priority Queue</a> to maintain a running sorted next-possile vertices.<br>
+Starting from one vertex, loop through all unvisited neighbours and enqueue a pair of values for each neighbour - the vertex and the weight of edge connecting current vertex to the neighbour. Each time it greedily select the top of the priority queue (the one with least weight value) and add the edge into the final MST if the enqueued neighbour hasn't been already visited.</p>
+<p>The following graph demonstrates the steps:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/prim.png"><img src="Images/prim.png" alt="Graph" style="max-width:100%;"></a></p>
+<p>Preparation</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> Initialize the values to be returned and Priority Queue data structure.</span>
+<span class="pl-c"></span><span class="pl-k">var</span> cost<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+<span class="pl-k">var</span> tree <span class="pl-k">=</span> Graph<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>()
+<span class="pl-k">var</span> visited <span class="pl-k">=</span> <span class="pl-c1">Set</span><span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>()
+
+<span class="pl-c"><span class="pl-c">//</span> In addition to the (neighbour vertex, weight) pair, parent is added for the purpose of printing out the MST later.</span>
+<span class="pl-c"><span class="pl-c">//</span> parent is basically current vertex. aka. the previous vertex before neigbour vertex gets visited.</span>
+<span class="pl-c"></span><span class="pl-k">var</span> priorityQueue <span class="pl-k">=</span> PriorityQueue<span class="pl-k">&lt;</span>(<span class="pl-c1">vertex</span>: T, <span class="pl-c1">weight</span>: <span class="pl-c1">Int</span>, <span class="pl-c1">parent</span>: T<span class="pl-k">?</span>)<span class="pl-k">&gt;</span>(<span class="pl-c1">sort</span>: { <span class="pl-c1">$0</span>.<span class="pl-smi">weight</span> <span class="pl-k">&lt;</span> <span class="pl-c1">$1</span>.<span class="pl-smi">weight</span> })</pre></div>
+<p>Start from any vertex</p>
+<div class="highlight highlight-source-swift"><pre>priorityQueue.<span class="pl-c1">enqueue</span>((<span class="pl-c1">vertex</span>: graph.<span class="pl-smi">vertices</span>.<span class="pl-c1">first</span><span class="pl-k">!</span>, <span class="pl-c1">weight</span>: <span class="pl-c1">0</span>, <span class="pl-c1">parent</span>: <span class="pl-c1">nil</span>))</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> Take from the top of the priority queue ensures getting the least weight edge.</span>
+<span class="pl-c"></span><span class="pl-k">while</span> <span class="pl-k">let</span> head <span class="pl-k">=</span> priorityQueue.<span class="pl-c1">dequeue</span>() {
+  <span class="pl-k">let</span> vertex <span class="pl-k">=</span> head.<span class="pl-smi">vertex</span>
+  <span class="pl-k">if</span> visited.<span class="pl-c1">contains</span>(vertex) {
+    <span class="pl-k">continue</span>
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> If the vertex hasn't been visited before, its edge (parent-vertex) is selected for MST.</span>
+<span class="pl-c"></span>  visited.<span class="pl-c1">insert</span>(vertex)
+  cost <span class="pl-k">+=</span> head.<span class="pl-smi">weight</span>
+  <span class="pl-k">if</span> <span class="pl-k">let</span> prev <span class="pl-k">=</span> head.<span class="pl-smi">parent</span> { <span class="pl-c"><span class="pl-c">//</span> The first vertex doesn't have a parent.</span>
+<span class="pl-c"></span>    tree.<span class="pl-c1">addEdge</span>(<span class="pl-c1">vertex1</span>: prev, <span class="pl-c1">vertex2</span>: vertex, <span class="pl-c1">weight</span>: head.<span class="pl-smi">weight</span>)
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> Add all unvisted neighbours into the priority queue.</span>
+<span class="pl-c"></span>  <span class="pl-k">if</span> <span class="pl-k">let</span> neighbours <span class="pl-k">=</span> graph.<span class="pl-smi">adjList</span>[vertex] {
+    <span class="pl-k">for</span> neighbour <span class="pl-k">in</span> neighbours {
+      <span class="pl-k">let</span> nextVertex <span class="pl-k">=</span> neighbour.<span class="pl-smi">vertex</span>
+      <span class="pl-k">if</span> <span class="pl-k">!</span>visited.<span class="pl-c1">contains</span>(nextVertex) {
+        priorityQueue.<span class="pl-c1">enqueue</span>((<span class="pl-c1">vertex</span>: nextVertex, <span class="pl-c1">weight</span>: neighbour.<span class="pl-smi">weight</span>, <span class="pl-c1">parent</span>: vertex))
+      }
+    }
+  }
+}</pre></div></div>
+</body>
+</html>

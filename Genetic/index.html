@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<head>
+  <title>Genetic</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Genetic Algorthim</h1>
+<h2>What is it?</h2>
+<p>A genetic algorithm (GA) is process inspired by natural selection to find high quality solutions. Most commonly used for optimization. GAs rely on the bio-inspired processes of natural selection, more specifically the process of selection (fitness), crossover and mutation. To understand more, let's walk through these processes in terms of biology:</p>
+<h3>Selection</h3>
+<blockquote>
+<p><strong>Selection</strong>, in biology, the preferential survival and reproduction or preferential elimination of individuals with certain genotypes (genetic compositions), by means of natural or artificial controlling factors.</p>
+</blockquote>
+<p>In other words, survival of the fittest. Organisms that survive in their environment tend to reproduce more. With GAs we generate a fitness model that will rank individuals and give them a better chance for reproduction.</p>
+<h3>Crossover</h3>
+<blockquote>
+<p><strong>Chromosomal crossover</strong> (or crossing over) is the exchange of genetic material between homologous chromosomes that results in recombinant chromosomes during sexual reproduction <a href="https://en.wikipedia.org/wiki/Chromosomal_crossover" rel="nofollow">Wikipedia</a></p>
+</blockquote>
+<p>Simply reproduction. A generation will be a mixed representation of the previous generation, with offspring taking DNA from both parents. GAs do this by randomly, but weightily, mating offspring to create new generations.</p>
+<h3>Mutation</h3>
+<blockquote>
+<p><strong>Mutation</strong>, an alteration in the genetic material (the genome) of a cell of a living organism or of a virus that is more or less permanent and that can be transmitted to the cell’s or the virus’s descendants. <a href="https://www.britannica.com/science/mutation-genetics" rel="nofollow">Britannica</a></p>
+</blockquote>
+<p>The randomization that allows for organisms to change over time. In GAs we build a randomization process that will mutate offspring in a population in order to introduce fitness variance.</p>
+<h3>Resources:</h3>
+<ul>
+<li><a href="https://www.amazon.com/Genetic-Algorithms-Optimization-Machine-Learning/dp/0201157675/ref=sr_1_sc_1?ie=UTF8&amp;qid=1520628364&amp;sr=8-1-spell&amp;keywords=Genetic+Algortithms+in+search" rel="nofollow">Genetic Algorithms in Search Optimization, and Machine Learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Genetic_algorithm" rel="nofollow">Wikipedia</a></li>
+<li><a href="https://gist.github.com/blainerothrock/efda6e12fe10792c99c990f8ff3daeba">My Original Gist</a></li>
+</ul>
+<h2>The Code</h2>
+<h3>Problem</h3>
+<p>For this quick and dirty example, we are going to produce an optimized string using a simple genetic algorithm. More specifically we are trying to take a randomly generated origin string of a fixed length and evolve it into the most optimized string of our choosing.</p>
+<p>We will be creating a bio-inspired world where the absolute existence is the string <code>Hello, World!</code>. Nothing in this universe is better and it's our goal to get as close to it as possible to ensure survival.</p>
+<h3>Define the Universe</h3>
+<p>Before we dive into the core processes we need to set up our "universe". First let's define a lexicon, a set of everything that exists in our universe.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> lex<span class="pl-k">:</span> [<span class="pl-c1">UInt8</span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span> !<span class="pl-cce">\"</span>#$%&amp;<span class="pl-cce">\'</span>()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[<span class="pl-cce">\</span>]^_`abcdefghijklmnopqrstuvwxyz{|}~<span class="pl-pds">"</span></span>.<span class="pl-smi">asciiArray</span></pre></div>
+<p>To make things easier, we are actually going to work in <a href="https://en.wikipedia.org/wiki/List_of_Unicode_characters" rel="nofollow">Unicode values</a>, so let's define a String extension to help with that.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">String</span></span> {
+  <span class="pl-k">var</span> unicodeArray<span class="pl-k">:</span> [<span class="pl-c1">UInt8</span>] {
+    <span class="pl-k">return</span> [<span class="pl-c1">UInt8</span>](<span class="pl-c1">self</span>.<span class="pl-c1">utf8</span>)
+  }
+}</pre></div>
+<p>Now, let's define a few global variables for the universe:</p>
+<ul>
+<li><code>OPTIMAL</code>: This is the end goal and what we will be using to rate fitness. In the real world this will not exist</li>
+<li><code>DNA_SIZE</code>: The length of the string in our population. Organisms need to be similar</li>
+<li><code>POP_SIZE</code>: Size of each generation</li>
+<li><code>MAX_GENERATIONS</code>: Max number of generations, script will stop when it reach 5000 if the optimal value is not found</li>
+<li><code>MUTATION_CHANCE</code>: The chance in which a random nucleotide can mutate (<code>1/MUTATION_CHANCE</code>)</li>
+</ul>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> OPTIMAL<span class="pl-k">:</span>[<span class="pl-c1">UInt8</span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Hello, World<span class="pl-pds">"</span></span>.<span class="pl-smi">unicodeArray</span>
+<span class="pl-k">let</span> DNA_SIZE <span class="pl-k">=</span> OPTIMAL.<span class="pl-c1">count</span>
+<span class="pl-k">let</span> POP_SIZE <span class="pl-k">=</span> <span class="pl-c1">50</span>
+<span class="pl-k">let</span> GENERATIONS <span class="pl-k">=</span> <span class="pl-c1">5000</span>
+<span class="pl-k">let</span> MUTATION_CHANCE <span class="pl-k">=</span> <span class="pl-c1">100</span></pre></div>
+<h3>Population Zero</h3>
+<p>Before selecting, crossover and mutation, we need a population to start with. Now that we have the universe defined we can write that function:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">randomPopulation</span>(<span class="pl-en">from</span> <span class="pl-smi">lexicon</span>: [<span class="pl-c1">UInt8</span>], <span class="pl-smi"><span class="pl-en">populationSize</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">dnaSize</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> [[<span class="pl-c1">UInt8</span>]] {
+   <span class="pl-k">guard</span> lexicon.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> <span class="pl-k">else</span> { <span class="pl-k">return</span> [] }
+   <span class="pl-k">var</span> pop <span class="pl-k">=</span> [[<span class="pl-c1">UInt8</span>]]()
+
+   (<span class="pl-c1">0</span><span class="pl-k">..&lt;</span>populationSize).<span class="pl-c1">forEach</span> { <span class="pl-c1">_</span> <span class="pl-k">in</span>
+       <span class="pl-k">var</span> dna <span class="pl-k">=</span> [<span class="pl-c1">UInt8</span>]()
+       (<span class="pl-c1">0</span><span class="pl-k">..&lt;</span>dnaSize).<span class="pl-c1">forEach</span> { <span class="pl-c1">_</span> <span class="pl-k">in</span>
+           <span class="pl-k">let</span> char <span class="pl-k">=</span> lexicon.<span class="pl-c1">randomElement</span>()<span class="pl-k">!</span> <span class="pl-c"><span class="pl-c">//</span> guaranteed to be non-nil by initial guard statement</span>
+<span class="pl-c"></span>           dna.<span class="pl-c1">append</span>(char)
+       }
+       pop.<span class="pl-c1">append</span>(dna)
+   }
+   <span class="pl-k">return</span> pop
+}</pre></div>
+<h3>Selection</h3>
+<p>There are two parts to the selection process, the first is calculating the fitness, which will assign a rating to a individual. We do this by simply calculating how close the individual is to the optimal string using unicode values:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">calculateFitness</span>(<span class="pl-smi"><span class="pl-en">dna</span></span>: [<span class="pl-c1">UInt8</span>], <span class="pl-smi"><span class="pl-en">optimal</span></span>: [<span class="pl-c1">UInt8</span>]) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">guard</span> dna.<span class="pl-c1">count</span> <span class="pl-k">==</span> optimal.<span class="pl-c1">count</span> <span class="pl-k">else</span> { <span class="pl-k">return</span> <span class="pl-c1">-1</span> }
+    <span class="pl-k">var</span> fitness <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">for</span> index <span class="pl-k">in</span> dna.<span class="pl-c1">indices</span> {
+        fitness <span class="pl-k">+=</span> <span class="pl-c1">abs</span>(<span class="pl-c1">Int</span>(dna[index]) <span class="pl-k">-</span> <span class="pl-c1">Int</span>(optimal[index]))
+    }
+    <span class="pl-k">return</span> fitness
+}</pre></div>
+<p>The above will produce a fitness value to an individual. The perfect solution, "Hello, World" will have a fitness of 0. "Gello, World" will have a fitness of 1 since it is one unicode value off from the optimal (<code>H-&gt;G</code>).</p>
+<p>This example is very simple, but it'll work for our example. In a real world problem, the optimal solution is unknown or impossible. <a href="https://iccl.inf.tu-dresden.de/w/images/b/b7/GA_for_TSP.pdf" rel="nofollow">Here</a> is a paper about optimizing a solution for the famous <a href="https://en.wikipedia.org/wiki/Travelling_salesman_problem" rel="nofollow">traveling salesman problem</a> using a GA. In this example the problem is unsolvable by modern computers, but you can rate a individual solution by distance traveled. The optimal fitness here is an impossible 0. The closer the solution is to 0, the better chance for survival. In our example we will reach our goal, a fitness of 0.</p>
+<p>The second part to selection is weighted choice, also called roulette wheel selection. This defines how individuals are selected for the reproduction process out of the current population. Just because you are the best choice for natural selection doesn't mean the environment will select you. The individual could fall off a cliff, get dysentery or be unable to reproduce.</p>
+<p>Let's take a second and ask why on this one. Why would you not always want to select the most fit from a population? It's hard to see from this simple example, but let's think about dog breeding, because breeders remove this process and hand select dogs for the next generation. As a result you get improved desired characteristics, but the individuals will also continue to carry genetic disorders that come along with those traits. A certain "branch" of evolution may beat out the current fittest solution at a later time. This may be ok depending on the problem, but to keep this educational we will go with the bio-inspired way.</p>
+<p>With all that, here is our weight choice function:</p>
+<p>func weightedChoice(items: [(dna: [UInt8], weight: Double)]) -&gt; (dna: [UInt8], weight: Double) {</p>
+<pre><code>let total = items.reduce(0) { $0 + $1.weight }
+var n = Double.random(in: 0..&lt;(total * 1000000)) / 1000000.0
+
+for item in items {
+    if n &lt; item.weight {
+        return item
+    }
+    n = n - item.weight
+}
+return items[1]
+</code></pre>
+<p>}</p>
+<p>The above function takes a list of individuals with their calculated fitness. Then selects one at random offset by their fitness value. The horrible 1,000,000 multiplication and division is to insure precision by calculating decimals. <code>Double.random</code> only uses integers so this is required to convert to a precise Double, it's not perfect, but enough for our example.</p>
+<h2>Mutation</h2>
+<p>The all powerful mutation, the thing that introduces otherwise non existent fitness variance. It can either hurt of improve a individuals fitness but over time it will cause evolution towards more fit populations. Imagine if our initial random population was missing the charachter <code>H</code>, in that case we need to rely on mutation to introduce that character into the population in order to achieve the optimal solution.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">mutate</span>(<span class="pl-smi"><span class="pl-en">lexicon</span></span>: [<span class="pl-c1">UInt8</span>], <span class="pl-smi"><span class="pl-en">dna</span></span>: [<span class="pl-c1">UInt8</span>], <span class="pl-smi"><span class="pl-en">mutationChance</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> [<span class="pl-c1">UInt8</span>] {
+    <span class="pl-k">var</span> outputDna <span class="pl-k">=</span> dna
+    (<span class="pl-c1">0</span><span class="pl-k">..&lt;</span>dna.<span class="pl-c1">count</span>).<span class="pl-c1">forEach</span> { i <span class="pl-k">in</span>
+        <span class="pl-k">let</span> rand <span class="pl-k">=</span> <span class="pl-c1">Int</span>.<span class="pl-c1">random</span>(<span class="pl-c1">in</span>: <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>mutationChance)
+        <span class="pl-k">if</span> rand <span class="pl-k">==</span> <span class="pl-c1">1</span> {
+            outputDna[i] <span class="pl-k">=</span> lexicon.<span class="pl-c1">randomElement</span>()<span class="pl-k">!</span>
+        }
+    }
+    
+    <span class="pl-k">return</span> outputDna
+}</pre></div>
+<p>Takes a mutation chance and a individual and returns that individual with mutations, if any.</p>
+<p>This allows for a population to explore all the possibilities of it's building blocks and randomly stumble on a better solution. If there is too much mutation, the evolution process will get nowhere. If there is too little the populations will become too similar and never be able to branch out of a defect to meet their changing environment.</p>
+<h2>Crossover</h2>
+<p>Crossover, the sexy part of a GA, is how offspring are created from 2 selected individuals in the current population. This is done by splitting the parents into 2 parts, then combining 1 part from each parent to create the offspring. To promote diversity, we randomly select a index to split the parents.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">crossover</span>(<span class="pl-smi"><span class="pl-en">dna1</span></span>: [<span class="pl-c1">UInt8</span>], <span class="pl-smi"><span class="pl-en">dna2</span></span>: [<span class="pl-c1">UInt8</span>], <span class="pl-smi"><span class="pl-en">dnaSize</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> [<span class="pl-c1">UInt8</span>] {
+    <span class="pl-k">let</span> pos <span class="pl-k">=</span> <span class="pl-c1">Int</span>.<span class="pl-c1">random</span>(<span class="pl-c1">in</span>: <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>dnaSize)
+    
+    <span class="pl-k">let</span> dna1Index1 <span class="pl-k">=</span> dna1.<span class="pl-c1">index</span>(dna1.<span class="pl-c1">startIndex</span>, <span class="pl-c1">offsetBy</span>: pos)
+    <span class="pl-k">let</span> dna2Index1 <span class="pl-k">=</span> dna2.<span class="pl-c1">index</span>(dna2.<span class="pl-c1">startIndex</span>, <span class="pl-c1">offsetBy</span>: pos)
+    
+    <span class="pl-k">return</span> [<span class="pl-c1">UInt8</span>](dna1.<span class="pl-c1">prefix</span>(<span class="pl-c1">upTo</span>: dna1Index1) <span class="pl-k">+</span> dna2.<span class="pl-c1">suffix</span>(<span class="pl-c1">from</span>: dna2Index1))
+}</pre></div>
+<p>The above is used to generate a completely new generation based on the current generation.</p>
+<h2>Putting it all together -- Running the Genetic Algorithm</h2>
+<p>We now have all the functions we need to kick off the algorithm. Let's start from the beginning, first we need a random population to serve as a starting point. We will also initialize a fittest variable to hold the fittest individual, we will initialize it with the first individual of our random population.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> population<span class="pl-k">:</span>[[<span class="pl-c1">UInt8</span>]] <span class="pl-k">=</span> <span class="pl-c1">randomPopulation</span>(<span class="pl-c1">from</span>: lex, <span class="pl-c1">populationSize</span>: POP_SIZE, <span class="pl-c1">dnaSize</span>: DNA_SIZE)
+<span class="pl-k">var</span> fittest <span class="pl-k">=</span> population[<span class="pl-c1">0</span>]</pre></div>
+<p>Now for the meat, the remainder of the code will take place in the generation loop, running once for every generation:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> generation <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">...</span><span class="pl-smi">GENERATIONS</span> {
+  <span class="pl-c"><span class="pl-c">//</span> run</span>
+<span class="pl-c"></span>}</pre></div>
+<p>Now, for each individual in the population, we need to calculate its fitness and weighted value. Since 0 is the best value we will use <code>1/fitness</code> to represent the weight. Note this is not a percent, but just how much more likely the value is to be selected over others. If the highest number was the most fit, the weight calculation would be <code>fitness/totalFitness</code>, which would be a percent.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> weightedPopulation <span class="pl-k">=</span> [(<span class="pl-c1">dna</span>:[<span class="pl-c1">UInt8</span>], <span class="pl-c1">weight</span>:<span class="pl-c1">Double</span>)]()
+
+<span class="pl-k">for</span> individual <span class="pl-k">in</span> population {
+  <span class="pl-k">let</span> fitnessValue <span class="pl-k">=</span> <span class="pl-c1">calculateFitness</span>(<span class="pl-c1">dna</span>: individual, <span class="pl-c1">optimal</span>: OPTIMAL)
+  <span class="pl-k">let</span> pair <span class="pl-k">=</span> ( individual, fitnessValue <span class="pl-k">==</span> <span class="pl-c1">0</span> <span class="pl-k">?</span> <span class="pl-c1">1.0</span> <span class="pl-k">:</span> <span class="pl-c1">1.0</span><span class="pl-k">/</span><span class="pl-c1">Double</span>( fitnessValue ) )
+  weightedPopulation.<span class="pl-c1">append</span>(pair)
+}</pre></div>
+<p>From here we can start to build the next generation.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> nextGeneration <span class="pl-k">=</span> []</pre></div>
+<p>The below loop is where we pull everything together. We loop for <code>POP_SIZE</code>, selecting 2 individuals by weighted choice, crossover their values to produce a offspring, then finial subject the new individual to mutation. Once completed we have a completely new generation based on the last generation.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">0</span><span class="pl-k">...</span><span class="pl-smi">POP_SIZE</span>).<span class="pl-c1">forEach</span> { <span class="pl-c1">_</span> <span class="pl-k">in</span>
+    <span class="pl-k">let</span> ind1 <span class="pl-k">=</span> <span class="pl-c1">weightedChoice</span>(<span class="pl-c1">items</span>: weightedPopulation)
+    <span class="pl-k">let</span> ind2 <span class="pl-k">=</span> <span class="pl-c1">weightedChoice</span>(<span class="pl-c1">items</span>: weightedPopulation)
+
+    <span class="pl-k">let</span> offspring <span class="pl-k">=</span> <span class="pl-c1">crossover</span>(<span class="pl-c1">dna1</span>: ind1.<span class="pl-smi">dna</span>, <span class="pl-c1">dna2</span>: ind2.<span class="pl-smi">dna</span>, <span class="pl-c1">dnaSize</span>: DNA_SIZE)
+
+    <span class="pl-c"><span class="pl-c">//</span> append to the population and mutate</span>
+<span class="pl-c"></span>    nextGeneration.<span class="pl-c1">append</span>(<span class="pl-c1">mutate</span>(<span class="pl-c1">lexicon</span>: lex, <span class="pl-c1">dna</span>: offspring, <span class="pl-c1">mutationChance</span>: MUTATION_CHANCE))
+}</pre></div>
+<p>The final piece to the main loop is to select the fittest individual of a population:</p>
+<div class="highlight highlight-source-swift"><pre>fittest <span class="pl-k">=</span> population[<span class="pl-c1">0</span>]
+<span class="pl-k">var</span> minFitness <span class="pl-k">=</span> <span class="pl-c1">calculateFitness</span>(<span class="pl-c1">dna</span>: fittest, <span class="pl-c1">optimal</span>: OPTIMAL)
+
+population.<span class="pl-c1">forEach</span> { indv <span class="pl-k">in</span>
+    <span class="pl-k">let</span> indvFitness <span class="pl-k">=</span> <span class="pl-c1">calculateFitness</span>(<span class="pl-c1">dna</span>: indv, <span class="pl-c1">optimal</span>: OPTIMAL)
+    <span class="pl-k">if</span> indvFitness <span class="pl-k">&lt;</span> minFitness {
+        fittest <span class="pl-k">=</span> indv
+        minFitness <span class="pl-k">=</span> indvFitness
+    }
+}
+<span class="pl-k">if</span> minFitness <span class="pl-k">==</span> <span class="pl-c1">0</span> { <span class="pl-k">break</span>; }
+<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">generation</span><span class="pl-pse"><span class="pl-s1">)</span></span>: <span class="pl-pse">\(</span><span class="pl-s1"><span class="pl-c1">String</span>(<span class="pl-c1">bytes</span>: fittest, <span class="pl-c1">encoding</span>: .<span class="pl-c1">utf8</span>)<span class="pl-k">!</span></span><span class="pl-pse"><span class="pl-s1">)</span></span><span class="pl-pds">"</span></span>)</pre></div>
+<p>Since we know the fittest string, I've added a <code>break</code> to kill the program if we find it. At the end of a loop add a print statement for the fittest string:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>fittest string: <span class="pl-pse">\(</span><span class="pl-s1"><span class="pl-c1">String</span>(<span class="pl-c1">bytes</span>: fittest, <span class="pl-c1">encoding</span>: .<span class="pl-c1">utf8</span>)<span class="pl-k">!</span></span><span class="pl-pse"><span class="pl-s1">)</span></span><span class="pl-pds">"</span></span>)</pre></div>
+<p>Now we can run the program! Playgrounds are a nice place to develop, but are going to run this program <strong>very slow</strong>. I highly suggest running in Terminal: <code>swift gen.swift</code>. When running you should see something like this and it should not take too long to get <code>Hello, World</code>:</p>
+<pre lang="text"><code>0: RXclh F HDko
+1: DkyssjgElk];
+2: TiM4u) DrKvZ
+3: Dkysu) DrKvZ
+4: -kysu) DrKvZ
+5: Tlwsu) DrKvZ
+6: Tlwsu) Drd}k
+7: Tlwsu) Drd}k
+8: Tlwsu) Drd}k
+9: Tlwsu) Drd}k
+10: G^csu) |zd}k
+11: G^csu) |zdko
+12: G^csu) |zdko
+13: Dkysu) Drd}k
+14: G^wsu) `rd}k
+15: Dkysu) `rdko
+16: Dkysu) `rdko
+17: Glwsu) `rdko
+18: TXysu) `rdkc
+19: U^wsu) `rdko
+20: G^wsu) `rdko
+21: Glysu) `rdko
+22: G^ysu) `rdko
+23: G^ysu) `ryko
+24: G^wsu) `rdko
+25: G^wsu) `rdko
+26: G^wsu) `rdko
+...
+1408: Hello, Wormd
+1409: Hello, Wormd
+1410: Hello, Wormd
+1411: Hello, Wormd
+1412: Hello, Wormd
+1413: Hello, Wormd
+1414: Hello, Wormd
+1415: Hello, Wormd
+1416: Hello, Wormd
+1417: Hello, Wormd
+1418: Hello, Wormd
+1419: Hello, Wormd
+1420: Hello, Wormd
+1421: Hello, Wormd
+1422: Hello, Wormd
+1423: Hello, Wormd
+1424: Hello, Wormd
+1425: Hello, Wormd
+1426: Hello, Wormd
+1427: Hello, Wormd
+1428: Hello, Wormd
+1429: Hello, Wormd
+1430: Hello, Wormd
+1431: Hello, Wormd
+1432: Hello, Wormd
+1433: Hello, Wormd
+1434: Hello, Wormd
+1435: Hello, Wormd
+fittest string: Hello, World
+</code></pre>
+<p>How long it takes will vary since this is based on randomization, but it should almost always finish in under 5000 generations. Woo!</p>
+<h2>Now What?</h2>
+<p>We did it, we have a running simple genetic algorithm. Take some time a play around with the global variables, <code>POP_SIZE</code>, <code>OPTIMAL</code>, <code>MUTATION_CHANCE</code>, <code>GENERATIONS</code>. Just make sure to only add characters that are in the lexicon or update the lexicon.</p>
+<p>For an example let's try something much longer: <code>Ray Wenderlich's Swift Algorithm Club Rocks</code>. Plug that string into <code>OPTIMAL</code> and change <code>GENERATIONS</code> to <code>10000</code>. You'll be able to see that the we are getting somewhere, but you most likely will not reach the optimal string in 10,000 generations. Since we have a larger string let's raise our mutation chance to <code>200</code> (1/2 as likely to mutate). You may not get there, but you should get a lot closer than before. With a longer string, too much mutation can make it hard for fit strings to survive. Now try either upping <code>POP_SIZE</code> or increase <code>GENERATIONS</code>. Either way you should eventually get the value, but there will be a "sweet spot" for an string of a certain size.</p>
+<p>Please submit any kind of update to this tutorial or add more examples!</p></div>
+</body>
+</html>

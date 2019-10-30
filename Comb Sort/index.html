@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<head>
+  <title>Comb Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Comb Sort</h1>
+<p>A common issue for Bubble Sort is when small values are located near the end of an array.<br>
+This problem severely slows down Bubble Sort, as it must move the small value -- or <em>turtle</em> --<br>
+through nearly the entire array. Bubble Sort works by checking the current index of an array<br>
+against the next index, and when those two values are unsorted, they are swapped into place.<br>
+As a result, the values bubble into their rightful place within the array.</p>
+<p>Comb Sort improves upon Bubble Sort by dealing with these turtles near the end of the array.<br>
+The value of the current index of the array is compared against one a set distance away. This<br>
+removes a worst-case scenario of Bubble Sort, and greatly improves on the time complexity of Bubble Sort.</p>
+<h2>Example</h2>
+<p>A step-by-step example of how Comb Sort works, and differs from Bubble Sort, can be seen <a href="http://www.exforsys.com/tutorials/c-algorithms/comb-sort.html" rel="nofollow">here</a>.</p>
+<p>Here is a visual to see Comb Sort in effect:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/c97fdfcb358ae1ff1d3d4abaa7415bc165ced148/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f342f34362f436f6d625f736f72745f64656d6f2e676966"><img src="https://camo.githubusercontent.com/c97fdfcb358ae1ff1d3d4abaa7415bc165ced148/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f342f34362f436f6d625f736f72745f64656d6f2e676966" alt="" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/4/46/Comb_sort_demo.gif" style="max-width:100%;"></a></p>
+<h2>Algorithm</h2>
+<p>Similar to Bubble Sort, two values within an array are compared. When the lower index value<br>
+is larger than the higher index value, and thus out of place within the array, they are<br>
+swapped. Unlike Bubble Sort, the value being compared against is a set distance away. This<br>
+value -- the <em>gap</em> -- is slowly decreased through iterations.</p>
+<h2>The Code</h2>
+<p>Here is a Swift implementation of Comb Sort:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">combSort</span> (<span class="pl-smi"><span class="pl-en">input</span></span>: [<span class="pl-c1">Int</span>]) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] {
+    <span class="pl-k">var</span> copy<span class="pl-k">:</span> [<span class="pl-c1">Int</span>] <span class="pl-k">=</span> input
+    <span class="pl-k">var</span> gap <span class="pl-k">=</span> copy.<span class="pl-c1">count</span>
+    <span class="pl-k">let</span> shrink <span class="pl-k">=</span> <span class="pl-c1">1.3</span>
+
+    <span class="pl-k">while</span> gap <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> {
+        gap <span class="pl-k">=</span> (<span class="pl-c1">Int</span>)(<span class="pl-c1">Double</span>(gap) <span class="pl-k">/</span> shrink)
+        <span class="pl-k">if</span> gap <span class="pl-k">&lt;</span> <span class="pl-c1">1</span> {
+            gap <span class="pl-k">=</span> <span class="pl-c1">1</span>
+        }
+    
+        <span class="pl-k">var</span> index <span class="pl-k">=</span> <span class="pl-c1">0</span>
+        <span class="pl-k">while</span> <span class="pl-k">!</span>(index <span class="pl-k">+</span> gap <span class="pl-k">&gt;=</span> copy.<span class="pl-c1">count</span>) {
+            <span class="pl-k">if</span> copy[index] <span class="pl-k">&gt;</span> copy[index <span class="pl-k">+</span> gap] {
+                <span class="pl-c1">swap</span>(<span class="pl-k">&amp;</span>copy[index], <span class="pl-k">&amp;</span>copy[index <span class="pl-k">+</span> gap])
+            }
+            index <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+        }
+    }
+    <span class="pl-k">return</span> copy
+}</pre></div>
+<p>This code can be tested in a playground by calling this method with a paramaterized array to sort:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">combSort</span>(example_array_of_values)</pre></div>
+<p>This will sort the values of the array into ascending order -- increasing in value.</p>
+<h2>Performance</h2>
+<p>Comb Sort was created to improve upon the worst case time complexity of Bubble Sort. With Comb<br>
+Sort, the worst case scenario for performance is polynomial -- O(n^2). At best though, Comb Sort<br>
+performs at O(n logn) time complexity -- loglinear. This creates a drastic improvement over Bubble Sort's performance.</p>
+<p>Similar to Bubble Sort, the space complexity for Comb Sort is constant -- O(1).<br>
+This is extremely space efficient as it sorts the array in place.</p>
+<h2>Additional Resources</h2>
+<p><a href="https://en.wikipedia.org/wiki/Comb_sort" rel="nofollow">Comb Sort Wikipedia</a></p>
+<p><em>Written for the <em>Swift Algorithm Club</em> by <a href="https://github.com/srutstein21">Stephen Rutstein</a></em></p></div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+  <title>Closest Pair</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>ClosestPair</h1>
+<p>Closest Pair is an algorithm that finds the closest pair of a given array of points By utilizing the Divide and Conquer methodology of solving problems so that it reaches the correct solution with O(nlogn) complexity.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/1200px-Closest_pair_of_points.png"><img src="Images/1200px-Closest_pair_of_points.png" alt="Given points and we're required to find the two red ones" style="max-width:100%;"></a></p>
+<p>As we see in the above image there are an array of points and we need to find the closest two, But how do we do that without having to compare each two points which results in a whopping O(n^2) complexity?</p>
+<p>Here is the main algorithm (Steps) we'll follow.</p>
+<ul>
+<li>Sort the array according to their position on the X-axis so that they are sorted in the array as they are naturally in math.</li>
+</ul>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> innerPoints <span class="pl-k">=</span> <span class="pl-c1">mergeSort</span>(points, <span class="pl-c1">sortAccording</span> : <span class="pl-c1">true</span>)</pre></div>
+<ul>
+<li>
+<p>Divide the points into two arrays Left, Right and keep dividing until you reach to only having 3 points in your array.</p>
+</li>
+<li>
+<p>The base case is you have less than 3 points compare those against each other (Brute force) then return the minimum distance you found and the two points.</p>
+</li>
+<li>
+<p>Now we get the first observation in the below image, There could be 2 points both very close to each other and indeed those two are the closest pair but since our algorithm so far divides from the middle</p>
+</li>
+</ul>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> line<span class="pl-k">:</span><span class="pl-c1">Double</span> <span class="pl-k">=</span> (p[mid].<span class="pl-smi">x</span> <span class="pl-k">+</span> p[mid<span class="pl-k">+</span><span class="pl-c1">1</span>].<span class="pl-smi">x</span>)<span class="pl-k">/</span><span class="pl-c1">2</span></pre></div>
+<p>and just recursively calls itself until it reaches the base case we don't detect those points.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Case.png"><img src="Images/Case.png" alt=" Points lying near the division line" style="max-width:100%;"></a></p>
+<ul>
+<li>To solve this we start by sorting the array on the Y-axis to get the points in their natural order and then we start getting the difference between the X position of the point and the line we drew to divide and if it is less than the min we got so far from the recursion we add it to the strip</li>
+</ul>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> strip <span class="pl-k">=</span> [Point]()   
+<span class="pl-k">var</span> i<span class="pl-k">=</span><span class="pl-c1">0</span>, j <span class="pl-k">=</span> <span class="pl-c1">0</span>
+<span class="pl-k">while</span> i<span class="pl-k">&lt;</span>n
+{
+	<span class="pl-k">if</span> <span class="pl-c1">abs</span>(p[i].<span class="pl-smi">x</span> <span class="pl-k">-</span> line) <span class="pl-k">&lt;</span> min
+	{
+		strip.<span class="pl-c1">append</span>(p[i])
+		j<span class="pl-k">+=</span><span class="pl-c1">1</span>
+	}
+	i<span class="pl-k">+=</span><span class="pl-c1">1</span>
+}</pre></div>
+<ul>
+<li>After you insert the points that could possibly give you a better min distance we get to another observation in the image below.</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Strip.png"><img src="Images/Strip.png" alt="The strip with 4 points shown" style="max-width:100%;"></a></p>
+<ul>
+<li>
+<p>Searching the strip is a brute force loop (But doesn't that just destroy everything we did? You ask) but it has an advantage it could never iterate on more than 8 points (worst case).</p>
+</li>
+<li>
+<p>The reason is that the strip is constructed as a rectangle with sides of length = min that we got from the recursion and we ignore any points that have a Y difference bigger than min distance so to be able to place them ALL inside the rectangle with these conditions they'll have to be in the shape above with each one of them EXACTLY min distance away from the other which gives us 4 possible points for each one and 8 in total.</p>
+</li>
+</ul>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">while</span> i<span class="pl-k">&lt;</span>j
+    {
+        x <span class="pl-k">=</span> i<span class="pl-k">+</span><span class="pl-c1">1</span>
+        <span class="pl-k">while</span> x <span class="pl-k">&lt;</span> j
+        {
+            <span class="pl-k">if</span> (<span class="pl-c1">abs</span>(strip[x].<span class="pl-smi">y</span> <span class="pl-k">-</span> strip[i].<span class="pl-smi">y</span>)) <span class="pl-k">&gt;</span> min { <span class="pl-k">break</span> }
+            <span class="pl-k">if</span> <span class="pl-c1">dist</span>(strip[i], strip[x]) <span class="pl-k">&lt;</span> temp
+            {
+                temp <span class="pl-k">=</span> <span class="pl-c1">dist</span>(strip[i], strip[x])
+                tempFirst <span class="pl-k">=</span> strip[i]
+                tempSecond <span class="pl-k">=</span> strip[x]
+            }
+            x<span class="pl-k">+=</span><span class="pl-c1">1</span>
+        }
+        i<span class="pl-k">+=</span><span class="pl-c1">1</span>
+    }</pre></div>
+<ul>
+<li>
+<p>Of course not every time you end up with the same shape but this is the worst case and it's rare to happen so in reality you end up with far less points valid for comparison and this is why the algorithm gets performance in addition to the sorting tricks we did.</p>
+</li>
+<li>
+<p>Compare the points in the strip and if you find a smaller distance replace the current one with it.</p>
+</li>
+</ul>
+<p>So this is the rundown of how the algorithm works and you could see the fun little math tricks used to optimize this and we end up with O(nlogn) complexity mainly because of the sorting.</p>
+<h2>See also</h2>
+<p>See the playground to play around with the implementation of the algorithm</p>
+<p><a href="https://en.wikipedia.org/wiki/Closest_pair_of_points_problem" rel="nofollow">Wikipedia</a></p>
+<p><em>Written for Swift Algorithm Club by <a href="https://github.com/ahmednader42">Ahmed Nader</a></em></p></div>
+</body>
+</html>

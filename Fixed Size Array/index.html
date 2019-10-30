@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<head>
+  <title>Fixed Size Array</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Fixed-Size Arrays</h1>
+<p>Early programming languages didn't have very fancy arrays. You'd create the array with a specific size and from that moment on it would never grow or shrink. Even the standard arrays in C and Objective-C are still of this type.</p>
+<p>When you define an array like so,</p>
+<pre><code>int myArray[10];
+</code></pre>
+<p>the compiler allocates one contiguous block of memory that can hold 40 bytes (assuming an <code>int</code> is 4 bytes):</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/array.png"><img src="Images/array.png" alt="An array with room for 10 elements" style="max-width:100%;"></a></p>
+<p>That's your array. It will always be this size. If you need to fit more than 10 elements, you're out of luck... there is no room for it.</p>
+<p>To get an array that grows when it gets full you need to use a <a href="https://en.wikipedia.org/wiki/Dynamic_array" rel="nofollow">dynamic array</a> object such as <code>NSMutableArray</code> in Objective-C or <code>std::vector</code> in C++, or a language like Swift whose arrays increase their capacity as needed.</p>
+<p>A major downside of the old-style arrays is that they need to be big enough or you run out of space. But if they are too big you're wasting memory. And you need to be careful about security flaws and crashes due to buffer overflows. In summary, fixed-size arrays are not flexible and they leave no room for error.</p>
+<p>That said, <strong>I like fixed-size arrays</strong> because they are simple, fast, and predictable.</p>
+<p>The following operations are typical for an array:</p>
+<ul>
+<li>append a new element to the end</li>
+<li>insert a new element at the beginning or somewhere in the middle</li>
+<li>delete an element</li>
+<li>look up an element by index</li>
+<li>count the size of the array</li>
+</ul>
+<p>For a fixed-size array, appending is easy as long as the array isn't full yet:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/append.png"><img src="Images/append.png" alt="Appending a new element" style="max-width:100%;"></a></p>
+<p>Looking up by index is also quick and easy:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/indexing.png"><img src="Images/indexing.png" alt="Indexing the array" style="max-width:100%;"></a></p>
+<p>These two operations have complexity <strong>O(1)</strong>, meaning the time it takes to perform them is independent of the size of the array.</p>
+<p>For an array that can grow, appending is more involved: if the array is full, new memory must be allocated and the old contents copied over to the new memory buffer. On average, appending is still an <strong>O(1)</strong> operation, but what goes on under the hood is less predictable.</p>
+<p>The expensive operations are inserting and deleting. When you insert an element somewhere that's not at the end, it requires moving up the remainder of the array by one position. That involves a relatively costly memory copy operation. For example, inserting the value <code>7</code> in the middle of the array:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/insert.png"><img src="Images/insert.png" alt="Insert requires a memory copy" style="max-width:100%;"></a></p>
+<p>If your code was using any indexes into the array beyond the insertion point, these indexes are now referring to the wrong objects.</p>
+<p>Deleting requires a copy the other way around:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/delete.png"><img src="Images/delete.png" alt="Delete also requires a memory copy" style="max-width:100%;"></a></p>
+<p>This, by the way, is also true for <code>NSMutableArray</code> or Swift arrays. Inserting and deleting are <strong>O(n)</strong> operations -- the larger the array the more time it takes.</p>
+<p>Fixed-size arrays are a good solution when:</p>
+<ol>
+<li>You know beforehand the maximum number of elements you'll need. In a game this could be the number of sprites that can be active at a time. It's not unreasonable to put a limit on this. (For games it's a good idea to allocate all the objects you need in advance anyway.)</li>
+<li>It is not necessary to have a sorted version of the array, i.e. the order of the elements does not matter.</li>
+</ol>
+<p>If the array does not need to be sorted, then an <code>insertAt(index)</code> operation is not needed. You can simply append any new elements to the end, until the array is full.</p>
+<p>The code for adding an element becomes:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">append</span>(<span class="pl-en">_</span> <span class="pl-smi">newElement</span>: T) {
+  <span class="pl-k">if</span> count <span class="pl-k">&lt;</span> maxSize {
+    array[count] <span class="pl-k">=</span> newElement
+    count <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  }
+}</pre></div>
+<p>The <code>count</code> variable keeps track of the size of the array and can be considered the index just beyond the last element. That's the index where you'll insert the new element.</p>
+<p>Determining the number of elements in the array is just a matter of reading the <code>count</code> variable, a <strong>O(1)</strong> operation.</p>
+<p>The code for removing an element is equally simple:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">removeAt</span>(<span class="pl-smi"><span class="pl-en">index</span></span>: <span class="pl-c1">Int</span>) {
+  count <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+  array[index] <span class="pl-k">=</span> array[count]
+}</pre></div>
+<p>This copies the last element on top of the element you want to remove, and then decrements the size of the array.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/delete-no-copy.png"><img src="Images/delete-no-copy.png" alt="Deleting just means copying one element" style="max-width:100%;"></a></p>
+<p>This is why the array is not sorted. To avoid an expensive copy of a potentially large portion of the array we copy just one element, but that does change the order of the elements.</p>
+<p>There are now two copies of element <code>6</code> in the array, but what was previously the last element is no longer part of the active array. It's just junk data -- the next time you append an new element, this old version of <code>6</code> will be overwritten.</p>
+<p>Under these two constraints -- a limit on the number of elements and an unsorted array -- fixed-size arrays are still perfectly suitable for use in modern software.</p>
+<p>Here is an implementation in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">struct</span> <span class="pl-en">FixedSizeArray</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">private</span> <span class="pl-k">var</span> maxSize<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+  <span class="pl-k">private</span> <span class="pl-k">var</span> defaultValue<span class="pl-k">:</span> T
+  <span class="pl-k">private</span> <span class="pl-k">var</span> array<span class="pl-k">:</span> [T]
+  <span class="pl-k">private</span> (<span class="pl-k">set</span>) <span class="pl-k">var</span> count <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  
+  <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">maxSize</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">defaultValue</span></span>: T) {
+    <span class="pl-c1">self</span>.<span class="pl-smi">maxSize</span> <span class="pl-k">=</span> maxSize
+    <span class="pl-c1">self</span>.<span class="pl-smi">defaultValue</span> <span class="pl-k">=</span> defaultValue
+    <span class="pl-c1">self</span>.<span class="pl-c1">array</span> <span class="pl-k">=</span> [T](<span class="pl-c1">repeating</span>: defaultValue, <span class="pl-c1">count</span>: maxSize)
+  }
+  
+  <span class="pl-k">subscript</span>(<span class="pl-c1">index</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-c1">assert</span>(index <span class="pl-k">&gt;=</span> <span class="pl-c1">0</span>)
+    <span class="pl-c1">assert</span>(index <span class="pl-k">&lt;</span> count)
+    <span class="pl-k">return</span> array[index]
+  }
+  
+  <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">append</span>(<span class="pl-en">_</span> <span class="pl-smi">newElement</span>: T) {
+    <span class="pl-c1">assert</span>(count <span class="pl-k">&lt;</span> maxSize)
+    array[count] <span class="pl-k">=</span> newElement
+    count <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  }
+  
+  <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">removeAt</span>(<span class="pl-smi"><span class="pl-en">index</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-c1">assert</span>(index <span class="pl-k">&gt;=</span> <span class="pl-c1">0</span>)
+    <span class="pl-c1">assert</span>(index <span class="pl-k">&lt;</span> count)
+    count <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+    <span class="pl-k">let</span> result <span class="pl-k">=</span> array[index]
+    array[index] <span class="pl-k">=</span> array[count]
+    array[count] <span class="pl-k">=</span> defaultValue
+    <span class="pl-k">return</span> result
+  }
+  
+  <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">removeAll</span>() {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>count {
+      array[i] <span class="pl-k">=</span> defaultValue
+    }
+    count <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  }
+}</pre></div>
+<p>When creating the array, you specify the maximum size and a default value:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> a <span class="pl-k">=</span> <span class="pl-c1">FixedSizeArray</span>(<span class="pl-c1">maxSize</span>: <span class="pl-c1">10</span>, <span class="pl-c1">defaultValue</span>: <span class="pl-c1">0</span>)</pre></div>
+<p>Note that <code>removeAt(index: Int)</code> overwrites the last element with this <code>defaultValue</code> to clean up the "junk" object that gets left behind. Normally it wouldn't matter to leave that duplicate object in the array, but if it's a class or a struct it may have strong references to other objects and it's good boyscout practice to zero those out.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

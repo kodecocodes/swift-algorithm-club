@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+  <title>Shortest Path (Unweighted)</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Shortest Path (Unweighted Graph)</h1>
+<p>Goal: find the shortest route to go from one node to another in a graph.</p>
+<p>Suppose we have to following graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Graph.png"><img src="Images/Graph.png" alt="Example graph" style="max-width:100%;"></a></p>
+<p>We may want to find out what the shortest way is to get from node <code>A</code> to node <code>F</code>.</p>
+<p>If the <a href="../Graph/">graph is unweighed</a>, then finding the shortest path is easy: we can use the breadth-first search algorithm. For a weighted graph, we can use Dijkstra's algorithm.</p>
+<h2>Unweighted graph: breadth-first search</h2>
+<p><a href="../Breadth-First%20Search/">Breadth-first search</a> is a method for traversing a tree or graph data structure. It starts at a source node and explores the immediate neighbor nodes first, before moving to the next level neighbors. As a convenient side effect, it automatically computes the shortest path between a source node and each of the other nodes in the tree or graph.</p>
+<p>The result of the breadth-first search can be represented with a tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="../Breadth-First%20Search/Images/TraversalTree.png"><img src="../Breadth-First%20Search/Images/TraversalTree.png" alt="The BFS tree" style="max-width:100%;"></a></p>
+<p>The root of the tree is the node you started the breadth-first search from. To find the distance from node <code>A</code> to any other node, we simply count the number of edges in the tree. And so we find that the shortest path between <code>A</code> and <code>F</code> is 2. The tree not only tells you how long that path is, but also how to actually get from <code>A</code> to <code>F</code> (or any of the other nodes).</p>
+<p>Let's put breadth-first search into practice and calculate the shortest path from <code>A</code> to all the other nodes. We start with the source node <code>A</code> and add it to a queue with a distance of <code>0</code>.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">element</span>: A)
+A.<span class="pl-smi">distance</span> <span class="pl-k">=</span> <span class="pl-c1">0</span></pre></div>
+<p>The queue is now <code>[ A ]</code>. We dequeue <code>A</code> and enqueue its two immediate neighbor nodes <code>B</code> and <code>C</code> with a distance of <code>1</code>.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> A</span>
+<span class="pl-c"></span>queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">element</span>: B)
+B.<span class="pl-smi">distance</span> <span class="pl-k">=</span> A.<span class="pl-smi">distance</span> <span class="pl-k">+</span> <span class="pl-c1">1</span>   <span class="pl-c"><span class="pl-c">//</span> result: 1</span>
+<span class="pl-c"></span>queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">element</span>: C)
+C.<span class="pl-smi">distance</span> <span class="pl-k">=</span> A.<span class="pl-smi">distance</span> <span class="pl-k">+</span> <span class="pl-c1">1</span>   <span class="pl-c"><span class="pl-c">//</span> result: 1</span></pre></div>
+<p>The queue is now <code>[ B, C ]</code>. Dequeue <code>B</code> and enqueue <code>B</code>'s neighbor nodes <code>D</code> and <code>E</code> with a distance of <code>2</code>.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> B</span>
+<span class="pl-c"></span>queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">element</span>: D)
+D.<span class="pl-smi">distance</span> <span class="pl-k">=</span> B.<span class="pl-smi">distance</span> <span class="pl-k">+</span> <span class="pl-c1">1</span>   <span class="pl-c"><span class="pl-c">//</span> result: 2</span>
+<span class="pl-c"></span>queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">element</span>: E)
+E.<span class="pl-smi">distance</span> <span class="pl-k">=</span> B.<span class="pl-smi">distance</span> <span class="pl-k">+</span> <span class="pl-c1">1</span>   <span class="pl-c"><span class="pl-c">//</span> result: 2</span></pre></div>
+<p>The queue is now <code>[ C, D, E ]</code>. Dequeue <code>C</code> and enqueue <code>C</code>'s neighbor nodes <code>F</code> and <code>G</code>, also with a distance of <code>2</code>.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> C</span>
+<span class="pl-c"></span>queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">element</span>: F)
+F.<span class="pl-smi">distance</span> <span class="pl-k">=</span> C.<span class="pl-smi">distance</span> <span class="pl-k">+</span> <span class="pl-c1">1</span>   <span class="pl-c"><span class="pl-c">//</span> result: 2</span>
+<span class="pl-c"></span>queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">element</span>: G)
+G.<span class="pl-smi">distance</span> <span class="pl-k">=</span> C.<span class="pl-smi">distance</span> <span class="pl-k">+</span> <span class="pl-c1">1</span>   <span class="pl-c"><span class="pl-c">//</span> result: 2</span></pre></div>
+<p>This continues until the queue is empty and we've visited all the nodes. Each time we discover a new node, it gets the <code>distance</code> of its parent plus 1. As you can see, this is exactly what the <a href="../Breadth-First%20Search/">breadth-first search</a> algorithm does, except that we now also keep track of the distance travelled.</p>
+<p>Here's the code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">breadthFirstSearchShortestPath</span>(<span class="pl-smi"><span class="pl-en">graph</span></span>: Graph, <span class="pl-smi"><span class="pl-en">source</span></span>: Node) <span class="pl-k">-&gt;</span> Graph {
+  <span class="pl-k">let</span> shortestPathGraph <span class="pl-k">=</span> graph.<span class="pl-c1">duplicate</span>()
+
+  <span class="pl-k">var</span> queue <span class="pl-k">=</span> Queue<span class="pl-k">&lt;</span>Node<span class="pl-k">&gt;</span>()
+  <span class="pl-k">let</span> sourceInShortestPathsGraph <span class="pl-k">=</span> shortestPathGraph.<span class="pl-c1">findNodeWithLabel</span>(<span class="pl-c1">label</span>: source.<span class="pl-smi">label</span>)
+  queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">element</span>: sourceInShortestPathsGraph)
+  sourceInShortestPathsGraph.<span class="pl-smi">distance</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+  <span class="pl-k">while</span> <span class="pl-k">let</span> current <span class="pl-k">=</span> queue.<span class="pl-c1">dequeue</span>() {
+    <span class="pl-k">for</span> edge <span class="pl-k">in</span> current.<span class="pl-smi">neighbors</span> {
+      <span class="pl-k">let</span> neighborNode <span class="pl-k">=</span> edge.<span class="pl-smi">neighbor</span>
+      <span class="pl-k">if</span> <span class="pl-k">!</span>neighborNode.<span class="pl-smi">hasDistance</span> {
+        queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">element</span>: neighborNode)
+        neighborNode.<span class="pl-smi">distance</span> <span class="pl-k">=</span> current.<span class="pl-smi">distance</span><span class="pl-k">!</span> <span class="pl-k">+</span> <span class="pl-c1">1</span>
+      }
+    }
+  }
+
+  <span class="pl-k">return</span> shortestPathGraph
+}</pre></div>
+<p>Put this code in a playground and test it like so:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> shortestPathGraph <span class="pl-k">=</span> <span class="pl-c1">breadthFirstSearchShortestPath</span>(<span class="pl-c1">graph</span>: graph, <span class="pl-c1">source</span>: nodeA)
+<span class="pl-c1">print</span>(shortestPathGraph.<span class="pl-smi">nodes</span>)</pre></div>
+<p>This will output:</p>
+<pre><code>Node(label: a, distance: 0), Node(label: b, distance: 1), Node(label: c, distance: 1),
+Node(label: d, distance: 2), Node(label: e, distance: 2), Node(label: f, distance: 2),
+Node(label: g, distance: 2), Node(label: h, distance: 3)
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> This version of <code>breadthFirstSearchShortestPath()</code> does not actually produce the tree, it only computes the distances. See <a href="../Minimum%20Spanning%20Tree%20(Unweighted)/">minimum spanning tree</a> on how you can convert the graph into a tree by removing edges.</p>
+</blockquote>
+<p><em>Written by <a href="https://github.com/chris-pilcher">Chris Pilcher</a> and Matthijs Hollemans</em></p></div>
+</body>
+</html>

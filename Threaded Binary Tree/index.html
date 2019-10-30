@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<head>
+  <title>Threaded Binary Tree</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Threaded Binary Tree</h1>
+<p>A threaded binary tree is a special kind of <a href="../Binary%20Tree/">binary tree</a> (a<br>
+tree in which each node has at most two children) that maintains a few extra<br>
+variables to allow cheap and fast <strong>in-order traversal</strong> of the tree.  We will<br>
+explore the general structure of threaded binary trees, as well as<br>
+<a href="ThreadedBinaryTree.swift">the Swift implementation</a> of a fully functioning<br>
+threaded binary tree.</p>
+<p>If you don't know what a tree is or what it is for, then<br>
+<a href="../Tree/">read this first</a>.</p>
+<h2>In-order traversal</h2>
+<p>The main motivation behind using a threaded binary tree over a simpler and<br>
+smaller standard binary tree is to increase the speed of an in-order traversal<br>
+of the tree.  An in-order traversal of a binary tree visits the nodes in the<br>
+order in which they are stored, which matches the underlying ordering of a<br>
+<a href="../Binary%20Search%20Tree/">binary search tree</a>.  This means most threaded binary<br>
+trees are also binary search trees.  The idea is to visit all the left children<br>
+of a node first, then visit the node itself, and then visit the right children<br>
+last.</p>
+<p>An in-order traversal of any binary tree generally goes as follows (using Swift<br>
+syntax):</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">traverse</span>(<span class="pl-smi"><span class="pl-en">n</span></span>: Node<span class="pl-k">?</span>) {
+  <span class="pl-k">if</span> (n <span class="pl-k">==</span> <span class="pl-c1">nil</span>) { <span class="pl-k">return</span>
+  } <span class="pl-k">else</span> {
+    <span class="pl-c1">traverse</span>(n.<span class="pl-smi">left</span>)
+    <span class="pl-c1">visit</span>(n)
+    <span class="pl-c1">traverse</span>(n.<span class="pl-smi">right</span>)
+  }
+}</pre></div>
+<p>Where <code>n</code> is a a node in the tree (or <code>nil</code>), each node stores its children as<br>
+<code>left</code> and <code>right</code>, and "visiting" a node can mean performing any desired<br>
+action on it.  We would call this function by passing to it the root of the<br>
+tree we wish to traverse.</p>
+<p>While simple and understandable, this algorithm uses stack space proportional<br>
+to the height of the tree due to its recursive nature.  If the tree has <strong>n</strong><br>
+nodes, this usage can range anywhere from <strong>O(log n)</strong> for a fairly balanced<br>
+tree, to <strong>O(n)</strong> to a very unbalanced tree.</p>
+<p>A threaded binary tree fixes this problem.</p>
+<blockquote>
+<p>For more information about in-order traversals <a href="../Binary%20Tree/">see here</a>.</p>
+</blockquote>
+<h2>Predecessors and successors</h2>
+<p>An in-order traversal of a tree yields a linear ordering of the nodes.  Thus<br>
+each node has both a <strong>predecessor</strong> and a <strong>successor</strong> (except for the first<br>
+and last nodes, which only have a successor or a predecessor respectively).  In<br>
+a threaded binary tree, each left child that would normally be <code>nil</code> instead<br>
+stores the node's predecessor (if it exists), and each right child that would<br>
+normally be <code>nil</code> instead stores the node's successor (if it exists).  This is<br>
+what separates threaded binary trees from standard binary trees.</p>
+<p>There are two types of threaded binary trees:  <strong>single threaded</strong> and <strong>double<br>
+threaded</strong>:</p>
+<ul>
+<li>A single threaded tree keeps track of <strong>either</strong> the in-order predecessor<br>
+<strong>or</strong> successor (left <strong>or</strong> right).</li>
+<li>A double threaded tree keeps track of <strong>both</strong> the in-order predecessor<br>
+<strong>and</strong> successor (left <strong>and</strong> right).</li>
+</ul>
+<p>Using a single or double threaded tree depends on what we want to accomplish.<br>
+If we only need to traverse the tree in one direction (either forward or<br>
+backward), then we use a single threaded tree.  If we want to traverse in both<br>
+directions, then we use a double threaded tree.</p>
+<p>It is important to note that each node stores either its predecessor or its<br>
+left child, and either its successor or its right child.  The nodes do not<br>
+need to keep track of both.  For example, in a double threaded tree, if a node<br>
+has a right child but no left child, it will track its predecessor in place of<br>
+its left child.</p>
+<p>Here is an example valid "full" threaded binary tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Full.png"><img src="Images/Full.png" alt="Full" style="max-width:100%;"></a></p>
+<p>While the following threaded binary tree is not "full," it is still valid.  The<br>
+structure of the tree does not matter as long as it follows the definition of a<br>
+binary search tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Partial.png"><img src="Images/Partial.png" alt="Partial" style="max-width:100%;"></a></p>
+<p>The solid lines denote the links between parents and children, while the dotted<br>
+lines denote the "threads."  It is important to note how the children and<br>
+thread edges interact with each other.  Every node besides the root has one<br>
+entering edge (from its parent), and two leaving edges: one to the left and one<br>
+to the right.  The left leaving edge goes to the node's left child if it<br>
+exists, and to its in-order predecessor if it does not.  The right leaving edge<br>
+goes to the node's right child if it exists, and to its in-order successor if<br>
+it does not.  The exceptions are the left-most node and the right-most node,<br>
+which do not have a predecessor or successor, respectively.</p>
+<h2>Representation</h2>
+<p>Before we go into detail about the methods of a threaded binary tree, we should<br>
+first explain how the tree itself is represented.  The core of this data<br>
+structure is the <code>ThreadedBinaryTree&lt;T: Comparable&gt;</code> class.  Each instance of<br>
+this class represents a node with six member variables:  <code>value</code>, <code>parent</code>,<br>
+<code>left</code>, <code>right</code>, <code>leftThread</code>, and <code>rightThread</code>.  Of all of these, only<br>
+<code>value</code> is required.  The other five are Swift <em>optionals</em> (they may be <code>nil</code>).</p>
+<ul>
+<li><code>value: T</code> is the value of this node (e.g. 1, 2, A, B, etc.)</li>
+<li><code>parent: ThreadedBinaryTree?</code> is the parent of this node</li>
+<li><code>left: ThreadedBinaryTree?</code> is the left child of this node</li>
+<li><code>right: ThreadedBinaryTree?</code> is the right child of this node</li>
+<li><code>leftThread: ThreadedBinaryTree?</code> is the in-order predecessor of this node</li>
+<li><code>rightThread: ThreadedBinaryTree?</code> is the in-order successor of this node</li>
+</ul>
+<p>As we are storing both <code>leftThread</code> and <code>rightThread</code>, this is a double<br>
+threaded tree. Now we are ready to go over some of the member functions in our<br>
+<code>ThreadedBinaryTree</code> class.</p>
+<h2>Traversal algorithm</h2>
+<p>Let's start with the main reason we're using a threaded binary tree.  It is now<br>
+very easy to find the in-order predecessor and the in-order successor of any<br>
+node in the tree.  If the node has no <code>left</code>/<code>right</code> child, we can simply<br>
+return the node's <code>leftThread</code>/<code>rightThread</code>.  Otherwise, it is trivial to move<br>
+down the tree and find the correct node.</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">func</span> <span class="pl-en">predecessor</span>() <span class="pl-k">-&gt;</span> ThreadedBinaryTree&lt;T&gt;<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> <span class="pl-k">let</span> left <span class="pl-k">=</span> left {
+      <span class="pl-k">return</span> left.<span class="pl-c1">maximum</span>()
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> leftThread
+    }
+  }
+
+  <span class="pl-k">func</span> <span class="pl-en">successor</span>() <span class="pl-k">-&gt;</span> ThreadedBinaryTree&lt;T&gt;<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> <span class="pl-k">let</span> right <span class="pl-k">=</span> right {
+      <span class="pl-k">return</span> right.<span class="pl-c1">minimum</span>()
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> rightThread
+    }
+  }</pre></div>
+<blockquote>
+<p>Note: <code>maximum()</code> and <code>minimum()</code> are methods of <code>ThreadedBinaryTree</code> which<br>
+return the largest/smallest node in a given sub-tree.  See<br>
+<a href="ThreadedBinaryTree.swift">the implementation</a> for more detail.</p>
+</blockquote>
+<p>Because these are <code>ThreadedBinaryTree</code> methods, we can call<br>
+<code>node.predecessor()</code> or <code>node.successor()</code> to obtain the predecessor or<br>
+successor of any <code>node</code>, provided that <code>node</code> is a <code>ThreadedBinaryTree</code> object.</p>
+<p>Because predecessors and/or successors are tracked, an in-order traversal of a<br>
+threaded binary tree is much more efficient than the recursive algorithm<br>
+outlined above.  We use these predecessor/successor attributes to great effect<br>
+in this new algorithm for both forward and backward traversals:</p>
+<div class="highlight highlight-source-swift"><pre>    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">traverseInOrderForward</span>(<span class="pl-en">_</span> <span class="pl-smi">visit</span>: (T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span>) {
+        <span class="pl-k">var</span> n<span class="pl-k">:</span> ThreadedBinaryTree
+        n <span class="pl-k">=</span> <span class="pl-c1">minimum</span>()
+        <span class="pl-k">while</span> <span class="pl-c1">true</span> {
+            <span class="pl-c1">visit</span>(n.<span class="pl-c1">value</span>)
+            <span class="pl-k">if</span> <span class="pl-k">let</span> successor <span class="pl-k">=</span> n.<span class="pl-c1">successor</span>() {
+                n <span class="pl-k">=</span> successor
+            } <span class="pl-k">else</span> {
+                <span class="pl-k">break</span>
+            }
+        }
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">traverseInOrderBackward</span>(<span class="pl-en">_</span> <span class="pl-smi">visit</span>: (T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span>) {
+        <span class="pl-k">var</span> n<span class="pl-k">:</span> ThreadedBinaryTree
+        n <span class="pl-k">=</span> <span class="pl-c1">maximum</span>()
+        <span class="pl-k">while</span> <span class="pl-c1">true</span> {
+            <span class="pl-c1">visit</span>(n.<span class="pl-c1">value</span>)
+            <span class="pl-k">if</span> <span class="pl-k">let</span> predecessor <span class="pl-k">=</span> n.<span class="pl-c1">predecessor</span>() {
+                n <span class="pl-k">=</span> predecessor
+            } <span class="pl-k">else</span> {
+                <span class="pl-k">break</span>
+            }
+        }
+    }</pre></div>
+<p>Again, this a method of <code>ThreadedBinaryTree</code>, so we'd call it via<br>
+<code>node.traverseInorderForward(visitFunction)</code>.  Note that we are able to specify<br>
+a function that executes on each node as they are visited.  This function can<br>
+be anything you want, as long as it accepts <code>T</code> (the type of the values of the<br>
+nodes of the tree) and has no return value.</p>
+<p>Let's walk through a forward traversal of a tree by hand to get a better idea<br>
+of how a computer would do it.  For example, take this simple threaded tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Base.png"><img src="Images/Base.png" alt="Base" style="max-width:100%;"></a></p>
+<p>We start at the root of the tree, <strong>9</strong>.  Note that we don't <code>visit(9)</code> yet.<br>
+From there we want to go to the <code>minimum()</code> node in the tree, which is <strong>2</strong> in<br>
+this case.  We then <code>visit(2)</code> and see that it has a <code>rightThread</code>, and thus<br>
+we immediately know what its <code>successor()</code> is.  We follow the thread to <strong>5</strong>,<br>
+which does not have any leaving threads.  Therefore, after we <code>visit(5)</code>, we go<br>
+to the <code>minimum()</code> node in its <code>right</code> subtree, which is <strong>7</strong>.  We then<br>
+<code>visit(7)</code> and see that it has a <code>rightThread</code>, which we follow to get back to<br>
+<strong>9</strong>.  <em>Now</em> we <code>visit(9)</code>, and after noticing that it has no <code>rightThread</code>,<br>
+we go to the <code>minimum()</code> node in its <code>right</code> subtree, which is <strong>12</strong>.  This<br>
+node has a <code>rightThread</code> that leads to <code>nil</code>, which signals that we have<br>
+completed the traversal!  We visited the nodes in order <strong>2, 5, 7, 9, 12</strong>,<br>
+which intuitively makes sense, as that is their natural increasing order.</p>
+<p>A backward traversal would be very similar, but you would replace <code>right</code>,<br>
+<code>rightThread</code>, <code>minimum()</code>, and <code>successor()</code> with <code>left</code>, <code>leftThread</code>,<br>
+<code>maximum()</code>, and <code>predecessor()</code>.</p>
+<h2>Insertion and deletion</h2>
+<p>The quick in-order traversal that a threaded binary trees gives us comes at a<br>
+small cost.  Inserting/deleting nodes becomes more complicated, as we have to<br>
+continuously manage the <code>leftThread</code> and <code>rightThread</code> variables.  Rather than<br>
+walking through some boring code, it is best to explain this with an example<br>
+(although you can read through <a href="ThreadedBinaryTree.swift">the implementation</a><br>
+if you want to know the finer details).  Please note that this requires<br>
+knowledge of binary search trees, so make sure you have<br>
+<a href="../Binary%20Search%20Tree/">read this first</a>.</p>
+<blockquote>
+<p>Note: we do allow duplicate nodes in this implementation of a threaded binary<br>
+tree.  We break ties by defaulting insertion to the right.</p>
+</blockquote>
+<p>Let's start with the same tree that we used for the above traversal example:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Base.png"><img src="Images/Base.png" alt="Base" style="max-width:100%;"></a></p>
+<p>Suppose we insert <strong>10</strong> into this tree.  The resulting graph would look like<br>
+this, with the changes highlighted in red:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Insert1.png"><img src="Images/Insert1.png" alt="Insert1" style="max-width:100%;"></a></p>
+<p>If you've done your homework and are familiar with binary search trees, the<br>
+placement of this node should not surprise you.  What's new is how we maintain<br>
+the threads between nodes.  So we know that we want to insert <strong>10</strong> as<br>
+<strong>12</strong>'s <code>left</code> child.  The first thing we do is set <strong>12</strong>'s <code>left</code> child to<br>
+<strong>10</strong>, and set <strong>10</strong>'s <code>parent</code> to <strong>12</strong>.  Because <strong>10</strong> is being inserted<br>
+on the <code>left</code>, and <strong>10</strong> has no children of its own, we can safely set<br>
+<strong>10</strong>'s <code>rightThread</code> to its <code>parent</code> <strong>12</strong>.  What about <strong>10</strong>'s<br>
+<code>leftThread</code>?  Because we know that <strong>10</strong> &lt; <strong>12</strong>, and <strong>10</strong> is the only<br>
+<code>left</code> child of <strong>12</strong>, we can safely set <strong>10</strong>'s <code>leftThread</code> to <strong>12</strong>'s<br>
+(now outdated) <code>leftThread</code>.  Finally we set <strong>12</strong>'s <code>leftThread = nil</code>, as it<br>
+now has a <code>left</code> child.</p>
+<p>Let's now insert another node, <strong>4</strong>, into the tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Insert2.png"><img src="Images/Insert2.png" alt="Insert2" style="max-width:100%;"></a></p>
+<p>While we are inserting <strong>4</strong> as a <code>right</code> child, it follows the exact same<br>
+process as above, but mirrored (swap <code>left</code> and <code>right</code>).  For the sake of<br>
+completeness, we'll insert one final node, <strong>15</strong>:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Insert3.png"><img src="Images/Insert3.png" alt="Insert3" style="max-width:100%;"></a></p>
+<p>Now that we have a fairly crowded tree, let's try removing some nodes.<br>
+Compared to insertion, deletion is a little more complicated.  Let's start with<br>
+something simple, like removing <strong>7</strong>, which has no children:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Remove1.png"><img src="Images/Remove1.png" alt="Remove1" style="max-width:100%;"></a></p>
+<p>Before we can just throw <strong>7</strong> away, we have to perform some clean-up.  In this<br>
+case, because <strong>7</strong> is a <code>right</code> child and has no children itself, we can<br>
+simply set the <code>rightThread</code> of <strong>7</strong>'s <code>parent</code>(<strong>5</strong>) to <strong>7</strong>'s (now<br>
+outdated) <code>rightThread</code>. Then we can just set <strong>7</strong>'s <code>parent</code>, <code>left</code>,<br>
+<code>right</code>, <code>leftThread</code>, and <code>rightThread</code> to <code>nil</code>, effectively removing it from<br>
+the tree. We also set the parent's <code>rightChild</code> to <code>nil</code>, which completes the deletion of this right child.</p>
+<p>Let's try something a little harder.  Say we remove <strong>5</strong> from the tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Remove2.png"><img src="Images/Remove2.png" alt="Remove2" style="max-width:100%;"></a></p>
+<p>This is a little trickier, as <strong>5</strong> has some children that we have to deal<br>
+with.  The core idea is to replace <strong>5</strong> with its first child, <strong>2</strong>.  To<br>
+accomplish this, we of course set <strong>2</strong>'s <code>parent</code> to <strong>9</strong> and set <strong>9</strong>'s<br>
+<code>left</code> child to <strong>2</strong>.  Note that <strong>4</strong>'s <code>rightThread</code> used to be <strong>5</strong>, but<br>
+we are removing <strong>5</strong>, so it needs to change.  It is now important to<br>
+understand two important properties of threaded binary trees:</p>
+<ol>
+<li>For the rightmost node <strong>m</strong> in the <code>left</code> subtree of any node <strong>n</strong>,<br>
+<strong>m</strong>'s <code>rightThread</code> is <strong>n</strong>.</li>
+<li>For the leftmost node <strong>m</strong> in the <code>right</code> subtree of any node <strong>n</strong>,<br>
+<strong>m</strong>'s <code>leftThread</code> is <strong>n</strong>.</li>
+</ol>
+<p>Note how these properties held true before the removal of <strong>5</strong>, as <strong>4</strong> was<br>
+the rightmost node in <strong>5</strong>'s <code>left</code> subtree.  In order to maintain this<br>
+property, we must set <strong>4</strong>'s <code>rightThread</code> to <strong>9</strong>, as <strong>4</strong> is now the<br>
+rightmost node in <strong>9</strong>'s <code>left</code> subtree.  To completely remove <strong>5</strong>, all we<br>
+now have to do is set <strong>5</strong>'s <code>parent</code>, <code>left</code>, <code>right</code>, <code>leftThread</code>, and<br>
+<code>rightThread</code> to <code>nil</code>.</p>
+<p>How about we do something crazy?  What would happen if we tried to remove<br>
+<strong>9</strong>, the root node?  This is the resulting tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Remove3.png"><img src="Images/Remove3.png" alt="Remove3" style="max-width:100%;"></a></p>
+<p>Whenever we want to remove a node that has two children, we take a slightly<br>
+different approach than the above examples.  The basic idea is to replace the<br>
+node that we want to remove with the leftmost node in its <code>right</code>  subtree,<br>
+which we call the replacement node.</p>
+<blockquote>
+<p>Note: we could also replace the node with the rightmost node in its <code>left</code><br>
+subtree.  Choosing left or right is mostly an arbitrary decision.</p>
+</blockquote>
+<p>Once we find the replacement node, <strong>10</strong> in this case, we remove it from the<br>
+tree using the algorithms outlined above.  This ensures that the edges in the<br>
+<code>right</code> subtree remain correct.  From there it is easy to replace <strong>9</strong> with<br>
+<strong>10</strong>, as we just have to update the edges leaving <strong>10</strong>.  Now all we have to<br>
+do is fiddle with the threads in order to maintain the two properties outlined<br>
+above.  In this case, <strong>12</strong>'s <code>leftThread</code> is now <strong>10</strong>. Node <strong>9</strong> is no<br>
+longer needed, so we can finish the removal process by setting all of its<br>
+variables to <code>nil</code>.</p>
+<p>In order to illustrate how to remove a node that has only a <code>right</code> child,<br>
+we'll remove one final node, <strong>12</strong> from the tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Remove4.png"><img src="Images/Remove4.png" alt="Remove4" style="max-width:100%;"></a></p>
+<p>The process to remove <strong>12</strong> is identical to the process we used to remove<br>
+<strong>5</strong>, but mirrored.  <strong>5</strong> had a <code>left</code> child, while <strong>12</strong> has a <code>right</code><br>
+child, but the core algorithm is the same.</p>
+<p>And that's it!  This was just a quick overview of how insertion and deletion<br>
+work in threaded binary trees, but if you understood these examples, you should<br>
+be able to insert or remove any node from any tree you want.  More detail can<br>
+of course be found in<br>
+<a href="ThreadedBinaryTree.swift">the implementation</a>.</p>
+<h2>Miscellaneous methods</h2>
+<p>There are many other smaller operations that a threaded binary tree can do,<br>
+such as <code>searching()</code> for a node in the tree, finding the <code>depth()</code> or<br>
+<code>height()</code> of a node, etc.  You can check<br>
+<a href="ThreadedBinaryTree.swift">the implementation</a> for the full technical details.<br>
+Many of these methods are inherent to binary search trees as well, so you can<br>
+find <a href="../Binary%20Search%20Tree/">further documentation here</a>.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Threaded_binary_tree" rel="nofollow">Threaded Binary Tree on Wikipedia</a></p>
+<p><em>Written for the Swift Algorithm Club by<br>
+<a href="https://github.com/JFTung">Jayson Tung</a></em><br>
+<em>Migrated to Swift 3 by Jaap Wijnen</em></p>
+<p><em>Images made using <a href="http://www.draw.io" rel="nofollow">www.draw.io</a></em></p></div>
+</body>
+</html>

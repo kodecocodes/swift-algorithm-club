@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+  <title>Slow Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Slow Sort</h1>
+<p>Goal: Sort an array of numbers from low to high (or high to low).</p>
+<p>You are given an array of numbers and need to put them in the right order. The insertion sort algorithm works as follows:</p>
+<p>We can decompose the problem of sorting n numbers in ascending order into</p>
+<ol>
+<li>find the maximum of the numbers</li>
+<li>find the maximum of the first n/2 elements</li>
+<li>find the maximum of the remaining n/2 elements</li>
+<li>find the largest of those two maxima</li>
+<li>sorting the remaining ones</li>
+</ol>
+<h2>The code</h2>
+<p>Here is an implementation of slow sort in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">slowsort</span>(<span class="pl-en">_</span> <span class="pl-smi">i</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">j</span>: <span class="pl-c1">Int</span>) {
+    <span class="pl-k">if</span> i<span class="pl-k">&gt;=</span>j {
+        <span class="pl-k">return</span>
+    }
+    <span class="pl-k">let</span> m <span class="pl-k">=</span> (i<span class="pl-k">+</span>j)<span class="pl-k">/</span><span class="pl-c1">2</span>
+    <span class="pl-c1">slowsort</span>(i,m)
+    <span class="pl-c1">slowsort</span>(m<span class="pl-k">+</span><span class="pl-c1">1</span>,j)
+    <span class="pl-k">if</span> numberList[j] <span class="pl-k">&lt;</span> numberList[m] {
+        <span class="pl-k">let</span> temp <span class="pl-k">=</span> numberList[j]
+        numberList[j] <span class="pl-k">=</span> numberList[m]
+        numberList[m] <span class="pl-k">=</span> temp
+    }
+    <span class="pl-c1">slowsort</span>(i,j<span class="pl-k">-</span><span class="pl-c1">1</span>)
+}</pre></div>
+<h2>Performance</h2>
+<table>
+<thead>
+<tr>
+<th align="center">Case</th>
+<th align="center">Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Worst</td>
+<td align="center">slow</td>
+</tr>
+<tr>
+<td align="center">Best</td>
+<td align="center">O(n^(log(n)/(2+e))))</td>
+</tr>
+<tr>
+<td align="center">Average</td>
+<td align="center">O(n^(log(n)/2))</td>
+</tr>
+</tbody>
+</table>
+<h2>See also</h2>
+<p><a href="http://c2.com/cgi/wiki?SlowSort" rel="nofollow">Slow Sort explanation in the Internet</a></p>
+<p><em>Written for Swift Algorithm Club by Lukas Schramm</em></p>
+<p>(used the Insertion Sort Readme as template)</p></div>
+</body>
+</html>

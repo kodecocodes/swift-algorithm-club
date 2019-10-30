@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<head>
+  <title>Knuth-Morris-Pratt</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Knuth-Morris-Pratt String Search</h1>
+<p>Goal: Write a linear-time string matching algorithm in Swift that returns the indexes of all the occurrencies of a given pattern.</p>
+<p>In other words, we want to implement an <code>indexesOf(pattern: String)</code> extension on <code>String</code> that returns an array <code>[Int]</code> of integers, representing all occurrences' indexes of the search pattern, or <code>nil</code> if the pattern could not be found inside the string.</p>
+<p>For example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> dna <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>ACCCGGTTTTAAAGAACCACCATAAGATATAGACAGATATAGGACAGATATAGAGACAAAACCCCATACCCCAATATTTTTTTGGGGAGAAAAACACCACAGATAGATACACAGACTACACGAGATACGACATACAGCAGCATAACGACAACAGCAGATAGACGATCATAACAGCAATCAGACCGAGCGCAGCAGCTTTTAAGCACCAGCCCCACAAAAAACGACAATFATCATCATATACAGACGACGACACGACATATCACACGACAGCATA<span class="pl-pds">"</span></span>
+dna.<span class="pl-c1">indexesOf</span>(<span class="pl-c1">ptnr</span>: <span class="pl-s"><span class="pl-pds">"</span>CATA<span class="pl-pds">"</span></span>)   <span class="pl-c"><span class="pl-c">//</span> Output: [20, 64, 130, 140, 166, 234, 255, 270]</span>
+<span class="pl-c"></span>
+<span class="pl-k">let</span> concert <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>🎼🎹🎹🎸🎸🎻🎻🎷🎺🎤👏👏👏<span class="pl-pds">"</span></span>
+concert.<span class="pl-c1">indexesOf</span>(<span class="pl-c1">ptnr</span>: <span class="pl-s"><span class="pl-pds">"</span>🎻🎷<span class="pl-pds">"</span></span>)   <span class="pl-c"><span class="pl-c">//</span> Output: [6]</span></pre></div>
+<p>The <a href="https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm" rel="nofollow">Knuth-Morris-Pratt algorithm</a> is considered one of the best algorithms for solving the pattern matching problem. Although in practice <a href="../Boyer-Moore-Horspool/">Boyer-Moore</a> is usually preferred, the algorithm that we will introduce is simpler, and has the same (linear) running time.</p>
+<p>The idea behind the algorithm is not too different from the <a href="../Brute-Force%20String%20Search/">naive string search</a> procedure. As it, Knuth-Morris-Pratt aligns the text with the pattern and goes with character comparisons from left to right. But, instead of making a shift of one character when a mismatch occurs, it uses a more intelligent way to move the pattern along the text. In fact, the algorithm features a pattern pre-processing stage where it acquires all the informations that will make the algorithm skip redundant comparisons, resulting in larger shifts.</p>
+<p>The pre-processing stage produces an array (called <code>suffixPrefix</code> in the code) of integers in which every element <code>suffixPrefix[i]</code> records the length of the longest proper suffix of <code>P[0...i]</code> (where <code>P</code> is the pattern) that matches a prefix of <code>P</code>. In other words, <code>suffixPrefix[i]</code> is the longest proper substring of <code>P</code> that ends at position <code>i</code> and that is a prefix of <code>P</code>. Just a quick example. Consider <code>P = "abadfryaabsabadffg"</code>, then <code>suffixPrefix[4] = 0</code>, <code>suffixPrefix[9] = 2</code>, <code>suffixPrefix[14] = 4</code>.<br>
+There are different ways to obtain the values of <code>SuffixPrefix</code> array. We will use the method based on the <a href="../Z-Algorithm/">Z-Algorithm</a>. This function takes in input the pattern and produces an array of integers. Each element represents the length of the longest substring starting at position <code>i</code> of <code>P</code> and that matches a prefix of <code>P</code>. You can notice that the two arrays are similar, they record the same informations but on the different places. We only have to find a method to map <code>Z[i]</code> to <code>suffixPrefix[j]</code>. It is not that difficult and this is the code that will do for us:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> patternIndex <span class="pl-k">in</span> (<span class="pl-c1">1</span> <span class="pl-k">..&lt;</span> patternLength).<span class="pl-c1">reversed</span>() {
+    textIndex <span class="pl-k">=</span> patternIndex <span class="pl-k">+</span> zeta<span class="pl-k">!</span>[patternIndex] <span class="pl-k">-</span> <span class="pl-c1">1</span>
+    suffixPrefix[textIndex] <span class="pl-k">=</span> zeta<span class="pl-k">!</span>[patternIndex]
+}</pre></div>
+<p>We are simply computing the index of the end of the substring starting at position <code>i</code> (as we know matches a prefix of <code>P</code>). The element of <code>suffixPrefix</code> at that index then it will be set with the length of the substring.</p>
+<p>Once the shift-array <code>suffixPrefix</code> is ready we can begin with pattern search stage. The algorithm first attempts to compare the characters of the text with those of the pattern. If it succeeds, it goes on until a mismatch occurs. When it happens, it checks if an occurrence of the pattern is present (and reports it). Otherwise, if no comparisons are made then the text cursor is moved forward, else the pattern is shifted to the right. The shift's amount is based on the <code>suffixPrefix</code> array, and it guarantees that the prefix <code>P[0...suffixPrefix[i]]</code> will match its opposing substring in the text. In this way, shifts of more than one character are often made and lot of comparisons can be avoided, saving a lot of time.</p>
+<p>Here is the code of the Knuth-Morris-Pratt algorithm:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">String</span></span> {
+
+    <span class="pl-k">func</span> <span class="pl-en">indexesOf</span>(<span class="pl-smi"><span class="pl-en">ptnr</span></span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>]<span class="pl-k">?</span> {
+
+        <span class="pl-k">let</span> text <span class="pl-k">=</span> <span class="pl-c1">Array</span>(<span class="pl-c1">self</span>.<span class="pl-c1">characters</span>)
+        <span class="pl-k">let</span> pattern <span class="pl-k">=</span> <span class="pl-c1">Array</span>(ptnr.<span class="pl-c1">characters</span>)
+
+        <span class="pl-k">let</span> textLength<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> text.<span class="pl-c1">count</span>
+        <span class="pl-k">let</span> patternLength<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> pattern.<span class="pl-c1">count</span>
+
+        <span class="pl-k">guard</span> patternLength <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> <span class="pl-k">else</span> {
+            <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+        }
+
+        <span class="pl-k">var</span> suffixPrefix<span class="pl-k">:</span> [<span class="pl-c1">Int</span>] <span class="pl-k">=</span> [<span class="pl-c1">Int</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: patternLength)
+        <span class="pl-k">var</span> textIndex<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+        <span class="pl-k">var</span> patternIndex<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+        <span class="pl-k">var</span> indexes<span class="pl-k">:</span> [<span class="pl-c1">Int</span>] <span class="pl-k">=</span> [<span class="pl-c1">Int</span>]()
+
+        <span class="pl-c"><span class="pl-c">/*</span> Pre-processing stage: computing the table for the shifts (through Z-Algorithm) <span class="pl-c">*/</span></span>
+        <span class="pl-k">let</span> zeta <span class="pl-k">=</span> <span class="pl-c1">ZetaAlgorithm</span>(<span class="pl-c1">ptnr</span>: ptnr)
+
+        <span class="pl-k">for</span> patternIndex <span class="pl-k">in</span> (<span class="pl-c1">1</span> <span class="pl-k">..&lt;</span> patternLength).<span class="pl-c1">reversed</span>() {
+            textIndex <span class="pl-k">=</span> patternIndex <span class="pl-k">+</span> zeta<span class="pl-k">!</span>[patternIndex] <span class="pl-k">-</span> <span class="pl-c1">1</span>
+            suffixPrefix[textIndex] <span class="pl-k">=</span> zeta<span class="pl-k">!</span>[patternIndex]
+        }
+
+        <span class="pl-c"><span class="pl-c">/*</span> Search stage: scanning the text for pattern matching <span class="pl-c">*/</span></span>
+        textIndex <span class="pl-k">=</span> <span class="pl-c1">0</span>
+        patternIndex <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+        <span class="pl-k">while</span> textIndex <span class="pl-k">+</span> (patternLength <span class="pl-k">-</span> patternIndex <span class="pl-k">-</span> <span class="pl-c1">1</span>) <span class="pl-k">&lt;</span> textLength {
+
+            <span class="pl-k">while</span> patternIndex <span class="pl-k">&lt;</span> patternLength <span class="pl-k">&amp;&amp;</span> text[textIndex] <span class="pl-k">==</span> pattern[patternIndex] {
+                textIndex <span class="pl-k">=</span> textIndex <span class="pl-k">+</span> <span class="pl-c1">1</span>
+                patternIndex <span class="pl-k">=</span> patternIndex <span class="pl-k">+</span> <span class="pl-c1">1</span>
+            }
+
+            <span class="pl-k">if</span> patternIndex <span class="pl-k">==</span> patternLength {
+                indexes.<span class="pl-c1">append</span>(textIndex <span class="pl-k">-</span> patternIndex)
+            }
+
+            <span class="pl-k">if</span> patternIndex <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+                textIndex <span class="pl-k">=</span> textIndex <span class="pl-k">+</span> <span class="pl-c1">1</span>
+            } <span class="pl-k">else</span> {
+                patternIndex <span class="pl-k">=</span> suffixPrefix[patternIndex <span class="pl-k">-</span> <span class="pl-c1">1</span>]
+            }
+        }
+
+        <span class="pl-k">guard</span> <span class="pl-k">!</span>indexes.<span class="pl-c1">isEmpty</span> <span class="pl-k">else</span> {
+            <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+        }
+        <span class="pl-k">return</span> indexes
+    }
+}</pre></div>
+<p>Let's make an example reasoning with the code above. Let's consider the string <code>P = ACTGACTA"</code>, the consequentially obtained <code>suffixPrefix</code> array equal to <code>[0, 0, 0, 0, 0, 0, 3, 1]</code>, and the text <code>T = "GCACTGACTGACTGACTAG"</code>. The algorithm begins with the text and the pattern aligned like below. We have to compare <code>T[0]</code> with <code>P[0]</code>.</p>
+<pre><code>                          1       
+                0123456789012345678
+text:           GCACTGACTGACTGACTAG
+textIndex:      ^
+pattern:        ACTGACTA
+patternIndex:   ^
+                x
+suffixPrefix:   00000031
+</code></pre>
+<p>We have a mismatch and we move on comparing <code>T[1]</code> and <code>P[0]</code>. We have to check if a pattern occurrence is present but there is not. So, we have to shift the pattern right and by doing so we have to check <code>suffixPrefix[1 - 1]</code>. Its value is <code>0</code> and we restart by comparing <code>T[1]</code> with <code>P[0]</code>. Again a mismath occurs, so we go on with <code>T[2]</code> and <code>P[0]</code>.</p>
+<pre><code>                          1      
+                0123456789012345678
+text:           GCACTGACTGACTGACTAG
+textIndex:        ^
+pattern:          ACTGACTA
+patternIndex:     ^
+suffixPrefix:     00000031
+</code></pre>
+<p>This time we have a match. And it continues until position <code>8</code>. Unfortunately the length of the match is not equal to the pattern length, we cannot report an occurrence. But we are still lucky because we can use the values computed in the <code>suffixPrefix</code> array now. In fact, the length of the match is <code>7</code>, and if we look at the element <code>suffixPrefix[7 - 1]</code> we discover that is <code>3</code>. This information tell us that that the prefix of <code>P</code> matches the suffix of the susbtring <code>T[0...8]</code>. So the <code>suffixPrefix</code> array guarantees us that the two substring match and that we do not have to compare their characters, so we can shift right the pattern for more than one character!<br>
+The comparisons restart from <code>T[9]</code> and <code>P[3]</code>.</p>
+<pre><code>                          1       
+                0123456789012345678
+text:           GCACTGACTGACTGACTAG
+textIndex:               ^
+pattern:              ACTGACTA
+patternIndex:            ^
+suffixPrefix:         00000031
+</code></pre>
+<p>They match so we continue the compares until position <code>13</code> where a misatch occurs beetwen charcter <code>G</code> and <code>A</code>. Just like before, we are lucky and we can use the <code>suffixPrefix</code> array to shift right the pattern.</p>
+<pre><code>                          1       
+                0123456789012345678
+text:           GCACTGACTGACTGACTAG
+textIndex:                   ^
+pattern:                  ACTGACTA
+patternIndex:                ^
+suffixPrefix:             00000031
+</code></pre>
+<p>Again, we have to compare. But this time the comparisons finally take us to an occurrence, at position <code>17 - 7 = 10</code>.</p>
+<pre><code>                          1       
+                0123456789012345678
+text:           GCACTGACTGACTGACTAG
+textIndex:                       ^
+pattern:                  ACTGACTA
+patternIndex:                    ^
+suffixPrefix:             00000031
+</code></pre>
+<p>The algorithm than tries to compare <code>T[18]</code> with <code>P[1]</code> (because we used the element <code>suffixPrefix[8 - 1] = 1</code>) but it fails and at the next iteration it ends its work.</p>
+<p>The pre-processing stage involves only the pattern. The running time of the Z-Algorithm is linear and takes <code>O(n)</code>, where <code>n</code> is the length of the pattern <code>P</code>. After that, the search stage does not "overshoot" the length of the text <code>T</code> (call it <code>m</code>). It can be be proved that number of comparisons of the search stage is bounded by <code>2 * m</code>. The final running time of the Knuth-Morris-Pratt algorithm is <code>O(n + m)</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> To execute the code in the <a href="./KnuthMorrisPratt.swift">KnuthMorrisPratt.swift</a> you have to copy the <a href="../Z-Algorithm/ZAlgorithm.swift">ZAlgorithm.swift</a> file contained in the <a href="../Z-Algorithm/">Z-Algorithm</a> folder. The <a href="./KnuthMorrisPratt.playground">KnuthMorrisPratt.playground</a> already includes the definition of the <code>Zeta</code> function.</p>
+</blockquote>
+<p>Credits: This code is based on the handbook <a href="https://books.google.it/books/about/Algorithms_on_Strings_Trees_and_Sequence.html?id=Ofw5w1yuD8kC&amp;redir_esc=y" rel="nofollow">"Algorithm on String, Trees and Sequences: Computer Science and Computational Biology"</a> by Dan Gusfield, Cambridge University Press, 1997.</p>
+<p><em>Written for Swift Algorithm Club by Matteo Dunnhofer</em></p></div>
+</body>
+</html>

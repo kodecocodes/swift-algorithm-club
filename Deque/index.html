@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<head>
+  <title>Deque</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Deque</h1>
+<p>A double-ended queue. For some reason this is pronounced as "deck".</p>
+<p>A regular <a href="../Queue/">queue</a> adds elements to the back and removes from the front. The deque also allows enqueuing at the front and dequeuing from the back, and peeking at both ends.</p>
+<p>Here is a very basic implementation of a deque in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Deque</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">private</span> <span class="pl-k">var</span> array <span class="pl-k">=</span> [T]()
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">isEmpty</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">count</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">enqueue</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+    array.<span class="pl-c1">append</span>(element)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">enqueueFront</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+    array.<span class="pl-c1">insert</span>(element, <span class="pl-c1">at</span>: <span class="pl-c1">0</span>)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">dequeue</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> isEmpty {
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> array.<span class="pl-c1">removeFirst</span>()
+    }
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">dequeueBack</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> isEmpty {
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> array.<span class="pl-c1">removeLast</span>()
+    }
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">peekFront</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">first</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">peekBack</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">last</span>
+  }
+}</pre></div>
+<p>This uses an array internally. Enqueuing and dequeuing are simply a matter of adding and removing items from the front or back of the array.</p>
+<p>An example of how to use it in a playground:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> deque <span class="pl-k">=</span> Deque<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>()
+deque.<span class="pl-c1">enqueue</span>(<span class="pl-c1">1</span>)
+deque.<span class="pl-c1">enqueue</span>(<span class="pl-c1">2</span>)
+deque.<span class="pl-c1">enqueue</span>(<span class="pl-c1">3</span>)
+deque.<span class="pl-c1">enqueue</span>(<span class="pl-c1">4</span>)
+
+deque.<span class="pl-c1">dequeue</span>()       <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>deque.<span class="pl-c1">dequeueBack</span>()   <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>
+deque.<span class="pl-c1">enqueueFront</span>(<span class="pl-c1">5</span>)
+deque.<span class="pl-c1">dequeue</span>()       <span class="pl-c"><span class="pl-c">//</span> 5</span></pre></div>
+<p>This particular implementation of <code>Deque</code> is simple but not very efficient. Several operations are <strong>O(n)</strong>, notably <code>enqueueFront()</code> and <code>dequeue()</code>. I've included it only to show the principle of what a deque does.</p>
+<h2>A more efficient version</h2>
+<p>The reason that <code>dequeue()</code> and <code>enqueueFront()</code> are <strong>O(n)</strong> is that they work on the front of the array. If you remove an element at the front of an array, what happens is that all the remaining elements need to be shifted in memory.</p>
+<p>Let's say the deque's array contains the following items:</p>
+<pre><code>[ 1, 2, 3, 4 ]
+</code></pre>
+<p>Then <code>dequeue()</code> will remove <code>1</code> from the array and the elements <code>2</code>, <code>3</code>, and <code>4</code>, are shifted one position to the front:</p>
+<pre><code>[ 2, 3, 4 ]
+</code></pre>
+<p>This is an <strong>O(n)</strong> operation because all array elements need to be moved by one position in the computer's memory.</p>
+<p>Likewise, inserting an element at the front of the array is expensive because it requires that all other elements must be shifted one position to the back. So <code>enqueueFront(5)</code> will change the array to be:</p>
+<pre><code>[ 5, 2, 3, 4 ]
+</code></pre>
+<p>First, the elements <code>2</code>, <code>3</code>, and <code>4</code> are moved up by one position in the computer's memory, and then the new element <code>5</code> is inserted at the position where <code>2</code> used to be.</p>
+<p>Why is this not an issue at for <code>enqueue()</code> and <code>dequeueBack()</code>? Well, these operations are performed at the end of the array. The way resizable arrays are implemented in Swift is by reserving a certain amount of free space at the back.</p>
+<p>Our initial array <code>[ 1, 2, 3, 4]</code> actually looks like this in memory:</p>
+<pre><code>[ 1, 2, 3, 4, x, x, x ]
+</code></pre>
+<p>where the <code>x</code>s denote additional positions in the array that are not being used yet. Calling <code>enqueue(6)</code> simply copies the new item into the next unused spot:</p>
+<pre><code>[ 1, 2, 3, 4, 6, x, x ]
+</code></pre>
+<p>The <code>dequeueBack()</code> function uses <code>array.removeLast()</code> to delete that item. This does not shrink the array's memory but only decrements <code>array.count</code> by one. There are no expensive memory copies involved here. So operations at the back of the array are fast, <strong>O(1)</strong>.</p>
+<p>It is possible the array runs out of free spots at the back. In that case, Swift will allocate a new, larger array and copy over all the data. This is an <strong>O(n)</strong> operation but because it only happens once in a while, adding new elements at the end of an array is still <strong>O(1)</strong> on average.</p>
+<p>Of course, we can use this same trick at the <em>beginning</em> of the array. That will make our deque efficient too for operations at the front of the queue. Our array will look like this:</p>
+<pre><code>[ x, x, x, 1, 2, 3, 4, x, x, x ]
+</code></pre>
+<p>There is now also a chunk of free space at the start of the array, which allows adding or removing elements at the front of the queue to be <strong>O(1)</strong> as well.</p>
+<p>Here is the new version of <code>Deque</code>:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Deque</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">private</span> <span class="pl-k">var</span> array<span class="pl-k">:</span> [T<span class="pl-k">?</span>]
+  <span class="pl-k">private</span> <span class="pl-k">var</span> head<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+  <span class="pl-k">private</span> <span class="pl-k">var</span> capacity<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+  <span class="pl-k">private</span> <span class="pl-k">let</span> originalCapacity<span class="pl-k">:</span><span class="pl-c1">Int</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-en">_</span> <span class="pl-smi">capacity</span>: <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">10</span>) {
+    <span class="pl-c1">self</span>.<span class="pl-c1">capacity</span> <span class="pl-k">=</span> <span class="pl-c1">max</span>(capacity, <span class="pl-c1">1</span>)
+    originalCapacity <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">capacity</span>
+    array <span class="pl-k">=</span> [T<span class="pl-k">?</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">nil</span>, <span class="pl-c1">count</span>: capacity)
+    head <span class="pl-k">=</span> capacity
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> count <span class="pl-k">==</span> <span class="pl-c1">0</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">count</span> <span class="pl-k">-</span> head
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">enqueue</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+    array.<span class="pl-c1">append</span>(element)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">enqueueFront</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+    <span class="pl-c"><span class="pl-c">//</span> this is explained below</span>
+<span class="pl-c"></span>  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">dequeue</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-c"><span class="pl-c">//</span> this is explained below</span>
+<span class="pl-c"></span>  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">dequeueBack</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> isEmpty {
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> array.<span class="pl-c1">removeLast</span>()
+    }
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">peekFront</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> isEmpty {
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> array[head]
+    }
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">peekBack</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> isEmpty {
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> array.<span class="pl-c1">last</span><span class="pl-k">!</span>
+    }
+  }  
+}</pre></div>
+<p>It still largely looks the same -- <code>enqueue()</code> and <code>dequeueBack()</code> haven't changed -- but there are also a few important differences. The array now stores objects of type <code>T?</code> instead of just <code>T</code> because we need some way to mark array elements as being empty.</p>
+<p>The <code>init</code> method allocates a new array that contains a certain number of <code>nil</code> values. This is the free room we have to work with at the beginning of the array. By default this creates 10 empty spots.</p>
+<p>The <code>head</code> variable is the index in the array of the front-most object. Since the queue is currently empty, <code>head</code> points at an index beyond the end of the array.</p>
+<pre><code>[ x, x, x, x, x, x, x, x, x, x ]
+                                 |
+                                 head
+</code></pre>
+<p>To enqueue an object at the front, we move <code>head</code> one position to the left and then copy the new object into the array at index <code>head</code>. For example, <code>enqueueFront(5)</code> gives:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, x, 5 ]
+                             |
+                             head
+</code></pre>
+<p>Followed by <code>enqueueFront(7)</code>:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, 7, 5 ]
+                          |
+                          head
+</code></pre>
+<p>And so on... the <code>head</code> keeps moving to the left and always points at the first item in the queue. <code>enqueueFront()</code> is now <strong>O(1)</strong> because it only involves copying a value into the array, a constant-time operation.</p>
+<p>Here is the code:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">enqueueFront</span>(<span class="pl-smi"><span class="pl-en">element</span></span>: T) {
+    head <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+    array[head] <span class="pl-k">=</span> element
+  }</pre></div>
+<p>Appending to the back of the queue has not changed (it's the exact same code as before). For example, <code>enqueue(1)</code> gives:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, 7, 5, 1, x, x, x, x, x, x, x, x, x ]
+                          |
+                          head
+</code></pre>
+<p>Notice how the array has resized itself. There was no room to add the <code>1</code>, so Swift decided to make the array larger and add a number of empty spots to the end. If you enqueue another object, it gets added to the next empty spot in the back. For example, <code>enqueue(2)</code>:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, 7, 5, 1, 2, x, x, x, x, x, x, x, x ]
+                          |
+                          head
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> You won't see those empty spots at the back of the array when you <code>print(deque.array)</code>. This is because Swift hides them from you. Only the ones at the front of the array show up.</p>
+</blockquote>
+<p>The <code>dequeue()</code> method does the opposite of <code>enqueueFront()</code>, it reads the value at <code>head</code>, sets the array element back to <code>nil</code>, and then moves <code>head</code> one position to the right:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">dequeue</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">guard</span> head <span class="pl-k">&lt;</span> array.<span class="pl-c1">count</span>, <span class="pl-k">let</span> element <span class="pl-k">=</span> array[head] <span class="pl-k">else</span> { <span class="pl-k">return</span> <span class="pl-c1">nil</span> }
+
+    array[head] <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    head <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+
+    <span class="pl-k">return</span> element
+  }</pre></div>
+<p>There is one tiny problem... If you enqueue a lot of objects at the front, you're going to run out of empty spots at the front at some point. When this happens at the back of the array, Swift automatically resizes it. But at the front of the array we have to handle this situation ourselves, with some extra logic in <code>enqueueFront()</code>:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">enqueueFront</span>(<span class="pl-smi"><span class="pl-en">element</span></span>: T) {
+    <span class="pl-k">if</span> head <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+      capacity <span class="pl-k">*=</span> <span class="pl-c1">2</span>
+      <span class="pl-k">let</span> emptySpace <span class="pl-k">=</span> [T<span class="pl-k">?</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">nil</span>, <span class="pl-c1">count</span>: capacity)
+      array.<span class="pl-c1">insert</span>(<span class="pl-c1">contentsOf</span>: emptySpace, <span class="pl-c1">at</span>: <span class="pl-c1">0</span>)
+      head <span class="pl-k">=</span> capacity
+    }
+
+    head <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+    array[head] <span class="pl-k">=</span> element
+  }</pre></div>
+<p>If <code>head</code> equals 0, there is no room left at the front. When that happens, we add a whole bunch of new <code>nil</code> elements to the array. This is an <strong>O(n)</strong> operation but since this cost gets divided over all the <code>enqueueFront()</code>s, each individual call to <code>enqueueFront()</code> is still <strong>O(1)</strong> on average.</p>
+<blockquote>
+<p><strong>Note:</strong> We also multiply the capacity by 2 each time this happens, so if your queue grows bigger and bigger, the resizing happens less often. This is also what Swift arrays automatically do at the back.</p>
+</blockquote>
+<p>We have to do something similar for <code>dequeue()</code>. If you mostly enqueue a lot of elements at the back and mostly dequeue from the front, then you may end up with an array that looks as follows:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, 1, 2, 3 ]
+                                                              |
+                                                              head
+</code></pre>
+<p>Those empty spots at the front only get used when you call <code>enqueueFront()</code>. But if enqueuing objects at the front happens only rarely, this leaves a lot of wasted space. So let's add some code to <code>dequeue()</code> to clean this up:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">dequeue</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">guard</span> head <span class="pl-k">&lt;</span> array.<span class="pl-c1">count</span>, <span class="pl-k">let</span> element <span class="pl-k">=</span> array[head] <span class="pl-k">else</span> { <span class="pl-k">return</span> <span class="pl-c1">nil</span> }
+
+    array[head] <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    head <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+
+    <span class="pl-k">if</span> capacity <span class="pl-k">&gt;=</span> originalCapacity <span class="pl-k">&amp;&amp;</span> head <span class="pl-k">&gt;=</span> capacity<span class="pl-k">*</span><span class="pl-c1">2</span> {
+      <span class="pl-k">let</span> amountToRemove <span class="pl-k">=</span> capacity <span class="pl-k">+</span> capacity<span class="pl-k">/</span><span class="pl-c1">2</span>
+      array.<span class="pl-c1">removeFirst</span>(amountToRemove)
+      head <span class="pl-k">-=</span> amountToRemove
+      capacity <span class="pl-k">/=</span> <span class="pl-c1">2</span>
+    }
+    <span class="pl-k">return</span> element
+  }</pre></div>
+<p>Recall that <code>capacity</code> is the original number of empty places at the front of the queue. If the <code>head</code> has advanced more to the right than twice the capacity, then it's time to trim off a bunch of these empty spots. We reduce it to about 25%.</p>
+<blockquote>
+<p><strong>Note:</strong>  The deque will keep at least its original capacity by comparing <code>capacity</code> to <code>originalCapacity</code>.</p>
+</blockquote>
+<p>For example, this:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, 1, 2, 3 ]
+                                |                             |
+                                capacity                      head
+</code></pre>
+<p>becomes after trimming:</p>
+<pre><code>[ x, x, x, x, x, 1, 2, 3 ]
+                 |
+                 head
+                 capacity
+</code></pre>
+<p>This way we can strike a balance between fast enqueuing and dequeuing at the front and keeping the memory requirements reasonable.</p>
+<blockquote>
+<p><strong>Note:</strong> We don't perform trimming on very small arrays. It's not worth it for saving just a few bytes of memory.</p>
+</blockquote>
+<h2>See also</h2>
+<p>Other ways to implement deque are by using a <a href="../Linked%20List/">doubly linked list</a>, a <a href="../Ring%20Buffer/">circular buffer</a>, or two <a href="../Stack/">stacks</a> facing opposite directions.</p>
+<p><a href="https://github.com/lorentey/Deque">A fully-featured deque implementation in Swift</a></p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

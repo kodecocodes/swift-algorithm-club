@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<head>
+  <title>Binary Search Tree</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Binary Search Tree (BST)</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/139821/swift-algorithm-club-swift-binary-search-tree-data-structure" rel="nofollow">here</a></p>
+</blockquote>
+<p>A binary search tree is a special kind of <a href="../Binary%20Tree/">binary tree</a> (a tree in which each node has at most two children) that performs insertions and deletions such that the tree is always sorted.</p>
+<p>For more information about a tree, <a href="../Tree/">read this first</a>.</p>
+<h2>"Always sorted" property</h2>
+<p>Here is an example of a valid binary search tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Tree1.png"><img src="Images/Tree1.png" alt="A binary search tree" style="max-width:100%;"></a></p>
+<p>Notice how each left child is smaller than its parent node, and each right child is greater than its parent node. This is the key feature of a binary search tree.</p>
+<p>For example, <code>2</code> is smaller than <code>7</code>, so it goes on the left; <code>5</code> is greater than <code>2</code>, so it goes on the right.</p>
+<h2>Inserting new nodes</h2>
+<p>When performing an insertion, we first compare the new value to the root node. If the new value is smaller, we take the <em>left</em> branch; if greater, we take the <em>right</em> branch. We work our way down the tree this way until we find an empty spot where we can insert the new value.</p>
+<p>Suppose we want to insert the new value <code>9</code>:</p>
+<ul>
+<li>We start at the root of the tree (the node with the value <code>7</code>) and compare it to the new value <code>9</code>.</li>
+<li><code>9 &gt; 7</code>, so we go down the right branch and repeat the same procedure but this time on node <code>10</code>.</li>
+<li>Because <code>9 &lt; 10</code>, we go down the left branch.</li>
+<li>We now arrived at a point where there are no more values to compare with. A new node for <code>9</code> is inserted at that location.</li>
+</ul>
+<p>Here is the tree after inserting the new value <code>9</code>:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Tree2.png"><img src="Images/Tree2.png" alt="After adding 9" style="max-width:100%;"></a></p>
+<p>There is only one possible place where the new element can be inserted in the tree. Finding this place is usually quick. It takes <strong>O(h)</strong> time, where <strong>h</strong> is the height of the tree.</p>
+<blockquote>
+<p><strong>Note:</strong> The <em>height</em> of a node is the number of steps it takes to go from that node to its lowest leaf. The height of the entire tree is the distance from the root to the lowest leaf. Many of the operations on a binary search tree are expressed in terms of the tree's height.</p>
+</blockquote>
+<p>By following this simple rule -- smaller values on the left, larger values on the right -- we keep the tree sorted, so whenever we query it, we can check if a value is in the tree.</p>
+<h2>Searching the tree</h2>
+<p>To find a value in the tree, we perform the same steps as with insertion:</p>
+<ul>
+<li>If the value is less than the current node, then take the left branch.</li>
+<li>If the value is greater than the current node, take the right branch.</li>
+<li>If the value is equal to the current node, we've found it!</li>
+</ul>
+<p>Like most tree operations, this is performed recursively until either we find what we are looking for or run out of nodes to look at.</p>
+<p>Here is an example for searching the value <code>5</code>:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Searching.png"><img src="Images/Searching.png" alt="Searching the tree" style="max-width:100%;"></a></p>
+<p>Searching is fast using the structure of the tree. It runs in <strong>O(h)</strong> time. If you have a well-balanced tree with a million nodes, it only takes about 20 steps to find anything in this tree. (The idea is very similar to <a href="../Binary%20Search">binary search</a> in an array.)</p>
+<h2>Traversing the tree</h2>
+<p>Sometimes you need to look at all nodes rather than only one.</p>
+<p>There are three ways to traverse a binary tree:</p>
+<ol>
+<li><em>In-order</em> (or <em>depth-first</em>): first look at the left child of a node then at the node itself and finally at its right child.</li>
+<li><em>Pre-order</em>: first look at a node then its left and right children.</li>
+<li><em>Post-order</em>: first look at the left and right children and process the node itself last.</li>
+</ol>
+<p>Traversing the tree also happens recursively.</p>
+<p>If you traverse a binary search tree in-order, it looks at all the nodes as if they were sorted from low to high. For the example tree, it would print <code>1, 2, 5, 7, 9, 10</code>:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Traversing.png"><img src="Images/Traversing.png" alt="Traversing the tree" style="max-width:100%;"></a></p>
+<h2>Deleting nodes</h2>
+<p>Removing nodes is easy. After removing a node, we replace the node with either its biggest child on the left or its smallest child on the right. That way the tree is still sorted after the removal. In the following example, 10 is removed and replaced with either 9 (Figure 2) or 11 (Figure 3).</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/DeleteTwoChildren.png"><img src="Images/DeleteTwoChildren.png" alt="Deleting a node with two children" style="max-width:100%;"></a></p>
+<p>Note the replacement needs to happen when the node has at least one child. If it has no child, you just disconnect it from its parent:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/DeleteLeaf.png"><img src="Images/DeleteLeaf.png" alt="Deleting a leaf node" style="max-width:100%;"></a></p>
+<h2>The code (solution 1)</h2>
+<p>So much for the theory. Let's see how we can implement a binary search tree in Swift. There are different approaches you can take. First, I will show you how to make a class-based version, but we will also look at how to make one using enums.</p>
+<p>Here is an example for a <code>BinarySearchTree</code> class:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">BinarySearchTree</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt; {
+  <span class="pl-k">private</span>(<span class="pl-k">set</span>) <span class="pl-k">public</span> <span class="pl-k">var</span> value<span class="pl-k">:</span> T
+  <span class="pl-k">private</span>(<span class="pl-k">set</span>) <span class="pl-k">public</span> <span class="pl-k">var</span> parent<span class="pl-k">:</span> BinarySearchTree<span class="pl-k">?</span>
+  <span class="pl-k">private</span>(<span class="pl-k">set</span>) <span class="pl-k">public</span> <span class="pl-k">var</span> left<span class="pl-k">:</span> BinarySearchTree<span class="pl-k">?</span>
+  <span class="pl-k">private</span>(<span class="pl-k">set</span>) <span class="pl-k">public</span> <span class="pl-k">var</span> right<span class="pl-k">:</span> BinarySearchTree<span class="pl-k">?</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">value</span></span>: T) {
+    <span class="pl-c1">self</span>.<span class="pl-c1">value</span> <span class="pl-k">=</span> value
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isRoot<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> parent <span class="pl-k">==</span> <span class="pl-c1">nil</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isLeaf<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> left <span class="pl-k">==</span> <span class="pl-c1">nil</span> <span class="pl-k">&amp;&amp;</span> right <span class="pl-k">==</span> <span class="pl-c1">nil</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isLeftChild<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> parent<span class="pl-k">?</span>.<span class="pl-smi">left</span> <span class="pl-k">===</span> <span class="pl-c1">self</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isRightChild<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> parent<span class="pl-k">?</span>.<span class="pl-smi">right</span> <span class="pl-k">===</span> <span class="pl-c1">self</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> hasLeftChild<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> left <span class="pl-k">!=</span> <span class="pl-c1">nil</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> hasRightChild<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> right <span class="pl-k">!=</span> <span class="pl-c1">nil</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> hasAnyChild<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> hasLeftChild <span class="pl-k">||</span> hasRightChild
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> hasBothChildren<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> hasLeftChild <span class="pl-k">&amp;&amp;</span> hasRightChild
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> (left<span class="pl-k">?</span>.<span class="pl-c1">count</span> <span class="pl-k">??</span> <span class="pl-c1">0</span>) <span class="pl-k">+</span> <span class="pl-c1">1</span> <span class="pl-k">+</span> (right<span class="pl-k">?</span>.<span class="pl-c1">count</span> <span class="pl-k">??</span> <span class="pl-c1">0</span>)
+  }
+}</pre></div>
+<p>This class describes just a single node not the entire tree. It is a generic type, so the node can store any kind of data. It also has references to its <code>left</code> and <code>right</code> child nodes and a <code>parent</code> node.</p>
+<p>Here is how you can use it:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> tree <span class="pl-k">=</span> BinarySearchTree<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-c1">7</span>)</pre></div>
+<p>The <code>count</code> property determines how many nodes are in the subtree described by this node. This does not just count the node's immediate children but also their children and their children's children, and so on. If this particular object is the root node, then it counts how many nodes are in the entire tree. Initially, <code>count = 0</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> Because <code>left</code>, <code>right</code>, and <code>parent</code> are optional, we can make good use of Swift's optional chaining (<code>?</code>) and nil-coalescing operators (<code>??</code>). You could also write this sort of thing with <code>if let</code>, but that is less concise.</p>
+</blockquote>
+<h3>Inserting nodes</h3>
+<p>A tree node by itself is useless, so here is how you would add new nodes to the tree:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-smi"><span class="pl-en">value</span></span>: T) {
+    <span class="pl-k">if</span> value <span class="pl-k">&lt;</span> <span class="pl-c1">self</span>.<span class="pl-c1">value</span> {
+      <span class="pl-k">if</span> <span class="pl-k">let</span> left <span class="pl-k">=</span> left {
+        left.<span class="pl-c1">insert</span>(<span class="pl-c1">value</span>: value)
+      } <span class="pl-k">else</span> {
+        left <span class="pl-k">=</span> <span class="pl-c1">BinarySearchTree</span>(<span class="pl-c1">value</span>: value)
+        left<span class="pl-k">?</span>.<span class="pl-smi">parent</span> <span class="pl-k">=</span> <span class="pl-c1">self</span>
+      }
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">if</span> <span class="pl-k">let</span> right <span class="pl-k">=</span> right {
+        right.<span class="pl-c1">insert</span>(<span class="pl-c1">value</span>: value)
+      } <span class="pl-k">else</span> {
+        right <span class="pl-k">=</span> <span class="pl-c1">BinarySearchTree</span>(<span class="pl-c1">value</span>: value)
+        right<span class="pl-k">?</span>.<span class="pl-smi">parent</span> <span class="pl-k">=</span> <span class="pl-c1">self</span>
+      }
+    }
+  }</pre></div>
+<p>Like so many other tree operations, insertion is easiest to implement with recursion. We compare the new value to the values of the existing nodes and decide whether to add it to the left branch or the right branch.</p>
+<p>If there is no more left or right child to look at, we create a <code>BinarySearchTree</code> object for the new node and connect it to the tree by setting its <code>parent</code> property.</p>
+<blockquote>
+<p><strong>Note:</strong> Because the whole point of a binary search tree is to have smaller nodes on the left and larger ones on the right, you should always insert elements at the root to make sure this remains a valid binary tree!</p>
+</blockquote>
+<p>To build the complete tree from the example you can do:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> tree <span class="pl-k">=</span> BinarySearchTree<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-c1">7</span>)
+tree.<span class="pl-c1">insert</span>(<span class="pl-c1">2</span>)
+tree.<span class="pl-c1">insert</span>(<span class="pl-c1">5</span>)
+tree.<span class="pl-c1">insert</span>(<span class="pl-c1">10</span>)
+tree.<span class="pl-c1">insert</span>(<span class="pl-c1">9</span>)
+tree.<span class="pl-c1">insert</span>(<span class="pl-c1">1</span>)</pre></div>
+<blockquote>
+<p><strong>Note:</strong> For reasons that will become clear later, you should insert the numbers in a random order. If you insert them in a sorted order, the tree will not have the right shape.</p>
+</blockquote>
+<p>For convenience, let's add an init method that calls <code>insert()</code> for all the elements in an array:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">convenience</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">array</span></span>: [T]) {
+    <span class="pl-c1">precondition</span>(array.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>)
+    <span class="pl-c1">self</span>.<span class="pl-k">init</span>(<span class="pl-c1">value</span>: array.<span class="pl-c1">first</span><span class="pl-k">!</span>)
+    <span class="pl-k">for</span> v <span class="pl-k">in</span> array.<span class="pl-c1">dropFirst</span>() {
+      <span class="pl-c1">insert</span>(<span class="pl-c1">value</span>: v)
+    }
+  }</pre></div>
+<p>Now you can simply do this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> tree <span class="pl-k">=</span> BinarySearchTree<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>(<span class="pl-c1">array</span>: [<span class="pl-c1">7</span>, <span class="pl-c1">2</span>, <span class="pl-c1">5</span>, <span class="pl-c1">10</span>, <span class="pl-c1">9</span>, <span class="pl-c1">1</span>])</pre></div>
+<p>The first value in the array becomes the root of the tree.</p>
+<h3>Debug output</h3>
+<p>When working with complicated data structures, it is useful to have human-readable debug output.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">BinarySearchTree</span>: <span class="pl-e"><span class="pl-c1">CustomStringConvertible</span> </span>{
+  <span class="pl-k">public</span> <span class="pl-k">var</span> description<span class="pl-k">:</span> <span class="pl-c1">String</span> {
+    <span class="pl-k">var</span> s <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+    <span class="pl-k">if</span> <span class="pl-k">let</span> left <span class="pl-k">=</span> left {
+      s <span class="pl-k">+=</span> <span class="pl-s"><span class="pl-pds">"</span>(<span class="pl-pse">\(</span><span class="pl-s1">left.<span class="pl-c1">description</span></span><span class="pl-pse"><span class="pl-s1">)</span></span>) &lt;- <span class="pl-pds">"</span></span>
+    }
+    s <span class="pl-k">+=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">value</span><span class="pl-pse"><span class="pl-s1">)</span></span><span class="pl-pds">"</span></span>
+    <span class="pl-k">if</span> <span class="pl-k">let</span> right <span class="pl-k">=</span> right {
+      s <span class="pl-k">+=</span> <span class="pl-s"><span class="pl-pds">"</span> -&gt; (<span class="pl-pse">\(</span><span class="pl-s1">right.<span class="pl-c1">description</span></span><span class="pl-pse"><span class="pl-s1">)</span></span>)<span class="pl-pds">"</span></span>
+    }
+    <span class="pl-k">return</span> s
+  }
+}</pre></div>
+<p>When you do a <code>print(tree)</code>, you should get something like this:</p>
+<pre><code>((1) &lt;- 2 -&gt; (5)) &lt;- 7 -&gt; ((9) &lt;- 10)
+</code></pre>
+<p>The root node is in the middle. With some imagination, you should see that this indeed corresponds to the following tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Tree2.png"><img src="Images/Tree2.png" alt="The tree" style="max-width:100%;"></a></p>
+<p>You may be wondering what happens when you insert duplicate items? We always insert those in the right branch. Try it out!</p>
+<h3>Searching</h3>
+<p>What do we do now that we have some values in our tree? Search for them, of course! To find items quickly is the main purpose of a binary search tree. :-)</p>
+<p>Here is the implementation of <code>search()</code>:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">search</span>(<span class="pl-smi"><span class="pl-en">value</span></span>: T) <span class="pl-k">-&gt;</span> BinarySearchTree<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> value <span class="pl-k">&lt;</span> <span class="pl-c1">self</span>.<span class="pl-c1">value</span> {
+      <span class="pl-k">return</span> left<span class="pl-k">?</span>.<span class="pl-c1">search</span>(value)
+    } <span class="pl-k">else</span> <span class="pl-k">if</span> value <span class="pl-k">&gt;</span> <span class="pl-c1">self</span>.<span class="pl-c1">value</span> {
+      <span class="pl-k">return</span> right<span class="pl-k">?</span>.<span class="pl-c1">search</span>(value)
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> <span class="pl-c1">self</span>  <span class="pl-c"><span class="pl-c">//</span> found it!</span>
+<span class="pl-c"></span>    }
+  }</pre></div>
+<p>I hope the logic is clear: this starts at the current node (usually the root) and compares the values. If the search value is less than the node's value, we continue searching in the left branch; if the search value is greater, we dive into the right branch.</p>
+<p>If there are no more nodes to look at -- when <code>left</code> or <code>right</code> is nil -- then we return <code>nil</code> to indicate the search value is not in the tree.</p>
+<blockquote>
+<p><strong>Note:</strong> In Swift, that is conveniently done with optional chaining; when you write <code>left?.search(value)</code> it automatically returns nil if <code>left</code> is nil. There is no need to explicitly check for this with an <code>if</code> statement.</p>
+</blockquote>
+<p>Searching is a recursive process, but you can also implement it with a simple loop instead:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">search</span>(<span class="pl-en">_</span> <span class="pl-smi">value</span>: T) <span class="pl-k">-&gt;</span> BinarySearchTree<span class="pl-k">?</span> {
+    <span class="pl-k">var</span> node<span class="pl-k">:</span> BinarySearchTree<span class="pl-k">?</span> <span class="pl-k">=</span> <span class="pl-c1">self</span>
+    <span class="pl-k">while</span> <span class="pl-k">let</span> n <span class="pl-k">=</span> node {
+      <span class="pl-k">if</span> value <span class="pl-k">&lt;</span> n.<span class="pl-c1">value</span> {
+        node <span class="pl-k">=</span> n.<span class="pl-smi">left</span>
+      } <span class="pl-k">else</span> <span class="pl-k">if</span> value <span class="pl-k">&gt;</span> n.<span class="pl-c1">value</span> {
+        node <span class="pl-k">=</span> n.<span class="pl-smi">right</span>
+      } <span class="pl-k">else</span> {
+        <span class="pl-k">return</span> node
+      }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }</pre></div>
+<p>Verify that you understand these two implementations are equivalent. Personally, I prefer to use iterative code over recursive code, but your opinion may differ. ;-)</p>
+<p>Here is how to test searching:</p>
+<div class="highlight highlight-source-swift"><pre>tree.<span class="pl-c1">search</span>(<span class="pl-c1">5</span>)
+tree.<span class="pl-c1">search</span>(<span class="pl-c1">2</span>)
+tree.<span class="pl-c1">search</span>(<span class="pl-c1">7</span>)
+tree.<span class="pl-c1">search</span>(<span class="pl-c1">6</span>)   <span class="pl-c"><span class="pl-c">//</span> nil</span></pre></div>
+<p>The first three lines return the corresponding <code>BinaryTreeNode</code> object. The last line returns <code>nil</code> because there is no node with value <code>6</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> If there are duplicate items in the tree, <code>search()</code> returns the "highest" node. That makes sense, because we start searching from the root downwards.</p>
+</blockquote>
+<h3>Traversal</h3>
+<p>Remember there are 3 different ways to look at all nodes in the tree? Here they are:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">traverseInOrder</span>(<span class="pl-smi"><span class="pl-en">process</span></span>: (T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span>) {
+    left<span class="pl-k">?</span>.<span class="pl-c1">traverseInOrder</span>(<span class="pl-c1">process</span>: process)
+    <span class="pl-c1">process</span>(value)
+    right<span class="pl-k">?</span>.<span class="pl-c1">traverseInOrder</span>(<span class="pl-c1">process</span>: process)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">traversePreOrder</span>(<span class="pl-smi"><span class="pl-en">process</span></span>: (T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span>) {
+    <span class="pl-c1">process</span>(value)
+    left<span class="pl-k">?</span>.<span class="pl-c1">traversePreOrder</span>(<span class="pl-c1">process</span>: process)
+    right<span class="pl-k">?</span>.<span class="pl-c1">traversePreOrder</span>(<span class="pl-c1">process</span>: process)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">traversePostOrder</span>(<span class="pl-smi"><span class="pl-en">process</span></span>: (T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span>) {
+    left<span class="pl-k">?</span>.<span class="pl-c1">traversePostOrder</span>(<span class="pl-c1">process</span>: process)
+    right<span class="pl-k">?</span>.<span class="pl-c1">traversePostOrder</span>(<span class="pl-c1">process</span>: process)
+    <span class="pl-c1">process</span>(value)
+  }</pre></div>
+<p>They all work the same but in different orders. Notice that all the work is done recursively. The Swift's optional chaining makes it clear that the calls to <code>traverseInOrder()</code> etc are ignored when there is no left or right child.</p>
+<p>To print out all the values of the tree sorted from low to high you can write:</p>
+<div class="highlight highlight-source-swift"><pre>tree.<span class="pl-smi">traverseInOrder</span> { value <span class="pl-k">in</span> <span class="pl-c1">print</span>(value) }</pre></div>
+<p>This prints the following:</p>
+<pre><code>1
+2
+5
+7
+9
+10
+</code></pre>
+<p>You can also add things like <code>map()</code> and <code>filter()</code> to the tree. For example, here is an implementation of map:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">map</span>(<span class="pl-smi"><span class="pl-en">formula</span></span>: (T) <span class="pl-k">-&gt;</span> T) <span class="pl-k">-&gt;</span> [T] {
+    <span class="pl-k">var</span> a <span class="pl-k">=</span> [T]()
+    <span class="pl-k">if</span> <span class="pl-k">let</span> left <span class="pl-k">=</span> left { a <span class="pl-k">+=</span> left.<span class="pl-c1">map</span>(<span class="pl-c1">formula</span>: formula) }
+    a.<span class="pl-c1">append</span>(<span class="pl-c1">formula</span>(value))
+    <span class="pl-k">if</span> <span class="pl-k">let</span> right <span class="pl-k">=</span> right { a <span class="pl-k">+=</span> right.<span class="pl-c1">map</span>(<span class="pl-c1">formula</span>: formula) }
+    <span class="pl-k">return</span> a
+  }</pre></div>
+<p>This calls the <code>formula</code> closure on each node in the tree and collects the results in an array. <code>map()</code> works by traversing the tree in-order.</p>
+<p>An extremely simple example of how to use <code>map()</code>:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">toArray</span>() <span class="pl-k">-&gt;</span> [T] {
+    <span class="pl-k">return</span> map { <span class="pl-c1">$0</span> }
+  }</pre></div>
+<p>This turns the contents of the tree back into a sorted array. Try it out in the playground:</p>
+<div class="highlight highlight-source-swift"><pre>tree.<span class="pl-c1">toArray</span>()   <span class="pl-c"><span class="pl-c">//</span> [1, 2, 5, 7, 9, 10]</span></pre></div>
+<p>As an exercise, see if you can implement filter and reduce.</p>
+<h3>Deleting nodes</h3>
+<p>We can make the code more readable by defining some helper functions.</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">reconnectParentTo</span>(<span class="pl-smi"><span class="pl-en">node</span></span>: BinarySearchTree<span class="pl-k">?</span>) {
+    <span class="pl-k">if</span> <span class="pl-k">let</span> parent <span class="pl-k">=</span> parent {
+      <span class="pl-k">if</span> isLeftChild {
+        parent.<span class="pl-smi">left</span> <span class="pl-k">=</span> node
+      } <span class="pl-k">else</span> {
+        parent.<span class="pl-smi">right</span> <span class="pl-k">=</span> node
+      }
+    }
+    node<span class="pl-k">?</span>.<span class="pl-smi">parent</span> <span class="pl-k">=</span> parent
+  }</pre></div>
+<p>Making changes to the tree involves changing a bunch of <code>parent</code> and <code>left</code> and <code>right</code> pointers. This function helps with this implementation. It takes the parent of the current node -- that is <code>self</code> -- and connects it to another node which will be one of the children of <code>self</code>.</p>
+<p>We also need a function that returns the minimum and maximum of a node:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">minimum</span>() <span class="pl-k">-&gt;</span> BinarySearchTree {
+    <span class="pl-k">var</span> node <span class="pl-k">=</span> <span class="pl-c1">self</span>
+    <span class="pl-k">while</span> <span class="pl-k">let</span> next <span class="pl-k">=</span> node.<span class="pl-smi">left</span> {
+      node <span class="pl-k">=</span> next
+    }
+    <span class="pl-k">return</span> node
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">maximum</span>() <span class="pl-k">-&gt;</span> BinarySearchTree {
+    <span class="pl-k">var</span> node <span class="pl-k">=</span> <span class="pl-c1">self</span>
+    <span class="pl-k">while</span> <span class="pl-k">let</span> next <span class="pl-k">=</span> node.<span class="pl-smi">right</span> {
+      node <span class="pl-k">=</span> next
+    }
+    <span class="pl-k">return</span> node
+  }
+</pre></div>
+<p>The rest of the code is self-explanatory:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">@discardableResult</span> <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">remove</span>() <span class="pl-k">-&gt;</span> BinarySearchTree<span class="pl-k">?</span> {
+    <span class="pl-k">let</span> replacement<span class="pl-k">:</span> BinarySearchTree<span class="pl-k">?</span>
+
+    <span class="pl-c"><span class="pl-c">//</span> Replacement for current node can be either biggest one on the left or</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> smallest one on the right, whichever is not nil</span>
+<span class="pl-c"></span>    <span class="pl-k">if</span> <span class="pl-k">let</span> right <span class="pl-k">=</span> right {
+      replacement <span class="pl-k">=</span> right.<span class="pl-c1">minimum</span>()
+    } <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-k">let</span> left <span class="pl-k">=</span> left {
+      replacement <span class="pl-k">=</span> left.<span class="pl-c1">maximum</span>()
+    } <span class="pl-k">else</span> {
+      replacement <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    }
+
+    replacement<span class="pl-k">?</span>.<span class="pl-c1">remove</span>()
+
+    <span class="pl-c"><span class="pl-c">//</span> Place the replacement on current node's position</span>
+<span class="pl-c"></span>    replacement<span class="pl-k">?</span>.<span class="pl-smi">right</span> <span class="pl-k">=</span> right
+    replacement<span class="pl-k">?</span>.<span class="pl-smi">left</span> <span class="pl-k">=</span> left
+    right<span class="pl-k">?</span>.<span class="pl-smi">parent</span> <span class="pl-k">=</span> replacement
+    left<span class="pl-k">?</span>.<span class="pl-smi">parent</span> <span class="pl-k">=</span> replacement
+    <span class="pl-c1">reconnectParentTo</span>(<span class="pl-c1">node</span>:replacement)
+
+    <span class="pl-c"><span class="pl-c">//</span> The current node is no longer part of the tree, so clean it up.</span>
+<span class="pl-c"></span>    parent <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    left <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    right <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+
+    <span class="pl-k">return</span> replacement
+  }</pre></div>
+<h3>Depth and height</h3>
+<p>Recall that the height of a node is the distance to its lowest leaf. We can calculate that with the following function:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">height</span>() <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">if</span> isLeaf {
+      <span class="pl-k">return</span> <span class="pl-c1">0</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> <span class="pl-c1">1</span> <span class="pl-k">+</span> <span class="pl-c1">max</span>(left<span class="pl-k">?</span>.<span class="pl-c1">height</span>() <span class="pl-k">??</span> <span class="pl-c1">0</span>, right<span class="pl-k">?</span>.<span class="pl-c1">height</span>() <span class="pl-k">??</span> <span class="pl-c1">0</span>)
+    }
+  }</pre></div>
+<p>We look at the heights of the left and right branches and take the highest one. Again, this is a recursive procedure. Since this looks at all children of this node, performance is <strong>O(n)</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> Swift's null-coalescing operator is used as shorthand to deal with <code>left</code> or <code>right</code> pointers that are nil. You could write this with <code>if let</code>, but this is more concise.</p>
+</blockquote>
+<p>Try it out:</p>
+<div class="highlight highlight-source-swift"><pre>tree.<span class="pl-c1">height</span>()  <span class="pl-c"><span class="pl-c">//</span> 2</span></pre></div>
+<p>You can also calculate the <em>depth</em> of a node, which is the distance to the root. Here is the code:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">depth</span>() <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">var</span> node <span class="pl-k">=</span> <span class="pl-c1">self</span>
+    <span class="pl-k">var</span> edges <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">while</span> <span class="pl-k">let</span> parent <span class="pl-k">=</span> node.<span class="pl-smi">parent</span> {
+      node <span class="pl-k">=</span> parent
+      edges <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    }
+    <span class="pl-k">return</span> edges
+  }</pre></div>
+<p>It steps upwards through the tree, following the <code>parent</code> pointers until we reach the root node (whose <code>parent</code> is nil). This takes <strong>O(h)</strong> time. Here is an example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> <span class="pl-k">let</span> node9 <span class="pl-k">=</span> tree.<span class="pl-c1">search</span>(<span class="pl-c1">9</span>) {
+  node9.<span class="pl-c1">depth</span>()   <span class="pl-c"><span class="pl-c">//</span> returns 2</span>
+<span class="pl-c"></span>}</pre></div>
+<h3>Predecessor and successor</h3>
+<p>The binary search tree is always "sorted" but that does not mean that consecutive numbers are actually next to each other in the tree.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Tree2.png"><img src="Images/Tree2.png" alt="Example" style="max-width:100%;"></a></p>
+<p>Note that you cannot find the number that comes before <code>7</code> by just looking at its left child node. The left child is <code>2</code>, not <code>5</code>. Likewise for the number that comes after <code>7</code>.</p>
+<p>The <code>predecessor()</code> function returns the node whose value precedes the current value in sorted order:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">predecessor</span>() <span class="pl-k">-&gt;</span> BinarySearchTree&lt;T&gt;<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> <span class="pl-k">let</span> left <span class="pl-k">=</span> left {
+      <span class="pl-k">return</span> left.<span class="pl-c1">maximum</span>()
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">var</span> node <span class="pl-k">=</span> <span class="pl-c1">self</span>
+      <span class="pl-k">while</span> <span class="pl-k">let</span> parent <span class="pl-k">=</span> node.<span class="pl-smi">parent</span> {
+        <span class="pl-k">if</span> parent.<span class="pl-c1">value</span> <span class="pl-k">&lt;</span> value { <span class="pl-k">return</span> parent }
+        node <span class="pl-k">=</span> parent
+      }
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    }
+  }</pre></div>
+<p>It is easy if we have a left subtree. In that case, the immediate predecessor is the maximum value in that subtree. You can verify in the above picture that <code>5</code> is indeed the maximum value in <code>7</code>'s left branch.</p>
+<p>If there is no left subtree, then we have to look at our parent nodes until we find a smaller value. If we want to know what the predecessor is of node <code>9</code>, we keep going up until we find the first parent with a smaller value, which is <code>7</code>.</p>
+<p>The code for <code>successor()</code> works the same way but mirrored:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">successor</span>() <span class="pl-k">-&gt;</span> BinarySearchTree&lt;T&gt;<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> <span class="pl-k">let</span> right <span class="pl-k">=</span> right {
+      <span class="pl-k">return</span> right.<span class="pl-c1">minimum</span>()
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">var</span> node <span class="pl-k">=</span> <span class="pl-c1">self</span>
+      <span class="pl-k">while</span> <span class="pl-k">let</span> parent <span class="pl-k">=</span> node.<span class="pl-smi">parent</span> {
+        <span class="pl-k">if</span> parent.<span class="pl-c1">value</span> <span class="pl-k">&gt;</span> value { <span class="pl-k">return</span> parent }
+        node <span class="pl-k">=</span> parent
+      }
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    }
+  }</pre></div>
+<p>Both these methods run in <strong>O(h)</strong> time.</p>
+<blockquote>
+<p><strong>Note:</strong> There is a variation called a <a href="../Threaded%20Binary%20Tree">"threaded" binary tree</a> where "unused" left and right pointers are repurposed to make direct links between predecessor and successor nodes. Very clever!</p>
+</blockquote>
+<h3>Is the search tree valid?</h3>
+<p>If you were intent on sabotage you could turn the binary search tree into an invalid tree by calling <code>insert()</code> on a node that is not the root. Here is an example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> <span class="pl-k">let</span> node1 <span class="pl-k">=</span> tree.<span class="pl-c1">search</span>(<span class="pl-c1">1</span>) {
+  node1.<span class="pl-c1">insert</span>(<span class="pl-c1">100</span>)
+}</pre></div>
+<p>The value of the root node is <code>7</code>, so a node with value <code>100</code>must be in the tree's right branch. However, you are not inserting at the root but at a leaf node in the tree's left branch. So the new <code>100</code> node is in the wrong place in the tree!</p>
+<p>As a result, doing <code>tree.search(100)</code> gives nil.</p>
+<p>You can check whether a tree is a valid binary search tree with the following method:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">isBST</span>(<span class="pl-en">minValue</span> <span class="pl-smi">minValue</span>: T, <span class="pl-smi"><span class="pl-en">maxValue</span></span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">if</span> value <span class="pl-k">&lt;</span> minValue <span class="pl-k">||</span> value <span class="pl-k">&gt;</span> maxValue { <span class="pl-k">return</span> <span class="pl-c1">false</span> }
+    <span class="pl-k">let</span> leftBST <span class="pl-k">=</span> left<span class="pl-k">?</span>.<span class="pl-c1">isBST</span>(<span class="pl-c1">minValue</span>: minValue, <span class="pl-c1">maxValue</span>: value) <span class="pl-k">??</span> <span class="pl-c1">true</span>
+    <span class="pl-k">let</span> rightBST <span class="pl-k">=</span> right<span class="pl-k">?</span>.<span class="pl-c1">isBST</span>(<span class="pl-c1">minValue</span>: value, <span class="pl-c1">maxValue</span>: maxValue) <span class="pl-k">??</span> <span class="pl-c1">true</span>
+    <span class="pl-k">return</span> leftBST <span class="pl-k">&amp;&amp;</span> rightBST
+  }</pre></div>
+<p>This verifies the left branch contains values that are less than the current node's value, and that the right branch only contains values that are larger.</p>
+<p>Call it as follows:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> <span class="pl-k">let</span> node1 <span class="pl-k">=</span> tree.<span class="pl-c1">search</span>(<span class="pl-c1">1</span>) {
+  tree.<span class="pl-c1">isBST</span>(<span class="pl-c1">minValue</span>: <span class="pl-c1">Int</span>.<span class="pl-c1">min</span>, <span class="pl-c1">maxValue</span>: <span class="pl-c1">Int</span>.<span class="pl-c1">max</span>)  <span class="pl-c"><span class="pl-c">//</span> true</span>
+<span class="pl-c"></span>  node1.<span class="pl-c1">insert</span>(<span class="pl-c1">100</span>)                                 <span class="pl-c"><span class="pl-c">//</span> EVIL!!!</span>
+<span class="pl-c"></span>  tree.<span class="pl-c1">search</span>(<span class="pl-c1">100</span>)                                  <span class="pl-c"><span class="pl-c">//</span> nil</span>
+<span class="pl-c"></span>  tree.<span class="pl-c1">isBST</span>(<span class="pl-c1">minValue</span>: <span class="pl-c1">Int</span>.<span class="pl-c1">min</span>, <span class="pl-c1">maxValue</span>: <span class="pl-c1">Int</span>.<span class="pl-c1">max</span>)  <span class="pl-c"><span class="pl-c">//</span> false</span>
+<span class="pl-c"></span>}</pre></div>
+<h2>The code (solution 2)</h2>
+<p>We have implemented the binary tree node as a class, but you can also use an enum.</p>
+<p>The difference is reference semantics versus value semantics. Making a change to the class-based tree will update that same instance in memory, but the enum-based tree is immutable -- any insertions or deletions will give you an entirely new copy of the tree. Which one is best, totally depends on what you want to use it for.</p>
+<p>Here is how you can make a binary search tree using an enum:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">enum</span> <span class="pl-en">BinarySearchTree</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt; {
+  <span class="pl-k">case</span> <span class="pl-c1">Empty</span>
+  <span class="pl-k">case</span> <span class="pl-c1">Leaf</span>(T)
+  <span class="pl-k">indirect</span> <span class="pl-k">case</span> <span class="pl-c1">Node</span>(BinarySearchTree, T, BinarySearchTree)
+}</pre></div>
+<p>The enum has three cases:</p>
+<ul>
+<li><code>Empty</code> to mark the end of a branch (the class-based version used <code>nil</code> references for this).</li>
+<li><code>Leaf</code> for a leaf node that has no children.</li>
+<li><code>Node</code> for a node that has one or two children. This is marked <code>indirect</code> so that it can hold <code>BinarySearchTree</code> values. Without <code>indirect</code> you can't make recursive enums.</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> The nodes in this binary tree do not have a reference to their parent node. It is not a major impediment, but it will make certain operations more cumbersome to implement.</p>
+</blockquote>
+<p>This implementation is recursive, and each case of the enum will be treated differently. For example, this is how you can calculate the number of nodes in the tree and the height of the tree:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">switch</span> <span class="pl-c1">self</span> {
+    <span class="pl-k">case</span> .<span class="pl-smi">Empty</span><span class="pl-k">:</span> <span class="pl-k">return</span> <span class="pl-c1">0</span>
+    <span class="pl-k">case</span> .<span class="pl-smi">Leaf</span><span class="pl-k">:</span> <span class="pl-k">return</span> <span class="pl-c1">1</span>
+    <span class="pl-k">case</span> <span class="pl-k">let</span> .<span class="pl-c1">Node</span>(left, <span class="pl-c1">_</span>, right)<span class="pl-k">:</span> <span class="pl-k">return</span> left.<span class="pl-c1">count</span> <span class="pl-k">+</span> <span class="pl-c1">1</span> <span class="pl-k">+</span> right.<span class="pl-c1">count</span>
+    }
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> height<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">switch</span> <span class="pl-c1">self</span> {
+    <span class="pl-k">case</span> .<span class="pl-smi">Empty</span><span class="pl-k">:</span> <span class="pl-k">return</span> <span class="pl-c1">-1</span>
+    <span class="pl-k">case</span> .<span class="pl-smi">Leaf</span><span class="pl-k">:</span> <span class="pl-k">return</span> <span class="pl-c1">0</span>
+    <span class="pl-k">case</span> <span class="pl-k">let</span> .<span class="pl-c1">Node</span>(left, <span class="pl-c1">_</span>, right)<span class="pl-k">:</span> <span class="pl-k">return</span> <span class="pl-c1">1</span> <span class="pl-k">+</span> <span class="pl-c1">max</span>(left.<span class="pl-smi">height</span>, right.<span class="pl-smi">height</span>)
+    }
+  }</pre></div>
+<p>Inserting new nodes looks like this:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-smi"><span class="pl-en">newValue</span></span>: T) <span class="pl-k">-&gt;</span> BinarySearchTree {
+    <span class="pl-k">switch</span> <span class="pl-c1">self</span> {
+    <span class="pl-k">case</span> .<span class="pl-smi">Empty</span><span class="pl-k">:</span>
+      <span class="pl-k">return</span> .<span class="pl-c1">Leaf</span>(newValue)
+
+    <span class="pl-k">case</span> .<span class="pl-c1">Leaf</span>(<span class="pl-k">let</span> value)<span class="pl-k">:</span>
+      <span class="pl-k">if</span> newValue <span class="pl-k">&lt;</span> value {
+        <span class="pl-k">return</span> .<span class="pl-c1">Node</span>(.<span class="pl-c1">Leaf</span>(newValue), value, .<span class="pl-smi">Empty</span>)
+      } <span class="pl-k">else</span> {
+        <span class="pl-k">return</span> .<span class="pl-c1">Node</span>(.<span class="pl-smi">Empty</span>, value, .<span class="pl-c1">Leaf</span>(newValue))
+      }
+
+    <span class="pl-k">case</span> .<span class="pl-c1">Node</span>(<span class="pl-k">let</span> left, <span class="pl-k">let</span> value, <span class="pl-k">let</span> right)<span class="pl-k">:</span>
+      <span class="pl-k">if</span> newValue <span class="pl-k">&lt;</span> value {
+        <span class="pl-k">return</span> .<span class="pl-c1">Node</span>(left.<span class="pl-c1">insert</span>(newValue), value, right)
+      } <span class="pl-k">else</span> {
+        <span class="pl-k">return</span> .<span class="pl-c1">Node</span>(left, value, right.<span class="pl-c1">insert</span>(newValue))
+      }
+    }
+  }</pre></div>
+<p>Try it out in a playground:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> tree <span class="pl-k">=</span> BinarySearchTree.<span class="pl-c1">Leaf</span>(<span class="pl-c1">7</span>)
+tree <span class="pl-k">=</span> tree.<span class="pl-c1">insert</span>(<span class="pl-c1">2</span>)
+tree <span class="pl-k">=</span> tree.<span class="pl-c1">insert</span>(<span class="pl-c1">5</span>)
+tree <span class="pl-k">=</span> tree.<span class="pl-c1">insert</span>(<span class="pl-c1">10</span>)
+tree <span class="pl-k">=</span> tree.<span class="pl-c1">insert</span>(<span class="pl-c1">9</span>)
+tree <span class="pl-k">=</span> tree.<span class="pl-c1">insert</span>(<span class="pl-c1">1</span>)</pre></div>
+<p>Notice that for each insertion, you get back a new tree object, so you need to assign the result back to the <code>tree</code> variable.</p>
+<p>Here is the all-important search function:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">search</span>(<span class="pl-smi"><span class="pl-en">x</span></span>: T) <span class="pl-k">-&gt;</span> BinarySearchTree<span class="pl-k">?</span> {
+    <span class="pl-k">switch</span> <span class="pl-c1">self</span> {
+    <span class="pl-k">case</span> .<span class="pl-smi">Empty</span><span class="pl-k">:</span>
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    <span class="pl-k">case</span> .<span class="pl-c1">Leaf</span>(<span class="pl-k">let</span> y)<span class="pl-k">:</span>
+      <span class="pl-k">return</span> (x <span class="pl-k">==</span> y) <span class="pl-k">?</span> <span class="pl-c1">self</span> <span class="pl-k">:</span> <span class="pl-c1">nil</span>
+    <span class="pl-k">case</span> <span class="pl-k">let</span> .<span class="pl-c1">Node</span>(left, y, right)<span class="pl-k">:</span>
+      <span class="pl-k">if</span> x <span class="pl-k">&lt;</span> y {
+        <span class="pl-k">return</span> left.<span class="pl-c1">search</span>(x)
+      } <span class="pl-k">else</span> <span class="pl-k">if</span> y <span class="pl-k">&lt;</span> x {
+        <span class="pl-k">return</span> right.<span class="pl-c1">search</span>(x)
+      } <span class="pl-k">else</span> {
+        <span class="pl-k">return</span> <span class="pl-c1">self</span>
+      }
+    }
+  }</pre></div>
+<p>Most of these functions have the same structure.</p>
+<p>Try it out in a playground:</p>
+<div class="highlight highlight-source-swift"><pre>tree.<span class="pl-c1">search</span>(<span class="pl-c1">10</span>)
+tree.<span class="pl-c1">search</span>(<span class="pl-c1">1</span>)
+tree.<span class="pl-c1">search</span>(<span class="pl-c1">11</span>)   <span class="pl-c"><span class="pl-c">//</span> nil</span></pre></div>
+<p>To print the tree for debug purposes, you can use this method:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">BinarySearchTree</span>: <span class="pl-e"><span class="pl-c1">CustomDebugStringConvertible</span> </span>{
+  <span class="pl-k">public</span> <span class="pl-k">var</span> debugDescription<span class="pl-k">:</span> <span class="pl-c1">String</span> {
+    <span class="pl-k">switch</span> <span class="pl-c1">self</span> {
+    <span class="pl-k">case</span> .<span class="pl-smi">Empty</span><span class="pl-k">:</span> <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>.<span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> .<span class="pl-c1">Leaf</span>(<span class="pl-k">let</span> value)<span class="pl-k">:</span> <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">value</span><span class="pl-pse"><span class="pl-s1">)</span></span><span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> .<span class="pl-c1">Node</span>(<span class="pl-k">let</span> left, <span class="pl-k">let</span> value, <span class="pl-k">let</span> right)<span class="pl-k">:</span>
+      <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>(<span class="pl-pse">\(</span><span class="pl-s1">left.<span class="pl-c1">debugDescription</span></span><span class="pl-pse"><span class="pl-s1">)</span></span> &lt;- <span class="pl-pse">\(</span><span class="pl-s1">value</span><span class="pl-pse"><span class="pl-s1">)</span></span> -&gt; <span class="pl-pse">\(</span><span class="pl-s1">right.<span class="pl-c1">debugDescription</span></span><span class="pl-pse"><span class="pl-s1">)</span></span>)<span class="pl-pds">"</span></span>
+    }
+  }
+}</pre></div>
+<p>When you do <code>print(tree)</code>, it will look like this:</p>
+<pre><code>((1 &lt;- 2 -&gt; 5) &lt;- 7 -&gt; (9 &lt;- 10 -&gt; .))
+</code></pre>
+<p>The root node is in the middle, and a dot means there is no child at that position.</p>
+<h2>When the tree becomes unbalanced...</h2>
+<p>A binary search tree is <em>balanced</em> when its left and right subtrees contain the same number of nodes. In that case, the height of the tree is <em>log(n)</em>, where <em>n</em> is the number of nodes. That is the ideal situation.</p>
+<p>If one branch is significantly longer than the other, searching becomes very slow. We end up checking more values than we need. In the worst case, the height of the tree can become <em>n</em>. Such a tree acts like a <a href="../Linked%20List/">linked list</a> than a binary search tree, with performance degrading to <strong>O(n)</strong>. Not good!</p>
+<p>One way to make the binary search tree balanced is to insert the nodes in a totally random order. On average that should balance out the tree well, but it not guaranteed, nor is it always practical.</p>
+<p>The other solution is to use a <em>self-balancing</em> binary tree. This type of data structure adjusts the tree to keep it balanced after you insert or delete nodes. To see examples, check <a href="../AVL%20Tree">AVL tree</a> and <a href="../Red-Black%20Tree">red-black tree</a>.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" rel="nofollow">Binary Search Tree on Wikipedia</a></p>
+<p><em>Written for the Swift Algorithm Club by <a href="http://www.github.com/nameghino">Nicolas Ameghino</a> and Matthijs Hollemans</em></p></div>
+</body>
+</html>

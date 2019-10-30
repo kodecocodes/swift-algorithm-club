@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<head>
+  <title>Egg Drop Problem</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Egg Drop</h1>
+<p>The <em>egg drop</em> problem is an interview question popularized by Google. The premise is simple; You're given a task to evaluate the <em>shatter resistance</em> of unknown objects by dropping them at a certain height. For simplicity, you test this by going inside a multi-story building and performing tests by dropping the objects out the window and onto the ground:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/eggdrop.png"><img src="images/eggdrop.png" alt="building with eggs being dropped" style="max-width:100%;"></a></p>
+<p>Your goal is to find out the <strong>minimum</strong> height that causes the object to shatter. Consider the trivial case you're given <strong>1</strong> object to obtain the results with. Since you've only got one sample for testing, you need to play it safe by performing drop tests starting with the bottom floor and working your way up:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/eggdrop2.png"><img src="images/eggdrop2.png" alt="dropping from first floor" style="max-width:100%;"></a></p>
+<p>If the object is incredibly resilient, and you may need to do the testing on the world's tallest building - the <a href="https://en.wikipedia.org/wiki/Burj_Khalifa" rel="nofollow">Burj Khalifa</a>. With <strong>163</strong> floors, that's a lot of climbing. Let's assume you complain, and your employer hears your plight. You are now given <em>several</em> samples to work with. How can you make use of these extra samples to expedite your testing process? The problem for this situation is popularized as the <strong>egg drop</strong> problem.</p>
+<h2>Description</h2>
+<p>You're in a building with <strong>m</strong> floors and you are given <strong>n</strong> eggs. What is the minimum number of attempts it will take to find out the floor that breaks the egg?</p>
+<p>For convenience, here are a few rules to keep in mind:</p>
+<ul>
+<li>An egg that survives a fall can be used again.</li>
+<li>A broken egg must be discarded.</li>
+<li>The effect of a fall is the same for all eggs.</li>
+<li>If an egg breaks, then it would break if dropped from a higher floor.</li>
+<li>If an egg survives, then it would survive a shorter fall.</li>
+</ul>
+<h2>Solution</h2>
+<ul>
+<li>eggNumber -&gt; Number of eggs at the moment</li>
+<li>floorNumber -&gt; Floor number at the moment</li>
+<li>visitingFloor -&gt; Floor being visited at the moment</li>
+<li>attempts -&gt; Minimum number of attempts it will take to find out from which floor egg will break</li>
+</ul>
+<p>We store all the solutions in a 2D array. Where rows represents number of eggs and columns represent number of floors.</p>
+<p>First, we set base cases:</p>
+<ol>
+<li>If there's only one egg, it takes as many attempts as number of floors</li>
+<li>If there are two eggs and one floor, it takes one attempt</li>
+</ol>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> <span class="pl-k">var</span> floorNumber <span class="pl-k">in</span> (<span class="pl-c1">0</span><span class="pl-k">..&lt;</span>(numberOfFloors<span class="pl-k">+</span><span class="pl-c1">1</span>)){
+eggFloor[<span class="pl-c1">1</span>][floorNumber] <span class="pl-k">=</span> floorNumber      <span class="pl-c"><span class="pl-c">//</span>base case 1: if there's only one egg, it takes 'numberOfFloors' attempts</span>
+<span class="pl-c"></span>}
+
+eggFloor[<span class="pl-c1">2</span>][<span class="pl-c1">1</span>] <span class="pl-k">=</span> <span class="pl-c1">1</span> <span class="pl-c"><span class="pl-c">//</span>base case 2: if there are two eggs and one floor, it takes one attempt</span></pre></div>
+<p>When we drop an egg from a floor 'floorNumber', there can be two cases (1) The egg breaks (2) The egg doesn’t break.</p>
+<ol>
+<li>If the egg breaks after dropping from 'visitingFloorth' floor, then we only need to check for floors lower than 'visitingFloor' with remaining eggs; so the problem reduces to 'visitingFloor'-1 floors and 'eggNumber'-1 eggs.</li>
+<li>If the egg doesn’t break after dropping from the 'visitingFloorth' floor, then we only need to check for floors higher than 'visitingFloor'; so the problem reduces to floors-'visitingFloor' floors and 'eggNumber' eggs.</li>
+</ol>
+<p>Since we need to minimize the number of trials in worst case, we take the maximum of two cases. We consider the max of above two cases for every floor and choose the floor which yields minimum number of trials.</p>
+<p>We find the answer based on the base cases and previously found answers as follows.</p>
+<div class="highlight highlight-source-swift"><pre>attempts <span class="pl-k">=</span> <span class="pl-c1">1</span> <span class="pl-k">+</span> <span class="pl-c1">max</span>(eggFloor[eggNumber<span class="pl-k">-</span><span class="pl-c1">1</span>][floors<span class="pl-k">-</span><span class="pl-c1">1</span>], eggFloor[eggNumber][floorNumber<span class="pl-k">-</span>floors])<span class="pl-c"><span class="pl-c">//</span>we add one taking into account the attempt we're taking at the moment</span>
+<span class="pl-c"></span>
+<span class="pl-k">if</span> attempts <span class="pl-k">&lt;</span> eggFloor[eggNumber][floorNumber]{ <span class="pl-c"><span class="pl-c">//</span>finding the min</span>
+<span class="pl-c"></span>    eggFloor[eggNumber][floorNumber] <span class="pl-k">=</span> attempts;
+}</pre></div>
+<h2>Example</h2>
+<p>Let's assume we have 2 eggs and 2 floors.</p>
+<ol>
+<li>We drop one egg from the first floor. If it breaks, then we get the answer. If it doesn't we'll have 2 eggs and 1 floors to work with.<br>
+attempts = 1 + maximum of 0(got the answer) and eggFloor[2][1] (base case 2 which gives us 1)<br>
+attempts = 1 + 1 = 2</li>
+<li>We drop one egg from the second floor. If it breaks, we'll have 1 egg and 1 floors to work with. If it doesn't, we'll get the answer.<br>
+attempts = 1 + maximum of eggFloor[1][1](base case 1 which gives us 1) and 0(got the answer)<br>
+attempts = 1 + 1 = 2</li>
+<li>Finding the minimum of 2 and 2 gives us 2, so the answer is 2.<br>
+2 is the minimum number of attempts it will take to find out from which floor egg will break.</li>
+</ol>
+<p><em>Written for the Swift Algorithm Club by Arkalyk Akash. Revisions and additions by Kelvin Lau</em></p></div>
+</body>
+</html>

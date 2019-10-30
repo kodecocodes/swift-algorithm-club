@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+  <title>Array2D</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Array2D</h1>
+<p>In C and Objective-C, you can write the following line,</p>
+<pre><code>int cookies[9][7];
+</code></pre>
+<p>to make a 9x7 grid of cookies. This creates a two-dimensional array of 63 elements. To find the cookie at column 3 and row 6, you can write:</p>
+<pre><code>myCookie = cookies[3][6];
+</code></pre>
+<p>This statement is not acceptable in Swift. To create a multi-dimensional array in Swift, you can write:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> cookies <span class="pl-k">=</span> [[<span class="pl-c1">Int</span>]]()
+<span class="pl-k">for</span> <span class="pl-c1">_</span> <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-c1">9</span> {
+  <span class="pl-k">var</span> row <span class="pl-k">=</span> [<span class="pl-c1">Int</span>]()
+  <span class="pl-k">for</span> <span class="pl-c1">_</span> <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-c1">7</span> {
+    row.<span class="pl-c1">append</span>(<span class="pl-c1">0</span>)
+  }
+  cookies.<span class="pl-c1">append</span>(row)
+}</pre></div>
+<p>Then, to find a cookie, you can write:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> myCookie <span class="pl-k">=</span> cookies[<span class="pl-c1">3</span>][<span class="pl-c1">6</span>]</pre></div>
+<p>You can also create the array in a single line of code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> cookies <span class="pl-k">=</span> [[<span class="pl-c1">Int</span>]](<span class="pl-c1">repeating</span>: [<span class="pl-c1">Int</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: <span class="pl-c1">7</span>), <span class="pl-c1">count</span>: <span class="pl-c1">9</span>)</pre></div>
+<p>This looks complicated, but you can simplify it with a helper function:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">dim</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">count</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">value</span>: T) <span class="pl-k">-&gt;</span> [T] {
+  <span class="pl-k">return</span> [T](<span class="pl-c1">repeating</span>: value, <span class="pl-c1">count</span>: count)
+}</pre></div>
+<p>Then, you can create the array:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> cookies <span class="pl-k">=</span> <span class="pl-c1">dim</span>(<span class="pl-c1">9</span>, <span class="pl-c1">dim</span>(<span class="pl-c1">7</span>, <span class="pl-c1">0</span>))</pre></div>
+<p>Swift infers that the datatype of the array must be <code>Int</code> because you specified <code>0</code> as the default value of the array elements. To use a string instead, you can write:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> cookies <span class="pl-k">=</span> <span class="pl-c1">dim</span>(<span class="pl-c1">9</span>, <span class="pl-c1">dim</span>(<span class="pl-c1">7</span>, <span class="pl-s"><span class="pl-pds">"</span>yum<span class="pl-pds">"</span></span>))</pre></div>
+<p>The <code>dim()</code> function makes it easy to go into even more dimensions:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> threeDimensions <span class="pl-k">=</span> <span class="pl-c1">dim</span>(<span class="pl-c1">2</span>, <span class="pl-c1">dim</span>(<span class="pl-c1">3</span>, <span class="pl-c1">dim</span>(<span class="pl-c1">4</span>, <span class="pl-c1">0</span>)))</pre></div>
+<p>The downside of using multi-dimensional arrays or multiple nested arrays in this way is to lose track of what dimension represents what.</p>
+<p>Instead, you can create your own type that acts like a 2-D array which is more convenient to use:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Array2D</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">public</span> <span class="pl-k">let</span> columns<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+  <span class="pl-k">public</span> <span class="pl-k">let</span> rows<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> array<span class="pl-k">:</span> [T]
+  
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">columns</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">rows</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">initialValue</span></span>: T) {
+    <span class="pl-c1">self</span>.<span class="pl-smi">columns</span> <span class="pl-k">=</span> columns
+    <span class="pl-c1">self</span>.<span class="pl-smi">rows</span> <span class="pl-k">=</span> rows
+    array <span class="pl-k">=</span> .<span class="pl-k">init</span>(<span class="pl-c1">repeating</span>: initialValue, <span class="pl-c1">count</span>: rows<span class="pl-k">*</span>columns)
+  }
+  
+  <span class="pl-k">public</span> <span class="pl-k">subscript</span>(<span class="pl-c1">column</span>: <span class="pl-c1">Int</span>, <span class="pl-c1">row</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-k">get</span> {
+      <span class="pl-c1">precondition</span>(column <span class="pl-k">&lt;</span> columns, <span class="pl-s"><span class="pl-pds">"</span>Column <span class="pl-pse">\(</span><span class="pl-s1">column</span><span class="pl-pse"><span class="pl-s1">)</span></span> Index is out of range. Array&lt;T&gt;(columns: <span class="pl-pse">\(</span><span class="pl-s1">columns</span><span class="pl-pse"><span class="pl-s1">)</span></span>, rows:<span class="pl-pse">\(</span><span class="pl-s1">rows</span><span class="pl-pse"><span class="pl-s1">)</span></span>)<span class="pl-pds">"</span></span>)
+      <span class="pl-c1">precondition</span>(row <span class="pl-k">&lt;</span> rows, <span class="pl-s"><span class="pl-pds">"</span>Row <span class="pl-pse">\(</span><span class="pl-s1">row</span><span class="pl-pse"><span class="pl-s1">)</span></span> Index is out of range. Array&lt;T&gt;(columns: <span class="pl-pse">\(</span><span class="pl-s1">columns</span><span class="pl-pse"><span class="pl-s1">)</span></span>, rows:<span class="pl-pse">\(</span><span class="pl-s1">rows</span><span class="pl-pse"><span class="pl-s1">)</span></span>)<span class="pl-pds">"</span></span>)
+      <span class="pl-k">return</span> array[row<span class="pl-k">*</span>columns <span class="pl-k">+</span> column]
+    }
+    <span class="pl-k">set</span> {
+      <span class="pl-c1">precondition</span>(column <span class="pl-k">&lt;</span> columns, <span class="pl-s"><span class="pl-pds">"</span>Column <span class="pl-pse">\(</span><span class="pl-s1">column</span><span class="pl-pse"><span class="pl-s1">)</span></span> Index is out of range. Array&lt;T&gt;(columns: <span class="pl-pse">\(</span><span class="pl-s1">columns</span><span class="pl-pse"><span class="pl-s1">)</span></span>, rows:<span class="pl-pse">\(</span><span class="pl-s1">rows</span><span class="pl-pse"><span class="pl-s1">)</span></span>)<span class="pl-pds">"</span></span>)
+      <span class="pl-c1">precondition</span>(row <span class="pl-k">&lt;</span> rows, <span class="pl-s"><span class="pl-pds">"</span>Row <span class="pl-pse">\(</span><span class="pl-s1">row</span><span class="pl-pse"><span class="pl-s1">)</span></span> Index is out of range. Array&lt;T&gt;(columns: <span class="pl-pse">\(</span><span class="pl-s1">columns</span><span class="pl-pse"><span class="pl-s1">)</span></span>, rows:<span class="pl-pse">\(</span><span class="pl-s1">rows</span><span class="pl-pse"><span class="pl-s1">)</span></span>)<span class="pl-pds">"</span></span>)
+      array[row<span class="pl-k">*</span>columns <span class="pl-k">+</span> column] <span class="pl-k">=</span> newValue
+    }
+  }
+}</pre></div>
+<p><code>Array2D</code> is a generic type, so it can hold any kind of object, not just numbers.</p>
+<p>To create an instance of <code>Array2D</code>, you can write:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> cookies <span class="pl-k">=</span> <span class="pl-c1">Array2D</span>(<span class="pl-c1">columns</span>: <span class="pl-c1">9</span>, <span class="pl-c1">rows</span>: <span class="pl-c1">7</span>, <span class="pl-c1">initialValue</span>: <span class="pl-c1">0</span>)</pre></div>
+<p>By using the <code>subscript</code> function, you can retrieve an object from the array:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> myCookie <span class="pl-k">=</span> cookies[column, row]</pre></div>
+<p>Or, you can change it:</p>
+<div class="highlight highlight-source-swift"><pre>cookies[column, row] <span class="pl-k">=</span> newCookie</pre></div>
+<p>Internally, <code>Array2D</code> uses a single one-dimensional array to store the data. The index of an object in that array is given by <code>(row x numberOfColumns) + column</code>, but as a user of <code>Array2D</code>, you only need to think in terms of "column" and "row", and the details will be done by <code>Array2D</code>. This is the advantage of wrapping primitive types into a wrapper class or struct.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

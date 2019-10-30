@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+  <title>Count Occurrences</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Count Occurrences</h1>
+<p>Goal: Count how often a certain value appears in an array.</p>
+<p>The obvious way to do this is with a <a href="../Linear%20Search/">linear search</a> from the beginning of the array until the end, keeping count of how often you come across the value. That is an <strong>O(n)</strong> algorithm.</p>
+<p>However, if the array is sorted you can do it much faster, in <strong>O(log n)</strong> time, by using a modification of <a href="../Binary%20Search/">binary search</a>.</p>
+<p>Let's say we have the following array:</p>
+<pre><code>[ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
+</code></pre>
+<p>If we want to know how often the value <code>3</code> occurs, we can do a regular binary search for <code>3</code>. That could give us any of these four indices:</p>
+<pre><code>[ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
+           *  *  *  *
+</code></pre>
+<p>But that still doesn't tell you how many other <code>3</code>s there are. To find those other <code>3</code>s, you'd still have to do a linear search to the left and a linear search to the right. That will be fast enough in most cases, but in the worst case -- when the array consists of nothing but <code>3</code>s -- it still takes <strong>O(n)</strong> time.</p>
+<p>The trick is to use two binary searches, one to find where the <code>3</code>s start (the left boundary), and one to find where they end (the right boundary).</p>
+<p>In code this looks as follows:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">countOccurrences</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">of</span> <span class="pl-smi">key</span>: T, <span class="pl-en">in</span> <span class="pl-smi">array</span>: [T]) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">var</span> leftBoundary<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">var</span> low <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> high <span class="pl-k">=</span> a.<span class="pl-c1">count</span>
+    <span class="pl-k">while</span> low <span class="pl-k">&lt;</span> high {
+      <span class="pl-k">let</span> midIndex <span class="pl-k">=</span> low <span class="pl-k">+</span> (high <span class="pl-k">-</span> low)<span class="pl-k">/</span><span class="pl-c1">2</span>
+      <span class="pl-k">if</span> a[midIndex] <span class="pl-k">&lt;</span> key {
+        low <span class="pl-k">=</span> midIndex <span class="pl-k">+</span> <span class="pl-c1">1</span>
+      } <span class="pl-k">else</span> {
+        high <span class="pl-k">=</span> midIndex
+      }
+    }
+    <span class="pl-k">return</span> low
+  }
+
+  <span class="pl-k">var</span> rightBoundary<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">var</span> low <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> high <span class="pl-k">=</span> a.<span class="pl-c1">count</span>
+    <span class="pl-k">while</span> low <span class="pl-k">&lt;</span> high {
+      <span class="pl-k">let</span> midIndex <span class="pl-k">=</span> low <span class="pl-k">+</span> (high <span class="pl-k">-</span> low)<span class="pl-k">/</span><span class="pl-c1">2</span>
+      <span class="pl-k">if</span> a[midIndex] <span class="pl-k">&gt;</span> key {
+        high <span class="pl-k">=</span> midIndex
+      } <span class="pl-k">else</span> {
+        low <span class="pl-k">=</span> midIndex <span class="pl-k">+</span> <span class="pl-c1">1</span>
+      }
+    }
+    <span class="pl-k">return</span> low
+  }
+
+  <span class="pl-k">return</span> rightBoundary <span class="pl-k">-</span> leftBoundary
+}</pre></div>
+<p>Notice that the variables <code>leftBoundary</code> and <code>rightBoundary</code> are very similar to the <a href="../Binary%20Search/">binary search</a> algorithm. The big difference is that they don't stop when they find the search key, but keep going.  Also, notice that we constrain the type <code>T</code> to be Comparable so that the algorithm can be applied to an array of Strings, Ints or other types that conform to the Swift Comparable protocol.</p>
+<p>To test this algorithm, copy the code to a playground and then do:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> a <span class="pl-k">=</span> [ <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">3</span>, <span class="pl-c1">3</span>, <span class="pl-c1">3</span>, <span class="pl-c1">6</span>, <span class="pl-c1">8</span>, <span class="pl-c1">10</span>, <span class="pl-c1">11</span>, <span class="pl-c1">11</span> ]
+
+<span class="pl-c1">countOccurrencesOfKey</span>(<span class="pl-c1">3</span>, <span class="pl-c1">inArray</span>: a)  <span class="pl-c"><span class="pl-c">//</span> returns 4</span></pre></div>
+<blockquote>
+<p><strong>Remember:</strong> If you use your own array, make sure it is sorted first!</p>
+</blockquote>
+<p>Let's walk through the example. The array is:</p>
+<pre><code>[ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
+</code></pre>
+<p>To find the left boundary, we start with <code>low = 0</code> and <code>high = 12</code>. The first mid index is <code>6</code>:</p>
+<pre><code>[ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
+                    *
+</code></pre>
+<p>With a regular binary search you'd be done now, but here we're not just looking whether the value <code>3</code> occurs or not -- instead, we want to find where it occurs <em>first</em>.</p>
+<p>Since this algorithm follows the same principle as binary search, we now ignore the right half of the array and calculate the new mid index:</p>
+<pre><code>[ 0, 1, 1, 3, 3, 3 | x, x, x, x, x, x ]
+           *
+</code></pre>
+<p>Again, we've landed on a <code>3</code>, and it's the very first one. But the algorithm doesn't know that, so we split the array again:</p>
+<pre><code>[ 0, 1, 1 | x, x, x | x, x, x, x, x, x ]
+     *
+</code></pre>
+<p>Still not done. Split again, but this time use the right half:</p>
+<pre><code>[ x, x | 1 | x, x, x | x, x, x, x, x, x ]
+         *
+</code></pre>
+<p>The array cannot be split up any further, which means we've found the left boundary, at index 3.</p>
+<p>Now let's start over and try to find the right boundary. This is very similar, so I'll just show you the different steps:</p>
+<pre><code>[ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
+                    *
+
+[ x, x, x, x, x, x, x | 6, 8, 10, 11, 11 ]
+                              *
+
+[ x, x, x, x, x, x, x | 6, 8, | x, x, x ]
+                           *
+
+[ x, x, x, x, x, x, x | 6 | x | x, x, x ]
+                        *
+</code></pre>
+<p>The right boundary is at index 7. The difference between the two boundaries is 7 - 3 = 4, so the number <code>3</code> occurs four times in this array.</p>
+<p>Each binary search took 4 steps, so in total this algorithm took 8 steps. Not a big gain on an array of only 12 items, but the bigger the array, the more efficient this algorithm becomes. For a sorted array with 1,000,000 items, it only takes 2 x 20 = 40 steps to count the number of occurrences for any particular value.</p>
+<p>By the way, if the value you're looking for is not in the array, then <code>rightBoundary</code> and <code>leftBoundary</code> return the same value and so the difference between them is 0.</p>
+<p>This is an example of how you can modify the basic binary search to solve other algorithmic problems as well. Of course, it does require that the array is sorted.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

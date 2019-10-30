@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<head>
+  <title>Z-Algorithm</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Z-Algorithm String Search</h1>
+<p>Goal: Write a simple linear-time string matching algorithm in Swift that returns the indexes of all the occurrencies of a given pattern.</p>
+<p>In other words, we want to implement an <code>indexesOf(pattern: String)</code> extension on <code>String</code> that returns an array <code>[Int]</code> of integers, representing all occurrences' indexes of the search pattern, or <code>nil</code> if the pattern could not be found inside the string.</p>
+<p>For example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> str <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Hello, playground!<span class="pl-pds">"</span></span>
+str.<span class="pl-c1">indexesOf</span>(<span class="pl-c1">pattern</span>: <span class="pl-s"><span class="pl-pds">"</span>ground<span class="pl-pds">"</span></span>)   <span class="pl-c"><span class="pl-c">//</span> Output: [11]</span>
+<span class="pl-c"></span>
+<span class="pl-k">let</span> traffic <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>🚗🚙🚌🚕🚑🚐🚗🚒🚚🚎🚛🚐🏎🚜🚗🏍🚒🚲🚕🚓🚌🚑<span class="pl-pds">"</span></span>
+traffic.<span class="pl-c1">indexesOf</span>(<span class="pl-c1">pattern</span>: <span class="pl-s"><span class="pl-pds">"</span>🚑<span class="pl-pds">"</span></span>) <span class="pl-c"><span class="pl-c">//</span> Output: [4, 21]</span></pre></div>
+<p>Many string search algorithms use a pre-processing function to compute a table that will be used in successive stage. This table can save some time during the pattern search stage because it allows to avoid un-needed characters comparisons. The <a href="">Z-Algorithm</a> is one of these functions. It borns as a pattern pre-processing function (this is its role in the <a href="../Knuth-Morris-Pratt/">Knuth-Morris-Pratt algorithm</a> and others) but, just like we will show here, it can be used also as a single string search algorithm.</p>
+<h3>Z-Algorithm as pattern pre-processor</h3>
+<p>As we said, the Z-Algorithm is foremost an algorithm that process a pattern in order to calculate a skip-comparisons-table.<br>
+The computation of the Z-Algorithm over a pattern <code>P</code> produces an array (called <code>Z</code> in the literature) of integers in which each element, call it <code>Z[i]</code>, represents the length of the longest substring of <code>P</code> that starts at <code>i</code> and matches a prefix of <code>P</code>. In simpler words, <code>Z[i]</code> records the longest prefix of <code>P[i...|P|]</code> that matches a prefix of <code>P</code>. As an example, let's consider <code>P = "ffgtrhghhffgtggfredg"</code>. We have that <code>Z[5] = 0 (f...h...)</code>, <code>Z[9] = 4 (ffgtr...ffgtg...)</code> and <code>Z[15] = 1 (ff...fr...)</code>.</p>
+<p>But how do we compute <code>Z</code>? Before we describe the algorithm we must indroduce the concept of Z-box. A Z-box is a pair <code>(left, right)</code> used during the computation that records the substring of maximal length that occurs also as a prefix of <code>P</code>. The two indices <code>left</code> and <code>right</code> represent, respectively, the left-end index and the right-end index of this substring.<br>
+The definition of the Z-Algorithm is inductive and it computes the elements of the array for every position <code>k</code> in the pattern, starting from <code>k = 1</code>. The following values (<code>Z[k + 1]</code>, <code>Z[k + 2]</code>, ...) are computed after <code>Z[k]</code>. The idea behind the algorithm is that previously computed values can speed up the calculus of <code>Z[k + 1]</code>, avoiding some character comparisons that were already done before. Consider this example: suppose we are at iteration <code>k = 100</code>, so we are analyzing position <code>100</code> of the pattern. All the values between <code>Z[1]</code> and <code>Z[99]</code> were correctly computed and <code>left = 70</code> and <code>right = 120</code>. This means that there is a substring of length <code>51</code> starting at position <code>70</code> and ending at position <code>120</code> that matches the prefix of the pattern/string we are considering. Reasoning on it a little bit we can say that the substring of length <code>21</code> starting at position <code>100</code> matches the substring of length <code>21</code> starting at position <code>30</code> of the pattern (because we are inside a substring that matches a prefix of the pattern). So we can use <code>Z[30]</code> to compute <code>Z[100]</code> without additional character comparisons.<br>
+This a simple description of the idea that is behind this algorithm. There are a few cases to manage when the use of pre-computed values cannot be directly applied and some comparisons are to be made.</p>
+<p>Here is the code of the function that computes the Z-array:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">ZetaAlgorithm</span>(<span class="pl-smi"><span class="pl-en">ptrn</span></span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>]<span class="pl-k">?</span> {
+    <span class="pl-k">let</span> pattern <span class="pl-k">=</span> <span class="pl-c1">Array</span>(ptrn)
+    <span class="pl-k">let</span> patternLength<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> pattern.<span class="pl-c1">count</span>
+
+    <span class="pl-k">guard</span> patternLength <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> <span class="pl-k">else</span> {
+        <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    }
+
+    <span class="pl-k">var</span> zeta<span class="pl-k">:</span> [<span class="pl-c1">Int</span>] <span class="pl-k">=</span> [<span class="pl-c1">Int</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: patternLength)
+
+    <span class="pl-k">var</span> left<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> right<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> k_1<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> betaLength<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> textIndex<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> patternIndex<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+    <span class="pl-k">for</span> k <span class="pl-k">in</span> <span class="pl-c1">1</span> <span class="pl-k">..&lt;</span> patternLength {
+        <span class="pl-k">if</span> k <span class="pl-k">&gt;</span> right {  <span class="pl-c"><span class="pl-c">//</span> Outside a Z-box: compare the characters until mismatch</span>
+<span class="pl-c"></span>            patternIndex <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+            <span class="pl-k">while</span> k <span class="pl-k">+</span> patternIndex <span class="pl-k">&lt;</span> patternLength  <span class="pl-k">&amp;&amp;</span>
+                pattern[k <span class="pl-k">+</span> patternIndex] <span class="pl-k">==</span> pattern[patternIndex] {
+                patternIndex <span class="pl-k">=</span> patternIndex <span class="pl-k">+</span> <span class="pl-c1">1</span>
+            }
+
+            zeta[k] <span class="pl-k">=</span> patternIndex
+
+            <span class="pl-k">if</span> zeta[k] <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> {
+                left <span class="pl-k">=</span> k
+                right <span class="pl-k">=</span> k <span class="pl-k">+</span> zeta[k] <span class="pl-k">-</span> <span class="pl-c1">1</span>
+            }
+        } <span class="pl-k">else</span> {  <span class="pl-c"><span class="pl-c">//</span> Inside a Z-box</span>
+<span class="pl-c"></span>            k_1 <span class="pl-k">=</span> k <span class="pl-k">-</span> left <span class="pl-k">+</span> <span class="pl-c1">1</span>
+            betaLength <span class="pl-k">=</span> right <span class="pl-k">-</span> k <span class="pl-k">+</span> <span class="pl-c1">1</span>
+
+            <span class="pl-k">if</span> zeta[k_1 <span class="pl-k">-</span> <span class="pl-c1">1</span>] <span class="pl-k">&lt;</span> betaLength { <span class="pl-c"><span class="pl-c">//</span> Entirely inside a Z-box: we can use the values computed before</span>
+<span class="pl-c"></span>                zeta[k] <span class="pl-k">=</span> zeta[k_1 <span class="pl-k">-</span> <span class="pl-c1">1</span>]
+            } <span class="pl-k">else</span> <span class="pl-k">if</span> zeta[k_1 <span class="pl-k">-</span> <span class="pl-c1">1</span>] <span class="pl-k">&gt;=</span> betaLength { <span class="pl-c"><span class="pl-c">//</span> Not entirely inside a Z-box: we must proceed with comparisons too</span>
+<span class="pl-c"></span>                textIndex <span class="pl-k">=</span> betaLength
+                patternIndex <span class="pl-k">=</span> right <span class="pl-k">+</span> <span class="pl-c1">1</span>
+
+                <span class="pl-k">while</span> patternIndex <span class="pl-k">&lt;</span> patternLength <span class="pl-k">&amp;&amp;</span> pattern[textIndex] <span class="pl-k">==</span> pattern[patternIndex] {
+                    textIndex <span class="pl-k">=</span> textIndex <span class="pl-k">+</span> <span class="pl-c1">1</span>
+                    patternIndex <span class="pl-k">=</span> patternIndex <span class="pl-k">+</span> <span class="pl-c1">1</span>
+                }
+
+                zeta[k] <span class="pl-k">=</span> patternIndex <span class="pl-k">-</span> k
+                left <span class="pl-k">=</span> k
+                right <span class="pl-k">=</span> patternIndex <span class="pl-k">-</span> <span class="pl-c1">1</span>
+            }
+        }
+    }
+    <span class="pl-k">return</span> zeta
+}</pre></div>
+<p>Let's make an example reasoning with the code above. Let's consider the string <code>P = “abababbb"</code>. The algorithm begins with <code>k = 1</code>, <code>left = right = 0</code>. So, no Z-box is "active" and thus, because <code>k &gt; right</code> we start with the character comparisons beetwen <code>P[1]</code> and <code>P[0]</code>.</p>
+<pre><code>   01234567
+k:  x
+   abababbb
+   x
+Z: 00000000
+left:  0
+right: 0
+</code></pre>
+<p>We have a mismatch at the first comparison and so the substring starting at <code>P[1]</code> does not match a prefix of <code>P</code>. So, we put <code>Z[1] = 0</code> and let <code>left</code> and <code>right</code> untouched. We begin another iteration with <code>k = 2</code>, we have <code>2 &gt; 0</code> and again we start comparing characters <code>P[2]</code> with <code>P[0]</code>. This time the characters match and so we continue the comparisons until a mismatch occurs. It happens at position <code>6</code>. The characters matched are <code>4</code>, so we put <code>Z[2] = 4</code> and set <code>left = k = 2</code> and <code>right = k + Z[k] - 1 = 5</code>. We have our first Z-box that is the substring <code>"abab"</code> (notice that it matches a prefix of <code>P</code>) starting at position <code>left = 2</code>.</p>
+<pre><code>   01234567
+k:   x
+   abababbb
+   x
+Z: 00400000
+left:  2
+right: 5
+</code></pre>
+<p>We then proceed with <code>k = 3</code>. We have <code>3 &lt;= 5</code>. We are inside the Z-box previously found and inside a prefix of <code>P</code>. So we can look for a position that has a previously computed value. We calculate <code>k_1 = k - left = 1</code> that is the index of the prefix's character equal to <code>P[k]</code>. We check <code>Z[1] = 0</code> and <code>0 &lt; (right - k + 1 = 3)</code> and we find that we are exactly inside the Z-box. We can use the previously computed value, so we put <code>Z[3] = Z[1] = 0</code>, <code>left</code> and <code>right</code> remain unchanged.<br>
+At iteration <code>k = 4</code> we initially execute the <code>else</code> branch of the outer <code>if</code>. Then in the inner <code>if</code> we have that <code>k_1 = 2</code> and <code>(Z[2] = 4) &gt;= 5 - 4 + 1</code>. So, the substring <code>P[k...r]</code> matches for <code>right - k + 1 = 2</code> chars the prefix of <code>P</code> but it could not for the following characters. We must then compare the characters starting at <code>r + 1 = 6</code> with those starting at <code>right - k + 1 = 2</code>. We have <code>P[6] != P[2]</code> and so we have to set <code>Z[k] = 6 - 4 = 2</code>, <code>left = 4</code> and <code>right = 5</code>.</p>
+<pre><code>   01234567
+k:     x
+   abababbb
+   x
+Z: 00402000
+left:  4
+right: 5
+</code></pre>
+<p>With iteration <code>k = 5</code> we have <code>k &lt;= right</code> and then <code>(Z[k_1] = 0) &lt; (right - k + 1 = 1)</code> and so we set <code>z[k] = 0</code>. In iteration <code>6</code> and <code>7</code> we execute the first branch of the outer <code>if</code> but we only have mismatches, so the algorithms terminates returning the Z-array as <code>Z = [0, 0, 4, 0, 2, 0, 0, 0]</code>.</p>
+<p>The Z-Algorithm runs in linear time. More specifically, the Z-Algorithm for a string <code>P</code> of size <code>n</code> has a running time of <code>O(n)</code>.</p>
+<p>The implementation of Z-Algorithm as string pre-processor is contained in the <a href="./ZAlgorithm.swift">ZAlgorithm.swift</a> file.</p>
+<h3>Z-Algorithm as string search algorithm</h3>
+<p>The Z-Algorithm discussed above leads to the simplest linear-time string matching algorithm. To obtain it, we have to simply concatenate the pattern <code>P</code> and text <code>T</code> in a string <code>S = P$T</code> where <code>$</code> is a character that does not appear neither in <code>P</code> nor <code>T</code>. Then we run the algorithm on <code>S</code> obtaining the Z-array. All we have to do now is scan the Z-array looking for elements equal to <code>n</code> (which is the pattern length). When we find such value we can report an occurrence.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">String</span></span> {
+
+    <span class="pl-k">func</span> <span class="pl-en">indexesOf</span>(<span class="pl-smi"><span class="pl-en">pattern</span></span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>]<span class="pl-k">?</span> {
+        <span class="pl-k">let</span> patternLength<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> pattern.<span class="pl-c1">count</span>
+        <span class="pl-c"><span class="pl-c">/*</span> Let's calculate the Z-Algorithm on the concatenation of pattern and text <span class="pl-c">*/</span></span>
+        <span class="pl-k">let</span> zeta <span class="pl-k">=</span> <span class="pl-c1">ZetaAlgorithm</span>(<span class="pl-c1">ptrn</span>: pattern <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>💲<span class="pl-pds">"</span></span> <span class="pl-k">+</span> <span class="pl-c1">self</span>)
+
+        <span class="pl-k">guard</span> zeta <span class="pl-k">!=</span> <span class="pl-c1">nil</span> <span class="pl-k">else</span> {
+            <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+        }
+
+        <span class="pl-k">var</span> indexes<span class="pl-k">:</span> [<span class="pl-c1">Int</span>] <span class="pl-k">=</span> [<span class="pl-c1">Int</span>]()
+
+        <span class="pl-c"><span class="pl-c">/*</span> Scan the zeta array to find matched patterns <span class="pl-c">*/</span></span>
+        <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span> <span class="pl-k">..&lt;</span> zeta<span class="pl-k">!</span>.<span class="pl-c1">count</span> {
+            <span class="pl-k">if</span> zeta<span class="pl-k">!</span>[i] <span class="pl-k">==</span> patternLength {
+                indexes.<span class="pl-c1">append</span>(i <span class="pl-k">-</span> patternLength <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+            }
+        }
+
+        <span class="pl-k">guard</span> <span class="pl-k">!</span>indexes.<span class="pl-c1">isEmpty</span> <span class="pl-k">else</span> {
+            <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+        }
+
+        <span class="pl-k">return</span> indexes
+    }
+}</pre></div>
+<p>Let's make an example. Let <code>P = “CATA“</code> and <code>T = "GAGAACATACATGACCAT"</code> be the pattern and the text. Let's concatenate them with the character <code>$</code>. We have the string <code>S = "CATA$GAGAACATACATGACCAT"</code>. After computing the Z-Algorithm on <code>S</code> we obtain:</p>
+<pre><code>            1         2
+  01234567890123456789012
+  CATA$GAGAACATACATGACCAT
+Z 00000000004000300001300
+            ^
+</code></pre>
+<p>We scan the Z-array and at position <code>10</code> we find <code>Z[10] = 4 = n</code>. So we can report a match occuring at text position <code>10 - n - 1 = 5</code>.</p>
+<p>As said before, the complexity of this algorithm is linear. Defining <code>n</code> and <code>m</code> as pattern and text lengths, the final complexity we obtain is <code>O(n + m + 1) = O(n + m)</code>.</p>
+<p>Credits: This code is based on the handbook <a href="https://books.google.it/books/about/Algorithms_on_Strings_Trees_and_Sequence.html?id=Ofw5w1yuD8kC&amp;redir_esc=y" rel="nofollow">"Algorithm on String, Trees and Sequences: Computer Science and Computational Biology"</a> by Dan Gusfield, Cambridge University Press, 1997.</p>
+<p><em>Written for Swift Algorithm Club by Matteo Dunnhofer</em></p></div>
+</body>
+</html>

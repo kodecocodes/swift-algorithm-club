@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<head>
+  <title>Shunting Yard</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Shunting Yard Algorithm</h1>
+<p>Any mathematics we write is expressed in a notation known as <em>infix notation</em>. For example:</p>
+<p><strong>A + B * C</strong></p>
+<p>The operator is placed in between the operands, hence the expression is said to be in <em>infix</em> form. If you think about it, any expression that you write on a piece of paper will always be in infix form. This is what we humans understand.</p>
+<p>Multiplication has higher precedence than addition, so when the above expression is evaluated you would first multiply <strong>B</strong> and <strong>C</strong>, and then add the result to <strong>A</strong>. We humans can easily understand the precedence of operators, but a machine needs to be given instructions about each operator.</p>
+<p>To change the order of evaluation, we can use parentheses:</p>
+<p><strong>(A + B) * C</strong></p>
+<p>Now <strong>A</strong> is first added to <strong>B</strong> and then the sum is multiplied by <strong>C</strong>.</p>
+<p>If you were to write an algorithm that parsed and evaluated expressions in infix notation you will realize that it's a tedious process. You'd have to parse the expression multiple times to know what operation to perform first. As the number of operators increase so does the complexity.</p>
+<h2>Postfix notation</h2>
+<p>In postfix notation, also known as Reverse Polish Notation or RPN, the operators come after the corresponding operands. Here is the postfix representation of the example from the previous section:</p>
+<p><strong>A B C * +</strong></p>
+<p>An expression in postfix form will not have any parentheses and neither will you have to worry about scanning for operator precedence. This makes it easy for the computer to evaluate expressions, since the order in which the operators need to be applied is fixed.</p>
+<p>Evaluating a postfix expression is easily done using a stack. Here is the pseudocode:</p>
+<ol>
+<li>Read the postfix expression token by token</li>
+<li>If the token is an operand, push it onto the stack</li>
+<li>If the token is a binary operator,
+<ol>
+<li>Pop the two topmost operands from the stack</li>
+<li>Apply the binary operator to the two operands</li>
+<li>Push the result back onto the stack</li>
+</ol>
+</li>
+<li>Finally, the value of the whole postfix expression remains in the stack</li>
+</ol>
+<p>Using the above pseudocode, the evaluation of <strong>A B C * +</strong> would be as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Stack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A B C * +</td>
+<td></td>
+</tr>
+<tr>
+<td>B C * +</td>
+<td>A</td>
+</tr>
+<tr>
+<td>C * +</td>
+<td>A, B</td>
+</tr>
+<tr>
+<td>* +</td>
+<td>A, B, C</td>
+</tr>
+<tr>
+<td>+</td>
+<td>A, D</td>
+</tr>
+<tr>
+<td></td>
+<td>E</td>
+</tr>
+</tbody>
+</table>
+<p>Where <strong>D = B * C</strong> and <strong>E = A + D.</strong></p>
+<p>As seen above, a postfix operation is relatively easy to evaluate as the order in which the operators need to be applied is pre-decided.</p>
+<h2>Converting infix to postfix</h2>
+<p>The shunting yard algorithm was invented by Edsger Dijkstra to convert an infix expression to postfix. Many calculators use this algorithm to convert the expression being entered to postfix form.</p>
+<p>Here is the psedocode of the algorithm:</p>
+<ol>
+<li>For all the input tokens:
+<ol>
+<li>Read the next token</li>
+<li>If token is an operator (x)
+<ol>
+<li>While there is an operator (y) at the top of the operators stack and either (x) is left-associative and its precedence is less or equal to that of (y), or (x) is right-associative and its precedence is less than (y)
+<ol>
+<li>Pop (y) from the stack</li>
+<li>Add (y) output buffer</li>
+</ol>
+</li>
+<li>Push (x) on the stack</li>
+</ol>
+</li>
+<li>Else if token is left parenthesis, then push it on the stack</li>
+<li>Else if token is a right parenthesis
+<ol>
+<li>Until the top token (from the stack) is left parenthesis, pop from the stack to the output buffer</li>
+<li>Also pop the left parenthesis but don’t include it in the output buffer</li>
+</ol>
+</li>
+<li>Else add token to output buffer</li>
+</ol>
+</li>
+<li>Pop any remaining operator tokens from the stack to the output</li>
+</ol>
+<p>Let's take a small example and see how the pseudocode works. Here is the infix expression to convert:</p>
+<p><strong>4 + 4 * 2 / ( 1 - 5 )</strong></p>
+<p>The following table describes the precedence and the associativity for each operator. The same values are used in the algorithm.</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Precedence</th>
+<th>Associativity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>^</td>
+<td>10</td>
+<td>Right</td>
+</tr>
+<tr>
+<td>*</td>
+<td>5</td>
+<td>Left</td>
+</tr>
+<tr>
+<td>/</td>
+<td>5</td>
+<td>Left</td>
+</tr>
+<tr>
+<td>+</td>
+<td>0</td>
+<td>Left</td>
+</tr>
+<tr>
+<td>-</td>
+<td>0</td>
+<td>Left</td>
+</tr>
+</tbody>
+</table>
+<p>Here we go:</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Action</th>
+<th>Output</th>
+<th>Operator stack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4</td>
+<td>Add token to output</td>
+<td>4</td>
+<td></td>
+</tr>
+<tr>
+<td>+</td>
+<td>Push token to stack</td>
+<td>4</td>
+<td>+</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Add token to output</td>
+<td>4 4</td>
+<td>+</td>
+</tr>
+<tr>
+<td>*</td>
+<td>Push token to stack</td>
+<td>4 4</td>
+<td>* +</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Add token to output</td>
+<td>4 4 2</td>
+<td>* +</td>
+</tr>
+<tr>
+<td>/</td>
+<td>Pop stack to output, Push token to stack</td>
+<td>4 4 2 *</td>
+<td>/ +</td>
+</tr>
+<tr>
+<td>(</td>
+<td>Push token to stack</td>
+<td>4 4 2 *</td>
+<td>( / +</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Add token to output</td>
+<td>4 4 2 * 1</td>
+<td>( / +</td>
+</tr>
+<tr>
+<td>-</td>
+<td>Push token to stack</td>
+<td>4 4 2 * 1</td>
+<td>- ( / +</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Add token to output</td>
+<td>4 4 2 * 1 5</td>
+<td>- ( / +</td>
+</tr>
+<tr>
+<td>)</td>
+<td>Pop stack to output, Pop stack</td>
+<td>4 4 2 * 1 5 -</td>
+<td>/  +</td>
+</tr>
+<tr>
+<td>end</td>
+<td>Pop entire stack to output</td>
+<td>4 4 2 * 1 5 - / +</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>We end up with the postfix expression:</p>
+<p><strong>4 4 2 * 1 5 - / +</strong></p>
+<h1>See also</h1>
+<p><a href="https://en.wikipedia.org/wiki/Shunting-yard_algorithm" rel="nofollow">Shunting yard algorithm on Wikipedia</a></p>
+<p><em>Written for the Swift Algorithm Club by <a href="http://www.github.com/aliHafizji">Ali Hafizji</a></em><br>
+<em>Migrated to Swift 3 by Jaap Wijnen</em></p></div>
+</body>
+</html>

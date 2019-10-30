@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<head>
+  <title>GCD</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Greatest Common Divisor</h1>
+<p>The <em>greatest common divisor</em> (or Greatest Common Factor) of two numbers <code>a</code> and <code>b</code> is the largest positive integer that divides both <code>a</code> and <code>b</code> without a remainder. The GCD.swift file contains three different algorithms of how to calculate the greatest common divisor.<br>
+For example, <code>gcd(39, 52) = 13</code> because 13 divides 39 (<code>39 / 13 = 3</code>) as well as 52 (<code>52 / 13 = 4</code>). But there is no larger number than 13 that divides them both.<br>
+You've probably had to learn about this in school at some point. :-)</p>
+<p>You probably won't need to use the GCD or LCM in any real-world problems, but it's cool to play around with this ancient algorithm. It was first described by Euklid in his <a href="http://publicdomainreview.org/collections/the-first-six-books-of-the-elements-of-euclid-1847/" rel="nofollow">Elements</a> around 300 BC. Rumor has it that he discovered this algorithm while he was hacking on his Commodore 64.</p>
+<h2>Different Algorithms</h2>
+<p>This example includes three different algorithms to find the same result.</p>
+<h3>Iterative Euklidean</h3>
+<p>The laborious way to find the GCD of two numbers is to first figure out the factors of both numbers, then take the greatest number they have in common. The problem is that factoring numbers is quite difficult, especially when they get larger. (On the plus side, that difficulty is also what keeps your online payments secure.)<br>
+There is a smarter way to calculate the GCD: Euklid's algorithm. The big idea here is that,</p>
+<pre><code>gcd(a, b) = gcd(b, a % b)
+</code></pre>
+<p>where <code>a % b</code> calculates the remainder of <code>a</code> divided by <code>b</code>.</p>
+<p>Here is an implementation of this idea in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">gcdIterativeEuklid</span>(<span class="pl-en">_</span> <span class="pl-smi">m</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">var</span> a<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> b<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">max</span>(m, n)
+    <span class="pl-k">var</span> r<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">min</span>(m, n)
+
+    <span class="pl-k">while</span> r <span class="pl-k">!=</span> <span class="pl-c1">0</span> {
+        a <span class="pl-k">=</span> b
+        b <span class="pl-k">=</span> r
+        r <span class="pl-k">=</span> a <span class="pl-k">%</span> b
+    }
+    <span class="pl-k">return</span> b
+}</pre></div>
+<p>Put it in a playground and try it out with these examples:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">gcd</span>(<span class="pl-c1">52</span>, <span class="pl-c1">39</span>, <span class="pl-c1">using</span>: gcdIterativeEuklid)        <span class="pl-c"><span class="pl-c">//</span> 13</span>
+<span class="pl-c"></span><span class="pl-c1">gcd</span>(<span class="pl-c1">228</span>, <span class="pl-c1">36</span>, <span class="pl-c1">using</span>: gcdIterativeEuklid)       <span class="pl-c"><span class="pl-c">//</span> 12</span>
+<span class="pl-c"></span><span class="pl-c1">gcd</span>(<span class="pl-c1">51357</span>, <span class="pl-c1">3819</span>, <span class="pl-c1">using</span>: gcdIterativeEuklid)   <span class="pl-c"><span class="pl-c">//</span> 57</span></pre></div>
+<h3>Recursive Euklidean</h3>
+<p>Here is a slightly different implementation of Euklid's algorithm. Unlike the first version this doesn't use a <code>while</code> loop, but leverages recursion.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">gcdRecursiveEuklid</span>(<span class="pl-en">_</span> <span class="pl-smi">m</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">let</span> r<span class="pl-k">:</span> <span class="pl-c1">Int</span> <span class="pl-k">=</span> m <span class="pl-k">%</span> n
+    <span class="pl-k">if</span> r <span class="pl-k">!=</span> <span class="pl-c1">0</span> {
+        <span class="pl-k">return</span> <span class="pl-c1">gcdRecursiveEuklid</span>(n, r)
+    } <span class="pl-k">else</span> {
+        <span class="pl-k">return</span> n
+    }
+}</pre></div>
+<p>Put it in a playground and compare it with the results of the iterative Eulidean gcd. They should return the same results:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">gcd</span>(<span class="pl-c1">52</span>, <span class="pl-c1">39</span>, <span class="pl-c1">using</span>: gcdRecursiveEuklid)        <span class="pl-c"><span class="pl-c">//</span> 13</span>
+<span class="pl-c"></span><span class="pl-c1">gcd</span>(<span class="pl-c1">228</span>, <span class="pl-c1">36</span>, <span class="pl-c1">using</span>: gcdRecursiveEuklid)       <span class="pl-c"><span class="pl-c">//</span> 12</span>
+<span class="pl-c"></span><span class="pl-c1">gcd</span>(<span class="pl-c1">51357</span>, <span class="pl-c1">3819</span>, <span class="pl-c1">using</span>: gcdRecursiveEuklid)   <span class="pl-c"><span class="pl-c">//</span> 57</span></pre></div>
+<p>The <code>max()</code> and <code>min()</code> at the top of the function make sure we always divide the larger number by the smaller one.</p>
+<p>Let's step through the third example using the <em>recursive Euklidean algorithm</em> here:</p>
+<pre><code>gcd(51357, 3819)
+</code></pre>
+<p>According to Euklid's rule, this is equivalent to,</p>
+<pre><code>gcd(3819, 51357 % 3819) = gcd(3819, 1710)
+</code></pre>
+<p>because the remainder of <code>51357 % 3819</code> is <code>1710</code>. If you work out this division you get <code>51357 = (13 * 3819) + 1710</code> but we only care about the remainder part.</p>
+<p>So <code>gcd(51357, 3819)</code> is the same as <code>gcd(3819, 1710)</code>. That's useful because we can keep simplifying:</p>
+<pre><code>gcd(3819, 1710) = gcd(1710, 3819 % 1710) =
+gcd(1710, 399)  = gcd(399, 1710 % 399)   =
+gcd(399, 114)   = gcd(114, 399 % 114)    =
+gcd(114, 57)    = gcd(57, 114 % 57)      =
+gcd(57, 0)
+</code></pre>
+<p>And now can't divide any further. The remainder of <code>114 / 57</code> is zero because <code>114 = 57 * 2</code> exactly. That means we've found the answer:</p>
+<pre><code>gcd(3819, 51357) = gcd(57, 0) = 57
+</code></pre>
+<p>So in each step of Euklid's algorithm the numbers become smaller and at some point it ends when one of them becomes zero.</p>
+<p>By the way, it's also possible that two numbers have a GCD of 1. They are said to be <em>relatively prime</em>. This happens when there is no number that divides them both, for example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">gcd</span>(<span class="pl-c1">841</span>, <span class="pl-c1">299</span>)     <span class="pl-c"><span class="pl-c">//</span> 1</span></pre></div>
+<h3>Binary Recursive Stein</h3>
+<p>The binary GCD algorithm, also known as Stein's algorithm, is an algorithm that computes the greatest common divisor of two nonnegative integers. Stein's algorithm is very similar to the recursive Eulidean algorithm, but uses arithmetical operations, which are simpler for computers to perform, than the conventional Euclidean algorithm does. It replaces division with arithmetic shifts, comparisons, and subtraction.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">gcdBinaryRecursiveStein</span>(<span class="pl-en">_</span> <span class="pl-smi">m</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">if</span> <span class="pl-k">let</span> easySolution <span class="pl-k">=</span> <span class="pl-c1">findEasySolution</span>(m, n) { <span class="pl-k">return</span> easySolution }
+
+    <span class="pl-k">if</span> (m <span class="pl-k">&amp;</span> <span class="pl-c1">1</span>) <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+        <span class="pl-c"><span class="pl-c">//</span> m is even</span>
+<span class="pl-c"></span>        <span class="pl-k">if</span> (n <span class="pl-k">&amp;</span> <span class="pl-c1">1</span>) <span class="pl-k">==</span> <span class="pl-c1">1</span> {
+            <span class="pl-c"><span class="pl-c">//</span> and n is odd</span>
+<span class="pl-c"></span>            <span class="pl-k">return</span> <span class="pl-c1">gcdBinaryRecursiveStein</span>(m <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">1</span>, n)
+        } <span class="pl-k">else</span> {
+            <span class="pl-c"><span class="pl-c">//</span> both m and n are even</span>
+<span class="pl-c"></span>            <span class="pl-k">return</span> <span class="pl-c1">gcdBinaryRecursiveStein</span>(m <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">1</span>, n <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">1</span>) <span class="pl-k">&lt;&lt;</span> <span class="pl-c1">1</span>
+        }
+    } <span class="pl-k">else</span> <span class="pl-k">if</span> (n <span class="pl-k">&amp;</span> <span class="pl-c1">1</span>) <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+        <span class="pl-c"><span class="pl-c">//</span> m is odd, n is even</span>
+<span class="pl-c"></span>        <span class="pl-k">return</span> <span class="pl-c1">gcdBinaryRecursiveStein</span>(m, n <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">1</span>)
+    } <span class="pl-k">else</span> <span class="pl-k">if</span> (m <span class="pl-k">&gt;</span> n) {
+        <span class="pl-c"><span class="pl-c">//</span> reduce larger argument</span>
+<span class="pl-c"></span>        <span class="pl-k">return</span> <span class="pl-c1">gcdBinaryRecursiveStein</span>((m <span class="pl-k">-</span> n) <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">1</span>, n)
+    } <span class="pl-k">else</span> {
+        <span class="pl-c"><span class="pl-c">//</span> reduce larger argument</span>
+<span class="pl-c"></span>        <span class="pl-k">return</span> <span class="pl-c1">gcdBinaryRecursiveStein</span>((n <span class="pl-k">-</span> m) <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">1</span>, m)
+    }
+}</pre></div>
+<p>Depending on your application and your input expectations, it might be reasonable to also search for an "easy solution" using the other gcd implementations:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">findEasySolution</span>(<span class="pl-en">_</span> <span class="pl-smi">m</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span><span class="pl-k">?</span> {
+    <span class="pl-k">if</span> m <span class="pl-k">==</span> n {
+        <span class="pl-k">return</span> m
+    }
+    <span class="pl-k">if</span> m <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+        <span class="pl-k">return</span> n
+    }
+    <span class="pl-k">if</span> n <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+        <span class="pl-k">return</span> m
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+}
+</pre></div>
+<p>Put it in a playground and compare it with the results of the other gcd implementations:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">gcd</span>(<span class="pl-c1">52</span>, <span class="pl-c1">39</span>, <span class="pl-c1">using</span>: gcdBinaryRecursiveStein)        <span class="pl-c"><span class="pl-c">//</span> 13</span>
+<span class="pl-c"></span><span class="pl-c1">gcd</span>(<span class="pl-c1">228</span>, <span class="pl-c1">36</span>, <span class="pl-c1">using</span>: gcdBinaryRecursiveStein)       <span class="pl-c"><span class="pl-c">//</span> 12</span>
+<span class="pl-c"></span><span class="pl-c1">gcd</span>(<span class="pl-c1">51357</span>, <span class="pl-c1">3819</span>, <span class="pl-c1">using</span>: gcdBinaryRecursiveStein)   <span class="pl-c"><span class="pl-c">//</span> 57</span></pre></div>
+<h3>Least Common Multiple</h3>
+<p>Another algorithm related to the GCD is the <em>least common multiple</em> or LCM.</p>
+<p>The least common multiple of two numbers <code>a</code> and <code>b</code> is the smallest positive integer that is a multiple of both. In other words, the LCM is evenly divisible by <code>a</code> and <code>b</code>. The example implementation of the LCM takes two numbers and an optional specification which GCD algorithm is used.</p>
+<p>For example: <code>lcm(2, 3, using: gcdRecursiveEuklid) = 6</code> , which tells us that 6 is the smallest number that can be devided by 2 as well as 3.</p>
+<p>We can calculate the LCM using Euklid's algorithm too:</p>
+<p>a * b<br>
+lcm(a, b) = ---------<br>
+gcd(a, b)</p>
+<p>In code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">lcm</span>(<span class="pl-en">_</span> <span class="pl-smi">m</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>, <span class="pl-en">using</span> <span class="pl-smi">gcdAlgorithm</span>: (<span class="pl-c1">Int</span>, <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> (<span class="pl-c1">Int</span>) <span class="pl-k">=</span> gcdIterativeEuklid) <span class="pl-k">throws</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+<span class="pl-k">guard</span> (m <span class="pl-k">&amp;</span> n) <span class="pl-k">!=</span> <span class="pl-c1">0</span> <span class="pl-k">else</span> { <span class="pl-k">throw</span> LCMError.<span class="pl-smi">divisionByZero</span> }
+<span class="pl-k">return</span> m <span class="pl-k">/</span> <span class="pl-c1">gcdAlgorithm</span>(m, n) <span class="pl-k">*</span> n
+}</pre></div>
+<p>And to try it out in a playground:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">lcm</span>(<span class="pl-c1">10</span>, <span class="pl-c1">8</span>)    <span class="pl-c"><span class="pl-c">//</span> 40</span></pre></div>
+<h2>Discussion</h2>
+<p>While these algorithms all calculate the same result, comparing their plane complexity might not be enough to decide for one of them, though. The original iterative Euklidean algorithm is easier to understand. The recursive Euklidean and Stein's algorithm, while being generally faster, their runtime is heavily dependend on the environment they are running on.<br>
+<em>If a fast calculation of the gcd is necessary, a runtime comparison for the specific platform and compiler optimization level should be done for the rekursive Euklidean and Stein's algorithm.</em></p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p>
+<p><em>Extended by Simon C. Krüger</em></p></div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+  <title>Depth-First Search</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Depth-First Search</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/157949/swift-algorithm-club-depth-first-search" rel="nofollow">here</a></p>
+</blockquote>
+<p>Depth-first search (DFS) is an algorithm for traversing or searching <a href="../Tree/">tree</a> or <a href="../Graph/">graph</a> data structures. It starts at a source node and explores as far as possible along each branch before backtracking.</p>
+<p>Depth-first search can be used on both directed and undirected graphs.</p>
+<h2>Animated example</h2>
+<p>Here's how depth-first search works on a graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/AnimatedExample.gif"><img src="Images/AnimatedExample.gif" alt="Animated example" style="max-width:100%;"></a></p>
+<p>Let's say we start the search from node <code>A</code>. In depth-first search we look at the starting node's first neighbor and visit that. In the example that is node <code>B</code>. Then we look at node <code>B</code>'s first neighbor and visit it. This is node <code>D</code>. Since <code>D</code> doesn't have any unvisited neighbors of its own, we backtrack to node <code>B</code> and go to its other neighbor <code>E</code>. And so on, until we've visited all the nodes in the graph.</p>
+<p>Each time we visit the first neighbor and keep going until there's nowhere left to go, and then we backtrack to a point where there are again nodes to visit. When we've backtracked all the way to node <code>A</code>, the search is complete.</p>
+<p>For the example, the nodes were visited in the order <code>A</code>, <code>B</code>, <code>D</code>, <code>E</code>, <code>H</code>, <code>F</code>, <code>G</code>, <code>C</code>.</p>
+<p>The depth-first search process can also be visualized as a tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/TraversalTree.png"><img src="Images/TraversalTree.png" alt="Traversal tree" style="max-width:100%;"></a></p>
+<p>The parent of a node is the one that "discovered" that node. The root of the tree is the node you started the depth-first search from. Whenever there's a branch, that's where we backtracked.</p>
+<h2>The code</h2>
+<p>Simple recursive implementation of depth-first search:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">depthFirstSearch</span>(<span class="pl-en">_</span> <span class="pl-smi">graph</span>: Graph, <span class="pl-smi"><span class="pl-en">source</span></span>: Node) <span class="pl-k">-&gt;</span> [<span class="pl-c1">String</span>] {
+  <span class="pl-k">var</span> nodesExplored <span class="pl-k">=</span> [source.<span class="pl-smi">label</span>]
+  source.<span class="pl-smi">visited</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>
+
+  <span class="pl-k">for</span> edge <span class="pl-k">in</span> source.<span class="pl-smi">neighbors</span> {
+    <span class="pl-k">if</span> <span class="pl-k">!</span>edge.<span class="pl-smi">neighbor</span>.<span class="pl-smi">visited</span> {
+      nodesExplored <span class="pl-k">+=</span> <span class="pl-c1">depthFirstSearch</span>(graph, <span class="pl-c1">source</span>: edge.<span class="pl-smi">neighbor</span>)
+    }
+  }
+  <span class="pl-k">return</span> nodesExplored
+}</pre></div>
+<p>Where a <a href="../Breadth-First%20Search/">breadth-first search</a> visits all immediate neighbors first, a depth-first search tries to go as deep down the tree or graph as it can.</p>
+<p>Put this code in a playground and test it like so:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> graph <span class="pl-k">=</span> <span class="pl-c1">Graph</span>()
+
+<span class="pl-k">let</span> nodeA <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeB <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeC <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeD <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeE <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeF <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>f<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeG <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>g<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeH <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>h<span class="pl-pds">"</span></span>)
+
+graph.<span class="pl-c1">addEdge</span>(nodeA, <span class="pl-c1">neighbor</span>: nodeB)
+graph.<span class="pl-c1">addEdge</span>(nodeA, <span class="pl-c1">neighbor</span>: nodeC)
+graph.<span class="pl-c1">addEdge</span>(nodeB, <span class="pl-c1">neighbor</span>: nodeD)
+graph.<span class="pl-c1">addEdge</span>(nodeB, <span class="pl-c1">neighbor</span>: nodeE)
+graph.<span class="pl-c1">addEdge</span>(nodeC, <span class="pl-c1">neighbor</span>: nodeF)
+graph.<span class="pl-c1">addEdge</span>(nodeC, <span class="pl-c1">neighbor</span>: nodeG)
+graph.<span class="pl-c1">addEdge</span>(nodeE, <span class="pl-c1">neighbor</span>: nodeH)
+graph.<span class="pl-c1">addEdge</span>(nodeE, <span class="pl-c1">neighbor</span>: nodeF)
+graph.<span class="pl-c1">addEdge</span>(nodeF, <span class="pl-c1">neighbor</span>: nodeG)
+
+<span class="pl-k">let</span> nodesExplored <span class="pl-k">=</span> <span class="pl-c1">depthFirstSearch</span>(graph, <span class="pl-c1">source</span>: nodeA)
+<span class="pl-c1">print</span>(nodesExplored)</pre></div>
+<p>This will output: <code>["a", "b", "d", "e", "h", "f", "g", "c"]</code></p>
+<h2>What is DFS good for?</h2>
+<p>Depth-first search can be used to solve many problems, for example:</p>
+<ul>
+<li>Finding connected components of a sparse graph</li>
+<li><a href="../Topological%20Sort/">Topological sorting</a> of nodes in a graph</li>
+<li>Finding bridges of a graph (see: <a href="https://en.wikipedia.org/wiki/Bridge_(graph_theory)#Bridge-finding_algorithm" rel="nofollow">Bridges</a>)</li>
+<li>And lots of others!</li>
+</ul>
+<p><em>Written for Swift Algorithm Club by Paulo Tanaka and Matthijs Hollemans</em></p></div>
+</body>
+</html>

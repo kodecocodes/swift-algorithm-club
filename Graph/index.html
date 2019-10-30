@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<head>
+  <title>Graph</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Graph</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/152046/swift-algorithm-club-graphs-adjacency-list" rel="nofollow">here</a></p>
+</blockquote>
+<p>A graph looks like the following picture:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Graph.png"><img src="Images/Graph.png" alt="A graph" style="max-width:100%;"></a></p>
+<p>In computer science, a graph is defined as a set of <em>vertices</em> paired with a set of <em>edges</em>. The vertices are represented by circles, and the edges are the lines between them. Edges connect a vertex to other vertices.</p>
+<blockquote>
+<p><strong>Note:</strong> Vertices are sometimes called "nodes", and edges are called "links".</p>
+</blockquote>
+<p>A graph can represent a social network. Each person is a vertex, and people who know each other are connected by edges. Here is a somewhat historically inaccurate example:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/SocialNetwork.png"><img src="Images/SocialNetwork.png" alt="Social network" style="max-width:100%;"></a></p>
+<p>Graphs have various shapes and sizes. The edges can have a <em>weight</em>, where a positive or negative numeric value is assigned to each edge. Consider an example of a graph representing airplane flights. Cities can be vertices, and flights can be edges. Then, an edge weight could describe flight time or the price of a ticket.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Flights.png"><img src="Images/Flights.png" alt="Airplane flights" style="max-width:100%;"></a></p>
+<p>With this hypothetical airline, flying from San Francisco to Moscow is cheapest by going through New York.</p>
+<p>Edges can also be <em>directed</em>. In examples mentioned above, the edges are undirected. For instance, if Ada knows Charles, then Charles also knows Ada. A directed edge, on the other hand, implies a one-way relationship. A directed edge from vertex X to vertex Y connects X to Y, but <em>not</em> Y to X.</p>
+<p>Continuing from the flights example, a directed edge from San Francisco to Juneau in Alaska indicates that there is a flight from San Francisco to Juneau, but not from Juneau to San Francisco (I suppose that means you're walking back).</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/FlightsDirected.png"><img src="Images/FlightsDirected.png" alt="One-way flights" style="max-width:100%;"></a></p>
+<p>The following are also graphs:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/TreeAndList.png"><img src="Images/TreeAndList.png" alt="Tree and linked list" style="max-width:100%;"></a></p>
+<p>On the left is a <a href="../Tree/">tree</a> structure, on the right a <a href="../Linked%20List/">linked list</a>. They can be considered graphs but in a simpler form. They both have vertices (nodes) and edges (links).</p>
+<p>The first graph includes <em>cycles</em>, where you can start off at a vertex, follow a path, and come back to the original vertex. A tree is a graph without such cycles.</p>
+<p>Another common type of graph is the <em>directed acyclic graph</em> or DAG:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/DAG.png"><img src="Images/DAG.png" alt="DAG" style="max-width:100%;"></a></p>
+<p>Like a tree, this graph does not have any cycles (no matter where you start, there is no path back to the starting vertex), but this graph has directional edges with the shape that does not necessarily form a hierarchy.</p>
+<h2>Why use graphs?</h2>
+<p>Maybe you're shrugging your shoulders and thinking, what's the big deal? Well, it turns out that a graph is a useful data structure.</p>
+<p>If you have a programming problem where you can represent your data as vertices and edges, then you can draw your problem as a graph and use well-known graph algorithms such as <a href="../Breadth-First%20Search/">breadth-first search</a> or <a href="../Depth-First%20Search">depth-first search</a> to find a solution.</p>
+<p>For example, suppose you have a list of tasks where some tasks have to wait on others before they can begin. You can model this using an acyclic directed graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Tasks.png"><img src="Images/Tasks.png" alt="Tasks as a graph" style="max-width:100%;"></a></p>
+<p>Each vertex represents a task. An edge between two vertices means the source task must be completed before the destination task can start. As an example, task C cannot start before B and D are finished, and B nor D can start before A is finished.</p>
+<p>Now that the problem is expressed using a graph, you can use a depth-first search to perform a <a href="../Topological%20Sort/">topological sort</a>. This will put the tasks in an optimal order so that you minimize the time spent waiting for tasks to complete. (One possible order here is A, B, D, E, C, F, G, H, I, J, K.)</p>
+<p>Whenever you are faced with a tough programming problem, ask yourself, "how can I express this problem using a graph?" Graphs are all about representing relationships between your data. The trick is in how you define "relationships".</p>
+<p>If you are a musician you might appreciate this graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/ChordMap.png"><img src="Images/ChordMap.png" alt="Chord map" style="max-width:100%;"></a></p>
+<p>The vertices are chords from the C major scale. The edges -- the relationships between the chords -- represent how <a href="http://mugglinworks.com/chordmaps/genmap.htm" rel="nofollow">likely one chord is to follow another</a>. This is a directed graph, so the direction of the arrows shows how you can go from one chord to the next. It is also a weighted graph, where the weight of the edges -- portrayed here by line thickness -- shows a strong relationship between two chords. As you can see, a G7-chord is very likely to be followed by a C chord, and much less likely by a Am chord.</p>
+<p>You are probably already using graphs without even knowing it. Your data model is also a graph (from Apple's Core Data documentation):</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/3a4f3221d1868e723cd895404aebc9074e1b9074/68747470733a2f2f646576656c6f7065722e6170706c652e636f6d2f6c6962726172792f696f732f646f63756d656e746174696f6e2f436f636f612f436f6e6365707475616c2f436f72654461746156657273696f6e696e672f4172742f7265636970655f76657273696f6e322e302e6a7067"><img src="https://camo.githubusercontent.com/3a4f3221d1868e723cd895404aebc9074e1b9074/68747470733a2f2f646576656c6f7065722e6170706c652e636f6d2f6c6962726172792f696f732f646f63756d656e746174696f6e2f436f636f612f436f6e6365707475616c2f436f72654461746156657273696f6e696e672f4172742f7265636970655f76657273696f6e322e302e6a7067" alt="Core Data model" data-canonical-src="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreDataVersioning/Art/recipe_version2.0.jpg" style="max-width:100%;"></a></p>
+<p>Another common graph used by programmers is the state machine, where edges depict the conditions for transitioning between states. Here is a state machine that models my cat:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/StateMachine.png"><img src="Images/StateMachine.png" alt="State machine" style="max-width:100%;"></a></p>
+<p>Graphs are awesome. Facebook made a fortune from their social graph. If you are going to learn any data structure, you must choose the graph and the vast collection of standard graph algorithms.</p>
+<h2>Vertices and edges, oh my!</h2>
+<p>In theory, a graph is just a bunch of vertex and edge objects, but how do you describe this in code?</p>
+<p>There are two main strategies: adjacency list and adjacency matrix.</p>
+<p><strong>Adjacency List.</strong> In an adjacency list implementation, each vertex stores a list of edges that originate from that vertex. For example, if vertex A has an edge to vertices B, C, and D, then vertex A would have a list containing 3 edges.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/AdjacencyList.png"><img src="Images/AdjacencyList.png" alt="Adjacency list" style="max-width:100%;"></a></p>
+<p>The adjacency list describes outgoing edges. A has an edge to B, but B does not have an edge back to A, so A does not appear in B's adjacency list. Finding an edge or weight between two vertices can be expensive because there is no random access to edges. You must traverse the adjacency lists until it is found.</p>
+<p><strong>Adjacency Matrix.</strong> In an adjacency matrix implementation, a matrix with rows and columns representing vertices stores a weight to indicate if vertices are connected and by what weight. For example, if there is a directed edge of weight 5.6 from vertex A to vertex B, then the entry with row for vertex A and column for vertex B would have the value 5.6:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/AdjacencyMatrix.png"><img src="Images/AdjacencyMatrix.png" alt="Adjacency matrix" style="max-width:100%;"></a></p>
+<p>Adding another vertex to the graph is expensive, because a new matrix structure must be created with enough space to hold the new row/column, and the existing structure must be copied into the new one.</p>
+<p>So which one should you use? Most of the time, the adjacency list is the right approach. What follows is a more detailed comparison between the two.</p>
+<p>Let <em>V</em> be the number of vertices in the graph, and <em>E</em> the number of edges.  Then we have:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Adjacency List</th>
+<th>Adjacency Matrix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Storage Space</td>
+<td>O(V + E)</td>
+<td>O(V^2)</td>
+</tr>
+<tr>
+<td>Add Vertex</td>
+<td>O(1)</td>
+<td>O(V^2)</td>
+</tr>
+<tr>
+<td>Add Edge</td>
+<td>O(1)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>Check Adjacency</td>
+<td>O(V)</td>
+<td>O(1)</td>
+</tr>
+</tbody>
+</table>
+<p>"Checking adjacency" means that we try to determine that a given vertex is an immediate neighbor of another vertex. The time to check adjacency for an adjacency list is <strong>O(V)</strong>, because in the worst case a vertex is connected to <em>every</em> other vertex.</p>
+<p>In the case of a <em>sparse</em> graph, where each vertex is connected to only a handful of other vertices, an adjacency list is the best way to store the edges. If the graph is <em>dense</em>, where each vertex is connected to most of the other vertices, then a matrix is preferred.</p>
+<p>Here are sample implementations of both adjacency list and adjacency matrix:</p>
+<h2>The code: edges and vertices</h2>
+<p>The adjacency list for each vertex consists of <code>Edge</code> objects:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Edge</span>&lt;<span class="pl-c1">T</span>&gt;: <span class="pl-e"><span class="pl-c1">Equatable</span> </span><span class="pl-k">where</span> T<span class="pl-k">:</span> <span class="pl-e"><span class="pl-c1">Equatable</span></span>, T<span class="pl-k">:</span> <span class="pl-e"><span class="pl-c1">Hashable</span></span> {
+
+  <span class="pl-k">public</span> <span class="pl-k">let</span> from<span class="pl-k">:</span> Vertex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>
+  <span class="pl-k">public</span> <span class="pl-k">let</span> to<span class="pl-k">:</span> Vertex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">let</span> weight<span class="pl-k">:</span> <span class="pl-c1">Double</span><span class="pl-k">?</span>
+
+}</pre></div>
+<p>This struct describes the "from" and "to" vertices and a weight value. Note that an <code>Edge</code> object is always directed, a one-way connection (shown as arrows in the illustrations above). If you want an undirected connection, you also need to add an <code>Edge</code> object in the opposite direction. Each <code>Edge</code> optionally stores a weight, so they can be used to describe both weighted and unweighted graphs.</p>
+<p>The <code>Vertex</code> looks like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Vertex</span>&lt;<span class="pl-c1">T</span>&gt;: <span class="pl-e"><span class="pl-c1">Equatable</span> </span><span class="pl-k">where</span> T<span class="pl-k">:</span> <span class="pl-e"><span class="pl-c1">Equatable</span></span>, T<span class="pl-k">:</span> <span class="pl-e"><span class="pl-c1">Hashable</span></span> {
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> data<span class="pl-k">:</span> T
+  <span class="pl-k">public</span> <span class="pl-k">let</span> index<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+
+}</pre></div>
+<p>It stores arbitrary data with a generic type <code>T</code>, which is <code>Hashable</code> to enforce uniqueness, and also <code>Equatable</code>. Vertices themselves are also <code>Equatable</code>.</p>
+<h2>The code: graphs</h2>
+<blockquote>
+<p><strong>Note:</strong> There are many ways to implement graphs. The code given here is just one possible implementation. You probably want to tailor the graph code to each individual problem you are trying to solve. For instance, your edges may not need a <code>weight</code> property, or you may not have the need to distinguish between directed and undirected edges.</p>
+</blockquote>
+<p>Here is an example of a simple graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Demo1.png"><img src="Images/Demo1.png" alt="Demo" style="max-width:100%;"></a></p>
+<p>We can represent it as an adjacency matrix or adjacency list. The classes implementing those concepts both inherit a common API from <code>AbstractGraph</code>, so they can be created in an identical fashion, with different optimized data structures behind the scenes.</p>
+<p>Let's create some directed, weighted graphs, using each representation, to store the example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> graph <span class="pl-k">in</span> [AdjacencyMatrixGraph<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>(), AdjacencyListGraph<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>()] {
+
+  <span class="pl-k">let</span> v1 <span class="pl-k">=</span> graph.<span class="pl-c1">createVertex</span>(<span class="pl-c1">1</span>)
+  <span class="pl-k">let</span> v2 <span class="pl-k">=</span> graph.<span class="pl-c1">createVertex</span>(<span class="pl-c1">2</span>)
+  <span class="pl-k">let</span> v3 <span class="pl-k">=</span> graph.<span class="pl-c1">createVertex</span>(<span class="pl-c1">3</span>)
+  <span class="pl-k">let</span> v4 <span class="pl-k">=</span> graph.<span class="pl-c1">createVertex</span>(<span class="pl-c1">4</span>)
+  <span class="pl-k">let</span> v5 <span class="pl-k">=</span> graph.<span class="pl-c1">createVertex</span>(<span class="pl-c1">5</span>)
+
+  graph.<span class="pl-c1">addDirectedEdge</span>(v1, <span class="pl-c1">to</span>: v2, <span class="pl-c1">withWeight</span>: <span class="pl-c1">1.0</span>)
+  graph.<span class="pl-c1">addDirectedEdge</span>(v2, <span class="pl-c1">to</span>: v3, <span class="pl-c1">withWeight</span>: <span class="pl-c1">1.0</span>)
+  graph.<span class="pl-c1">addDirectedEdge</span>(v3, <span class="pl-c1">to</span>: v4, <span class="pl-c1">withWeight</span>: <span class="pl-c1">4.5</span>)
+  graph.<span class="pl-c1">addDirectedEdge</span>(v4, <span class="pl-c1">to</span>: v1, <span class="pl-c1">withWeight</span>: <span class="pl-c1">2.8</span>)
+  graph.<span class="pl-c1">addDirectedEdge</span>(v2, <span class="pl-c1">to</span>: v5, <span class="pl-c1">withWeight</span>: <span class="pl-c1">3.2</span>)
+
+}</pre></div>
+<p>As mentioned earlier, to create an undirected edge you need to make two directed edges. For undirected graphs, we call the following method instead:</p>
+<div class="highlight highlight-source-swift"><pre>  graph.<span class="pl-c1">addUndirectedEdge</span>(v1, <span class="pl-c1">to</span>: v2, <span class="pl-c1">withWeight</span>: <span class="pl-c1">1.0</span>)
+  graph.<span class="pl-c1">addUndirectedEdge</span>(v2, <span class="pl-c1">to</span>: v3, <span class="pl-c1">withWeight</span>: <span class="pl-c1">1.0</span>)
+  graph.<span class="pl-c1">addUndirectedEdge</span>(v3, <span class="pl-c1">to</span>: v4, <span class="pl-c1">withWeight</span>: <span class="pl-c1">4.5</span>)
+  graph.<span class="pl-c1">addUndirectedEdge</span>(v4, <span class="pl-c1">to</span>: v1, <span class="pl-c1">withWeight</span>: <span class="pl-c1">2.8</span>)
+  graph.<span class="pl-c1">addUndirectedEdge</span>(v2, <span class="pl-c1">to</span>: v5, <span class="pl-c1">withWeight</span>: <span class="pl-c1">3.2</span>)</pre></div>
+<p>We could provide <code>nil</code> as the values for the <code>withWeight</code> parameter in either case to make unweighted graphs.</p>
+<h2>The code: adjacency list</h2>
+<p>To maintain the adjacency list, there is a class that maps a list of edges to a vertex. The graph simply maintains an array of such objects and modifies them as necessary.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">private</span> <span class="pl-k">class</span> <span class="pl-en">EdgeList</span>&lt;<span class="pl-c1">T</span>&gt; <span class="pl-k">where</span> T<span class="pl-k">:</span> <span class="pl-e"><span class="pl-c1">Equatable</span></span>, T<span class="pl-k">:</span> <span class="pl-e"><span class="pl-c1">Hashable</span></span> {
+
+  <span class="pl-k">var</span> vertex<span class="pl-k">:</span> Vertex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>
+  <span class="pl-k">var</span> edges<span class="pl-k">:</span> [Edge<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>]<span class="pl-k">?</span> <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+
+  <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">vertex</span></span>: Vertex&lt;T&gt;) {
+    <span class="pl-c1">self</span>.<span class="pl-smi">vertex</span> <span class="pl-k">=</span> vertex
+  }
+
+  <span class="pl-k">func</span> <span class="pl-en">addEdge</span>(<span class="pl-en">_</span> <span class="pl-smi">edge</span>: Edge&lt;T&gt;) {
+    edges<span class="pl-k">?</span>.<span class="pl-c1">append</span>(edge)
+  }
+
+}</pre></div>
+<p>They are implemented as a class as opposed to structs, so we can modify them by reference, in place, like when adding an edge to a new vertex, where the source vertex already has an edge list:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">open</span> <span class="pl-k">override</span> <span class="pl-k">func</span> <span class="pl-en">createVertex</span>(<span class="pl-en">_</span> <span class="pl-smi">data</span>: T) <span class="pl-k">-&gt;</span> Vertex&lt;T&gt; {
+  <span class="pl-c"><span class="pl-c">//</span> check if the vertex already exists</span>
+<span class="pl-c"></span>  <span class="pl-k">let</span> matchingVertices <span class="pl-k">=</span> vertices.<span class="pl-c1">filter</span>() { vertex <span class="pl-k">in</span>
+    <span class="pl-k">return</span> vertex.<span class="pl-smi">data</span> <span class="pl-k">==</span> data
+  }
+
+  <span class="pl-k">if</span> matchingVertices.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> {
+    <span class="pl-k">return</span> matchingVertices.<span class="pl-c1">last</span><span class="pl-k">!</span>
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> if the vertex doesn't exist, create a new one</span>
+<span class="pl-c"></span>  <span class="pl-k">let</span> vertex <span class="pl-k">=</span> <span class="pl-c1">Vertex</span>(<span class="pl-c1">data</span>: data, <span class="pl-c1">index</span>: adjacencyList.<span class="pl-c1">count</span>)
+  adjacencyList.<span class="pl-c1">append</span>(<span class="pl-c1">EdgeList</span>(<span class="pl-c1">vertex</span>: vertex))
+  <span class="pl-k">return</span> vertex
+}</pre></div>
+<p>The adjacency list for the example looks like this:</p>
+<pre><code>v1 -&gt; [(v2: 1.0)]
+v2 -&gt; [(v3: 1.0), (v5: 3.2)]
+v3 -&gt; [(v4: 4.5)]
+v4 -&gt; [(v1: 2.8)]
+</code></pre>
+<p>where the general form <code>a -&gt; [(b: w), ...]</code> means an edge exists from <code>a</code> to <code>b</code> with weight <code>w</code> (with possibly more edges connecting <code>a</code> to other vertices as well).</p>
+<h2>The code: adjacency matrix</h2>
+<p>We will keep track of the adjacency matrix in a two-dimensional <code>[[Double?]]</code> array. An entry of <code>nil</code> indicates no edge, while any other value indicates an edge of the given weight. If <code>adjacencyMatrix[i][j]</code> is not nil, then there is an edge from vertex <code>i</code> to vertex <code>j</code>.</p>
+<p>To index into the matrix using vertices, we use the <code>index</code> property in <code>Vertex</code>, which is assigned when creating the vertex through the graph object. When creating a new vertex, the graph must resize the matrix:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">open</span> <span class="pl-k">override</span> <span class="pl-k">func</span> <span class="pl-en">createVertex</span>(<span class="pl-en">_</span> <span class="pl-smi">data</span>: T) <span class="pl-k">-&gt;</span> Vertex&lt;T&gt; {
+  <span class="pl-c"><span class="pl-c">//</span> check if the vertex already exists</span>
+<span class="pl-c"></span>  <span class="pl-k">let</span> matchingVertices <span class="pl-k">=</span> vertices.<span class="pl-c1">filter</span>() { vertex <span class="pl-k">in</span>
+    <span class="pl-k">return</span> vertex.<span class="pl-smi">data</span> <span class="pl-k">==</span> data
+  }
+
+  <span class="pl-k">if</span> matchingVertices.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> {
+    <span class="pl-k">return</span> matchingVertices.<span class="pl-c1">last</span><span class="pl-k">!</span>
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> if the vertex doesn't exist, create a new one</span>
+<span class="pl-c"></span>  <span class="pl-k">let</span> vertex <span class="pl-k">=</span> <span class="pl-c1">Vertex</span>(<span class="pl-c1">data</span>: data, <span class="pl-c1">index</span>: adjacencyMatrix.<span class="pl-c1">count</span>)
+
+  <span class="pl-c"><span class="pl-c">//</span> Expand each existing row to the right one column.</span>
+<span class="pl-c"></span>  <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span> <span class="pl-k">..&lt;</span> adjacencyMatrix.<span class="pl-c1">count</span> {
+    adjacencyMatrix[i].<span class="pl-c1">append</span>(<span class="pl-c1">nil</span>)
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> Add one new row at the bottom.</span>
+<span class="pl-c"></span>  <span class="pl-k">let</span> newRow <span class="pl-k">=</span> [<span class="pl-c1">Double</span><span class="pl-k">?</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">nil</span>, <span class="pl-c1">count</span>: adjacencyMatrix.<span class="pl-c1">count</span> <span class="pl-k">+</span> <span class="pl-c1">1</span>)
+  adjacencyMatrix.<span class="pl-c1">append</span>(newRow)
+
+  _vertices.<span class="pl-c1">append</span>(vertex)
+
+  <span class="pl-k">return</span> vertex
+}</pre></div>
+<p>Then the adjacency matrix looks like this:</p>
+<pre><code>[[nil, 1.0, nil, nil, nil]    v1
+ [nil, nil, 1.0, nil, 3.2]    v2
+ [nil, nil, nil, 4.5, nil]    v3
+ [2.8, nil, nil, nil, nil]    v4
+ [nil, nil, nil, nil, nil]]   v5
+
+  v1   v2   v3   v4   v5
+</code></pre>
+<h2>See also</h2>
+<p>This article described what a graph is, and how you can implement the basic data structure. We have other articles on practical uses of graphs, so check those out too!</p>
+<p><em>Written by Donald Pinckney and Matthijs Hollemans</em></p></div>
+</body>
+</html>

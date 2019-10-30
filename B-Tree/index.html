@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<head>
+  <title>B-Tree</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>B-Tree</h1>
+<p>A B-Tree is a self-balancing search tree, in which nodes can have more than two children.</p>
+<h3>Properties</h3>
+<p>A B-Tree of order <em>n</em> satisfies the following properties:</p>
+<ul>
+<li>Every node has at most <em>2n</em> keys.</li>
+<li>Every node (except root) has at least <em>n</em> keys.</li>
+<li>Every non-leaf node with <em>k</em> keys has <em>k+1</em> children.</li>
+<li>The keys in all nodes are sorted in increasing order.</li>
+<li>The subtree between two keys <em>k</em> and <em>l</em> of a non-leaf node contains all the keys between <em>k</em> and <em>l</em>.</li>
+<li>All leaves appear at the same level.</li>
+</ul>
+<p>A second order B-Tree with keys from 1 to 20 looks like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/BTree20.png"><img src="Images/BTree20.png" alt="A B-Tree with 20 keys." style="max-width:100%;"></a></p>
+<h3>The representation of a B-Tree node in code</h3>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">class</span> <span class="pl-en">BTreeNode</span>&lt;<span class="pl-c1">Key</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>, <span class="pl-c1">Value</span>&gt; {
+  <span class="pl-k">unowned</span> <span class="pl-k">var</span> owner<span class="pl-k">:</span> BTree<span class="pl-k">&lt;</span><span class="pl-c1">Key</span>, <span class="pl-c1">Value</span><span class="pl-k">&gt;</span>
+  
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> keys <span class="pl-k">=</span> [<span class="pl-c1">Key</span>]()
+  <span class="pl-k">var</span> children<span class="pl-k">:</span> [BTreeNode]<span class="pl-k">?</span>
+  
+  <span class="pl-k">...</span>
+}</pre></div>
+<p>The main parts of a node are two arrays:</p>
+<ul>
+<li>An array containing the keys</li>
+<li>An array containing the children</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Node.png"><img src="Images/Node.png" alt="Node." style="max-width:100%;"></a></p>
+<p>Nodes also have a reference to the tree they belong to.<br>
+This is necessary because nodes have to know the order of the tree.</p>
+<p><em>Note: The array containing the children is an Optional, because leaf nodes don't have children.</em></p>
+<h2>Searching</h2>
+<ol>
+<li>Searching for a key <code>k</code> begins at the root node.</li>
+<li>We perform a linear search on the keys of the node, until we find a key <code>l</code> that is not less than <code>k</code>,<br>
+or reach the end of the array.</li>
+<li>If <code>k == l</code> then we have found the key.</li>
+<li>If <code>k &lt; l</code>:
+<ul>
+<li>If the node we are on is not a leaf, then we go to the left child of <code>l</code>, and perform the steps 3 - 5 again.</li>
+<li>If we are on a leaf, then <code>k</code> is not in the tree.</li>
+</ul>
+</li>
+<li>If we have reached the end of the array:
+<ul>
+<li>If we are on a non-leaf node, then we go to the last child of the node, and perform the steps 3 - 5 again.</li>
+<li>If we are on a leaf, then <code>k</code> is not in the tree.</li>
+</ul>
+</li>
+</ol>
+<h3>The code</h3>
+<p><code>value(for:)</code> method searches for the given key and if it's in the tree,<br>
+it returns the value associated with it, else it returns <code>nil</code>.</p>
+<h2>Insertion</h2>
+<p>Keys can only be inserted to leaf nodes.</p>
+<ol>
+<li>Perform a search for the key <code>k</code> we want to insert.</li>
+<li>If we haven't found it and we are on a leaf node, we can insert it.</li>
+</ol>
+<ul>
+<li>If after the search the key <code>l</code> which we are standing on is greater than <code>k</code>:<br>
+We insert <code>k</code> to the position before <code>l</code>.</li>
+<li>Else:<br>
+We insert <code>k</code> to the position after <code>l</code>.</li>
+</ul>
+<p>After insertion we should check if the number of keys in the node is in the correct range.<br>
+If there are more keys in the node than <code>order*2</code>, we need to split the node.</p>
+<h4>Splitting a node</h4>
+<ol>
+<li>Move up the middle key of the node we want to split, to its parent (if it has one).</li>
+<li>If it hasn't got a parent(it is the root), then create a new root and insert to it.<br>
+Also add the old root as the left child of the new root.</li>
+<li>Split the node into two by moving the keys (and children, if it's a non-leaf) that were after the middle key<br>
+to a new node.</li>
+<li>Add the new node as a right child for the key that we have moved up.</li>
+</ol>
+<p>After splitting a node it is possible that the parent node will also contain too many keys, so we need to split it also.<br>
+In the worst case the splitting goes up to the root (in this case the height of the tree increases).</p>
+<p>An insertion to a first order tree looks like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/InsertionSplit.png"><img src="Images/InsertionSplit.png" alt="Splitting" style="max-width:100%;"></a></p>
+<h3>The code</h3>
+<p>The method <code>insert(_:for:)</code> does the insertion.<br>
+After it has inserted a key, as the recursion goes up every node checks the number of keys in its child.<br>
+if a node has too many keys, its parent calls the <code>split(child:atIndex:)</code> method on it.</p>
+<p>The root node is checked by the tree itself.<br>
+If the root has too many nodes after the insertion the tree calls the <code>splitRoot()</code> method.</p>
+<h2>Removal</h2>
+<p>Keys can only be removed from leaf nodes.</p>
+<ol>
+<li>Perform a search for the key <code>k</code> we want to remove.</li>
+<li>If we have found it:
+<ul>
+<li>If we are on a leaf node:<br>
+We can remove the key.</li>
+<li>Else:<br>
+We overwrite <code>k</code> with its inorder predecessor <code>p</code>, then we remove <code>p</code> from the leaf node.</li>
+</ul>
+</li>
+</ol>
+<p>After a key have been removed from a node we should check that the node has enough keys.<br>
+If a node has fewer keys than the order of the tree, then we should move a key to it,<br>
+or merge it with one of its siblings.</p>
+<h4>Moving a key to the child</h4>
+<p>If the problematic node has a nearest sibling that has more keys than the order of the tree,<br>
+we should perform this operation on the tree, else we should merge the node with one of its siblings.</p>
+<p>Let's say the child we want to fix <code>c1</code> is at index <code>i</code> in its parent node's children array.</p>
+<p>If the child <code>c2</code> at index <code>i-1</code> has more keys than the order of the tree:</p>
+<ol>
+<li>We move the key at index <code>i-1</code> from the parent node to the child <code>c1</code>'s keys array at index <code>0</code>.</li>
+<li>We move the last key from <code>c2</code> to the parent's keys array at index <code>i-1</code>.</li>
+<li>(If <code>c1</code> is non-leaf) We move the last child from <code>c2</code> to <code>c1</code>'s children array at index 0.</li>
+</ol>
+<p>Else:</p>
+<ol>
+<li>We move the key at index <code>i</code> from the parent node to the end of child <code>c1</code>'s keys array.</li>
+<li>We move the first key from <code>c2</code> to the parent's keys array at index <code>i</code>.</li>
+<li>(If <code>c1</code> isn't a leaf) We move the first child from <code>c2</code> to the end of <code>c1</code>'s children array.</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/MovingKey.png"><img src="Images/MovingKey.png" alt="Moving Key" style="max-width:100%;"></a></p>
+<h4>Merging two nodes</h4>
+<p>Let's say we want to merge the child <code>c1</code> at index <code>i</code> in its parent's children array.</p>
+<p>If <code>c1</code> has a left sibling <code>c2</code>:</p>
+<ol>
+<li>We move the key from the parent at index <code>i-1</code> to the end of <code>c2</code>'s keys array.</li>
+<li>We move the keys and the children(if it's a non-leaf) from <code>c1</code> to the end of <code>c2</code>'s keys and children array.</li>
+<li>We remove the child at index <code>i-1</code> from the parent node.</li>
+</ol>
+<p>Else if <code>c1</code> only has a right sibling <code>c2</code>:</p>
+<ol>
+<li>We move the key from the parent at index <code>i</code> to the beginning of <code>c2</code>'s keys array.</li>
+<li>We move the keys and the children(if it's a non-leaf) from <code>c1</code> to the beginning of <code>c2</code>'s keys and children array.</li>
+<li>We remove the child at index <code>i</code> from the parent node.</li>
+</ol>
+<p>After merging it is possible that now the parent node contains too few keys,<br>
+so in the worst case merging also can go up to the root, in which case the height of the tree decreases.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/MergingNodes.png"><img src="Images/MergingNodes.png" alt="Merging Nodes" style="max-width:100%;"></a></p>
+<h3>The code</h3>
+<ul>
+<li>
+<p><code>remove(_:)</code> method removes the given key from the tree. After a key has been deleted,<br>
+every node checks the number of keys in its child. If a child has less nodes than the order of the tree,<br>
+it calls the <code>fix(childWithTooFewKeys:atIndex:)</code> method.</p>
+</li>
+<li>
+<p><code>fix(childWithTooFewKeys:atIndex:)</code> method decides which way to fix the child (by moving a key to it,<br>
+or by merging it), then calls <code>move(keyAtIndex:to:from:at:)</code> or<br>
+<code>merge(child:atIndex:to:)</code> method according to its choice.</p>
+</li>
+</ul>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/B-tree" rel="nofollow">Wikipedia</a><br>
+<a href="http://www.geeksforgeeks.org/b-tree-set-1-introduction-2/" rel="nofollow">GeeksforGeeks</a></p>
+<p><em>Written for Swift Algorithm Club by Viktor Szilárd Simkó</em></p></div>
+</body>
+</html>

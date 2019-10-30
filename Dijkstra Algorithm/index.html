@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<head>
+  <title>Dijkstra Algorithm</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Weighted graph general concepts</h1>
+<p>Every weighted graph should contain:</p>
+<ol>
+<li>Vertices/Nodes (I will use "vertex" in this readme).</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Vertices.png"><img src="Images/Vertices.png" height="250" style="max-width:100%;"></a></p>
+<ol start="2">
+<li>Edges connecting vertices. Let's add some edges to our graph. For simplicity let's create directed graph for now. Directed means that edge has a direction, i.e. vertex, where it starts and vertex, where it ends. But remember a VERY IMPORTANT thing:
+<ul>
+<li>All undirected graphs can be viewed as a directed graph.</li>
+<li>A directed graph is undirected if and only if every edge is paired with an edge going in the opposite direction.</li>
+</ul>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/DirectedGraph.png"><img src="Images/DirectedGraph.png" height="250" style="max-width:100%;"></a></p>
+<ol start="3">
+<li>Weights for every edge.</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/WeightedDirectedGraph.png"><img src="Images/WeightedDirectedGraph.png" height="250" style="max-width:100%;"></a></p>
+<p>Final result.<br>
+Directed weighted graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/WeightedDirectedGraphFinal.png"><img src="Images/WeightedDirectedGraphFinal.png" height="250" style="max-width:100%;"></a></p>
+<p>Undirected weighted graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/WeightedUndirectedGraph.png"><img src="Images/WeightedUndirectedGraph.png" height="250" style="max-width:100%;"></a></p>
+<p>And once again: An undirected graph it is a directed graph with every edge paired with an edge going in the opposite direction. This statement is clear on the image above.</p>
+<p>Great! Now we are familiar with general concepts about graphs.</p>
+<h1>The Dijkstra's algorithm</h1>
+<p>This <a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm" rel="nofollow">algorithm</a> was invented in 1956 by Edsger W. Dijkstra.</p>
+<p>It can be used when you have one source vertex and want to find the shortest paths to ALL other vertices in the graph.</p>
+<p>The best example is a road network. If you want to find the shortest path from your house to your job or if you want to find the closest store to your house then it is time for the Dijkstra's algorithm.</p>
+<p>The algorithm repeats following cycle until all vertices are marked as visited.<br>
+Cycle:</p>
+<ol>
+<li>From the non-visited vertices the algorithm picks a vertex with the shortest path length from the start (if there are more than one vertex with the same shortest path value then algorithm picks any of them)</li>
+<li>The algorithm marks picked vertex as visited.</li>
+<li>The algorithm checks all of its neighbours. If the current vertex path length from the start plus an edge weight to a neighbour less than the neighbour current path length from the start than it assigns new path length from the start to the neighbour.<br>
+When all vertices are marked as visited, the algorithm's job is done. Now, you can see the shortest path from the start for every vertex by pressing the one you are interested in.</li>
+</ol>
+<p>I have created <strong>VisualizedDijkstra.playground</strong> game/tutorial to improve your understanding of the algorithm's flow. Besides, below is step by step algorithm's description.</p>
+<p>A short sidenote. The Swift Algorithm Club also contains the A* algorithm, which essentially is a faster version of Dijkstra's algorithm for which the only extra prerequisite is you have to know where the destination is located.</p>
+<h2>Example</h2>
+<p>Let's imagine that you want to go to the shop. Your house is A vertex and there are 4 possible stores around your house. How to find the closest one/ones? Luckily, you have a graph that connects your house with all these stores. So, you know what to do :)</p>
+<h3>Initialisation</h3>
+<p>When the algorithm starts to work initial graph looks like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/image1.png"><img src="Images/image1.png" height="250" style="max-width:100%;"></a></p>
+<p>The table below represents graph state:</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+<th align="center">E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Visited</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+</tr>
+<tr>
+<td align="left">Path Length From Start</td>
+<td align="center">inf</td>
+<td align="center">inf</td>
+<td align="center">inf</td>
+<td align="center">inf</td>
+<td align="center">inf</td>
+</tr>
+<tr>
+<td align="left">Path Vertices From Start</td>
+<td align="center">[ ]</td>
+<td align="center">[ ]</td>
+<td align="center">[ ]</td>
+<td align="center">[ ]</td>
+<td align="center">[ ]</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>inf is equal infinity which basically means that algorithm doesn't know how far away is this vertex from start one.</p>
+</blockquote>
+<blockquote>
+<p>F states for False</p>
+</blockquote>
+<blockquote>
+<p>T states for True</p>
+</blockquote>
+<p>To initialize our graph we have to set source vertex path length from source vertex to 0 and append itself to path vertices from start.</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+<th align="center">E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Visited</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+</tr>
+<tr>
+<td align="left">Path Length From Start</td>
+<td align="center">0</td>
+<td align="center">inf</td>
+<td align="center">inf</td>
+<td align="center">inf</td>
+<td align="center">inf</td>
+</tr>
+<tr>
+<td align="left">Path Vertices From Start</td>
+<td align="center">[A]</td>
+<td align="center">[ ]</td>
+<td align="center">[ ]</td>
+<td align="center">[ ]</td>
+<td align="center">[ ]</td>
+</tr>
+</tbody>
+</table>
+<p>Great, now our graph is initialised and we can pass it to the Dijkstra's algorithm, let's start!</p>
+<p>Let's follow the algorithm's cycle and pick the first vertex which neighbours we want to check.<br>
+All our vertices are not visited but there is only one has the smallest path length from start. It is A. This vertex is the first one which neighbors we will check.<br>
+First of all, set this vertex as visited.</p>
+<p>A.visited = true</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/image2.png"><img src="Images/image2.png" height="250" style="max-width:100%;"></a></p>
+<p>After this step graph has this state:</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+<th align="center">E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Visited</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+</tr>
+<tr>
+<td align="left">Path Length From Start</td>
+<td align="center">0</td>
+<td align="center">inf</td>
+<td align="center">inf</td>
+<td align="center">inf</td>
+<td align="center">inf</td>
+</tr>
+<tr>
+<td align="left">Path Vertices From Start</td>
+<td align="center">[A]</td>
+<td align="center">[ ]</td>
+<td align="center">[ ]</td>
+<td align="center">[ ]</td>
+<td align="center">[ ]</td>
+</tr>
+</tbody>
+</table>
+<h3>Step 1</h3>
+<p>Then we check all of its neighbours.<br>
+If checking vertex path length from start + edge weight is smaller than neighbour's path length from start then we set neighbour's path length from start new value and append to its pathVerticesFromStart array new vertex: checkingVertex. Repeat this action for every vertex.</p>
+<p>for clarity:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> (A.<span class="pl-smi">pathLengthFromStart</span> <span class="pl-k">+</span> AB.<span class="pl-smi">weight</span>) <span class="pl-k">&lt;</span> B.<span class="pl-smi">pathLengthFromStart</span> {
+    B.<span class="pl-smi">pathLengthFromStart</span> <span class="pl-k">=</span> A.<span class="pl-smi">pathLengthFromStart</span> <span class="pl-k">+</span> AB.<span class="pl-smi">weight</span>
+    B.<span class="pl-smi">pathVerticesFromStart</span> <span class="pl-k">=</span> A.<span class="pl-smi">pathVerticesFromStart</span>
+    B.<span class="pl-smi">pathVerticesFromStart</span>.<span class="pl-c1">append</span>(B)
+}</pre></div>
+<p>And now our graph looks like this one:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/image3.png"><img src="Images/image3.png" height="250" style="max-width:100%;"></a></p>
+<p>And its state is here:</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+<th align="center">E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Visited</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+</tr>
+<tr>
+<td align="left">Path Length From Start</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">inf</td>
+<td align="center">1</td>
+<td align="center">inf</td>
+</tr>
+<tr>
+<td align="left">Path Vertices From Start</td>
+<td align="center">[A]</td>
+<td align="center">[A, B]</td>
+<td align="center">[ ]</td>
+<td align="center">[A, D]</td>
+<td align="center">[ ]</td>
+</tr>
+</tbody>
+</table>
+<h3>Step 2</h3>
+<p>From now we repeat all actions again and fill our table with new info!</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/image4.png"><img src="Images/image4.png" height="250" style="max-width:100%;"></a></p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+<th align="center">E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Visited</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">F</td>
+</tr>
+<tr>
+<td align="left">Path Length From Start</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">inf</td>
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="left">Path Vertices From Start</td>
+<td align="center">[A]</td>
+<td align="center">[A, B]</td>
+<td align="center">[ ]</td>
+<td align="center">[A, D]</td>
+<td align="center">[A, D, E]</td>
+</tr>
+</tbody>
+</table>
+<h3>Step 3</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/image5.png"><img src="Images/image5.png" height="250" style="max-width:100%;"></a></p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+<th align="center">E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Visited</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">T</td>
+</tr>
+<tr>
+<td align="left">Path Length From Start</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">11</td>
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="left">Path Vertices From Start</td>
+<td align="center">[A]</td>
+<td align="center">[A, B]</td>
+<td align="center">[A, D, E, C]</td>
+<td align="center">[A, D]</td>
+<td align="center">[A, D, E ]</td>
+</tr>
+</tbody>
+</table>
+<h3>Step 4</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/image6.png"><img src="Images/image6.png" height="250" style="max-width:100%;"></a></p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+<th align="center">E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Visited</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">T</td>
+</tr>
+<tr>
+<td align="left">Path Length From Start</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="left">Path Vertices From Start</td>
+<td align="center">[A]</td>
+<td align="center">[A, B]</td>
+<td align="center">[A, B, C]</td>
+<td align="center">[A, D]</td>
+<td align="center">[A, D, E ]</td>
+</tr>
+</tbody>
+</table>
+<h3>Step 5</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/image7.png"><img src="Images/image7.png" height="250" style="max-width:100%;"></a></p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+<th align="center">E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Visited</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+</tr>
+<tr>
+<td align="left">Path Length From Start</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="left">Path Vertices From Start</td>
+<td align="center">[A]</td>
+<td align="center">[A, B]</td>
+<td align="center">[A, B, C]</td>
+<td align="center">[A, D]</td>
+<td align="center">[A, D, E ]</td>
+</tr>
+</tbody>
+</table>
+<h2>Code implementation</h2>
+<p>First of all, let’s create class that will describe any Vertex in the graph.<br>
+It is pretty simple</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">open</span> <span class="pl-k">class</span> <span class="pl-en">Vertex</span> {
+
+    <span class="pl-c"><span class="pl-c">//</span>Every vertex should be unique that's why we set up identifier</span>
+<span class="pl-c"></span>    <span class="pl-k">open</span> <span class="pl-k">var</span> identifier<span class="pl-k">:</span> <span class="pl-c1">String</span>
+
+    <span class="pl-c"><span class="pl-c">//</span>For Dijkstra every vertex in the graph should be connected with at least one other vertex. But there can be some usecases</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span>when you firstly initialize all vertices without neighbours. And then on next iteration you set up their neighbours. So, initially neighbours is an empty array.</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span>Array contains tuples (Vertex, Double). Vertex is a neighbour and Double is as edge weight to that neighbour.</span>
+<span class="pl-c"></span>    <span class="pl-k">open</span> <span class="pl-k">var</span> neighbours<span class="pl-k">:</span> [(Vertex, <span class="pl-c1">Double</span>)] <span class="pl-k">=</span> []
+
+    <span class="pl-c"><span class="pl-c">//</span>As it was mentioned in the algorithm description, default path length from start for all vertices should be as much as possible.</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span>It is var because we will update it during the algorithm execution.</span>
+<span class="pl-c"></span>    <span class="pl-k">open</span> <span class="pl-k">var</span> pathLengthFromStart <span class="pl-k">=</span> <span class="pl-c1">Double</span>.<span class="pl-c1">infinity</span>
+
+    <span class="pl-c"><span class="pl-c">//</span>This array contains vertices which we need to go through to reach this vertex from starting one</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span>As with path length from start, we will change this array during the algorithm execution.</span>
+<span class="pl-c"></span>    <span class="pl-k">open</span> <span class="pl-k">var</span> pathVerticesFromStart<span class="pl-k">:</span> [Vertex] <span class="pl-k">=</span> []
+
+    <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">identifier</span></span>: <span class="pl-c1">String</span>) {
+        <span class="pl-c1">self</span>.<span class="pl-smi">identifier</span> <span class="pl-k">=</span> identifier
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span>This function let us use the same array of vertices again and again to calculate paths with different starting vertex.</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span>When we will need to set new starting vertex and recalculate paths then we will simply clear graph vertices' cashes.</span>
+<span class="pl-c"></span>    <span class="pl-k">open</span> <span class="pl-k">func</span> <span class="pl-en">clearCache</span>() {
+        pathLengthFromStart <span class="pl-k">=</span> <span class="pl-c1">Double</span>.<span class="pl-c1">infinity</span>
+        pathVerticesFromStart <span class="pl-k">=</span> []
+    }
+}</pre></div>
+<p>As every vertex should be unique it is useful to make them Hashable and according Equatable. We use an identifier for this purposes.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">Vertex</span>: <span class="pl-e"><span class="pl-c1">Hashable</span> </span>{
+    <span class="pl-k">open</span> <span class="pl-k">var</span> hashValue<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+        <span class="pl-k">return</span> identifier.<span class="pl-c1">hashValue</span>
+    }
+}
+
+<span class="pl-k">extension</span> <span class="pl-en">Vertex</span>: <span class="pl-e"><span class="pl-c1">Equatable</span> </span>{
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">func</span> <span class="pl-en">==</span>(<span class="pl-smi"><span class="pl-en">lhs</span></span>: Vertex, <span class="pl-smi"><span class="pl-en">rhs</span></span>: Vertex) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+        <span class="pl-k">return</span> lhs.<span class="pl-c1">hashValue</span> <span class="pl-k">==</span> rhs.<span class="pl-c1">hashValue</span>
+    }
+}</pre></div>
+<p>We've created a base for our algorithm. Now let's create a house :)<br>
+Dijkstra's realisation is really straightforward.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Dijkstra</span> {
+    <span class="pl-c"><span class="pl-c">//</span>This is a storage for vertices in the graph.</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span>Assuming that our vertices are unique we can use Set instead of array. This approach will bring some benefits later.</span>
+<span class="pl-c"></span>    <span class="pl-k">private</span> <span class="pl-k">var</span> totalVertices<span class="pl-k">:</span> <span class="pl-c1">Set</span><span class="pl-k">&lt;</span>Vertex<span class="pl-k">&gt;</span>
+
+    <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">vertices</span></span>: <span class="pl-c1">Set</span>&lt;Vertex&gt;) {
+        totalVertices <span class="pl-k">=</span> vertices
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span>Remember clearCache function in the Vertex class implementation?</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span>This is just a wrapper that cleans cache for all stored vertices.</span>
+<span class="pl-c"></span>    <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">clearCache</span>() {
+        totalVertices.<span class="pl-c1">forEach</span> { <span class="pl-c1">$0</span>.<span class="pl-c1">clearCache</span>() }
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">findShortestPaths</span>(<span class="pl-en">from</span> <span class="pl-smi">startVertex</span>: Vertex) {
+	<span class="pl-c"><span class="pl-c">//</span>Before we start searching the shortest path from startVertex,</span>
+<span class="pl-c"></span>	<span class="pl-c"><span class="pl-c">//</span>we need to clear vertices cache just to be sure that out graph is clean.</span>
+<span class="pl-c"></span>	<span class="pl-c"><span class="pl-c">//</span>Remember that every Vertex is a class and classes are passed by reference.</span>
+<span class="pl-c"></span>	<span class="pl-c"><span class="pl-c">//</span>So whenever you change vertex outside of this class it will affect this vertex inside totalVertices Set</span>
+<span class="pl-c"></span>        <span class="pl-c1">clearCache</span>()
+	<span class="pl-c"><span class="pl-c">//</span>Now all our vertices have Double.infinity pathLengthFromStart and an empty pathVerticesFromStart array.</span>
+<span class="pl-c"></span>
+	<span class="pl-c"><span class="pl-c">//</span>The next step in the algorithm is to set startVertex pathLengthFromStart and pathVerticesFromStart</span>
+<span class="pl-c"></span>        startVertex.<span class="pl-smi">pathLengthFromStart</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+        startVertex.<span class="pl-smi">pathVerticesFromStart</span>.<span class="pl-c1">append</span>(startVertex)
+
+	<span class="pl-c"><span class="pl-c">//</span>Here starts the main part. We will use while loop to iterate through all vertices in the graph.</span>
+<span class="pl-c"></span>	<span class="pl-c"><span class="pl-c">//</span>For this purpose we define currentVertex variable which we will change in the end of each while cycle.</span>
+<span class="pl-c"></span>        <span class="pl-k">var</span> currentVertex<span class="pl-k">:</span> Vertex<span class="pl-k">?</span> <span class="pl-k">=</span> startVertex
+
+        <span class="pl-k">while</span> <span class="pl-k">let</span> vertex <span class="pl-k">=</span> currentVertex {
+
+    	    <span class="pl-c"><span class="pl-c">//</span>Next line of code is an implementation of setting vertex as visited.</span>
+<span class="pl-c"></span>    	    <span class="pl-c"><span class="pl-c">//</span>As it has been said, we should check only unvisited vertices in the graph,</span>
+<span class="pl-c"></span>	    <span class="pl-c"><span class="pl-c">//</span>So why don't just delete it from the set? This approach let us skip checking for *"if !vertex.visited then"*</span>
+<span class="pl-c"></span>            totalVertices.<span class="pl-c1">remove</span>(vertex)
+
+	    <span class="pl-c"><span class="pl-c">//</span>filteredNeighbours is an array that contains current vertex neighbours which aren't yet visited</span>
+<span class="pl-c"></span>            <span class="pl-k">let</span> filteredNeighbours <span class="pl-k">=</span> vertex.<span class="pl-smi">neighbours</span>.<span class="pl-c1">filter</span> { totalVertices.<span class="pl-c1">contains</span>(<span class="pl-c1">$0</span>.0) }
+
+	    <span class="pl-c"><span class="pl-c">//</span>Let's iterate through them</span>
+<span class="pl-c"></span>            <span class="pl-k">for</span> neighbour <span class="pl-k">in</span> filteredNeighbours {
+		<span class="pl-c"><span class="pl-c">//</span>These variable are more representative, than neighbour.0 or neighbour.1</span>
+<span class="pl-c"></span>                <span class="pl-k">let</span> neighbourVertex <span class="pl-k">=</span> neighbour.0
+                <span class="pl-k">let</span> weight <span class="pl-k">=</span> neighbour.1
+
+		<span class="pl-c"><span class="pl-c">//</span>Here we calculate new weight, that we can offer to neighbour.</span>
+<span class="pl-c"></span>                <span class="pl-k">let</span> theoreticNewWeight <span class="pl-k">=</span> vertex.<span class="pl-smi">pathLengthFromStart</span> <span class="pl-k">+</span> weight
+
+		<span class="pl-c"><span class="pl-c">//</span>If it is smaller than neighbour's current pathLengthFromStart</span>
+<span class="pl-c"></span>		<span class="pl-c"><span class="pl-c">//</span>Then we perform this code</span>
+<span class="pl-c"></span>                <span class="pl-k">if</span> theoreticNewWeight <span class="pl-k">&lt;</span> neighbourVertex.<span class="pl-smi">pathLengthFromStart</span> {
+
+		    <span class="pl-c"><span class="pl-c">//</span>set new pathLengthFromStart</span>
+<span class="pl-c"></span>                    neighbourVertex.<span class="pl-smi">pathLengthFromStart</span> <span class="pl-k">=</span> theoreticNewWeight
+
+		    <span class="pl-c"><span class="pl-c">//</span>set new pathVerticesFromStart</span>
+<span class="pl-c"></span>                    neighbourVertex.<span class="pl-smi">pathVerticesFromStart</span> <span class="pl-k">=</span> vertex.<span class="pl-smi">pathVerticesFromStart</span>
+
+		    <span class="pl-c"><span class="pl-c">//</span>append current vertex to neighbour's pathVerticesFromStart</span>
+<span class="pl-c"></span>                    neighbourVertex.<span class="pl-smi">pathVerticesFromStart</span>.<span class="pl-c1">append</span>(neighbourVertex)
+                }
+            }
+
+	    <span class="pl-c"><span class="pl-c">//</span>If totalVertices is empty, i.e. all vertices are visited</span>
+<span class="pl-c"></span>	    <span class="pl-c"><span class="pl-c">//</span>Than break the loop</span>
+<span class="pl-c"></span>            <span class="pl-k">if</span> totalVertices.<span class="pl-c1">isEmpty</span> {
+                currentVertex <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+                <span class="pl-k">break</span>
+            }
+
+	    <span class="pl-c"><span class="pl-c">//</span>If loop is not broken, than pick next vertex for checkin from not visited.</span>
+<span class="pl-c"></span>	    <span class="pl-c"><span class="pl-c">//</span>Next vertex pathLengthFromStart should be the smallest one.</span>
+<span class="pl-c"></span>            currentVertex <span class="pl-k">=</span> totalVertices.<span class="pl-c1">min</span> { <span class="pl-c1">$0</span>.<span class="pl-smi">pathLengthFromStart</span> <span class="pl-k">&lt;</span> <span class="pl-c1">$1</span>.<span class="pl-smi">pathLengthFromStart</span> }
+        }
+    }
+}</pre></div>
+<p>That's all! Now you can check this algorithm in the playground. On the main page there is a code for creating a random graph.</p>
+<p>Also there is a <strong>VisualizedDijkstra.playground</strong>. Use it to figure out the algorithm's flow in real (slowed :)) time.</p>
+<p>It is up to you how to implement some specific parts of the algorithm, you can use Array instead of Set, add <em>visited</em> property to Vertex or you can create some local totalVertices Array/Set inside <em>func findShortestPaths(from startVertex: Vertex)</em> to keep totalVertices Array/Set unchanged. This is a general explanation with one possible implementation :)</p>
+<h1>About this repository</h1>
+<p>This repository contains two playgrounds:</p>
+<ul>
+<li>To understand how does this algorithm works, I created <strong>VisualizedDijkstra.playground.</strong> It works in auto and interactive modes. Moreover, there are play/pause/stop buttons.</li>
+<li>If you need only realisation of the algorithm without visualisation then run <strong>Dijkstra.playground.</strong> It contains necessary classes and couple functions to create random graph for algorithm testing.</li>
+</ul>
+<h1>Demo video</h1>
+<p>Click the link: <a href="https://youtu.be/PPESI7et0cQ" rel="nofollow">YouTube</a></p>
+<h1>Credits</h1>
+<p>WWDC 2017 Scholarship Project (Rejected) created by <a href="https://github.com/crabman448">Taras Nikulin</a></p></div>
+</body>
+</html>

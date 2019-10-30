@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<head>
+  <title>K-Means</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>k-Means Clustering</h1>
+<p>Goal: Partition data into two or more clusters.</p>
+<p>The idea behind k-Means Clustering is to take a bunch of data and determine if there are any natural clusters (groups of related objects) within the data.</p>
+<p>The k-Means algorithm is a so-called <em>unsupervised</em> learning algorithm. We don't know in advance what patterns exist in the data -- it has no formal classification to it -- but we would like to see if we can divide the data into groups somehow.</p>
+<p>For example, you can use k-Means to find what are the 3 most prominent colors in an image by telling it to group pixels into 3 clusters based on their color value. Or you can use it to group related news articles together, without deciding beforehand what categories to use. The algorithm will automatically figure out what the best groups are.</p>
+<p>The "k" in k-Means is a number. The algorithm assumes that there are <strong>k</strong> centers within the data that the various data elements are scattered around. The data that is closest to these so-called <strong>centroids</strong> become classified or grouped together.</p>
+<p>k-Means doesn't tell you what the classifier is for each particular data group. After dividing news articles into groups, it doesn't say that group 1 is about science, group 2 is about celebrities, group 3 is about the upcoming election, etc. You only know that related news stories are now together, but not necessarily what that relationship signifies. k-Means only assists in trying to find what clusters potentially exist.</p>
+<h2>The algorithm</h2>
+<p>The k-Means algorithm is really quite simple at its core.</p>
+<p>First, we choose <strong>k</strong> random data points to be the initial centroids. Then, we repeat the following two steps until we've found our clusters:</p>
+<ol>
+<li>For each data point, find which centroid it is closest to. We assign each point to its nearest centroid.</li>
+<li>Update the centroid to the mean (i.e. the average) of its nearest data points. We move the centroid so that it really sits in the center of the cluster.</li>
+</ol>
+<p>We need to repeat this multiple times because moving the centroid changes which data points belong to it. This goes back and forth for a bit until everything stabilizes. That's when we reach "convergence", i.e. when the centroids no longer move around.</p>
+<p>A few of the parameters that are required for k-Means:</p>
+<ul>
+<li><strong>k</strong>: This is the number of centroids to attempt to locate. If you want to group news articles, this is the number of groups to look for.</li>
+<li><strong>convergence distance</strong>: If all the centroids move less than this distance after a particular update step, we're done.</li>
+<li><strong>distance function</strong>: This calculates how far data points are from the centroids, to find which centroid they are closest to. There are a number of distance functions that can be used, but most commonly the Euclidean distance function is adequate (you know, Pythagoras). But often that can lead to convergence not being reached in higher dimensionally.</li>
+</ul>
+<p>Let's look at an example.</p>
+<h4>Good clusters</h4>
+<p>This first example shows k-Means finding all three clusters. In all these examples the circles represent the data points and the stars represent the centroids.</p>
+<p>In the first iteration, we choose three data points at random and put our centroids on top of them. Then in each subsequent iteration, we figure out which data points are closest to these centroids, and move the centroids to the average position of those data points. This repeats until we reach equilibrium and the centroids stop moving.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/k_means_good.png"><img src="Images/k_means_good.png" alt="Good Clustering" style="max-width:100%;"></a></p>
+<p>The selection of initial centroids was fortuitous! We found the lower left cluster (indicated by red) and did pretty good on the center and upper left clusters.</p>
+<blockquote>
+<p><strong>Note:</strong> These examples are contrived to show the exact nature of k-Means and finding clusters. The clusters in these examples are very easily identified by human eyes: we see there is one in the lower left corner, one in the upper right corner, and maybe one in the middle. In practice, however, data may have many dimensions and may be impossible to visualize. In such cases, k-Means is much better at this job than  human eyes!</p>
+</blockquote>
+<h4>Bad clustering</h4>
+<p>The next two examples highlight the unpredictability of k-Means and how it does not always find the best clustering.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/k_means_bad1.png"><img src="Images/k_means_bad1.png" alt="Bad Clustering 1" style="max-width:100%;"></a></p>
+<p>As you can see in this example, the initial centroids were all a little too close to one another, and the blue one didn't quite get to a good place. By adjusting the convergence distance we should be able to improve the fit of our centroids to the data.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/k_means_bad2.png"><img src="Images/k_means_bad2.png" alt="Bad Clustering 1" style="max-width:100%;"></a></p>
+<p>In this example, the blue cluster never really could separate from the red cluster and as such sort of got stuck down there.</p>
+<h4>Improving bad clustering</h4>
+<p>In these examples of "bad" clustering, the algorithm got stuck in a local optimum. It does find clusters but they're not the best way to divide up the data. To increase your chances of success, you can run the algorithm several times, each time with different points as the initial centroids. You choose the clustering that gives the best results.</p>
+<p>To calculate how "good" the clustering is, you find the distance of each data point to its cluster, and add up all these distances. The lower this number, the better! That means each cluster is really in the center of a group of data points, and all clusters are roughly the same size and are spaced evenly apart.</p>
+<h2>The code</h2>
+<p>This is what the algorithm could look like in Swift. The <code>points</code> array contains the input data as <code>Vector</code> objects. The output is an array of <code>Vector</code> objects representing the clusters that were found.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">kMeans</span>(<span class="pl-smi"><span class="pl-en">numCenters</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">convergeDistance</span></span>: <span class="pl-c1">Double</span>, <span class="pl-smi"><span class="pl-en">points</span></span>: [Vector]) <span class="pl-k">-&gt;</span> [Vector] {
+ 
+  <span class="pl-c"><span class="pl-c">//</span> Randomly take k objects from the input data to make the initial centroids.</span>
+<span class="pl-c"></span>  <span class="pl-k">var</span> centers <span class="pl-k">=</span> <span class="pl-c1">reservoirSample</span>(points, <span class="pl-c1">k</span>: numCenters)
+
+  <span class="pl-c"><span class="pl-c">//</span> This loop repeats until we've reached convergence, i.e. when the centroids</span>
+<span class="pl-c"></span>  <span class="pl-c"><span class="pl-c">//</span> have moved less than convergeDistance since the last iteration.</span>
+<span class="pl-c"></span>  <span class="pl-k">var</span> centerMoveDist <span class="pl-k">=</span> <span class="pl-c1">0.0</span>
+  <span class="pl-k">repeat</span> {
+    <span class="pl-c"><span class="pl-c">//</span> In each iteration of the loop, we move the centroids to a new position.</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> The newCenters array contains those new positions.</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> zeros <span class="pl-k">=</span> [<span class="pl-c1">Double</span>](<span class="pl-c1">count</span>: points[<span class="pl-c1">0</span>].<span class="pl-smi">length</span>, <span class="pl-c1">repeatedValue</span>: <span class="pl-c1">0</span>)
+    <span class="pl-k">var</span> newCenters <span class="pl-k">=</span> [Vector](<span class="pl-c1">count</span>: numCenters, <span class="pl-c1">repeatedValue</span>: <span class="pl-c1">Vector</span>(zeros))
+
+    <span class="pl-c"><span class="pl-c">//</span> We keep track of how many data points belong to each centroid, so we</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> can calculate the average later.</span>
+<span class="pl-c"></span>    <span class="pl-k">var</span> counts <span class="pl-k">=</span> [<span class="pl-c1">Double</span>](<span class="pl-c1">count</span>: numCenters, <span class="pl-c1">repeatedValue</span>: <span class="pl-c1">0</span>)
+
+    <span class="pl-c"><span class="pl-c">//</span> For each data point, find the centroid that it is closest to. We also </span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> add up the data points that belong to that centroid, in order to compute</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> that average.</span>
+<span class="pl-c"></span>    <span class="pl-k">for</span> p <span class="pl-k">in</span> points {
+      <span class="pl-k">let</span> c <span class="pl-k">=</span> <span class="pl-c1">indexOfNearestCenter</span>(p, <span class="pl-c1">centers</span>: centers)
+      newCenters[c] <span class="pl-k">+=</span> p
+      counts[c] <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    }
+    
+    <span class="pl-c"><span class="pl-c">//</span> Take the average of all the data points that belong to each centroid.</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> This moves the centroid to a new position.</span>
+<span class="pl-c"></span>    <span class="pl-k">for</span> idx <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>numCenters {
+      newCenters[idx] <span class="pl-k">/=</span> counts[idx]
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> Find out how far each centroid moved since the last iteration. If it's</span>
+<span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> only a small distance, then we're done.</span>
+<span class="pl-c"></span>    centerMoveDist <span class="pl-k">=</span> <span class="pl-c1">0.0</span>
+    <span class="pl-k">for</span> idx <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>numCenters {
+      centerMoveDist <span class="pl-k">+=</span> centers[idx].<span class="pl-c1">distanceTo</span>(newCenters[idx])
+    }
+    
+    centers <span class="pl-k">=</span> newCenters
+  } <span class="pl-k">while</span> centerMoveDist <span class="pl-k">&gt;</span> convergeDistance
+
+  <span class="pl-k">return</span> centers
+}</pre></div>
+<blockquote>
+<p><strong>Note:</strong> The code in <a href="KMeans.swift">KMeans.swift</a> is slightly more advanced than the above listing. It also assigns labels to the clusters and has a few other tricks up its sleeve. Check it out!</p>
+</blockquote>
+<h2>Performance</h2>
+<p>k-Means is classified as an NP-Hard type of problem. That means it's almost impossible to find the optimal solution. The selection of the initial centroids has a big effect on how the resulting clusters may end up. Finding an exact solution is not likely -- even in 2 dimensional space.</p>
+<p>As seen from the steps above the complexity really isn't that bad -- it is often considered to be on the order of <strong>O(kndi)</strong>, where <strong>k</strong> is the number of centroids, <strong>n</strong> is the number of <strong>d</strong>-dimensional vectors, and <strong>i</strong> is the number of iterations for convergence.</p>
+<p>The amount of data has a linear effect on the running time of k-Means, but tuning how far you want the centroids to converge can have a big impact how many iterations will be done. As a general rule, <strong>k</strong> should be relatively small compared to the number of vectors.</p>
+<p>Often times as more data is added certain points may lie in the boundary between two centroids and as such those centroids would continue to bounce back and forth and the convergence distance would need to be tuned to prevent that.</p>
+<h2>See Also</h2>
+<p><a href="https://en.wikipedia.org/wiki/K-means_clustering" rel="nofollow">K-Means Clustering on Wikipedia</a></p>
+<p><em>Written by John Gill and Matthijs Hollemans</em></p></div>
+</body>
+</html>

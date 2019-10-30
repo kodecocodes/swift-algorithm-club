@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<head>
+  <title>Selection Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Selection Sort</h1>
+<p>Goal: To sort an array from low to high (or high to low).</p>
+<p>You are given an array of numbers and need to put them in the right order. The selection sort algorithm divides the array into two parts: the beginning of the array is sorted, while the rest of the array consists of the numbers that still remain to be sorted.</p>
+<pre><code>[ ...sorted numbers... | ...unsorted numbers... ]
+</code></pre>
+<p>This is similar to <a href="../Insertion%20Sort/">insertion sort</a>, but the difference is in how new numbers are added to the sorted portion.</p>
+<p>It works as follows:</p>
+<ul>
+<li>Find the lowest number in the array. You must start at index 0, loop through all the numbers in the array, and keep track of what the lowest number is.</li>
+<li>Swap the lowest number with the number at index 0. Now, the sorted portion consists of just the number at index 0.</li>
+<li>Go to index 1.</li>
+<li>Find the lowest number in the rest of the array. This time you start looking from index 1. Again you loop until the end of the array and keep track of the lowest number you come across.</li>
+<li>Swap  the lowest number with the number at index 1. Now, the sorted portion contains two numbers and extends from index 0 to index 1.</li>
+<li>Go to index 2.</li>
+<li>Find the lowest number in the rest of the array, starting from index 2, and swap it with the one at index 2. Now, the array is sorted from index 0 to 2; this range contains the three lowest numbers in the array.</li>
+<li>And continue until no numbers remain to be sorted.</li>
+</ul>
+<p>It is called a "selection" sort because at every step you search through the rest of the array to select the next lowest number.</p>
+<h2>An example</h2>
+<p>Suppose the numbers to sort are <code>[ 5, 8, 3, 4, 6 ]</code>. We also keep track of where the sorted portion of the array ends, denoted by the <code>|</code> symbol.</p>
+<p>Initially, the sorted portion is empty:</p>
+<pre><code>[| 5, 8, 3, 4, 6 ]
+</code></pre>
+<p>Now we find the lowest number in the array. We do that by scanning through the array from left to right, starting at the <code>|</code> bar. We find the number <code>3</code>.</p>
+<p>To put this number into the sorted position, we swap it with the number next to the <code>|</code>, which is <code>5</code>:</p>
+<pre><code>[ 3 | 8, 5, 4, 6 ]
+  *      *
+</code></pre>
+<p>The sorted portion is now <code>[ 3 ]</code> and the rest is <code>[ 8, 5, 4, 6 ]</code>.</p>
+<p>Again, we look for the lowest number, starting from the <code>|</code> bar. We find <code>4</code> and swap it with <code>8</code> to get:</p>
+<pre><code>[ 3, 4 | 5, 8, 6 ]
+     *      *
+</code></pre>
+<p>With every step, the <code>|</code> bar moves one position to the right. We again look through the rest of the array and find <code>5</code> as the lowest number. There is no need to swap <code>5</code> with itself, and we simply move forward:</p>
+<pre><code>[ 3, 4, 5 | 8, 6 ]
+        *
+</code></pre>
+<p>This process repeats until the array is sorted. Note that everything to the left of the <code>|</code> bar is always in sorted order and always contains the lowest numbers in the array. Finally, we end up with:</p>
+<pre><code>[ 3, 4, 5, 6, 8 |]
+</code></pre>
+<p>The selection sort is an <em>in-place</em> sort because everything happens in the same array without using additional memory. You can also implement this as a <em>stable</em> sort so that identical elements do not get swapped around relative to each other (note that the version given below is not stable).</p>
+<h2>The code</h2>
+<p>Here is an implementation of selection sort in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">selectionSort</span>(<span class="pl-en">_</span> <span class="pl-smi">array</span>: [<span class="pl-c1">Int</span>]) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] {
+  <span class="pl-k">guard</span> array.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> <span class="pl-k">else</span> { <span class="pl-k">return</span> array }  <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>
+  <span class="pl-k">var</span> a <span class="pl-k">=</span> array                    <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>
+  <span class="pl-k">for</span> x <span class="pl-k">in</span> <span class="pl-c1">0</span> <span class="pl-k">..&lt;</span> a.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span> {     <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>
+    <span class="pl-k">var</span> lowest <span class="pl-k">=</span> x
+    <span class="pl-k">for</span> y <span class="pl-k">in</span> x <span class="pl-k">+</span> <span class="pl-c1">1</span> <span class="pl-k">..&lt;</span> a.<span class="pl-c1">count</span> {   <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>      <span class="pl-k">if</span> a[y] <span class="pl-k">&lt;</span> a[lowest] {
+        lowest <span class="pl-k">=</span> y
+      }
+    }
+
+    <span class="pl-k">if</span> x <span class="pl-k">!=</span> lowest {               <span class="pl-c"><span class="pl-c">//</span> 5</span>
+<span class="pl-c"></span>      a.<span class="pl-c1">swapAt</span>(x, lowest)
+    }
+  }
+  <span class="pl-k">return</span> a
+}</pre></div>
+<p>Put this code in a playground and test it like so:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> list <span class="pl-k">=</span> [ <span class="pl-c1">10</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">2</span>, <span class="pl-c1">27</span>, <span class="pl-c1">8</span>, <span class="pl-c1">5</span>, <span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">0</span>, <span class="pl-c1">26</span> ]
+<span class="pl-c1">selectionSort</span>(list)</pre></div>
+<p>A step-by-step explanation of how the code works:</p>
+<ol>
+<li>
+<p>If the array is empty or only contains a single element, then there is no need to sort.</p>
+</li>
+<li>
+<p>Make a copy of the array. This is necessary because we cannot modify the contents of the <code>array</code> parameter directly in Swift. Like the Swift's <code>sort()</code> function, the <code>selectionSort()</code> function will return a sorted <em>copy</em> of the original array.</p>
+</li>
+<li>
+<p>There are two loops inside this function. The outer loop looks at each of the elements in the array in turn; this is what moves the <code>|</code> bar forward.</p>
+</li>
+<li>
+<p>This is the inner loop. It finds the lowest number in the rest of the array.</p>
+</li>
+<li>
+<p>Swap the lowest number with the current array index. The <code>if</code> check is necessary because you can't <code>swap()</code> an element with itself in Swift.</p>
+</li>
+</ol>
+<p>In summary: For each element of the array, the selection sort swaps positions with the lowest value from the rest of the array. As a result, the array gets sorted from the left to the right. (You can also do it right-to-left, in which case you always look for the largest number in the array. Give that a try!)</p>
+<blockquote>
+<p><strong>Note:</strong> The outer loop ends at index <code>a.count - 2</code>. The very last element will automatically be in the correct position because at that point there are no other smaller elements left.</p>
+</blockquote>
+<p>The source file <a href="SelectionSort.swift">SelectionSort.swift</a> has a version of this function that uses generics, so you can also use it to sort strings and other data types.</p>
+<h2>Performance</h2>
+<p>The selection sort is easy to understand but it performs slow as <strong>O(n^2)</strong>. It is worse than <a href="../Insertion%20Sort/">insertion sort</a> but better than <a href="../Bubble%20Sort/">bubble sort</a>. Finding the lowest element in the rest of the array is slow, especially since the inner loop will be performed repeatedly.</p>
+<p>The <a href="../Heap%20Sort/">Heap sort</a> uses the same principle as selection sort but has a fast method for finding the minimum value in the rest of the array. The heap sort' performance is <strong>O(n log n)</strong>.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Selection_sort" rel="nofollow">Selection sort on Wikipedia</a></p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

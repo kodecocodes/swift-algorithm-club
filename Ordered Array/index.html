@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<head>
+  <title>Ordered Array</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Ordered Array</h1>
+<p>This is an array that is always sorted from low to high. Whenever you add a new item to this array, it is inserted in its sorted position.</p>
+<p>An ordered array is useful for when you want your data to be sorted and you're inserting new items relatively rarely. In that case, it's faster than sorting the entire array. However, if you need to change the array often, it's probably faster to use a regular array and sort it manually.</p>
+<p>The implementation is quite basic. It's simply a wrapper around Swift's built-in array:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">OrderedArray</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt; {
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> array <span class="pl-k">=</span> [T]()
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">array</span></span>: [T]) {
+    <span class="pl-c1">self</span>.<span class="pl-c1">array</span> <span class="pl-k">=</span> array.<span class="pl-c1">sorted</span>()
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">isEmpty</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">count</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">subscript</span>(<span class="pl-c1">index</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-k">return</span> array[index]
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">removeAtIndex</span>(<span class="pl-smi"><span class="pl-en">index</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-k">return</span> array.<span class="pl-c1">remove</span>(<span class="pl-c1">at</span>: index)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">removeAll</span>() {
+    array.<span class="pl-c1">removeAll</span>()
+  }
+}
+
+<span class="pl-k">extension</span> <span class="pl-en">OrderedArray</span>: <span class="pl-e"><span class="pl-c1">CustomStringConvertible</span> </span>{
+  <span class="pl-k">public</span> <span class="pl-k">var</span> description<span class="pl-k">:</span> <span class="pl-c1">String</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">description</span>
+  }
+}</pre></div>
+<p>As you can see, all these methods simply call the corresponding method on the internal <code>array</code> variable.</p>
+<p>What remains is the <code>insert()</code> function. Here is an initial stab at it:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-en">_</span> <span class="pl-smi">newElement</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">let</span> i <span class="pl-k">=</span> <span class="pl-c1">findInsertionPoint</span>(newElement)
+    array.<span class="pl-c1">insert</span>(newElement, <span class="pl-c1">at</span>: i)
+    <span class="pl-k">return</span> i
+  }
+
+  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">findInsertionPoint</span>(<span class="pl-en">_</span> <span class="pl-smi">newElement</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>array.<span class="pl-c1">count</span> {
+      <span class="pl-k">if</span> newElement <span class="pl-k">&lt;=</span> array[i] {
+        <span class="pl-k">return</span> i
+      }
+    }
+    <span class="pl-k">return</span> array.<span class="pl-c1">count</span>  <span class="pl-c"><span class="pl-c">//</span> insert at the end</span>
+<span class="pl-c"></span>  }</pre></div>
+<p>The helper function <code>findInsertionPoint()</code> simply iterates through the entire array, looking for the right place to insert the new element.</p>
+<blockquote>
+<p><strong>Note:</strong> Quite conveniently, <code>array.insert(... atIndex: array.count)</code> adds the new object to the end of the array, so if no suitable insertion point was found we can simply return <code>array.count</code> as the index.</p>
+</blockquote>
+<p>Here's how you can test it in a playground:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> a <span class="pl-k">=</span> OrderedArray<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>(<span class="pl-c1">array</span>: [<span class="pl-c1">5</span>, <span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">7</span>, <span class="pl-c1">-1</span>])
+a              <span class="pl-c"><span class="pl-c">//</span> [-1, 1, 3, 5, 7, 9]</span>
+<span class="pl-c"></span>
+a.<span class="pl-c1">insert</span>(<span class="pl-c1">4</span>)    <span class="pl-c"><span class="pl-c">//</span> inserted at index 3</span>
+<span class="pl-c"></span>a              <span class="pl-c"><span class="pl-c">//</span> [-1, 1, 3, 4, 5, 7, 9]</span>
+<span class="pl-c"></span>
+a.<span class="pl-c1">insert</span>(<span class="pl-c1">-2</span>)   <span class="pl-c"><span class="pl-c">//</span> inserted at index 0</span>
+<span class="pl-c"></span>a.<span class="pl-c1">insert</span>(<span class="pl-c1">10</span>)   <span class="pl-c"><span class="pl-c">//</span> inserted at index 8</span>
+<span class="pl-c"></span>a              <span class="pl-c"><span class="pl-c">//</span> [-2, -1, 1, 3, 4, 5, 7, 9, 10]</span></pre></div>
+<p>The array's contents will always be sorted from low to high, now matter what.</p>
+<p>Unfortunately, the current <code>findInsertionPoint()</code> function is a bit slow. In the worst case, it needs to scan through the entire array. We can speed this up by using a <a href="../Binary%20Search">binary search</a> to find the insertion point.</p>
+<p>Here is the new version:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">findInsertionPoint</span>(<span class="pl-en">_</span> <span class="pl-smi">newElement</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">var</span> startIndex <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> endIndex <span class="pl-k">=</span> array.<span class="pl-c1">count</span>
+
+    <span class="pl-k">while</span> startIndex <span class="pl-k">&lt;</span> endIndex {
+        <span class="pl-k">let</span> midIndex <span class="pl-k">=</span> startIndex <span class="pl-k">+</span> (endIndex <span class="pl-k">-</span> startIndex) <span class="pl-k">/</span> <span class="pl-c1">2</span>
+        <span class="pl-k">if</span> array[midIndex] <span class="pl-k">==</span> newElement {
+            <span class="pl-k">return</span> midIndex
+        } <span class="pl-k">else</span> <span class="pl-k">if</span> array[midIndex] <span class="pl-k">&lt;</span> newElement {
+            startIndex <span class="pl-k">=</span> midIndex <span class="pl-k">+</span> <span class="pl-c1">1</span>
+        } <span class="pl-k">else</span> {
+            endIndex <span class="pl-k">=</span> midIndex
+        }
+    }
+    <span class="pl-k">return</span> startIndex
+  }</pre></div>
+<p>The big difference with a regular binary search is that this doesn't return <code>nil</code> when the value can't be found, but the array index where the element would have been. That's where we insert the new object.</p>
+<p>Note that using binary search doesn't change the worst-case running time complexity of <code>insert()</code>. The binary search itself takes only <strong>O(log n)</strong> time, but inserting a new object in the middle of an array still involves shifting all remaining elements in memory. So overall, the time complexity is still <strong>O(n)</strong>. But in practice this new version definitely is a lot faster, especially on large arrays.</p>
+<p>A more complete and production ready <a href="https://github.com/ole/SortedArray">SortedArray</a> is avalible from <a href="https://github.com/ole">Ole Begemann</a>. The <a href="https://oleb.net/blog/2017/02/sorted-array/" rel="nofollow">accompanying article</a> explains the advantages and tradeoffs.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

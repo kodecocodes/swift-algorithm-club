@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+  <title>Priority Queue</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Priority Queue</h1>
+<p>A priority queue is a <a href="../Queue/">queue</a> where the most important element is always at the front.</p>
+<p>The queue can be a <em>max-priority</em> queue (largest element first) or a <em>min-priority</em> queue (smallest element first).</p>
+<h2>Why use a priority queue?</h2>
+<p>Priority queues are useful for algorithms that need to process a (large) number of items and where you repeatedly need to identify which one is now the biggest or smallest -- or however you define "most important".</p>
+<p>Examples of algorithms that can benefit from a priority queue:</p>
+<ul>
+<li>Event-driven simulations. Each event is given a timestamp and you want events to be performed in order of their timestamps. The priority queue makes it easy to find the next event that needs to be simulated.</li>
+<li>Dijkstra's algorithm for graph searching uses a priority queue to calculate the minimum cost.</li>
+<li><a href="../Huffman%20Coding/">Huffman coding</a> for data compression. This algorithm builds up a compression tree. It repeatedly needs to find the two nodes with the smallest frequencies that do not have a parent node yet.</li>
+<li>A* pathfinding for artificial intelligence.</li>
+<li>Lots of other places!</li>
+</ul>
+<p>With a regular queue or plain old array you'd need to scan the entire sequence over and over to find the next largest item. A priority queue is optimized for this sort of thing.</p>
+<h2>What can you do with a priority queue?</h2>
+<p>Common operations on a priority queue:</p>
+<ul>
+<li><strong>Enqueue</strong>: inserts a new element into the queue.</li>
+<li><strong>Dequeue</strong>: removes and returns the queue's most important element.</li>
+<li><strong>Find Minimum</strong> or <strong>Find Maximum</strong>: returns the most important element but does not remove it.</li>
+<li><strong>Change Priority</strong>: for when your algorithm decides that an element has become more important while it's already in the queue.</li>
+</ul>
+<h2>How to implement a priority queue</h2>
+<p>There are different ways to implement priority queues:</p>
+<ul>
+<li>As a <a href="../Ordered%20Array/">sorted array</a>. The most important item is at the end of the array. Downside: inserting new items is slow because they must be inserted in sorted order.</li>
+<li>As a balanced <a href="../Binary%20Search%20Tree/">binary search tree</a>. This is great for making a double-ended priority queue because it implements both "find minimum" and "find maximum" efficiently.</li>
+<li>As a <a href="../Heap/">heap</a>. The heap is a natural data structure for a priority queue. In fact, the two terms are often used as synonyms. A heap is more efficient than a sorted array because a heap only has to be partially sorted. All heap operations are <strong>O(log n)</strong>.</li>
+</ul>
+<p>Here's a Swift priority queue based on a heap:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">PriorityQueue</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> heap<span class="pl-k">:</span> Heap<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">sort</span></span>: (T, T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span>) {
+    heap <span class="pl-k">=</span> <span class="pl-c1">Heap</span>(<span class="pl-c1">sort</span>: sort)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> heap.<span class="pl-c1">isEmpty</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> heap.<span class="pl-c1">count</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">peek</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> heap.<span class="pl-c1">peek</span>()
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">enqueue</span>(<span class="pl-smi"><span class="pl-en">element</span></span>: T) {
+    heap.<span class="pl-c1">insert</span>(element)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">dequeue</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> heap.<span class="pl-c1">remove</span>()
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">changePriority</span>(<span class="pl-en">index</span> <span class="pl-smi">i</span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">value</span></span>: T) {
+    <span class="pl-k">return</span> heap.<span class="pl-c1">replace</span>(<span class="pl-c1">index</span>: i, <span class="pl-c1">value</span>: value)
+  }
+}</pre></div>
+<p>As you can see, there's nothing much to it. Making a priority queue is easy if you have a <a href="../Heap/">heap</a> because a heap <em>is</em> pretty much a priority queue.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Priority_queue" rel="nofollow">Priority Queue on Wikipedia</a></p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

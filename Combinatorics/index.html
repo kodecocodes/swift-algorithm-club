@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<head>
+  <title>Combinatorics</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Permutations</h1>
+<p>A <em>permutation</em> is a certain arrangement of the objects from a collection. For example, if we have the first five letters from the alphabet, then this is a permutation:</p>
+<pre><code>a, b, c, d, e
+</code></pre>
+<p>This is another permutation:</p>
+<pre><code>b, e, d, a, c
+</code></pre>
+<p>For a collection of <code>n</code> objects, there are <code>n!</code> possible permutations, where <code>!</code> is the "factorial" function. So for our collection of five letters, the total number of permutations you can make is:</p>
+<pre><code>5! = 5 * 4 * 3 * 2 * 1 = 120
+</code></pre>
+<p>A collection of six items has <code>6! = 720</code> permutations. For ten items, it is <code>10! = 3,628,800</code>. That adds up quick!</p>
+<p>Where does this <code>n!</code> come from? The logic is as follows: we have a collection of five letters that we want to put in some order. To do this, you need to pick up these letters one-by-one. Initially, you have the choice of five letters: <code>a, b, c, d, e</code>. That gives 5 possibilities.</p>
+<p>After picking the first letter, you only have four letters left to choose from. That gives <code>5 * 4 = 20</code> possibilities:</p>
+<pre><code>a+b    b+a    c+a    d+a    e+a
+a+c    b+c    c+b    d+b    e+b
+a+d    b+d    c+d    d+c    e+c
+a+e    b+e    c+e    d+e    e+d
+</code></pre>
+<p>After picking the second letter, there are only three letters left to choose from. And so on... When you get to the last letter, you don't have any choice because there is only one letter left. That's why the total number of possibilities is <code>5 * 4 * 3 * 2 * 1</code>.</p>
+<p>To calculate the factorial in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">factorial</span>(<span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">var</span> n <span class="pl-k">=</span> n
+  <span class="pl-k">var</span> result <span class="pl-k">=</span> <span class="pl-c1">1</span>
+  <span class="pl-k">while</span> n <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> {
+    result <span class="pl-k">*=</span> n
+    n <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+  }
+  <span class="pl-k">return</span> result
+}</pre></div>
+<p>Try it out in a playground:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">factorial</span>(<span class="pl-c1">5</span>)   <span class="pl-c"><span class="pl-c">//</span> returns 120</span></pre></div>
+<p>Note that <code>factorial(20)</code> is the largest number you can calculate with this function, or you'll get integer overflow.</p>
+<p>Let's say that from that collection of five letters you want to choose only 3 elements. How many possible ways can you do this? Well, that works the same way as before, except that you stop after the third letter. So now the number of possibilities is <code>5 * 4 * 3 = 60</code>.</p>
+<p>The formula for this is:</p>
+<pre><code>             n!
+P(n, k) = --------
+          (n - k)!
+</code></pre>
+<p>where <code>n</code> is the size of your collection and <code>k</code> is the size of the group that you're selecting. In our example, <code>P(5, 3) = 5! / (5 - 3)! = 120 / 2 = 60</code>.</p>
+<p>You could implement this in terms of the <code>factorial()</code> function from earlier, but there's a problem. Remember that <code>factorial(20)</code> is the largest possible number it can handle, so you could never calculate <code>P(21, 3)</code>, for example.</p>
+<p>Here is an algorithm that can deal with larger numbers:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">permutations</span>(<span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">k</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">var</span> n <span class="pl-k">=</span> n
+  <span class="pl-k">var</span> answer <span class="pl-k">=</span> n
+  <span class="pl-k">for</span> <span class="pl-c1">_</span> <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">..&lt;</span>k {
+    n <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+    answer <span class="pl-k">*=</span> n
+  }
+  <span class="pl-k">return</span> answer
+}</pre></div>
+<p>Try it out:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">permutations</span>(<span class="pl-c1">5</span>, <span class="pl-c1">3</span>)   <span class="pl-c"><span class="pl-c">//</span> returns 60</span>
+<span class="pl-c"></span><span class="pl-c1">permutations</span>(<span class="pl-c1">50</span>, <span class="pl-c1">6</span>)  <span class="pl-c"><span class="pl-c">//</span> returns 11441304000</span>
+<span class="pl-c"></span><span class="pl-c1">permutations</span>(<span class="pl-c1">9</span>, <span class="pl-c1">4</span>)   <span class="pl-c"><span class="pl-c">//</span> returns 3024</span></pre></div>
+<p>This function takes advantage of the following algebra fact:</p>
+<pre><code>          9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1
+P(9, 4) = --------------------------------- = 9 * 8 * 7 * 6 = 3024
+                          5 * 4 * 3 * 2 * 1
+</code></pre>
+<p>The denominator cancels out part of the numerator, so there's no need to perform a division and you're not dealing with intermediate results that are potentially too large.</p>
+<p>However, there are still limits to what you can calculate; for example the number of groups of size 15 that you can make from a collection of 30 objects -- i.e. <code>P(30, 15)</code> -- is ginormous and breaks Swift. Huh, you wouldn't think it would be so large but combinatorics is funny that way.</p>
+<h2>Generating the permutations</h2>
+<p>So far we've counted how many permutations exist for a given collection, but how can we actually create a list of all these permutations?</p>
+<p>Here's a recursive algorithm by Niklaus Wirth:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">permuteWirth</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: [T], <span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>) {
+    <span class="pl-k">if</span> n <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+        <span class="pl-c1">print</span>(a)   <span class="pl-c"><span class="pl-c">//</span> display the current permutation</span>
+<span class="pl-c"></span>    } <span class="pl-k">else</span> {
+        <span class="pl-k">var</span> a <span class="pl-k">=</span> a
+        <span class="pl-c1">permuteWirth</span>(a, n <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+        <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>n {
+            a.<span class="pl-c1">swapAt</span>(i, n)
+            <span class="pl-c1">permuteWirth</span>(a, n <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+            a.<span class="pl-c1">swapAt</span>(i, n)
+        }
+    }
+}</pre></div>
+<p>Use it as follows:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> letters <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span>]
+<span class="pl-c1">permuteWirth</span>(letters, letters.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>)</pre></div>
+<p>This prints all the permutations of the input array to the debug output:</p>
+<div class="highlight highlight-source-swift"><pre>[<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span>]
+[<span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span>]
+[<span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span>]
+[<span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span>]
+[<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span>]
+<span class="pl-k">...</span></pre></div>
+<p>As we've seen before, there will be 120 of them.</p>
+<p>How does the algorithm work? Good question! Let's step through a simple example with just three elements. The input array is:</p>
+<pre><code>[ "x", "y", "z" ]
+</code></pre>
+<p>We're calling it like so:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span> ], <span class="pl-c1">2</span>)</pre></div>
+<p>Note that the <code>n</code> parameter is one less than the number of elements in the array!</p>
+<p>After calling <code>permuteWirth()</code> it immediately calls itself recursively with <code>n = 1</code>. And that immediately calls itself recursively again with <code>n = 0</code>. The call tree looks like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span> ], <span class="pl-c1">2</span>)
+	<span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span> ], <span class="pl-c1">1</span>)
+		<span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span> ], <span class="pl-c1">0</span>)   <span class="pl-c"><span class="pl-c">//</span> prints ["x", "y", "z"]</span></pre></div>
+<p>When <code>n</code> is equal to 0, we print out the current array, which is still unchanged at this point. The recursion has reached the base case, so now we go back up one level and enter the <code>for</code> loop.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span> ], <span class="pl-c1">2</span>)
+	<span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span> ], <span class="pl-c1">1</span>)   <span class="pl-k">&lt;---</span> back to this level
+	    swap a[<span class="pl-c1">0</span>] with a[<span class="pl-c1">1</span>]
+        <span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span> ], <span class="pl-c1">0</span>)   <span class="pl-c"><span class="pl-c">//</span> prints ["y", "x", "z"]</span>
+<span class="pl-c"></span>	    swap a[<span class="pl-c1">0</span>] and a[<span class="pl-c1">1</span>] back</pre></div>
+<p>This swapped <code>"y"</code> and <code>"x"</code> and printed the result. We're done at this level of the recursion and go back to the top. This time we do two iterations of the <code>for</code> loop because <code>n = 2</code> here. The first iteration looks like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span> ], <span class="pl-c1">2</span>)   <span class="pl-k">&lt;---</span> back to this level
+    swap a[<span class="pl-c1">0</span>] with a[<span class="pl-c1">2</span>]
+	<span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span> ], <span class="pl-c1">1</span>)
+        <span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span> ], <span class="pl-c1">0</span>)   <span class="pl-c"><span class="pl-c">//</span> prints ["z", "y", "x"]</span>
+<span class="pl-c"></span>	    swap a[<span class="pl-c1">0</span>] with a[<span class="pl-c1">1</span>]
+        <span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span> ], <span class="pl-c1">0</span>)   <span class="pl-c"><span class="pl-c">//</span> prints ["y", "z", "x"]</span>
+<span class="pl-c"></span>	    swap a[<span class="pl-c1">0</span>] and a[<span class="pl-c1">1</span>] back
+    swap a[<span class="pl-c1">0</span>] and a[<span class="pl-c1">2</span>] back</pre></div>
+<p>And the second iteration:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span> ], <span class="pl-c1">2</span>)
+    swap a[<span class="pl-c1">1</span>] with a[<span class="pl-c1">2</span>]                 <span class="pl-k">&lt;---</span> second iteration of the loop
+	<span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span> ], <span class="pl-c1">1</span>)
+        <span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span> ], <span class="pl-c1">0</span>)   <span class="pl-c"><span class="pl-c">//</span> prints ["x", "z", "y"]</span>
+<span class="pl-c"></span>	    swap a[<span class="pl-c1">0</span>] with a[<span class="pl-c1">1</span>]
+        <span class="pl-c1">permuteWirth</span>([ <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span> ], <span class="pl-c1">0</span>)   <span class="pl-c"><span class="pl-c">//</span> prints ["z", "x", "y"]</span>
+<span class="pl-c"></span>	    swap a[<span class="pl-c1">0</span>] and a[<span class="pl-c1">1</span>] back
+    swap a[<span class="pl-c1">1</span>] and a[<span class="pl-c1">2</span>] back</pre></div>
+<p>To summarize, first it swaps these items:</p>
+<pre><code>[ 2, 1, - ]
+</code></pre>
+<p>Then it swaps these:</p>
+<pre><code>[ 3, -, 1 ]
+</code></pre>
+<p>Recursively, it swaps the first two again:</p>
+<pre><code>[ 2, 3, - ]
+</code></pre>
+<p>Then it goes back up one step and swaps these:</p>
+<pre><code>[ -, 3, 2 ]
+</code></pre>
+<p>And finally the first two again:</p>
+<pre><code>[ 3, 1, - ]
+</code></pre>
+<p>Of course, the larger your array is, the more swaps it performs and the deeper the recursion gets.</p>
+<p>If the above is still not entirely clear, then I suggest you give it a go in the playground. That's what playgrounds are great for. :-)</p>
+<p>For fun, here is an alternative algorithm, by Robert Sedgewick:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">permuteSedgewick</span>(<span class="pl-en">_</span> <span class="pl-smi">a</span>: [<span class="pl-c1">Int</span>], <span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">pos</span>: <span class="pl-k">inout</span> <span class="pl-c1">Int</span>) {
+  <span class="pl-k">var</span> a <span class="pl-k">=</span> a
+  pos <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  a[n] <span class="pl-k">=</span> pos
+  <span class="pl-k">if</span> pos <span class="pl-k">==</span> a.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span> {
+    <span class="pl-c1">print</span>(a)              <span class="pl-c"><span class="pl-c">//</span> display the current permutation</span>
+<span class="pl-c"></span>  } <span class="pl-k">else</span> {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>a.<span class="pl-c1">count</span> {
+      <span class="pl-k">if</span> a[i] <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+        <span class="pl-c1">permuteSedgewick</span>(a, i, <span class="pl-k">&amp;</span>pos)
+      }
+    }
+  }
+  pos <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+  a[n] <span class="pl-k">=</span> <span class="pl-c1">0</span>
+}</pre></div>
+<p>You use it like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> numbers <span class="pl-k">=</span> [<span class="pl-c1">0</span>, <span class="pl-c1">0</span>, <span class="pl-c1">0</span>, <span class="pl-c1">0</span>]
+<span class="pl-k">var</span> pos <span class="pl-k">=</span> <span class="pl-c1">-1</span>
+<span class="pl-c1">permuteSedgewick</span>(numbers, <span class="pl-c1">0</span>, <span class="pl-k">&amp;</span>pos)</pre></div>
+<p>The array must initially contain all zeros. 0 is used as a flag that indicates more work needs to be done on each level of the recursion.</p>
+<p>The output of the Sedgewick algorithm is:</p>
+<div class="highlight highlight-source-swift"><pre>[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">0</span>]
+[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">0</span>, <span class="pl-c1">3</span>]
+[<span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">2</span>, <span class="pl-c1">0</span>]
+[<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>]
+[<span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">0</span>, <span class="pl-c1">2</span>]
+<span class="pl-k">...</span></pre></div>
+<p>It can only deal with numbers, but these can serve as indices into the actual array you're trying to permute, so it's just as powerful as Wirth's algorithm.</p>
+<p>Try to figure out for yourself how this algorithm works!</p>
+<h2>Combinations</h2>
+<p>A combination is like a permutation where the order does not matter. The following are six different permutations of the letters <code>k</code> <code>l</code> <code>m</code> but they all count as the same combination:</p>
+<pre><code>k, l, m      k, m, l      m, l, k
+l, m, k      l, k, m      m, k, l
+</code></pre>
+<p>So there is only one combination of size 3. However, if we're looking for combinations of size 2, we can make three:</p>
+<pre><code>k, l      (is the same as l, k)
+l, m      (is the same as m, l)
+k, m      (is the same as m, k)
+</code></pre>
+<p>The <code>C(n, k)</code> function counts the number of ways to choose <code>k</code> things out of <code>n</code> possibilities. That's why it's also called "n-choose-k". (A fancy mathematical term for this number is "binomial coefficient".)</p>
+<p>The formula for <code>C(n, k)</code> is:</p>
+<pre><code>               n!         P(n, k)
+C(n, k) = ------------- = --------
+          (n - k)! * k!      k!
+</code></pre>
+<p>As you can see, you can derive it from the formula for <code>P(n, k)</code>. There are always more permutations than combinations. You divide the number of permutations by <code>k!</code> because a total of <code>k!</code> of these permutations give the same combination.</p>
+<p>Above I showed that the number of permutations of <code>k</code> <code>l</code> <code>m</code> is 6, but if you pick only two of those letters the number of combinations is 3. If we use the formula we should get the same answer. We want to calculate <code>C(3, 2)</code> because we choose 2 letters out of a collection of 3.</p>
+<pre><code>          3 * 2 * 1    6
+C(3, 2) = --------- = --- = 3
+           1! * 2!     2
+</code></pre>
+<p>Here's a simple function to calculate <code>C(n, k)</code>:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">combinations</span>(<span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>, <span class="pl-en">choose</span> <span class="pl-smi">k</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">return</span> <span class="pl-c1">permutations</span>(n, k) <span class="pl-k">/</span> <span class="pl-c1">factorial</span>(k)
+}</pre></div>
+<p>Use it like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">combinations</span>(<span class="pl-c1">28</span>, <span class="pl-c1">choose</span>: <span class="pl-c1">5</span>)    <span class="pl-c"><span class="pl-c">//</span> prints 98280</span></pre></div>
+<p>Because this uses the <code>permutations()</code> and <code>factorial()</code> functions under the hood, you're still limited by how large these numbers can get. For example, <code>combinations(30, 15)</code> is "only" <code>155,117,520</code> but because the intermediate results don't fit into a 64-bit integer, you can't calculate it with the given function.</p>
+<p>There's a faster approach to calculate <code>C(n, k)</code> in <strong>O(k)</strong> time and <strong>O(1)</strong> extra space. The idea behind it is that the formula for <code>C(n, k)</code> is:</p>
+<pre><code>               n!                      n * (n - 1) * ... * 1
+C(n, k) = ------------- = ------------------------------------------
+          (n - k)! * k!      (n - k) * (n - k - 1) * ... * 1 * k!
+</code></pre>
+<p>After the reduction of fractions, we get the following formula:</p>
+<pre><code>               n * (n - 1) * ... * (n - k + 1)         (n - 0) * (n - 1) * ... * (n - k + 1)
+C(n, k) = --------------------------------------- = -----------------------------------------
+                           k!                          (0 + 1) * (1 + 1) * ... * (k - 1 + 1)
+</code></pre>
+<p>We can implement this formula as follows:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">quickBinomialCoefficient</span>(<span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>, <span class="pl-en">choose</span> <span class="pl-smi">k</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">var</span> result <span class="pl-k">=</span> <span class="pl-c1">1</span>
+  <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>k {
+    result <span class="pl-k">*=</span> (n <span class="pl-k">-</span> i)
+    result <span class="pl-k">/=</span> (i <span class="pl-k">+</span> <span class="pl-c1">1</span>)
+  }
+  <span class="pl-k">return</span> result
+}</pre></div>
+<p>This algorithm can create larger numbers than the previous method. Instead of calculating the entire numerator (a potentially huge number) and then dividing it by the factorial (also a very large number), here we already divide in each step. That causes the temporary results to grow much less quickly.</p>
+<p>Here's how you can use this improved algorithm:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">quickBinomialCoefficient</span>(<span class="pl-c1">8</span>, <span class="pl-c1">choose</span>: <span class="pl-c1">2</span>)     <span class="pl-c"><span class="pl-c">//</span> prints 28</span>
+<span class="pl-c"></span><span class="pl-c1">quickBinomialCoefficient</span>(<span class="pl-c1">30</span>, <span class="pl-c1">choose</span>: <span class="pl-c1">15</span>)   <span class="pl-c"><span class="pl-c">//</span> prints 155117520</span></pre></div>
+<p>This new method is quite fast but you're still limited in how large the numbers can get. You can calculate <code>C(30, 15)</code> without any problems, but something like <code>C(66, 33)</code> will still cause integer overflow in the numerator.</p>
+<p>Here is an algorithm that uses dynamic programming to overcome the need for calculating factorials and doing divisions. It is based on Pascal's triangle:</p>
+<pre><code>0:               1
+1:             1   1
+2:           1   2   1
+3:         1   3   3   1
+4:       1   4   6   4   1
+5:     1   5  10   10  5   1
+6:   1   6  15  20   15  6   1
+</code></pre>
+<p>Each number in the next row is made up by adding two numbers from the previous row. For example in row 6, the number 15 is made by adding the 5 and 10 from row 5. These numbers are called the binomial coefficients and as it happens they are the same as <code>C(n, k)</code>.</p>
+<p>For example, for row 6:</p>
+<pre><code>C(6, 0) = 1
+C(6, 1) = 6
+C(6, 2) = 15
+C(6, 3) = 20
+C(6, 4) = 15
+C(6, 5) = 6
+C(6, 6) = 1
+</code></pre>
+<p>The following code calculates Pascal's triangle in order to find the <code>C(n, k)</code> you're looking for:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">binomialCoefficient</span>(<span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>, <span class="pl-en">choose</span> <span class="pl-smi">k</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">var</span> bc <span class="pl-k">=</span> <span class="pl-c1">Array</span>(<span class="pl-c1">repeating</span>: <span class="pl-c1">Array</span>(<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: n <span class="pl-k">+</span> <span class="pl-c1">1</span>), <span class="pl-c1">count</span>: n <span class="pl-k">+</span> <span class="pl-c1">1</span>)
+
+  <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">...</span><span class="pl-smi">n</span> {
+    bc[i][<span class="pl-c1">0</span>] <span class="pl-k">=</span> <span class="pl-c1">1</span>
+    bc[i][i] <span class="pl-k">=</span> <span class="pl-c1">1</span>
+  }
+
+  <span class="pl-k">if</span> n <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-smi">n</span> {
+      <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">..&lt;</span>i {
+        bc[i][j] <span class="pl-k">=</span> bc[i <span class="pl-k">-</span> <span class="pl-c1">1</span>][j <span class="pl-k">-</span> <span class="pl-c1">1</span>] <span class="pl-k">+</span> bc[i <span class="pl-k">-</span> <span class="pl-c1">1</span>][j]
+      }
+    }
+  }
+
+  <span class="pl-k">return</span> bc[n][k]
+}</pre></div>
+<p>The algorithm itself is quite simple: the first loop fills in the 1s at the outer edges of the triangle. The other loops calculate each number in the triangle by adding up the two numbers from the previous row.</p>
+<p>Now you can calculate <code>C(66, 33)</code> without any problems:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">binomialCoefficient</span>(<span class="pl-c1">66</span>, <span class="pl-c1">choose</span>: <span class="pl-c1">33</span>)   <span class="pl-c"><span class="pl-c">//</span> prints a very large number</span></pre></div>
+<p>You may wonder what the point is in calculating these permutations and combinations, but many algorithm problems are really combinatorics problems in disguise. Often you may need to look at all possible combinations of your data to see which one gives the right solution. If that means you need to search through <code>n!</code> potential solutions, you may want to consider a different approach -- as you've seen, these numbers become huge very quickly!</p>
+<h2>References</h2>
+<p>Wirth's and Sedgewick's permutation algorithms and the code for counting permutations and combinations are based on the Algorithm Alley column from Dr.Dobb's Magazine, June 1993. The dynamic programming binomial coefficient algorithm is from The Algorithm Design Manual by Skiena.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans and <a href="https://github.com/nuts23">Kanstantsin Linou</a></em></p></div>
+</body>
+</html>

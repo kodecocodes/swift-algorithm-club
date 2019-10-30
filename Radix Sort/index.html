@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+  <title>Radix Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Radix Sort</h1>
+<p>Radix sort is a sorting algorithm that takes as input an array of integers and uses a sorting subroutine( that is often another efficient sorting algorith) to sort the integers by their radix, or rather their digit.  Counting Sort, and Bucket Sort are often times used as the subroutine for Radix Sort.</p>
+<h2>Example</h2>
+<ul>
+<li>Input Array: [170, 45, 75, 90, 802, 24, 2, 66]</li>
+<li>Output Array (Sorted):  [2, 24, 45, 66, 75, 90, 170, 802]</li>
+</ul>
+<h3>Step 1:</h3>
+<p>The first step in this algorithm is to define the digit or rather the "base" or radix that we will use to sort.<br>
+For this example we will let radix = 10, since the integers we are working with in the example are of base 10.</p>
+<h3>Step 2:</h3>
+<p>The next step is to simply iterate n times (where n is the number of digits in the largest integer in the input array), and upon each iteration perform a sorting subroutine on the current digit in question.</p>
+<h3>Algorithm in Action</h3>
+<p>Let's take a look at our example input array.</p>
+<p>The largest integer in our array is 802, and it has three digits (ones, tens, hundreds).  So our algorithm will iterate three times whilst performing some sorting algorithm on the digits of each integer.</p>
+<ul>
+<li>Iteration 1:  170, 90, 802, 2, 24, 45, 75, 66</li>
+<li>Iteration 2:  802, 2, 24, 45, 66, 170, 75, 90</li>
+<li>Iteration 3:  2, 24, 45, 66, 75, 90, 170, 802</li>
+</ul>
+<p>See also <a href="https://en.wikipedia.org/wiki/Radix_Sort" rel="nofollow">Wikipedia</a>.</p>
+<p><em>Written for the Swift Algorithm Club by Christian Encarnacion</em></p></div>
+</body>
+</html>

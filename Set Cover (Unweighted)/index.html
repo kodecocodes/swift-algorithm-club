@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+  <title>Set Cover (Unweighted)</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Set Cover (Unweighted)</h1>
+<p>If you have a group of sets, this algorithm finds a subset of those sets within that group whose union will cover an initial set that you're trying to match. The initial set is also known as the universe.</p>
+<p>For example, suppose you have a universe of <code>{1, 5, 7}</code> and you want to find the sets which cover the universe within the following group of sets:</p>
+<blockquote>
+<p>{8, 4, 2}<br>
+{3, 1}<br>
+{7, 6, 5, 4}<br>
+{2}<br>
+{1, 2, 3}</p>
+</blockquote>
+<p>You can see that the sets <code>{3, 1} {7, 6, 5, 4}</code> when unioned together will cover the universe of <code>{1, 5, 7}</code>. Yes, there may be additional elements in the sets returned by the algorithm, but every element in the universe is represented in the cover itself.</p>
+<p>There may be cases where no cover exists. For example, if your universe is <code>{7, 9}</code>, there is no combination of sets within the group above that will yield a cover.</p>
+<h2>The algorithm</h2>
+<p>The Greedy Set Cover algorithm (unweighted) is provided here. It's known as greedy because it uses the largest intersecting set from the group of sets first before examining other sets in the group. This is part of the reason why the cover may have additional elements which are not part of the universe.</p>
+<p>The function (named <code>cover</code>) is provided as an extension of the Swift type <code>Set</code>. The function takes a single parameter, which is an array of sets. This array represents the group, and the set itself represents the universe.</p>
+<p>One of the first things done in <code>cover</code> is to make a copy of the universe in <code>remainingSet</code>. Then, the algorithm enters a <code>while</code> loop in which a call to <code>largestIntersectingSet</code> is made. The value returned from <code>largestIntersectingSet</code> is the set which has the most elements in common with the remaining universe identified by <code>remainingSet</code>. If all sets have nothing in common, <code>largestIntersectingSet</code> returns <code>nil</code>.</p>
+<p>If the result from <code>largestIntersectingSet</code> is not nil, that result is subtracted from <code>remainingSet</code> (reducing its size), and the loop continues until <code>remainingSet</code> has zero length (meaning a cover has been found) or until <code>largestIntersectingSet</code> returns <code>nil</code>.</p>
+<p>If there is no cover within the group of sets, <code>cover</code> returns <code>nil</code>.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Set_cover_problem" rel="nofollow">Set cover problem on Wikipedia</a></p>
+<p><em>Written for Swift Algorithm Club by <a href="https://github.com/mrael2">Michael C. Rael</a></em><br>
+<em>Migrated to Swift 3 by Jaap Wijnen</em></p></div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<head>
+  <title>Heap Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Heap Sort</h1>
+<p>Sorts an array from low to high using a heap.</p>
+<p>A <a href="../Heap/">heap</a> is a partially sorted binary tree that is stored inside an array. The heap sort algorithm takes advantage of the structure of the heap to perform a fast sort.</p>
+<p>To sort from lowest to highest, heap sort first converts the unsorted array to a max-heap, so that the first element in the array is the largest.</p>
+<p>Let's say the array to sort is:</p>
+<pre><code>[ 5, 13, 2, 25, 7, 17, 20, 8, 4 ]
+</code></pre>
+<p>This is first turned into a max-heap that looks like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/MaxHeap.png"><img src="Images/MaxHeap.png" alt="The max-heap" style="max-width:100%;"></a></p>
+<p>The heap's internal array is then:</p>
+<pre><code>[ 25, 13, 20, 8, 7, 17, 2, 5, 4 ]
+</code></pre>
+<p>That's hardly what you'd call sorted! But now the sorting process starts: we swap the first element (index <em>0</em>) with the last one at index <em>n-1</em>, to get:</p>
+<pre><code>[ 4, 13, 20, 8, 7, 17, 2, 5, 25 ]
+  *                          *
+</code></pre>
+<p>Now the new root node, <code>4</code>, will be smaller than its children, so we fix up the max-heap up to element <em>n-2</em> using the <em>shift down</em> or "heapify" procedure. After repairing the heap, the new root is now the second-largest item in the array:</p>
+<pre><code>[20, 13, 17, 8, 7, 4, 2, 5 | 25]
+</code></pre>
+<p>Important: When we fix the heap, we ignore the last item at index <em>n-1</em>. That now contains the array's maximum value, so it is in its final sorted place already. The <code>|</code> bar indicates where the sorted portion of the array begins. We'll leave that part of the array alone from now on.</p>
+<p>Again, we swap the first element with the last one (this time at index <em>n-2</em>):</p>
+<pre><code>[5, 13, 17, 8, 7, 4, 2, 20 | 25]
+ *                      *
+</code></pre>
+<p>And fix up the heap to make it valid max-heap again:</p>
+<pre><code>[17, 13, 5, 8, 7, 4, 2 | 20, 25]
+</code></pre>
+<p>As you can see, the largest items are making their way to the back. We repeat this process until we arrive at the root node and then the whole array is sorted.</p>
+<blockquote>
+<p><strong>Note:</strong> This process is very similar to <a href="../Selection%20Sort/">selection sort</a>, which repeatedly looks for the minimum item in the remainder of the array. Extracting the minimum or maximum value is what heaps are good at.</p>
+</blockquote>
+<p>Performance of heap sort is <strong>O(n lg n)</strong> in best, worst, and average case. Because we modify the array directly, heap sort can be performed in-place. But it is not a stable sort: the relative order of identical elements is not preserved.</p>
+<p>Here's how you can implement heap sort in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">Heap</span> {
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">sort</span>() <span class="pl-k">-&gt;</span> [T] {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: (elements.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>), <span class="pl-c1">through</span>: <span class="pl-c1">1</span>, <span class="pl-c1">by</span>: <span class="pl-c1">-1</span>) {
+      <span class="pl-c1">swap</span>(<span class="pl-k">&amp;</span>elements[<span class="pl-c1">0</span>], <span class="pl-k">&amp;</span>elements[i])
+      <span class="pl-c1">shiftDown</span>(<span class="pl-c1">0</span>, <span class="pl-c1">heapSize</span>: i)
+    }
+    <span class="pl-k">return</span> elements
+  }
+}</pre></div>
+<p>This adds a <code>sort()</code> function to our <a href="../Heap/">heap</a> implementation. To use it, you would do something like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> h1 <span class="pl-k">=</span> <span class="pl-c1">Heap</span>(<span class="pl-c1">array</span>: [<span class="pl-c1">5</span>, <span class="pl-c1">13</span>, <span class="pl-c1">2</span>, <span class="pl-c1">25</span>, <span class="pl-c1">7</span>, <span class="pl-c1">17</span>, <span class="pl-c1">20</span>, <span class="pl-c1">8</span>, <span class="pl-c1">4</span>], <span class="pl-c1">sort</span>: <span class="pl-k">&gt;</span>)
+<span class="pl-k">let</span> a1 <span class="pl-k">=</span> h1.<span class="pl-c1">sort</span>()</pre></div>
+<p>Because we need a max-heap to sort from low-to-high, you need to give <code>Heap</code> the reverse of the sort function. To sort <code>&lt;</code>, the <code>Heap</code> object must be created with <code>&gt;</code> as the sort function. In other words, sorting from low-to-high creates a max-heap and turns it into a min-heap.</p>
+<p>We can write a handy helper function for that:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">heapsort</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: [T], <span class="pl-en">_</span> <span class="pl-smi">sort</span>: <span class="pl-k">@escaping</span> (T, T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span>) <span class="pl-k">-&gt;</span> [T] {
+  <span class="pl-k">let</span> reverseOrder <span class="pl-k">=</span> { i1, i2 <span class="pl-k">in</span> <span class="pl-c1">sort</span>(i2, i1) }
+  <span class="pl-k">var</span> h <span class="pl-k">=</span> <span class="pl-c1">Heap</span>(<span class="pl-c1">array</span>: a, <span class="pl-c1">sort</span>: reverseOrder)
+  <span class="pl-k">return</span> h.<span class="pl-c1">sort</span>()
+}</pre></div>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

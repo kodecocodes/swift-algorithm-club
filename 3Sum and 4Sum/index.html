@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<head>
+  <title>3Sum and 4Sum</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>3Sum and 4Sum</h1>
+<p>3Sum and 4Sum are extensions of a popular algorithm question, the <a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Two-Sum%20Problem">2Sum</a>.</p>
+<h2>3Sum</h2>
+<blockquote>
+<p>Given an array of integers, find all subsets of the array with 3 values where the 3 values sum up to a target number.</p>
+<p><strong>Note</strong>: The solution subsets must not contain duplicate triplets.</p>
+<p>For example, given the array [-1, 0, 1, 2, -1, -4], and the target <strong>0</strong>:<br>
+The solution set is: [[-1, 0, 1], [-1, -1, 2]] // The two <strong>-1</strong> values in the array are considered to be distinct</p>
+</blockquote>
+<p>There are 2 key procedures in solving this algorithm. Sorting the array, and avoiding duplicates.</p>
+<h3>Sorting</h3>
+<p>Sorting your input array allows for powerful assumptions:</p>
+<ul>
+<li>duplicates are always adjacent to each other</li>
+<li>moving an index to the right increases the value, while moving an index to the left decreases the value</li>
+</ul>
+<p>You'll make use of these two rules to create an efficient algorithm.</p>
+<h3>Avoiding Duplicates</h3>
+<p>Since you pre-sort the array, duplicates will be adjacent to each other. You just need to skip over duplicates by comparing adjacent values:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">Collection</span></span> <span class="pl-k">where</span> <span class="pl-c1">Element</span><span class="pl-k">:</span> <span class="pl-e"><span class="pl-c1">Equatable</span></span> {
+  
+  <span class="pl-c"><span class="pl-c">///</span> In a sorted collection, replaces the given index with a successor mapping to a unique element.</span>
+<span class="pl-c"></span>  <span class="pl-c"><span class="pl-c">///</span></span>
+<span class="pl-c"></span>  <span class="pl-c"><span class="pl-c">///</span> - Parameter index: A valid index of the collection. `index` must be less than `endIndex`</span>
+<span class="pl-c"></span>  <span class="pl-k">func</span> <span class="pl-en">formUniqueIndex</span>(<span class="pl-en">after</span> <span class="pl-smi">index</span>: <span class="pl-k">inout</span> <span class="pl-c1">Index</span>) {
+    <span class="pl-k">var</span> prev <span class="pl-k">=</span> index
+    <span class="pl-k">repeat</span> {
+      prev <span class="pl-k">=</span> index
+      <span class="pl-c1">formIndex</span>(<span class="pl-c1">after</span>: <span class="pl-k">&amp;</span>index)
+    } <span class="pl-k">while</span> index <span class="pl-k">&lt;</span> endIndex <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">self</span>[prev] <span class="pl-k">==</span> <span class="pl-c1">self</span>[index]
+  }
+}</pre></div>
+<p>A similar implementation is used to get the unique index <em>before</em> a given index:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">BidirectionalCollection</span></span> <span class="pl-k">where</span> <span class="pl-c1">Element</span><span class="pl-k">:</span> <span class="pl-e"><span class="pl-c1">Equatable</span></span> {
+  
+  <span class="pl-c"><span class="pl-c">///</span> In a sorted collection, replaces the given index with a predecessor that maps to a unique element.</span>
+<span class="pl-c"></span>  <span class="pl-c"><span class="pl-c">///</span></span>
+<span class="pl-c"></span>  <span class="pl-c"><span class="pl-c">///</span> - Parameter index: A valid index of the collection. `index` must be greater than `startIndex`.</span>
+<span class="pl-c"></span>  <span class="pl-k">func</span> <span class="pl-en">formUniqueIndex</span>(<span class="pl-en">before</span> <span class="pl-smi">index</span>: <span class="pl-k">inout</span> <span class="pl-c1">Index</span>) {
+    <span class="pl-k">var</span> prev <span class="pl-k">=</span> index
+    <span class="pl-k">repeat</span> {
+      prev <span class="pl-k">=</span> index
+      <span class="pl-c1">formIndex</span>(<span class="pl-c1">before</span>: <span class="pl-k">&amp;</span>index)
+    } <span class="pl-k">while</span> index <span class="pl-k">&gt;</span> startIndex <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">self</span>[prev] <span class="pl-k">==</span> <span class="pl-c1">self</span>[index]
+  }
+}</pre></div>
+<h3>Assembling the Subsets</h3>
+<p>You'll keep track of 3 indices to represent the 3 numbers. The sum at any given moment is <code>array[l] + array[m] + array[r]</code>:</p>
+<div class="highlight highlight-source-swift"><pre>      m <span class="pl-k">-&gt;</span>      <span class="pl-k">&lt;-</span> r
+[<span class="pl-c1">-4</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>]
+  l   </pre></div>
+<p>The premise is quite straightforward (given that you're familiar with 2Sum). You'll iterate <code>l</code> through the array. For every iteration, you also apply the 2Sum algorithm to elements after <code>l</code>. You'll check the sum every time you moving the indices to check if you found match. Here's the algorithm:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">threeSum</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">BidirectionalCollection</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">collection</span>: T, <span class="pl-smi"><span class="pl-en">target</span></span>: T.<span class="pl-c1">Element</span>) <span class="pl-k">-&gt;</span> [[T.<span class="pl-c1">Element</span>]] <span class="pl-k">where</span> T.<span class="pl-c1">Element</span><span class="pl-k">:</span> <span class="pl-e">Numeric <span class="pl-k">&amp;</span> <span class="pl-c1">Comparable</span></span> {
+  <span class="pl-k">let</span> sorted <span class="pl-k">=</span> collection.<span class="pl-c1">sorted</span>()
+  <span class="pl-k">var</span> ret<span class="pl-k">:</span> [[T.<span class="pl-c1">Element</span>]] <span class="pl-k">=</span> []
+  <span class="pl-k">var</span> l <span class="pl-k">=</span> sorted.<span class="pl-c1">startIndex</span>
+  
+  ThreeSum<span class="pl-k">:</span> <span class="pl-k">while</span> l <span class="pl-k">&lt;</span> sorted.<span class="pl-c1">endIndex</span> { <span class="pl-k">defer</span> { sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">after</span>: <span class="pl-k">&amp;</span>l) }
+    <span class="pl-k">var</span> m <span class="pl-k">=</span> sorted.<span class="pl-c1">index</span>(<span class="pl-c1">after</span>: l)
+    <span class="pl-k">var</span> r <span class="pl-k">=</span> sorted.<span class="pl-c1">index</span>(<span class="pl-c1">before</span>: sorted.<span class="pl-c1">endIndex</span>)
+    
+    TwoSum<span class="pl-k">:</span> <span class="pl-k">while</span> m <span class="pl-k">&lt;</span> r <span class="pl-k">&amp;&amp;</span> r <span class="pl-k">&lt;</span> sorted.<span class="pl-c1">endIndex</span> { 
+      <span class="pl-k">let</span> sum <span class="pl-k">=</span> sorted[l] <span class="pl-k">+</span> sorted[m] <span class="pl-k">+</span> sorted[r]
+      <span class="pl-k">if</span> sum <span class="pl-k">==</span> target {
+        ret.<span class="pl-c1">append</span>([sorted[l], sorted[m], sorted[r]])
+        sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">after</span>: <span class="pl-k">&amp;</span>m)
+        sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">before</span>: <span class="pl-k">&amp;</span>r)
+      } <span class="pl-k">else</span> <span class="pl-k">if</span> sum <span class="pl-k">&lt;</span> target {
+        sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">after</span>: <span class="pl-k">&amp;</span>m)
+      } <span class="pl-k">else</span> {
+        sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">before</span>: <span class="pl-k">&amp;</span>r)
+      }
+    }
+  }
+  
+  <span class="pl-k">return</span> ret
+}</pre></div>
+<h2>4Sum</h2>
+<blockquote>
+<p>Given an array S of n integers, find all subsets of the array with 4 values where the 4 values sum up to a target number.</p>
+<p><strong>Note</strong>: The solution set must not contain duplicate quadruplets.</p>
+</blockquote>
+<h3>Solution</h3>
+<p>Foursum is a very straightforward extension to the threeSum algorithm. In threeSum, you kept track of 3 indices:</p>
+<div class="highlight highlight-source-swift"><pre>      m <span class="pl-k">-&gt;</span>      <span class="pl-k">&lt;-</span> r
+[<span class="pl-c1">-4</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>]
+  l   </pre></div>
+<p>For fourSum, you'll keep track of 4:</p>
+<div class="highlight highlight-source-swift"><pre>         mr <span class="pl-k">-&gt;</span>  <span class="pl-k">&lt;-</span> r
+[<span class="pl-c1">-4</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>]
+  l  ml <span class="pl-k">-&gt;</span> </pre></div>
+<p>Here's the code for it (notice it is very similar to 3Sum):</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">fourSum</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">BidirectionalCollection</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">collection</span>: T, <span class="pl-smi"><span class="pl-en">target</span></span>: T.<span class="pl-c1">Element</span>) <span class="pl-k">-&gt;</span> [[T.<span class="pl-c1">Element</span>]] <span class="pl-k">where</span> T.<span class="pl-c1">Element</span><span class="pl-k">:</span> <span class="pl-e">Numeric <span class="pl-k">&amp;</span> <span class="pl-c1">Comparable</span></span> {
+  <span class="pl-k">let</span> sorted <span class="pl-k">=</span> collection.<span class="pl-c1">sorted</span>()
+  <span class="pl-k">var</span> ret<span class="pl-k">:</span> [[T.<span class="pl-c1">Element</span>]] <span class="pl-k">=</span> []
+  
+  <span class="pl-k">var</span> l <span class="pl-k">=</span> sorted.<span class="pl-c1">startIndex</span>
+  FourSum<span class="pl-k">:</span> <span class="pl-k">while</span> l <span class="pl-k">&lt;</span> sorted.<span class="pl-c1">endIndex</span> { <span class="pl-k">defer</span> { sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">after</span>: <span class="pl-k">&amp;</span>l) }
+    <span class="pl-k">var</span> ml <span class="pl-k">=</span> sorted.<span class="pl-c1">index</span>(<span class="pl-c1">after</span>: l)
+    
+    ThreeSum<span class="pl-k">:</span> <span class="pl-k">while</span> ml <span class="pl-k">&lt;</span> sorted.<span class="pl-c1">endIndex</span> { <span class="pl-k">defer</span> { sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">after</span>: <span class="pl-k">&amp;</span>ml) }
+      <span class="pl-k">var</span> mr <span class="pl-k">=</span> sorted.<span class="pl-c1">index</span>(<span class="pl-c1">after</span>: ml)
+      <span class="pl-k">var</span> r <span class="pl-k">=</span> sorted.<span class="pl-c1">index</span>(<span class="pl-c1">before</span>: sorted.<span class="pl-c1">endIndex</span>)
+      
+      TwoSum<span class="pl-k">:</span> <span class="pl-k">while</span> mr <span class="pl-k">&lt;</span> r <span class="pl-k">&amp;&amp;</span> r <span class="pl-k">&lt;</span> sorted.<span class="pl-c1">endIndex</span> {
+        <span class="pl-k">let</span> sum <span class="pl-k">=</span> sorted[l] <span class="pl-k">+</span> sorted[ml] <span class="pl-k">+</span> sorted[mr] <span class="pl-k">+</span> sorted[r]
+        <span class="pl-k">if</span> sum <span class="pl-k">==</span> target {
+          ret.<span class="pl-c1">append</span>([sorted[l], sorted[ml], sorted[mr], sorted[r]])
+          sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">after</span>: <span class="pl-k">&amp;</span>mr)
+          sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">before</span>: <span class="pl-k">&amp;</span>r)
+        } <span class="pl-k">else</span> <span class="pl-k">if</span> sum <span class="pl-k">&lt;</span> target {
+          sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">after</span>: <span class="pl-k">&amp;</span>mr)
+        } <span class="pl-k">else</span> {
+          sorted.<span class="pl-c1">formUniqueIndex</span>(<span class="pl-c1">before</span>: <span class="pl-k">&amp;</span>r)
+        }
+      }
+    }
+  }
+  <span class="pl-k">return</span> ret
+}</pre></div>
+<p><em>Written for the Swift Algorithm Club by Kai Chen and Kelvin Lau</em></p></div>
+</body>
+</html>

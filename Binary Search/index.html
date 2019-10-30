@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<head>
+  <title>Binary Search</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Binary Search</h1>
+<p>Goal: Quickly find an element in an array.</p>
+<p>Let's say you have an array of numbers and you want to determine whether a specific number is in that array, and if so, at which index.</p>
+<p>In most cases, Swift's <code>Collection.index(of:)</code> function is good enough for that:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> numbers <span class="pl-k">=</span> [<span class="pl-c1">11</span>, <span class="pl-c1">59</span>, <span class="pl-c1">3</span>, <span class="pl-c1">2</span>, <span class="pl-c1">53</span>, <span class="pl-c1">17</span>, <span class="pl-c1">31</span>, <span class="pl-c1">7</span>, <span class="pl-c1">19</span>, <span class="pl-c1">67</span>, <span class="pl-c1">47</span>, <span class="pl-c1">13</span>, <span class="pl-c1">37</span>, <span class="pl-c1">61</span>, <span class="pl-c1">29</span>, <span class="pl-c1">43</span>, <span class="pl-c1">5</span>, <span class="pl-c1">41</span>, <span class="pl-c1">23</span>]
+
+numbers.<span class="pl-c1">index</span>(<span class="pl-c1">of</span>: <span class="pl-c1">43</span>)  <span class="pl-c"><span class="pl-c">//</span> returns 15</span></pre></div>
+<p>The built-in <code>Collection.index(of:)</code> function performs a <a href="../Linear%20Search/">linear search</a>. In code that looks something like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">linearSearch</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Equatable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: [T], <span class="pl-en">_</span> <span class="pl-smi">key</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span><span class="pl-k">?</span> {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span> <span class="pl-k">..&lt;</span> a.<span class="pl-c1">count</span> {
+        <span class="pl-k">if</span> a[i] <span class="pl-k">==</span> key {
+            <span class="pl-k">return</span> i
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+}</pre></div>
+<p>And you'd use it like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">linearSearch</span>(numbers, <span class="pl-c1">43</span>)  <span class="pl-c"><span class="pl-c">//</span> returns 15</span></pre></div>
+<p>So what's the problem? <code>linearSearch()</code> loops through the entire array from the beginning, until it finds the element you're looking for. In the worst case, the value isn't even in the array and all that work is done for nothing.</p>
+<p>On average, the linear search algorithm needs to look at half the values in the array. If your array is large enough, this starts to become very slow!</p>
+<h2>Divide and conquer</h2>
+<p>The classic way to speed this up is to use a <em>binary search</em>. The trick is to keep splitting the array in half until the value is found.</p>
+<p>For an array of size <code>n</code>, the performance is not <strong>O(n)</strong> as with linear search but only <strong>O(log n)</strong>. To put that in perspective, binary search on an array with 1,000,000 elements only takes about 20 steps to find what you're looking for, because <code>log_2(1,000,000) = 19.9</code>. And for an array with a billion elements it only takes 30 steps. (Then again, when was the last time you used an array with a billion items?)</p>
+<p>Sounds great, but there is a downside to using binary search: the array must be sorted. In practice, this usually isn't a problem.</p>
+<p>Here's how binary search works:</p>
+<ul>
+<li>Split the array in half and determine whether the thing you're looking for, known as the <em>search key</em>, is in the left half or in the right half.</li>
+<li>How do you determine in which half the search key is? This is why you sorted the array first, so you can do a simple <code>&lt;</code> or <code>&gt;</code> comparison.</li>
+<li>If the search key is in the left half, you repeat the process there: split the left half into two even smaller pieces and look in which piece the search key must lie. (Likewise for when it's the right half.)</li>
+<li>This repeats until the search key is found. If the array cannot be split up any further, you must regrettably conclude that the search key is not present in the array.</li>
+</ul>
+<p>Now you know why it's called a "binary" search: in every step it splits the array into two halves. This process of <em>divide-and-conquer</em> is what allows it to quickly narrow down where the search key must be.</p>
+<h2>The code</h2>
+<p>Here is a recursive implementation of binary search in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">binarySearch</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: [T], <span class="pl-smi"><span class="pl-en">key</span></span>: T, <span class="pl-smi"><span class="pl-en">range</span></span>: <span class="pl-c1">Range</span>&lt;<span class="pl-c1">Int</span>&gt;) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span><span class="pl-k">?</span> {
+    <span class="pl-k">if</span> range.<span class="pl-smi">lowerBound</span> <span class="pl-k">&gt;=</span> range.<span class="pl-smi">upperBound</span> {
+        <span class="pl-c"><span class="pl-c">//</span> If we get here, then the search key is not present in the array.</span>
+<span class="pl-c"></span>        <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+
+    } <span class="pl-k">else</span> {
+        <span class="pl-c"><span class="pl-c">//</span> Calculate where to split the array.</span>
+<span class="pl-c"></span>        <span class="pl-k">let</span> midIndex <span class="pl-k">=</span> range.<span class="pl-smi">lowerBound</span> <span class="pl-k">+</span> (range.<span class="pl-smi">upperBound</span> <span class="pl-k">-</span> range.<span class="pl-smi">lowerBound</span>) <span class="pl-k">/</span> <span class="pl-c1">2</span>
+
+        <span class="pl-c"><span class="pl-c">//</span> Is the search key in the left half?</span>
+<span class="pl-c"></span>        <span class="pl-k">if</span> a[midIndex] <span class="pl-k">&gt;</span> key {
+            <span class="pl-k">return</span> <span class="pl-c1">binarySearch</span>(a, <span class="pl-c1">key</span>: key, <span class="pl-c1">range</span>: range.<span class="pl-smi">lowerBound</span> <span class="pl-k">..&lt;</span> midIndex)
+
+        <span class="pl-c"><span class="pl-c">//</span> Is the search key in the right half?</span>
+<span class="pl-c"></span>        } <span class="pl-k">else</span> <span class="pl-k">if</span> a[midIndex] <span class="pl-k">&lt;</span> key {
+            <span class="pl-k">return</span> <span class="pl-c1">binarySearch</span>(a, <span class="pl-c1">key</span>: key, <span class="pl-c1">range</span>: midIndex <span class="pl-k">+</span> <span class="pl-c1">1</span> <span class="pl-k">..&lt;</span> range.<span class="pl-smi">upperBound</span>)
+
+        <span class="pl-c"><span class="pl-c">//</span> If we get here, then we've found the search key!</span>
+<span class="pl-c"></span>        } <span class="pl-k">else</span> {
+            <span class="pl-k">return</span> midIndex
+        }
+    }
+}</pre></div>
+<p>To try this out, copy the code to a playground and do:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> numbers <span class="pl-k">=</span> [<span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>, <span class="pl-c1">7</span>, <span class="pl-c1">11</span>, <span class="pl-c1">13</span>, <span class="pl-c1">17</span>, <span class="pl-c1">19</span>, <span class="pl-c1">23</span>, <span class="pl-c1">29</span>, <span class="pl-c1">31</span>, <span class="pl-c1">37</span>, <span class="pl-c1">41</span>, <span class="pl-c1">43</span>, <span class="pl-c1">47</span>, <span class="pl-c1">53</span>, <span class="pl-c1">59</span>, <span class="pl-c1">61</span>, <span class="pl-c1">67</span>]
+
+<span class="pl-c1">binarySearch</span>(numbers, <span class="pl-c1">key</span>: <span class="pl-c1">43</span>, <span class="pl-c1">range</span>: <span class="pl-c1">0</span> <span class="pl-k">..&lt;</span> numbers.<span class="pl-c1">count</span>)  <span class="pl-c"><span class="pl-c">//</span> gives 13</span></pre></div>
+<p>Note that the <code>numbers</code> array is sorted. The binary search algorithm does not work otherwise!</p>
+<p>I said that binary search works by splitting the array in half, but we don't actually create two new arrays. Instead, we keep track of these splits using a Swift <code>Range</code> object. Initially, this range covers the entire array, <code>0 ..&lt; numbers.count</code>.  As we split the array, the range becomes smaller and smaller.</p>
+<blockquote>
+<p><strong>Note:</strong> One thing to be aware of is that <code>range.upperBound</code> always points one beyond the last element. In the example, the range is <code>0..&lt;19</code> because there are 19 numbers in the array, and so <code>range.lowerBound = 0</code> and <code>range.upperBound = 19</code>. But in our array the last element is at index 18, not 19, since we start counting from 0. Just keep this in mind when working with ranges: the <code>upperBound</code> is always one more than the index of the last element.</p>
+</blockquote>
+<h2>Stepping through the example</h2>
+<p>It might be useful to look at how the algorithm works in detail.</p>
+<p>The array from the above example consists of 19 numbers and looks like this when sorted:</p>
+<pre><code>[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
+</code></pre>
+<p>We're trying to determine if the number <code>43</code> is in this array.</p>
+<p>To split the array in half, we need to know the index of the object in the middle. That's determined by this line:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> midIndex <span class="pl-k">=</span> range.<span class="pl-smi">lowerBound</span> <span class="pl-k">+</span> (range.<span class="pl-smi">upperBound</span> <span class="pl-k">-</span> range.<span class="pl-smi">lowerBound</span>) <span class="pl-k">/</span> <span class="pl-c1">2</span></pre></div>
+<p>Initially, the range has <code>lowerBound = 0</code> and <code>upperBound = 19</code>. Filling in these values, we find that <code>midIndex</code> is <code>0 + (19 - 0)/2 = 19/2 = 9</code>. It's actually <code>9.5</code> but because we're using integers, the answer is rounded down.</p>
+<p>In the next figure, the <code>*</code> shows the middle item. As you can see, the number of items on each side is the same, so we're split right down the middle.</p>
+<pre><code>[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
+                                  *
+</code></pre>
+<p>Now binary search will determine which half to use. The relevant section from the code is:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> a[midIndex] <span class="pl-k">&gt;</span> key {
+    <span class="pl-c"><span class="pl-c">//</span> use left half</span>
+<span class="pl-c"></span>} <span class="pl-k">else</span> <span class="pl-k">if</span> a[midIndex] <span class="pl-k">&lt;</span> key {
+    <span class="pl-c"><span class="pl-c">//</span> use right half</span>
+<span class="pl-c"></span>} <span class="pl-k">else</span> {
+    <span class="pl-k">return</span> midIndex
+}</pre></div>
+<p>In this case, <code>a[midIndex] = 29</code>. That's less than the search key, so we can safely conclude that the search key will never be in the left half of the array. After all, the left half only contains numbers smaller than <code>29</code>. Hence, the search key must be in the right half somewhere (or not in the array at all).</p>
+<p>Now we can simply repeat the binary search, but on the array interval from <code>midIndex + 1</code> to <code>range.upperBound</code>:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
+</code></pre>
+<p>Since we no longer need to concern ourselves with the left half of the array, I've marked that with <code>x</code>'s. From now on we'll only look at the right half, which starts at array index 10.</p>
+<p>We calculate the index of the new middle element: <code>midIndex = 10 + (19 - 10)/2 = 14</code>, and split the array down the middle again.</p>
+<pre><code>[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
+                                                 *
+</code></pre>
+<p>As you can see, <code>a[14]</code> is indeed the middle element of the array's right half.</p>
+<p>Is the search key greater or smaller than <code>a[14]</code>? It's smaller because <code>43 &lt; 47</code>. This time we're taking the left half and ignore the larger numbers on the right:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43 | x, x, x, x, x ]
+</code></pre>
+<p>The new <code>midIndex</code> is here:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, x, x | 31, 37, 41, 43 | x, x, x, x, x ]
+                                     *
+</code></pre>
+<p>The search key is greater than <code>37</code>, so continue with the right side:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, x, x | x, x | 41, 43 | x, x, x, x, x ]
+                                        *
+</code></pre>
+<p>Again, the search key is greater, so split once more and take the right side:</p>
+<pre><code>[ x, x, x, x, x, x, x, x, x, x | x, x | x | 43 | x, x, x, x, x ]
+                                            *
+</code></pre>
+<p>And now we're done. The search key equals the array element we're looking at, so we've finally found what we were searching for: number <code>43</code> is at array index <code>13</code>. w00t!</p>
+<p>It may have seemed like a lot of work, but in reality it only took four steps to find the search key in the array, which sounds about right because <code>log_2(19) = 4.23</code>. With a linear search, it would have taken 14 steps.</p>
+<p>What would happen if we were to search for <code>42</code> instead of <code>43</code>? In that case, we can't split up the array any further. The <code>range.upperBound</code> becomes smaller than <code>range.lowerBound</code>. That tells the algorithm the search key is not in the array and it returns <code>nil</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> Many implementations of binary search calculate <code>midIndex = (lowerBound + upperBound) / 2</code>. This contains a subtle bug that only appears with very large arrays, because <code>lowerBound + upperBound</code> may overflow the maximum number an integer can hold. This situation is unlikely to happen on a 64-bit CPU, but it definitely can on 32-bit machines.</p>
+</blockquote>
+<h2>Iterative vs recursive</h2>
+<p>Binary search is recursive in nature because you apply the same logic over and over again to smaller and smaller subarrays. However, that does not mean you must implement <code>binarySearch()</code> as a recursive function. It's often more efficient to convert a recursive algorithm into an iterative version, using a simple loop instead of lots of recursive function calls.</p>
+<p>Here is an iterative implementation of binary search in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">binarySearch</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: [T], <span class="pl-smi"><span class="pl-en">key</span></span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span><span class="pl-k">?</span> {
+    <span class="pl-k">var</span> lowerBound <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> upperBound <span class="pl-k">=</span> a.<span class="pl-c1">count</span>
+    <span class="pl-k">while</span> lowerBound <span class="pl-k">&lt;</span> upperBound {
+        <span class="pl-k">let</span> midIndex <span class="pl-k">=</span> lowerBound <span class="pl-k">+</span> (upperBound <span class="pl-k">-</span> lowerBound) <span class="pl-k">/</span> <span class="pl-c1">2</span>
+        <span class="pl-k">if</span> a[midIndex] <span class="pl-k">==</span> key {
+            <span class="pl-k">return</span> midIndex
+        } <span class="pl-k">else</span> <span class="pl-k">if</span> a[midIndex] <span class="pl-k">&lt;</span> key {
+            lowerBound <span class="pl-k">=</span> midIndex <span class="pl-k">+</span> <span class="pl-c1">1</span>
+        } <span class="pl-k">else</span> {
+            upperBound <span class="pl-k">=</span> midIndex
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+}</pre></div>
+<p>As you can see, the code is very similar to the recursive version. The main difference is in the use of the <code>while</code> loop.</p>
+<p>Use it like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> numbers <span class="pl-k">=</span> [<span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>, <span class="pl-c1">7</span>, <span class="pl-c1">11</span>, <span class="pl-c1">13</span>, <span class="pl-c1">17</span>, <span class="pl-c1">19</span>, <span class="pl-c1">23</span>, <span class="pl-c1">29</span>, <span class="pl-c1">31</span>, <span class="pl-c1">37</span>, <span class="pl-c1">41</span>, <span class="pl-c1">43</span>, <span class="pl-c1">47</span>, <span class="pl-c1">53</span>, <span class="pl-c1">59</span>, <span class="pl-c1">61</span>, <span class="pl-c1">67</span>]
+
+<span class="pl-c1">binarySearch</span>(numbers, <span class="pl-c1">key</span>: <span class="pl-c1">43</span>)  <span class="pl-c"><span class="pl-c">//</span> gives 13</span></pre></div>
+<h2>The end</h2>
+<p>Is it a problem that the array must be sorted first? It depends. Keep in mind that sorting takes time -- the combination of binary search plus sorting may be slower than doing a simple linear search. Binary search shines in situations where you sort just once and then do many searches.</p>
+<p>See also <a href="https://en.wikipedia.org/wiki/Binary_search_algorithm" rel="nofollow">Wikipedia</a>.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

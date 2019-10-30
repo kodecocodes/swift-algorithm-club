@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<head>
+  <title>Binary Tree</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Binary Tree</h1>
+<p>A binary tree is a <a href="../Tree/">tree</a> where each node has 0, 1, or 2 children. This is a binary tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/BinaryTree.png"><img src="Images/BinaryTree.png" alt="A binary tree" style="max-width:100%;"></a></p>
+<p>The child nodes are usually called the <em>left</em> child and the <em>right</em> child. If a node doesn't have any children, it's called a <em>leaf</em> node. The <em>root</em> is the node at the very top of the tree (programmers like their trees upside down).</p>
+<p>Often nodes will have a link back to their parent but this is not strictly necessary.</p>
+<p>Binary trees are often used as <a href="../Binary%20Search%20Tree/">binary search trees</a>. In that case, the nodes must be in a specific order (smaller values on the left, larger values on the right). But this is not a requirement for all binary trees.</p>
+<p>For example, here is a binary tree that represents a sequence of arithmetical operations, <code>(5 * (a - 10)) + (-4 * (3 / b))</code>:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Operations.png"><img src="Images/Operations.png" alt="A binary tree" style="max-width:100%;"></a></p>
+<h2>The code</h2>
+<p>Here's how you could implement a general-purpose binary tree in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">indirect</span> <span class="pl-k">enum</span> <span class="pl-en">BinaryTree</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">case</span> <span class="pl-c1">node</span>(BinaryTree&lt;T&gt;, T, BinaryTree&lt;T&gt;)
+  <span class="pl-k">case</span> <span class="pl-c1">empty</span>
+}</pre></div>
+<p>As an example of how to use this, let's build that tree of arithmetic operations:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> leaf nodes</span>
+<span class="pl-c"></span><span class="pl-k">let</span> node5 <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(.<span class="pl-smi">empty</span>, <span class="pl-s"><span class="pl-pds">"</span>5<span class="pl-pds">"</span></span>, .<span class="pl-smi">empty</span>)
+<span class="pl-k">let</span> nodeA <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(.<span class="pl-smi">empty</span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, .<span class="pl-smi">empty</span>)
+<span class="pl-k">let</span> node10 <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(.<span class="pl-smi">empty</span>, <span class="pl-s"><span class="pl-pds">"</span>10<span class="pl-pds">"</span></span>, .<span class="pl-smi">empty</span>)
+<span class="pl-k">let</span> node4 <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(.<span class="pl-smi">empty</span>, <span class="pl-s"><span class="pl-pds">"</span>4<span class="pl-pds">"</span></span>, .<span class="pl-smi">empty</span>)
+<span class="pl-k">let</span> node3 <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(.<span class="pl-smi">empty</span>, <span class="pl-s"><span class="pl-pds">"</span>3<span class="pl-pds">"</span></span>, .<span class="pl-smi">empty</span>)
+<span class="pl-k">let</span> nodeB <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(.<span class="pl-smi">empty</span>, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, .<span class="pl-smi">empty</span>)
+
+<span class="pl-c"><span class="pl-c">//</span> intermediate nodes on the left</span>
+<span class="pl-c"></span><span class="pl-k">let</span> Aminus10 <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(nodeA, <span class="pl-s"><span class="pl-pds">"</span>-<span class="pl-pds">"</span></span>, node10)
+<span class="pl-k">let</span> timesLeft <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(node5, <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>, Aminus10)
+
+<span class="pl-c"><span class="pl-c">//</span> intermediate nodes on the right</span>
+<span class="pl-c"></span><span class="pl-k">let</span> minus4 <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(.<span class="pl-smi">empty</span>, <span class="pl-s"><span class="pl-pds">"</span>-<span class="pl-pds">"</span></span>, node4)
+<span class="pl-k">let</span> divide3andB <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(node3, <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>, nodeB)
+<span class="pl-k">let</span> timesRight <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(minus4, <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>, divide3andB)
+
+<span class="pl-c"><span class="pl-c">//</span> root node</span>
+<span class="pl-c"></span><span class="pl-k">let</span> tree <span class="pl-k">=</span> BinaryTree.<span class="pl-c1">node</span>(timesLeft, <span class="pl-s"><span class="pl-pds">"</span>+<span class="pl-pds">"</span></span>, timesRight)</pre></div>
+<p>You need to build up the tree in reverse, starting with the leaf nodes and working your way up to the top.</p>
+<p>It will be useful to add a <code>description</code> method so you can print the tree:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">BinaryTree</span>: <span class="pl-e"><span class="pl-c1">CustomStringConvertible</span> </span>{
+  <span class="pl-k">public</span> <span class="pl-k">var</span> description<span class="pl-k">:</span> <span class="pl-c1">String</span> {
+    <span class="pl-k">switch</span> <span class="pl-c1">self</span> {
+    <span class="pl-k">case</span> <span class="pl-k">let</span> .<span class="pl-c1">node</span>(left, value, right)<span class="pl-k">:</span>
+      <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>value: <span class="pl-pse">\(</span><span class="pl-s1">value</span><span class="pl-pse"><span class="pl-s1">)</span></span>, left = [<span class="pl-pse">\(</span><span class="pl-s1">left.<span class="pl-c1">description</span></span><span class="pl-pse"><span class="pl-s1">)</span></span>], right = [<span class="pl-pse">\(</span><span class="pl-s1">right.<span class="pl-c1">description</span></span><span class="pl-pse"><span class="pl-s1">)</span></span>]<span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> .<span class="pl-smi">empty</span><span class="pl-k">:</span>
+      <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+    }
+  }
+}</pre></div>
+<p>If you <code>print(tree)</code> you should see something like this:</p>
+<pre><code>value: +, left = [value: *, left = [value: 5, left = [], right = []], right = [value: -, left = [value: a, left = [], right = []], right = [value: 10, left = [], right = []]]], right = [value: *, left = [value: -, left = [], right = [value: 4, left = [], right = []]], right = [value: /, left = [value: 3, left = [], right = []], right = [value: b, left = [], right = []]]]
+</code></pre>
+<p>With a bit of imagination, you can see the tree structure. ;-) It helps if you indent it:</p>
+<pre><code>value: +, 
+	left = [value: *, 
+		left = [value: 5, left = [], right = []], 
+		right = [value: -, 
+			left = [value: a, left = [], right = []], 
+			right = [value: 10, left = [], right = []]]], 
+	right = [value: *, 
+		left = [value: -, 
+			left = [], 
+			right = [value: 4, left = [], right = []]], 
+		right = [value: /, 
+			left = [value: 3, left = [], right = []], 
+			right = [value: b, left = [], right = []]]]
+</code></pre>
+<p>Another useful method is counting the number of nodes in the tree:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">switch</span> <span class="pl-c1">self</span> {
+    <span class="pl-k">case</span> <span class="pl-k">let</span> .<span class="pl-c1">node</span>(left, <span class="pl-c1">_</span>, right)<span class="pl-k">:</span>
+      <span class="pl-k">return</span> left.<span class="pl-c1">count</span> <span class="pl-k">+</span> <span class="pl-c1">1</span> <span class="pl-k">+</span> right.<span class="pl-c1">count</span>
+    <span class="pl-k">case</span> .<span class="pl-smi">empty</span><span class="pl-k">:</span>
+      <span class="pl-k">return</span> <span class="pl-c1">0</span>
+    }
+  }</pre></div>
+<p>On the tree from the example, <code>tree.count</code> should be 12.</p>
+<p>Something you often need to do with trees is traverse them, i.e. look at all the nodes in some order. There are three ways to traverse a binary tree:</p>
+<ol>
+<li><em>In-order</em> (or <em>depth-first</em>): first look at the left child of a node, then at the node itself, and finally at its right child.</li>
+<li><em>Pre-order</em>: first look at a node, then at its left and right children.</li>
+<li><em>Post-order</em>: first look at the left and right children and process the node itself last.</li>
+</ol>
+<p>Here is how you'd implement that:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">traverseInOrder</span>(<span class="pl-smi"><span class="pl-en">process</span></span>: (T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span>) {
+    <span class="pl-k">if</span> <span class="pl-k">case</span> <span class="pl-k">let</span> .<span class="pl-c1">node</span>(left, value, right) <span class="pl-k">=</span> <span class="pl-c1">self</span> {
+      left.<span class="pl-c1">traverseInOrder</span>(<span class="pl-c1">process</span>: process)
+      <span class="pl-c1">process</span>(value)
+      right.<span class="pl-c1">traverseInOrder</span>(<span class="pl-c1">process</span>: process)
+    }
+  }
+  
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">traversePreOrder</span>(<span class="pl-smi"><span class="pl-en">process</span></span>: (T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span>) {
+    <span class="pl-k">if</span> <span class="pl-k">case</span> <span class="pl-k">let</span> .<span class="pl-c1">node</span>(left, value, right) <span class="pl-k">=</span> <span class="pl-c1">self</span> {
+      <span class="pl-c1">process</span>(value)
+      left.<span class="pl-c1">traversePreOrder</span>(<span class="pl-c1">process</span>: process)
+      right.<span class="pl-c1">traversePreOrder</span>(<span class="pl-c1">process</span>: process)
+    }
+  }
+  
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">traversePostOrder</span>(<span class="pl-smi"><span class="pl-en">process</span></span>: (T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span>) {
+    <span class="pl-k">if</span> <span class="pl-k">case</span> <span class="pl-k">let</span> .<span class="pl-c1">node</span>(left, value, right) <span class="pl-k">=</span> <span class="pl-c1">self</span> {
+      left.<span class="pl-c1">traversePostOrder</span>(<span class="pl-c1">process</span>: process)
+      right.<span class="pl-c1">traversePostOrder</span>(<span class="pl-c1">process</span>: process)
+      <span class="pl-c1">process</span>(value)
+    }
+  }</pre></div>
+<p>As is common when working with tree structures, these functions call themselves recursively.</p>
+<p>For example, if you traverse the tree of arithmetic operations in post-order, you'll see the values in this order:</p>
+<pre><code>5
+a
+10
+-
+*
+4
+-
+3
+b
+/
+*
++
+</code></pre>
+<p>The leaves appear first. The root node appears last.</p>
+<p>You can use a stack machine to evaluate these expressions, something like the following pseudocode:</p>
+<div class="highlight highlight-source-swift"><pre>tree.<span class="pl-smi">traversePostOrder</span> { s <span class="pl-k">in</span> 
+  <span class="pl-k">switch</span> s {
+  <span class="pl-k">case</span> this <span class="pl-k">is</span> a numeric literal, such <span class="pl-k">as</span> <span class="pl-c1">5</span><span class="pl-k">:</span>
+    push it onto the stack
+  <span class="pl-k">case</span> this <span class="pl-k">is</span> a variable name, such <span class="pl-k">as</span> a<span class="pl-k">:</span>
+    look up the value of a and push it onto the stack
+  <span class="pl-k">case</span> this <span class="pl-k">is</span> an <span class="pl-k">operator</span>, such <span class="pl-k">as</span> <span class="pl-k">*</span><span class="pl-k">:</span>
+    pop the two top<span class="pl-k">-</span>most items off the stack, multiply them,
+    and push the result back onto the stack
+  }
+  the result <span class="pl-k">is</span> <span class="pl-k">in</span> the top<span class="pl-k">-</span>most item on the stack
+}</pre></div>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

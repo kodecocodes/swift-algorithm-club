@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<head>
+  <title>Boyer-Moore-Horspool</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Boyer-Moore String Search</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/163964/swift-algorithm-club-booyer-moore-string-search-algorithm" rel="nofollow">here</a></p>
+</blockquote>
+<p>Goal: Write a string search algorithm in pure Swift without importing Foundation or using <code>NSString</code>'s <code>rangeOfString()</code> method.</p>
+<p>In other words, we want to implement an <code>indexOf(pattern: String)</code> extension on <code>String</code> that returns the <code>String.Index</code> of the first occurrence of the search pattern, or <code>nil</code> if the pattern could not be found inside the string.</p>
+<p>For example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> Input:</span>
+<span class="pl-c"></span><span class="pl-k">let</span> s <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Hello, World<span class="pl-pds">"</span></span>
+s.<span class="pl-c1">indexOf</span>(<span class="pl-c1">pattern</span>: <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span>)
+
+<span class="pl-c"><span class="pl-c">//</span> Output:</span>
+<span class="pl-c"></span><span class="pl-k">&lt;</span><span class="pl-c1">String</span>.<span class="pl-c1">Index</span><span class="pl-k">?&gt;</span> <span class="pl-c1">7</span>
+
+<span class="pl-c"><span class="pl-c">//</span> Input:</span>
+<span class="pl-c"></span><span class="pl-k">let</span> animals <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>🐶🐔🐷🐮🐱<span class="pl-pds">"</span></span>
+animals.<span class="pl-c1">indexOf</span>(<span class="pl-c1">pattern</span>: <span class="pl-s"><span class="pl-pds">"</span>🐮<span class="pl-pds">"</span></span>)
+
+<span class="pl-c"><span class="pl-c">//</span> Output:</span>
+<span class="pl-c"></span><span class="pl-k">&lt;</span><span class="pl-c1">String</span>.<span class="pl-c1">Index</span><span class="pl-k">?&gt;</span> <span class="pl-c1">6</span></pre></div>
+<blockquote>
+<p><strong>Note:</strong> The index of the cow is 6, not 3 as you might expect, because the string uses more storage per character for emoji. The actual value of the <code>String.Index</code> is not so important, just that it points at the right character in the string.</p>
+</blockquote>
+<p>The <a href="../Brute-Force%20String%20Search/">brute-force approach</a> works OK, but it's not very efficient, especially on large chunks of text. As it turns out, you don't need to look at <em>every</em> character from the source string -- you can often skip ahead multiple characters.</p>
+<p>The skip-ahead algorithm is called <a href="https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_string_search_algorithm" rel="nofollow">Boyer-Moore</a> and it has been around for a long time. It is considered the benchmark for all string search algorithms.</p>
+<p>Here's how you could write it in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">String</span></span> {
+    <span class="pl-k">func</span> <span class="pl-en">index</span>(<span class="pl-en">of</span> <span class="pl-smi">pattern</span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Index</span><span class="pl-k">?</span> {
+        <span class="pl-c"><span class="pl-c">//</span> Cache the length of the search pattern because we're going to</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> use it a few times and it's expensive to calculate.</span>
+<span class="pl-c"></span>        <span class="pl-k">let</span> patternLength <span class="pl-k">=</span> pattern.<span class="pl-c1">count</span>
+        <span class="pl-k">guard</span> patternLength <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>, patternLength <span class="pl-k">&lt;=</span> count <span class="pl-k">else</span> { <span class="pl-k">return</span> <span class="pl-c1">nil</span> }
+
+        <span class="pl-c"><span class="pl-c">//</span> Make the skip table. This table determines how far we skip ahead</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> when a character from the pattern is found.</span>
+<span class="pl-c"></span>        <span class="pl-k">var</span> skipTable <span class="pl-k">=</span> [<span class="pl-c1">Character</span><span class="pl-k">:</span> <span class="pl-c1">Int</span>]()
+        <span class="pl-k">for</span> (i, c) <span class="pl-k">in</span> pattern.<span class="pl-c1">enumerated</span>() {
+            skipTable[c] <span class="pl-k">=</span> patternLength <span class="pl-k">-</span> i <span class="pl-k">-</span> <span class="pl-c1">1</span>
+        }
+
+        <span class="pl-c"><span class="pl-c">//</span> This points at the last character in the pattern.</span>
+<span class="pl-c"></span>        <span class="pl-k">let</span> p <span class="pl-k">=</span> pattern.<span class="pl-c1">index</span>(<span class="pl-c1">before</span>: pattern.<span class="pl-c1">endIndex</span>)
+        <span class="pl-k">let</span> lastChar <span class="pl-k">=</span> pattern[p]
+
+        <span class="pl-c"><span class="pl-c">//</span> The pattern is scanned right-to-left, so skip ahead in the string by</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> the length of the pattern. (Minus 1 because startIndex already points</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> at the first character in the source string.)</span>
+<span class="pl-c"></span>        <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">index</span>(startIndex, <span class="pl-c1">offsetBy</span>: patternLength <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+
+        <span class="pl-c"><span class="pl-c">//</span> This is a helper function that steps backwards through both strings</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> until we find a character that doesn’t match, or until we’ve reached</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> the beginning of the pattern.</span>
+<span class="pl-c"></span>        <span class="pl-k">func</span> <span class="pl-en">backwards</span>() <span class="pl-k">-&gt;</span> <span class="pl-c1">Index</span><span class="pl-k">?</span> {
+            <span class="pl-k">var</span> q <span class="pl-k">=</span> p
+            <span class="pl-k">var</span> j <span class="pl-k">=</span> i
+            <span class="pl-k">while</span> q <span class="pl-k">&gt;</span> pattern.<span class="pl-c1">startIndex</span> {
+                j <span class="pl-k">=</span> <span class="pl-c1">index</span>(<span class="pl-c1">before</span>: j)
+                q <span class="pl-k">=</span> <span class="pl-c1">index</span>(<span class="pl-c1">before</span>: q)
+                <span class="pl-k">if</span> <span class="pl-c1">self</span>[j] <span class="pl-k">!=</span> pattern[q] { <span class="pl-k">return</span> <span class="pl-c1">nil</span> }
+            }
+            <span class="pl-k">return</span> j
+        }
+
+        <span class="pl-c"><span class="pl-c">//</span> The main loop. Keep going until the end of the string is reached.</span>
+<span class="pl-c"></span>        <span class="pl-k">while</span> i <span class="pl-k">&lt;</span> endIndex {
+            <span class="pl-k">let</span> c <span class="pl-k">=</span> <span class="pl-c1">self</span>[i]
+
+            <span class="pl-c"><span class="pl-c">//</span> Does the current character match the last character from the pattern?</span>
+<span class="pl-c"></span>            <span class="pl-k">if</span> c <span class="pl-k">==</span> lastChar {
+
+                <span class="pl-c"><span class="pl-c">//</span> There is a possible match. Do a brute-force search backwards.</span>
+<span class="pl-c"></span>                <span class="pl-k">if</span> <span class="pl-k">let</span> k <span class="pl-k">=</span> <span class="pl-c1">backwards</span>() { <span class="pl-k">return</span> k }
+
+                <span class="pl-c"><span class="pl-c">//</span> If no match, we can only safely skip one character ahead.</span>
+<span class="pl-c"></span>                i <span class="pl-k">=</span> <span class="pl-c1">index</span>(<span class="pl-c1">after</span>: i)
+            } <span class="pl-k">else</span> {
+                <span class="pl-c"><span class="pl-c">//</span> The characters are not equal, so skip ahead. The amount to skip is</span>
+<span class="pl-c"></span>                <span class="pl-c"><span class="pl-c">//</span> determined by the skip table. If the character is not present in the</span>
+<span class="pl-c"></span>                <span class="pl-c"><span class="pl-c">//</span> pattern, we can skip ahead by the full pattern length. However, if</span>
+<span class="pl-c"></span>                <span class="pl-c"><span class="pl-c">//</span> the character *is* present in the pattern, there may be a match up</span>
+<span class="pl-c"></span>                <span class="pl-c"><span class="pl-c">//</span> ahead and we can't skip as far.</span>
+<span class="pl-c"></span>                i <span class="pl-k">=</span> <span class="pl-c1">index</span>(i, <span class="pl-c1">offsetBy</span>: skipTable[c] <span class="pl-k">??</span> patternLength, <span class="pl-c1">limitedBy</span>: endIndex) <span class="pl-k">??</span> endIndex
+            }
+        }
+        <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    }
+}</pre></div>
+<p>The algorithm works as follows. You line up the search pattern with the source string and see what character from the string matches the <em>last</em> character of the search pattern:</p>
+<pre><code>source string:  Hello, World
+search pattern: World
+                    ^
+</code></pre>
+<p>There are three possibilities:</p>
+<ol>
+<li>
+<p>The two characters are equal. You've found a possible match.</p>
+</li>
+<li>
+<p>The characters are not equal, but the source character does appear in the search pattern elsewhere.</p>
+</li>
+<li>
+<p>The source character does not appear in the search pattern at all.</p>
+</li>
+</ol>
+<p>In the example, the characters <code>o</code> and <code>d</code> do not match, but <code>o</code> does appear in the search pattern. That means we can skip ahead several positions:</p>
+<pre><code>source string:  Hello, World
+search pattern:    World
+                       ^
+</code></pre>
+<p>Note how the two <code>o</code> characters line up now. Again you compare the last character of the search pattern with the search text: <code>W</code> vs <code>d</code>. These are not equal but the <code>W</code> does appear in the pattern. So skip ahead again to line up those two <code>W</code> characters:</p>
+<pre><code>source string:  Hello, World
+search pattern:        World
+                           ^
+</code></pre>
+<p>This time the two characters are equal and there is a possible match. To verify the match you do a brute-force search, but backwards, from the end of the search pattern to the beginning. And that's all there is to it.</p>
+<p>The amount to skip ahead at any given time is determined by the "skip table", which is a dictionary of all the characters in the search pattern and the amount to skip by. The skip table in the example looks like:</p>
+<pre><code>W: 4
+o: 3
+r: 2
+l: 1
+d: 0
+</code></pre>
+<p>The closer a character is to the end of the pattern, the smaller the skip amount. If a character appears more than once in the pattern, the one nearest to the end of the pattern determines the skip value for that character.</p>
+<blockquote>
+<p><strong>Note:</strong> If the search pattern consists of only a few characters, it's faster to do a brute-force search. There's a trade-off between the time it takes to build the skip table and doing brute-force for short patterns.</p>
+</blockquote>
+<p>Credits: This code is based on the article <a href="http://www.drdobbs.com/database/faster-string-searches/184408171" rel="nofollow">"Faster String Searches" by Costas Menico</a> from Dr Dobb's magazine, July 1989 -- Yes, 1989! Sometimes it's useful to keep those old magazines around.</p>
+<p>See also: <a href="http://www.inf.fh-flensburg.de/lang/algorithmen/pattern/bmen.htm" rel="nofollow">a detailed analysis</a> of the algorithm.</p>
+<h2>Boyer-Moore-Horspool algorithm</h2>
+<p>A variation on the above algorithm is the <a href="https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore%E2%80%93Horspool_algorithm" rel="nofollow">Boyer-Moore-Horspool algorithm</a>.</p>
+<p>Like the regular Boyer-Moore algorithm, it uses the <code>skipTable</code> to skip ahead a number of characters. The difference is in how we check partial matches. In the above version, if a partial match is found but it's not a complete match, we skip ahead by just one character. In this revised version, we also use the skip table in that situation.</p>
+<p>Here's an implementation of the Boyer-Moore-Horspool algorithm:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">String</span></span> {
+    <span class="pl-k">func</span> <span class="pl-en">index</span>(<span class="pl-en">of</span> <span class="pl-smi">pattern</span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Index</span><span class="pl-k">?</span> {
+        <span class="pl-c"><span class="pl-c">//</span> Cache the length of the search pattern because we're going to</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> use it a few times and it's expensive to calculate.</span>
+<span class="pl-c"></span>        <span class="pl-k">let</span> patternLength <span class="pl-k">=</span> pattern.<span class="pl-c1">count</span>
+        <span class="pl-k">guard</span> patternLength <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>, patternLength <span class="pl-k">&lt;=</span> characters.<span class="pl-c1">count</span> <span class="pl-k">else</span> { <span class="pl-k">return</span> <span class="pl-c1">nil</span> }
+
+        <span class="pl-c"><span class="pl-c">//</span> Make the skip table. This table determines how far we skip ahead</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> when a character from the pattern is found.</span>
+<span class="pl-c"></span>        <span class="pl-k">var</span> skipTable <span class="pl-k">=</span> [<span class="pl-c1">Character</span><span class="pl-k">:</span> <span class="pl-c1">Int</span>]()
+        <span class="pl-k">for</span> (i, c) <span class="pl-k">in</span> pattern.<span class="pl-c1">enumerated</span>() {
+            skipTable[c] <span class="pl-k">=</span> patternLength <span class="pl-k">-</span> i <span class="pl-k">-</span> <span class="pl-c1">1</span>
+        }
+
+        <span class="pl-c"><span class="pl-c">//</span> This points at the last character in the pattern.</span>
+<span class="pl-c"></span>        <span class="pl-k">let</span> p <span class="pl-k">=</span> pattern.<span class="pl-c1">index</span>(<span class="pl-c1">before</span>: pattern.<span class="pl-c1">endIndex</span>)
+        <span class="pl-k">let</span> lastChar <span class="pl-k">=</span> pattern[p]
+
+        <span class="pl-c"><span class="pl-c">//</span> The pattern is scanned right-to-left, so skip ahead in the string by</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> the length of the pattern. (Minus 1 because startIndex already points</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> at the first character in the source string.)</span>
+<span class="pl-c"></span>        <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">index</span>(startIndex, <span class="pl-c1">offsetBy</span>: patternLength <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+
+        <span class="pl-c"><span class="pl-c">//</span> This is a helper function that steps backwards through both strings</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> until we find a character that doesn’t match, or until we’ve reached</span>
+<span class="pl-c"></span>        <span class="pl-c"><span class="pl-c">//</span> the beginning of the pattern.</span>
+<span class="pl-c"></span>        <span class="pl-k">func</span> <span class="pl-en">backwards</span>() <span class="pl-k">-&gt;</span> <span class="pl-c1">Index</span><span class="pl-k">?</span> {
+            <span class="pl-k">var</span> q <span class="pl-k">=</span> p
+            <span class="pl-k">var</span> j <span class="pl-k">=</span> i
+            <span class="pl-k">while</span> q <span class="pl-k">&gt;</span> pattern.<span class="pl-c1">startIndex</span> {
+                j <span class="pl-k">=</span> <span class="pl-c1">index</span>(<span class="pl-c1">before</span>: j)
+                q <span class="pl-k">=</span> <span class="pl-c1">index</span>(<span class="pl-c1">before</span>: q)
+                <span class="pl-k">if</span> <span class="pl-c1">self</span>[j] <span class="pl-k">!=</span> pattern[q] { <span class="pl-k">return</span> <span class="pl-c1">nil</span> }
+            }
+            <span class="pl-k">return</span> j
+        }
+
+        <span class="pl-c"><span class="pl-c">//</span> The main loop. Keep going until the end of the string is reached.</span>
+<span class="pl-c"></span>        <span class="pl-k">while</span> i <span class="pl-k">&lt;</span> endIndex {
+            <span class="pl-k">let</span> c <span class="pl-k">=</span> <span class="pl-c1">self</span>[i]
+
+            <span class="pl-c"><span class="pl-c">//</span> Does the current character match the last character from the pattern?</span>
+<span class="pl-c"></span>            <span class="pl-k">if</span> c <span class="pl-k">==</span> lastChar {
+
+                <span class="pl-c"><span class="pl-c">//</span> There is a possible match. Do a brute-force search backwards.</span>
+<span class="pl-c"></span>                <span class="pl-k">if</span> <span class="pl-k">let</span> k <span class="pl-k">=</span> <span class="pl-c1">backwards</span>() { <span class="pl-k">return</span> k }
+
+                <span class="pl-c"><span class="pl-c">//</span> Ensure to jump at least one character (this is needed because the first</span>
+<span class="pl-c"></span>                <span class="pl-c"><span class="pl-c">//</span> character is in the skipTable, and `skipTable[lastChar] = 0`)</span>
+<span class="pl-c"></span>                <span class="pl-k">let</span> jumpOffset <span class="pl-k">=</span> <span class="pl-c1">max</span>(skipTable[c] <span class="pl-k">??</span> patternLength, <span class="pl-c1">1</span>)
+                i <span class="pl-k">=</span> <span class="pl-c1">index</span>(i, <span class="pl-c1">offsetBy</span>: jumpOffset, <span class="pl-c1">limitedBy</span>: endIndex) <span class="pl-k">??</span> endIndex
+            } <span class="pl-k">else</span> {
+                <span class="pl-c"><span class="pl-c">//</span> The characters are not equal, so skip ahead. The amount to skip is</span>
+<span class="pl-c"></span>                <span class="pl-c"><span class="pl-c">//</span> determined by the skip table. If the character is not present in the</span>
+<span class="pl-c"></span>                <span class="pl-c"><span class="pl-c">//</span> pattern, we can skip ahead by the full pattern length. However, if</span>
+<span class="pl-c"></span>                <span class="pl-c"><span class="pl-c">//</span> the character *is* present in the pattern, there may be a match up</span>
+<span class="pl-c"></span>                <span class="pl-c"><span class="pl-c">//</span> ahead and we can't skip as far.</span>
+<span class="pl-c"></span>                i <span class="pl-k">=</span> <span class="pl-c1">index</span>(i, <span class="pl-c1">offsetBy</span>: skipTable[c] <span class="pl-k">??</span> patternLength, <span class="pl-c1">limitedBy</span>: endIndex) <span class="pl-k">??</span> endIndex
+            }
+        }
+        <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    }
+}</pre></div>
+<p>In practice, the Horspool version of the algorithm tends to perform a little better than the original. However, it depends on the tradeoffs you're willing to make.</p>
+<p>Credits: This code is based on the paper: <a href="http://www.cin.br/~paguso/courses/if767/bib/Horspool_1980.pdf" rel="nofollow">R. N. Horspool (1980). "Practical fast searching in strings". Software - Practice &amp; Experience 10 (6): 501–506.</a></p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans, updated by Andreas Neusüß</em>, <a href="https://github.com/mmazzei">Matías Mazzei</a>.</p></div>
+</body>
+</html>

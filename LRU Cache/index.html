@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+  <title>LRU Cache</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>LRU Cache</h1>
+<p>Caches are used to hold objects in memory. A caches size is finite; If the system doesn't have enough memory, the cache must be purged or the program will crash. <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU" rel="nofollow">Least Recently Used</a> (LRU) is a popular algorithm in cache design.</p>
+<p>In this implementation of the LRU Cache, a size is declared during instantiation, and any insertions that go beyond the size will purge the least recently used element of the cache. A <em>priority queue</em> is used to enforce this behavior.</p>
+<h2>The priority queue</h2>
+<p>The key to the LRU cache is the priority queue. For simplicity, you'll model the queue using a linked list. All interactions with the LRU cache should respect this queue; Calling <code>get</code> and <code>set</code> should update the priority queue to reflect the most recently accessed element.</p>
+<h3>Interesting tidbits</h3>
+<h4>Adding values</h4>
+<p>Each time we access an element, either <code>set</code> or <code>get</code> we need to insert the element in the head of priority list. We use a helper method to handle this procedure:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(_ <span class="pl-smi"><span class="pl-en">key</span></span>: KeyType, <span class="pl-smi"><span class="pl-en">val</span></span>: <span class="pl-c1">Any</span>) {
+	cache[key] <span class="pl-k">=</span> val
+	priority.<span class="pl-c1">insert</span>(key, <span class="pl-c1">atIndex</span>: <span class="pl-c1">0</span>)
+	<span class="pl-k">guard</span> <span class="pl-k">let</span> first <span class="pl-k">=</span> priority.<span class="pl-c1">first</span> <span class="pl-k">else</span> {
+		<span class="pl-k">return</span>
+	}
+	key2node[key] <span class="pl-k">=</span> first
+}</pre></div>
+<h4>Purging the cache</h4>
+<p>When the cache is full, a purge must take place starting with the least recently used element. In this case, we need to <code>remove</code> the lowest priority node. The operation is like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">remove</span>(_ <span class="pl-smi"><span class="pl-en">key</span></span>: KeyType) {
+	cache.<span class="pl-c1">removeValue</span>(key)
+	<span class="pl-k">guard</span> <span class="pl-k">let</span> node <span class="pl-k">=</span> key2node[key] <span class="pl-k">else</span> {
+		<span class="pl-k">return</span>
+	}
+	priority.<span class="pl-c1">remove</span>(node)
+	key2node.<span class="pl-c1">removeValue</span>(key)
+}</pre></div>
+<h3>Optimizing Performance</h3>
+<p>Removing elements from the priority queue is a frequent operation for the LRU cache. Since priority queue is modelled using a linked list, this is an expensive operation that costs <code>O(n)</code> time. This is the bottleneck for both the <code>set</code> and <code>get</code> methods.</p>
+<p>To help alleviate this problem, a hash table is used to store the references of each node:</p>
+<pre><code>private var key2node: [KeyType: LinkedList&lt;KeyType&gt;.LinkedListNode&lt;KeyType&gt;] = [:]
+</code></pre>
+<p><em>Written for the Swift Algorithm Club by Kai Chen, with additions by Kelvin Lau</em></p></div>
+</body>
+</html>

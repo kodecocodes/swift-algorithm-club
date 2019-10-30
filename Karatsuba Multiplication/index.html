@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<head>
+  <title>Karatsuba Multiplication</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Karatsuba Multiplication</h1>
+<p>Goal: To quickly multiply two numbers together</p>
+<h2>Long Multiplication</h2>
+<p>In grade school we learned how to multiply two numbers together via Long Multiplication. Let's try that first!</p>
+<h3>Example 1: Multiply 1234 by 5678 using Long Multiplication</h3>
+<pre><code>    5678
+   *1234
+  ------
+   22712
+  17034-
+ 11356--
+ 5678---
+--------
+ 7006652
+</code></pre>
+<p>So what's the problem with Long Multiplication? Well remember the first part of our goal. To <em>quickly</em> multiply two numbers together. Long Multiplication is slow! (<strong>O(n^2)</strong>)</p>
+<p>You can see where the <strong>O(n^2)</strong> comes from in the implementation of Long Multiplication:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> Long Multiplication</span>
+<span class="pl-c"></span><span class="pl-k">func</span> <span class="pl-en">multiply</span>(<span class="pl-en">_</span> <span class="pl-smi">num1</span>: <span class="pl-c1">Int</span>, <span class="pl-en">by</span> <span class="pl-smi">num2</span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">base</span></span>: <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">10</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">let</span> num1Array <span class="pl-k">=</span> <span class="pl-c1">String</span>(num1).<span class="pl-c1">characters</span>.<span class="pl-c1">reversed</span>().<span class="pl-c1">map</span>{ <span class="pl-c1">Int</span>(<span class="pl-c1">String</span>(<span class="pl-c1">$0</span>))<span class="pl-k">!</span> }
+  <span class="pl-k">let</span> num2Array <span class="pl-k">=</span> <span class="pl-c1">String</span>(num2).<span class="pl-c1">characters</span>.<span class="pl-c1">reversed</span>().<span class="pl-c1">map</span>{ <span class="pl-c1">Int</span>(<span class="pl-c1">String</span>(<span class="pl-c1">$0</span>))<span class="pl-k">!</span> }
+  
+  <span class="pl-k">var</span> product <span class="pl-k">=</span> <span class="pl-c1">Array</span>(<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: num1Array.<span class="pl-c1">count</span> <span class="pl-k">+</span> num2Array.<span class="pl-c1">count</span>)
+
+  <span class="pl-k">for</span> i <span class="pl-k">in</span> num1Array.<span class="pl-c1">indices</span> {
+    <span class="pl-k">var</span> carry <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">for</span> j <span class="pl-k">in</span> num2Array.<span class="pl-c1">indices</span> {
+      product[i <span class="pl-k">+</span> j] <span class="pl-k">+=</span> carry <span class="pl-k">+</span> num1Array[i] <span class="pl-k">*</span> num2Array[j]
+      carry <span class="pl-k">=</span> product[i <span class="pl-k">+</span> j] <span class="pl-k">/</span> base
+      product[i <span class="pl-k">+</span> j] <span class="pl-k">%=</span> base
+    }
+    product[i <span class="pl-k">+</span> num2Array.<span class="pl-c1">count</span>] <span class="pl-k">+=</span> carry
+  }
+  
+  <span class="pl-k">return</span> <span class="pl-c1">Int</span>(product.<span class="pl-c1">reversed</span>().<span class="pl-c1">map</span>{ <span class="pl-c1">String</span>(<span class="pl-c1">$0</span>) }.<span class="pl-c1">reduce</span>(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>, <span class="pl-k">+</span>))<span class="pl-k">!</span>
+}</pre></div>
+<p>The double for loop is the culprit! By comparing each of the digits (as is necessary!) we set ourselves up for an <strong>O(n^2)</strong> running time. So Long Multiplication might not be the best algorithm after all. Can we do better?</p>
+<h2>Karatsuba Multiplication</h2>
+<p>The Karatsuba Algorithm was discovered by Anatoly Karatsuba and published in 1962. Karatsuba discovered that you could compute the product of two large numbers using three smaller products and some addition and subtraction.</p>
+<p>For two numbers x, y, where m &lt;= n:</p>
+<pre><code>x = a*10^m + b
+y = c*10^m + d
+</code></pre>
+<p>Now, we can say:</p>
+<pre><code>x*y = (a*10^m + b) * (c*10^m + d)
+    = a*c*10^(2m) + (a*d + b*c)*10^(m) + b*d
+</code></pre>
+<p>This had been know since the 19th century. The problem is that the method requires 4 multiplications (<code>a*c</code>, <code>a*d</code>, <code>b*c</code>, <code>b*d</code>). Karatsuba's insight was that you only need three! (<code>a*c</code>, <code>b*d</code>, <code>(a+b)*(c+d)</code>). Now a perfectly valid question right now would be "How is that possible!?!" Here's the math:</p>
+<pre><code>    (a+b)*(c+d) - a*c - b*d  = (a*c + a*d + b*c + b*d) - a*c - b*d
+                             = (a*d + b*c)
+</code></pre>
+<p>Pretty cool, huh?</p>
+<p>Here's the full implementation. Note that the recursive algorithm is most efficient at m = n/2.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> Karatsuba Multiplication</span>
+<span class="pl-c"></span><span class="pl-k">func</span> <span class="pl-en">karatsuba</span>(<span class="pl-en">_</span> <span class="pl-smi">num1</span>: <span class="pl-c1">Int</span>, <span class="pl-en">by</span> <span class="pl-smi">num2</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">let</span> num1String <span class="pl-k">=</span> <span class="pl-c1">String</span>(num1)
+  <span class="pl-k">let</span> num2String <span class="pl-k">=</span> <span class="pl-c1">String</span>(num2)
+  
+  <span class="pl-k">guard</span> num1String.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> <span class="pl-k">&amp;&amp;</span> num2String.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> <span class="pl-k">else</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">multiply</span>(num1, <span class="pl-c1">by</span>: num2)
+  }
+  
+  <span class="pl-k">let</span> n <span class="pl-k">=</span> <span class="pl-c1">max</span>(num1String.<span class="pl-c1">count</span>, num2String.<span class="pl-c1">count</span>)
+  <span class="pl-k">let</span> nBy2 <span class="pl-k">=</span> n <span class="pl-k">/</span> <span class="pl-c1">2</span>
+  
+  <span class="pl-k">let</span> a <span class="pl-k">=</span> num1 <span class="pl-k">/</span> <span class="pl-c1">10</span><span class="pl-k">^^</span>nBy2
+  <span class="pl-k">let</span> b <span class="pl-k">=</span> num1 <span class="pl-k">%</span> <span class="pl-c1">10</span><span class="pl-k">^^</span>nBy2
+  <span class="pl-k">let</span> c <span class="pl-k">=</span> num2 <span class="pl-k">/</span> <span class="pl-c1">10</span><span class="pl-k">^^</span>nBy2
+  <span class="pl-k">let</span> d <span class="pl-k">=</span> num2 <span class="pl-k">%</span> <span class="pl-c1">10</span><span class="pl-k">^^</span>nBy2
+  
+  <span class="pl-k">let</span> ac <span class="pl-k">=</span> <span class="pl-c1">karatsuba</span>(a, <span class="pl-c1">by</span>: c)
+  <span class="pl-k">let</span> bd <span class="pl-k">=</span> <span class="pl-c1">karatsuba</span>(b, <span class="pl-c1">by</span>: d)
+  <span class="pl-k">let</span> adPlusbc <span class="pl-k">=</span> <span class="pl-c1">karatsuba</span>(a<span class="pl-k">+</span>b, <span class="pl-c1">by</span>: c<span class="pl-k">+</span>d) <span class="pl-k">-</span> ac <span class="pl-k">-</span> bd
+  
+  <span class="pl-k">let</span> product <span class="pl-k">=</span> ac <span class="pl-k">*</span> <span class="pl-c1">10</span><span class="pl-k">^^</span>(<span class="pl-c1">2</span> <span class="pl-k">*</span> nBy2) <span class="pl-k">+</span> adPlusbc <span class="pl-k">*</span> <span class="pl-c1">10</span><span class="pl-k">^^</span>nBy2 <span class="pl-k">+</span> bd
+  
+  <span class="pl-k">return</span> product
+}</pre></div>
+<p>What about the running time of this algorithm? Is all this extra work worth it? We can use the Master Theorem to answer this question. This leads us to <code>T(n) = 3*T(n/2) + c*n + d</code> where c &amp; d are some constants. It follows (because 3 &gt; 2^1) that the running time is <strong>O(n^log2(3))</strong> which is roughly <strong>O(n^1.56)</strong>. Much better!</p>
+<h3>Example 2: Multiply 1234 by 5678 using Karatsuba Multiplication</h3>
+<pre><code>m = 2
+x = 1234 = a*10^2 + b = 12*10^2 + 34
+y = 5678 = c*10^2 + d = 56*10^2 + 78
+
+a*c = 672
+b*d = 2652
+(a*d + b*c) = 2840
+
+x*y = 672*10^4 + 2840*10^2 + 2652
+    = 6720000 + 284000 + 2652
+    = 7006652	
+</code></pre>
+<h2>Resources</h2>
+<p><a href="https://en.wikipedia.org/wiki/Karatsuba_algorithm" rel="nofollow">Wikipedia</a></p>
+<p><a href="http://mathworld.wolfram.com/KaratsubaMultiplication.html" rel="nofollow">WolframMathWorld</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Master_theorem" rel="nofollow">Master Theorem</a></p>
+<p><em>Written for Swift Algorithm Club by Richard Ash</em></p></div>
+</body>
+</html>

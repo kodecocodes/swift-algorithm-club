@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<head>
+  <title>Introsort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>IntroSort</h1>
+<p>Goal: Sort an array from low to high (or high to low).</p>
+<p>IntroSort is the algorithm used by swift to sort a collection. Introsort is an hybrid algorithm invented by David Musser  in 1993 with the purpose of giving a generic sorting algorithm for the C++ standard library. The classic implementation of introsort expect a recursive Quicksort with fallback to Heapsort in case the recursion depth level reached a certain max. The maximum depends on the number of elements in the collection and it is usually 2 * log(n). The reason behind this “fallback” is that if Quicksort was not able to get the solution after 2 * log(n) recursions for a branch, probably it hit its worst case and it is degrading to complexity O( n^2 ). To optimise even further this algorithm, the swift implementation introduce an extra step in each recursion where the partition is sorted using InsertionSort if the count of the partition is less than 20.</p>
+<p>The number 20 is an empiric number obtained observing the behaviour of InsertionSort with lists of this size.</p>
+<p>Here's an implementation in pseudocode:</p>
+<pre><code>procedure sort(A : array):
+    let maxdepth = ⌊log(length(A))⌋ × 2
+    introSort(A, maxdepth)
+
+procedure introsort(A, maxdepth):
+    n ← length(A)
+    if n &lt; 20:
+        insertionsort(A)
+    else if maxdepth = 0:
+        heapsort(A)
+    else:
+        p ← partition(A)  // the pivot is selected using median of 3
+        introsort(A[0:p], maxdepth - 1)
+        introsort(A[p+1:n], maxdepth - 1)
+</code></pre>
+<h2>An example</h2>
+<p>Let's walk through the example. The array is initially:</p>
+<pre><code>[ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
+</code></pre>
+<p>For this example let's assume that <code>maxDepth</code> is <strong>2</strong> and that the size of the partition for the insertionSort to kick in is <strong>5</strong></p>
+<p>The first iteration of introsort begins by attempting to use insertionSort. The collection has 13 elements, so it tries to do heapsort instead. The condition for heapsort to occur is if <code>maxdepth == 0</code> evaluates true. Since <code>maxdepth</code> is currently <strong>2</strong> for the first iteration, introsort will default to quicksort.</p>
+<p>The <code>partition</code>  method picks the first element, the median and the last, it sorts them and uses the new median as pivot.</p>
+<pre><code>[ 10, 8, 26 ] -&gt; [ 8, 10, 26 ]
+</code></pre>
+<p>Our array is now</p>
+<pre><code>[ 8, 0, 3, 9, 2, 14, 10, 27, 1, 5, 8, -1, 26 ]
+</code></pre>
+<p><strong>10</strong> is the pivot. After the choice of the pivot, the <code>partition</code> method swaps elements to get all the elements less than pivot on the left, and all the elements more or equal than pivot on the right.</p>
+<pre><code>[ 8, 0, 3, 9, 2, 1, 5, 8, -1, 10, 27, 14, 26 ]
+</code></pre>
+<p>Because of the swaps, the index of of pivot is now changed and returned. The next step of introsort is to call recursively itself for the two sub arrays:</p>
+<pre><code>less: [ 8, 0, 3, 9, 2, 1, 5, 8, -1, 10 ]
+greater: [ 27, 14, 26 ]
+</code></pre>
+<h2>maxDepth: 1, branch: less</h2>
+<pre><code>[ 8, 0, 3, 9, 2, 1, 5, 8, -1, 10 ]
+</code></pre>
+<p>The count of the array is still more than 5 so we don't meet yet the conditions for insertion sort to kick in. At this iteration maxDepth is decreased by one but it is still more than zero, so heapsort will not act.</p>
+<p>Just like in the previous iteration quicksort wins and the <code>partition</code> method choses a pivot and sorts the elemets less than pivot on the left and the elements more or equeal than pivot on the right.</p>
+<pre><code>array: [ 8, 0, 3, 9, 2, 1, 5, 8, -1, 10 ]
+pivot candidates: [ 8, 1, 10] -&gt; [ 1, 8, 10]
+pivot: 8
+before partition: [ 1, 0, 3, 9, 2, 8, 5, 8, -1, 10 ]
+after partition: [ 1, 0, 3, -1, 2, 5, 8, 8, 9, 10 ]
+
+less: [ 1, 0, 3, -1, 2, 5, 8 ]
+greater: [ 8, 9, 10 ]
+</code></pre>
+<h2>maxDepth: 0, branch: less</h2>
+<pre><code>[ 1, 0, 3, -1, 2, 5, 8 ]
+</code></pre>
+<p>Just like before, introsort is recursively executed for <code>less</code> and greater. This time <code>less</code>has a count more than <strong>5</strong> so it will not be sorted with insertion sort, but the maxDepth decreased again by 1 is now 0 and heapsort takes over sorting the array.</p>
+<pre><code>heapsort -&gt; [ -1, 0, 1, 2, 3, 5, 8 ]
+</code></pre>
+<h2>maxDepth: 0, branch: greater</h2>
+<pre><code>[ 8, 9, 10 ]
+</code></pre>
+<p>following greater in this recursion, the count of elements is 3, which is less than 5, so this partition is sorted using insertionSort.</p>
+<pre><code>insertionSort -&gt; [ 8, 9 , 10]
+</code></pre>
+<h2>back to maxDepth = 1, branch: greater</h2>
+<pre><code>[ 27, 14, 26 ]
+</code></pre>
+<p>At this point the original array has mutated to be</p>
+<pre><code>[ -1, 0, 1, 2, 3, 5, 8, 8, 9, 10, 27, 14, 26 ]
+</code></pre>
+<p>now the <code>less</code> partition is sorted  and since the count of the <code>greater</code> partition is 3 it will be sorted with insertion sort  <code>[ 14, 26, 27 ]</code></p>
+<p>The array is now successfully sorted</p>
+<pre><code>[ -1, 0, 1, 2, 3, 5, 8, 8, 9, 10, 14, 26, 27 ]
+</code></pre>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Introsort" rel="nofollow">Introsort on Wikipedia</a><br>
+<a href="http://agostini.tech/2017/12/18/swift-sorting-algorithm/" rel="nofollow">Introsort comparison with other sorting algorithms</a><br>
+<a href="https://github.com/apple/swift/blob/09f77ff58d250f5d62855ea359fc304f40b531df/stdlib/public/core/Sort.swift.gyb">Introsort implementation from the Swift standard library</a></p>
+<p><em>Written for Swift Algorithm Club by Giuseppe Lanza</em></p></div>
+</body>
+</html>

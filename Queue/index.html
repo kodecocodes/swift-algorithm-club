@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<head>
+  <title>Queue</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Queue</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/148141/swift-algorithm-club-swift-queue-data-structure" rel="nofollow">here</a></p>
+</blockquote>
+<p>A queue is a list where you can only insert new items at the back and remove items from the front. This ensures that the first item you enqueue is also the first item you dequeue. First come, first serve!</p>
+<p>Why would you need this? Well, in many algorithms you want to add objects to a temporary list and pull them off this list later. Often the order in which you add and remove these objects matters.</p>
+<p>A queue gives you a FIFO or first-in, first-out order. The element you inserted first is the first one to come out. It is only fair! (A similar data structure, the <a href="../Stack/">stack</a>, is LIFO or last-in first-out.)</p>
+<p>Here is an example to enqueue a number:</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">10</span>)</pre></div>
+<p>The queue is now <code>[ 10 ]</code>. Add the next number to the queue:</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">3</span>)</pre></div>
+<p>The queue is now <code>[ 10, 3 ]</code>. Add one more number:</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">enqueue</span>(<span class="pl-c1">57</span>)</pre></div>
+<p>The queue is now <code>[ 10, 3, 57 ]</code>. Let's dequeue to pull the first element off the front of the queue:</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()</pre></div>
+<p>This returns <code>10</code> because that was the first number we inserted. The queue is now <code>[ 3, 57 ]</code>. Everyone moved up by one place.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()</pre></div>
+<p>This returns <code>3</code>, the next dequeue returns <code>57</code>, and so on. If the queue is empty, dequeuing returns <code>nil</code> or in some implementations it gives an error message.</p>
+<blockquote>
+<p><strong>Note:</strong> A queue is not always the best choice. If the order in which the items are added and removed from the list is not important, you can use a <a href="../Stack/">stack</a> instead of a queue. Stacks are simpler and faster.</p>
+</blockquote>
+<h2>The code</h2>
+<p>Here is a simplistic implementation of a queue in Swift. It is a wrapper around an array to enqueue, dequeue, and peek at the front-most item:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Queue</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> array <span class="pl-k">=</span> [T]()
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">isEmpty</span>
+  }
+  
+  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">count</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">enqueue</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+    array.<span class="pl-c1">append</span>(element)
+  }
+  
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">dequeue</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> isEmpty {
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> array.<span class="pl-c1">removeFirst</span>()
+    }
+  }
+  
+  <span class="pl-k">public</span> <span class="pl-k">var</span> front<span class="pl-k">:</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">first</span>
+  }
+}</pre></div>
+<p>This queue works well, but it is not optimal.</p>
+<p>Enqueuing is an <strong>O(1)</strong> operation because adding to the end of an array always takes the same amount of time regardless of the size of the array.</p>
+<p>You might be wondering why appending items to an array is <strong>O(1)</strong> or a constant-time operation. That is because an array in Swift always has some empty space at the end. If we do the following:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> queue <span class="pl-k">=</span> Queue<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>()
+queue.<span class="pl-c1">enqueue</span>(<span class="pl-s"><span class="pl-pds">"</span>Ada<span class="pl-pds">"</span></span>)
+queue.<span class="pl-c1">enqueue</span>(<span class="pl-s"><span class="pl-pds">"</span>Steve<span class="pl-pds">"</span></span>)
+queue.<span class="pl-c1">enqueue</span>(<span class="pl-s"><span class="pl-pds">"</span>Tim<span class="pl-pds">"</span></span>)</pre></div>
+<p>then the array might actually look like this:</p>
+<pre><code>[ "Ada", "Steve", "Tim", xxx, xxx, xxx ]
+</code></pre>
+<p>where <code>xxx</code> is memory that is reserved but not filled in yet. Adding a new element to the array overwrites the next unused spot:</p>
+<pre><code>[ "Ada", "Steve", "Tim", "Grace", xxx, xxx ]
+</code></pre>
+<p>This results by copying memory from one place to another which is a constant-time operation.</p>
+<p>There are only a limited number of unused spots at the end of the array. When the last <code>xxx</code> gets used, and you want to add another item, the array needs to resize to make more room.</p>
+<p>Resizing includes allocating new memory and copying all the existing data over to the new array. This is an <strong>O(n)</strong> process which is relatively slow. Since it happens occasionally, the time for appending a new element to the end of the array is still <strong>O(1)</strong> on average or <strong>O(1)</strong> "amortized".</p>
+<p>The story for dequeueing is different. To dequeue, we remove the element from the <em>beginning</em> of the array. This is always an <strong>O(n)</strong> operation because it requires all remaining array elements to be shifted in memory.</p>
+<p>In our example, dequeuing the first element <code>"Ada"</code> copies <code>"Steve"</code> in the place of <code>"Ada"</code>, <code>"Tim"</code> in the place of <code>"Steve"</code>, and <code>"Grace"</code> in the place of <code>"Tim"</code>:</p>
+<pre><code>before   [ "Ada", "Steve", "Tim", "Grace", xxx, xxx ]
+                   /       /      /
+                  /       /      /
+                 /       /      /
+                /       /      /
+ after   [ "Steve", "Tim", "Grace", xxx, xxx, xxx ]
+</code></pre>
+<p>Moving all these elements in memory is always an <strong>O(n)</strong> operation. So with our simple implementation of a queue, enqueuing is efficient, but dequeueing leaves something to be desired...</p>
+<h2>A more efficient queue</h2>
+<p>To make dequeuing efficient, we can also reserve some extra free space but this time at the front of the array. We must write this code ourselves because the built-in Swift array does not support it.</p>
+<p>The main idea is whenever we dequeue an item, we do not shift the contents of the array to the front (slow) but mark the item's position in the array as empty (fast). After dequeuing <code>"Ada"</code>, the array is:</p>
+<pre><code>[ xxx, "Steve", "Tim", "Grace", xxx, xxx ]
+</code></pre>
+<p>After dequeuing <code>"Steve"</code>, the array is:</p>
+<pre><code>[ xxx, xxx, "Tim", "Grace", xxx, xxx ]
+</code></pre>
+<p>Because these empty spots at the front never get reused, you can periodically trim the array by moving the remaining elements to the front:</p>
+<pre><code>[ "Tim", "Grace", xxx, xxx, xxx, xxx ]
+</code></pre>
+<p>This trimming procedure involves shifting memory which is an <strong>O(n)</strong> operation. Because this only happens once in a while, dequeuing is <strong>O(1)</strong> on average.</p>
+<p>Here is how you can implement this version of <code>Queue</code>:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Queue</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> array <span class="pl-k">=</span> [T<span class="pl-k">?</span>]()
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> head <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> count <span class="pl-k">==</span> <span class="pl-c1">0</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">count</span> <span class="pl-k">-</span> head
+  }
+  
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">enqueue</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+    array.<span class="pl-c1">append</span>(element)
+  }
+  
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">dequeue</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">guard</span> head <span class="pl-k">&lt;</span> array.<span class="pl-c1">count</span>, <span class="pl-k">let</span> element <span class="pl-k">=</span> array[head] <span class="pl-k">else</span> { <span class="pl-k">return</span> <span class="pl-c1">nil</span> }
+
+    array[head] <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    head <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+
+    <span class="pl-k">let</span> percentage <span class="pl-k">=</span> <span class="pl-c1">Double</span>(head)<span class="pl-k">/</span><span class="pl-c1">Double</span>(array.<span class="pl-c1">count</span>)
+    <span class="pl-k">if</span> array.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">50</span> <span class="pl-k">&amp;&amp;</span> percentage <span class="pl-k">&gt;</span> <span class="pl-c1">0.25</span> {
+      array.<span class="pl-c1">removeFirst</span>(head)
+      head <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    }
+    
+    <span class="pl-k">return</span> element
+  }
+  
+  <span class="pl-k">public</span> <span class="pl-k">var</span> front<span class="pl-k">:</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> isEmpty {
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> array[head]
+    }
+  }
+}</pre></div>
+<p>The array now stores objects of type <code>T?</code> instead of just <code>T</code> because we need to mark array elements as being empty. The <code>head</code> variable is the index in the array of the front-most object.</p>
+<p>Most of the new functionality sits in <code>dequeue()</code>. When we dequeue an item, we first set <code>array[head]</code> to <code>nil</code> to remove the object from the array. Then, we increment <code>head</code> because the next item has become the front one.</p>
+<p>We go from this:</p>
+<pre><code>[ "Ada", "Steve", "Tim", "Grace", xxx, xxx ]
+  head
+</code></pre>
+<p>to this:</p>
+<pre><code>[ xxx, "Steve", "Tim", "Grace", xxx, xxx ]
+        head
+</code></pre>
+<p>It is like if in a supermarket the people in the checkout lane do not shuffle forward towards the cash register, but the cash register moves up the queue.</p>
+<p>If we never remove those empty spots at the front then the array will keep growing as we enqueue and dequeue elements. To periodically trim down the array, we do the following:</p>
+<div class="highlight highlight-source-swift"><pre>    <span class="pl-k">let</span> percentage <span class="pl-k">=</span> <span class="pl-c1">Double</span>(head)<span class="pl-k">/</span><span class="pl-c1">Double</span>(array.<span class="pl-c1">count</span>)
+    <span class="pl-k">if</span> array.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">50</span> <span class="pl-k">&amp;&amp;</span> percentage <span class="pl-k">&gt;</span> <span class="pl-c1">0.25</span> {
+      array.<span class="pl-c1">removeFirst</span>(head)
+      head <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    }</pre></div>
+<p>This calculates the percentage of empty spots at the beginning as a ratio of the total array size. If more than 25% of the array is unused, we chop off that wasted space. However, if the array is small we do not resize it all the time, so there must be at least 50 elements in the array before we try to trim it.</p>
+<blockquote>
+<p><strong>Note:</strong> I just pulled these numbers out of thin air -- you may need to tweak them based on the behavior of your app in a production environment.</p>
+</blockquote>
+<p>To test this in a playground, do the following:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> q <span class="pl-k">=</span> Queue<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>()
+q.<span class="pl-c1">array</span>                   <span class="pl-c"><span class="pl-c">//</span> [] empty array</span>
+<span class="pl-c"></span>
+q.<span class="pl-c1">enqueue</span>(<span class="pl-s"><span class="pl-pds">"</span>Ada<span class="pl-pds">"</span></span>)
+q.<span class="pl-c1">enqueue</span>(<span class="pl-s"><span class="pl-pds">"</span>Steve<span class="pl-pds">"</span></span>)
+q.<span class="pl-c1">enqueue</span>(<span class="pl-s"><span class="pl-pds">"</span>Tim<span class="pl-pds">"</span></span>)
+q.<span class="pl-c1">array</span>             <span class="pl-c"><span class="pl-c">//</span> [{Some "Ada"}, {Some "Steve"}, {Some "Tim"}]</span>
+<span class="pl-c"></span>q.<span class="pl-c1">count</span>             <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>
+q.<span class="pl-c1">dequeue</span>()         <span class="pl-c"><span class="pl-c">//</span> "Ada"</span>
+<span class="pl-c"></span>q.<span class="pl-c1">array</span>             <span class="pl-c"><span class="pl-c">//</span> [nil, {Some "Steve"}, {Some "Tim"}]</span>
+<span class="pl-c"></span>q.<span class="pl-c1">count</span>             <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>
+q.<span class="pl-c1">dequeue</span>()         <span class="pl-c"><span class="pl-c">//</span> "Steve"</span>
+<span class="pl-c"></span>q.<span class="pl-c1">array</span>             <span class="pl-c"><span class="pl-c">//</span> [nil, nil, {Some "Tim"}]</span>
+<span class="pl-c"></span>q.<span class="pl-c1">count</span>             <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>
+q.<span class="pl-c1">enqueue</span>(<span class="pl-s"><span class="pl-pds">"</span>Grace<span class="pl-pds">"</span></span>)
+q.<span class="pl-c1">array</span>             <span class="pl-c"><span class="pl-c">//</span> [nil, nil, {Some "Tim"}, {Some "Grace"}]</span>
+<span class="pl-c"></span>q.<span class="pl-c1">count</span>             <span class="pl-c"><span class="pl-c">//</span> 2</span></pre></div>
+<p>To test the trimming behavior, replace the line,</p>
+<div class="highlight highlight-source-swift"><pre>    <span class="pl-k">if</span> array.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">50</span> <span class="pl-k">&amp;&amp;</span> percentage <span class="pl-k">&gt;</span> <span class="pl-c1">0.25</span> {</pre></div>
+<p>with:</p>
+<div class="highlight highlight-source-swift"><pre>    <span class="pl-k">if</span> head <span class="pl-k">&gt;</span> <span class="pl-c1">2</span> {</pre></div>
+<p>Now if you dequeue another object, the array will look as follows:</p>
+<div class="highlight highlight-source-swift"><pre>q.<span class="pl-c1">dequeue</span>()         <span class="pl-c"><span class="pl-c">//</span> "Tim"</span>
+<span class="pl-c"></span>q.<span class="pl-c1">array</span>             <span class="pl-c"><span class="pl-c">//</span> [{Some "Grace"}]</span>
+<span class="pl-c"></span>q.<span class="pl-c1">count</span>             <span class="pl-c"><span class="pl-c">//</span> 1</span></pre></div>
+<p>The <code>nil</code> objects at the front have been removed, and the array is no longer wasting space. This new version of <code>Queue</code> is not more complicated than the first one but dequeuing is now also an <strong>O(1)</strong> operation, just because we were aware about how we used the array.</p>
+<h2>See also</h2>
+<p>There are many ways to create a queue. Alternative implementations use a <a href="../Linked%20List/">linked list</a>, a <a href="../Ring%20Buffer/">circular buffer</a>, or a <a href="../Heap/">heap</a>.</p>
+<p>Variations on this theme are <a href="../Deque/">deque</a>, a double-ended queue where you can enqueue and dequeue at both ends, and <a href="../Priority%20Queue/">priority queue</a>, a sorted queue where the "most important" item is always at the front.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

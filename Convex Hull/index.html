@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+  <title>Convex Hull</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Convex Hull</h1>
+<p>Given a group of points on a plane. The Convex Hull algorithm calculates the shape (made up from the points itself) containing all these points. It can also be used on a collection of points of different dimensions. This implementation however covers points on a plane. It essentially calculates the lines between points which together contain all points. In comparing different solutions to this problem we can describe each algorithm in terms of it's big-O time complexity.</p>
+<p>There are multiple Convex Hull algorithms but this solution is called Quickhull, is comes from the work of both W. Eddy in 1977 and also separately A. Bykat in 1978, this algorithm has an expected time complexity of O(n log n), but it's worst-case time-complexity can be O(n^2) . With average conditions the algorithm has ok efficiency, but it's time-complexity can start to become more exponential in cases of high symmetry or where there are points lying on the circumference of a circle for example.</p>
+<h2>Quickhull</h2>
+<p>The quickhull algorithm works as follows:</p>
+<ul>
+<li>The algorithm takes an input of a collection of points. These points should be ordered on their x-coordinate value.</li>
+<li>We first find the two points A and B with the minimum(A) and the maximum(B) x-coordinates (as these will obviously be part of the hull).</li>
+<li>Use the line formed by the two points to divide the set in two subsets of points, which will be processed recursively.</li>
+<li>Determine the point, on one side of the line, with the maximum distance from the line. The two points found before along with this one form a triangle.</li>
+<li>The points lying inside of that triangle cannot be part of the convex hull and can therefore be ignored in the next steps.</li>
+<li>Repeat the previous two steps on the two lines formed by the triangle (not the initial line).</li>
+<li>Keep on doing so on until no more points are left, the recursion has come to an end and the points selected constitute the convex hull.</li>
+</ul>
+<p>Our function will have the following defininition:</p>
+<p><code>findHull(points: [CGPoint], p1: CGPoint, p2: CGPoint)</code></p>
+<pre><code>findHull(S1, A, B)
+findHull(S2, B, A)
+</code></pre>
+<p>What this function does is the following:</p>
+<ol>
+<li>If <code>points</code> is empty we return as there are no points to the right of our line to add to our hull.</li>
+<li>Draw a line from <code>p1</code> to <code>p2</code>.</li>
+<li>Find the point in <code>points</code> that is furthest away from this line. (<code>maxPoint</code>)</li>
+<li>Add <code>maxPoint</code> to the hull right after <code>p1</code>.</li>
+<li>Draw a line (<code>line1</code>) from <code>p1</code> to <code>maxPoint</code>.</li>
+<li>Draw a line (<code>line2</code>) from <code>maxPoint</code> to <code>p2</code>. (These lines now form a triangle)</li>
+<li>All points within this triangle are of course not part of the hull and thus can be ignored. We check which points in <code>points</code> are to the right of <code>line1</code> these are grouped in an array <code>s1</code>.</li>
+<li>All points that are to the right of <code>line2</code> are grouped in an array <code>s2</code>. Note that there are no points that are both to the right of <code>line1</code> and <code>line2</code> as then <code>maxPoint</code> wouldn't be the point furthest away from our initial line between <code>p1</code> and <code>p2</code>.</li>
+<li>We call <code>findHull(_, _, _)</code> again on our new groups of points to find more hull points.</li>
+</ol>
+<pre><code>findHull(s1, p1, maxPoint)
+findHull(s2, maxPoint, p2)
+</code></pre>
+<p>This eventually leaves us with an array of points describing the convex hull.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Convex_hull_algorithms" rel="nofollow">Convex Hull on Wikipedia</a></p>
+<p><em>Written for the Swift Algorithm Club by Jaap Wijnen.</em></p></div>
+</body>
+</html>

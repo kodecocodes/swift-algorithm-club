@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<head>
+  <title>Two-Sum Problem</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Two-Sum Problem</h1>
+<p>Given an array of integers and an integer target, return the indices of two numbers that add up to the target.</p>
+<p>There are a variety of solutions to this problem (some better than others). The following solutions both run in <strong>O(n)</strong> time.</p>
+<h1>Solution 1</h1>
+<p>This solution looks at one number at a time, storing each number in the dictionary. It uses the number as the key and the number's index in the array as the value.</p>
+<p>For each number n, we know the complementing number to sum up to the target is <code>target - n</code>. By looking up the complement in the dictionary, we'd know whether we've seen the complement before and what its index is.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">twoSum</span>(<span class="pl-en">_</span> <span class="pl-smi">nums</span>: [<span class="pl-c1">Int</span>], <span class="pl-smi"><span class="pl-en">target</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> (<span class="pl-c1">Int</span>, <span class="pl-c1">Int</span>)<span class="pl-k">?</span> {
+    <span class="pl-k">var</span> dict <span class="pl-k">=</span> [<span class="pl-c1">Int</span><span class="pl-k">:</span> <span class="pl-c1">Int</span>]()
+    
+    <span class="pl-c"><span class="pl-c">//</span> For every number n,</span>
+<span class="pl-c"></span>    <span class="pl-k">for</span> (currentIndex, n) <span class="pl-k">in</span> nums.<span class="pl-c1">enumerated</span>() {
+        <span class="pl-c"><span class="pl-c">//</span> Find the complement to n that would sum up to the target.</span>
+<span class="pl-c"></span>        <span class="pl-k">let</span> complement <span class="pl-k">=</span> target <span class="pl-k">-</span> n
+        
+        <span class="pl-c"><span class="pl-c">//</span> Check if the complement is in the dictionary.</span>
+<span class="pl-c"></span>        <span class="pl-k">if</span> <span class="pl-k">let</span> complementIndex <span class="pl-k">=</span> dict[complement] {
+            <span class="pl-k">return</span> (complementIndex, currentIndex)
+        }
+        
+        <span class="pl-c"><span class="pl-c">//</span> Store n and its index into the dictionary.</span>
+<span class="pl-c"></span>        dict[n] <span class="pl-k">=</span> currentIndex
+    }
+    
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+}</pre></div>
+<p>The <code>twoSum</code> function takes two parameters: the <code>numbers</code> array and the target sum. It returns the two indicies of the pair of elements that sums up to the target, or <code>nil</code> if they can't be found.</p>
+<p>Let's run through the algorithm to see how it works. Given the array:</p>
+<div class="highlight highlight-source-swift"><pre>[<span class="pl-c1">3</span>, <span class="pl-c1">2</span>, <span class="pl-c1">9</span>, <span class="pl-c1">8</span>]</pre></div>
+<p>Let's find out if there exist two entries whose sum is 10.</p>
+<p>Initially, our dictionary is empty. We begin looping through each element:</p>
+<ul>
+<li><strong>currentIndex = 0</strong> | n = nums[0] = 3 | complement = 10 - 3 = 7</li>
+</ul>
+<p>Is the complement <code>7</code> in the dictionary? No, so we add <code>3</code> and its index <code>0</code> to the dictionary.</p>
+<div class="highlight highlight-source-swift"><pre>[<span class="pl-c1">3</span><span class="pl-k">:</span> <span class="pl-c1">0</span>]</pre></div>
+<ul>
+<li><strong>currentIndex = 1</strong> | n = 2 | complement = 10 - 2 = 8</li>
+</ul>
+<p>Is the complement <code>8</code> in the dictionary? No, so we add <code>2</code> and its index <code>1</code> to the dictionary.</p>
+<div class="highlight highlight-source-swift"><pre>[<span class="pl-c1">3</span><span class="pl-k">:</span> <span class="pl-c1">0</span>, <span class="pl-c1">2</span><span class="pl-k">:</span> <span class="pl-c1">1</span>]</pre></div>
+<ul>
+<li><strong>currentIndex = 2</strong> | n = 9 | complement = 10 - 9 = 1</li>
+</ul>
+<p>Is the complement <code>1</code> in the dictionary? No, so we add <code>9</code> and its index <code>2</code> to the dictionary.:</p>
+<div class="highlight highlight-source-swift"><pre>[<span class="pl-c1">3</span><span class="pl-k">:</span> <span class="pl-c1">0</span>, <span class="pl-c1">2</span><span class="pl-k">:</span> <span class="pl-c1">1</span>, <span class="pl-c1">9</span><span class="pl-k">:</span> <span class="pl-c1">2</span>]</pre></div>
+<ul>
+<li><strong>currentIndex = 3</strong> | n = 8 | complement = 10 - 8 = 2</li>
+</ul>
+<p>Is the complement <code>2</code> in the dictionary? Yes! That means that we have found a pair of entries that sum to the target!</p>
+<p>Therefore, the <code>complementIndex = dict[2] = 1</code> and the <code>currentIndex = 3</code>. The tuple we return is <code>(1, 3)</code>.</p>
+<p>If the given array has multiple solutions, only the first solution is returned.</p>
+<p>The running time of this algorithm is <strong>O(n)</strong> because it may look at every element in the array. It also requires <strong>O(n)</strong> additional storage space for the dictionary.</p>
+<h1>Solution 2</h1>
+<p><strong>Note</strong>: This particular algorithm requires that the array is sorted, so if the array isn't sorted yet (usually it won't be), you need to sort it first. The time complexity of the algorithm itself is <strong>O(n)</strong> and, unlike the previous solution, it does not require extra storage. Of course, if you have to sort first, the total time complexity becomes <strong>O(n log n)</strong>. Slightly worse but still quite acceptable.</p>
+<p>Here is the code in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">twoSumProblem</span>(<span class="pl-en">_</span> <span class="pl-smi">a</span>: [<span class="pl-c1">Int</span>], <span class="pl-smi"><span class="pl-en">k</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> ((<span class="pl-c1">Int</span>, <span class="pl-c1">Int</span>))<span class="pl-k">?</span> {
+  <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  <span class="pl-k">var</span> j <span class="pl-k">=</span> a.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>
+
+  <span class="pl-k">while</span> i <span class="pl-k">&lt;</span> j {
+    <span class="pl-k">let</span> sum <span class="pl-k">=</span> a[i] <span class="pl-k">+</span> a[j]
+    <span class="pl-k">if</span> sum <span class="pl-k">==</span> k {
+      <span class="pl-k">return</span> (i, j)
+    } <span class="pl-k">else</span> <span class="pl-k">if</span> sum <span class="pl-k">&lt;</span> k {
+      i <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    } <span class="pl-k">else</span> {
+      j <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+    }
+  }
+  <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+}</pre></div>
+<p>As in the first solution, the <code>twoSumProblem()</code> function takes as parameters the array <code>a</code> with the numbers and <code>k</code>, the sum we're looking for. If there are two numbers that add up to <code>k</code>, the function returns a tuple containing their array indices. If not, it returns <code>nil</code>. The main difference is that <code>a</code> is assumed to be sorted.</p>
+<p>To test it, copy the code into a playground and add the following:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> a <span class="pl-k">=</span> [<span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">4</span>, <span class="pl-c1">7</span>, <span class="pl-c1">8</span>, <span class="pl-c1">9</span>, <span class="pl-c1">10</span>, <span class="pl-c1">12</span>, <span class="pl-c1">14</span>, <span class="pl-c1">21</span>, <span class="pl-c1">22</span>, <span class="pl-c1">100</span>]
+<span class="pl-k">if</span> <span class="pl-k">let</span> (i, j) <span class="pl-k">=</span> <span class="pl-c1">twoSumProblem</span>(a, <span class="pl-c1">k</span>: <span class="pl-c1">33</span>) {
+  a[i] <span class="pl-k">+</span> a[j]  <span class="pl-c"><span class="pl-c">//</span> 33</span>
+<span class="pl-c"></span>}</pre></div>
+<p>This returns the tuple <code>(8, 10)</code> because <code>a[8] = 12</code> and <code>a[10] = 21</code>, and together they add up to <code>33</code>.</p>
+<p>So how does this algorithm work? It takes advantage of the array being sorted. That's true for many algorithms, by the way. If you first sort the data, it's often easier to perform your calculations.</p>
+<p>In the example, the sorted array is:</p>
+<pre><code>[ 2, 3, 4, 4, 7, 8, 9, 10, 12, 14, 21, 22, 100 ]
+</code></pre>
+<p>The algorithm uses the two variables <code>i</code> and <code>j</code> to point to the beginning and end of the array, respectively. Then it increments <code>i</code> and decrements <code>j</code> until the two meet. While it's doing this, it checks whether <code>a[i]</code> and <code>a[j]</code> add up to <code>k</code>.</p>
+<p>Let's step through this. Initially, we have:</p>
+<pre><code>[ 2, 3, 4, 4, 7, 8, 9, 10, 12, 14, 21, 22, 100 ]
+  i                                        j
+</code></pre>
+<p>The sum of these two is <code>2 + 100 = 102</code>. That's obviously too much, since <code>k = 33</code> in this example. There is no way that <code>100</code> will ever be part of the answer, so decrement <code>j</code>.</p>
+<p>We have:</p>
+<pre><code>[ 2, 3, 4, 4, 7, 8, 9, 10, 12, 14, 21, 22, 100 ]
+  i                                    j
+</code></pre>
+<p>The sum is <code>2 + 22 = 24</code>. Now the sum is too small. We can safely conclude at this point that the number <code>2</code> will never be part of the answer. The largest number on the right is <code>22</code>, so we at least need <code>11</code> on the left to make <code>33</code>. Anything less than <code>11</code> is not going to cut it. (This is why we sorted the array!)</p>
+<p>So, <code>2</code> is out and we increment <code>i</code> to look at the next small number.</p>
+<pre><code>[ 2, 3, 4, 4, 7, 8, 9, 10, 12, 14, 21, 22, 100 ]
+     i                                 j
+</code></pre>
+<p>The sum is <code>3 + 22 = 25</code>. Still too small, so increment <code>i</code> again.</p>
+<pre><code>[ 2, 3, 4, 4, 7, 8, 9, 10, 12, 14, 21, 22, 100 ]
+        i                              j
+</code></pre>
+<p>In fact, we have to increment <code>i</code> a few more times, until we get to <code>12</code>:</p>
+<pre><code>[ 2, 3, 4, 4, 7, 8, 9, 10, 12, 14, 21, 22, 100 ]
+                           i           j
+</code></pre>
+<p>Now the sum is <code>12 + 22 = 34</code>. It's too high, which means we need to decrement <code>j</code>. This gives:</p>
+<pre><code>[ 2, 3, 4, 4, 7, 8, 9, 10, 12, 14, 21, 22, 100 ]
+                           i       j
+</code></pre>
+<p>And finally, we have the answer: <code>12 + 21 = 33</code>. Yay!</p>
+<p>It's possible, of course, that there are no values for <code>a[i] + a[j]</code> that sum to <code>k</code>. In that case, eventually <code>i</code> and <code>j</code> will point at the same number. Then we can conclude that no answer exists and we return <code>nil</code>.</p>
+<p>I'm quite enamored by this little algorithm. It shows that with some basic preprocessing on the input data -- sorting it from low to high -- you can turn a tricky problem into a very simple and beautiful algorithm.</p>
+<h2>Additional Reading</h2>
+<ul>
+<li><a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/3Sum%20and%204Sum">3Sum / 4Sum</a></li>
+</ul>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans and Daniel Speiser updated to swift 4.2 by Farrukh Askari</em></p></div>
+</body>
+</html>

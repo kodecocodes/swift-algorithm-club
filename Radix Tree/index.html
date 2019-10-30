@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+  <title>Radix Tree</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Radix Tree</h1>
+<p>A radix tree is a <a href="../Tree/">tree</a> where a node can have any number of children. Each edge leading from a node to a child has a label (usually a string). A radix tree is often used to store strings or IP addresses. By traversing from the root to any leaf in the tree, concatenating all the labels of edges along the way, you can find any string.</p>
+<p>This is an example of a radix tree (image from wikipedia.org):</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/radixtree.png"><img src="Images/radixtree.png" alt="" style="max-width:100%;"></a></p>
+<h2>Implemenation</h2>
+<p>The radix tree is represented by a <code>RadixTree</code> object. This class has one member variable, <code>root</code>, of type <code>Root</code>. The <code>Root</code> is the object at the top of every <code>RadixTree</code>.</p>
+<p>Every other node is of type <code>Edge</code> and is a child (or child of a child, etc.) of the root.</p>
+<p>The difference between <code>Edge</code> and <code>Root</code> is that edges have a label (of type <code>String</code>) and a reference to a parent node.</p>
+<p>This approach is a little different from the conventional way of creating tree data structures but is easier to wrap your head around (see the picture above).</p>
+<h2>Operations</h2>
+<p>Typical operations on a radix tree are:</p>
+<ul>
+<li>lookup</li>
+<li>insertion</li>
+<li>deletion</li>
+<li>find predecessor</li>
+<li>find successor</li>
+<li>find all strings with common prefix</li>
+</ul>
+<p>The running time of lookup, insertion, and deletion is <strong>O(k)</strong> where <strong>k</strong> is the length of the key. This is different from most trees because these operations usually run in <strong>O(log n)</strong> time where <strong>n</strong> is the number of nodes in the tree.</p>
+<h3>Lookup</h3>
+<p>The <code>find()</code> function returns true if the string you are searching for is in the tree and false if it is not.</p>
+<p>Every <code>RadixTree</code> contains at the very least the empty string <code>""</code> so <code>find("")</code> will always return true.</p>
+<p>A string is considered "in the tree" if the text you are searching for is a concatenation of <code>Edge</code> labels while traversing downwards, or a prefix of that concatenation.</p>
+<p>For example, if you look at the example tree above, <code>find("roma")</code> will return true because it is a prefix of the traversal <code>"r" -&gt; "om" -&gt; "an"</code>.</p>
+<p>On the other hand, <code>find("romans")</code> will return false.</p>
+<h3>Insertion</h3>
+<p>The <code>insert()</code> function lets you add new strings to the radix tree.</p>
+<p>This function returns true if the string you are trying to insert was successfully inserted into the <code>RadixTree</code> and false if the string is already in the tree.</p>
+<h3>Deletion</h3>
+<p>The <code>remove()</code> removes a string from the tree. When a string is removed, any other strings that have a prefix of the removed string are removed as well.</p>
+<p>For example, <code>remove("rom")</code> will also remove <code>"roman"</code>, <code>"rome"</code>, and <code>"romulus"</code> if those strings are in the tree as well. Calling <code>remove("")</code> will remove all strings in the tree.</p>
+<h3>printTree()</h3>
+<p>You can use the <code>printTree()</code> function to visualize the tree. This function is a little buggy and not perfect yet but gets the job done thus far.</p>
+<h3>Helper functions</h3>
+<p>The <code>sharedPrefix()</code> function is a non-member function in the <strong>RadixTree.swift</strong> file. It takes in two <code>String</code> objects and returns the shared prefix between them.</p>
+<p>For example, <code>sharedPrefix("apples", "oranges")</code> will return <code>""</code>, and <code>sharedPrefix("court", "coral")</code> will return <code>"co"</code>.</p>
+<p>This function is used in the implementation of the <code>find()</code>, <code>insert()</code>, and <code>remove()</code> functions.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Radix_tree" rel="nofollow">Radix Tree - Wikipedia</a></p>
+<p><em>Written for Swift Algorithm Club by Steven Scally</em></p></div>
+</body>
+</html>

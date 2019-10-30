@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<head>
+  <title>Kth Largest Element</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>k-th Largest Element Problem</h1>
+<p>You're given an integer array <code>a</code>. Write an algorithm that finds the <em>k</em>-th largest element in the array.</p>
+<p>For example, the 1-st largest element is the maximum value that occurs in the array. If the array has <em>n</em> elements, the <em>n</em>-th largest element is the minimum. The median is the <em>n/2</em>-th largest element.</p>
+<h2>The naive solution</h2>
+<p>The following solution is semi-naive. Its time complexity is <strong>O(n log n)</strong> since it first sorts the array, and therefore also uses additional <strong>O(n)</strong> space.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">kthLargest</span>(<span class="pl-smi"><span class="pl-en">a</span></span>: [<span class="pl-c1">Int</span>], <span class="pl-smi"><span class="pl-en">k</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span><span class="pl-k">?</span> {
+  <span class="pl-k">let</span> len <span class="pl-k">=</span> a.<span class="pl-c1">count</span>
+  <span class="pl-k">if</span> k <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> <span class="pl-k">&amp;&amp;</span> k <span class="pl-k">&lt;=</span> len {
+    <span class="pl-k">let</span> sorted <span class="pl-k">=</span> a.<span class="pl-c1">sorted</span>()
+    <span class="pl-k">return</span> sorted[len <span class="pl-k">-</span> k]
+  } <span class="pl-k">else</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }
+}</pre></div>
+<p>The <code>kthLargest()</code> function takes two parameters: the array <code>a</code> consisting of integers, and <code>k</code>. It returns the <em>k</em>-th largest element.</p>
+<p>Let's take a look at an example and run through the algorithm to see how it works. Given <code>k = 4</code> and the array:</p>
+<div class="highlight highlight-source-swift"><pre>[ <span class="pl-c1">7</span>, <span class="pl-c1">92</span>, <span class="pl-c1">23</span>, <span class="pl-c1">9</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">11</span>, <span class="pl-c1">6</span> ]</pre></div>
+<p>Initially there's no direct way to find the k-th largest element, but after sorting the array it's rather straightforward. Here's the sorted array:</p>
+<div class="highlight highlight-source-swift"><pre>[ <span class="pl-c1">-1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>, <span class="pl-c1">9</span>, <span class="pl-c1">11</span>, <span class="pl-c1">23</span>, <span class="pl-c1">92</span> ]</pre></div>
+<p>Now, all we must do is take the value at index <code>a.count - k</code>:</p>
+<div class="highlight highlight-source-swift"><pre>a[a.<span class="pl-c1">count</span> <span class="pl-k">-</span> k] <span class="pl-k">=</span> a[<span class="pl-c1">8</span> <span class="pl-k">-</span> <span class="pl-c1">4</span>] <span class="pl-k">=</span> a[<span class="pl-c1">4</span>] <span class="pl-k">=</span> <span class="pl-c1">9</span></pre></div>
+<p>Of course, if you were looking for the k-th <em>smallest</em> element, you'd use <code>a[k-1]</code>.</p>
+<h2>A faster solution</h2>
+<p>There is a clever algorithm that combines the ideas of <a href="../Binary%20Search/">binary search</a> and <a href="../Quicksort/">quicksort</a> to arrive at an <strong>O(n)</strong> solution.</p>
+<p>Recall that binary search splits the array in half over and over again, to quickly narrow in on the value you're searching for. That's what we'll do here too.</p>
+<p>Quicksort also splits up arrays. It uses partitioning to move all smaller values to the left of the pivot and all greater values to the right. After partitioning around a certain pivot, that pivot value will already be in its final, sorted position. We can use that to our advantage here.</p>
+<p>Here's how it works: We choose a random pivot, partition the array around that pivot, then act like a binary search and only continue in the left or right partition. This repeats until we've found a pivot that happens to end up in the <em>k</em>-th position.</p>
+<p>Let's look at the original example again. We're looking for the 4-th largest element in this array:</p>
+<pre><code>[ 7, 92, 23, 9, -1, 0, 11, 6 ]
+</code></pre>
+<p>The algorithm is a bit easier to follow if we look for the k-th <em>smallest</em> item instead, so let's take <code>k = 4</code> and look for the 4-th smallest element.</p>
+<p>Note that we don't have to sort the array first. We pick one of the elements at random to be the pivot, let's say <code>11</code>, and partition the array around that. We might end up with something like this:</p>
+<pre><code>[ 7, 9, -1, 0, 6, 11, 92, 23 ]
+ &lt;------ smaller    larger --&gt;
+</code></pre>
+<p>As you can see, all values smaller than <code>11</code> are on the left; all values larger are on the right. The pivot value <code>11</code> is now in its final place. The index of the pivot is 5, so the 4-th smallest element must be in the left partition somewhere. We can ignore the rest of the array from now on:</p>
+<pre><code>[ 7, 9, -1, 0, 6, x, x, x ]
+</code></pre>
+<p>Again let's pick a random pivot, let's say <code>6</code>, and partition the array around it. We might end up with something like this:</p>
+<pre><code>[ -1, 0, 6, 9, 7, x, x, x ]
+</code></pre>
+<p>Pivot <code>6</code> ended up at index 2, so obviously the 4-th smallest item must be in the right partition. We can ignore the left partition:</p>
+<pre><code>[ x, x, x, 9, 7, x, x, x ]
+</code></pre>
+<p>Again we pick a pivot value at random, let's say <code>9</code>, and partition the array:</p>
+<pre><code>[ x, x, x, 7, 9, x, x, x ]
+</code></pre>
+<p>The index of pivot <code>9</code> is 4, and that's exactly the <em>k</em> we're looking for. We're done! Notice how this only took a few steps and we did not have to sort the array first.</p>
+<p>The following function implements these ideas:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">randomizedSelect</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">array</span>: [T], <span class="pl-en">order</span> <span class="pl-smi">k</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+  <span class="pl-k">var</span> a <span class="pl-k">=</span> array
+
+  <span class="pl-k">func</span> <span class="pl-en">randomPivot</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: <span class="pl-k">inout</span> [T], <span class="pl-en">_</span> <span class="pl-smi">low</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">high</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-k">let</span> pivotIndex <span class="pl-k">=</span> <span class="pl-c1">random</span>(<span class="pl-c1">min</span>: low, <span class="pl-c1">max</span>: high)
+    a.<span class="pl-c1">swapAt</span>(pivotIndex, high)
+    <span class="pl-k">return</span> a[high]
+  }
+
+  <span class="pl-k">func</span> <span class="pl-en">randomizedPartition</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: <span class="pl-k">inout</span> [T], <span class="pl-en">_</span> <span class="pl-smi">low</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">high</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">let</span> pivot <span class="pl-k">=</span> <span class="pl-c1">randomPivot</span>(<span class="pl-k">&amp;</span>a, low, high)
+    <span class="pl-k">var</span> i <span class="pl-k">=</span> low
+    <span class="pl-k">for</span> j <span class="pl-k">in</span> low<span class="pl-k">..&lt;</span>high {
+      <span class="pl-k">if</span> a[j] <span class="pl-k">&lt;=</span> pivot {
+        a.<span class="pl-c1">swapAt</span>(i, j)
+        i <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+      }
+    }
+    a.<span class="pl-c1">swapAt</span>(i, high)
+    <span class="pl-k">return</span> i
+  }
+
+  <span class="pl-k">func</span> <span class="pl-en">randomizedSelect</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: <span class="pl-k">inout</span> [T], <span class="pl-en">_</span> <span class="pl-smi">low</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">high</span>: <span class="pl-c1">Int</span>, <span class="pl-en">_</span> <span class="pl-smi">k</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-k">if</span> low <span class="pl-k">&lt;</span> high {
+      <span class="pl-k">let</span> p <span class="pl-k">=</span> <span class="pl-c1">randomizedPartition</span>(<span class="pl-k">&amp;</span>a, low, high)
+      <span class="pl-k">if</span> k <span class="pl-k">==</span> p {
+        <span class="pl-k">return</span> a[p]
+      } <span class="pl-k">else</span> <span class="pl-k">if</span> k <span class="pl-k">&lt;</span> p {
+        <span class="pl-k">return</span> <span class="pl-c1">randomizedSelect</span>(<span class="pl-k">&amp;</span>a, low, p <span class="pl-k">-</span> <span class="pl-c1">1</span>, k)
+      } <span class="pl-k">else</span> {
+        <span class="pl-k">return</span> <span class="pl-c1">randomizedSelect</span>(<span class="pl-k">&amp;</span>a, p <span class="pl-k">+</span> <span class="pl-c1">1</span>, high, k)
+      }
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> a[low]
+    }
+  }
+
+  <span class="pl-c1">precondition</span>(a.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>)
+  <span class="pl-k">return</span> <span class="pl-c1">randomizedSelect</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">0</span>, a.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>, k)
+}</pre></div>
+<p>To keep things readable, the functionality is split into three inner functions:</p>
+<ul>
+<li>
+<p><code>randomPivot()</code> picks a random number and puts it at the end of the current partition (this is a requirement of the Lomuto partitioning scheme, see the discussion on <a href="../Quicksort/">quicksort</a> for more details).</p>
+</li>
+<li>
+<p><code>randomizedPartition()</code> is Lomuto's partitioning scheme from quicksort. When this completes, the randomly chosen pivot is in its final sorted position in the array. It returns the array index of the pivot.</p>
+</li>
+<li>
+<p><code>randomizedSelect()</code> does all the hard work. It first calls the partitioning function and then decides what to do next. If the index of the pivot is equal to the <em>k</em>-th number we're looking for, we're done. If <code>k</code> is less than the pivot index, it must be in the left partition and we'll recursively try again there. Likewise for when the <em>k</em>-th number must be in the right partition.</p>
+</li>
+</ul>
+<p>Pretty cool, huh? Normally quicksort is an <strong>O(n log n)</strong> algorithm, but because we only partition smaller and smaller slices of the array, the running time of <code>randomizedSelect()</code> works out to <strong>O(n)</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> This function calculates the <em>k</em>-th smallest item in the array, where <em>k</em> starts at 0. If you want the <em>k</em>-th largest item, call it with <code>a.count - k</code>.</p>
+</blockquote>
+<p><em>Written by Daniel Speiser. Additions by Matthijs Hollemans.</em></p></div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<head>
+  <title>Naive Bayes Classifier</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Naive Bayes Classifier</h1>
+<blockquote>
+<p><em><strong>Disclaimer:</strong></em> Do not get scared of complicated formulas or terms, I will describe them right after I use them. Also the math skills you need to understand this are very basic.</p>
+</blockquote>
+<p>The goal of a classifier is to predict the class of a given data entry based on previously fed data and its features.</p>
+<p>Now what is a class or a feature? The best I can do is to describe it with a table.<br>
+This is a dataset that uses height, weight and foot size of a person to illustrate the relationship between those values and the sex.</p>
+<table>
+<thead>
+<tr>
+<th>Sex</th>
+<th align="center">height (feet)</th>
+<th align="center">weight(lbs)</th>
+<th align="center">foot size (inches)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>male</td>
+<td align="center">6</td>
+<td align="center">180</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td>male</td>
+<td align="center">5.92</td>
+<td align="center">190</td>
+<td align="center">11</td>
+</tr>
+<tr>
+<td>male</td>
+<td align="center">5.58</td>
+<td align="center">170</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td>male</td>
+<td align="center">5.92</td>
+<td align="center">165</td>
+<td align="center">10</td>
+</tr>
+<tr>
+<td>female</td>
+<td align="center">5</td>
+<td align="center">100</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td>female</td>
+<td align="center">5.5</td>
+<td align="center">150</td>
+<td align="center">8</td>
+</tr>
+<tr>
+<td>female</td>
+<td align="center">5.42</td>
+<td align="center">130</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td>female</td>
+<td align="center">5.75</td>
+<td align="center">150</td>
+<td align="center">9</td>
+</tr>
+</tbody>
+</table>
+<p>The <em><strong>classes</strong></em> of this table is the data in the sex column (male/female). You "classify" the rest of the data and bind them to a sex.</p>
+<p>The <em><strong>features</strong></em> of this table are the labels of the other columns (height, weight, foot size) and the numbers right under the labels.</p>
+<p>Now that I've told you what a classifier is I will tell you what exactly a <em><strong>Naive Bayes classifier</strong></em> is. There are a lot of other classifiers out there but what's so special about this specific is that it only needs a very small dataset to get good results. The others like Random Forests normally need a very large dataset.</p>
+<p>Why isn't this algorithm used more you might ask (or not). Because it is normally <em><strong>outperformed</strong></em> in accuracy by <em><strong>Random Forests</strong></em> or <em><strong>Boosted Trees</strong></em>.</p>
+<h2>Theory</h2>
+<p>The Naive Bayes classifier utilizes the <em><strong>Bayes Theorem</strong></em> (as its name suggests) which looks like this.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/bayes.gif"><img src="images/bayes.gif" alt="" style="max-width:100%;"></a></p>
+<p><em><strong>P</strong></em> always means the probability of something.</p>
+<p><em><strong>A</strong></em> is the class, <em><strong>B</strong></em> is the data depending on a feature and the <em><strong>pipe</strong></em> symbol means given.</p>
+<p>P(A | B) therefore is: probability of the class given the data (which is dependent on the feature).</p>
+<p>This is all you have to know about the Bayes Theorem. The important thing for us is now how to calculate all those variables, plug them into this formula and you are ready to classify data.</p>
+<h3><strong>P(A)</strong></h3>
+<p>This is the probability of the class. To get back to the example I gave before: Let's say we want to classify this data entry:</p>
+<table>
+<thead>
+<tr>
+<th align="center">height (feet)</th>
+<th align="center">weight(lbs)</th>
+<th align="center">foot size (inches)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">6</td>
+<td align="center">130</td>
+<td align="center">8</td>
+</tr>
+</tbody>
+</table>
+<p>What Naive Bayes classifier now does: it checks the probability for every class possible which is in our case either male or female. Look back at the original table and count the male and the female entries. Then divide them by the overall count of data entries.</p>
+<p>P(male) = 4 / 8 = 0.5</p>
+<p>P(female) = 4 / 8 = 0.5</p>
+<p>This should be a very easy task to do. Basically just the probability of all classes.</p>
+<h3><strong>P(B)</strong></h3>
+<p>This variable is not needed in a Naive Bayes classifier. It is the probability of the data. It does not change, therefore it is a constant. And what can you do with a constant? Exactly! Discard it. This saves time and code.</p>
+<h3><strong>P(B | A)</strong></h3>
+<p>This is the probability of the data given the class. To calculate this I have to introduce you to the subtypes of NB. You have to decide which you use depending on your data which you want to classify.</p>
+<h3><strong>Gaussian Naive Bayes</strong></h3>
+<p>If you have a dataset like the one I showed you before (continuous features -&gt; <code>Double</code>s) you have to use this subtype. There are 3 formulas you need for Gaussian NB to calculate P(B | A).</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/mean.gif"><img src="images/mean.gif" alt="mean" style="max-width:100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/standard_deviation.gif"><img src="images/standard_deviation.gif" alt="standard deviation" style="max-width:100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/normal_distribution.gif"><img src="images/normal_distribution.gif" alt="normal distribution" style="max-width:100%;"></a></p>
+<p>and <strong>P(x | y) = P(B | A)</strong></p>
+<p>Again, very complicated looking formulas but they are very easy. The first formula with µ is just the mean of the data (adding all data points and dividing them by the count). The second with σ is the standard deviation. You might have heard of it somewhen in school. It is just the sum of all values minus the mean, squared and that divided by the count of the data minus 1 and a sqaure root around it. The third equation is the Gaussian or normal distribution if you want to read more about it I suggest reading <a href="https://en.wikipedia.org/wiki/Normal_distribution" rel="nofollow">this</a>.</p>
+<p>Why the Gaussian distribution? Because we assume that the continuous values associated with each class are distributed according to the Gaussian distribution. Simple as that.</p>
+<h3><strong>Multinomial Naive Bayes</strong></h3>
+<p>What do we do if we have this for examples:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/tennis_dataset.png"><img src="images/tennis_dataset.png" alt="tennis or golf" style="max-width:100%;"></a></p>
+<p>We can't just calculate the mean of sunny, overcast and rainy. This is why we need the categorical model which is the multinomial NB. This is the last formula, I promise!</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/multinomial.gif"><img src="images/multinomial.gif" alt="multinomial" style="max-width:100%;"></a></p>
+<p>Now this is the number of times feature <strong>i</strong> appears in a sample <strong>N</strong> of class <strong>y</strong> in the data set divided by the count of the sample just depending on the class <strong>y</strong>. That θ is also just a fancy way of writing P(B | A).</p>
+<p>You might have noticed that there is still the α in this formula. This solves a problem called "zero-frequency-problem". Because what happens if there is no sample with feature <strong>i</strong> and class <strong>y</strong>? The whole equation would result in 0 (because 0 / something is always 0). This is a huge problem but there is a simple solution to this. Just add 1 to any count of the sample (α = 1).</p>
+<h2>Those formulas in action</h2>
+<p>Enough talking! This is the code. If you want a deeper explanation of how the code works just look at the Playground I provided.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/code_example.png"><img src="images/code_example.png" alt="code example" style="max-width:100%;"></a></p>
+<p><em>Written for Swift Algorithm Club by Philipp Gabriel</em></p></div>
+</body>
+</html>
