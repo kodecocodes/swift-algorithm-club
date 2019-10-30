@@ -8,6 +8,9 @@
       location = "group:Array2D.playground">
    </FileRef>
    <FileRef
+      location = "group:AVLTree.playground">
+   </FileRef>
+   <FileRef
       location = "group:SwiftAlgorithmClub.xcodeproj">
    </FileRef>
    <FileRef
