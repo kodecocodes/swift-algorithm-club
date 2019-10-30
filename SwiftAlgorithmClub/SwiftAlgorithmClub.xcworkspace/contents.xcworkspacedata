@@ -17,6 +17,15 @@
       location = "group:BinarySearch.playground">
    </FileRef>
    <FileRef
+      location = "group:BinarySearchTree1.playground">
+   </FileRef>
+   <FileRef
+      location = "group:BinarySearchTree2.playground">
+   </FileRef>
+   <FileRef
+      location = "group:BinaryTree.playground">
+   </FileRef>
+   <FileRef
       location = "group:SwiftAlgorithmClub.xcodeproj">
    </FileRef>
    <FileRef
