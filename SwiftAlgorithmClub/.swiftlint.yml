@@ -55,6 +55,7 @@ disabled_rules:
   - force_try
   - force_cast
   - function_body_length
+  - file_length
 
 file_length: 450
 nesting:
