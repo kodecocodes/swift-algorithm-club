@@ -147,16 +147,7 @@ public func == (lhs: BitSet, rhs: BitSet) -> Bool {
 
 // MARK: - Hashing
 
-extension BitSet: Hashable {
-  /* Based on the hashing code from Java's BitSet. */
-  public var hashValue: Int {
-    var h = Word(1234)
-    for i in stride(from: words.count, to: 0, by: -1) {
-      h ^= words[i - 1] &* Word(i)
-    }
-    return Int((h >> 32) ^ h)
-  }
-}
+extension BitSet: Hashable {}
 
 // MARK: - Bitwise operations
 

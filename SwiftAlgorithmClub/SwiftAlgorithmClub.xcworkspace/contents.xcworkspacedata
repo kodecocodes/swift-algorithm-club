@@ -29,6 +29,9 @@
       location = "group:BitSet.playground">
    </FileRef>
    <FileRef
+      location = "group:BloomFilter.playground">
+   </FileRef>
+   <FileRef
       location = "group:SwiftAlgorithmClub.xcodeproj">
    </FileRef>
    <FileRef
