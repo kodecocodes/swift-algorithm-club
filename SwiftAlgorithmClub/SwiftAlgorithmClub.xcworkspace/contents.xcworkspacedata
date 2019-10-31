@@ -32,6 +32,9 @@
       location = "group:BloomFilter.playground">
    </FileRef>
    <FileRef
+      location = "group:BoundedPriorityQueue.playground">
+   </FileRef>
+   <FileRef
       location = "group:SwiftAlgorithmClub.xcodeproj">
    </FileRef>
    <FileRef
