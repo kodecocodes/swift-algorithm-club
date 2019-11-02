@@ -35,6 +35,12 @@
       location = "group:BoundedPriorityQueue.playground">
    </FileRef>
    <FileRef
+      location = "group:BoyerMooreHorspool.playground">
+   </FileRef>
+   <FileRef
+      location = "group:BreadthFirstSearch.playground">
+   </FileRef>
+   <FileRef
       location = "group:SwiftAlgorithmClub.xcodeproj">
    </FileRef>
    <FileRef
