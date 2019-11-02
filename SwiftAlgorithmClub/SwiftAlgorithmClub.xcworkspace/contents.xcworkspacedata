@@ -41,6 +41,9 @@
       location = "group:BreadthFirstSearch.playground">
    </FileRef>
    <FileRef
+      location = "group:BruteForceStringSearch.playground">
+   </FileRef>
+   <FileRef
       location = "group:SwiftAlgorithmClub.xcodeproj">
    </FileRef>
    <FileRef
