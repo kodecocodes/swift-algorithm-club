@@ -6,7 +6,7 @@ Here you'll find implementations of popular algorithms and data structures in ev
 
 If you're a computer science student who needs to learn this stuff for exams -- or if you're a self-taught programmer who wants to brush up on the theory behind your craft -- you've come to the right place!
 
-The goal of this project is to **explain how algorithms work**. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use but you may need to tweak it to fit into your own codebase.
+The goal of this project is to **explain how algorithms work**. The focus is on clarity and readability of the code, and not on making a reusable library that you can copy-paste. Although, most of the code should be ready for production, but you may need to tweak it for your own codebase.
 
 Code is compatible with **Xcode 10** and **Swift 4.2**. We'll keep this updated with the latest version of Swift. If you're interested in a GitHub pages version of the repo, check out [this](https://aquarchitect.github.io/swift-algorithm-club/).
 
@@ -124,13 +124,13 @@ Bad sorting algorithms (don't use these!):
 
 ## Data structures
 
-The choice of data structure for a particular task depends on a few things.
+The choice of data structure for a particular task depends on 2 things.
 
-First, there is the shape of your data and the kinds of operations that you'll need to perform on it. If you want to look up objects by a key you need some kind of dictionary; if your data is hierarchical in nature you want a tree structure of some sort; if your data is sequential you want a stack or queue.
+First, the shape of your data and the kinds of data operations you need will affect your decision. If you want to search objects by a key, you need a dictionary. If your data is hierarchical in nature, you want a tree structure. If your data is sequential, you want a stack or queue.
 
-Second, it matters what particular operations you'll be performing most, as certain data structures are optimized for certain actions. For example, if you often need to find the most important object in a collection, then a heap or priority queue is more optimal than a plain array.
+Second, certain data structures are optimized for certain actions. If you often search for the most important object in a collection, a heap or priority queue is more optimal than a plain array.
 
-Most of the time using just the built-in `Array`, `Dictionary`, and `Set` types is sufficient, but sometimes you may want something more fancy...
+Using the built-in `Array`, `Dictionary`, and `Set` types is usually sufficient, but you may want something more fancy...
 
 ### Variations on arrays
 
@@ -216,11 +216,11 @@ Like what you see? Check out [Data Structures & Algorithms in Swift](https://sto
 
 ![Data Structures & Algorithms in Swift Book](Images/DataStructuresAndAlgorithmsInSwiftBook.png)
 
-You’ll start with the fundamental structures of linked lists, queues and stacks, and see how to implement them in a highly Swift-like way. Move on to working with various types of trees, including general purpose trees, binary trees, AVL trees, binary search trees, and tries. 
+You’ll start with the fundamental structures (linked lists, queues and stacks), and see how to implement them in a Swift-like way. Aftwerwards, work with different trees (e.g. general purpose trees, binary trees, AVL trees, binary search trees, and trie trees). 
 
-Go beyond bubble and insertion sort with better-performing algorithms, including mergesort, radix sort, heap sort, and quicksort. Learn how to construct directed, non-directed and weighted graphs to represent many real-world models, and traverse graphs and trees efficiently with breadth-first, depth-first, Dijkstra’s and Prim’s algorithms to solve problems such as finding the shortest path or lowest cost in a network.
+Go beyond bubble and insertion sort with better-performing algorithms (e.g. mergesort, radix sort, heap sort, and quicksort). Learn how to construct directed, non-directed and weighted graphs to represent real-world models. Traverse graphs and trees efficiently with breadth-first, depth-first, Dijkstra’s and Prim’s algorithms. Solve graph problems such as finding the shortest path or lowest cost in a network.
 
-By the end of this book, you’ll have hands-on experience solving common issues with data structures and algorithms — and you’ll be well on your way to developing your own efficient and useful implementations!
+After finishing this book, you’ll have hands-on experience solving common issues with data structures and algorithms. You’ll be well on your way to developing your own efficient and useful implementations!
 
 You can find the book on the [raywenderlich.com store](https://store.raywenderlich.com/products/data-structures-and-algorithms-in-swift).
 
