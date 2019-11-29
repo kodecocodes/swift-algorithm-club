@@ -212,7 +212,7 @@ extension SkipList {
     }
   }
 
-  func insert(key: Key, data: Payload) {
+  public func insert(key: Key, data: Payload) {
     if head != nil {
       if let node = findNode(key: key) {
         // replace, in case of key already exists.
