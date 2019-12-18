@@ -138,7 +138,7 @@ extension Tour {
   }
 
   func shuffle() {
-    self.shuffle()
+    self.tour.shuffle()
   }
 }
 
