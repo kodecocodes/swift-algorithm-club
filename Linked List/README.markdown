@@ -80,14 +80,20 @@ Let's start building `LinkedList`. Here's the first bit:
 public class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
 
-  private var head: Node?
-
-  public var isEmpty: Bool {
-    return head == nil
-  }
-
+  private(set) var head: Node?
+  
   public var first: Node? {
-    return head
+      return head
+  }
+  
+  private(set) var tail: Node?
+  
+  public var last: Node? {
+      return tail
+  }
+  
+  public var isEmpty: Bool {
+      return head == nil
   }
 }
 ```
@@ -98,28 +104,23 @@ This linked list only has a `head` pointer, not a tail. Adding a tail pointer is
 
 The list is empty if `head` is nil. Because `head` is a private variable, I've added the property `first` to return a reference to the first node in the list.
 
+Let's also add a property `last` that gives you the last node in the list. This is where it starts to become interesting:
+
+```swift
+  public var last: Node? {
+    return tail
+  }
+```
+
 You can try it out in a playground like this:
 
 ```swift
 let list = LinkedList<String>()
 list.isEmpty   // true
 list.first     // nil
+list.last     // nil
 ```
 
-Let's also add a property that gives you the last node in the list. This is where it starts to become interesting:
-
-```swift
-  public var last: Node? {
-    guard var node = head else {
-      return nil
-    }
-  
-    while let next = node.next {
-      node = next
-    }
-    return node
-  }
-```
 
 If you're new to Swift, you've probably seen `if let` but maybe not `if var`. It does the same thing -- it unwraps the `head` optional and puts the result in a new local variable named `node`. The difference is that `node` is not a constant but an actual variable, so we can change it inside the loop.
 
@@ -139,14 +140,16 @@ But that doesn't feel very Swifty to me. We might as well make use of Swift's bu
 Of course, `last` only returns nil because we don't have any nodes in the list. Let's add a method that adds a new node to the end of the list:
 
 ```swift
-  public func append(value: T) {
-    let newNode = Node(value: value)
-    if let lastNode = last {
-      newNode.previous = lastNode
-      lastNode.next = newNode
-    } else {
-      head = newNode
-    }
+  public func append(_ node: Node) {
+      let newNode = node
+      if let tailNode = tail {
+          newNode.previous = tailNode
+          tailNode.next = newNode
+      } else {
+          head = newNode
+      }
+      tail = newNode
+      count += 1
   }
 ```
 
@@ -194,26 +197,13 @@ list.last!.previous!.value    // "Hello"
 list.last!.next               // nil
 ```
 
-Let's add a method to count how many nodes are in the list. This will look very similar to what we did already:
+Let's add count capabilty showing how many nodes are in the list:
 
 ```swift
-  public var count: Int {
-    guard var node = head else {
-      return 0
-    }
-  
-    var count = 1
-    while let next = node.next {
-      node = next
-      count += 1
-    }
-    return count
-  }
+  public var count: Int = 0
 ```
 
-It loops through the list in the same manner but this time increments a counter as well.
-
-> **Note:** One way to speed up `count` from **O(n)** to **O(1)** is to keep track of a variable that counts how many nodes are in the list. Whenever you add or remove a node, you also update this variable.
+> **Note:** Whenever you add or remove a node, this variable was updated.
 
 What if we wanted to find the node at a specific index in the list? With an array we can just write `array[index]` and it's an **O(1)** operation. It's a bit more involved with linked lists, but again the code follows a similar pattern:
 
@@ -275,21 +265,27 @@ Let's write a method that lets you insert a new node at any index in the list.
 
 ```swift
   public func insert(_ node: Node, atIndex index: Int) {
-   let newNode = node
-   if index == 0 {
-     newNode.next = head                      
-     head?.previous = newNode
-     head = newNode
-   } else {
-     let prev = self.node(atIndex: index-1)
-     let next = prev.next
-
-     newNode.previous = prev
-     newNode.next = prev.next
-     prev.next = newNode
-     next?.previous = newNode
+    if index == 0 {
+       newNode.next = head
+       head?.previous = newNode
+       head = newNode
+       if tail == nil {
+           tail = newNode
+       }
+    } else {
+       let prev = node(at: index - 1)
+       let next = prev.next
+       newNode.previous = prev
+       newNode.next = next
+       next?.previous = newNode
+       prev.next = newNode
+       
+       if next == nil {
+           tail = newNode
+       }
    }
-}
+   count += 1
+  }
 ```
 
 As with node(atIndex :) method, insert(_: at:) method also branches depending on whether the given index is 0 or not.
@@ -382,6 +378,8 @@ What else do we need? Removing nodes, of course! First we'll do `removeAll()`, w
 ```swift
   public func removeAll() {
     head = nil
+    tail = nil
+    count = 0
   }
 ```
 
@@ -393,16 +391,22 @@ Next we'll add some functions that let you remove individual nodes. If you alrea
   public func remove(node: Node) -> T {
     let prev = node.previous
     let next = node.next
-
+    
     if let prev = prev {
-      prev.next = next
+        prev.next = next
     } else {
-      head = next
+        head = next
     }
     next?.previous = prev
-
+    
+    if next == nil {
+        tail = prev
+    }
+    
     node.previous = nil
     node.next = nil
+    
+    count -= 1
     return node.value
   }
 ```

@@ -18,16 +18,17 @@ public final class LinkedList<T> {
     /// The head of the Linked List
     private(set) var head: Node?
     
-    /// Computed property to iterate through the linked list and return the last node in the list (if any)
+    /// Return the first node of the Linked List for public scope
+    public var first: Node? {
+        return head
+    }
+    
+    /// The tail of the Linked List
+    private(set) var tail: Node?
+    
+    /// Return the last node of the Linked List for public scope
     public var last: Node? {
-        guard var node = head else {
-            return nil
-        }
-        
-        while let next = node.next {
-            node = next
-        }
-        return node
+        return tail
     }
     
     /// Computed property to check if the linked list is empty
@@ -36,18 +37,7 @@ public final class LinkedList<T> {
     }
     
     /// Computed property to iterate through the linked list and return the total number of nodes
-    public var count: Int {
-        guard var node = head else {
-            return 0
-        }
-        
-        var count = 1
-        while let next = node.next {
-            node = next
-            count += 1
-        }
-        return count
-    }
+    public var count = 0
     
     /// Default initializer
     public init() {}
@@ -98,12 +88,14 @@ public final class LinkedList<T> {
     /// - Parameter node: The node containing the value to be appended
     public func append(_ node: Node) {
         let newNode = node
-        if let lastNode = last {
-            newNode.previous = lastNode
-            lastNode.next = newNode
+        if let tailNode = tail {
+            newNode.previous = tailNode
+            tailNode.next = newNode
         } else {
             head = newNode
         }
+        tail = newNode
+        count += 1
     }
     
     /// Append a copy of a LinkedList to the end of the list.
@@ -137,6 +129,9 @@ public final class LinkedList<T> {
             newNode.next = head
             head?.previous = newNode
             head = newNode
+            if tail == nil {
+                tail = newNode
+            }
         } else {
             let prev = node(at: index - 1)
             let next = prev.next
@@ -144,10 +139,15 @@ public final class LinkedList<T> {
             newNode.next = next
             next?.previous = newNode
             prev.next = newNode
+            
+            if next == nil {
+                tail = newNode
+            }
         }
+        count += 1
     }
     
-    /// Insert a copy of a LinkedList at a specific index. Crashes if index is out of bounds (0...self.count)
+    /// Insert a LinkedList at a specific index. Crashes if index is out of bounds (0...self.count)
     ///
     /// - Parameters:
     ///   - list: The LinkedList to be copied and inserted
@@ -156,7 +156,7 @@ public final class LinkedList<T> {
         guard !list.isEmpty else { return }
         
         if index == 0 {
-            list.last?.next = head
+            list.tail?.next = head
             head = list.head
         } else {
             let prev = node(at: index - 1)
@@ -165,14 +165,21 @@ public final class LinkedList<T> {
             prev.next = list.head
             list.head?.previous = prev
             
-            list.last?.next = next
-            next?.previous = list.last
+            list.tail?.next = next
+            next?.previous = list.tail
+            
+            if next == nil {
+                tail = list.tail
+            }
         }
+        count += list.count
     }
     
     /// Function to remove all nodes/value from the list
     public func removeAll() {
         head = nil
+        tail = nil
+        count = 0
     }
     
     /// Function to remove a specific node.
@@ -190,8 +197,14 @@ public final class LinkedList<T> {
         }
         next?.previous = prev
         
+        if next == nil {
+            tail = prev
+        }
+        
         node.previous = nil
         node.next = nil
+        
+        count -= 1
         return node.value
     }
     
@@ -200,7 +213,7 @@ public final class LinkedList<T> {
     /// - Returns: The data value contained in the deleted node.
     @discardableResult public func removeLast() -> T {
         assert(!isEmpty)
-        return remove(node: last!)
+        return remove(node: tail!)
     }
     
     /// Function to remove a node/value at a specific index. Crashes if index is out of bounds (0...self.count)
@@ -233,6 +246,7 @@ extension LinkedList: CustomStringConvertible {
 extension LinkedList {
     public func reverse() {
         var node = head
+        tail = node
         while let currentNode = node {
             node = currentNode.next
             swap(&currentNode.next, &currentNode.previous)
