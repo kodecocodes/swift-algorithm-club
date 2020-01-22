@@ -22,13 +22,13 @@ The trick is to use two binary searches, one to find where the `3`s start (the l
 In code this looks as follows:
 
 ```swift
-func countOccurrences<T: Comparable>(of key: T, in array: [T]) -> Int {
+func countOccurrences<T: Comparable>(of key: T, in a: [T]) -> Int {
   var leftBoundary: Int {
     var low = 0
-    var high = array.count
+    var high = a.count
     while low < high {
       let midIndex = low + (high - low)/2
-      if array[midIndex] < key {
+      if a[midIndex] < key {
         low = midIndex + 1
       } else {
         high = midIndex
@@ -39,10 +39,10 @@ func countOccurrences<T: Comparable>(of key: T, in array: [T]) -> Int {
 
   var rightBoundary: Int {
     var low = 0
-    var high = array.count
+    var high = a.count
     while low < high {
       let midIndex = low + (high - low)/2
-      if array[midIndex] > key {
+      if a[midIndex] > key {
         high = midIndex
       } else {
         low = midIndex + 1
@@ -55,7 +55,9 @@ func countOccurrences<T: Comparable>(of key: T, in array: [T]) -> Int {
 }
 ```
 
-Notice that the variables `leftBoundary` and `rightBoundary` are very similar to the [binary search](../Binary%20Search/) algorithm. The big difference is that they don't stop when they find the search key, but keep going.  Also, notice that we constrain the type `T` to be Comparable so that the algorithm can be applied to an array of Strings, Ints or other types that conform to the Swift Comparable protocol.
+Notice that the variables `leftBoundary` and `rightBoundary` are very similar to the [binary search](../Binary%20Search/) algorithm. The big difference is that they don't stop when they find the search key, but keep going.  Also, notice that we constrain the type `T` to be Comparable so that the algorithm can be applied to an 
+
+y of Strings, Ints or other types that conform to the Swift Comparable protocol.
 
 To test this algorithm, copy the code to a playground and then do:
 
