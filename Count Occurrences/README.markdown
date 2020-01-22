@@ -55,9 +55,7 @@ func countOccurrences<T: Comparable>(of key: T, in a: [T]) -> Int {
 }
 ```
 
-Notice that the variables `leftBoundary` and `rightBoundary` are very similar to the [binary search](../Binary%20Search/) algorithm. The big difference is that they don't stop when they find the search key, but keep going.  Also, notice that we constrain the type `T` to be Comparable so that the algorithm can be applied to an 
-
-y of Strings, Ints or other types that conform to the Swift Comparable protocol.
+Notice that the variables `leftBoundary` and `rightBoundary` are very similar to the [binary search](../Binary%20Search/) algorithm. The big difference is that they don't stop when they find the search key, but keep going.  Also, notice that we constrain the type `T` to be Comparable so that the algorithm can be applied to an array of Strings, Ints or other types that conform to the Swift Comparable protocol.
 
 To test this algorithm, copy the code to a playground and then do:
 
