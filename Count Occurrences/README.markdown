@@ -25,7 +25,7 @@ In code this looks as follows:
 func countOccurrences<T: Comparable>(of key: T, in array: [T]) -> Int {
   var leftBoundary: Int {
     var low = 0
-    var high = a.count
+    var high = array.count
     while low < high {
       let midIndex = low + (high - low)/2
       if a[midIndex] < key {
@@ -39,7 +39,7 @@ func countOccurrences<T: Comparable>(of key: T, in array: [T]) -> Int {
 
   var rightBoundary: Int {
     var low = 0
-    var high = a.count
+    var high = array.count
     while low < high {
       let midIndex = low + (high - low)/2
       if a[midIndex] > key {
@@ -62,7 +62,7 @@ To test this algorithm, copy the code to a playground and then do:
 ```swift
 let a = [ 0, 1, 1, 3, 3, 3, 3, 6, 8, 10, 11, 11 ]
 
-countOccurrencesOfKey(3, inArray: a)  // returns 4
+countOccurrences(of: 3, in: a)  // returns 4
 ```
 
 > **Remember:** If you use your own array, make sure it is sorted first!
