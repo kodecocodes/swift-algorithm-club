@@ -22,10 +22,10 @@ The trick is to use two binary searches, one to find where the `3`s start (the l
 In code this looks as follows:
 
 ```swift
-func countOccurrences<T: Comparable>(of key: T, in a: [T]) -> Int {
+func countOccurrences<T: Comparable>(of key: T, in array: [T]) -> Int {
   var leftBoundary: Int {
     var low = 0
-    var high = a.count
+    var high = array.count
     while low < high {
       let midIndex = low + (high - low)/2
       if a[midIndex] < key {
@@ -39,7 +39,7 @@ func countOccurrences<T: Comparable>(of key: T, in a: [T]) -> Int {
 
   var rightBoundary: Int {
     var low = 0
-    var high = a.count
+    var high = array.count
     while low < high {
       let midIndex = low + (high - low)/2
       if a[midIndex] > key {
