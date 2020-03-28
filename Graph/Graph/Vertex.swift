@@ -24,8 +24,9 @@ extension Vertex: CustomStringConvertible {
 
 extension Vertex: Hashable {
 
-  public var hashValue: Int {
-    return "\(data)\(index)".hashValue
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(data)
+    hasher.combine(index)
   }
 
 }
