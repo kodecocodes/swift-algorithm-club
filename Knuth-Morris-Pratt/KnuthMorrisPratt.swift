@@ -8,9 +8,8 @@
 
 import Foundation
 
-func indents(_ pattern: String) -> [Int]? {
+func indents(_ pattern: [String.Element]) -> [Int]? {
   guard pattern.count > 0 else { return nil }
-  let start = pattern.startIndex
   let length = pattern.count
   
   var indents = Array(repeating: 0, count: length)
@@ -18,10 +17,7 @@ func indents(_ pattern: String) -> [Int]? {
   var j = 0
   
   while i < length {
-    let pi = pattern.index(start, offsetBy: i)
-    let pj = pattern.index(start, offsetBy: j)
-    
-    if pattern[pi] == pattern[pj] {
+    if pattern[i] == pattern[j] {
       indents[i] = j + 1
       i += 1
       j += 1
@@ -41,24 +37,21 @@ func indents(_ pattern: String) -> [Int]? {
 extension String {
   
   func indices(of pattern: String) -> [Index] {
-    guard let indents = indents(pattern) else { return [] }
+    let ptrn = Array(pattern)
+    let str = Array(self)
+    guard let indents = indents(ptrn) else { return [] }
     
     var indices = [Index]()
-    
-    let pLength = pattern.count
-    let sLength = count
     var k = 0
     var l = 0
     
-    while k < sLength {
-      let sk = index(startIndex, offsetBy: k)
-      let pl = pattern.index(pattern.startIndex, offsetBy: l)
+    while k < str.count {
       
-      if self[sk] == pattern[pl] {
+      if str[k] == ptrn[l] {
         k += 1
         l += 1
-        if l == pLength {
-          let index = self.index(sk, offsetBy: -(pLength - 1))
+        if l == ptrn.count {
+          let index = self.index(startIndex, offsetBy: k - ptrn.count)
           indices.append(index)
           l = 0
         }
