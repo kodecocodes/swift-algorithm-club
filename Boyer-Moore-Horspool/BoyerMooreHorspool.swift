@@ -64,8 +64,6 @@ extension String {
           // If no match, we can only safely skip one character ahead.
           i = index(after: i)
         } else {
-          // Ensure to jump at least one character (this is needed because the first
-          // character is in the skipTable, and `skipTable[lastChar] = 0`)
           let jumpOffset = skipTable[c] ?? patternLength
           i = index(i, offsetBy: jumpOffset, limitedBy: endIndex) ?? endIndex
         }
