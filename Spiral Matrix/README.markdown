@@ -1,6 +1,6 @@
+# Spiral Matrix
 
-## Goal
-Traverse a 2D array in spiral order.
+Goal: Traverse a 2D array in spiral order.
 
 ## Overview
 Given a 2D array, which can be a square array with `n == m`,  we want to return a one-dimensional array of all the elements of the 2D array in spiral order.
