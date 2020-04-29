@@ -7,7 +7,7 @@ Given a 2D array, which can be a square array with `n == m`,  we want to return 
 
 Spiral order will start at the top left corner of the 2D array move all the way to the right-most column on that row, then continue in a spiral pattern all the way until every element has been visited.
 
-// image
+![spiral-matrix](Images/spiral-matrix.jpg)
 
 ## Example
 Given the 2D array
