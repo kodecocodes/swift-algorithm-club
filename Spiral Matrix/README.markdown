@@ -152,3 +152,5 @@ spiralTraverse(array: array)
 
 * Time: `O(n)` - where `n` is the total number of elements in the 2D array
 * Space: `O(n)` - since we are storing every element of the 2D array into a one-dimensional array
+---
+Written for Swift Algorithm Club by Azhar Anwar
