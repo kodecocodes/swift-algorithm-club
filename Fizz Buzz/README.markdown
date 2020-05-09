@@ -16,46 +16,48 @@ The modulus operator `%` is the key to solving fizz buzz.
 
 The modulus operator returns the remainder after an integer division. Here is an example of the modulus operator:
 
-| Division      | Division Result            | Modulus         | Modulus Result  |
-| ------------- | -------------------------- | --------------- | ---------------:|
-| 1 / 3       | 0 with a remainder of 3  | 1 % 3         | 1             |
-| 5 / 3       | 1 with a remainder of 2  | 5 % 3         | 2             |
-| 16 / 3      | 5 with a remainder of 1  | 16 % 3        | 1             |
+| Division    | Division Result       | Modulus       | Modulus Result|
+| ----------- | --------------------- | ------------- | :-----------: |
+| 1 / 3       | 0 with a remainder of 3 | 1 % 3         | 1             |
+| 5 / 3       | 1 with a remainder of 2 | 5 % 3         | 2             |
+| 16 / 3      | 5 with a remainder of 1 | 16 % 3        | 1             |
 
 A common approach to determine if a number is even or odd is to use the modulus operator:
 
-| Modulus       | Result          | Swift Code                      | Swift Code Result | Comment                                       |
-| ------------- | ---------------:| ------------------------------- | -----------------:| --------------------------------------------- |
-| 6 % 2       | 0               | `let isEven = (number % 2 == 0)`  | `true`            | If a number is divisible by 2 it is *even*    |
-| 5 % 2       | 1               | `let isOdd = (number % 2 != 0)`   | `true`            | If a number is not divisible by 2 it is *odd* |
+| Modulus  | Result | Swift Code                       | Swift Code<br>Result | Comment                                    |
+| -------- | :-----:| -------------------------------- | :----------------:| --------------------------------------------- |
+| 6 % 2    | 0      | `let isEven = (number % 2 == 0)` | `true`            | If a number is divisible by 2 it is *even*    |
+| 5 % 2    | 1      | `let isOdd = (number % 2 != 0)`  | `true`            | If a number is not divisible by 2 it is *odd* |
+
+Alternatively, Swift's built in function .isMultiple(of:) can be used, i.e. 6.isMultiple(of: 2) will return true, 5.isMultiple(of: 2) will return false
 
 ## Solving fizz buzz
 
-Now we can use the modulus operator `%` to solve fizz buzz.
+Now we can use the modulus operator `%` or .isMultiple(of:) method to solve fizz buzz.
 
 Finding numbers divisible by three:
 
-| Modulus | Modulus Result | Swift Code    | Swift Code Result |
-| ------- | --------------:| ------------- |------------------:|
-| 1 % 3 | 1            | `1 % 3 == 0`  | `false`           |
-| 2 % 3 | 2            | `2 % 3 == 0`  | `false`           |
-| 3 % 3 | 0            | `3 % 3 == 0`  | `true`            |
-| 4 % 3 | 1            | `4 % 3 == 0`  | `false`           |
+| Modulus | Modulus<br>Result | Swift Code<br>using Modulo | Swift Code<br>using .isMultiple(of:) | Swift Code<br>Result |
+| ------- | :---------------: | -------------------------- | ------------------------------------ | ------------------- |
+|1 % 3    | 1                 | `1 % 3 == 0`               | `1.isMultiple(of: 3)`                | `false`              |
+|2 % 3    | 2                 | `2 % 3 == 0`               | `2.isMultiple(of: 3)`                | `false`              |
+|3 % 3    | 0                 | `3 % 3 == 0`               | `3.isMultiple(of: 3)`                | `true`               |
+|4 % 3    | 1                 | `4 % 3 == 0`               | `4.isMultiple(of: 3)`                | `false`              |
 
 Finding numbers divisible by five:
 
-| Modulus | Modulus Result | Swift Code    | Swift Code Result |
-| ------- | --------------:| ------------- |------------------:|
-| 1 % 5 | 1            | `1 % 5 == 0`  | `false`           |
-| 2 % 5 | 2            | `2 % 5 == 0`  | `false`           |
-| 3 % 5 | 3            | `3 % 5 == 0`  | `false`           |
-| 4 % 5 | 4            | `4 % 5 == 0`  | `false`           |
-| 5 % 5 | 0            | `5 % 5 == 0`  | `true`            |
-| 6 % 5 | 1            | `6 % 5 == 0`  | `false`           |
+| Modulus | Modulus<br>Result | Swift Code<br>using Modulo | Swift Code<br>using .isMultiple(of:) | Swift Code<br>Result |
+| ------- | :---------------: | -------------------------- | ------------------------------------ | -------------------- |
+| 1 % 5   | 1                 | `1 % 5 == 0`               | `1.isMultiple(of: 5)`                | `false`              |
+| 2 % 5   | 2                 | `2 % 5 == 0`               | `2.isMultiple(of: 5)`                | `false`              |
+| 3 % 5   | 3                 | `3 % 5 == 0`               | `3.isMultiple(of: 5)`                | `false`              |
+| 4 % 5   | 4                 | `4 % 5 == 0`               | `4.isMultiple(of: 5)`                | `false`              |
+| 5 % 5   | 0                 | `5 % 5 == 0`               | `5.isMultiple(of: 5)`                | `true`               |
+| 6 % 5   | 1                 | `6 % 5 == 0`               | `6.isMultiple(of: 5)`                | `false`              |
 
 ## The code
 
-Here is a simple implementation in Swift:
+Here is a simple implementation in Swift using Modulus approach
 
 ```swift
 func fizzBuzz(_ numberOfTurns: Int) {
@@ -79,7 +81,31 @@ func fizzBuzz(_ numberOfTurns: Int) {
 }
 ```
 
-Put this code in a playground and test it like so:
+Here is simple implementation in Swift using .isMultiple(of:) and switch statement
+
+```swift
+func fizzBuzz(_ numberOfTurns: Int) {
+    guard numberOfTurns >= 1 else {
+        print("Number of turns must be >= 1")
+        return
+    }
+    
+    for i in 1...numberOfTurns {
+        switch (i.isMultiple(of: 3), i.isMultiple(of: 5)) {
+        case (false, false):
+            print("\(i)")
+        case (true, false):
+            print("Fizz")
+        case (false, true):
+            print("Buzz")
+        case (true, true):
+            print("Fizz Buzz")
+        }
+    }
+}
+```
+
+Put either code in a playground and test it like so:
 
 ```swift
 fizzBuzz(15)
@@ -87,10 +113,25 @@ fizzBuzz(15)
 
 This will output:
 
-	1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, Buzz, 11, Fizz, 13, 14, Fizz Buzz
+1    
+2   
+Fizz   
+4   
+Buzz    
+Fizz  
+7   
+8   
+Fizz   
+Buzz   
+11   
+Fizz  
+13   
+14    
+Fizz Buzz  
 
 ## See also
 
 [Fizz buzz on Wikipedia](https://en.wikipedia.org/wiki/Fizz_buzz)
 
-*Written by [Chris Pilcher](https://github.com/chris-pilcher)*
+*Originally written by [Chris Pilcher](https://github.com/chris-pilcher)*<br>
+*Updated by [Lance Rettberg](https://github.com/l-rettberg)*
