@@ -1,6 +1,6 @@
 // Updated for Xcode Version 11.4.1 (11E503a)
 
-func fizzBuzz2(_ numberOfTurns: Int) {
+func fizzBuzz(_ numberOfTurns: Int) {
     guard numberOfTurns >= 1 else {
         print("Number of turns must be >= 1")
         return
