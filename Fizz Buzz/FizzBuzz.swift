@@ -1,4 +1,4 @@
-// Updated for Xcode Version 11.4.1 (11E503a)
+// Last checked with Xcode Version 11.4.1 (11E503a)
 
 func fizzBuzz(_ numberOfTurns: Int) {
     guard numberOfTurns >= 1 else {
