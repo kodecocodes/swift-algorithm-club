@@ -20,95 +20,63 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-struct Constants {
-    static let hashMultiplier = 69069
-}
-
-precedencegroup PowerPrecedence { higherThan: MultiplicationPrecedence }
-infix operator ** : PowerPrecedence
-func ** (radix: Int, power: Int) -> Int {
-    return Int(pow(Double(radix), Double(power)))
-}
-func ** (radix: Double, power: Int) -> Double {
-    return pow(radix, Double(power))
-}
-
-extension Character {
-    var asInt: Int {
-        let s = String(self).unicodeScalars
-        return Int(s[s.startIndex].value)
+public func hash(_ string: String) -> Int {
+    return string.reduce(0) { (result: Int, character: Character) in
+        result &+ character.hashValue
     }
 }
 
-// Find first position of pattern in the text using Rabin Karp algorithm
-public func search(text: String, pattern: String) -> Int {
-    // convert to array of ints
-    let patternArray = pattern.characters.flatMap { $0.asInt }
-    let textArray = text.characters.flatMap { $0.asInt }
+public func nextHash(prevHash: Int, dropped: Character, added: Character) -> Int {
+    return prevHash &- dropped.hashValue &+ added.hashValue
+}
 
-    if textArray.count < patternArray.count {
-        return -1
-    }
-
-    let patternHash = hash(array: patternArray)
-    var endIdx = patternArray.count - 1
-    let firstChars = Array(textArray[0...endIdx])
-    let firstHash = hash(array: firstChars)
-
+public func search(text: String, pattern: String) -> [String.Index] {
+    if text.count < pattern.count { return [] }
+    
+    var indices = [String.Index]()
+    
+    let patternHash = hash(pattern)
+    let patternLength = pattern.count - 1
+    let offset = text.index(text.startIndex, offsetBy: patternLength)
+    let firstText = String(text[...offset])
+    let firstHash = hash(firstText)
+    
     if patternHash == firstHash {
-        // Verify this was not a hash collison
-        if firstChars == patternArray {
-            return 0
+        if firstText == pattern {
+            indices.append(text.startIndex)
         }
     }
-
+    
+    let start = text.index(after: text.startIndex)
+    let end = text.index(text.endIndex, offsetBy: -patternLength)
     var prevHash = firstHash
-    // Now slide the window across the text to be searched
-    for idx in 1...(textArray.count - patternArray.count) {
-        endIdx = idx + (patternArray.count - 1)
-        let window = Array(textArray[idx...endIdx])
-        let windowHash = nextHash(
-          prevHash: prevHash,
-          dropped: textArray[idx - 1],
-          added: textArray[endIdx],
-          patternSize: patternArray.count - 1
-        )
-
-        if windowHash == patternHash {
-            if patternArray == window {
-                return idx
-            }
+    var i = start
+    
+    while i != end {
+        let terminator = text.index(i, offsetBy: patternLength)
+        let window = text[i...terminator]
+        let prev = text.index(before: i)
+        let windowHash = nextHash(prevHash: prevHash, dropped: text[prev], added: text[terminator])
+        
+        if windowHash == patternHash,
+            pattern == window {
+            indices.append(i)
         }
-
+        
         prevHash = windowHash
+        
+        i = text.index(after: i)
     }
-
-    return -1
-}
-
-public func hash(array: Array<Int>) -> Double {
-    var total: Double = 0
-    var exponent = array.count - 1
-    for i in array {
-        total += Double(i) * (Double(Constants.hashMultiplier) ** exponent)
-        exponent -= 1
-    }
-
-    return Double(total)
-}
-
-public func nextHash(prevHash: Double, dropped: Int, added: Int, patternSize: Int) -> Double {
-    let oldHash = prevHash - (Double(dropped) *
-      (Double(Constants.hashMultiplier) ** patternSize))
-    return Double(Constants.hashMultiplier) * oldHash + Double(added)
+    
+    return indices
 }
 
 // TESTS
 assert(search(text:"The big dog jumped over the fox",
-  pattern:"ump") == 13, "Invalid index returned")
+              pattern:"ump") == 13, "Invalid index returned")
 
 assert(search(text:"The big dog jumped over the fox",
-  pattern:"missed") == -1, "Invalid index returned")
+              pattern:"missed") == -1, "Invalid index returned")
 
 assert(search(text:"The big dog jumped over the fox",
-  pattern:"T") == 0, "Invalid index returned")
+              pattern:"T") == 0, "Invalid index returned")
