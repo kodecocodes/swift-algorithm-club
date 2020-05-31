@@ -50,7 +50,9 @@ The code for step 2 is:
 
 ### Step 3:
 
-This is the last step in the algorithm. Each element in the original array is placed at the position defined by the output of step 2. For example, the number 10 would be placed at an index of 7 in the output array. Also, as you place the elements you need to reduce the count by 1 as those many elements are reduced from the array.
+This is the last step in the algorithm. Each element in the original array is placed at the position defined by the output of step 2. For example, the number 10 would be placed at an index of 7 in the output array. Also, as you place the elements you need to reduce the count by 1 as those many elements are reduced from the array. 
+We also have to loop through the array in reverse to keep the stability of the new sorted array.
+For Example: 7 is at index 3 and 6, thus in sortedArray the position of 7 at index 3 should be before 7 at index 6.
 
 The final output would be:
 
@@ -63,7 +65,8 @@ Here is the code for this final step:
 
 ```swift
   var sortedArray = [Int](repeating: 0, count: array.count)
-  for element in array {
+  for index in stride(from: array.count - 1, through: 0, by: -1) {
+    let element = array[index]
     countArray[element] -= 1
     sortedArray[countArray[element]] = element
   }
