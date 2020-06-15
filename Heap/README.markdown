@@ -82,7 +82,7 @@ array[parent(i)] >= array[i]
 
 Verify that this heap property holds for the array from the example heap.
 
-As you can see, these equations allow us to find the parent or child index for any node without the need for pointers. It is complicated than just dereferencing a pointer, but that is the tradeoff: we save memory space but pay with extra computations. Fortunately, the computations are fast and only take **O(1)** time.
+As you can see, these equations allow us to find the parent or child index for any node without the need for pointers. It is more complicated than just dereferencing a pointer, but that is the tradeoff: we save memory space but pay with extra computations. Fortunately, the computations are fast and only take **O(1)** time.
 
 It is important to understand this relationship between array index and position in the tree. Here is a larger heap which has 15 nodes divided over four levels:
 
@@ -164,7 +164,7 @@ All of the above take time **O(log n)** because shifting up or down is expensive
 
 - `buildHeap(array)`: Converts an (unsorted) array into a heap by repeatedly calling `insert()`. If you are smart about this, it can be done in **O(n)** time.
 
-- [Heap sort](../Heap%20Sort/). Since the heap is an array, we can use its unique properties to sort the array from low to high. Time: **O(n lg n).**
+- [Heap sort](../Heap%20Sort/). Since the heap is an array, we can use its unique properties to sort the array from low to high. Time: **O(n log n).**
 
 The heap also has a `peek()` function that returns the maximum (max-heap) or minimum (min-heap) element, without removing it from the heap. Time: **O(1)**.
 
