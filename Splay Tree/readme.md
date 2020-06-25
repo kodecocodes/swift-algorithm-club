@@ -102,8 +102,11 @@ To insert a value:
 
 To delete a value: 
 
-- Delete it as in a binary search tree 
-- Splay the parent of the removed node to the root 
+- Perform search for the value, after performed search function if the tree contains the value, it'll be the root of the new tree.
+- If the tree has only left child, change left child to the root of the tree, remove the old root node
+- If the tree has only right child, change right child to the root of the tree, remove the old root node
+- Else, the tree has both two children, set parent of two children to nil, so that they're two new trees (left-tree and right-tree).
+- Splay the minimum node of right-tree (or minimum node of left-tree), then set left-tree as left child of new root of right-tree (or set right-tree as right child of new root of left-tree), return right-tree
 
 ### Search 
 
