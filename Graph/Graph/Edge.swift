@@ -29,13 +29,13 @@ extension Edge: CustomStringConvertible {
 
 extension Edge: Hashable {
 
-  public var hashValue: Int {
-    var string = "\(from.description)\(to.description)"
-    if weight != nil {
-      string.append("\(weight!)")
-    }
-    return string.hashValue
-  }
+    public func hash(into hasher: inout Hasher) {
+           hasher.combine(from)
+           hasher.combine(to)
+        if weight != nil {
+             hasher.combine(weight)
+          }
+         }
 }
 
 public func == <T>(lhs: Edge<T>, rhs: Edge<T>) -> Bool {
