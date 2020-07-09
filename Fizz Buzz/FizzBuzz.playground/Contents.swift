@@ -1,23 +1,23 @@
-// last checked with Xcode 10.0 (10A255)
+// Last checked with Xcode Version 11.4.1 (11E503a)
 
 func fizzBuzz(_ numberOfTurns: Int) {
-  for i in 1...numberOfTurns {
-    var result = ""
-
-    if i % 3 == 0 {
-      result += "Fizz"
+    guard numberOfTurns >= 1 else {
+        print("Number of turns must be >= 1")
+        return
     }
-
-    if i % 5 == 0 {
-      result += (result.isEmpty ? "" : " ") + "Buzz"
+    
+    for i in 1...numberOfTurns {
+        switch (i.isMultiple(of: 3), i.isMultiple(of: 5)) {
+        case (false, false):
+            print("\(i)")
+        case (true, false):
+            print("Fizz")
+        case (false, true):
+            print("Buzz")
+        case (true, true):
+            print("Fizz Buzz")
+        }
     }
-
-    if result.isEmpty {
-      result += "\(i)"
-    }
-
-    print(result)
-  }
 }
 
-fizzBuzz(100)
+fizzBuzz(15)

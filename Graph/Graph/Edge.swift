@@ -29,7 +29,6 @@ extension Edge: CustomStringConvertible {
 
 extension Edge: Hashable {
 
-
     public func hash(into hasher: inout Hasher) {
               hasher.combine(from)
               hasher.combine(to)
@@ -38,6 +37,7 @@ extension Edge: Hashable {
              }
             }
     
+
 }
 
 public func == <T>(lhs: Edge<T>, rhs: Edge<T>) -> Bool {

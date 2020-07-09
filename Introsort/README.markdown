@@ -2,7 +2,9 @@
 
 Goal: Sort an array from low to high (or high to low).
 
-IntroSort is the algorithm used by swift to sort a collection. Introsort is an hybrid algorithm invented by David Musser  in 1993 with the purpose of giving a generic sorting algorithm for the C++ standard library. The classic implementation of introsort expect a recursive Quicksort with fallback to Heapsort in case the recursion depth level reached a certain max. The maximum depends on the number of elements in the collection and it is usually 2 * log(n). The reason behind this “fallback” is that if Quicksort was not able to get the solution after 2 * log(n) recursions for a branch, probably it hit its worst case and it is degrading to complexity O( n^2 ). To optimise even further this algorithm, the swift implementation introduce an extra step in each recursion where the partition is sorted using InsertionSort if the count of the partition is less than 20.
+IntroSort is the algorithm used by Swift to sort a collection. Introsort is an hybrid algorithm invented by David Musser in 1993 with the purpose of giving a generic sorting algorithm for the C++ standard library. 
+
+The classic implementation of introsort uses a recursive Quicksort with a fallback to Heapsort in the case where the recursion depth level reached a certain maximum value. The maximum depends on the number of elements in the collection and it is usually 2 * log(n). The reason behind this “fallback” is that if Quicksort was not able to get the solution after 2 * log(n) recursions for a branch, probably it hit its worst case and it is degrading to complexity O( n^2 ). To optimise even further this algorithm, the Swift implementation introduce an extra step in each recursion where the partition is sorted using InsertionSort if the count of the partition is less than 20.
 
 The number 20 is an empiric number obtained observing the behaviour of InsertionSort with lists of this size.
 

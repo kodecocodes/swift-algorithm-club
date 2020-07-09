@@ -557,7 +557,7 @@ As a result, doing `tree.search(100)` gives nil.
 You can check whether a tree is a valid binary search tree with the following method:
 
 ```swift
-  public func isBST(minValue minValue: T, maxValue: T) -> Bool {
+  public func isBST(minValue: T, maxValue: T) -> Bool {
     if value < minValue || value > maxValue { return false }
     let leftBST = left?.isBST(minValue: minValue, maxValue: value) ?? true
     let rightBST = right?.isBST(minValue: value, maxValue: maxValue) ?? true
