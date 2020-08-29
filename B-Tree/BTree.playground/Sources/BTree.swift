@@ -86,7 +86,7 @@ extension BTreeNode {
   }
 }
 
-// MARK: BTreeNode extension: Travelsals
+// MARK: BTreeNode extension: Traversals
 
 extension BTreeNode {
 
@@ -443,7 +443,7 @@ public class BTree<Key: Comparable, Value> {
   }
 }
 
-// MARK: BTree extension: Travelsals
+// MARK: BTree extension: Traversals
 
 extension BTree {
   /**
