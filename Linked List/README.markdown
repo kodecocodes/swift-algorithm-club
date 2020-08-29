@@ -486,7 +486,7 @@ Iterative Approach:
 Recursive Approach:
 ```swift
   public func reverse(node: head) {
-    if (!head || !(head.next)) {
+    if !head || !head.next {
       return head
     }
     let temp = reverse(head.next)
