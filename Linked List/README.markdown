@@ -471,6 +471,7 @@ This will print the list like so:
 
 How about reversing a list, so that the head becomes the tail and vice versa? There is a very fast algorithm for that:
 
+Iterative Approach:
 ```swift
   public func reverse() {
     var node = head
@@ -480,6 +481,18 @@ How about reversing a list, so that the head becomes the tail and vice versa? Th
       swap(&currentNode.next, &currentNode.previous)
       head = currentNode
     }
+  }
+```
+Recursive Approach:
+```swift
+  public func reverse(node: head) {
+    if !head || !head.next {
+      return head
+    }
+    let temp = reverse(head.next)
+    head.next.next = head
+    head.next = nil
+    return temp
   }
 ```
 
