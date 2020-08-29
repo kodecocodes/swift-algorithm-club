@@ -133,7 +133,7 @@ Else:
 
 ![Moving Key](Images/MovingKey.png)
 
-####Merging two nodes
+#### Merging two nodes
 
 Let's say we want to merge the child `c1` at index `i` in its parent's children array.
 

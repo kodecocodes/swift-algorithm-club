@@ -1,8 +1,3 @@
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 let cache = LRUCache<String>(2)
 cache.set("a", val: 1)
 cache.set("b", val: 2)

@@ -29,6 +29,7 @@ From [CLRS]
 ## Methods
 
 Nodes:
+* `nodeX.getPredecessor()` Returns the inorder predecessor of nodeX
 * `nodeX.getSuccessor()` Returns the inorder successor of nodeX
 * `nodeX.minimum()` Returns the node with the minimum key of the subtree of nodeX
 * `nodeX.maximum()` Returns the node with the maximum key of the subtree of nodeX
@@ -186,4 +187,4 @@ The overall runtime of delete is O(log n).
 ## Resources:
 [CLRS]  T. Cormen, C. Leiserson, R. Rivest, and C. Stein. "Introduction to Algorithms", Third Edition. 2009
 
-*Written for Swift Algorithm Club by Ute Schiehlen. Updated from Jaap Wijnen and Ashwin Raghuraman's contributions.*
+*Written for Swift Algorithm Club by Ute Schiehlen. Updated from Jaap Wijnen and Ashwin Raghuraman's contributions. Swift 4.2 check by Bruno Scheele.*

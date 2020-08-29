@@ -19,14 +19,6 @@ struct TestCase<T> where T: Hashable {
 }
 
 class APSPTests: XCTestCase {
-
-  func testSwift4() {
-    // last checked with Xcode 9.0b4
-    #if swift(>=4.0)
-      print("Hello, Swift 4!")
-    #endif
-  }
-
   /**
    See Figure 25.1 of “Introduction to Algorithms” by Cormen et al, 3rd ed., pg 690
    */

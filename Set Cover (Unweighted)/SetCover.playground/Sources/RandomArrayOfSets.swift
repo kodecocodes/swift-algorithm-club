@@ -14,10 +14,10 @@ public func randomArrayOfSets<T>(covering universe: Set<T>,
 
   while true {
     var generatedSet = Set<T>()
-    let targetSetSize = Int(arc4random_uniform(UInt32(maxSetSize)) + 1)
+    let targetSetSize = Int.random(in: 0...maxSetSize) + 1
 
     while true {
-      let randomUniverseIndex = Int(arc4random_uniform(UInt32(universe.count)))
+      let randomUniverseIndex = Int.random(in: 0...universe.count)
       for (setIndex, value) in universe.enumerated() {
         if setIndex == randomUniverseIndex {
           generatedSet.insert(value)

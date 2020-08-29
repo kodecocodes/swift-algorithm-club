@@ -1,3 +1,8 @@
+// last checked with Xcode 10.1
+#if swift(>=4.2)
+print("Hello, Swift 4.2!")
+#endif
+
 extension Collection where Element: Equatable {
   
   /// In a sorted collection, replaces the given index with a successor mapping to a unique element.

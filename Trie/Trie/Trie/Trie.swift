@@ -6,11 +6,6 @@
 //  Copyright © 2016 Rick Zaccone. All rights reserved.
 //
 
-// last checked with Xcode 9.0b4
-#if swift(>=4.0)
-    print("Hello, Swift 4!")
-#endif
-
 import Foundation
 
 /// A node in the trie
@@ -48,54 +43,53 @@ class TrieNode<T: Hashable> {
 /// A trie data structure containing words.  Each node is a single
 /// character of a word.
 class Trie: NSObject, NSCoding {
-    typealias Node = TrieNode<Character>
-    /// The number of words in the trie
-    public var count: Int {
-        return wordCount
-    }
-    /// Is the trie empty?
-    public var isEmpty: Bool {
-        return wordCount == 0
-    }
-    /// All words currently in the trie
-    public var words: [String] {
-        return wordsInSubtrie(rootNode: root, partialWord: "")
-    }
-    fileprivate let root: Node
-    fileprivate var wordCount: Int
+  typealias Node = TrieNode<Character>
+  /// The number of words in the trie
+  public var count: Int {
+    return wordCount
+  }
+  /// Is the trie empty?
+  public var isEmpty: Bool {
+    return wordCount == 0
+  }
+  /// All words currently in the trie
+  public var words: [String] {
+    return wordsInSubtrie(rootNode: root, partialWord: "")
+  }
+  fileprivate let root: Node
+  fileprivate var wordCount: Int
 
-    /// Creates an empty trie.
-    override init() {
-        root = Node()
-        wordCount = 0
-        super.init()
-    }
+  /// Creates an empty trie.
+  override init() {
+    root = Node()
+    wordCount = 0
+    super.init()
+  }
 
-    // MARK: NSCoding
+  // MARK: NSCoding
 
-    /// Initializes the trie with words from an archive
-    ///
-    /// - Parameter decoder: Decodes the archive
-    required convenience init?(coder decoder: NSCoder) {
-        self.init()
-        let words = decoder.decodeObject(forKey: "words") as? [String]
-        for word in words! {
-            self.insert(word: word)
-        }
+  /// Initializes the trie with words from an archive
+  ///
+  /// - Parameter decoder: Decodes the archive
+  required convenience init?(coder decoder: NSCoder) {
+    self.init()
+    let words = decoder.decodeObject(forKey: "words") as? [String]
+    for word in words! {
+      self.insert(word: word)
     }
+  }
 
-    /// Encodes the words in the trie by putting them in an array then encoding
-    /// the array.
-    ///
-    /// - Parameter coder: The object that will encode the array
-    func encode(with coder: NSCoder) {
-        coder.encode(self.words, forKey: "words")
-    }
+  /// Encodes the words in the trie by putting them in an array then encoding
+  /// the array.
+  ///
+  /// - Parameter coder: The object that will encode the array
+  func encode(with coder: NSCoder) {
+    coder.encode(self.words, forKey: "words")
+  }
 }
 
 // MARK: - Adds methods: insert, remove, contains
 extension Trie {
-
   /// Inserts a word into the trie.  If the word is already present,
   /// there is no change.
   ///
@@ -105,7 +99,7 @@ extension Trie {
       return
     }
     var currentNode = root
-    for character in word.lowercased().characters {
+    for character in word.lowercased() {
       if let childNode = currentNode.children[character] {
         currentNode = childNode
       } else {
@@ -130,7 +124,7 @@ extension Trie {
       return false
     }
     var currentNode = root
-    for character in word.lowercased().characters {
+    for character in word.lowercased() {
       guard let childNode = currentNode.children[character] else {
         return false
       }
@@ -147,14 +141,14 @@ extension Trie {
   /// - Returns: the node where the search ended, nil if the
   /// search failed.
   private func findLastNodeOf(word: String) -> Node? {
-      var currentNode = root
-      for character in word.lowercased().characters {
-          guard let childNode = currentNode.children[character] else {
-              return nil
-          }
-          currentNode = childNode
+    var currentNode = root
+    for character in word.lowercased() {
+      guard let childNode = currentNode.children[character] else {
+        return nil
       }
-      return currentNode
+      currentNode = childNode
+    }
+    return currentNode
   }
 
   /// Attempts to walk to the terminating node of a word.  The
@@ -165,10 +159,9 @@ extension Trie {
   /// search failed.
   private func findTerminalNodeOf(word: String) -> Node? {
     if let lastNode = findLastNodeOf(word: word) {
-        return lastNode.isTerminating ? lastNode : nil
+      return lastNode.isTerminating ? lastNode : nil
     }
     return nil
-
   }
 
   /// Deletes a word from the trie by starting with the last letter
@@ -242,17 +235,17 @@ extension Trie {
   ///   - prefix: the letters for word prefix
   /// - Returns: the words in the subtrie that start with prefix
   func findWordsWithPrefix(prefix: String) -> [String] {
-      var words = [String]()
-      let prefixLowerCased = prefix.lowercased()
-      if let lastNode = findLastNodeOf(word: prefixLowerCased) {
-          if lastNode.isTerminating {
-              words.append(prefixLowerCased)
-          }
-          for childNode in lastNode.children.values {
-              let childWords = wordsInSubtrie(rootNode: childNode, partialWord: prefixLowerCased)
-              words += childWords
-          }
+    var words = [String]()
+    let prefixLowerCased = prefix.lowercased()
+    if let lastNode = findLastNodeOf(word: prefixLowerCased) {
+      if lastNode.isTerminating {
+        words.append(prefixLowerCased)
       }
-      return words
+      for childNode in lastNode.children.values {
+        let childWords = wordsInSubtrie(rootNode: childNode, partialWord: prefixLowerCased)
+        words += childWords
+      }
+    }
+    return words
   }
 }

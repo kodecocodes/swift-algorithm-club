@@ -21,7 +21,7 @@ public struct Deque<T> {
   }
 
   public mutating func enqueueFront(_ element: T) {
-    array.insert(element, atIndex: 0)
+    array.insert(element, at: 0)
   }
 
   public mutating func dequeue() -> T? {

@@ -18,6 +18,11 @@ Big-O | Name | Description
 **O(n!)** | factorial | **Intolerably slow.** It literally takes a million years to do anything.  
 
 
+
+![Comparison of Big O computations](https://upload.wikimedia.org/wikipedia/commons/7/7e/Comparison_computational_complexity.svg)
+
+
+
 Below are some examples for each category of performance:
 
 **O(1)**
@@ -119,9 +124,8 @@ Below are some examples for each category of performance:
   func solveHanoi(n: Int, from: String, to: String, spare: String) {
     guard n >= 1 else { return }
     if n > 1 {
-      solveHanoi(n: n - 1, from: from, to: spare, spare: to)
-    } else {
-      solveHanoi(n: n - 1, from: spare, to: to, spare: from)
+        solveHanoi(n: n - 1, from: from, to: spare, spare: to)
+        solveHanoi(n: n - 1, from: spare, to: to, spare: from)
     }
   }
   ```
@@ -132,9 +136,9 @@ Below are some examples for each category of performance:
   The most trivial example of function that takes O(n!) time is given below.
 
   ```swift
-  func nFacFunc(n: Int) {
+  func nFactFunc(n: Int) {
     for i in stride(from: 0, to: n, by: 1) {
-      nFactFunc(n - 1)
+      nFactFunc(n: n - 1)
     }
   }
   ```
