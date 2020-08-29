@@ -289,120 +289,42 @@ extension Node {
      - Node     Resulting from the deletion and the splaying of the removed node
      
      */
-    public func remove(value: T) -> Node<T>? {
-        let replacement: Node<T>?
+    fileprivate func remove(value: T) -> Node<T>? {
+        guard let target = search(value: value) else { return self }
         
-        if let v = self.value, v == value {
+        if let left = target.left, let right = target.right {
+            let largestOfLeftChild = left.maximum()
+            left.parent = nil
+            right.parent = nil
             
-            var parentToSplay: Node<T>?
-            if let left = left {
-                if let right = right {
-                    
-                    replacement = removeNodeWithTwoChildren(left, right)
-                    
-                    if let replacement = replacement,
-                        let replacementParent = replacement.parent,
-                        replacementParent.value != self.value {
-                        
-                        parentToSplay = replacement.parent
-                        
-                    } else if self.parent != nil {
-                        parentToSplay = self.parent
-                    } else {
-                        parentToSplay = replacement
-                    }
-                    
-                } else {
-                    // This node only has a left child. The left child replaces the node.
-                    replacement = left
-                    if self.parent != nil {
-                        parentToSplay = self.parent
-                    } else {
-                        parentToSplay = replacement
-                    }
-                }
-            } else if let right = right {
-                // This node only has a right child. The right child replaces the node.
-                replacement = right
-                if self.parent != nil {
-                    parentToSplay = self.parent
-                } else {
-                    parentToSplay = replacement
-                }
-            } else {
-                // This node has no children. We just disconnect it from its parent.
-                replacement = nil
-                parentToSplay = parent
-            }
+            SplayOperation.splay(node: largestOfLeftChild)
+            largestOfLeftChild.right = right
             
-            reconnectParentTo(node: replacement)
+            return largestOfLeftChild
             
-            // performs the splay operation
-            if let parentToSplay = parentToSplay {
-                SplayOperation.splay(node: parentToSplay)
-            }
+        } else if let left = target.left {
+            replace(node: target, with: left)
+            return left
             
-            // The current node is no longer part of the tree, so clean it up.
-            parent = nil
-            left = nil
-            right = nil
+        } else if let right = target.right {
+            replace(node: target, with: right)
+            return right
             
-            return parentToSplay
-            
-        } else if let v = self.value, value < v {
-            if left != nil {
-                return left!.remove(value: value)
-            } else {
-                let node = self
-                SplayOperation.splay(node: node)
-                return node
-                
-            }
         } else {
-            if right != nil {
-                return right?.remove(value: value)
-            } else {
-                let node = self
-                SplayOperation.splay(node: node)
-                return node
-                
-            }
+            return nil
         }
     }
     
-    private func removeNodeWithTwoChildren(_ left: Node, _ right: Node) -> Node {
-        // This node has two children. It must be replaced by the smallest
-        // child that is larger than this node's value, which is the leftmost
-        // descendent of the right child.
-        let successor = right.minimum()
+    private func replace(node: Node<T>, with newNode: Node<T>?) {
+        guard let sourceParent = sourceNode.parent else { return }
         
-        // Connect our left child with the new node.
-        successor.left = left
-        left.parent = successor
-        
-        // Connect our right child with the new node. If the right child does
-        // not have any left children of its own, then the in-order successor
-        // *is* the right child.
-        if right !== successor {
-            successor.right = right
-            right.parent = successor
+        if sourceNode.isLeftChild {
+            sourceParent.left = newNode
         } else {
-            successor.right = nil
+            sourceParent.right = newNode
         }
         
-        // And finally, connect the successor node to our parent.
-        return successor
-    }
-    
-    private func reconnectParentTo(node: Node?) {
-        if let parent = parent {
-            if isLeftChild {
-                parent.left = node
-            } else {
-                parent.right = node
-            }
-        }
-        node?.parent = parent
+        newNode?.parent = sourceParent
     }
 }
 
