@@ -9,17 +9,17 @@
 func insertionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
     guard array.count > 1 else { return array }
     
-    var a = array
-    for x in 1..<a.count {
-        var y = x
-        let temp = a[y]
-        while y > 0 && isOrderedBefore(temp, a[y - 1]) {
-            a[y] = a[y - 1]
-            y -= 1
+    var sortedArray = array
+    for index in 1..<sortedArray.count {
+        var currentIndex = index
+        let temp = sortedArray[currentIndex]
+        while currentIndex > 0 && isOrderedBefore(temp, sortedArray[currentIndex - 1]) {
+            sortedArray[currentIndex] = sortedArray[currentIndex - 1]
+            currentIndex -= 1
         }
-        a[y] = temp
+        sortedArray[currentIndex] = temp
     }
-    return a
+    return sortedArray
 }
 
 /// Performs the Insertion sort algorithm to a given array
@@ -27,17 +27,17 @@ func insertionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
 /// - Parameter array: the array to be sorted, conatining elements that conform to the Comparable protocol
 /// - Returns: a sorted array containing the same elements
 func insertionSort<T: Comparable>(_ array: [T]) -> [T] {
-    var a = array
-    for x in 1..<a.count {
-        var y = x
-        let temp = a[y]
-        while y > 0 && temp < a[y - 1] {
-            a[y] = a[y - 1]
-            y -= 1
+    var sortedArray = array
+    for index in 1..<sortedArray.count {
+        var currentIndex = index
+        let temp = sortedArray[currentIndex]
+        while currentIndex > 0 && temp < sortedArray[currentIndex - 1] {
+            sortedArray[currentIndex] = sortedArray[currentIndex - 1]
+            currentIndex -= 1
         }
-        a[y] = temp
+        sortedArray[currentIndex] = temp
     }
-    return a
+    return sortedArray
 }
 
 let list = [ 10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26 ]
