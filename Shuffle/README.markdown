@@ -37,7 +37,7 @@ This code works just fine but it's not very efficient. Removing an element from 
 
 ## The Fisher-Yates / Knuth shuffle
 
-Here is a much improved version of the shuffle algorithm:
+Here is a much-improved version of the shuffle algorithm:
 
 ```swift
 extension Array {
@@ -52,7 +52,7 @@ extension Array {
 }
 ```
 
-Again, this picks objects at random. In the naive version we placed those objects into a new temporary array so we could keep track of which objects were already shuffled and which still remained to be done. In this improved algorithm, however, we'll move the shuffled objects to the end of the original array. 
+Again, this picks objects at random. In the naive version, we placed those objects into a new temporary array so we could keep track of which objects were already shuffled and which still remained to be done. In this improved algorithm, however, we'll move the shuffled objects to the end of the original array. 
 
 Let's walk through the example. We have the array:
 
@@ -116,7 +116,7 @@ The `shuffledArray()` function first creates a new array with `n` zeros. Then it
 
 For this function, `The condition that checks if j ≠ i may be omitted in languages that have no problems accessing uninitialized array values, and for which assigning is cheaper than comparing.`, you can check it in wiki. And also remove checking logic will optimise performance.
 
-The algoritm is quite clever and I suggest you walk through an example yourself, either on paper or in the playground. (Hint: Again it splits the array into two regions.)
+The algorithm is quite clever and I suggest you walk through an example yourself, either on paper or in the playground. (Hint: Again it splits the array into two regions.)
 
 ## See also
 
