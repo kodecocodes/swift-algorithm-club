@@ -117,9 +117,12 @@ extension Trie {
 
   /// Determines whether a word is in the trie.
   ///
-  /// - Parameter word: the word to check for
+  /// - Parameters:
+  ///   - word: the word to check for
+  ///   - matchPrefix: whether the search word should match
+  ///   if it is only a prefix of other nodes in the trie
   /// - Returns: true if the word is present, false otherwise.
-  func contains(word: String) -> Bool {
+  func contains(word: String, matchPrefix: Bool = false) -> Bool {
     guard !word.isEmpty else {
       return false
     }
@@ -130,7 +133,7 @@ extension Trie {
       }
       currentNode = childNode
     }
-    return currentNode.isTerminating
+    return matchPrefix || currentNode.isTerminating
   }
 
   /// Attempts to walk to the last node of a word.  The

@@ -167,7 +167,8 @@ class TrieTests: XCTestCase {
     let trieCopy = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? Trie
     XCTAssertEqual(trieCopy?.count, trie.count)
   }
-
+  
+  /// Tests whether word prefixes are properly found and returned.
   func testFindWordsWithPrefix() {
     let trie = Trie()
     trie.insert(word: "test")
@@ -189,5 +190,29 @@ class TrieTests: XCTestCase {
     trie.insert(word: "Team")
     let wordsUpperCase = trie.findWordsWithPrefix(prefix: "Te")
     XCTAssertEqual(wordsUpperCase.sorted(), ["team", "test"])
+  }
+
+  /// Tests whether word prefixes are properly detected on a boolean contains() check.
+  func testContainsWordMatchPrefix() {
+    let trie = Trie()
+    trie.insert(word: "test")
+    trie.insert(word: "another")
+    trie.insert(word: "exam")
+    let wordsAll = trie.contains(word: "", matchPrefix: true)
+    XCTAssertEqual(wordsAll, true)
+    let words = trie.contains(word: "ex", matchPrefix: true)
+    XCTAssertEqual(words, true)
+    trie.insert(word: "examination")
+    let words2 = trie.contains(word: "exam", matchPrefix: true)
+    XCTAssertEqual(words2, true)
+    let noWords = trie.contains(word: "tee", matchPrefix: true)
+    XCTAssertEqual(noWords, false)
+    let unicodeWord = "😬😎"
+    trie.insert(word: unicodeWord)
+    let wordsUnicode = trie.contains(word: "😬", matchPrefix: true)
+    XCTAssertEqual(wordsUnicode, true)
+    trie.insert(word: "Team")
+    let wordsUpperCase = trie.contains(word: "Te", matchPrefix: true)
+    XCTAssertEqual(wordsUpperCase, true)
   }
 }
