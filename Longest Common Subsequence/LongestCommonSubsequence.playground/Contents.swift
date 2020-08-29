@@ -1,4 +1,4 @@
-// last checked with Xcode 9.0b4
+// last checked with Xcode 11.4
 #if swift(>=4.0)
 print("Hello, Swift 4!")
 #endif
@@ -7,10 +7,10 @@ extension String {
   public func longestCommonSubsequence(_ other: String) -> String {
 
     func lcsLength(_ other: String) -> [[Int]] {
-      var matrix = [[Int]](repeating: [Int](repeating: 0, count: other.characters.count+1), count: self.characters.count+1)
+      var matrix = [[Int]](repeating: [Int](repeating: 0, count: other.count+1), count: self.count+1)
 
-      for (i, selfChar) in self.characters.enumerated() {
-        for (j, otherChar) in other.characters.enumerated() {
+      for (i, selfChar) in self.enumerated() {
+        for (j, otherChar) in other.enumerated() {
           if otherChar == selfChar {
             matrix[i+1][j+1] = matrix[i][j] + 1
           } else {
@@ -22,8 +22,8 @@ extension String {
     }
 
     func backtrack(_ matrix: [[Int]]) -> String {
-      var i = self.characters.count
-      var j = other.characters.count
+      var i = self.count
+      var j = other.count
       var charInSequence = self.endIndex
 
       var lcs = String()
@@ -41,7 +41,7 @@ extension String {
           lcs.append(self[charInSequence])
         }
       }
-      return String(lcs.characters.reversed())
+      return String(lcs.reversed())
     }
 
     return backtrack(lcsLength(other))
