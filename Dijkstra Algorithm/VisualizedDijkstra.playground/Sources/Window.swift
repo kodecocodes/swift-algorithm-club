@@ -134,7 +134,7 @@ public class Window: UIView, GraphDelegate {
         let origin = CGPoint(x: center.x - 25, y: 100)
         let activityIndicatorFrame = CGRect(origin: origin, size: size)
         activityIndicator = UIActivityIndicatorView(frame: activityIndicatorFrame)
-        activityIndicator.activityIndicatorViewStyle = .whiteLarge
+        activityIndicator.style = .whiteLarge
     }
 
     @objc private func createGraphButtonTap() {

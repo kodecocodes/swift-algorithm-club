@@ -99,17 +99,17 @@ Here's a recursive algorithm by Niklaus Wirth:
 
 ```swift
 func permuteWirth<T>(_ a: [T], _ n: Int) {
-  if n == 0 {
-    print(a)   // display the current permutation
-  } else {
-    var a = a
-    permuteWirth(a, n - 1)
-    for i in 0..<n {
-      swap(&a[i], &a[n])
-      permuteWirth(a, n - 1)
-      swap(&a[i], &a[n])
+    if n == 0 {
+        print(a)   // display the current permutation
+    } else {
+        var a = a
+        permuteWirth(a, n - 1)
+        for i in 0..<n {
+            a.swapAt(i, n)
+            permuteWirth(a, n - 1)
+            a.swapAt(i, n)
+        }
     }
-  }
 }
 ```
 

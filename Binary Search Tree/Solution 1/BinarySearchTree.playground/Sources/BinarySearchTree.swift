@@ -235,7 +235,7 @@ extension BinarySearchTree {
   /*
     Finds the node whose value precedes our value in sorted order.
   */
-  public func predecessor() -> BinarySearchTree<T>? {
+  public func predecessor() -> BinarySearchTree? {
     if let left = left {
       return left.maximum()
     } else {
@@ -251,7 +251,7 @@ extension BinarySearchTree {
   /*
     Finds the node whose value succeeds our value in sorted order.
   */
-  public func successor() -> BinarySearchTree<T>? {
+  public func successor() -> BinarySearchTree? {
     if let right = right {
       return right.minimum()
     } else {

@@ -159,7 +159,7 @@ Now suppose a *insert(7)* operation was performed and we're in a *ZigZag* case.
 
 ## Advantages 
 
-Splay trees provide an efficient way to quickly access elements that are frequently requested. This characteristic makes then a good choice to implement, for exmaple, caches or garbage collection algorithms, or in any other problem involving frequent access to a certain numbers of elements from a data set.
+Splay trees provide an efficient way to quickly access elements that are frequently requested. This characteristic makes then a good choice to implement, for example, caches or garbage collection algorithms, or in any other problem involving frequent access to a certain numbers of elements from a data set.
 
 ## Disadvantages
 
@@ -263,7 +263,7 @@ If the rotations would had been taking first the parent and not the grandparent 
 
 [Splay Tree on Wikipedia](https://en.wikipedia.org/wiki/Splay_tree)
 
-[Splay Tree by University of California in Berkeley - CS 61B Lecture 34](https://www.youtube.com/watch?v=G5QIXywcJlY)
+[Splay Tree by University of California in Berkeley - CS 61B Lecture 34](https://www.youtube.com/watch?v=8Zs1lj_bUV0)
 
 
 ----------------

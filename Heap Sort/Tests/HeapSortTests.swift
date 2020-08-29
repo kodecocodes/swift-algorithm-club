@@ -1,12 +1,6 @@
 import XCTest
 
 class HeapSortTests: XCTestCase {
-  func testSwift4() {
-    // last checked with Xcode 9.0b4
-    #if swift(>=4.0)
-      print("Hello, Swift 4!")
-    #endif
-  }
   
   func testSort() {
     var h1 = Heap(array: [5, 13, 2, 25, 7, 17, 20, 8, 4], sort: >)

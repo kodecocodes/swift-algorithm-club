@@ -27,8 +27,8 @@ The following pseudo code is excerpted from Wikipedia[3]:
 ## Usage
 
 ```swift
-mrPrimalityTest(7)                      // test if 7 is prime. (default iteration = 1)
-mrPrimalityTest(7, iteration: 10)       // test if 7 is prime && iterate 10 times.
+checkWithMillerRabin(7)                      // test if 7 is prime. (default iteration = 1)
+checkWithMillerRabin(7, accuracy: 10)       // test if 7 is prime && iterate 10 times.
 ```
 
 ## Reference
@@ -37,6 +37,7 @@ mrPrimalityTest(7, iteration: 10)       // test if 7 is prime && iterate 10 time
 3. Miller–Rabin primality test - Wikipedia, the free encyclopedia
 
 _Written for Swift Algorithm Club by **Sahn Cha**, @scha00_
+_Code updated by **Simon C. Krüger**._
 
 [1]: https://cs.uwaterloo.ca/research/tr/1975/CS-75-27.pdf
 [2]: http://www.sciencedirect.com/science/article/pii/0022314X80900840

@@ -137,12 +137,12 @@ func partitionLomuto<T: Comparable>(_ a: inout [T], low: Int, high: Int) -> Int 
   var i = low
   for j in low..<high {
     if a[j] <= pivot {
-      (a[i], a[j]) = (a[j], a[i])
+	  a.swapAt(i, j)
       i += 1
     }
   }
 
-  (a[i], a[high]) = (a[high], a[i])
+  a.swapAt(i, high)
   return i
 }
 ```
@@ -287,7 +287,7 @@ func partitionHoare<T: Comparable>(_ a: inout [T], low: Int, high: Int) -> Int {
     repeat { i += 1 } while a[i] < pivot
 
     if i < j {
-      swap(&a[i], &a[j])
+      a.swapAt(i, j)
     } else {
       return j
     }

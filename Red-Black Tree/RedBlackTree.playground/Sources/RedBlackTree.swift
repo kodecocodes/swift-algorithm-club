@@ -96,6 +96,10 @@ public class RBTreeNode<T: Comparable>: Equatable {
     var uncle: RBNode? {
         return parent?.sibling
     }
+
+    public func getKey() -> T? {
+      return key
+    }
 }
 
 // MARK: - RedBlackTree
@@ -160,31 +164,52 @@ extension RBTreeNode {
     }
 }
 
-// MARK: - Finding a nodes successor
+// MARK: - Finding a nodes successor and predecessor
 
 extension RBTreeNode {
-    /*
-     * Returns the inorder successor node of a node
-     * The successor is a node with the next larger key value of the current node
-     */
-    public func getSuccessor() -> RBNode? {
-        // If node has right child: successor min of this right tree
-        if let rightChild = self.rightChild {
-            if !rightChild.isNullLeaf {
-                return rightChild.minimum()
-            }
-        }
-        // Else go upward until node left child
-        var currentNode = self
-        var parent = currentNode.parent
-        while currentNode.isRightChild {
-            if let parent = parent {
-                currentNode = parent
-            }
-            parent = currentNode.parent
-        }
-        return parent
+  /*
+   * Returns the inorder successor node of a node
+   * The successor is a node with the next larger key value of the current node
+   */
+  public func getSuccessor() -> RBNode? {
+    // If node has right child: successor min of this right tree
+    if let rightChild = self.rightChild {
+      if !rightChild.isNullLeaf {
+        return rightChild.minimum()
+      }
     }
+    // Else go upward until node left child
+    var currentNode = self
+    var parent = currentNode.parent
+    while currentNode.isRightChild {
+      if let parent = parent {
+        currentNode = parent
+      }
+      parent = currentNode.parent
+    }
+    return parent
+  }
+  
+  /*
+  * Returns the inorder predecessor node of a node
+  * The predecessor is a node with the next smaller key value of the current node
+  */
+  public func getPredecessor() -> RBNode? {
+    // if node has left child: predecessor is min of this left tree
+    if let leftChild = leftChild, !leftChild.isNullLeaf {
+      return leftChild.maximum()
+    }
+    // else go upward while node is left child
+    var currentNode = self
+    var parent = currentNode.parent
+    while currentNode.isLeftChild {
+      if let parent = parent {
+        currentNode = parent
+      }
+      parent = currentNode.parent
+    }
+    return parent
+  }
 }
 
 // MARK: - Searching

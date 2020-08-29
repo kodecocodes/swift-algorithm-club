@@ -168,4 +168,4 @@ I'm quite enamored by this little algorithm. It shows that with some basic prepr
 
 * [3Sum / 4Sum](https://github.com/raywenderlich/swift-algorithm-club/tree/master/3Sum%20and%204Sum)
 
-*Written for Swift Algorithm Club by Matthijs Hollemans and Daniel Speiser*
+*Written for Swift Algorithm Club by Matthijs Hollemans and Daniel Speiser updated to swift 4.2 by Farrukh Askari*

@@ -26,7 +26,7 @@ Here is a recursive implementation of this in Swift:
 ```swift
 func isPalindrome(_ str: String) -> Bool {
   let strippedString = str.replacingOccurrences(of: "\\W", with: "", options: .regularExpression, range: nil)
-  let length = strippedString.characters.count
+  let length = strippedString.count
 
   if length > 1 {
     return palindrome(strippedString.lowercased(), left: 0, right: length - 1)
@@ -104,4 +104,4 @@ racecar -> left index == right index -> return true
 [Palindrome Wikipedia](https://en.wikipedia.org/wiki/Palindrome)
 
 
-*Written by [Joshua Alvarado](https://github.com/https://github.com/lostatseajoshua)*
+*Written by [Joshua Alvarado](https://github.com/lostatseajoshua)*

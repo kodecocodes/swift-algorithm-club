@@ -74,7 +74,7 @@ func selectionSort(_ array: [Int]) -> [Int] {
     }
 
     if x != lowest {               // 5
-      swap(&a[x], &a[lowest])
+      a.swapAt(x, lowest)
     }
   }
   return a

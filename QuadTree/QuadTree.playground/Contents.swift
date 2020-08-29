@@ -1,8 +1,3 @@
-// last checked with Xcode 9.0b5
-#if swift(>=4.0)
-print("Hello, Swift 4!")
-#endif
-
 import Foundation
 
 let tree = QuadTree(rect: Rect(origin: Point(0, 0), size: Size(xLength: 10, yLength: 10)))

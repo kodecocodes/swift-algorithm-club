@@ -64,8 +64,8 @@ This will sort the values of the array into ascending order -- increasing in val
 ## Performance
 
 Comb Sort was created to improve upon the worst case time complexity of Bubble Sort. With Comb 
-Sort, the worst case scenario for performance is exponential -- O(n^2). At best though, Comb Sort 
-performs at O(n logn) time complexity. This creates a drastic improvement over Bubble Sort's performance. 
+Sort, the worst case scenario for performance is polynomial -- O(n^2). At best though, Comb Sort 
+performs at O(n logn) time complexity -- loglinear. This creates a drastic improvement over Bubble Sort's performance. 
 
 Similar to Bubble Sort, the space complexity for Comb Sort is constant -- O(1). 
 This is extremely space efficient as it sorts the array in place. 

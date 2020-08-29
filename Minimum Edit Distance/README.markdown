@@ -37,8 +37,8 @@ Then in each cell the minimum of the cost of insertion, deletion, or substitutio
 
 ```swift
 // compute Levenshtein distance
-for (i, selfChar) in self.characters.enumerated() {
-    for (j, otherChar) in other.characters.enumerated() {
+for (i, selfChar) in self.enumerated() {
+    for (j, otherChar) in other.enumerated() {
         if otherChar == selfChar {
             // substitution of equal symbols with cost 0
             matrix[i + 1][j + 1] = matrix[i][j]

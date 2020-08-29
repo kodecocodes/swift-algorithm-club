@@ -30,9 +30,7 @@ public func shuffledArray(_ n: Int) -> [Int] {
   var a = Array(repeating: 0, count: n)
   for i in 0..<n {
     let j = random(i + 1)
-    if i != j {
-      a[i] = a[j]
-    }
+    a[i] = a[j]
     a[j] = i  // insert next number from the sequence
   }
   return a

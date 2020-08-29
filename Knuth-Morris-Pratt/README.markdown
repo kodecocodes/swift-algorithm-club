@@ -14,7 +14,7 @@ let concert = "🎼🎹🎹🎸🎸🎻🎻🎷🎺🎤👏👏👏"
 concert.indexesOf(ptnr: "🎻🎷")   // Output: [6]
 ```
 
-The [Knuth-Morris-Pratt algorithm](https://en.wikipedia.org/wiki/Knuth–Morris–Pratt_algorithm) is considered one of the best algorithms for solving the pattern matching problem. Although in practice [Boyer-Moore](../Boyer-Moore/) is usually preferred, the algorithm that we will introduce is simpler, and has the same (linear) running time.
+The [Knuth-Morris-Pratt algorithm](https://en.wikipedia.org/wiki/Knuth–Morris–Pratt_algorithm) is considered one of the best algorithms for solving the pattern matching problem. Although in practice [Boyer-Moore](../Boyer-Moore-Horspool/) is usually preferred, the algorithm that we will introduce is simpler, and has the same (linear) running time.
 
 The idea behind the algorithm is not too different from the [naive string search](../Brute-Force%20String%20Search/) procedure. As it, Knuth-Morris-Pratt aligns the text with the pattern and goes with character comparisons from left to right. But, instead of making a shift of one character when a mismatch occurs, it uses a more intelligent way to move the pattern along the text. In fact, the algorithm features a pattern pre-processing stage where it acquires all the informations that will make the algorithm skip redundant comparisons, resulting in larger shifts.
 

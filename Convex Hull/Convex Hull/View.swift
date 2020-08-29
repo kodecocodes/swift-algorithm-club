@@ -11,20 +11,12 @@ import UIKit
 class View: UIView {
 
   let MAX_POINTS = 100
-
   var points = [CGPoint]()
-
   var convexHull = [CGPoint]()
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-
-    // last checked with Xcode 9.0b4
-    #if swift(>=4.0)
-      print("Hello, Swift 4!")
-    #endif
-    
-    generatePoints()
+    generateRandomPoints()
     quickHull(points: points)
   }
 
@@ -32,11 +24,11 @@ class View: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func generatePoints() {
+  func generateRandomPoints() {
     for _ in 0..<MAX_POINTS {
       let offset: CGFloat = 50
-      let xrand = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * (self.frame.width - offset) + 0.5 * offset
-      let yrand = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * (self.frame.height - offset) + 0.5 * offset
+      let xrand = CGFloat(arc4random()) / CGFloat(UInt32.max) * (self.frame.width - offset) + 0.5 * offset
+      let yrand = CGFloat(arc4random()) / CGFloat(UInt32.max) * (self.frame.height - offset) + 0.5 * offset
       let point = CGPoint(x: xrand, y: yrand)
       points.append(point)
     }
