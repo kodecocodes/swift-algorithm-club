@@ -1,0 +1,12 @@
+digraph G {
+    rankdir=LR;
+    { A [ label = "g = 0\nh = 3", style = filled, color = lightblue ] }
+    { rank = same; B [ label = "g = 1\nh = 2", style = filled, color = deepskyblue1 ]; C [ label = "g = 1\nh = 2", style = filled, color = lightgrey ]; D [ label = "g = 1\nh = 2", style = filled, color = lightgrey ] }
+    { rank = same; E [ label = "g = 2\nh = 1", style = filled, color = lightgrey ]; F [ label = "g = \?\nh = 1" ]; G [ label = "g = \?\nh = 1" ] }
+    { H  [ label = "g = \?\nh = 0" ] }
+    A -> { B C D }
+    B -> E
+    E -> F
+    D -> G
+    G -> H
+}

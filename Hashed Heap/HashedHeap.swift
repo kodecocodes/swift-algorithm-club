@@ -57,7 +57,12 @@ public struct HashedHeap<T: Hashable> {
   public var count: Int {
     return elements.count
   }
-  
+
+  /// Accesses an element by its index.
+  public subscript(index: Int) -> T {
+    return elements[index]
+  }
+
   /// Returns the index of the given element.
   ///
   /// This is the operation that a hashed heap optimizes in compassion with a normal heap. In a normal heap this
@@ -140,6 +145,12 @@ public struct HashedHeap<T: Hashable> {
       shiftUp(index)
     }
     return removeLast()
+  }
+
+  /// Removes all elements from the heap.
+  public mutating func removeAll() {
+    elements.removeAll()
+    indices.removeAll()
   }
   
   /// Removes the last element from the heap.
