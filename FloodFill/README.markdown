@@ -45,8 +45,7 @@ LLLLLLLLL                  LLLLLLLLL
 
 ## The Code 
 
-```
-swift Code 
+```swift
 
 var dr = [0,0,1,-1,1,-1,-1,1]
 var dc = [1,-1,0,0,1,-1,1,-1]
