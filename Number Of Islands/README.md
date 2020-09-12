@@ -102,4 +102,4 @@ func landSink(_ grid : inout [[Character]], _ i : Int, _ j : Int){
 }
 
 ```
-
+*Written for Swift Algorithm Club by Jayant Sogikar*
