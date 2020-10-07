@@ -2,6 +2,9 @@
   Brute-force string search
 */
 extension String {
+    /// Searches the string for the pattern provided, returning the index of ocurrency. This algorithm uses a brute force approach.
+    /// - Parameter pattern: The stering patter to be searched.
+    /// - Returns: where the pattern starts to occur.
   func indexOf(_ pattern: String) -> String.Index? {
     for i in self.characters.indices {
         var j = i
