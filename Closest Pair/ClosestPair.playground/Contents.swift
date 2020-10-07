@@ -3,16 +3,16 @@
 func ClosestPairOf(points: [Point]) -> (minimum:Double, firstPoint:Point, secondPoint:Point) {
     var innerPoints = mergeSort(points, sortAccording : true)
     let result = ClosestPair(&innerPoints, innerPoints.count)
-    return (result.minValue, result.firstPoint, result.secondPoint)
+    return (result.minimumValue, result.firstPoint, result.secondPoint)
 }
 
-func ClosestPair(_ p : inout [Point],_ n : Int) -> (minValue: Double,firstPoint: Point,secondPoint: Point)
+func ClosestPair(_ p : inout [Point],_ n : Int) -> (minimumValue: Double,firstPoint: Point,secondPoint: Point)
 {
     // Brute force if only 3 points (To end recursion)
     if n <= 3
     {
         var i=0, j = i+1
-        var minDist = Double.infinity
+        var minimumDistance = Double.infinity
         var newFirst:Point? = nil
         var newSecond:Point? = nil
         while i<n
@@ -20,9 +20,9 @@ func ClosestPair(_ p : inout [Point],_ n : Int) -> (minValue: Double,firstPoint:
             j = i+1
             while j < n
             {
-                if dist(p[i], p[j]) <= minDist
+                if distance(p[i], p[j]) <= minimumDistance
                 {
-                    minDist = dist(p[i], p[j])
+                    minimumDistance = distance(p[i], p[j])
                     newFirst = p[i]
                     newSecond = p[j]
                 }
@@ -31,7 +31,7 @@ func ClosestPair(_ p : inout [Point],_ n : Int) -> (minValue: Double,firstPoint:
             i+=1
             
         }
-        return (minDist, newFirst ?? Point(0,0), newSecond ?? Point(0,0))
+        return (minimumDistance, newFirst ?? Point(0,0), newSecond ?? Point(0,0))
     }
     
     
@@ -54,24 +54,24 @@ func ClosestPair(_ p : inout [Point],_ n : Int) -> (minValue: Double,firstPoint:
     
     // Recurse on the left and right part of the array.
     let valueFromLeft = ClosestPair(&leftSide, mid)
-    let minLeft:Double = valueFromLeft.minValue
+    let minimumLeft:Double = valueFromLeft.minimumValue
     let valueFromRight = ClosestPair(&rightSide, n-mid)
-    let minRight:Double = valueFromRight.minValue
+    let minimumRight:Double = valueFromRight.minimumValue
     
-    // Starting current min must be the largest possible to not affect the real calculations.
-    var min = Double.infinity
+    // Starting current minimum must be the largest possible to not affect the real calculations.
+    var minimum = Double.infinity
     
     var first:Point
     var second:Point
     
     // Get the minimum between the left and the right.
-    if minLeft < minRight {
-        min = minLeft
+    if minimumLeft < minimumRight {
+        minimum = minimumLeft
         first = valueFromLeft.firstPoint
         second = valueFromLeft.secondPoint
     }
     else {
-        min = minRight
+        minimum = minimumRight
         first = valueFromRight.firstPoint
         second = valueFromRight.secondPoint
     }
@@ -82,11 +82,11 @@ func ClosestPair(_ p : inout [Point],_ n : Int) -> (minValue: Double,firstPoint:
     
     var strip = [Point]()
     
-    // If the value is less than the min distance away in X from the line then take it into consideration.
+    // If the value is less than the minimum distance away in X from the line then take it into consideration.
     var i=0, j = 0
     while i<n
     {
-        if abs(p[i].x - line) < min
+        if abs(p[i].x - line) < minimum
         {
             strip.append(p[i])
             j+=1
@@ -97,19 +97,19 @@ func ClosestPair(_ p : inout [Point],_ n : Int) -> (minValue: Double,firstPoint:
     
     i=0
     var x = i+1
-    var temp = min
+    var temp = minimum
     var tempFirst:Point = Point(0,0)
     var tempSecond:Point = Point(0,0)
-    // Get the values between the points in the strip but only if it is less min dist in Y.
+    // Get the values between the points in the strip but only if it is less minimum distance in Y.
     while i<j
     {
         x = i+1
         while x < j
         {
-            if (abs(strip[x].y - strip[i].y)) > min { break }
-            if dist(strip[i], strip[x]) < temp
+            if (abs(strip[x].y - strip[i].y)) > minimum { break }
+            if distance(strip[i], strip[x]) < temp
             {
-                temp = dist(strip[i], strip[x])
+                temp = distance(strip[i], strip[x])
                 tempFirst = strip[i]
                 tempSecond = strip[x]
             }
@@ -118,13 +118,13 @@ func ClosestPair(_ p : inout [Point],_ n : Int) -> (minValue: Double,firstPoint:
         i+=1
     }
     
-    if temp < min
+    if temp < minimum
     {
-        min = temp;
+        minimum = temp;
         first = tempFirst
         second = tempSecond
     }
-    return (min, first, second)
+    return (minimum, first, second)
 }
 
 
@@ -201,7 +201,7 @@ struct Point
     }
 }
 // Get the distance between two points a, b.
-func dist(_ a: Point,_ b: Point) -> Double
+func distance(_ a: Point,_ b: Point) -> Double
 {
     let equation:Double = (((a.x-b.x)*(a.x-b.x))) + (((a.y-b.y)*(a.y-b.y)))
     return equation.squareRoot()
