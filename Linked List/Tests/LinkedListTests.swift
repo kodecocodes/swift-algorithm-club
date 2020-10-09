@@ -307,6 +307,17 @@ class LinkedListTest: XCTestCase {
         XCTAssertEqual(nodeCount, list.count)
     }
     
+    func testSequenceInitTypeInfer() {
+        let arrayInitInfer = LinkedList([1.0, 2.0, 3.0])
+
+        XCTAssertEqual(arrayInitInfer.count, 3)
+        XCTAssertEqual(arrayInitInfer.head?.value, 1.0)
+        XCTAssertEqual(arrayInitInfer.last?.value, 3.0)
+        XCTAssertEqual(arrayInitInfer[1], 2.0)
+        XCTAssertEqual(arrayInitInfer.removeLast(), 3.0)
+        XCTAssertEqual(arrayInitInfer.count, 2)
+    }
+
     func testArrayLiteralInitTypeInfer() {
         let arrayLiteralInitInfer: LinkedList = [1.0, 2.0, 3.0]
         
