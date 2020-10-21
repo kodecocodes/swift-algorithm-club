@@ -16,6 +16,7 @@ gcd(841, 299, using: gcdBinaryRecursiveStein)     // 1
 do {
     try lcm(2, 3)   // 6
     try lcm(10, 8, using: gcdRecursiveEuklid)  // 40
+    try lcm(3, 4) // 12
 } catch {
     dump(error)
 }
