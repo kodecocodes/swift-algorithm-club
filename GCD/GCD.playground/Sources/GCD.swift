@@ -132,10 +132,10 @@ public enum LCMError: Error {
  - Parameter using: The used gcd algorithm to calculate the lcm.
                     If nothing provided, the Iterative Euclidean
                     algorithm is used.
- - Throws: Can throw a `divisionByZero` error if one of the given
+ - Throws: Can throw a `nonPositive` error if one or both of the given
  attributes turns out to be zero or less.
  - Returns: The least common multiplier of the two attributes as
- an unsigned integer
+ a signed integer
  */
 public func lcm(_ m: Int, _ n: Int, using gcdAlgorithm: (Int, Int) -> (Int) = gcdIterativeEuklid) throws -> Int {
     guard m > 0, n > 0 else { throw LCMError.nonPositive }
