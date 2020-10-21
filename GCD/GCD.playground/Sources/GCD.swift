@@ -121,7 +121,7 @@ func findEasySolution(_ m: Int, _ n: Int) -> Int? {
 
 
 public enum LCMError: Error {
-    case divisionByZero
+    case nonPositive
 }
 
 /*
@@ -138,6 +138,6 @@ public enum LCMError: Error {
  an unsigned integer
  */
 public func lcm(_ m: Int, _ n: Int, using gcdAlgorithm: (Int, Int) -> (Int) = gcdIterativeEuklid) throws -> Int {
-    guard m & n != 0 else { throw LCMError.divisionByZero }
+    guard m > 0, n > 0 else { throw LCMError.nonPositive }
     return m / gcdAlgorithm(m, n) * n
 }
