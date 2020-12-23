@@ -270,8 +270,18 @@ extension LinkedList {
 extension LinkedList {
     convenience init(array: Array<T>) {
         self.init()
-        
-        array.forEach { append($0) }
+        guard let first = array.first else {
+            return
+        }
+        var node = Node(value: first)
+        append(node)
+
+        for item in array[1...] {
+            let next = Node(value: item)
+            node.next = next
+            next.previous = node
+            node = next
+        }
     }
 }
 
