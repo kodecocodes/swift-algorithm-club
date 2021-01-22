@@ -3,6 +3,7 @@
  Push and pop are O(1) operations.
  */
 public struct Stack<T> {
+  public init(){}
   fileprivate var array = [T]()
   
   public var isEmpty: Bool {
