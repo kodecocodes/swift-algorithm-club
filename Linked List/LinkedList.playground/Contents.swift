@@ -379,10 +379,7 @@ list.append(list2)            // [Hello, World, Goodbye, World]
 list2.removeAll()             // [ ]
 list2.isEmpty                 // true
 
-
-print(list)
 list.removeLast()             // "World"
-list
 list.remove(at: 2)       // "Goodbye"
 
 list.insert("Swift", at: 1)
