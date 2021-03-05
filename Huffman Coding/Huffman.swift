@@ -95,8 +95,7 @@ extension Huffman {
         while queue.count > 1 {
             // Find the two nodes with the smallest frequencies that do not have
             // a parent node yet.
-            let node1 = queue.dequeue()!
-            let node2 = queue.dequeue()!
+            guard let node1 = queue.dequeue(), let node2 = queue.dequeue() else { return }
 
             // Create a new intermediate node.
             var parentNode = Node()
@@ -115,8 +114,9 @@ extension Huffman {
         }
 
         // The final remaining node in the queue becomes the root of the tree.
-        let rootNode = queue.dequeue()!
-        root = rootNode.index
+        if let rootNode = queue.dequeue() {
+            root = rootNode.index
+        }
     }
 }
 
