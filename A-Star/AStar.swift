@@ -54,10 +54,7 @@ public final class AStar<G: Graph> {
     /// - Precondition: both `source` and `target` belong to `graph`.
     public func path(start: G.Vertex, target: G.Vertex) -> [G.Vertex] {
         open.insert(Node<G.Vertex>(vertex: start, cost: 0, estimate: heuristic(start, target)))
-        while !open.isEmpty {
-            guard let node = open.remove() else {
-                break
-            }
+        while !open.isEmpty, let node = open.remove() {
             costs[node.vertex] = node.cost
 
             if (node.vertex == target) {
