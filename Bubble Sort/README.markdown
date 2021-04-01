@@ -11,20 +11,20 @@ Bubble sort is a sorting algorithm that is implemented by starting in the beginn
 
 ### Implementation:
 
-The implementation will not be shown as the average and worst runtimes show that this is a very inefficient algorithm. However, having a grasp of the concept will help you understand the basics of simple sorting algorithms.
+The implementation will not be shown as the average and worst runtimes indicate that this is a very inefficient algorithm. However, grasping the concept will help you understand the basics of simple sorting algorithms.
 
-Bubble sort is a very simple sorting algorithm, it consists in comparing pairs of adjacent elements in the array, if the first element is larger, swap them, otherwise, you do nothing and go for the next comparison.
+Bubble sort is a very simple sorting algorithm, only comparing pairs of adjacent elements in the array. If the first element is larger, it is swapped; otherwise, nothing occurs and you move onto the next comparison.
 This is accomplished by looking through the array `n` times, `n` being the amount of elements in the array.
 
 ![animated gif of the bubble sort algorithm](https://s3.amazonaws.com/codecademy-content/programs/tdd-js/articles/BubbleSort.gif)
 
-This GIF shows a inverted implementation than 
+This GIF shows an inverted implementation
 
 #### Example
-Let us take the array `[5, 1, 4, 2, 8]`, and sort the array from lowest number to greatest number using bubble sort. In each step, elements written in bold are being compared. Three passes will be required.
+Let us take the array `[5, 1, 4, 2, 8]`, and sort the array from lowest to highest using bubble sort. For each step, the elements written in bold are being compared. In this example, three passes will be required.
 
 ##### First Pass
-[ **5 1** 4 2 8 ] -> [ **1 5** 4 2 8 ], Here, algorithm compares the first two elements, and swaps since 5 > 1.
+[ **5 1** 4 2 8 ] -> [ **1 5** 4 2 8 ], Here, algorithm compares the first two elements and swaps them since 5 > 1.
 
 [ 1 **5 4** 2 8 ] -> [ 1 **4 5** 2 8 ], Swap since 5 > 4 
 
@@ -40,7 +40,7 @@ Let us take the array `[5, 1, 4, 2, 8]`, and sort the array from lowest number t
 [ 1 2 **4 5** 8 ] -> [ 1 2 **4 5** 8 ]
 
 [ 1 2 4 **5 8** ] -> [ 1 2 4 **5 8** ]
-Now, the array is already sorted, but the algorithm does not know if it is completed. The algorithm needs one whole pass without any swap to know it is sorted.
+Now, the array is already sorted, but the algorithm does not know if it is completed. The algorithm needs to have one more pass without any swaps to know it is sorted.
 
 ##### Third Pass
 [ **1 2** 4 5 8 ] -> [ **1 2** 4 5 8 ]
@@ -50,8 +50,8 @@ Now, the array is already sorted, but the algorithm does not know if it is compl
 [ 1 2 **4 5** 8 ] -> [ 1 2 **4 5** 8 ]
 
 [ 1 2 4 **5 8** ] -> [ 1 2 4 **5 8** ]
-
-This is the same for the forth and fifth passes.
+`
+This is the same for the fourth and fifth passes.
 
 #### Code
 ```swift
@@ -68,7 +68,7 @@ return array
 ```
 
 #### Optimization
-The bubble sort algorithm can be easily optimized by observing that the `n-th` pass finds the `n-th` largest element and puts it into its final place. So, the inner loop can avoid looking at the last `n-1` items when running for the `n-th` time:
+Notice that the `n-th` pass finds the `n-th` largest element and puts it into its final place. With this observation, the bubble sort algorithm can be optimized by stopping the inner loop from looking at the last `n-1` items when running for the `n-th` time:
 
 ```swift
 for i in 0..<array.count {
@@ -83,7 +83,7 @@ for i in 0..<array.count {
 return array
 ```
 
-The only change made was on the second line, changing the interval from `1..<array.count` to `1..<array.count - i`, effectively cutting the number of comparisons by half.
+The only change made was on the second line by adjusting the interval from `1..<array.count` to `1..<array.count - i`, effectively cutting the number of comparisons in half.
 
 The ordering with the optimized code would look something like this for the array  `[5, 1, 4, 2, 8]`:
 
@@ -113,11 +113,11 @@ The ordering with the optimized code would look something like this for the arra
 ##### Fourth Pass
 [ **1 2** 4 5 8 ] -> [ **1 2** 4 5 8 ]
 
-There is no Fifth pass
+There is no fifth pass
 
 #### Conclusion
 
-Even with the proposed optimizations, this is still a terribly inefficient sorting algorithm. A good alternative is [Merge Sort](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Merge%20Sort), that not only is better performing, has a similar degree of dificulty to implement.
+Even with the proposed optimizations, bubble sort remains a terribly inefficient sorting algorithm. A good alternative is [Merge Sort](https://github.com/raywenderlich/swift-algorithm-club/tree/master/Merge%20Sort), which not only performs better, but also is equally as easy to implement.
 
 *Updated for the Swift Algorithm Club by Julio Brazil*
 
