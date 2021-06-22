@@ -12,8 +12,8 @@ public struct Deque<T> {
   public init(_ capacity: Int = 10) {
     self.capacity = max(capacity, 1)
     originalCapacity = self.capacity
-    array = [T?](repeating: nil, count: capacity)
-    head = capacity
+    array = [T?](repeating: nil, count: self.capacity)
+    head = self.capacity
   }
 
   public var isEmpty: Bool {
