@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		9DB8564E268129FE0046878A /* MinimaxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB8564D268129FE0046878A /* MinimaxTests.swift */; };
-		9DB8565626812B170046878A /* Minimax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB8565526812B170046878A /* Minimax.swift */; };
+		9DB856582681344F0046878A /* Minimax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB856572681344F0046878A /* Minimax.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9DB8564A268129FE0046878A /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DB8564D268129FE0046878A /* MinimaxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimaxTests.swift; sourceTree = "<group>"; };
 		9DB8564F268129FE0046878A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9DB8565526812B170046878A /* Minimax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Minimax.swift; path = ../Example.playground/Sources/Minimax.swift; sourceTree = "<group>"; };
+		9DB856572681344F0046878A /* Minimax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Minimax.swift; path = ../Minimax.playground/Sources/Minimax.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,7 +32,7 @@
 		9DB8563F268129EF0046878A = {
 			isa = PBXGroup;
 			children = (
-				9DB8565526812B170046878A /* Minimax.swift */,
+				9DB856572681344F0046878A /* Minimax.swift */,
 				9DB8564C268129FE0046878A /* Tests */,
 				9DB8564B268129FE0046878A /* Products */,
 			);
@@ -123,7 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DB8564E268129FE0046878A /* MinimaxTests.swift in Sources */,
-				9DB8565626812B170046878A /* Minimax.swift in Sources */,
+				9DB856582681344F0046878A /* Minimax.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
