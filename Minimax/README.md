@@ -67,3 +67,6 @@ function alphabeta(node, depth, α, β, maximizingPlayer) is
 ## Sources
 * Minimax algorithm: https://en.wikipedia.org/wiki/Minimax
 * Alpha-beta prunning: https://en.wikipedia.org/wiki/Alpha–beta_pruning
+
+## Author
+Written by Michał Nowak(mnowak061)
