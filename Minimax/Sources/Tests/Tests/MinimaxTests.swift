@@ -1,24 +1,56 @@
 import XCTest
 
 class MinimaxTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    override func setUp() {
+        super.setUp()
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    override func tearDown() {
+        super.tearDown()
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testEvaluateGameState() {
+        var board = Board(size: 3)
+        let firstPlayer = Player(type: .human, symbol: .cross)
+        let secondPlayer = Player(type: .human, symbol: .circle)
+        
+        board.clear()
+        
+        XCTAssertEqual(evaluateGameState(board: board, player: firstPlayer, opponent: secondPlayer), nil)
+        
+        board.makeMove(player: firstPlayer, position: Position(0, 0))
+        
+        XCTAssertEqual(evaluateGameState(board: board, player: firstPlayer, opponent: secondPlayer), nil)
+        
+        board.makeMove(player: firstPlayer, position: Position(0, 1))
+        board.makeMove(player: firstPlayer, position: Position(0, 2))
+        
+        XCTAssertEqual(evaluateGameState(board: board, player: firstPlayer, opponent: secondPlayer), .max)
+        XCTAssertEqual(evaluateGameState(board: board, player: secondPlayer, opponent: firstPlayer), .min)
+        
+        board.clear()
+        board.makeMove(player: secondPlayer, position: Position(0, 0))
+        board.makeMove(player: secondPlayer, position: Position(0, 1))
+        board.makeMove(player: secondPlayer, position: Position(0, 2))
+        board.makeMove(player: firstPlayer, position: Position(1, 0))
+        
+        XCTAssertEqual(evaluateGameState(board: board, player: firstPlayer, opponent: secondPlayer), .min)
+        XCTAssertEqual(evaluateGameState(board: board, player: secondPlayer, opponent: firstPlayer), .max)
+        
+        board.clear()
+        board.makeMove(player: firstPlayer, position: Position(0, 0))
+        board.makeMove(player: secondPlayer, position: Position(0, 1))
+        board.makeMove(player: secondPlayer, position: Position(0, 2))
+        
+        board.makeMove(player: secondPlayer, position: Position(1, 0))
+        board.makeMove(player: firstPlayer, position: Position(1, 1))
+        board.makeMove(player: firstPlayer, position: Position(1, 2))
+        
+        board.makeMove(player: secondPlayer, position: Position(2, 0))
+        board.makeMove(player: firstPlayer, position: Position(2, 1))
+        board.makeMove(player: secondPlayer, position: Position(2, 2))
+        
+        XCTAssertEqual(evaluateGameState(board: board, player: firstPlayer, opponent: secondPlayer), .null)
+        XCTAssertEqual(evaluateGameState(board: board, player: secondPlayer, opponent: firstPlayer), .null)
     }
 }

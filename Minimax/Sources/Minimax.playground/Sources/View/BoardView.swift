@@ -2,11 +2,10 @@ import UIKit
 
 public class BoardView: UIView {
     // MARK: -- Public
-    public var gameModel: GameModelAI!
-    public let gameModelQueue: DispatchQueue = DispatchQueue.init(label: "gameModelQueue")
-    public let mainQueue: DispatchQueue = DispatchQueue.main
-    public var players: [Player] = [Player(name: "Player", symbol: "❌"),
-                                    Player(name: "Computer", symbol: "⭕️")]
+    public var gameModel: GameModel!
+    
+    public var players = [Player(type: .human, symbol: .circle),
+                          Player(type: .computer, symbol: .cross)]
     
     // MARK: -- Override's
     public override init(frame: CGRect) {
@@ -32,14 +31,13 @@ public class BoardView: UIView {
     private var indicator: UIActivityIndicatorView!
     
     private func startGame() {
-        gameModelQueue.async {
-            self.gameModel = GameModelAI.init(boardSize: 3, playersList: self.players)
+        self.gameModel = GameModel.init(boardSize: 3, playersList: self.players, difficultLevel: .hard)
+        
+        DispatchQueue.global(qos: .userInteractive).async {
             
             self.blockViewForUser()
             
-            sleep(1)
-            
-            self.gameModel.makeMoveAI()
+            self.gameModel.makeMinimaxMove()
             
             self.unblockViewForUser()
         }
@@ -47,10 +45,11 @@ public class BoardView: UIView {
     
     private func updateUI() {
         if gameModel.gameStatus != BoardStatus.continues {
-
+            self.resetButton.setTitle("New game", for: .normal)
             blockButtons()
+        } else {
+            self.resetButton.setTitle("Reset", for: .normal)
         }
-        
         boardToButtons()
     }
     
@@ -59,9 +58,9 @@ public class BoardView: UIView {
         
         for row in 0 ..< 3 {
             for column in 0 ..< 3 {
-                let symbol = gameModel.board.table[row][column]
-                if symbol != "0" {
-                    self.buttons[buttonIndex].setTitle(PlayerSymbol(symbol), for: .normal)
+                let symbol = gameModel.board.symbol(forPosition: Position(row, column))
+                if symbol != PlayerSymbol.empty {
+                    self.buttons[buttonIndex].setTitle(symbol?.rawValue, for: .normal)
                     self.buttons[buttonIndex].isUserInteractionEnabled = false
                 }
                 buttonIndex += 1
@@ -107,6 +106,7 @@ public class BoardView: UIView {
             let id = String(index + ( (rowNumber - 1) * 3 ) )
             button.restorationIdentifier = id
             button.backgroundColor = .lightGray
+            button.titleLabel?.font = UIFont(name: "Helvetica", size: 50)
             button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
             
             self.buttons.append(button)
@@ -118,12 +118,12 @@ public class BoardView: UIView {
     
     private func blockViewForUser() {
         DispatchQueue.main.async {
-            self.blockButtons()
-            self.updateUI()
-            
             self.resetButton.isHidden = true
             self.indicator.isHidden = false
             self.indicator.startAnimating()
+            
+            self.blockButtons()
+            self.updateUI()
         }
     }
     
@@ -141,14 +141,12 @@ public class BoardView: UIView {
     @objc private func buttonPressed(_ sender: UIButton) {
         let position = buttonIDtoPosition(id: sender.restorationIdentifier!)
         
-        gameModelQueue.async {
+        DispatchQueue.global(qos: .userInteractive).async {
             self.gameModel.playerMakeMove(selectedPosition: position)
                         
             self.blockViewForUser()
             
-            sleep(1)
-            
-            self.gameModel.makeMoveAI()
+            self.gameModel.makeMinimaxMove()
             
             self.unblockViewForUser()
         }
@@ -194,28 +192,28 @@ public class BoardView: UIView {
         NSLayoutConstraint.activate(constraints)
     }
     
-    private func buttonIDtoPosition(id: String) -> (Int, Int) {
+    private func buttonIDtoPosition(id: String) -> Position {
         switch id {
         case "1":
-            return (0, 0)
+            return Position(0, 0)
         case "2":
-            return (0, 1)
+            return Position(0, 1)
         case "3":
-            return (0, 2)
+            return Position(0, 2)
         case "4":
-            return (1, 0)
+            return Position(1, 0)
         case "5":
-            return (1, 1)
+            return Position(1, 1)
         case "6":
-            return (1, 2)
+            return Position(1, 2)
         case "7":
-            return (2, 0)
+            return Position(2, 0)
         case "8":
-            return (2, 1)
+            return Position(2, 1)
         case "9":
-            return (2, 2)
+            return Position(2, 2)
         default:
-            return (0, 0)
+            return Position(0, 0)
         }
     }
     

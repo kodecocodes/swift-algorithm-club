@@ -7,15 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D029435268265690015843C /* BoardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D029434268265690015843C /* BoardTests.swift */; };
+		9D02946D268285E20015843C /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D02946C268285E20015843C /* PlayerTests.swift */; };
+		9D0294852682B1850015843C /* Minimax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D02947A2682B1840015843C /* Minimax.swift */; };
+		9D0294862682B1850015843C /* PlayerSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D02947B2682B1840015843C /* PlayerSymbol.swift */; };
+		9D0294872682B1850015843C /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D02947D2682B1840015843C /* Board.swift */; };
+		9D0294882682B1850015843C /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D02947E2682B1840015843C /* Player.swift */; };
+		9D0294892682B1850015843C /* BoardPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D02947F2682B1840015843C /* BoardPosition.swift */; };
+		9D02948A2682B1850015843C /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0294802682B1840015843C /* PlayerType.swift */; };
+		9D02948B2682B1850015843C /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0294812682B1840015843C /* GameModel.swift */; };
+		9D02948C2682B1850015843C /* DifficultLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0294822682B1840015843C /* DifficultLevel.swift */; };
+		9D02948D2682B1850015843C /* BoardStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0294832682B1840015843C /* BoardStatus.swift */; };
+		9D02948E2682B1850015843C /* GameStateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0294842682B1850015843C /* GameStateValue.swift */; };
 		9DB8564E268129FE0046878A /* MinimaxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB8564D268129FE0046878A /* MinimaxTests.swift */; };
-		9DB856582681344F0046878A /* Minimax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB856572681344F0046878A /* Minimax.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9D029434268265690015843C /* BoardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTests.swift; sourceTree = "<group>"; };
+		9D02946C268285E20015843C /* PlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTests.swift; sourceTree = "<group>"; };
+		9D02947A2682B1840015843C /* Minimax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Minimax.swift; path = ../Minimax.playground/Sources/Model/Minimax/Minimax.swift; sourceTree = "<group>"; };
+		9D02947B2682B1840015843C /* PlayerSymbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerSymbol.swift; path = ../Minimax.playground/Sources/Model/Player/PlayerSymbol.swift; sourceTree = "<group>"; };
+		9D02947D2682B1840015843C /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Board.swift; path = ../Minimax.playground/Sources/Model/Board/Board.swift; sourceTree = "<group>"; };
+		9D02947E2682B1840015843C /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Player.swift; path = ../Minimax.playground/Sources/Model/Player/Player.swift; sourceTree = "<group>"; };
+		9D02947F2682B1840015843C /* BoardPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardPosition.swift; path = ../Minimax.playground/Sources/Model/Board/BoardPosition.swift; sourceTree = "<group>"; };
+		9D0294802682B1840015843C /* PlayerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerType.swift; path = ../Minimax.playground/Sources/Model/Player/PlayerType.swift; sourceTree = "<group>"; };
+		9D0294812682B1840015843C /* GameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameModel.swift; path = ../Minimax.playground/Sources/Model/GameModel/GameModel.swift; sourceTree = "<group>"; };
+		9D0294822682B1840015843C /* DifficultLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DifficultLevel.swift; path = ../Minimax.playground/Sources/Model/GameModel/DifficultLevel.swift; sourceTree = "<group>"; };
+		9D0294832682B1840015843C /* BoardStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardStatus.swift; path = ../Minimax.playground/Sources/Model/Board/BoardStatus.swift; sourceTree = "<group>"; };
+		9D0294842682B1850015843C /* GameStateValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameStateValue.swift; path = ../Minimax.playground/Sources/Model/Minimax/GameStateValue.swift; sourceTree = "<group>"; };
 		9DB8564A268129FE0046878A /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DB8564D268129FE0046878A /* MinimaxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimaxTests.swift; sourceTree = "<group>"; };
 		9DB8564F268129FE0046878A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9DB856572681344F0046878A /* Minimax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Minimax.swift; path = ../Minimax.playground/Sources/Minimax.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,7 +54,16 @@
 		9DB8563F268129EF0046878A = {
 			isa = PBXGroup;
 			children = (
-				9DB856572681344F0046878A /* Minimax.swift */,
+				9D02947D2682B1840015843C /* Board.swift */,
+				9D02947F2682B1840015843C /* BoardPosition.swift */,
+				9D0294832682B1840015843C /* BoardStatus.swift */,
+				9D0294822682B1840015843C /* DifficultLevel.swift */,
+				9D0294812682B1840015843C /* GameModel.swift */,
+				9D0294842682B1850015843C /* GameStateValue.swift */,
+				9D02947A2682B1840015843C /* Minimax.swift */,
+				9D02947E2682B1840015843C /* Player.swift */,
+				9D02947B2682B1840015843C /* PlayerSymbol.swift */,
+				9D0294802682B1840015843C /* PlayerType.swift */,
 				9DB8564C268129FE0046878A /* Tests */,
 				9DB8564B268129FE0046878A /* Products */,
 			);
@@ -50,6 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				9DB8564F268129FE0046878A /* Info.plist */,
+				9D02946C268285E20015843C /* PlayerTests.swift */,
+				9D029434268265690015843C /* BoardTests.swift */,
 				9DB8564D268129FE0046878A /* MinimaxTests.swift */,
 			);
 			path = Tests;
@@ -122,8 +155,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D029435268265690015843C /* BoardTests.swift in Sources */,
+				9D02948E2682B1850015843C /* GameStateValue.swift in Sources */,
 				9DB8564E268129FE0046878A /* MinimaxTests.swift in Sources */,
-				9DB856582681344F0046878A /* Minimax.swift in Sources */,
+				9D0294872682B1850015843C /* Board.swift in Sources */,
+				9D0294892682B1850015843C /* BoardPosition.swift in Sources */,
+				9D02948A2682B1850015843C /* PlayerType.swift in Sources */,
+				9D02948B2682B1850015843C /* GameModel.swift in Sources */,
+				9D02948C2682B1850015843C /* DifficultLevel.swift in Sources */,
+				9D0294862682B1850015843C /* PlayerSymbol.swift in Sources */,
+				9D02948D2682B1850015843C /* BoardStatus.swift in Sources */,
+				9D0294882682B1850015843C /* Player.swift in Sources */,
+				9D02946D268285E20015843C /* PlayerTests.swift in Sources */,
+				9D0294852682B1850015843C /* Minimax.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
