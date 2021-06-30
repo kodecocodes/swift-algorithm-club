@@ -139,7 +139,7 @@ But that doesn't feel very Swifty to me. We might as well make use of Swift's bu
 Of course, `last` only returns nil because we don't have any nodes in the list. Let's add a method that adds a new node to the end of the list:
 
 ```swift
-  public func append(value: T) {
+  public func append(_ value: T) {
     let newNode = Node(value: value)
     if let lastNode = last {
       newNode.previous = lastNode
