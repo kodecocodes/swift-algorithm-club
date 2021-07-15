@@ -80,7 +80,7 @@ public class OrderedSet<T: Hashable> {
   }
   
   // O(1)
-  // append object (removing any existing other occurence)
+  // append object (removing any existing other occurrence)
   public func ensure_at_end(_ object: T) {
       if contains(object) {
           remove(object)
@@ -89,7 +89,7 @@ public class OrderedSet<T: Hashable> {
   }
   
   // O(n)
-  // prepend object (removing any existing other occurence)
+  // prepend object (removing any existing other occurrence)
   public func ensure_at_front(_ object: T) {
       if contains(object) {
           remove(object)      // could make this more efficient (at the expense of maintenance complexity) by not delegating to remove() and insert()
