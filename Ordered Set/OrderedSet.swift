@@ -96,14 +96,12 @@ public class OrderedSet<T: Hashable> {
                               // but instead doing manually, and running for loop just once at end
       }
       insert(object, at:0)
-      
   }
   
-  func debug_str() -> String  // useful for printing/debugging
-  {
+  // string representation, useful for printing/debugging
+  public func debug_str() -> String  {
       var str = "OrderedSet: \n"
       str += objects.map{"\($0)"}.joined(separator: ",")
-      
       return str
   }
 }
