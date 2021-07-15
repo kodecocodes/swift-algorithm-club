@@ -73,5 +73,38 @@ public class OrderedSet<T: Hashable> {
   public func all() -> [T] {
     return objects
   }
+
+  // convenience checker - minimize need for client's knowledge of internals
+  public func contains(_ object: T) ->Bool {
+      return indexOfKey[object] != nil
+  }
+  
+  // O(1)
+  // append object (removing any existing other occurence)
+  public func ensure_at_end(_ object: T) {
+      if contains(object) {
+          remove(object)
+      }
+      add(object)
+  }
+  
+  // O(n)
+  // prepend object (removing any existing other occurence)
+  public func ensure_at_front(_ object: T) {
+      if contains(object) {
+          remove(object)      // could make this more efficient (at the expense of maintenance complexity) by not delegating to remove() and insert()
+                              // but instead doing manually, and running for loop just once at end
+      }
+      insert(object, at:0)
+      
+  }
+  
+  func debug_str() -> String  // useful for printing/debugging
+  {
+      var str = "OrderedSet: \n"
+      str += objects.map{"\($0)"}.joined(separator: ",")
+      
+      return str
+  }
 }
 
