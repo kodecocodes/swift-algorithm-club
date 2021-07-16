@@ -16,7 +16,7 @@ public class OrderedSet<T: Hashable> {
   
   // O(n)
   public func insert(_ object: T, at index: Int) {
-    assert(index < objects.count, "Index should be smaller than object count")
+    assert(index <= objects.count, "Index should be smaller than object count")
     assert(index >= 0, "Index should be bigger than 0")
     
     guard indexOfKey[object] == nil else {
