@@ -3,9 +3,7 @@
 <p align="center"> <img src="Resources/image1.jpg" {:height="50%" width="50%"} /> </p>
 
 ## Runtime environment
-<img src="https://img.shields.io/badge/Swift-5.3-orange.svg?style=flat" />
-<img src="https://img.shields.io/badge/Xcode-12.4-blue.svg?style=flat" />
-<img src="https://img.shields.io/badge/MacOS-11.2.3-blue.svg?style=flat" />
+<img src="https://img.shields.io/badge/Swift-5.3-orange.svg?style=flat" /> <img src="https://img.shields.io/badge/Xcode-12.4-blue.svg?style=flat" /> <img src="https://img.shields.io/badge/MacOS-11.2.3-blue.svg?style=flat" />
 
 ## Table of contents
 * [General info](#general-info)
@@ -62,7 +60,7 @@ function alphabeta(node, depth, α, β, maximizingPlayer) is
 
 ## Demo
 
-<p align="center"> <img src="Resources/Demo.gif" {:height="100%" width="100%"} /> </p>
+<p align="center"> <img src="Resources/demo.gif" {:height="100%" width="100%"} /> </p>
 
 ## Sources
 * Minimax algorithm: https://en.wikipedia.org/wiki/Minimax
