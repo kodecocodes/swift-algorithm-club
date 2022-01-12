@@ -272,12 +272,12 @@ extension LinkedList {
     }
 }
 
-// MARK: - Extension to enable initialization from an Array
+// MARK: - Extension to enable initialization from a Sequence
 extension LinkedList {
-    convenience init(array: Array<T>) {
+    convenience init<S>(_ sequence: S) where S: Sequence, S.Element == T {
         self.init()
         
-        array.forEach { append($0) }
+        sequence.forEach { append($0) }
     }
 }
 
