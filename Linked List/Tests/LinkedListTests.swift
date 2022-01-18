@@ -336,4 +336,16 @@ class LinkedListTest: XCTestCase {
         
         XCTAssertTrue(value == 3)
     }
+
+    func testArrayInit() {
+        let testArray = Array(1...10_000)
+
+        let list = LinkedList(array: testArray)
+
+        XCTAssertEqual(list.head?.value, 1)
+        XCTAssertEqual(list.last?.value, 10_000)
+
+        XCTAssertEqual(list.count, 10_000)
+    }
+
 }
