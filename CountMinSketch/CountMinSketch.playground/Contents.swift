@@ -61,7 +61,7 @@ public final class CountMinSketch<T> where T: Hashable {
     // Adding elemets to count, by default we increase the element count by one
     // But we extended the API to allow increasing the count in batches
     
-    /// Adding an element ot the sketch
+    /// Adding an element to the sketch
     /// - Parameters:
     ///   - element: the element to add, must conform to hashable (described by T in the class definition)
     ///   - value: the value (i.e amount) that we want to increase the element count by
