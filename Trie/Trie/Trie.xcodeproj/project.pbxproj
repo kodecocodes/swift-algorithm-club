@@ -12,7 +12,6 @@
 		EB798E021DFEF79900F0628D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB798E011DFEF79900F0628D /* Assets.xcassets */; };
 		EB798E051DFEF79900F0628D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB798E031DFEF79900F0628D /* Main.storyboard */; };
 		EB798E101DFEF79900F0628D /* TrieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB798E0F1DFEF79900F0628D /* TrieTests.swift */; };
-		EB798E1B1DFEF79900F0628D /* TrieUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB798E1A1DFEF79900F0628D /* TrieUITests.swift */; };
 		EB798E291DFEF81400F0628D /* Trie.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB798E281DFEF81400F0628D /* Trie.swift */; };
 		EB798E2A1DFEF81400F0628D /* Trie.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB798E281DFEF81400F0628D /* Trie.swift */; };
 		EB798E2C1DFEF90B00F0628D /* dictionary.txt in Resources */ = {isa = PBXBuildFile; fileRef = EB798E2B1DFEF90B00F0628D /* dictionary.txt */; };
@@ -21,13 +20,6 @@
 
 /* Begin PBXContainerItemProxy section */
 		EB798E0C1DFEF79900F0628D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EB798DF21DFEF79900F0628D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EB798DF91DFEF79900F0628D;
-			remoteInfo = Trie;
-		};
-		EB798E171DFEF79900F0628D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EB798DF21DFEF79900F0628D /* Project object */;
 			proxyType = 1;
@@ -46,9 +38,6 @@
 		EB798E0B1DFEF79900F0628D /* TrieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB798E0F1DFEF79900F0628D /* TrieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrieTests.swift; sourceTree = "<group>"; };
 		EB798E111DFEF79900F0628D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EB798E161DFEF79900F0628D /* TrieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EB798E1A1DFEF79900F0628D /* TrieUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrieUITests.swift; sourceTree = "<group>"; };
-		EB798E1C1DFEF79900F0628D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB798E281DFEF81400F0628D /* Trie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trie.swift; sourceTree = "<group>"; };
 		EB798E2B1DFEF90B00F0628D /* dictionary.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dictionary.txt; sourceTree = "<group>"; };
 		EB8369AC1E15C5710003A7F8 /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
@@ -69,13 +58,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EB798E131DFEF79900F0628D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -84,7 +66,6 @@
 			children = (
 				EB798DFC1DFEF79900F0628D /* Trie */,
 				EB798E0E1DFEF79900F0628D /* TrieTests */,
-				EB798E191DFEF79900F0628D /* TrieUITests */,
 				EB798DFB1DFEF79900F0628D /* Products */,
 			);
 			indentWidth = 2;
@@ -96,7 +77,6 @@
 			children = (
 				EB798DFA1DFEF79900F0628D /* Trie.app */,
 				EB798E0B1DFEF79900F0628D /* TrieTests.xctest */,
-				EB798E161DFEF79900F0628D /* TrieUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,15 +103,6 @@
 				EB798E111DFEF79900F0628D /* Info.plist */,
 			);
 			path = TrieTests;
-			sourceTree = "<group>";
-		};
-		EB798E191DFEF79900F0628D /* TrieUITests */ = {
-			isa = PBXGroup;
-			children = (
-				EB798E1A1DFEF79900F0628D /* TrieUITests.swift */,
-				EB798E1C1DFEF79900F0628D /* Info.plist */,
-			);
-			path = TrieUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,24 +143,6 @@
 			productReference = EB798E0B1DFEF79900F0628D /* TrieTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		EB798E151DFEF79900F0628D /* TrieUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EB798E251DFEF79900F0628D /* Build configuration list for PBXNativeTarget "TrieUITests" */;
-			buildPhases = (
-				EB798E121DFEF79900F0628D /* Sources */,
-				EB798E131DFEF79900F0628D /* Frameworks */,
-				EB798E141DFEF79900F0628D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				EB798E181DFEF79900F0628D /* PBXTargetDependency */,
-			);
-			name = TrieUITests;
-			productName = TrieUITests;
-			productReference = EB798E161DFEF79900F0628D /* TrieUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -202,18 +155,12 @@
 				TargetAttributes = {
 					EB798DF91DFEF79900F0628D = {
 						CreatedOnToolsVersion = 8.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1200;
 						ProvisioningStyle = Automatic;
 					};
 					EB798E0A1DFEF79900F0628D = {
 						CreatedOnToolsVersion = 8.1;
-						LastSwiftMigration = 1000;
-						ProvisioningStyle = Automatic;
-						TestTargetID = EB798DF91DFEF79900F0628D;
-					};
-					EB798E151DFEF79900F0628D = {
-						CreatedOnToolsVersion = 8.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1200;
 						ProvisioningStyle = Automatic;
 						TestTargetID = EB798DF91DFEF79900F0628D;
 					};
@@ -224,6 +171,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -234,7 +182,6 @@
 			targets = (
 				EB798DF91DFEF79900F0628D /* Trie */,
 				EB798E0A1DFEF79900F0628D /* TrieTests */,
-				EB798E151DFEF79900F0628D /* TrieUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -255,13 +202,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB798E2D1DFEF90B00F0628D /* dictionary.txt in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EB798E141DFEF79900F0628D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,14 +227,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EB798E121DFEF79900F0628D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EB798E1B1DFEF79900F0628D /* TrieUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -302,11 +234,6 @@
 			isa = PBXTargetDependency;
 			target = EB798DF91DFEF79900F0628D /* Trie */;
 			targetProxy = EB798E0C1DFEF79900F0628D /* PBXContainerItemProxy */;
-		};
-		EB798E181DFEF79900F0628D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EB798DF91DFEF79900F0628D /* Trie */;
-			targetProxy = EB798E171DFEF79900F0628D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -439,7 +366,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.bucknell.zaccone.Trie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -452,7 +379,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.bucknell.zaccone.Trie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -466,7 +393,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.bucknell.zaccone.TrieTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trie.app/Contents/MacOS/Trie";
 			};
 			name = Debug;
@@ -481,36 +408,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.bucknell.zaccone.TrieTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trie.app/Contents/MacOS/Trie";
-			};
-			name = Release;
-		};
-		EB798E261DFEF79900F0628D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = TrieUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.bucknell.zaccone.TrieUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TEST_TARGET_NAME = Trie;
-			};
-			name = Debug;
-		};
-		EB798E271DFEF79900F0628D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = TrieUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.bucknell.zaccone.TrieUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TEST_TARGET_NAME = Trie;
 			};
 			name = Release;
 		};
@@ -540,15 +439,6 @@
 			buildConfigurations = (
 				EB798E231DFEF79900F0628D /* Debug */,
 				EB798E241DFEF79900F0628D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EB798E251DFEF79900F0628D /* Build configuration list for PBXNativeTarget "TrieUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EB798E261DFEF79900F0628D /* Debug */,
-				EB798E271DFEF79900F0628D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

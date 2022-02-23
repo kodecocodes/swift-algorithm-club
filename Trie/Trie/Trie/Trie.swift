@@ -124,7 +124,7 @@ extension Trie {
   /// - Returns: true if the word is present, false otherwise.
   func contains(word: String, matchPrefix: Bool = false) -> Bool {
     guard !word.isEmpty else {
-      return false
+      return true
     }
     var currentNode = root
     for character in word.lowercased() {
