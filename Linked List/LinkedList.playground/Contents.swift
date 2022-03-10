@@ -81,12 +81,9 @@ public final class LinkedList<T> {
             var node = head!.next
             for _ in 1..<index {
                 node = node?.next
-                if node == nil {
-                    break
-                }
+                assert(node != nil , "index is out of bounds.")
             }
             
-            assert(node != nil, "index is out of bounds.")
             return node!
         }
     }
@@ -116,11 +113,12 @@ public final class LinkedList<T> {
     ///
     /// - Parameter list: The list to be copied and appended.
     public func append(_ list: LinkedList) {
-        var nodeToCopy = list.head
-        while let node = nodeToCopy {
-            append(node.value)
-            nodeToCopy = node.next
+        
+        guard let headNode = list.head else {
+            return
         }
+        
+        append(headNode)
     }
     
     /// Insert a value at a specific index. Crashes if index is out of bounds (0...self.count)
@@ -380,6 +378,7 @@ list2.append("World")
 list.append(list2)            // [Hello, World, Goodbye, World]
 list2.removeAll()             // [ ]
 list2.isEmpty                 // true
+
 list.removeLast()             // "World"
 list.remove(at: 2)       // "Goodbye"
 
@@ -387,6 +386,7 @@ list.insert("Swift", at: 1)
 list[0]     // "Hello"
 list[1]     // "Swift"
 list[2]     // "World"
+//list[10]     // crash!!
 print(list)
 
 list.reverse()   // [World, Swift, Hello]
