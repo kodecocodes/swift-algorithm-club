@@ -26,9 +26,8 @@ enum MillerRabinError: Error {
 */
 func checkWithMillerRabin(_ n: UInt, accuracy k: UInt = 1) throws -> Bool {
     guard k > 0 else { throw MillerRabinError.primeLowAccuracy }
-    guard n > 0 else { throw MillerRabinError.primeLowerBorder }
-    guard n > 3 else { return true }
-
+    if n <= 3 return n >= 2
+    
     // return false for all even numbers bigger than 2
     if n % 2 == 0 {
         return false
