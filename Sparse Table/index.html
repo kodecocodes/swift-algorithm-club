@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<head>
+  <title>Sparse Table</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Sparse Table</h1>
+<p>I'm excited to present <strong>Sparse Tables</strong>. Despite being somewhat niche, Sparse Tables are simple to implement and extremely powerful.</p>
+<h3>The Problem</h3>
+<p>Let's suppose:</p>
+<ul>
+<li>we have an array <strong>a</strong> of some type</li>
+<li>we have some associative binary function <strong>f</strong> <sup>[*]</sup>. The function can be: min, max, <a href="../GCD/">gcd</a>, boolean AND, boolean OR ...</li>
+</ul>
+<p><em><sup>[*]</sup> where <strong>f</strong> is also "idempotent". Don't worry, I'll explain this in a moment.</em></p>
+<p>Our task is as follows:</p>
+<ul>
+<li>Given two indices <strong>l</strong> and <strong>r</strong>, answer a <strong>query</strong> for the interval <code>[l, r)</code> by performing <code>f(a[l], a[l + 1], a[l + 2], ..., a[r - 1])</code>; taking all the elements in the range and applying <strong>f</strong> to them</li>
+<li>There will be a <em>huge</em> number <strong>Q</strong> of these queries to answer ... so we should be able to answer each query <em>quickly</em>!</li>
+</ul>
+<p>For example, if we have an array of numbers:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> a <span class="pl-k">=</span> [ <span class="pl-c1">20</span>, <span class="pl-c1">3</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">101</span>, <span class="pl-c1">14</span>, <span class="pl-c1">29</span>, <span class="pl-c1">5</span>, <span class="pl-c1">61</span>, <span class="pl-c1">99</span> ]</pre></div>
+<p>and our function <strong>f</strong> is the <em>min</em> function.</p>
+<p>Then we may be given a query for interval <code>[3, 8)</code>. That means we look at the elements:</p>
+<pre><code>101, 14, 29, 5, 61
+</code></pre>
+<p>because these are the elements of <strong>a</strong> with indices<br>
+that lie in our range <code>[3, 8)</code> – elements from index 3 up to, but not including, index 8.<br>
+We then we pass all of these numbers into the min function,<br>
+which takes the minimum. The answer to the query is <code>5</code>, because that's the result of <code>min(101, 14, 29, 5, 61)</code>.</p>
+<p>Imagine we have millions of these queries to process.</p>
+<blockquote>
+<ul>
+<li><em>Query 1</em>: Find minimum of all elements between 2 and 5</li>
+<li><em>Query 2</em>: Find minimum of all elements between 3 and 9</li>
+<li>...</li>
+<li><em>Query 1000000</em>: Find minimum of all elements between 1 and 4</li>
+</ul>
+</blockquote>
+<p>And our array is very large. Here, let's say <strong>Q</strong> = 1000000 and <strong>N</strong> = 500000. Both numbers are <em>huge</em>. We want to make sure that we can answer each query really quickly, or else the number of queries will overwhelm us!</p>
+<p><em>So that's the problem.</em></p>
+<p>The naive solution to this problem is to perform a <code>for</code> loop<br>
+to compute the answer for each query. However, for very large <strong>Q</strong> and very large <strong>N</strong> this<br>
+will be too slow. We can speed up the time to compute the answer by using a data structure called<br>
+a <strong>Sparse Table</strong>. You'll notice that so far, our problem is exactly the same as that of the <a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree">Segment Tree</a><br>
+(assuming you're familiar). However! ... there's one crucial difference between Segment Trees<br>
+and Sparse Tables ... and it concerns our choice of <strong>f</strong>.</p>
+<h3>A small gotcha ... Idempotency</h3>
+<p>Suppose we wanted to find the answer to <strong><code>[A, D)</code></strong>.<br>
+And we already know the answer to two ranges  <strong><code>[A, B)</code></strong> and <strong><code>[C, D)</code></strong>.<br>
+And importantly here, ... <em>these ranges overlap</em>!! We have <strong>C</strong> &lt; <strong>B</strong>.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/idempotency.png"><img src="Images/idempotency.png" alt="Overlapping ranges" style="max-width:100%;"></a></p>
+<p>So what? Well, for <strong>f</strong> = minimum function, we can take our answers for <strong><code>[A, B)</code></strong> and <strong><code>[C, D)</code></strong><br>
+and combine them!<br>
+We can just take the minimum of the two answers: <code>result = min(x1, x2)</code> ... <em>voilà!</em>, we have the minimum for <strong><code>[A, D)</code></strong>.<br>
+It didn't matter that the intervals overlap - we still found the correct minimum.<br>
+But now suppose <strong>f</strong> is the addition operation <code>+</code>. Ok, so now we're taking sums over ranges.<br>
+If we tried the same approach again, it wouldn't work. That is,<br>
+if we took our answers for <strong><code>[A, B)</code></strong> and <strong><code>[C, D)</code></strong><br>
+and added them together we'd get a wrong answer for <strong><code>[A, D)</code></strong>.<br>
+<em>Why?</em> Well, we'd have counted some elements twice because of the overlap.</p>
+<p>Later, we'll see that in order to answer queries, Sparse Tables use this very technique.<br>
+They combine answers in the same way as shown above. Unfortunately this means<br>
+we have to exclude certain binary operators from being <strong>f</strong>, including <code>+</code>, <code>*</code>, XOR, ...<br>
+because they don't work with this technique.<br>
+In order to get the best speed of a Sparse Table,<br>
+we need to make sure that the <strong>f</strong> we're using is an <strong><a href="https://en.wikipedia.org/wiki/Idempotence" rel="nofollow">idempotent</a></strong> binary operator.<br>
+Mathematically, these are operators that satisfy <code>f(x, x) = x</code> for all possible <strong>x</strong> that could be in <strong>a</strong>.<br>
+Practically speaking, these are the only operators that work; allowing us to combine answers from overlapping ranges.<br>
+Examples of idempotent <strong>f</strong>'s are min, max, gcd, boolean AND, boolean OR, bitwise AND and bitwise OR.<br>
+Note that for Segment Trees, <strong>f</strong> does not have to be idempotent. That's the crucial difference between<br>
+Segment Trees and Sparse Tables.</p>
+<p><em>Phew!</em> Now that we've got that out of the way, let's dive in!</p>
+<h2>Structure of a Sparse Table</h2>
+<p>Let's use <strong>f</strong> = min and use the array:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> a <span class="pl-k">=</span> [ <span class="pl-c1">10</span>, <span class="pl-c1">6</span>, <span class="pl-c1">5</span>, <span class="pl-c1">-7</span>, <span class="pl-c1">9</span>, <span class="pl-c1">-8</span>, <span class="pl-c1">2</span>, <span class="pl-c1">4</span>, <span class="pl-c1">20</span> ]</pre></div>
+<p>In this case, the Sparse Table looks like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/structure.png"><img src="Images/structure.png" alt="Sparse Table" style="max-width:100%;"></a></p>
+<p>What's going on here? There seems to be loads of intervals.<br>
+<em>Correct!</em> Sparse tables are preloaded with the answers for lots of queries <code>[l, r)</code>.<br>
+Here's the idea. Before we process our <strong>Q</strong> queries, we'll pre-populate our Sparse Table <code>table</code><br>
+with answers to loads of queries;<br>
+making it act a bit like a <em>cache</em>. When we come to answer one of our queries, we can break the query<br>
+down into smaller "sub-queries", each having an answer that's already in the cache.<br>
+We lookup the cached answers for the sub-queries in<br>
+<code>table</code> in constant time<br>
+and combine the answers together<br>
+to give the overall answer to the original query in speedy time.</p>
+<p>The problem is, we can't store the answers for every single possible query that we could ever have ...<br>
+or else our table would be too big! After all, our Sparse Table needs to be <em>sparse</em>. So what do we do?<br>
+We only pick the "best" intervals to store answers for. And as it turns out, the "best" intervals are those<br>
+that have a <strong>width that is a power of two</strong>!</p>
+<p>For example, the answer for the query <code>[10, 18)</code> is in our table<br>
+because the interval width: <code>18 - 10 = 8 = 2**3</code> is a power of two (<code>**</code> is the <a href="https://en.wikipedia.org/wiki/Exponentiation" rel="nofollow">exponentiation operator</a>).<br>
+Also, the answer for <code>[15, 31)</code> is in our table because its width: <code>31 - 15 = 16 = 2**4</code> is again a power of two.<br>
+However, the answer for <code>[1, 6)</code> is <em>not</em> in there because the interval's width: <code>6 - 1 = 5</code> is <em>not</em> a power of two.<br>
+Consequently, we don't store answers for <em>all</em> possible intervals that fit inside <strong>a</strong> –<br>
+only the ones with a width that is a power of two.<br>
+This is true irrespective of where the interval starts within <strong>a</strong>.<br>
+We'll gradually see that this approach works and that relatively speaking, it uses very little space.</p>
+<p>A <strong>Sparse Table</strong> is a table where <code>table[w][l]</code> contains the answer for <code>[l, l + 2**w)</code>.<br>
+It has entries <code>table[w][l]</code> where:</p>
+<ul>
+<li><strong>w</strong> tells us our <strong>width</strong> ... the number of elements or the <em>width</em> is <code>2**w</code></li>
+<li><strong>l</strong> tells us the <strong>lower bound</strong> ... it's the starting point of our interval</li>
+</ul>
+<p>Some examples:</p>
+<ul>
+<li><code>table[3][0] = -8</code>: our width is <code>2**3</code>, we start at <code>l = 0</code> so our query is <code>[0, 0 + 2**3) = [0, 8)</code>.<br>
+The answer for this query is <code>min(10, 6, 5, -7, 9, -8, 2, 4, 20) = -8</code>.</li>
+<li><code>table[2][1] = -7</code>: our width is <code>2**2</code>, we start at <code>l = 1</code> so our query is  <code>[1, 1 + 2**2) = [1, 5)</code>.<br>
+The answer for this query is <code>min(6, 5, -7, 9) = -7</code>.</li>
+<li><code>table[1][7] = 4</code>: our width is <code>2**1</code>, we start at <code>l = 7</code> so our query is <code>[7, 7 + 2**1) = [7, 9)</code>.<br>
+The answer for this query is <code>min(4, 20) = 4</code>.</li>
+<li><code>table[0][8] = 20</code>: our width is <code>2**0</code>, we start at <code>l = 8</code> so our query is<code>[8, 8 + 2**0) = [8, 9)</code>.<br>
+The answer for this query is <code>min(20) = 20</code>.</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/structure_examples.png"><img src="Images/structure_examples.png" alt="Sparse Table" style="max-width:100%;"></a></p>
+<p>A Sparse Table can be implemented using a <a href="../2D%20Array">two-dimentional array</a>.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SparseTable</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">private</span> <span class="pl-k">var</span> table<span class="pl-k">:</span> [[T]]
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">array</span></span>: [T], <span class="pl-smi"><span class="pl-en">function</span></span>: <span class="pl-k">@escaping</span> (T, T) <span class="pl-k">-&gt;</span> T, <span class="pl-smi"><span class="pl-en">defaultT</span></span>: T) {
+      table <span class="pl-k">=</span> [[T]](<span class="pl-c1">repeating</span>: [T](<span class="pl-c1">repeating</span>: defaultT, <span class="pl-c1">count</span>: N), <span class="pl-c1">count</span>: W)
+  }
+  <span class="pl-c"><span class="pl-c">//</span> ...    </span>
+<span class="pl-c"></span>}</pre></div>
+<h2>Building a Sparse Table</h2>
+<p>To build a Sparse Table, we compute each table entry starting from the bottom-left and moving up towards<br>
+the top-right (in accordance with the diagram).<br>
+First we'll compute all the intervals for  <strong>w</strong> = 0, then compute all the intervals<br>
+and for <strong>w</strong>  = 1 and so on. We'll continue up until <strong>w</strong> is big enough such that our intervals are can cover at least half the array.<br>
+For each <strong>w</strong>, we compute the interval for <strong>l</strong> = 0, 1, 2, 3, ... until we reach <strong>N</strong>.<br>
+This is all achieved using a double <code>for</code>-<code>in</code> loop:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> w <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>W {
+  <span class="pl-k">for</span> l <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>N {
+    <span class="pl-c"><span class="pl-c">//</span> compute table[w][l]</span>
+<span class="pl-c"></span>  }
+}</pre></div>
+<p>To compute <code>table[w][l]</code>:</p>
+<ul>
+<li><strong>Base Case (w = 0)</strong>: Each interval has width <code>2**w = 1</code>.
+<ul>
+<li>We have <em>one</em> element intervals of the form: <code>[l, l + 1)</code>.</li>
+<li>The answer is just <code>a[l]</code> (e.g. the minimum of over a list with one element<br>
+is just the element itself).
+<pre><code>table[w][l] = a[l]
+</code></pre>
+</li>
+</ul>
+</li>
+<li><strong>Inductive Case (w &gt; 0)</strong>: We need to find out the answer to <code>[l, l + 2**w)</code> for some <strong>l</strong>.<br>
+This interval, like all of our intervals in our table has a width that<br>
+is a power of two (e.g.  2, 4, 8, 16) ... so we can cut it into two equal halves.
+<ul>
+<li>Our interval with width <code>2**w</code> is cut into two intervals, each of width <code>2**(w - 1)</code>.</li>
+<li>Because each half has a width that is a power of two, we can look them up in our Sparse Table.</li>
+<li>We combine them together using <strong>f</strong>.
+<pre><code>table[w][l] = f(table[w - 1][l], table[w - 1][l + 2 ** (w - 1)])
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/recursion.png"><img src="Images/recursion.png" alt="Sparse Table" style="max-width:100%;"></a></p>
+<p>For example for <code>a = [ 10, 6, 5, -7, 9, -8, 2, 4, 20 ]</code> and <strong>f</strong> = <em>min</em>:</p>
+<ul>
+<li>we compute <code>table[0][2] = 5</code>. We just had to look at <code>a[2]</code> because the range has a width of one.</li>
+<li>we compute <code>table[1][7] = 4</code>. We looked at <code>table[0][7]</code> and <code>table[0][8]</code> and apply <strong>f</strong> to them.</li>
+<li>we compute <code>table[3][1] = -8</code>. We looked at <code>table[2][1]</code> and <code>table[2][5]</code> and apply <strong>f</strong> to them.</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/recursion_examples.png"><img src="Images/recursion_examples.png" alt="Sparse Table" style="max-width:100%;"></a></p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">array</span></span>: [T], <span class="pl-smi"><span class="pl-en">function</span></span>: <span class="pl-k">@escaping</span> (T, T) <span class="pl-k">-&gt;</span> T, <span class="pl-smi"><span class="pl-en">defaultT</span></span>: T) {
+ <span class="pl-k">let</span> N <span class="pl-k">=</span> array.<span class="pl-c1">count</span>
+ <span class="pl-k">let</span> W <span class="pl-k">=</span> <span class="pl-c1">Int</span>(<span class="pl-c1">ceil</span>(<span class="pl-c1">log2</span>(<span class="pl-c1">Double</span>(N))))
+ table <span class="pl-k">=</span> [[T]](<span class="pl-c1">repeating</span>: [T](<span class="pl-c1">repeating</span>: defaultT, <span class="pl-c1">count</span>: N), <span class="pl-c1">count</span>: W)
+ <span class="pl-c1">self</span>.<span class="pl-smi">function</span> <span class="pl-k">=</span> function
+ <span class="pl-c1">self</span>.<span class="pl-smi">defaultT</span> <span class="pl-k">=</span> defaultT
+
+ <span class="pl-k">for</span> w <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>W {
+   <span class="pl-k">for</span> l <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>N {
+     <span class="pl-k">if</span> w <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+       table[w][l] <span class="pl-k">=</span> array[l]
+     } <span class="pl-k">else</span> {
+       <span class="pl-k">let</span> first <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-smi">table</span>[w <span class="pl-k">-</span> <span class="pl-c1">1</span>][l]
+       <span class="pl-k">let</span> secondIndex <span class="pl-k">=</span> l <span class="pl-k">+</span> (<span class="pl-c1">1</span> <span class="pl-k">&lt;&lt;</span> (w <span class="pl-k">-</span> <span class="pl-c1">1</span>))
+       <span class="pl-k">let</span> second <span class="pl-k">=</span> ((<span class="pl-c1">0</span><span class="pl-k">..&lt;</span>N).<span class="pl-c1">contains</span>(secondIndex)) <span class="pl-k">?</span> table[w <span class="pl-k">-</span> <span class="pl-c1">1</span>][secondIndex] <span class="pl-k">:</span> defaultT
+       table[w][l] <span class="pl-k">=</span> <span class="pl-c1">function</span>(first, second)
+     }
+   }
+ }
+}</pre></div>
+<p>Building a Sparse Table takes <strong>O(NlogN)</strong> time.<br>
+The table itself uses <strong>O(NlgN)</strong> additional space.</p>
+<h2>Getting Answers to Queries</h2>
+<p>Suppose we've built our Sparse Table. And now we're going to process our <strong>Q</strong> queries.<br>
+Here's where our work pays off.</p>
+<p>Let's suppose <strong>f</strong> = min and we have:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> a <span class="pl-k">=</span> [ <span class="pl-c1">10</span>, <span class="pl-c1">6</span>, <span class="pl-c1">5</span>, <span class="pl-c1">-7</span>, <span class="pl-c1">9</span>, <span class="pl-c1">-8</span>, <span class="pl-c1">2</span>, <span class="pl-c1">4</span>, <span class="pl-c1">20</span> ]</pre></div>
+<p>And we have a query <code>[3, 9)</code>.</p>
+<ol>
+<li>
+<p>First let's find the largest power of two that fits inside <code>[3, 9)</code>. Our interval has width <code>9 - 3 = 6</code>. So the largest power of two    that fits inside is four.</p>
+</li>
+<li>
+<p>We create two new queries of <code>[3, 7)</code> and <code>[5, 9)</code> that have a width of four.<br>
+And, we arrange them so that to that they span the whole interval without leaving any gaps.<br>
+<a target="_blank" rel="noopener noreferrer" href="Images/query_example.png"><img src="Images/query_example.png" alt="Sparse Table" style="max-width:100%;"></a></p>
+</li>
+<li>
+<p>Because these two intervals have a width that is exactly a power of two we can lookup their answers in the Sparse Table using the<br>
+entries for <strong>w</strong> = 2. The answer to <code>[3, 7)</code> is given by <code>table[2][3]</code>, and the answer to <code>[5, 9)</code> is given by <code>table[2][5]</code>.<br>
+We compute and return <code>min(table[2][3], table[2][5])</code>. This is our final answer! <g-emoji class="g-emoji" alias="tada" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f389.png">🎉</g-emoji>. Although the two intervals overlap, it doesn't matter because the <strong>f</strong> = min we originally chose is idempotent.</p>
+</li>
+</ol>
+<p>In general, for each query: <code>[l, r)</code> ...</p>
+<ol>
+<li>
+<p>Find <strong>W</strong>, by looking for the largest width that fits inside the interval that's also a power of two. Let largest such width = <code>2**W</code>.</p>
+</li>
+<li>
+<p>Form two sub-queries of width <code>2**W</code> and arrange them to that they span the whole interval without leaving gaps.<br>
+To guarantee there are no gaps, we need to align one half to the left and the align other half to the right.<br>
+<a target="_blank" rel="noopener noreferrer" href="Images/query.png"><img src="Images/query.png" alt="Sparse Table" style="max-width:100%;"></a></p>
+</li>
+<li>
+<p>Compute and return <code>f(table[W][l], table[W][r - 2**W])</code>.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">query</span>(<span class="pl-en">from</span> <span class="pl-smi">l</span>: <span class="pl-c1">Int</span>, <span class="pl-en">until</span> <span class="pl-smi">r</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+  <span class="pl-k">let</span> width <span class="pl-k">=</span> r <span class="pl-k">-</span> l
+  <span class="pl-k">let</span> W <span class="pl-k">=</span> <span class="pl-c1">Int</span>(<span class="pl-c1">floor</span>(<span class="pl-c1">log2</span>(<span class="pl-c1">Double</span>(width))))
+  <span class="pl-k">let</span> lo <span class="pl-k">=</span> table[W][l]
+  <span class="pl-k">let</span> hi <span class="pl-k">=</span> table[W][r <span class="pl-k">-</span> (<span class="pl-c1">1</span> <span class="pl-k">&lt;&lt;</span> W)]
+  <span class="pl-k">return</span> <span class="pl-c1">function</span>(lo, hi)
+}</pre></div>
+</li>
+</ol>
+<p>Finding answers to queries takes <strong>O(1)</strong> time.</p>
+<h2>Analysing Sparse Tables</h2>
+<ul>
+<li><strong>Query Time</strong> - Both table lookups take constant time. All other operations inside <code>query</code> take constant time.<br>
+So answering a single query also takes constant time: <strong>O(1)</strong>. But instead of one query we're actually answering <strong>Q</strong> queries,<br>
+and we'll need time to built the table before-hand.<br>
+Overall time is: <strong>O(NlgN + Q)</strong> to build the table and answer all queries.<br>
+The naive approach is to do a for loop for each query. The overall time for the naive approach is: <strong>O(NQ)</strong>.<br>
+For very large <strong>Q</strong>, the naive approach will scale poorly. For example if <code>Q = O(N*N)</code><br>
+then the naive approach is <code>O(N*N*N)</code> where a Sparse Table takes time <code>O(N*N)</code>.</li>
+<li><strong>Space</strong>-  The number of possible <strong>w</strong> is <strong>lgN</strong> and the number of possible <strong>l</strong> our table is <strong>N</strong>. So the table<br>
+has uses <strong>O(NlgN)</strong> additional space.</li>
+</ul>
+<h3>Comparison with Segment Trees</h3>
+<ul>
+<li><strong>Pre-processing</strong> - Segment Trees take <strong>O(N)</strong> time to build and use <strong>O(N)</strong> space. Sparse Tables take <strong>O(NlgN)</strong> time to build and use <strong>O(NlgN)</strong> space.</li>
+<li><strong>Queries</strong> - Segment Tree queries are <strong>O(lgN)</strong> time for any <strong>f</strong> (idempotent or not idempotent). Sparse Table queries are <strong>O(1)</strong> time if <strong>f</strong> is idempotent and are not supported if <strong>f</strong> is not idempotent. <sup>[†]</sup></li>
+<li><strong>Replacing Items</strong> - Segment Trees allow us to efficiently update an element in <strong>a</strong> and update the segment tree in <strong>O(lgN)</strong> time. Sparse Tables do not allow this to be done efficiently. If we were to update an element in <strong>a</strong>, we'd have to rebuild the Sparse Table all over again in <strong>O(NlgN)</strong> time.</li>
+</ul>
+<p><sup>[†]</sup> <em>Although technically, it's possible to rewrite the <code>query</code> method<br>
+to add support for non-idempotent functions. But in doing so, we'd bump up the time up from O(1) to O(lgn),<br>
+completely defeating the original purpose of Sparse Tables - supporting lightening quick queries.<br>
+In such a case, we'd be better off using a Segment Tree (or a Fenwick Tree)</em></p>
+<h2>Summary</h2>
+<p>That's it! See the playground for more examples involving Sparse Tables.<br>
+You'll see examples for: min, max, gcd, boolean operators and logical operators.</p>
+<h3>See also</h3>
+<ul>
+<li><a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree">Segment Trees (Swift Algorithm Club)</a></li>
+<li><a href="https://www.geeksforgeeks.org/range-sum-query-using-sparse-table/" rel="nofollow">How to write O(lgn) time query function to support non-idempontent functions (GeeksForGeeks)</a></li>
+<li><a href="https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/" rel="nofollow">Fenwick Trees / Binary Indexed Trees (TopCoder)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Semilattice" rel="nofollow">Semilattice (Wikipedia)</a></li>
+</ul>
+<p><em>Written for Swift Algorithm Club by <a href="https://github.com/jameslawson">James Lawson</a></em></p></div>
+</body>
+</html>

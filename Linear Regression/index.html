@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<head>
+  <title>Linear Regression</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Linear Regression</h1>
+<p>Linear regression is a technique for creating a model of the relationship between two (or more) variable quantities.</p>
+<p>For example, let's say we are planning to sell a car. We are not sure how much money to ask for. So we look at recent advertisments for the asking prices of other cars. There are a lot of variables we could look at - for example: make, model, engine size. To simplify our task, we collect data on just the age of the car and the price:</p>
+<table>
+<thead>
+<tr>
+<th>Age (in years)</th>
+<th>Price (in £)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>500</td>
+</tr>
+<tr>
+<td>8</td>
+<td>400</td>
+</tr>
+<tr>
+<td>3</td>
+<td>7,000</td>
+</tr>
+<tr>
+<td>3</td>
+<td>8,500</td>
+</tr>
+<tr>
+<td>2</td>
+<td>11,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>10,500</td>
+</tr>
+</tbody>
+</table>
+<p>Our car is 4 years old. How can we set a price for our car based on the data in this table?</p>
+<p>Let's start by looking at the data plotted out:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/graph1.png"><img src="Images/graph1.png" alt="graph1" style="max-width:100%;"></a></p>
+<p>We could imagine a straight line drawn through the points on this graph. It's not (in this case) going to go exactly through every point, but we could place the line so that it goes as close to all the points as possible.</p>
+<p>To say this in another way, we want to make the distance from the line to each point as small as possible. This is most often done by minimizing the square of the distance from the line to each point.</p>
+<p>We can describe the straight line in terms of two variables:</p>
+<ol>
+<li>The point at which it crosses the y-axis i.e. the predicted price of a brand new car. This is the <em>intercept</em>.</li>
+<li>The <em>slope</em> of the line - i.e. for every year of age, how much does the price change.</li>
+</ol>
+<p>This is the equation for our line:</p>
+<p><code>carPrice = slope * carAge + intercept</code></p>
+<p>How can we find the best values for the intercept and the slope? Let's look at two different ways to do this.</p>
+<h2>An iterative approach</h2>
+<p>One approach is to start with some arbitrary values for the intercept and the slope. We work out what small changes we make to these values to move our line closer to the data points. Then we repeat this multiple times. Eventually our line will approach the optimum position.</p>
+<p>First let's set up our data structures. We will use two Swift arrays for the car age and the car price:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> carAge<span class="pl-k">:</span> [<span class="pl-c1">Double</span>] <span class="pl-k">=</span> [<span class="pl-c1">10</span>, <span class="pl-c1">8</span>, <span class="pl-c1">3</span>, <span class="pl-c1">3</span>, <span class="pl-c1">2</span>, <span class="pl-c1">1</span>]
+<span class="pl-k">let</span> carPrice<span class="pl-k">:</span> [<span class="pl-c1">Double</span>] <span class="pl-k">=</span> [<span class="pl-c1">500</span>, <span class="pl-c1">400</span>, <span class="pl-c1">7000</span>, <span class="pl-c1">8500</span>, <span class="pl-c1">11000</span>, <span class="pl-c1">10500</span>]</pre></div>
+<p>This is how we can represent our straight line:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> intercept <span class="pl-k">=</span> <span class="pl-c1">0.0</span>
+<span class="pl-k">var</span> slope <span class="pl-k">=</span> <span class="pl-c1">0.0</span>
+<span class="pl-k">func</span> <span class="pl-en">predictedCarPrice</span>(<span class="pl-en">_</span> <span class="pl-smi">carAge</span>: <span class="pl-c1">Double</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Double</span> {
+    <span class="pl-k">return</span> intercept <span class="pl-k">+</span> slope <span class="pl-k">*</span> carAge
+}
+</pre></div>
+<p>Now for the code which will perform the iterations:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> numberOfCarAdvertsWeSaw <span class="pl-k">=</span> carPrice.<span class="pl-c1">count</span>
+<span class="pl-k">let</span> numberOfIterations <span class="pl-k">=</span> <span class="pl-c1">100</span>
+<span class="pl-k">let</span> alpha <span class="pl-k">=</span> <span class="pl-c1">0.0001</span>
+
+<span class="pl-k">for</span> <span class="pl-c1">_</span> <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-smi">numberOfIterations</span> {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>numberOfCarAdvertsWeSaw {
+        <span class="pl-k">let</span> difference <span class="pl-k">=</span> carPrice[i] <span class="pl-k">-</span> <span class="pl-c1">predictedCarPrice</span>(carAge[i])
+        intercept <span class="pl-k">+=</span> alpha <span class="pl-k">*</span> difference
+        slope <span class="pl-k">+=</span> alpha <span class="pl-k">*</span> difference <span class="pl-k">*</span> carAge[i]
+    }
+}</pre></div>
+<p><code>alpha</code> is a factor that determines how much closer we move to the correct solution with each iteration. If this factor is too large then our program will not converge on the correct solution.</p>
+<p>The program loops through each data point (each car age and car price). For each data point it adjusts the intercept and the slope to bring them closer to the correct values. The equations used in the code to adjust the intercept and the slope are based on moving in the direction of the maximal reduction of these variables. This is a <em>gradient descent</em>.</p>
+<p>We want to minimize the square of the distance between the line and the points. We define a function <code>J</code> which represents this distance - for simplicity we consider only one point here. This function <code>J</code> is proportional to <code>((slope * carAge + intercept) - carPrice)) ^ 2</code>.</p>
+<p>In order to move in the direction of maximal reduction, we take the partial derivative of this function with respect to the slope, and similarly for the intercept. We multiply these derivatives by our factor alpha and then use them to adjust the values of slope and intercept on each iteration.</p>
+<p>Looking at the code, it intuitively makes sense - the larger the difference between the current predicted car Price and the actual car price, and the larger the value of <code>alpha</code>, the greater the adjustments to the intercept and the slope.</p>
+<p>It can take a lot of iterations to approach the ideal values. Let's look at how the intercept and slope change as we increase the number of iterations:</p>
+<table>
+<thead>
+<tr>
+<th align="center">Iterations</th>
+<th align="center">Intercept</th>
+<th align="center">Slope</th>
+<th align="center">Predicted value of a 4 year old car</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">2000</td>
+<td align="center">4112</td>
+<td align="center">-113</td>
+<td align="center">3659</td>
+</tr>
+<tr>
+<td align="center">6000</td>
+<td align="center">8564</td>
+<td align="center">-764</td>
+<td align="center">5507</td>
+</tr>
+<tr>
+<td align="center">10000</td>
+<td align="center">10517</td>
+<td align="center">-1049</td>
+<td align="center">6318</td>
+</tr>
+<tr>
+<td align="center">14000</td>
+<td align="center">11374</td>
+<td align="center">-1175</td>
+<td align="center">6673</td>
+</tr>
+<tr>
+<td align="center">18000</td>
+<td align="center">11750</td>
+<td align="center">-1230</td>
+<td align="center">6829</td>
+</tr>
+</tbody>
+</table>
+<p>Here is the same data shown as a graph. Each of the blue lines on the graph represents a row in the table above.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/graph2.png"><img src="Images/graph2.png" alt="graph2" style="max-width:100%;"></a></p>
+<p>After 18,000 iterations it looks as if the line is getting closer to what we would expect (just by looking) to be the correct line of best fit. Also, each additional 2,000 iterations has less and less effect on the final result - the values of the intercept and the slope are converging on the correct values.</p>
+<h2>A closed form solution</h2>
+<p>There is another way we can calculate the line of best fit, without having to do multiple iterations. We can solve the equations describing the least squares minimisation and just work out the intercept and slope directly.</p>
+<p>First we need some helper functions. This one calculates the average (the mean) of an array of Doubles:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">average</span>(<span class="pl-en">_</span> <span class="pl-smi">input</span>: [<span class="pl-c1">Double</span>]) <span class="pl-k">-&gt;</span> <span class="pl-c1">Double</span> {
+    <span class="pl-k">return</span> input.<span class="pl-c1">reduce</span>(<span class="pl-c1">0</span>, <span class="pl-k">+</span>) <span class="pl-k">/</span> <span class="pl-c1">Double</span>(input.<span class="pl-c1">count</span>)
+}</pre></div>
+<p>We are using the <code>reduce</code> Swift function to sum up all the elements of the array, and then divide that by the number of elements. This gives us the mean value.</p>
+<p>We also need to be able to multiply each element in an array by the corresponding element in another array, to create a new array. Here is a function which will do this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">multiply</span>(<span class="pl-en">_</span> <span class="pl-smi">a</span>: [<span class="pl-c1">Double</span>], <span class="pl-en">_</span> <span class="pl-smi">b</span>: [<span class="pl-c1">Double</span>]) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Double</span>] {
+    <span class="pl-k">return</span> <span class="pl-c1">zip</span>(a,b).<span class="pl-c1">map</span>(<span class="pl-k">*</span>)
+}</pre></div>
+<p>We are using the <code>map</code> function to multiply each element.</p>
+<p>Finally, the function which fits the line to the data:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">linearRegression</span>(<span class="pl-en">_</span> <span class="pl-smi">xs</span>: [<span class="pl-c1">Double</span>], <span class="pl-en">_</span> <span class="pl-smi">ys</span>: [<span class="pl-c1">Double</span>]) <span class="pl-k">-&gt;</span> (<span class="pl-c1">Double</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Double</span> {
+    <span class="pl-k">let</span> sum1 <span class="pl-k">=</span> <span class="pl-c1">average</span>(<span class="pl-c1">multiply</span>(ys, xs)) <span class="pl-k">-</span> <span class="pl-c1">average</span>(xs) <span class="pl-k">*</span> <span class="pl-c1">average</span>(ys)
+    <span class="pl-k">let</span> sum2 <span class="pl-k">=</span> <span class="pl-c1">average</span>(<span class="pl-c1">multiply</span>(xs, xs)) <span class="pl-k">-</span> <span class="pl-c1">pow</span>(<span class="pl-c1">average</span>(xs), <span class="pl-c1">2</span>)
+    <span class="pl-k">let</span> slope <span class="pl-k">=</span> sum1 <span class="pl-k">/</span> sum2
+    <span class="pl-k">let</span> intercept <span class="pl-k">=</span> <span class="pl-c1">average</span>(ys) <span class="pl-k">-</span> slope <span class="pl-k">*</span> <span class="pl-c1">average</span>(xs)
+    <span class="pl-k">return</span> { x <span class="pl-k">in</span> intercept <span class="pl-k">+</span> slope <span class="pl-k">*</span> x }
+}</pre></div>
+<p>This function takes as arguments two arrays of Doubles, and returns a function which is the line of best fit. The formulas to calculate the slope and the intercept can be derived from our definition of the function <code>J</code>. Let's see how the output from this line fits our data:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/graph3.png"><img src="Images/graph3.png" alt="graph3" style="max-width:100%;"></a></p>
+<p>Using this line, we would predict a price for our 4 year old car of £6952.</p>
+<h2>Summary</h2>
+<p>We've seen two different ways to implement a simple linear regression in Swift. An obvious question is: why bother with the iterative approach at all?</p>
+<p>Well, the line we've found doesn't fit the data perfectly. For one thing, the graph includes some negative values at high car ages! Possibly we would have to pay someone to tow away a very old car... but really these negative values just show that we have not modelled the real life situation very accurately. The relationship between the car age and the car price is not linear but instead is some other function. We also know that a car's price is not just related to its age but also other factors such as the make, model and engine size of the car. We would need to use additional variables to describe these other factors.</p>
+<p>It turns out that in some of these more complicated models, the iterative approach is the only viable or efficient approach. This can also occur when the arrays of data are very large and may be sparsely populated with data values.</p>
+<p><em>Written for Swift Algorithm Club by James Harrop</em></p></div>
+</body>
+</html>

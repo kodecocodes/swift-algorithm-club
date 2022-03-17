@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<head>
+  <title>Segment Tree</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Segment Tree</h1>
+<blockquote>
+<p>For an example on lazy propagation, see this <a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation">article</a>.</p>
+</blockquote>
+<p>I'm pleased to present to you Segment Tree. It's actually one of my favorite data structures because it's very flexible and simple in realization.</p>
+<p>Let's suppose that you have an array <strong>a</strong> of some type and some associative function <strong>f</strong>. For example, the function can be sum, multiplication, min, max, <a href="../GCD/">gcd</a>, and so on.</p>
+<p>Your task is to:</p>
+<ul>
+<li>answer a query for an interval given by <strong>l</strong> and <strong>r</strong>, i.e. perform <code>f(a[l], a[l+1], ..., a[r-1], a[r])</code></li>
+<li>support replacing an item at some index <code>a[index] = newItem</code></li>
+</ul>
+<p>For example, if we have an array of numbers:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> a <span class="pl-k">=</span> [ <span class="pl-c1">20</span>, <span class="pl-c1">3</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">101</span>, <span class="pl-c1">14</span>, <span class="pl-c1">29</span>, <span class="pl-c1">5</span>, <span class="pl-c1">61</span>, <span class="pl-c1">99</span> ]</pre></div>
+<p>We want to query this array on the interval from 3 to 7 for the function "sum". That means we do the following:</p>
+<pre><code>101 + 14 + 29 + 5 + 61 = 210
+</code></pre>
+<p>because <code>101</code> is at index 3 in the array and <code>61</code> is at index 7. So we pass all the numbers between <code>101</code> and <code>61</code> to the sum function, which adds them all up. If we had used the "min" function, the result would have been <code>5</code> because that's the smallest number in the interval from 3 to 7.</p>
+<p>Here's naive approach if our array's type is <code>Int</code> and <strong>f</strong> is just the sum of two integers:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">query</span>(<span class="pl-smi"><span class="pl-en">array</span></span>: [<span class="pl-c1">Int</span>], <span class="pl-smi"><span class="pl-en">l</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">r</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">var</span> sum <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  <span class="pl-k">for</span> i <span class="pl-k">in</span> l<span class="pl-k">...</span><span class="pl-smi">r</span> {
+    sum <span class="pl-k">+=</span> array[i]
+  }
+  <span class="pl-k">return</span> sum
+}</pre></div>
+<p>The running time of this algorithm is <strong>O(n)</strong> in the worst case, that is when <strong>l = 0, r = n-1</strong> (where <strong>n</strong> is the number of elements in the array). And if we have <strong>m</strong> queries to answer we get <strong>O(m*n)</strong> complexity.</p>
+<p>If we have an array with 100,000 items (<strong>n = 10^5</strong>) and we have to do 100 queries (<strong>m = 100</strong>), then our algorithm will do <strong>10^7</strong> units of work. Ouch, that doesn't sound very good. Let's look at how we can improve it.</p>
+<p>Segment trees allow us to answer queries and replace items with <strong>O(log n)</strong> time. Isn't it magic? <g-emoji class="g-emoji" alias="sparkles" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png">✨</g-emoji></p>
+<p>The main idea of segment trees is simple: we precalculate some segments in our array and then we can use those without repeating calculations.</p>
+<h2>Structure of segment tree</h2>
+<p>A segment tree is just a <a href="../Binary%20Tree/">binary tree</a> where each node is an instance of the <code>SegmentTree</code> class:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SegmentTree</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">private</span> <span class="pl-k">var</span> value<span class="pl-k">:</span> T
+  <span class="pl-k">private</span> <span class="pl-k">var</span> function<span class="pl-k">:</span> (T, T) <span class="pl-k">-&gt;</span> T
+  <span class="pl-k">private</span> <span class="pl-k">var</span> leftBound<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+  <span class="pl-k">private</span> <span class="pl-k">var</span> rightBound<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+  <span class="pl-k">private</span> <span class="pl-k">var</span> leftChild<span class="pl-k">:</span> SegmentTree<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;?</span>
+  <span class="pl-k">private</span> <span class="pl-k">var</span> rightChild<span class="pl-k">:</span> SegmentTree<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;?</span>
+}</pre></div>
+<p>Each node has the following data:</p>
+<ul>
+<li><code>leftBound</code> and <code>rightBound</code> describe an interval</li>
+<li><code>leftChild</code> and <code>rightChild</code> are pointers to child nodes</li>
+<li><code>value</code> is the result of applying the function <code>f(a[leftBound], a[leftBound+1], ..., a[rightBound-1], a[rightBound])</code></li>
+</ul>
+<p>If our array is <code>[1, 2, 3, 4]</code> and the function <code>f = a + b</code>, the segment tree looks like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Structure.png"><img src="Images/Structure.png" alt="structure" style="max-width:100%;"></a></p>
+<p>The <code>leftBound</code> and <code>rightBound</code> of each node are marked in red.</p>
+<h2>Building a segment tree</h2>
+<p>Here's how we create a node of the segment tree:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">array</span></span>: [T], <span class="pl-smi"><span class="pl-en">leftBound</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">rightBound</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">function</span></span>: <span class="pl-k">@escaping</span> (T, T) <span class="pl-k">-&gt;</span> T) {
+    <span class="pl-c1">self</span>.<span class="pl-smi">leftBound</span> <span class="pl-k">=</span> leftBound
+    <span class="pl-c1">self</span>.<span class="pl-smi">rightBound</span> <span class="pl-k">=</span> rightBound
+    <span class="pl-c1">self</span>.<span class="pl-smi">function</span> <span class="pl-k">=</span> function
+
+    <span class="pl-k">if</span> leftBound <span class="pl-k">==</span> rightBound {                    <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>      value <span class="pl-k">=</span> array[leftBound]
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">let</span> middle <span class="pl-k">=</span> (leftBound <span class="pl-k">+</span> rightBound) <span class="pl-k">/</span> <span class="pl-c1">2</span>     <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>
+      <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>      leftChild <span class="pl-k">=</span> SegmentTree<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>(<span class="pl-c1">array</span>: array, <span class="pl-c1">leftBound</span>: leftBound, <span class="pl-c1">rightBound</span>: middle, <span class="pl-c1">function</span>: function)
+      rightChild <span class="pl-k">=</span> SegmentTree<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>(<span class="pl-c1">array</span>: array, <span class="pl-c1">leftBound</span>: middle<span class="pl-k">+</span><span class="pl-c1">1</span>, <span class="pl-c1">rightBound</span>: rightBound, <span class="pl-c1">function</span>: function)
+
+      value <span class="pl-k">=</span> <span class="pl-c1">function</span>(leftChild<span class="pl-k">!</span>.<span class="pl-c1">value</span>, rightChild<span class="pl-k">!</span>.<span class="pl-c1">value</span>)  <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>    }
+  }</pre></div>
+<p>Notice that this is a recursive method. You give it an array such as <code>[1, 2, 3, 4]</code> and it builds up the entire tree, from the root node to all the child nodes.</p>
+<ol>
+<li>
+<p>The recursion terminates if <code>leftBound</code> and <code>rightBound</code> are equal. Such a <code>SegmentTree</code> instance represents a leaf node. For the input array <code>[1, 2, 3, 4]</code>, this process will create four such leaf nodes: <code>1</code>, <code>2</code>, <code>3</code>, and <code>4</code>. We just fill in the <code>value</code> property with the number from the array.</p>
+</li>
+<li>
+<p>However, if <code>rightBound</code> is still greater than <code>leftBound</code>, we create two child nodes. We divide the current segment into two equal segments (at least, if the length is even; if it's odd, one segment will be slightly larger).</p>
+</li>
+<li>
+<p>Recursively build child nodes for those two segments. The left child node covers the interval <strong>[leftBound, middle]</strong> and the right child node covers <strong>[middle+1, rightBound]</strong>.</p>
+</li>
+<li>
+<p>After having constructed our child nodes, we can calculate our own value because <strong>f(leftBound, rightBound) = f(f(leftBound, middle), f(middle+1, rightBound))</strong>. It's math!</p>
+</li>
+</ol>
+<p>Building the tree is an <strong>O(n)</strong> operation.</p>
+<h2>Getting answer to query</h2>
+<p>We go through all this trouble so we can efficiently query the tree.</p>
+<p>Here's the code:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">query</span>(<span class="pl-smi"><span class="pl-en">withLeftBound</span></span>: leftBound<span class="pl-ii">:</span> <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">rightBound</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>    <span class="pl-k">if</span> <span class="pl-c1">self</span>.<span class="pl-smi">leftBound</span> <span class="pl-k">==</span> leftBound <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">self</span>.<span class="pl-smi">rightBound</span> <span class="pl-k">==</span> rightBound {
+      <span class="pl-k">return</span> <span class="pl-c1">self</span>.<span class="pl-c1">value</span>
+    }
+
+    <span class="pl-k">guard</span> <span class="pl-k">let</span> leftChild <span class="pl-k">=</span> leftChild <span class="pl-k">else</span> { <span class="pl-c1">fatalError</span>(<span class="pl-s"><span class="pl-pds">"</span>leftChild should not be nil<span class="pl-pds">"</span></span>) }
+    <span class="pl-k">guard</span> <span class="pl-k">let</span> rightChild <span class="pl-k">=</span> rightChild <span class="pl-k">else</span> { <span class="pl-c1">fatalError</span>(<span class="pl-s"><span class="pl-pds">"</span>rightChild should not be nil<span class="pl-pds">"</span></span>) }
+
+    <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>    <span class="pl-k">if</span> leftChild.<span class="pl-smi">rightBound</span> <span class="pl-k">&lt;</span> leftBound {
+      <span class="pl-k">return</span> rightChild.<span class="pl-c1">query</span>(<span class="pl-c1">withLeftBound</span>: leftBound, <span class="pl-c1">rightBound</span>: rightBound)
+
+    <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>    } <span class="pl-k">else</span> <span class="pl-k">if</span> rightChild.<span class="pl-smi">leftBound</span> <span class="pl-k">&gt;</span> rightBound {
+      <span class="pl-k">return</span> leftChild.<span class="pl-c1">query</span>(<span class="pl-c1">withLeftBound</span>: leftBound, <span class="pl-c1">rightBound</span>: rightBound)
+
+    <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>    } <span class="pl-k">else</span> {
+      <span class="pl-k">let</span> leftResult <span class="pl-k">=</span> leftChild.<span class="pl-c1">query</span>(<span class="pl-c1">withLeftBound</span>: leftBound, <span class="pl-c1">rightBound</span>: leftChild.<span class="pl-smi">rightBound</span>)
+      <span class="pl-k">let</span> rightResult <span class="pl-k">=</span> rightChild.<span class="pl-c1">query</span>(<span class="pl-c1">withLeftBound</span>: rightChild.<span class="pl-smi">leftBound</span>, <span class="pl-c1">rightBound</span>: rightBound)
+      <span class="pl-k">return</span> <span class="pl-c1">function</span>(leftResult, rightResult)
+    }
+  }</pre></div>
+<p>Again, this is a recursive method. It checks four different possibilities.</p>
+<ol>
+<li>First, we check if the query segment is equal to the segment for which our current node is responsible. If it is we just return this node's value.</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/EqualSegments.png"><img src="Images/EqualSegments.png" alt="equalSegments" style="max-width:100%;"></a></p>
+<ol start="2">
+<li>Does the query segment fully lie within the right child? If so, recursively perform the query on the right child.</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/RightSegment.png"><img src="Images/RightSegment.png" alt="rightSegment" style="max-width:100%;"></a></p>
+<ol start="3">
+<li>Does the query segment fully lie within the left child? If so, recursively perform the query on the left child.</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/LeftSegment.png"><img src="Images/LeftSegment.png" alt="leftSegment" style="max-width:100%;"></a></p>
+<ol start="4">
+<li>If none of the above, it means our query partially lies in both children so we combine the results of queries on both children.</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/MixedSegment.png"><img src="Images/MixedSegment.png" alt="mixedSegment" style="max-width:100%;"></a></p>
+<p>This is how you can test it out in a playground:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> array <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>]
+
+<span class="pl-k">let</span> sumSegmentTree <span class="pl-k">=</span> <span class="pl-c1">SegmentTree</span>(<span class="pl-c1">array</span>: array, <span class="pl-c1">function</span>: <span class="pl-k">+</span>)
+
+sumSegmentTree.<span class="pl-c1">query</span>(<span class="pl-c1">withLeftBound</span>: <span class="pl-c1">0</span>, <span class="pl-c1">rightBound</span>: <span class="pl-c1">3</span>)  <span class="pl-c"><span class="pl-c">//</span> 1 + 2 + 3 + 4 = 10</span>
+<span class="pl-c"></span>sumSegmentTree.<span class="pl-c1">query</span>(<span class="pl-c1">withLeftBound</span>: <span class="pl-c1">1</span>, <span class="pl-c1">rightBound</span>: <span class="pl-c1">2</span>)  <span class="pl-c"><span class="pl-c">//</span> 2 + 3 = 5</span>
+<span class="pl-c"></span>sumSegmentTree.<span class="pl-c1">query</span>(<span class="pl-c1">withLeftBound</span>: <span class="pl-c1">0</span>, <span class="pl-c1">rightBound</span>: <span class="pl-c1">0</span>)  <span class="pl-c"><span class="pl-c">//</span> just 1</span>
+<span class="pl-c"></span>sumSegmentTree.<span class="pl-c1">query</span>(<span class="pl-c1">withLeftBound</span>: <span class="pl-c1">3</span>, <span class="pl-c1">rightBound</span>: <span class="pl-c1">3</span>)  <span class="pl-c"><span class="pl-c">//</span> just 4</span></pre></div>
+<p>Querying the tree takes <strong>O(log n)</strong> time.</p>
+<h2>Replacing items</h2>
+<p>The value of a node in the segment tree depends on the nodes below it. So if we want to change a value of a leaf node, we need to update all its parent nodes too.</p>
+<p>Here is the code:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">replaceItem</span>(<span class="pl-en">at</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>, <span class="pl-en">withItem</span> <span class="pl-smi">item</span>: T) {
+    <span class="pl-k">if</span> leftBound <span class="pl-k">==</span> rightBound {
+      value <span class="pl-k">=</span> item
+    } <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-k">let</span> leftChild <span class="pl-k">=</span> leftChild, rightChild <span class="pl-k">=</span> rightChild {
+      <span class="pl-k">if</span> leftChild.<span class="pl-smi">rightBound</span> <span class="pl-k">&gt;=</span> index {
+        leftChild.<span class="pl-c1">replaceItem</span>(<span class="pl-c1">at</span>: index, <span class="pl-c1">withItem</span>: item)
+      } <span class="pl-k">else</span> {
+        rightChild.<span class="pl-c1">replaceItem</span>(<span class="pl-c1">at</span>: index, <span class="pl-c1">withItem</span>: item)
+      }
+      value <span class="pl-k">=</span> <span class="pl-c1">function</span>(leftChild.<span class="pl-c1">value</span>, rightChild.<span class="pl-c1">value</span>)
+    }
+  }</pre></div>
+<p>As usual, this works with recursion. If the node is a leaf, we just change its value. If the node is not a leaf, then we recursively call <code>replaceItem(at: )</code> to update its children. After that, we recalculate the node's own value so that it is up-to-date again.</p>
+<p>Replacing an item takes <strong>O(log n)</strong> time.</p>
+<p>See the playground for more examples of how to use the segment tree.</p>
+<h2>See also</h2>
+<p><a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation">Lazy Propagation</a> implementation and explanation.</p>
+<p><a href="http://wcipeg.com/wiki/Segment_tree" rel="nofollow">Segment tree at PEGWiki</a></p>
+<p><em>Written for Swift Algorithm Club by <a href="https://github.com/goingreen">Artur Antonov</a></em></p></div>
+</body>
+</html>

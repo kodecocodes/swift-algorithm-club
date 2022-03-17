@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<head>
+  <title>Shell Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Shell Sort</h1>
+<p>Shell sort is based on <a href="../Insertion%20Sort/">insertion sort</a> as a general way to improve its performance, by breaking the original list into smaller sublists which are then individually sorted using insertion sort.</p>
+<p><a href="https://www.youtube.com/watch?v=CmPA7zE8mx0" rel="nofollow">There is a nice video created at Sapientia University</a> which shows the process as a Hungarian folk dance.</p>
+<h2>How it works</h2>
+<p>Instead of comparing elements that are side-by-side and swapping them if they are out of order, the way insertion sort does it, the shell sort algorithm compares elements that are far apart.</p>
+<p>The distance between elements is known as the <em>gap</em>. If the elements being compared are in the wrong order, they are swapped across the gap. This eliminates many in-between copies that are common with insertion sort.</p>
+<p>The idea is that by moving the elements over large gaps, the array becomes partially sorted quite quickly. This makes later passes faster because they don't have to swap so many items anymore.</p>
+<p>Once a pass has been completed, the gap is made smaller and a new pass starts.  This repeats until the gap has size 1, at which point the algorithm functions just like  insertion sort. But since the data is already fairly well sorted by then, the final pass can be very quick.</p>
+<h2>An example</h2>
+<p>Suppose we want to sort the array <code>[64, 20, 50, 33, 72, 10, 23, -1, 4]</code> using shell sort.</p>
+<p>We start by dividing the length of the array by 2:</p>
+<pre><code>n = floor(9/2) = 4
+</code></pre>
+<p>This is the gap size.</p>
+<p>We create <code>n</code> sublists. In each sublist, the items are spaced apart by a gap of size <code>n</code>. In our example, we need to make four of these sublists. The sublists are sorted by the <code>insertionSort()</code> function.</p>
+<p>That may not have made a whole lot of sense, so let's take a closer look at what happens.</p>
+<p>The first pass is as follows. We have <code>n = 4</code>, so we make four sublists:</p>
+<pre><code>sublist 0:  [ 64, xx, xx, xx, 72, xx, xx, xx, 4  ]
+sublist 1:  [ xx, 20, xx, xx, xx, 10, xx, xx, xx ]
+sublist 2:  [ xx, xx, 50, xx, xx, xx, 23, xx, xx ]
+sublist 3:  [ xx, xx, xx, 33, xx, xx, xx, -1, xx ]
+</code></pre>
+<p>As you can see, each sublist contains only every 4th item from the original array. The items that are not in a sublist are marked with <code>xx</code>. So the first sublist is <code>[ 64, 72, 4 ]</code> and the second is <code>[ 20, 10 ]</code>, and so on. The reason we use this "gap" is so that we don't have to actually make new arrays. Instead, we interleave them in the original array.</p>
+<p>We now call <code>insertionSort()</code> once on each sublist.</p>
+<p>This particular version of <a href="../Insertion%20Sort/">insertion sort</a> sorts from the back to the front. Each item in the sublist is compared against the others. If they're in the wrong order, the value is swapped and travels all the way down until we reach the start of the sublist.</p>
+<p>So for sublist 0, we swap <code>4</code> with <code>72</code>, then swap <code>4</code> with <code>64</code>. After sorting, this sublist looks like:</p>
+<pre><code>sublist 0:  [ 4, xx, xx, xx, 64, xx, xx, xx, 72 ]
+</code></pre>
+<p>The other three sublists after sorting:</p>
+<pre><code>sublist 1:  [ xx, 10, xx, xx, xx, 20, xx, xx, xx ]
+sublist 2:  [ xx, xx, 23, xx, xx, xx, 50, xx, xx ]
+sublist 3:  [ xx, xx, xx, -1, xx, xx, xx, 33, xx ]
+</code></pre>
+<p>The total array looks like this now:</p>
+<pre><code>[ 4, 10, 23, -1, 64, 20, 50, 33, 72 ]
+</code></pre>
+<p>It's not entirely sorted yet but it's more sorted than before. This completes the first pass.</p>
+<p>In the second pass, we divide the gap size by two:</p>
+<pre><code>n = floor(4/2) = 2
+</code></pre>
+<p>That means we now create only two sublists:</p>
+<pre><code>sublist 0:  [  4, xx, 23, xx, 64, xx, 50, xx, 72 ]
+sublist 1:  [ xx, 10, xx, -1, xx, 20, xx, 33, xx ]
+</code></pre>
+<p>Each sublist contains every 2nd item. Again, we call <code>insertionSort()</code> to sort these sublists. The result is:</p>
+<pre><code>sublist 0:  [  4, xx, 23, xx, 50, xx, 64, xx, 72 ]
+sublist 1:  [ xx, -1, xx, 10, xx, 20, xx, 33, xx ]
+</code></pre>
+<p>Note that in each list only two elements were out of place. So the insertion sort is really fast. That's because we already sorted the array a little in the first pass.</p>
+<p>The total array looks like this now:</p>
+<pre><code>[ 4, -1, 23, 10, 50, 20, 64, 33, 72 ]
+</code></pre>
+<p>This completes the second pass. The gap size of the final pass is:</p>
+<pre><code>n = floor(2/2) = 1
+</code></pre>
+<p>A gap size of 1 means we only have a single sublist, the array itself, and once again we call <code>insertionSort()</code> to sort it. The final sorted array is:</p>
+<pre><code>[ -1, 4, 10, 20, 23, 33, 50, 64, 72 ]
+</code></pre>
+<p>The performance of shell sort is <strong>O(n^2)</strong> in most cases or <strong>O(n log n)</strong> if you get lucky. This algorithm produces an unstable sort; it may change the relative order of elements with equal values.</p>
+<h2>The gap sequence</h2>
+<p>The "gap sequence" determines the initial size of the gap and how it is made smaller with each iteration. A good gap sequence is important for shell sort to perform well.</p>
+<p>The gap sequence in this implementation is the one from Shell's original version: the initial value is half the array size and then it is divided by 2 each time. There are other ways to calculate the gap sequence.</p>
+<h2>Just for fun...</h2>
+<p>This is an old Commodore 64 BASIC version of shell sort that Matthijs used a long time ago and ported to pretty much every programming language he ever used:</p>
+<pre><code>61200 REM S is the array to be sorted
+61205 REM AS is the number of elements in S
+61210 W1=AS
+61220 IF W1&lt;=0 THEN 61310
+61230 W1=INT(W1/2): W2=AS-W1
+61240 V=0
+61250 FOR N1=0 TO W2-1
+61260 W3=N1+W1
+61270 IF S(N1)&gt;S(W3) THEN SH=S(N1): S(N1)=S(W3): S(W3)=SH: V=1
+61280 NEXT N1
+61290 IF V&gt;0 THEN 61240
+61300 GOTO 61220
+61310 RETURN
+</code></pre>
+<h2>The Code:</h2>
+<p>Here is an implementation of Shell Sort in Swift:</p>
+<pre><code>var arr = [64, 20, 50, 33, 72, 10, 23, -1, 4, 5]
+
+public func shellSort(_ list: inout [Int]) {
+    var sublistCount = list.count / 2
+    while sublistCount &gt; 0 {
+        for pos in 0..&lt;sublistCount {
+            insertionSort(&amp;list, start: pos, gap: sublistCount)
+        }
+        sublistCount = sublistCount / 2
+    }
+}
+
+shellSort(&amp;arr)
+</code></pre>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Shellsort" rel="nofollow">Shellsort on Wikipedia</a></p>
+<p><a href="http://rosettacode.org/wiki/Sorting_algorithms/Shell_sort" rel="nofollow">Shell sort at Rosetta code</a></p>
+<p><em>Written for Swift Algorithm Club by <a href="https://github.com/mitghi">Mike Taghavi</a> and Matthijs Hollemans</em></p></div>
+</body>
+</html>

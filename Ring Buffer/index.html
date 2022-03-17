@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<head>
+  <title>Ring Buffer</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Ring Buffer</h1>
+<p>Also known as a circular buffer.</p>
+<p>The problem with a <a href="../Queue/">queue based on an array</a> is that adding new items to the back of the queue is fast, <strong>O(1)</strong>, but removing items from the front of the queue is slow, <strong>O(n)</strong>. Removing is slow because it requires the remaining array elements to be shifted in memory.</p>
+<p>A more efficient way to implement a queue is to use a ring buffer or circular buffer. This is an array that conceptually wraps around back to the beginning, so you never have to remove any items. All operations are <strong>O(1)</strong>.</p>
+<p>Here is how it works in principle. We have an array of a fixed size, say 5 items:</p>
+<pre><code>[    ,    ,    ,    ,     ]
+ r
+ w
+</code></pre>
+<p>Initially, the array is empty and the read (<code>r</code>) and write (<code>w</code>) pointers are at the beginning.</p>
+<p>Let's add some data to this array. We'll write, or "enqueue", the number <code>123</code>:</p>
+<pre><code>[ 123,    ,    ,    ,     ]
+  r
+  ---&gt; w
+</code></pre>
+<p>Each time we add data, the write pointer moves one step forward. Let's add a few more elements:</p>
+<pre><code>[ 123, 456, 789, 666,     ]
+  r    
+       -------------&gt; w
+</code></pre>
+<p>There is now one open spot left in the array, but rather than enqueuing another item the app decides to read some data. That's possible because the write pointer is ahead of the read pointer, meaning data is available for reading. The read pointer advances as we read the available data:</p>
+<pre><code>[ 123, 456, 789, 666,     ]
+  ---&gt; r              w
+</code></pre>
+<p>Let's read two more items:</p>
+<pre><code>[ 123, 456, 789, 666,     ]
+       --------&gt; r    w
+</code></pre>
+<p>Now the app decides it's time to write again and enqueues two more data items, <code>333</code> and <code>555</code>:</p>
+<pre><code>[ 123, 456, 789, 666, 333 ]
+                 r    ---&gt; w
+</code></pre>
+<p>Whoops, the write pointer has reached the end of the array, so there is no more room for object <code>555</code>. What now? Well, this is why it's a circular buffer: we wrap the write pointer back to the beginning and write the remaining data:</p>
+<pre><code>[ 555, 456, 789, 666, 333 ]
+  ---&gt; w         r        
+</code></pre>
+<p>We can now read the remaining three items, <code>666</code>, <code>333</code>, and <code>555</code>.</p>
+<pre><code>[ 555, 456, 789, 666, 333 ]
+       w         --------&gt; r        
+</code></pre>
+<p>Of course, as the read pointer reaches the end of the buffer it also wraps around:</p>
+<pre><code>[ 555, 456, 789, 666, 333 ]
+       w            
+  ---&gt; r
+</code></pre>
+<p>And now the buffer is empty again because the read pointer has caught up with the write pointer.</p>
+<p>Here is a very basic implementation in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">RingBuffer</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> array<span class="pl-k">:</span> [T<span class="pl-k">?</span>]
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> readIndex <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> writeIndex <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">count</span></span>: <span class="pl-c1">Int</span>) {
+    array <span class="pl-k">=</span> [T<span class="pl-k">?</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">nil</span>, <span class="pl-c1">count</span>: count)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">write</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">if</span> <span class="pl-k">!</span>isFull {
+      array[writeIndex <span class="pl-k">%</span> array.<span class="pl-c1">count</span>] <span class="pl-k">=</span> element
+      writeIndex <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+      <span class="pl-k">return</span> <span class="pl-c1">true</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> <span class="pl-c1">false</span>
+    }
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">read</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> <span class="pl-k">!</span>isEmpty {
+      <span class="pl-k">let</span> element <span class="pl-k">=</span> array[readIndex <span class="pl-k">%</span> array.<span class="pl-c1">count</span>]
+      readIndex <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+      <span class="pl-k">return</span> element
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    }
+  }
+
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> availableSpaceForReading<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> writeIndex <span class="pl-k">-</span> readIndex
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> availableSpaceForReading <span class="pl-k">==</span> <span class="pl-c1">0</span>
+  }
+
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> availableSpaceForWriting<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">count</span> <span class="pl-k">-</span> availableSpaceForReading
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isFull<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> availableSpaceForWriting <span class="pl-k">==</span> <span class="pl-c1">0</span>
+  }
+}</pre></div>
+<p>The <code>RingBuffer</code> object has an array for the actual storage of the data, and <code>readIndex</code> and <code>writeIndex</code> variables for the "pointers" into the array. The <code>write()</code> function puts the new element into the array at the <code>writeIndex</code>, and the <code>read()</code> function returns the element at the <code>readIndex</code>.</p>
+<p>But hold up, you say, how does this wrapping around work? There are several ways to accomplish this and I chose a slightly controversial one. In this implementation, the <code>writeIndex</code> and <code>readIndex</code> always increment and never actually wrap around. Instead, we do the following to find the actual index into the array:</p>
+<div class="highlight highlight-source-swift"><pre>array[writeIndex <span class="pl-k">%</span> array.<span class="pl-c1">count</span>]</pre></div>
+<p>and:</p>
+<div class="highlight highlight-source-swift"><pre>array[readIndex <span class="pl-k">%</span> array.<span class="pl-c1">count</span>]</pre></div>
+<p>In other words, we take the modulo (or the remainder) of the read index and write index divided by the size of the underlying array.</p>
+<p>The reason this is a bit controversial is that <code>writeIndex</code> and <code>readIndex</code> always increment, so in theory these values could become too large to fit into an integer and the app will crash. However, a quick back-of-the-napkin calculation should take away those fears.</p>
+<p>Both <code>writeIndex</code> and <code>readIndex</code> are 64-bit integers. If we assume that they are incremented 1000 times per second, which is a lot, then doing this continuously for one year requires <code>ceil(log_2(365 * 24 * 60 * 60 * 1000)) = 35</code> bits. That leaves 28 bits to spare, so that should give you about 2^28 years before running into problems. That's a long time. :-)</p>
+<p>To play with this ring buffer, copy the code to a playground and do the following to mimic the example above:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> buffer <span class="pl-k">=</span> RingBuffer<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>(<span class="pl-c1">count</span>: <span class="pl-c1">5</span>)
+
+buffer.<span class="pl-c1">write</span>(<span class="pl-c1">123</span>)
+buffer.<span class="pl-c1">write</span>(<span class="pl-c1">456</span>)
+buffer.<span class="pl-c1">write</span>(<span class="pl-c1">789</span>)
+buffer.<span class="pl-c1">write</span>(<span class="pl-c1">666</span>)
+
+buffer.<span class="pl-c1">read</span>()   <span class="pl-c"><span class="pl-c">//</span> 123</span>
+<span class="pl-c"></span>buffer.<span class="pl-c1">read</span>()   <span class="pl-c"><span class="pl-c">//</span> 456</span>
+<span class="pl-c"></span>buffer.<span class="pl-c1">read</span>()   <span class="pl-c"><span class="pl-c">//</span> 789</span>
+<span class="pl-c"></span>
+buffer.<span class="pl-c1">write</span>(<span class="pl-c1">333</span>)
+buffer.<span class="pl-c1">write</span>(<span class="pl-c1">555</span>)
+
+buffer.<span class="pl-c1">read</span>()   <span class="pl-c"><span class="pl-c">//</span> 666</span>
+<span class="pl-c"></span>buffer.<span class="pl-c1">read</span>()   <span class="pl-c"><span class="pl-c">//</span> 333</span>
+<span class="pl-c"></span>buffer.<span class="pl-c1">read</span>()   <span class="pl-c"><span class="pl-c">//</span> 555</span>
+<span class="pl-c"></span>buffer.<span class="pl-c1">read</span>()   <span class="pl-c"><span class="pl-c">//</span> nil</span></pre></div>
+<p>You've seen that a ring buffer can make a more optimal queue but it also has a disadvantage: the wrapping makes it tricky to resize the queue. But if a fixed-size queue is suitable for your purposes, then you're golden.</p>
+<p>A ring buffer is also very useful for when a producer of data writes into the array at a different rate than the consumer of the data reads it. This happens often with file or network I/O. Ring buffers are also the preferred way of communicating between high priority threads (such as an audio rendering callback) and other, slower, parts of the system.</p>
+<p>The implementation given here is not thread-safe. It only serves as an example of how a ring buffer works. That said, it should be fairly straightforward to make it thread-safe for a single reader and single writer by using <code>OSAtomicIncrement64()</code> to change the read and write pointers.</p>
+<p>A cool trick to make a really fast ring buffer is to use the operating system's virtual memory system to map the same buffer onto different memory pages. Crazy stuff but worth looking into if you need to use a ring buffer in a high performance environment.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

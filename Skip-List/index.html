@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<head>
+  <title>Skip-List</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Skip List</h1>
+<p>Skip List is a probablistic data-structure  with same logarithmic time bound and<br>
+efficiency  as AVL/  or  Red-Black  tree and  provides  a  clever compromise  to<br>
+efficiently support  search and update  operations and is relatively  simpler to<br>
+implement compared to other map data structures.</p>
+<p>A skip  list <em>S</em>  consists of  series of  sorted linked  lists <em>{L0,  ..., Ln}</em>,<br>
+layered hierarchicaly and each layer <em>L</em> stores  a subset of items in layer <em>L0</em><br>
+in incremental order.  The items in layers  <em>{L1, ... Ln}</em> are  chosen at random<br>
+based on a coin flipping function  with probability 1/2 .  For traversing, every<br>
+item in  a layer  hold references  to the node  below and  the next  node.  This<br>
+layers serve as  express lanes to the layer underneath  them, effectively making<br>
+fast O(log n) searching possible by  skipping lanes and reducing travel distance<br>
+and in worse case  searching degrades to O (n), as  expected with regular linked<br>
+list.</p>
+<p>For a skip list <em>S</em>:</p>
+<ol>
+<li>List <em>L0</em> contains every inserted item.</li>
+<li>For lists <em>{L1, ..., Ln}</em>, <em>Li</em>  contains a randomly generated subset of the<br>
+items in <em>Li-1</em></li>
+<li>Height is determined by coin-flipping.</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Intro.png"><img src="Images/Intro.png" alt="Schematic view" style="max-width:100%;"></a><br>
+Figure 1</p>
+<p>#Searching</p>
+<p>Searching for  element <em>N</em> starts by  traversing from top most  layer <em>Ln</em> until<br>
+<em>L0</em>.</p>
+<p>Our objective  is to find an  element <em>K</em> such  that its value at  the rightmost<br>
+position of current layer, is less-than  target item and its subsequent node has<br>
+a greater-equal  value or nil (  <em>K.key &lt; N.key  &lt;= (K.next.key or nil)</em>  ). if<br>
+value of <em>K.next</em> is equal to <em>N</em>,  search is terminated and we return <em>K.next</em>,<br>
+otherwise drop underneath using <em>K.down</em> to the node below ( at layer Ln-1 ) and<br>
+repeat the process until <em>L0</em> where <em>K.down</em> is <code>nil</code> which indicates that level<br>
+is <em>L0</em> and item doesn't exists.</p>
+<p>###Example:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Search1.png"><img src="Images/Search1.png" alt="Inserting first element" style="max-width:100%;"></a></p>
+<p>#Inserting</p>
+<p>Inserting  element  <em>N</em>  has  a  similar process  as  searching.  It  starts  by<br>
+traversing from  top most layer <em>Ln</em>  until <em>L0</em>. We  need to keep track  of our<br>
+traversal path  using a  stack. It  helps us  to traverse  the path  upward when<br>
+coin-flipping starts, so we can insert  our new element and update references to<br>
+it.</p>
+<p>Our objective  is to find  a element  <em>K</em> such that  its value at  the rightmost<br>
+position of  layer <em>Ln</em>,  is less-than new  item and its  subsequent node  has a<br>
+greater-equal value  or nil (  <em>K.key  &lt; N.key &lt;  (K.next.key or nil)</em>  ). Push<br>
+element <em>K</em>  to the stack and  with element <em>K</em>,  go down using <em>K.down</em>  to the<br>
+node below  ( at layer Ln-1  ) and repeat the  process ( forward searching  ) up<br>
+until  <em>L0</em> where  <em>K.down</em> is  <code>nil</code>  which indicates  that level  is <em>L0</em>.  We<br>
+terminate the process when <em>K.down</em> is nil.</p>
+<p>At <em>L0</em>, <em>N</em> can be inserted after <em>K</em>.</p>
+<p>Here is the  interesting part. We use coin flipping  function to randomly create<br>
+layers.</p>
+<p>When  coin flip  function returns  0,  the whole  process is  finished but  when<br>
+returns 1, there are two possibilities:</p>
+<ol>
+<li>Stack is empty ( Level is <em>L0</em> /- <em>Ln</em> or at uninitialized stage)</li>
+<li>Stack has items ( traversing upward is possible )</li>
+</ol>
+<p>In case 1:</p>
+<p>A new layer M*  is created with a head node <em>NM</em> referencing  head node of layer<br>
+below  and <em>NM.next</em>  referencing new  element <em>N</em>.  New element  <em>N</em> referecing<br>
+element <em>N</em> at previous layer.</p>
+<p>In case 2:</p>
+<p>repeat until stack is empty Pop an item <em>F</em> from stack and update the references<br>
+accordingly.  <em>F.next</em> will be <em>K.next</em> and <em>K.next</em> will be <em>F</em></p>
+<p>when  stack  is  empty Create  a  new  layer  consisintg  of a  head  node  <em>NM</em><br>
+referencing  head node  of layer  below  and <em>NM.next</em>  referencing new  element<br>
+<em>N</em>. New element <em>N</em> referencing element <em>N</em> at previous layer.</p>
+<p>###Example:</p>
+<p>Inserting 13. with coin flips (0)</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Insert5.png"><img src="Images/Insert5.png" alt="Inserting first element" style="max-width:100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer" href="Images/Insert6.png"><img src="Images/Insert6.png" alt="Inserting first element" style="max-width:100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer" href="Images/insert7.png"><img src="Images/insert7.png" alt="Inserting first element" style="max-width:100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer" href="Images/Insert8.png"><img src="Images/Insert8.png" alt="Inserting first element" style="max-width:100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer" href="Images/Insert9.png"><img src="Images/Insert9.png" alt="Inserting first element" style="max-width:100%;"></a></p>
+<p>Inserting 20. with 4 times coin flips (1)<br>
+<a target="_blank" rel="noopener noreferrer" href="Images/Insert9.png"><img src="Images/Insert9.png" alt="Inserting first element" style="max-width:100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer" href="Images/Insert10.png"><img src="Images/Insert10.png" alt="Inserting first element" style="max-width:100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer" href="Images/Insert11.png"><img src="Images/Insert11.png" alt="Inserting first element" style="max-width:100%;"></a><br>
+<a target="_blank" rel="noopener noreferrer" href="Images/Insert12.png"><img src="Images/Insert12.png" alt="Inserting first element" style="max-width:100%;"></a></p>
+<p>#Removing</p>
+<p>Removing works similar to insert procedure.</p>
+<p>TODO</p>
+<p>#See also</p>
+<p><a href="https://en.wikipedia.org/wiki/Skip_list" rel="nofollow">Skip List on Wikipedia</a></p>
+<p>Written for Swift Algorithm Club by <a href="https://github.com/mitghi">Mike Taghavi</a></p></div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<head>
+  <title>Select Minimum Maximum</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Select Minimum / Maximum</h1>
+<p>Goal: Find the minimum/maximum object in an unsorted array.</p>
+<h2>Maximum or minimum</h2>
+<p>We have an array of generic objects and we iterate over all the objects keeping track of the minimum/maximum element so far.</p>
+<h3>An example</h3>
+<p>Let's say the we want to find the maximum value in the unsorted list <code>[ 8, 3, 9, 4, 6 ]</code>.</p>
+<p>Pick the first number, <code>8</code>, and store it as the maximum element so far.</p>
+<p>Pick the next number from the list, <code>3</code>, and compare it to the current maximum. <code>3</code> is less than <code>8</code> so the maximum <code>8</code> does not change.</p>
+<p>Pick the next number from the list, <code>9</code>, and compare it to the current maximum. <code>9</code> is greater than <code>8</code> so we store <code>9</code> as the maximum.</p>
+<p>Repeat this process until the all elements in the list have been processed.</p>
+<h3>The code</h3>
+<p>Here is a simple implementation in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">minimum</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">array</span>: [T]) <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+  <span class="pl-k">guard</span> <span class="pl-k">var</span> minimum <span class="pl-k">=</span> array.<span class="pl-c1">first</span> <span class="pl-k">else</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }
+
+  <span class="pl-k">for</span> element <span class="pl-k">in</span> array.<span class="pl-c1">dropFirst</span>() {
+    minimum <span class="pl-k">=</span> element <span class="pl-k">&lt;</span> minimum <span class="pl-k">?</span> element <span class="pl-k">:</span> minimum
+  }
+  <span class="pl-k">return</span> minimum
+}
+
+<span class="pl-k">func</span> <span class="pl-en">maximum</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">array</span>: [T]) <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+  <span class="pl-k">guard</span> <span class="pl-k">var</span> maximum <span class="pl-k">=</span> array.<span class="pl-c1">first</span> <span class="pl-k">else</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }
+
+  <span class="pl-k">for</span> element <span class="pl-k">in</span> array.<span class="pl-c1">dropFirst</span>() {
+    maximum <span class="pl-k">=</span> element <span class="pl-k">&gt;</span> maximum <span class="pl-k">?</span> element <span class="pl-k">:</span> maximum
+  }
+  <span class="pl-k">return</span> maximum
+}</pre></div>
+<p>Put this code in a playground and test it like so:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> array <span class="pl-k">=</span> [ <span class="pl-c1">8</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">4</span>, <span class="pl-c1">6</span> ]
+<span class="pl-c1">minimum</span>(array)   <span class="pl-c"><span class="pl-c">//</span> This will return 3</span>
+<span class="pl-c"></span><span class="pl-c1">maximum</span>(array)   <span class="pl-c"><span class="pl-c">//</span> This will return 9</span></pre></div>
+<h3>In the Swift standard library</h3>
+<p>The Swift library already contains an extension to <code>SequenceType</code> that returns the minimum/maximum element in a sequence.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> array <span class="pl-k">=</span> [ <span class="pl-c1">8</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">4</span>, <span class="pl-c1">6</span> ]
+array.<span class="pl-c1">minElement</span>()   <span class="pl-c"><span class="pl-c">//</span> This will return 3</span>
+<span class="pl-c"></span>array.<span class="pl-c1">maxElement</span>()   <span class="pl-c"><span class="pl-c">//</span> This will return 9</span></pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> array <span class="pl-k">=</span> [ <span class="pl-c1">8</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">4</span>, <span class="pl-c1">6</span> ]
+<span class="pl-c"><span class="pl-c">//</span>swift3</span>
+<span class="pl-c"></span>array.<span class="pl-c1">min</span>()   <span class="pl-c"><span class="pl-c">//</span> This will return 3</span>
+<span class="pl-c"></span>array.<span class="pl-c1">max</span>()   <span class="pl-c"><span class="pl-c">//</span> This will return 9</span></pre></div>
+<h2>Maximum and minimum</h2>
+<p>To find both the maximum and minimum values contained in array while minimizing the number of comparisons we can compare the items in pairs.</p>
+<h3>An example</h3>
+<p>Let's say the we want to find the minimum and maximum value in the unsorted list <code>[ 8, 3, 9, 6, 4 ]</code>.</p>
+<p>Pick the first number, <code>8</code>, and store it as the minimum and maximum element so far.</p>
+<p>Because we have an odd number of items we remove <code>8</code> from the list which leaves the pairs <code>[ 3, 9 ]</code> and <code>[ 6, 4 ]</code>.</p>
+<p>Pick the next pair of numbers from the list, <code>[ 3, 9 ]</code>. Of these two numbers, <code>3</code> is the smaller one, so we compare <code>3</code> to the current minimum <code>8</code>, and we compare <code>9</code> to the current maximum <code>8</code>. <code>3</code> is less than <code>8</code> so the new minimum is <code>3</code>. <code>9</code> is greater than <code>8</code> so the new maximum is <code>9</code>.</p>
+<p>Pick the next pair of numbers from the list, <code>[ 6, 4 ]</code>. Here, <code>4</code> is the smaller one, so we compare <code>4</code> to the current minimum <code>3</code>, and we compare <code>6</code> to the current maximum <code>9</code>. <code>4</code> is greater than <code>3</code> so the minimum does not change. <code>6</code> is less than <code>9</code> so the maximum does not change.</p>
+<p>The result is a minimum of <code>3</code> and a maximum of <code>9</code>.</p>
+<h3>The code</h3>
+<p>Here is a simple implementation in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">minimumMaximum</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">array</span>: [T]) <span class="pl-k">-&gt;</span> (minimum: T, maximum: T)<span class="pl-k">?</span> {
+  <span class="pl-k">guard</span> <span class="pl-k">var</span> minimum <span class="pl-k">=</span> array.<span class="pl-c1">first</span> <span class="pl-k">else</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }
+  <span class="pl-k">var</span> maximum <span class="pl-k">=</span> minimum
+
+  <span class="pl-c"><span class="pl-c">//</span> if 'array' has an odd number of items, let 'minimum' or 'maximum' deal with the leftover</span>
+<span class="pl-c"></span>  <span class="pl-k">let</span> start <span class="pl-k">=</span> array.<span class="pl-c1">count</span> <span class="pl-k">%</span> <span class="pl-c1">2</span> <span class="pl-c"><span class="pl-c">//</span> 1 if odd, skipping the first element</span>
+<span class="pl-c"></span>  <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: start, <span class="pl-c1">to</span>: array.<span class="pl-c1">count</span>, <span class="pl-c1">by</span>: <span class="pl-c1">2</span>) {
+    <span class="pl-k">let</span> pair <span class="pl-k">=</span> (array[i], array[i<span class="pl-k">+</span><span class="pl-c1">1</span>])
+
+    <span class="pl-k">if</span> pair.0 <span class="pl-k">&gt;</span> pair.1 {
+      <span class="pl-k">if</span> pair.0 <span class="pl-k">&gt;</span> maximum {
+        maximum <span class="pl-k">=</span> pair.0
+      }
+      <span class="pl-k">if</span> pair.1 <span class="pl-k">&lt;</span> minimum {
+        minimum <span class="pl-k">=</span> pair.1
+      }
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">if</span> pair.1 <span class="pl-k">&gt;</span> maximum {
+        maximum <span class="pl-k">=</span> pair.1
+      }
+      <span class="pl-k">if</span> pair.0 <span class="pl-k">&lt;</span> minimum {
+        minimum <span class="pl-k">=</span> pair.0
+      }
+    }
+  }
+
+  <span class="pl-k">return</span> (minimum, maximum)
+}</pre></div>
+<p>Put this code in a playground and test it like so:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> result <span class="pl-k">=</span> <span class="pl-c1">minimumMaximum</span>(array)<span class="pl-k">!</span>
+result.<span class="pl-smi">minimum</span>   <span class="pl-c"><span class="pl-c">//</span> This will return 3</span>
+<span class="pl-c"></span>result.<span class="pl-smi">maximum</span>   <span class="pl-c"><span class="pl-c">//</span> This will return 9</span></pre></div>
+<p>By picking elements in pairs and comparing their maximum and minimum with the running minimum and maximum we reduce the number of comparisons to 3 for every 2 elements.</p>
+<h2>Performance</h2>
+<p>These algorithms run at <strong>O(n)</strong>. Each object in the array is compared with the running minimum/maximum so the time it takes is proportional to the array length.</p>
+<p><em>Written by <a href="https://github.com/chris-pilcher">Chris Pilcher</a></em></p></div>
+</body>
+</html>

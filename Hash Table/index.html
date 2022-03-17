@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<head>
+  <title>Hash Table</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Hash Table</h1>
+<p>A hash table allows you to store and retrieve objects by a "key".</p>
+<p>A hash table is used to implement structures, such as a dictionary, a map, and an associative array. These structures can be implemented by a tree or a plain array, but it is efficient to use a hash table.</p>
+<p>This should explain why Swift's built-in <code>Dictionary</code> type requires that keys conform to the <code>Hashable</code> protocol: internally it uses a hash table, like the one you will learn about here.</p>
+<h2>How it works</h2>
+<p>A hash table is nothing more than an array. Initially, this array is empty. When you put a value into the hash table under a certain key, it uses that key to calculate an index in the array. Here is an example:</p>
+<div class="highlight highlight-source-swift"><pre>hashTable[<span class="pl-s"><span class="pl-pds">"</span>firstName<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Steve<span class="pl-pds">"</span></span>
+
+	The hashTable array<span class="pl-k">:</span>
+	<span class="pl-k">+--------------+</span>
+	<span class="pl-k">|</span> <span class="pl-c1">0</span><span class="pl-k">:</span>           <span class="pl-k">|</span>
+	<span class="pl-k">+--------------+</span>
+	<span class="pl-k">|</span> <span class="pl-c1">1</span><span class="pl-k">:</span>           <span class="pl-k">|</span>
+	<span class="pl-k">+--------------+</span>
+	<span class="pl-k">|</span> <span class="pl-c1">2</span><span class="pl-k">:</span>           <span class="pl-k">|</span>
+	<span class="pl-k">+--------------+</span>
+	<span class="pl-k">|</span> <span class="pl-c1">3</span><span class="pl-k">:</span> firstName <span class="pl-k">|---&gt;</span> Steve
+	<span class="pl-k">+--------------+</span>
+	<span class="pl-k">|</span> <span class="pl-c1">4</span><span class="pl-k">:</span>           <span class="pl-k">|</span>
+	<span class="pl-k">+--------------+</span></pre></div>
+<p>In this example, the key <code>"firstName"</code> maps to array index 3.</p>
+<p>Adding a value under a different key puts it at another array index:</p>
+<div class="highlight highlight-source-swift"><pre>hashTable[<span class="pl-s"><span class="pl-pds">"</span>hobbies<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Programming Swift<span class="pl-pds">"</span></span>
+
+	The hashTable array<span class="pl-k">:</span>
+	<span class="pl-k">+--------------+</span>
+	<span class="pl-k">|</span> <span class="pl-c1">0</span><span class="pl-k">:</span>           <span class="pl-k">|</span>
+	<span class="pl-k">+--------------+</span>
+	<span class="pl-k">|</span> <span class="pl-c1">1</span><span class="pl-k">:</span> hobbies   <span class="pl-k">|---&gt;</span> Programming Swift
+	<span class="pl-k">+--------------+</span>
+	<span class="pl-k">|</span> <span class="pl-c1">2</span><span class="pl-k">:</span>           <span class="pl-k">|</span>
+	<span class="pl-k">+--------------+</span>
+	<span class="pl-k">|</span> <span class="pl-c1">3</span><span class="pl-k">:</span> firstName <span class="pl-k">|---&gt;</span> Steve
+	<span class="pl-k">+--------------+</span>
+	<span class="pl-k">|</span> <span class="pl-c1">4</span><span class="pl-k">:</span>           <span class="pl-k">|</span>
+	<span class="pl-k">+--------------+</span></pre></div>
+<p>The trick is how the hash table calculates those array indices. That is where the hashing comes in. When you write the following statement,</p>
+<div class="highlight highlight-source-swift"><pre>hashTable[<span class="pl-s"><span class="pl-pds">"</span>firstName<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Steve<span class="pl-pds">"</span></span></pre></div>
+<p>the hash table takes the key <code>"firstName"</code> and asks it for its <code>hashValue</code> property. Hence, keys must be <code>Hashable</code>.</p>
+<p>When you write <code>"firstName".hashValue</code>, it returns a big integer: -4799450059917011053. Likewise, <code>"hobbies".hashValue</code> has the hash value 4799450060928805186. (The values you see may vary.)</p>
+<p>These numbers are big to be used as indices into our array, and one of them is even negative! A common way to make these big numbers  suitable is to first make the hash positive and then take the modulo with the array size.</p>
+<p>Our array has size 5, so the index for the <code>"firstName"</code> key becomes <code>abs(-4799450059917011053) % 5 = 3</code>. You can calculate that the array index for <code>"hobbies"</code> is 1.</p>
+<p>Using hashes in this manner is what makes the dictionary efficient: to find an element in the hash table, you must hash the key to get an array index and then look up the element in the underlying array. All these operations take a constant amount of time, so inserting, retrieving, and removing are all <strong>O(1)</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> It is difficult to predict where in the array your objects end up. Hence, dictionaries do not guarantee any particular order of the elements in the hash table.</p>
+</blockquote>
+<h2>Avoiding collisions</h2>
+<p>There is one problem: because we take the modulo of the hash value with the size of the array, it can happen that two or more keys get assigned the same array index. This is called a collision.</p>
+<p>One way to avoid collisions is to have a large array which reduces the likelihood of two keys mapping to the same index. Another trick is to use a prime number for the array size. However, collisions are bound to occur, so you need to find a way to handle them.</p>
+<p>Because our table is small, it is easy to show a collision. For example, the array index for the key <code>"lastName"</code> is also 3, but we do not want to overwrite the value that is already at this array index.</p>
+<p>A common way to handle collisions is to use chaining. The array looks as follows:</p>
+<div class="highlight highlight-source-swift"><pre>	buckets<span class="pl-k">:</span>
+	<span class="pl-k">+-----+</span>
+	<span class="pl-k">|</span>  <span class="pl-c1">0</span>  <span class="pl-k">|</span>
+	<span class="pl-k">+-----+</span>     <span class="pl-k">+----------------------------+</span>
+	<span class="pl-k">|</span>  <span class="pl-c1">1</span>  <span class="pl-k">|---&gt;</span> <span class="pl-k">|</span> hobbies<span class="pl-k">:</span> Programming Swift <span class="pl-k">|</span>
+	<span class="pl-k">+-----+</span>     <span class="pl-k">+----------------------------+</span>
+	<span class="pl-k">|</span>  <span class="pl-c1">2</span>  <span class="pl-k">|</span>
+	<span class="pl-k">+-----+</span>     <span class="pl-k">+------------------+</span>     <span class="pl-k">+----------------+</span>
+	<span class="pl-k">|</span>  <span class="pl-c1">3</span>  <span class="pl-k">|---&gt;</span> <span class="pl-k">|</span> firstName<span class="pl-k">:</span> Steve <span class="pl-k">|---&gt;</span> <span class="pl-k">|</span> lastName<span class="pl-k">:</span> Jobs <span class="pl-k">|</span>
+	<span class="pl-k">+-----+</span>     <span class="pl-k">+------------------+</span>     <span class="pl-k">+----------------+</span>
+	<span class="pl-k">|</span>  <span class="pl-c1">4</span>  <span class="pl-k">|</span>
+	<span class="pl-k">+-----+</span></pre></div>
+<p>With chaining, keys and their values are not stored directly in the array. Instead, each array element is a list of zero or more key/value pairs. The array elements are usually called the <em>buckets</em> and the lists are called the <em>chains</em>. Here we have 5 buckets, and two of these buckets have chains. The other three buckets are empty.</p>
+<p>If we write the following statement to retrieve an item from the hash table,</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> x <span class="pl-k">=</span> hashTable[<span class="pl-s"><span class="pl-pds">"</span>lastName<span class="pl-pds">"</span></span>]</pre></div>
+<p>it first hashes the key <code>"lastName"</code> to calculate the array index, which is 3. Since bucket 3 has a chain, we step through the list to find the value with the key <code>"lastName"</code>. This is done by comparing the keys using a string comparison. The hash table checks that the key belongs to the last item in the chain and returns the corresponding value, <code>"Jobs"</code>.</p>
+<p>Common ways to implement this chaining mechanism are to use a linked list or another array. Since the order of the items in the chain does not matter, you can think of it as a set instead of a list. (Now you can also imagine where the term "bucket" comes from; we just dump all the objects together into the bucket.)</p>
+<p>Chains should not become long because looking up items in the hash table would become a slow process. Ideally, we would have no chains at all, but in practice it is impossible to avoid collisions. You can improve the odds by giving the hash table enough buckets using high-quality hash functions.</p>
+<blockquote>
+<p><strong>Note:</strong> An alternative to chaining is "open addressing". The idea is this: if an array index is already taken, we put the element in the next unused bucket. This approach has its own upsides and downsides.</p>
+</blockquote>
+<h2>The code</h2>
+<p>Let's look at a basic implementation of a hash table in Swift. We will build it up step-by-step.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">HashTable</span>&lt;<span class="pl-c1">Key</span>: <span class="pl-e"><span class="pl-c1">Hashable</span></span>, <span class="pl-c1">Value</span>&gt; {
+  <span class="pl-k">private</span> <span class="pl-k">typealias</span> <span class="pl-en">Element</span> <span class="pl-k">=</span> (key: <span class="pl-c1">Key</span>, value: <span class="pl-c1">Value</span>)
+  <span class="pl-k">private</span> <span class="pl-k">typealias</span> <span class="pl-en">Bucket</span> <span class="pl-k">=</span> [<span class="pl-c1">Element</span>]
+  <span class="pl-k">private</span> <span class="pl-k">var</span> buckets<span class="pl-k">:</span> [Bucket]
+
+  <span class="pl-k">private</span>(<span class="pl-k">set</span>) <span class="pl-k">public</span> <span class="pl-k">var</span> count <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> { <span class="pl-k">return</span> count <span class="pl-k">==</span> <span class="pl-c1">0</span> }
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">capacity</span></span>: <span class="pl-c1">Int</span>) {
+    <span class="pl-c1">assert</span>(capacity <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>)
+    buckets <span class="pl-k">=</span> <span class="pl-c1">Array</span><span class="pl-k">&lt;</span>Bucket<span class="pl-k">&gt;</span>(<span class="pl-c1">repeatElement</span>([], <span class="pl-c1">count</span>: capacity))
+  }</pre></div>
+<p>The <code>HashTable</code> is a generic container, and the two generic types are named <code>Key</code> (which must be <code>Hashable</code>) and <code>Value</code>. We also define two other types: <code>Element</code> is a key/value pair for using in a chain, and <code>Bucket</code> is an array of such <code>Elements</code>.</p>
+<p>The main array is named <code>buckets</code>. It has a fixed size, the so-called capacity, provided by the <code>init(capacity)</code> method. We are also keeping track of how many items have been added to the hash table using the <code>count</code> variable.</p>
+<p>An example of how to create a new hash table object:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> hashTable <span class="pl-k">=</span> HashTable<span class="pl-k">&lt;</span><span class="pl-c1">String</span>, <span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">capacity</span>: <span class="pl-c1">5</span>)</pre></div>
+<p>The hash table does not do anything yet, so let's add the remaining functionality. First, add a helper method that calculates the array index for a given key:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">index</span>(<span class="pl-en">forKey</span> <span class="pl-smi">key</span>: <span class="pl-c1">Key</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">abs</span>(key.<span class="pl-c1">hashValue</span> <span class="pl-k">%</span> buckets.<span class="pl-c1">count</span>)
+  }</pre></div>
+<p>This performs the calculation you saw earlier: it takes the absolute value of the key's <code>hashValue</code> modulo the size of the buckets array. We have put this in a function of its own because it gets used in a few different places.</p>
+<p>There are four common things you will do with a hash table or dictionary:</p>
+<ul>
+<li>insert a new element</li>
+<li>look up an element</li>
+<li>update an existing element</li>
+<li>remove an element</li>
+</ul>
+<p>The syntax for these is:</p>
+<div class="highlight highlight-source-swift"><pre>hashTable[<span class="pl-s"><span class="pl-pds">"</span>firstName<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Steve<span class="pl-pds">"</span></span>   <span class="pl-c"><span class="pl-c">//</span> insert</span>
+<span class="pl-c"></span><span class="pl-k">let</span> x <span class="pl-k">=</span> hashTable[<span class="pl-s"><span class="pl-pds">"</span>firstName<span class="pl-pds">"</span></span>]     <span class="pl-c"><span class="pl-c">//</span> lookup</span>
+<span class="pl-c"></span>hashTable[<span class="pl-s"><span class="pl-pds">"</span>firstName<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Tim<span class="pl-pds">"</span></span>     <span class="pl-c"><span class="pl-c">//</span> update</span>
+<span class="pl-c"></span>hashTable[<span class="pl-s"><span class="pl-pds">"</span>firstName<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">nil</span>       <span class="pl-c"><span class="pl-c">//</span> delete</span></pre></div>
+<p>We can do all these things with a <code>subscript</code> function:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">subscript</span>(<span class="pl-c1">key</span>: <span class="pl-c1">Key</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Value</span><span class="pl-k">?</span> {
+    <span class="pl-k">get</span> {
+      <span class="pl-k">return</span> <span class="pl-c1">value</span>(<span class="pl-c1">forKey</span>: key)
+    }
+    <span class="pl-k">set</span> {
+      <span class="pl-k">if</span> <span class="pl-k">let</span> value <span class="pl-k">=</span> newValue {
+        <span class="pl-c1">updateValue</span>(value, <span class="pl-c1">forKey</span>: key)
+      } <span class="pl-k">else</span> {
+        <span class="pl-c1">removeValue</span>(<span class="pl-c1">forKey</span>: key)
+      }
+    }
+  }</pre></div>
+<p>This calls three helper functions to do the actual work. Let's take a look at <code>value(forKey:)</code>which retrieves an object from the hash table.</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">value</span>(<span class="pl-en">forKey</span> <span class="pl-smi">key</span>: <span class="pl-c1">Key</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Value</span><span class="pl-k">?</span> {
+    <span class="pl-k">let</span> index <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">index</span>(<span class="pl-c1">forKey</span>: key)
+    <span class="pl-k">for</span> element <span class="pl-k">in</span> buckets[index] {
+      <span class="pl-k">if</span> element.<span class="pl-smi">key</span> <span class="pl-k">==</span> key {
+        <span class="pl-k">return</span> element.<span class="pl-c1">value</span>
+      }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>  <span class="pl-c"><span class="pl-c">//</span> key not in hash table</span>
+<span class="pl-c"></span>  }</pre></div>
+<p>First it calls <code>index(forKey:)</code> to convert the key into an array index. That gives us the bucket number, but this bucket may be used by more than one key if there were collisions. The <code>value(forKey:)</code> loops through the chain from that bucket and compares the keys one-by-one. If found, it returns the corresponding value, otherwise it returns <code>nil</code>.</p>
+<p>The code to insert a new element or update an existing element lives in <code>updateValue(_:forKey:)</code>. This is more complicated:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">updateValue</span>(<span class="pl-en">_</span> <span class="pl-smi">value</span>: <span class="pl-c1">Value</span>, <span class="pl-en">forKey</span> <span class="pl-smi">key</span>: <span class="pl-c1">Key</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Value</span><span class="pl-k">?</span> {
+    <span class="pl-k">let</span> index <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">index</span>(<span class="pl-c1">forKey</span>: key)
+    
+    <span class="pl-c"><span class="pl-c">//</span> Do we already have this key in the bucket?</span>
+<span class="pl-c"></span>    <span class="pl-k">for</span> (i, element) <span class="pl-k">in</span> buckets[index].<span class="pl-c1">enumerated</span>() {
+      <span class="pl-k">if</span> element.<span class="pl-smi">key</span> <span class="pl-k">==</span> key {
+        <span class="pl-k">let</span> oldValue <span class="pl-k">=</span> element.<span class="pl-c1">value</span>
+        buckets[index][i].<span class="pl-c1">value</span> <span class="pl-k">=</span> value
+        <span class="pl-k">return</span> oldValue
+      }
+    }
+    
+    <span class="pl-c"><span class="pl-c">//</span> This key isn't in the bucket yet; add it to the chain.</span>
+<span class="pl-c"></span>    buckets[index].<span class="pl-c1">append</span>((<span class="pl-c1">key</span>: key, <span class="pl-c1">value</span>: value))
+    count <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }</pre></div>
+<p>Again, the first step is to convert the key into an array index to find the bucket. Then we loop through the chain for that bucket. If we find the key in the chain, we must update it with the new value. If the key is not in the chain, we insert the new key/value pair to the end of the chain.</p>
+<p>As you can see, it is important to keep the chains short (by making the hash table large enough). Otherwise, you spend excessive time in these <code>for</code>...<code>in</code> loops and the performance of the hash table will no longer be <strong>O(1)</strong> but more like <strong>O(n)</strong>.</p>
+<p>Removing is similar in that again it loops through the chain:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">removeValue</span>(<span class="pl-en">forKey</span> <span class="pl-smi">key</span>: <span class="pl-c1">Key</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Value</span><span class="pl-k">?</span> {
+    <span class="pl-k">let</span> index <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">index</span>(<span class="pl-c1">forKey</span>: key)
+
+    <span class="pl-c"><span class="pl-c">//</span> Find the element in the bucket's chain and remove it.</span>
+<span class="pl-c"></span>    <span class="pl-k">for</span> (i, element) <span class="pl-k">in</span> buckets[index].<span class="pl-c1">enumerated</span>() {
+      <span class="pl-k">if</span> element.<span class="pl-smi">key</span> <span class="pl-k">==</span> key {
+        buckets[index].<span class="pl-c1">remove</span>(<span class="pl-c1">at</span>: i)
+        count <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+        <span class="pl-k">return</span> element.<span class="pl-c1">value</span>
+      }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>  <span class="pl-c"><span class="pl-c">//</span> key not in hash table</span>
+<span class="pl-c"></span>  }</pre></div>
+<p>These are the basic functions of the hash table. They all work the same way: convert the key into an array index using its hash value, find the bucket, then loop through that bucket's chain and perform the desired operation.</p>
+<p>Try this stuff out in a playground. It should work just like a standard Swift <code>Dictionary</code>.</p>
+<h2>Resizing the hash table</h2>
+<p>This version of <code>HashTable</code> always uses an array of a fixed size or capacity. If you have many items to store in the hash table, for the capacity, choose a prime number greater than the maximum number of items.</p>
+<p>The <em>load factor</em> of a hash table is the percentage of the capacity that is currently used. If there are 3 items in a hash table with 5 buckets, then the load factor is <code>3/5 = 60%</code>.</p>
+<p>If the hash table is small, and the chains are long, the load factor can become greater than 1, that is not a good idea.</p>
+<p>If the load factor becomes high, greater than 75%, you can resize the hash table. Adding the code for this condition is left as an exercise for the reader. Keep in mind that making the buckets array larger will change the array indices that the keys map to! This requires you to insert all the elements again after resizing the array.</p>
+<h2>Where to go from here?</h2>
+<p><code>HashTable</code> is quite basic. It might be efficient to integrate it with the Swift standard library by making it a <code>SequenceType</code>.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

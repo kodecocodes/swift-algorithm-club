@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<head>
+  <title>Shuffle</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Shuffle</h1>
+<p>Goal: Rearrange the contents of an array.</p>
+<p>Imagine you're making a card game and you need to shuffle a deck of cards. You can represent the deck by an array of <code>Card</code> objects and shuffling the deck means to change the order of those objects in the array. (It's like the opposite of sorting.)</p>
+<p>Here is a naive way to approach this in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">Array</span></span> {
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">shuffle</span>() {
+    <span class="pl-k">var</span> temp <span class="pl-k">=</span> [<span class="pl-c1">Element</span>]()
+    <span class="pl-k">while</span> <span class="pl-k">!</span>isEmpty {
+      <span class="pl-k">let</span> i <span class="pl-k">=</span> <span class="pl-c1">random</span>(count)
+      <span class="pl-k">let</span> obj <span class="pl-k">=</span> <span class="pl-c1">remove</span>(<span class="pl-c1">at</span>: i)
+      temp.<span class="pl-c1">append</span>(obj)
+    }
+    <span class="pl-c1">self</span> <span class="pl-k">=</span> temp
+  }
+}</pre></div>
+<p>To try it out, copy the code into a playground and then do:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> list <span class="pl-k">=</span> [ <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>f<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>g<span class="pl-pds">"</span></span> ]
+list.<span class="pl-c1">shuffle</span>()
+list.<span class="pl-c1">shuffle</span>()
+list.<span class="pl-c1">shuffle</span>()</pre></div>
+<p>You should see three different arrangements -- or <a href="../Combinatorics/">permutations</a> to use math-speak -- of the objects in the array.</p>
+<p>This shuffle works <em>in place</em>, it modifies the contents of the original array. The algorithm works by creating a new array, <code>temp</code>, that is initially empty. Then we randomly choose an element from the original array and append it to <code>temp</code>, until the original array is empty. Finally, the temporary array is copied back into the original one.</p>
+<p>This code works just fine but it's not very efficient. Removing an element from an array is an <strong>O(n)</strong> operation and we perform this <strong>n</strong> times, making the total algorithm <strong>O(n^2)</strong>. We can do better!</p>
+<h2>The Fisher-Yates / Knuth shuffle</h2>
+<p>Here is a much improved version of the shuffle algorithm:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">Array</span></span> {
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">shuffle</span>() {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: count <span class="pl-k">-</span> <span class="pl-c1">1</span>, <span class="pl-c1">through</span>: <span class="pl-c1">1</span>, <span class="pl-c1">by</span>: <span class="pl-c1">-1</span>) {
+      <span class="pl-k">let</span> j <span class="pl-k">=</span> <span class="pl-c1">Int</span>.<span class="pl-c1">random</span>(<span class="pl-c1">in</span>: <span class="pl-c1">0</span><span class="pl-k">...</span><span class="pl-smi">i</span>)
+      <span class="pl-k">if</span> i <span class="pl-k">!=</span> j {
+        <span class="pl-c1">swap</span>(<span class="pl-k">&amp;</span><span class="pl-c1">self</span>[i], <span class="pl-k">&amp;</span><span class="pl-c1">self</span>[j])
+      }
+    }
+  }
+}</pre></div>
+<p>Again, this picks objects at random. In the naive version we placed those objects into a new temporary array so we could keep track of which objects were already shuffled and which still remained to be done. In this improved algorithm, however, we'll move the shuffled objects to the end of the original array.</p>
+<p>Let's walk through the example. We have the array:</p>
+<pre><code>[ "a", "b", "c", "d", "e", "f", "g" ]
+</code></pre>
+<p>The loop starts at the end of the array and works its way back to the beginning. The very first random number can be any element from the entire array. Let's say it returns 2, the index of <code>"c"</code>. We swap <code>"c"</code> with <code>"g"</code> to move it to the end:</p>
+<pre><code>[ "a", "b", "g", "d", "e", "f" | "c" ]
+             *                    *
+</code></pre>
+<p>The array now consists of two regions, indicated by the <code>|</code> bar. Everything to the right of the bar is shuffled already.</p>
+<p>The next random number is chosen from the range 0...6, so only from the region <code>[ "a", "b", "g", "d", "e", "f" ]</code>. It will never choose <code>"c"</code> since that object is done and we'll no longer touch it.</p>
+<p>Let's say the random number generator picks 0, the index of <code>"a"</code>. Then we swap <code>"a"</code> with <code>"f"</code>, which is the last element in the unshuffled portion, and the array looks like this:</p>
+<pre><code>[ "f", "b", "g", "d", "e" | "a", "c" ]
+   *                         *
+</code></pre>
+<p>The next random number is somewhere in <code>[ "f", "b", "g", "d", "e" ]</code>, so let's say it is 3. We swap <code>"d"</code> with <code>"e"</code>:</p>
+<pre><code>[ "f", "b", "g", "e" | "d", "a", "c" ]
+                  *     *
+</code></pre>
+<p>And so on... This continues until there is only one element remaining in the left portion. For example:</p>
+<pre><code>[ "b" | "e", "f", "g", "d", "a", "c" ]
+</code></pre>
+<p>There's nothing left to swap that <code>"b"</code> with, so we're done.</p>
+<p>Because we only look at each array element once, this algorithm has a guaranteed running time of <strong>O(n)</strong>. It's as fast as you could hope to get!</p>
+<h2>Creating a new array that is shuffled</h2>
+<p>There is a slight variation on this algorithm that is useful for when you want to create a new array instance that contains the values <code>0</code> to <code>n-1</code> in random order.</p>
+<p>Here is the code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">shuffledArray</span>(<span class="pl-en">_</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] {
+  <span class="pl-k">var</span> a <span class="pl-k">=</span> [<span class="pl-c1">Int</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: n)
+  <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>n {
+    <span class="pl-k">let</span> j <span class="pl-k">=</span> <span class="pl-c1">Int</span>.<span class="pl-c1">random</span>(<span class="pl-c1">in</span>: <span class="pl-c1">0</span><span class="pl-k">...</span><span class="pl-smi">i</span>)
+    <span class="pl-c"><span class="pl-c">//</span> for the Fisher–Yates_shuffle's pseudo code implement in wiki, it will check if i != j</span>
+<span class="pl-c"></span>    a[i] <span class="pl-k">=</span> a[j]
+    a[j] <span class="pl-k">=</span> i
+  }
+  <span class="pl-k">return</span> a
+}</pre></div>
+<p>To use it:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> numbers <span class="pl-k">=</span> <span class="pl-c1">shuffledArray</span>(<span class="pl-c1">10</span>)</pre></div>
+<p>This returns something like <code>[3, 0, 9, 1, 8, 5, 2, 6, 7, 4]</code>. As you can see, every number between 0 and 10 is in that list, but shuffled around. Of course, when you try it for yourself the order of the numbers will be different.</p>
+<p>The <code>shuffledArray()</code> function first creates a new array with <code>n</code> zeros. Then it loops <code>n</code> times and in each step adds the next number from the sequence to a random position in the array. The trick is to make sure that none of these numbers gets overwritten with the next one, so it moves the previous number out of the way first!</p>
+<p>For this function, <code>The condition that checks if j ≠ i may be omitted in languages that have no problems accessing uninitialized array values, and for which assigning is cheaper than comparing.</code>, you can check it in wiki. And also remove checking logic will optimise performance.</p>
+<p>The algoritm is quite clever and I suggest you walk through an example yourself, either on paper or in the playground. (Hint: Again it splits the array into two regions.)</p>
+<h2>See also</h2>
+<p>These Swift implementations are based on pseudocode from the <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle" rel="nofollow">Wikipedia article</a>.</p>
+<p>Mike Bostock has a <a href="http://bost.ocks.org/mike/shuffle/" rel="nofollow">great visualization</a> of the shuffle algorithm.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

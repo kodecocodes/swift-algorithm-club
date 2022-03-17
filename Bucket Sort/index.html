@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<head>
+  <title>Bucket Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Bucket Sort</h1>
+<p>Bucket Sort, also known as Bin Sort, is a distributed sorting algorithm, which sort elements from an array by performing these steps:</p>
+<ol>
+<li>Distribute the elements into buckets or bins.</li>
+<li>Sort each bucket individually.</li>
+<li>Merge the buckets in order to produce a sorted array as the result.</li>
+</ol>
+<p>See the algorithm in action <a href="https://www.cs.usfca.edu/~galles/visualization/BucketSort.html" rel="nofollow">here</a> and <a href="http://www.algostructure.com/sorting/bucketsort.php" rel="nofollow">here</a>.</p>
+<p>The performance for execution time is:</p>
+<table>
+<thead>
+<tr>
+<th align="center">Case</th>
+<th align="center">Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Worst</td>
+<td align="center">O(n^2)</td>
+</tr>
+<tr>
+<td align="center">Best</td>
+<td align="center">Omega(n + k)</td>
+</tr>
+<tr>
+<td align="center">Average</td>
+<td align="center">Theta(n + k)</td>
+</tr>
+</tbody>
+</table>
+<p>Where <strong>n</strong> = the number of elements and <strong>k</strong> is the number of buckets.</p>
+<p>In the <em>best case</em>, the algorithm distributes the elements uniformly between buckets, a few elements are placed on each bucket and sorting the buckets is <strong>O(1)</strong>. Rearranging the elements is one more run through the initial list.</p>
+<p>In the <em>worst case</em>, the elements are sent all to the same bucket, making the process take <strong>O(n^2)</strong>.</p>
+<h2>Pseudocode</h2>
+<p>A <a href="https://en.wikipedia.org/wiki/Bucket_sort#Pseudocode" rel="nofollow">pseudocode</a> of the algorithm can be as follows:</p>
+<pre><code>function bucketSort(array, n) is
+    buckets ← new array of n empty lists
+    for i = 0 to (length(array)-1) do
+        insert array[i] into buckets[msbits(array[i], k)]
+    for i = 0 to n - 1 do
+        nextSort(buckets[i]);
+    return the concatenation of buckets[0], ...., buckets[n-1]
+</code></pre>
+<h2>Graphically explained</h2>
+<ol>
+<li>Distribute elements in buckets:</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/10e73aca86e6abd85f32f63a270126a19f00414c/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f362f36312f4275636b65745f736f72745f312e706e67"><img src="https://camo.githubusercontent.com/10e73aca86e6abd85f32f63a270126a19f00414c/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f362f36312f4275636b65745f736f72745f312e706e67" alt="distribution step" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/6/61/Bucket_sort_1.png" style="max-width:100%;"></a></p>
+<ol start="2">
+<li>Sorting inside every bucket and merging:</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/19ff8f6edf48140cbf28fa9907b42bcb19fa14e7/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f332f33392f4275636b65745f736f72745f322e706e67"><img src="https://camo.githubusercontent.com/19ff8f6edf48140cbf28fa9907b42bcb19fa14e7/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f332f33392f4275636b65745f736f72745f322e706e67" alt="sorting each bucket and merge" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/3/39/Bucket_sort_2.png" style="max-width:100%;"></a></p>
+<h2>An example</h2>
+<h3>Input</h3>
+<p>Suppose we have the following list of elements: <code>[2, 56, 4, 77, 26, 98, 55]</code>. Let's use 10 buckets. To determine the capacity of each bucket we need to know the <em>maximum element value</em>, in this case <code>98</code>.</p>
+<p>So the buckets are:</p>
+<ul>
+<li><code>bucket 1</code>: from 0 to 9</li>
+<li><code>bucket 2</code>: from 10 to 19</li>
+<li><code>bucket 3</code>: from 20 to 29</li>
+<li>and so on.</li>
+</ul>
+<h3>Distribution</h3>
+<p>Now we need to choose a distribution function.</p>
+<p><code>bucketNumber = (elementValue / totalNumberOfBuckets) + 1</code></p>
+<p>Such that by applying that function we distribute all the elements in the buckets.</p>
+<p>In our example it is like the following:</p>
+<ol>
+<li>Apply the distribution function to <code>2</code>. <code>bucketNumber = (2 / 10) + 1 = 1</code></li>
+<li>Apply the distribution function to <code>56</code>. <code>bucketNumber = (56 / 10) + 1 = 6</code></li>
+<li>Apply the distribution function to <code>4</code>. <code>bucketNumber = (4 / 10) + 1 = 1</code></li>
+<li>Apply the distribution function to <code>77</code>. <code>bucketNumber = (77 / 10) + 1 = 8</code></li>
+<li>Apply the distribution function to <code>26</code>. <code>bucketNumber = (26 / 10) + 1 = 3</code></li>
+<li>Apply the distribution function to <code>98</code>. <code>bucketNumber = (98 / 10) + 1 = 10</code></li>
+<li>Apply the distribution function to <code>55</code>. <code>bucketNumber = (55 / 10) + 1 = 6</code></li>
+</ol>
+<p>Our buckets will be filled now:</p>
+<p><strong>1</strong>  <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67"><img src="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67" width="40" data-canonical-src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" style="max-width:100%;"></a>: <code>[2, 4]</code><br>
+<strong>2</strong>  <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67"><img src="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67" width="40" data-canonical-src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" style="max-width:100%;"></a>: <code>[]</code><br>
+<strong>3</strong>  <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67"><img src="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67" width="40" data-canonical-src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" style="max-width:100%;"></a>: <code>[26]</code><br>
+<strong>4</strong>  <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67"><img src="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67" width="40" data-canonical-src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" style="max-width:100%;"></a>: <code>[]</code><br>
+<strong>5</strong>  <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67"><img src="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67" width="40" data-canonical-src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" style="max-width:100%;"></a>: <code>[]</code><br>
+<strong>6</strong>  <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67"><img src="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67" width="40" data-canonical-src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" style="max-width:100%;"></a>: <code>[55, 56]</code><br>
+<strong>7</strong>  <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67"><img src="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67" width="40" data-canonical-src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" style="max-width:100%;"></a>: <code>[]</code><br>
+<strong>8</strong>  <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67"><img src="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67" width="40" data-canonical-src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" style="max-width:100%;"></a>: <code>[77]</code><br>
+<strong>9</strong>  <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67"><img src="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67" width="40" data-canonical-src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" style="max-width:100%;"></a>: <code>[]</code><br>
+<strong>10</strong> <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67"><img src="https://camo.githubusercontent.com/a419b8438fd7c693c39b20ed2eae0d893bd5a08b/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031342f30332f32342f31372f32312f7061696c2d3239353439315f3936305f3732302e706e67" width="40" data-canonical-src="https://pixabay.com/static/uploads/photo/2014/03/24/17/21/pail-295491_960_720.png" style="max-width:100%;"></a>: <code>[98]</code></p>
+<p>We can choose to insert the elements in every bucket in order, or sort every bucket after distributing all the elements.</p>
+<h3>Put the elements back in the list</h3>
+<p>Finally we go through all the buckets and put the elements back in the list:</p>
+<p><code>[2,  4,  26,  55,  56,  77,  98]</code></p>
+<h2>Swift implementation</h2>
+<p>Here is a diagram that shows the functions, data structures and protocols for our bucker sort implementation:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Docs/BucketSort.png"><img src="Docs/BucketSort.png" alt="classes" style="max-width:100%;"></a></p>
+<h4>Main function</h4>
+<p><code>bucketSort()</code> is a generic function that can apply the algorithm to any element of type <code>T</code>, as long as <code>T</code> is <code>Sortable</code>.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">bucketSort</span>&lt;<span class="pl-c1">T</span>:<span class="pl-e">Sortable</span>&gt;(<span class="pl-smi"><span class="pl-en">elements</span></span>: [T],
+                                <span class="pl-smi"><span class="pl-en">distributor</span></span>: Distributor,
+                                     <span class="pl-smi"><span class="pl-en">sorter</span></span>: Sorter,
+                                    <span class="pl-smi"><span class="pl-en">buckets</span></span>: [Bucket&lt;T&gt;]) <span class="pl-k">-&gt;</span> [T] {
+	<span class="pl-c1">precondition</span>(<span class="pl-c1">allPositiveNumbers</span>(elements))
+	<span class="pl-c1">precondition</span>(<span class="pl-c1">enoughSpaceInBuckets</span>(buckets, <span class="pl-c1">elements</span>: elements))
+
+	<span class="pl-k">var</span> bucketsCopy <span class="pl-k">=</span> buckets
+	<span class="pl-k">for</span> elem <span class="pl-k">in</span> elements {
+		distributor.<span class="pl-c1">distribute</span>(elem, <span class="pl-c1">buckets</span>: <span class="pl-k">&amp;</span>bucketsCopy)
+	}
+
+	<span class="pl-k">var</span> results <span class="pl-k">=</span> [T]()
+
+	<span class="pl-k">for</span> bucket <span class="pl-k">in</span> bucketsCopy {
+		results <span class="pl-k">+=</span> bucket.<span class="pl-c1">sort</span>(sorter)
+	}
+
+	<span class="pl-k">return</span> results
+}</pre></div>
+<h4>Bucket</h4>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Bucket</span>&lt;<span class="pl-c1">T</span>:<span class="pl-e">Sortable</span>&gt; {
+	<span class="pl-k">var</span> elements<span class="pl-k">:</span> [T]
+	<span class="pl-k">let</span> capacity<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+
+	<span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">capacity</span></span>: <span class="pl-c1">Int</span>) {
+		<span class="pl-c1">self</span>.<span class="pl-c1">capacity</span> <span class="pl-k">=</span> capacity
+		elements <span class="pl-k">=</span> [T]()
+	}
+
+	<span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">add</span>(<span class="pl-smi"><span class="pl-en">item</span></span>: T) {
+		<span class="pl-k">if</span> (elements.<span class="pl-c1">count</span> <span class="pl-k">&lt;</span> capacity) {
+			elements.<span class="pl-c1">append</span>(item)
+		}
+	}
+
+	<span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">sort</span>(<span class="pl-smi"><span class="pl-en">algorithm</span></span>: Sorter) <span class="pl-k">-&gt;</span> [T] {
+		<span class="pl-k">return</span> algorithm.<span class="pl-c1">sort</span>(elements)
+	}
+}</pre></div>
+<h4>Sortable</h4>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">protocol</span> <span class="pl-en">Sortable</span>: <span class="pl-e">IntConvertible</span>, <span class="pl-e"><span class="pl-c1">Comparable</span> </span>{
+}</pre></div>
+<h4>IntConvertible</h4>
+<p>The algorithm is designed to sort integers, so all the elements to be sorted should be mapped to an integer value.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">protocol</span> <span class="pl-en">IntConvertible</span> {
+	<span class="pl-k">func</span> <span class="pl-en">toInt</span>() <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span>
+}</pre></div>
+<h4>Sorter</h4>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">protocol</span> <span class="pl-en">Sorter</span> {
+	<span class="pl-k">func</span> <span class="pl-en">sort</span>&lt;<span class="pl-c1">T</span>:<span class="pl-e">Sortable</span>&gt;(<span class="pl-smi"><span class="pl-en">items</span></span>: [T]) <span class="pl-k">-&gt;</span> [T]
+}</pre></div>
+<h4>Distributor</h4>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">protocol</span> <span class="pl-en">Distributor</span> {
+	<span class="pl-k">func</span> <span class="pl-en">distribute</span>&lt;<span class="pl-c1">T</span>:<span class="pl-e">Sortable</span>&gt;(<span class="pl-smi"><span class="pl-en">element</span></span>: T, <span class="pl-en">inout</span> <span class="pl-smi">buckets</span>: [Bucket&lt;T&gt;])
+}</pre></div>
+<h3>Custom Sorter and Distributor</h3>
+<p>The current implementation make use of the following implementations for <em>Sorter</em> and <em>Distributor</em>.</p>
+<p><em>Sorter</em></p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">InsertionSorter</span>: <span class="pl-e">Sorter </span>{
+	<span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">sort</span>&lt;<span class="pl-c1">T</span>:<span class="pl-e">Sortable</span>&gt;(<span class="pl-smi"><span class="pl-en">items</span></span>: [T]) <span class="pl-k">-&gt;</span> [T] {
+		<span class="pl-k">var</span> results <span class="pl-k">=</span> items
+		<span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span> <span class="pl-k">..&lt;</span> results.<span class="pl-c1">count</span> {
+			<span class="pl-k">var</span> j <span class="pl-k">=</span> i
+			<span class="pl-k">while</span> ( j <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> <span class="pl-k">&amp;&amp;</span> results[j<span class="pl-k">-</span><span class="pl-c1">1</span>] <span class="pl-k">&gt;</span> results[j]) {
+
+				<span class="pl-k">let</span> auxiliar <span class="pl-k">=</span> results[j<span class="pl-k">-</span><span class="pl-c1">1</span>]
+				results[j<span class="pl-k">-</span><span class="pl-c1">1</span>] <span class="pl-k">=</span> results[j]
+				results[j] <span class="pl-k">=</span> auxiliar
+
+				j <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+			}
+		}
+		<span class="pl-k">return</span> results
+	}
+}</pre></div>
+<p><em>Distributor</em></p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"> * An example of a simple distribution function that send every elements to</span>
+<span class="pl-c"> * the bucket representing the range in which it fits.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * If the range of values to sort is 0..&lt;49 i.e, there could be 5 buckets of capacity = 10</span>
+<span class="pl-c"> * So every element will be classified by the ranges:</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * -  0 ..&lt; 10</span>
+<span class="pl-c"> * - 10 ..&lt; 20</span>
+<span class="pl-c"> * - 20 ..&lt; 30</span>
+<span class="pl-c"> * - 30 ..&lt; 40</span>
+<span class="pl-c"> * - 40 ..&lt; 50</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * By following the formula: element / capacity = #ofBucket</span>
+<span class="pl-c"> <span class="pl-c">*/</span></span>
+<span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">RangeDistributor</span>: <span class="pl-e">Distributor </span>{
+	 <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">distribute</span>&lt;<span class="pl-c1">T</span>:<span class="pl-e">Sortable</span>&gt;(<span class="pl-smi"><span class="pl-en">element</span></span>: T, <span class="pl-en">inout</span> <span class="pl-smi">buckets</span>: [Bucket&lt;T&gt;]) {
+	 <span class="pl-k">let</span> value <span class="pl-k">=</span> element.<span class="pl-c1">toInt</span>()
+	 <span class="pl-k">let</span> bucketCapacity <span class="pl-k">=</span> buckets.<span class="pl-c1">first</span><span class="pl-k">!</span>.<span class="pl-c1">capacity</span>
+
+	 <span class="pl-k">let</span> bucketIndex <span class="pl-k">=</span> value <span class="pl-k">/</span> bucketCapacity
+	 buckets[bucketIndex].<span class="pl-c1">add</span>(element)
+	}
+}</pre></div>
+<h3>Make your own version</h3>
+<p>By reusing this code and implementing your own <em>Sorter</em> and <em>Distributor</em> you can experiment with different versions.</p>
+<h2>Other variations of Bucket Sort</h2>
+<p>The following are some of the variation to the general <a href="https://en.wikipedia.org/wiki/Bucket_sort" rel="nofollow">Bucket Sort</a> implemented here:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Bucket_sort#ProxmapSort" rel="nofollow">Proxmap Sort</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Bucket_sort#Histogram_sort" rel="nofollow">Histogram Sort</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Bucket_sort#Postman.27s_sort" rel="nofollow">Postman Sort</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Bucket_sort#Shuffle_sort" rel="nofollow">Shuffle Sort</a></li>
+</ul>
+<p><em>Written for Swift Algorithm Club by Barbara Rodeker. Images from Wikipedia. Updated by Bruno Scheele.</em></p></div>
+</body>
+</html>

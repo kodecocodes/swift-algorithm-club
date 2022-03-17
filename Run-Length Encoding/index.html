@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<head>
+  <title>Run-Length Encoding</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Run-Length Encoding (RLE)</h1>
+<p>RLE is probably the simplest way to do compression. Let's say you have data that looks like this:</p>
+<pre><code>aaaaabbbcdeeeeeeef...
+</code></pre>
+<p>then RLE encodes it as follows:</p>
+<pre><code>5a3b1c1d7e1f...
+</code></pre>
+<p>Instead of repeating bytes, you first write how often that byte occurs and then the byte's actual value. So <code>5a</code> means <code>aaaaa</code>. If the data has a lot of "byte runs", that is lots of repeating bytes, then RLE can save quite a bit of space. It works quite well on images.</p>
+<p>There are many different ways you can implement RLE. Here's an extension of <code>Data</code> that does a version of RLE inspired by the old <a href="https://en.wikipedia.org/wiki/PCX" rel="nofollow">PCX image file format</a>.</p>
+<p>The rules are these:</p>
+<ul>
+<li>
+<p>Each byte run, i.e. when a certain byte value occurs more than once in a row, is compressed using two bytes: the first byte records the number of repetitions, the second records the actual value. The first byte is stored as: <code>191 + count</code>. This means encoded byte runs can never be more than 64 bytes long.</p>
+</li>
+<li>
+<p>A single byte in the range 0 - 191 is not compressed and is copied without change.</p>
+</li>
+<li>
+<p>A single byte in the range 192 - 255 is represented by two bytes: first the byte 192 (meaning a run of 1 byte), followed by the actual value.</p>
+</li>
+</ul>
+<p>Here is the compression code. It returns a new <code>Data</code> object containing the run-length encoded bytes:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">Data</span> {
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">compressRLE</span>() <span class="pl-k">-&gt;</span> Data {
+        <span class="pl-k">var</span> data <span class="pl-k">=</span> <span class="pl-c1">Data</span>()
+        <span class="pl-c1">self</span>.<span class="pl-smi">withUnsafeBytes</span> { (<span class="pl-c1">uPtr</span>: <span class="pl-c1">UnsafePointer</span><span class="pl-k">&lt;</span><span class="pl-c1">UInt8</span><span class="pl-k">&gt;</span>) <span class="pl-k">in</span>
+            <span class="pl-k">var</span> ptr <span class="pl-k">=</span> uPtr
+            <span class="pl-k">let</span> end <span class="pl-k">=</span> ptr <span class="pl-k">+</span> count
+            <span class="pl-k">while</span> ptr <span class="pl-k">&lt;</span> end { 						<span class="pl-c"><span class="pl-c">//</span>1</span>
+<span class="pl-c"></span>                <span class="pl-k">var</span> count <span class="pl-k">=</span> <span class="pl-c1">0</span>
+                <span class="pl-k">var</span> byte <span class="pl-k">=</span> ptr.<span class="pl-c1">pointee</span>
+                <span class="pl-k">var</span> next <span class="pl-k">=</span> byte
+
+                <span class="pl-k">while</span> next <span class="pl-k">==</span> byte <span class="pl-k">&amp;&amp;</span> ptr <span class="pl-k">&lt;</span> end <span class="pl-k">&amp;&amp;</span> count <span class="pl-k">&lt;</span> <span class="pl-c1">64</span> { <span class="pl-c"><span class="pl-c">//</span>2</span>
+<span class="pl-c"></span>                    ptr <span class="pl-k">=</span> ptr.<span class="pl-c1">advanced</span>(<span class="pl-c1">by</span>: <span class="pl-c1">1</span>)
+                    next <span class="pl-k">=</span> ptr.<span class="pl-c1">pointee</span>
+                    count <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+                }
+
+                <span class="pl-k">if</span> count <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> <span class="pl-k">||</span> byte <span class="pl-k">&gt;=</span> <span class="pl-c1">192</span> {       <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>                    <span class="pl-k">var</span> size <span class="pl-k">=</span> <span class="pl-c1">191</span> <span class="pl-k">+</span> <span class="pl-c1">UInt8</span>(count)
+                    data.<span class="pl-c1">append</span>(<span class="pl-k">&amp;</span>size, <span class="pl-c1">count</span>: <span class="pl-c1">1</span>)
+                    data.<span class="pl-c1">append</span>(<span class="pl-k">&amp;</span>byte, <span class="pl-c1">count</span>: <span class="pl-c1">1</span>)
+                } <span class="pl-k">else</span> {                            <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>                    data.<span class="pl-c1">append</span>(<span class="pl-k">&amp;</span>byte, <span class="pl-c1">count</span>: <span class="pl-c1">1</span>)
+                }
+            }
+        }
+        <span class="pl-k">return</span> data
+    }
+ }</pre></div>
+<p>How it works:</p>
+<ol>
+<li>
+<p>We use an <code>UnsafePointer</code> to step through the bytes of the original <code>Data</code> object.</p>
+</li>
+<li>
+<p>At this point we've read the current byte value into the <code>byte</code> variable. If the next byte is the same, then we keep reading until we find a byte value that is different, or we reach the end of the data. We also stop if the run is 64 bytes because that's the maximum we can encode.</p>
+</li>
+<li>
+<p>Here, we have to decide how to encode the bytes we just read. The first possibility is that we've read a run of 2 or more bytes (up to 64). In that case we write out two bytes: the length of the run followed by the byte value. But it's also possible we've read a single byte with a value &gt;= 192. That will also be encoded with two bytes.</p>
+</li>
+<li>
+<p>The third possibility is that we've read a single byte &lt; 192. That simply gets copied to the output verbatim.</p>
+</li>
+</ol>
+<p>You can test it like this in a playground:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> originalString <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>aaaaabbbcdeeeeeeef<span class="pl-pds">"</span></span>
+<span class="pl-k">let</span> utf8 <span class="pl-k">=</span> originalString.<span class="pl-c1">data</span>(<span class="pl-c1">using</span>: <span class="pl-c1">String</span>.<span class="pl-smi">Encoding</span>.<span class="pl-c1">utf8</span>)<span class="pl-k">!</span>
+<span class="pl-k">let</span> compressed <span class="pl-k">=</span> utf8.<span class="pl-c1">compressRLE</span>()</pre></div>
+<p>The compressed <code>Data</code> object should be <code>&lt;c461c262 6364c665 66&gt;</code>. Let's decode that by hand to see what has happened:</p>
+<pre><code>c4    This is 196 in decimal. It means the next byte appears 5 times.
+61    The data byte "a".
+c2    The next byte appears 3 times.
+62    The data byte "b".
+63    The data byte "c". Because this is &lt; 192, it's a single data byte.
+64    The data byte "d". Also appears just once.
+c6    The next byte will appear 7 times.
+65    The data byte "e".
+66    The data byte "f". Appears just once.
+</code></pre>
+<p>So that's 9 bytes encoded versus 18 original. That's a savings of 50%. Of course, this was only a simple test case... If you get unlucky and there are no byte runs at all in your original data, then this method will actually make the encoded data twice as large! So it really depends on the input data.</p>
+<p>Here is the decompression code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">decompressRLE</span>() <span class="pl-k">-&gt;</span> Data {
+        <span class="pl-k">var</span> data <span class="pl-k">=</span> <span class="pl-c1">Data</span>()
+        <span class="pl-c1">self</span>.<span class="pl-smi">withUnsafeBytes</span> { (<span class="pl-c1">uPtr</span>: <span class="pl-c1">UnsafePointer</span><span class="pl-k">&lt;</span><span class="pl-c1">UInt8</span><span class="pl-k">&gt;</span>) <span class="pl-k">in</span>
+            <span class="pl-k">var</span> ptr <span class="pl-k">=</span> uPtr
+            <span class="pl-k">let</span> end <span class="pl-k">=</span> ptr <span class="pl-k">+</span> count
+
+            <span class="pl-k">while</span> ptr <span class="pl-k">&lt;</span> end {
+                <span class="pl-c"><span class="pl-c">//</span> Read the next byte. This is either a single value less than 192,</span>
+<span class="pl-c"></span>                <span class="pl-c"><span class="pl-c">//</span> or the start of a byte run.</span>
+<span class="pl-c"></span>                <span class="pl-k">var</span> byte <span class="pl-k">=</span> ptr.<span class="pl-c1">pointee</span>							<span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>                ptr <span class="pl-k">=</span> ptr.<span class="pl-c1">advanced</span>(<span class="pl-c1">by</span>: <span class="pl-c1">1</span>)
+
+                <span class="pl-k">if</span> byte <span class="pl-k">&lt;</span> <span class="pl-c1">192</span> {                     <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>                    data.<span class="pl-c1">append</span>(<span class="pl-k">&amp;</span>byte, <span class="pl-c1">count</span>: <span class="pl-c1">1</span>)
+                } <span class="pl-k">else</span> <span class="pl-k">if</span> ptr <span class="pl-k">&lt;</span> end {               <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>                    <span class="pl-c"><span class="pl-c">//</span> Read the actual data value.</span>
+<span class="pl-c"></span>                    <span class="pl-k">var</span> value <span class="pl-k">=</span> ptr.<span class="pl-c1">pointee</span>
+                    ptr <span class="pl-k">=</span> ptr.<span class="pl-c1">advanced</span>(<span class="pl-c1">by</span>: <span class="pl-c1">1</span>)
+
+                    <span class="pl-c"><span class="pl-c">//</span> And write it out repeatedly.</span>
+<span class="pl-c"></span>                    <span class="pl-k">for</span> <span class="pl-c1">_</span> <span class="pl-k">in</span> <span class="pl-c1">0</span> <span class="pl-k">..&lt;</span> byte <span class="pl-k">-</span> <span class="pl-c1">191</span> {
+                        data.<span class="pl-c1">append</span>(<span class="pl-k">&amp;</span>value, <span class="pl-c1">count</span>: <span class="pl-c1">1</span>)
+                    }
+                }
+            }
+        }
+        <span class="pl-k">return</span> data
+    }
+</pre></div>
+<ol>
+<li>
+<p>Again this uses an <code>UnsafePointer</code> to read the <code>Data</code>. Here we read the next byte; this is either a single value less than 192, or the start of a byte run.</p>
+</li>
+<li>
+<p>If it's a single value, then it's just a matter of copying it to the output.</p>
+</li>
+<li>
+<p>But if the byte is the start of a run, we have to first read the actual data value and then write it out repeatedly.</p>
+</li>
+</ol>
+<p>To turn the compressed data back into the original, you'd do:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> decompressed <span class="pl-k">=</span> compressed.<span class="pl-c1">decompressRLE</span>()
+<span class="pl-k">let</span> restoredString <span class="pl-k">=</span> <span class="pl-c1">String</span>(<span class="pl-c1">data</span>: decompressed, <span class="pl-c1">encoding</span>: NSUTF8StringEncoding)</pre></div>
+<p>And now <code>originalString == restoredString</code> must be true!</p>
+<p>Footnote: The original PCX implementation is slightly different. There, a byte value of 192 (0xC0) means that the following byte will be repeated 0 times. This also limits the maximum run size to 63 bytes. Because it makes no sense to store bytes that don't occur, in my implementation 192 means the next byte appears once, and the maximum run length is 64 bytes.</p>
+<p>This was probably a trade-off when they designed the PCX format way back when. If you look at it in binary, the upper two bits indicate whether a byte is compressed. (If both bits are set then the byte value is 192 or more.) To get the run length you can simply do <code>byte &amp; 0x3F</code>, giving you a value in the range 0 to 63.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em><br>
+<em>Migrated to Swift3 by Jaap Wijnen</em></p></div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<head>
+  <title>Selection Sampling</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Selection Sampling</h1>
+<p>Goal: Select <em>k</em> items at random from a collection of <em>n</em> items.</p>
+<p>Let's say you have a deck of 52 playing cards and you need to draw 10 cards at random. This algorithm lets you do that.</p>
+<p>Here's a very fast version:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">select</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">from</span> <span class="pl-smi">a</span>: [T], <span class="pl-en">count</span> <span class="pl-smi">k</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> [T] {
+  <span class="pl-k">var</span> a <span class="pl-k">=</span> a
+  <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>k {
+    <span class="pl-k">let</span> r <span class="pl-k">=</span> <span class="pl-c1">random</span>(<span class="pl-c1">min</span>: i, <span class="pl-c1">max</span>: a.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+    <span class="pl-k">if</span> i <span class="pl-k">!=</span> r {
+      <span class="pl-c1">swap</span>(<span class="pl-k">&amp;</span>a[i], <span class="pl-k">&amp;</span>a[r])
+    }
+  }
+  <span class="pl-k">return</span> <span class="pl-c1">Array</span>(a[<span class="pl-c1">0</span><span class="pl-k">..&lt;</span>k])
+}</pre></div>
+<p>As often happens with these <a href="../Shuffle/">kinds of algorithms</a>, it divides the array into two regions. The first region contains the selected items; the second region is all the remaining items.</p>
+<p>Here's an example. Let's say the array is:</p>
+<pre><code>[ "a", "b", "c", "d", "e", "f", "g" ]
+</code></pre>
+<p>We want to select 3 items, so <code>k = 3</code>. In the loop, <code>i</code> is initially 0, so it points at <code>"a"</code>.</p>
+<pre><code>[ "a", "b", "c", "d", "e", "f", "g" ]
+   i
+</code></pre>
+<p>We calculate a random number between <code>i</code> and <code>a.count</code>, the size of the array. Let's say this is 4. Now we swap <code>"a"</code> with <code>"e"</code>, the element at index 4, and move <code>i</code> forward:</p>
+<pre><code>[ "e" | "b", "c", "d", "a", "f", "g" ]
+         i
+</code></pre>
+<p>The <code>|</code> bar shows the split between the two regions. <code>"e"</code> is the first element we've selected. Everything to the right of the bar we still need to look at.</p>
+<p>Again, we ask for a random number between <code>i</code> and <code>a.count</code>, but because <code>i</code> has shifted, the random number can never be less than 1. So we'll never again swap <code>"e"</code> with anything.</p>
+<p>Let's say the random number is 6 and we swap <code>"b"</code> with <code>"g"</code>:</p>
+<pre><code>[ "e" , "g" | "c", "d", "a", "f", "b" ]
+               i
+</code></pre>
+<p>One more random number to pick, let's say it is 4 again. We swap <code>"c"</code> with <code>"a"</code> to get the final selection on the left:</p>
+<pre><code>[ "e", "g", "a" | "d", "c", "f", "b" ]
+</code></pre>
+<p>And that's it. Easy peasy. The performance of this function is <strong>O(k)</strong> because as soon as we've selected <em>k</em> elements, we're done.</p>
+<p>Here is an alternative algorithm, called "reservoir sampling":</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">reservoirSample</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">from</span> <span class="pl-smi">a</span>: [T], <span class="pl-en">count</span> <span class="pl-smi">k</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> [T] {
+  <span class="pl-c1">precondition</span>(a.<span class="pl-c1">count</span> <span class="pl-k">&gt;=</span> k)
+
+  <span class="pl-k">var</span> result <span class="pl-k">=</span> [T]()      <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>  <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>k {
+    result.<span class="pl-c1">append</span>(a[i])
+  }
+
+  <span class="pl-k">for</span> i <span class="pl-k">in</span> k<span class="pl-k">..&lt;</span>a.<span class="pl-c1">count</span> {  <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> j <span class="pl-k">=</span> <span class="pl-c1">random</span>(<span class="pl-c1">min</span>: <span class="pl-c1">0</span>, <span class="pl-c1">max</span>: i)
+    <span class="pl-k">if</span> j <span class="pl-k">&lt;</span> k {
+      result[j] <span class="pl-k">=</span> a[i]
+    }
+  }
+  <span class="pl-k">return</span> result
+}</pre></div>
+<p>This works in two steps:</p>
+<ol>
+<li>Fill the <code>result</code> array with the first <code>k</code> elements from the original array. This is called the "reservoir".</li>
+<li>Randomly replace elements in the reservoir with elements from the remaining pool.</li>
+</ol>
+<p>The performance of this algorithm is <strong>O(n)</strong>, so it's a little bit slower than the first algorithm. However, its big advantage is that it can be used for arrays that are too large to fit in memory, even if you don't know what the size of the array is (in Swift this might be something like a lazy generator that reads the elements from a file).</p>
+<p>There is one downside to the previous two algorithms: they do not keep the elements in the original order. In the input array <code>"a"</code> came before <code>"e"</code> but now it's the other way around. If that is an issue for your app, you can't use this particular method.</p>
+<p>Here is an alternative approach that does keep the original order intact, but is a little more involved:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">select</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">from</span> <span class="pl-smi">a</span>: [T], <span class="pl-en">count</span> <span class="pl-smi">requested</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> [T] {
+  <span class="pl-k">var</span> examined <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  <span class="pl-k">var</span> selected <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  <span class="pl-k">var</span> b <span class="pl-k">=</span> [T]()
+  
+  <span class="pl-k">while</span> selected <span class="pl-k">&lt;</span> requested {                          <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> r <span class="pl-k">=</span> <span class="pl-c1">Double</span>(<span class="pl-c1">arc4random</span>()) <span class="pl-k">/</span> <span class="pl-c1">0x100000000</span>          <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>    
+    <span class="pl-k">let</span> leftToExamine <span class="pl-k">=</span> a.<span class="pl-c1">count</span> <span class="pl-k">-</span> examined              <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> leftToAdd <span class="pl-k">=</span> requested <span class="pl-k">-</span> selected
+
+    <span class="pl-k">if</span> <span class="pl-c1">Double</span>(leftToExamine) <span class="pl-k">*</span> r <span class="pl-k">&lt;</span> <span class="pl-c1">Double</span>(leftToAdd) {  <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>      selected <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+      b.<span class="pl-c1">append</span>(a[examined])
+    }
+
+    examined <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  }
+  <span class="pl-k">return</span> b
+}</pre></div>
+<p>This algorithm uses probability to decide whether to include a number in the selection or not.</p>
+<ol>
+<li>
+<p>The loop steps through the array from beginning to end. It keeps going until we've selected <em>k</em> items from our set of <em>n</em>. Here, <em>k</em> is called <code>requested</code> and <em>n</em> is <code>a.count</code>.</p>
+</li>
+<li>
+<p>Calculate a random number between 0 and 1. We want <code>0.0 &lt;= r &lt; 1.0</code>. The higher bound is exclusive; we never want it to be exactly 1. That's why we divide the result from <code>arc4random()</code> by <code>0x100000000</code> instead of the more usual <code>0xffffffff</code>.</p>
+</li>
+<li>
+<p><code>leftToExamine</code> is how many items we still haven't looked at. <code>leftToAdd</code> is how many items we still need to select before we're done.</p>
+</li>
+<li>
+<p>This is where the magic happens. Basically, we're flipping a coin. If it was heads, we add the current array element to the selection; if it was tails, we skip it.</p>
+</li>
+</ol>
+<p>Interestingly enough, even though we use probability, this approach always guarantees that we end up with exactly <em>k</em> items in the output array.</p>
+<p>Let's walk through the same example again. The input array is:</p>
+<pre><code>[ "a", "b", "c", "d", "e", "f", "g" ]
+</code></pre>
+<p>The loop looks at each element in turn, so we start at <code>"a"</code>. We get a random number between 0 and 1, let's say it is 0.841. The formula at <code>// 4</code> multiplies the number of items left to examine with this random number. There are still 7 elements left to examine, so the result is:</p>
+<pre><code>7 * 0.841 = 5.887
+</code></pre>
+<p>We compare this to 3 because we wanted to select 3 items. Since 5.887 is greater than 3, we skip <code>"a"</code> and move on to <code>"b"</code>.</p>
+<p>Again, we get a random number, let's say 0.212. Now there are only 6 elements left to examine, so the formula gives:</p>
+<pre><code>6 * 0.212 = 1.272
+</code></pre>
+<p>This <em>is</em> less than 3 and we add <code>"b"</code> to the selection. This is the first item we've selected, so two left to go.</p>
+<p>On to the next element, <code>"c"</code>. The random number is 0.264, giving the result:</p>
+<pre><code>5 * 0.264 = 1.32
+</code></pre>
+<p>There are only 2 elements left to select, so this number must be less than 2. It is, and we also add <code>"c"</code> to the selection. The total selection is <code>[ "b", "c" ]</code>.</p>
+<p>Only one item left to select but there are still 4 candidates to look at. Suppose the next random number is 0.718. The formula now gives:</p>
+<pre><code>4 * 0.718 = 2.872
+</code></pre>
+<p>For this element to be selected the number has to be less than 1, as there is only 1 element left to be picked. It isn't, so we skip <code>"d"</code>. Only three possibilities left -- will we make it before we run out of elements?</p>
+<p>The random number is 0.346. The formula gives:</p>
+<pre><code>3 * 0.346 = 1.038
+</code></pre>
+<p>Just a tiny bit too high. We skip <code>"e"</code>. Only two candidates left...</p>
+<p>Note that now literally we're dealing with a coin toss: if the random number is less than 0.5 we select <code>"f"</code> and we're done. If it's greater than 0.5, we go on to the final element. Let's say we get 0.583:</p>
+<pre><code>2 * 0.583 = 1.166
+</code></pre>
+<p>We skip <code>"f"</code> and look at the very last element. Whatever random number we get here, it should always select <code>"g"</code> or we won't have selected enough elements and the algorithm doesn't work!</p>
+<p>Let's say our final random number is 0.999 (remember, it can never be 1.0 or higher). Actually, no matter what we choose here, the formula will always give a value less than 1:</p>
+<pre><code>1 * 0.999 = 0.999
+</code></pre>
+<p>And so the last element will always be chosen if we didn't have a big enough selection yet. The final selection is <code>[ "b", "c", "g" ]</code>. Notice that the elements are still in their original order, because we examined the array from left to right.</p>
+<p>Maybe you're not convinced yet... What if we always got 0.999 as the random value (the maximum possible), would that still select 3 items? Well, let's do the math:</p>
+<pre><code>7 * 0.999 = 6.993     is this less than 3? no
+6 * 0.999 = 5.994     is this less than 3? no
+5 * 0.999 = 4.995     is this less than 3? no
+4 * 0.999 = 3.996     is this less than 3? no
+3 * 0.999 = 2.997     is this less than 3? YES
+2 * 0.999 = 1.998     is this less than 2? YES
+1 * 0.999 = 0.999     is this less than 1? YES
+</code></pre>
+<p>It always works! But does this mean that elements closer to the end of the array have a higher probability of being chosen than those in the beginning? Nope, all elements are equally likely to be selected. (Don't take my word for it: see the playground for a quick test that shows this in practice.)</p>
+<p>Here's an example of how to test this algorithm:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> input <span class="pl-k">=</span> [
+  <span class="pl-s"><span class="pl-pds">"</span>there<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>once<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>was<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>man<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>from<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>nantucket<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>who<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>kept<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>all<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>of<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>his<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>cash<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>in<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bucket<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>his<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>daughter<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>named<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>nan<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>ran<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>off<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>with<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>man<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>and<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>as<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>for<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>the<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bucket<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>nan<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>took<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>it<span class="pl-pds">"</span></span>,
+]
+
+<span class="pl-k">let</span> output <span class="pl-k">=</span> <span class="pl-c1">select</span>(<span class="pl-c1">from</span>: input, <span class="pl-c1">count</span>: <span class="pl-c1">10</span>)
+<span class="pl-c1">print</span>(output)
+<span class="pl-c1">print</span>(output.<span class="pl-c1">count</span>)</pre></div>
+<p>The performance of this second algorithm is <strong>O(n)</strong> as it may require a pass through the entire input array.</p>
+<blockquote>
+<p><strong>Note:</strong> If <code>k &gt; n/2</code>, then it's more efficient to do it the other way around and choose <code>a.count - k</code> items to remove.</p>
+</blockquote>
+<p>Based on code from Algorithm Alley, Dr. Dobb's Magazine, October 1993.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

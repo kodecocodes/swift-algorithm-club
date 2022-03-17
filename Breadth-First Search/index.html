@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<head>
+  <title>Breadth-First Search</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Breadth-First Search</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/155801/swift-algorithm-club-swift-breadth-first-search" rel="nofollow">here</a></p>
+</blockquote>
+<p>Breadth-first search (BFS) is an algorithm for traversing or searching <a href="../Tree/">tree</a> or <a href="../Graph/">graph</a> data structures. It starts at a source node and explores the immediate neighbor nodes first, before moving to the next level neighbors.</p>
+<p>Breadth-first search can be used on both directed and undirected graphs.</p>
+<h2>Animated example</h2>
+<p>Here's how breadth-first search works on a graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/AnimatedExample.gif"><img src="Images/AnimatedExample.gif" alt="Animated example of a breadth-first search" style="max-width:100%;"></a></p>
+<p>When we visit a node, we color it black. We also put its neighbor nodes into a <a href="../Queue/">queue</a>. In the animation the nodes that are enqueued but not visited yet are shown in gray.</p>
+<p>Let's follow the animated example. We start with the source node <code>A</code> and add it to a queue. In the animation this is shown as node <code>A</code> becoming gray.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">enqueue</span>(A)</pre></div>
+<p>The queue is now <code>[ A ]</code>. The idea is that, as long as there are nodes in the queue, we visit the node that's at the front of the queue, and enqueue its immediate neighbor nodes if they have not been visited yet.</p>
+<p>To start traversing the graph, we pull the first node off the queue, <code>A</code>, and color it black. Then we enqueue its two neighbor nodes <code>B</code> and <code>C</code>. This colors them gray.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> A</span>
+<span class="pl-c"></span>queue.<span class="pl-c1">enqueue</span>(B)
+queue.<span class="pl-c1">enqueue</span>(C)</pre></div>
+<p>The queue is now <code>[ B, C ]</code>. We dequeue <code>B</code>, and enqueue <code>B</code>'s neighbor nodes <code>D</code> and <code>E</code>.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> B</span>
+<span class="pl-c"></span>queue.<span class="pl-c1">enqueue</span>(D)
+queue.<span class="pl-c1">enqueue</span>(E)</pre></div>
+<p>The queue is now <code>[ C, D, E ]</code>. Dequeue <code>C</code>, and enqueue <code>C</code>'s neighbor nodes <code>F</code> and <code>G</code>.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> C</span>
+<span class="pl-c"></span>queue.<span class="pl-c1">enqueue</span>(F)
+queue.<span class="pl-c1">enqueue</span>(G)</pre></div>
+<p>The queue is now <code>[ D, E, F, G ]</code>. Dequeue <code>D</code>, which has no neighbor nodes.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> D</span></pre></div>
+<p>The queue is now <code>[ E, F, G ]</code>. Dequeue <code>E</code> and enqueue its single neighbor node <code>H</code>. Note that <code>B</code> is also a neighbor for <code>E</code> but we've already visited <code>B</code>, so we're not adding it to the queue again.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> E</span>
+<span class="pl-c"></span>queue.<span class="pl-c1">enqueue</span>(H)</pre></div>
+<p>The queue is now <code>[ F, G, H ]</code>. Dequeue <code>F</code>, which has no unvisited neighbor nodes.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> F</span></pre></div>
+<p>The queue is now <code>[ G, H ]</code>. Dequeue <code>G</code>, which has no unvisited neighbor nodes.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> G</span></pre></div>
+<p>The queue is now <code>[ H ]</code>. Dequeue <code>H</code>, which has no unvisited neighbor nodes.</p>
+<div class="highlight highlight-source-swift"><pre>queue.<span class="pl-c1">dequeue</span>()   <span class="pl-c"><span class="pl-c">//</span> H</span></pre></div>
+<p>The queue is now empty, meaning that all nodes have been explored. The order in which the nodes were explored is <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code>, <code>F</code>, <code>G</code>, <code>H</code>.</p>
+<p>We can show this as a tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/TraversalTree.png"><img src="Images/TraversalTree.png" alt="The BFS tree" style="max-width:100%;"></a></p>
+<p>The parent of a node is the one that "discovered" that node. The root of the tree is the node you started the breadth-first search from.</p>
+<p>For an unweighted graph, this tree defines a shortest path from the starting node to every other node in the tree. So breadth-first search is one way to find the shortest path between two nodes in a graph.</p>
+<h2>The code</h2>
+<p>Simple implementation of breadth-first search using a queue:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">breadthFirstSearch</span>(<span class="pl-en">_</span> <span class="pl-smi">graph</span>: Graph, <span class="pl-smi"><span class="pl-en">source</span></span>: Node) <span class="pl-k">-&gt;</span> [<span class="pl-c1">String</span>] {
+  <span class="pl-k">var</span> queue <span class="pl-k">=</span> Queue<span class="pl-k">&lt;</span>Node<span class="pl-k">&gt;</span>()
+  queue.<span class="pl-c1">enqueue</span>(source)
+
+  <span class="pl-k">var</span> nodesExplored <span class="pl-k">=</span> [source.<span class="pl-smi">label</span>]
+  source.<span class="pl-smi">visited</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>
+
+  <span class="pl-k">while</span> <span class="pl-k">let</span> node <span class="pl-k">=</span> queue.<span class="pl-c1">dequeue</span>() {
+    <span class="pl-k">for</span> edge <span class="pl-k">in</span> node.<span class="pl-smi">neighbors</span> {
+      <span class="pl-k">let</span> neighborNode <span class="pl-k">=</span> edge.<span class="pl-smi">neighbor</span>
+      <span class="pl-k">if</span> <span class="pl-k">!</span>neighborNode.<span class="pl-smi">visited</span> {
+        queue.<span class="pl-c1">enqueue</span>(neighborNode)
+        neighborNode.<span class="pl-smi">visited</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>
+        nodesExplored.<span class="pl-c1">append</span>(neighborNode.<span class="pl-smi">label</span>)
+      }
+    }
+  }
+
+  <span class="pl-k">return</span> nodesExplored
+}</pre></div>
+<p>While there are nodes in the queue, we visit the first one and then enqueue its immediate neighbors if they haven't been visited yet.</p>
+<p>Put this code in a playground and test it like so:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> graph <span class="pl-k">=</span> <span class="pl-c1">Graph</span>()
+
+<span class="pl-k">let</span> nodeA <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeB <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeC <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeD <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeE <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeF <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>f<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeG <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>g<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> nodeH <span class="pl-k">=</span> graph.<span class="pl-c1">addNode</span>(<span class="pl-s"><span class="pl-pds">"</span>h<span class="pl-pds">"</span></span>)
+
+graph.<span class="pl-c1">addEdge</span>(nodeA, <span class="pl-c1">neighbor</span>: nodeB)
+graph.<span class="pl-c1">addEdge</span>(nodeA, <span class="pl-c1">neighbor</span>: nodeC)
+graph.<span class="pl-c1">addEdge</span>(nodeB, <span class="pl-c1">neighbor</span>: nodeD)
+graph.<span class="pl-c1">addEdge</span>(nodeB, <span class="pl-c1">neighbor</span>: nodeE)
+graph.<span class="pl-c1">addEdge</span>(nodeC, <span class="pl-c1">neighbor</span>: nodeF)
+graph.<span class="pl-c1">addEdge</span>(nodeC, <span class="pl-c1">neighbor</span>: nodeG)
+graph.<span class="pl-c1">addEdge</span>(nodeE, <span class="pl-c1">neighbor</span>: nodeH)
+graph.<span class="pl-c1">addEdge</span>(nodeE, <span class="pl-c1">neighbor</span>: nodeF)
+graph.<span class="pl-c1">addEdge</span>(nodeF, <span class="pl-c1">neighbor</span>: nodeG)
+
+<span class="pl-k">let</span> nodesExplored <span class="pl-k">=</span> <span class="pl-c1">breadthFirstSearch</span>(graph, <span class="pl-c1">source</span>: nodeA)
+<span class="pl-c1">print</span>(nodesExplored)</pre></div>
+<p>This will output: <code>["a", "b", "c", "d", "e", "f", "g", "h"]</code></p>
+<h2>What is BFS good for?</h2>
+<p>Breadth-first search can be used to solve many problems. A small selection:</p>
+<ul>
+<li>Computing the <a href="../Shortest%20Path%20(Unweighted)/">shortest path</a> between a source node and each of the other nodes (only for unweighted graphs).</li>
+<li>Calculating the <a href="../Minimum%20Spanning%20Tree%20(Unweighted)/">minimum spanning tree</a> on an unweighted graph.</li>
+</ul>
+<p><em>Written by <a href="https://github.com/chris-pilcher">Chris Pilcher</a> and Matthijs Hollemans</em></p></div>
+</body>
+</html>

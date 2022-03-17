@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<head>
+  <title>Insertion Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Insertion Sort</h1>
+<p>Goal: Sort an array from low to high (or high to low).</p>
+<p>You are given an array of numbers and need to put them in the right order. The insertion sort algorithm works as follows:</p>
+<ul>
+<li>Put the numbers on a pile. This pile is unsorted.</li>
+<li>Pick a number from the pile. It doesn't really matter which one you pick, but it's easiest to pick from the top of the pile.</li>
+<li>Insert this number into a new array.</li>
+<li>Pick the next number from the unsorted pile and also insert that into the new array. It either goes before or after the first number you picked, so that now these two numbers are sorted.</li>
+<li>Again, pick the next number from the pile and insert it into the array in the proper sorted position.</li>
+<li>Keep doing this until there are no more numbers on the pile. You end up with an empty pile and an array that is sorted.</li>
+</ul>
+<p>That's why this is called an "insertion" sort, because you take a number from the pile and insert it in the array in its proper sorted position.</p>
+<h2>An example</h2>
+<p>Let's say the numbers to sort are <code>[ 8, 3, 5, 4, 6 ]</code>. This is our unsorted pile.</p>
+<p>Pick the first number, <code>8</code>, and insert it into the new array. There is nothing in that array yet, so that's easy. The sorted array is now <code>[ 8 ]</code> and the pile is <code>[ 3, 5, 4, 6 ]</code>.</p>
+<p>Pick the next number from the pile, <code>3</code>, and insert it into the sorted array. It should go before the <code>8</code>, so the sorted array is now <code>[ 3, 8 ]</code> and the pile is reduced to <code>[ 5, 4, 6 ]</code>.</p>
+<p>Pick the next number from the pile, <code>5</code>, and insert it into the sorted array. It goes in between the <code>3</code> and <code>8</code>. The sorted array is <code>[ 3, 5, 8 ]</code> and the pile is <code>[ 4, 6 ]</code>.</p>
+<p>Repeat this process until the pile is empty.</p>
+<h2>In-place sort</h2>
+<p>The above explanation makes it seem like you need two arrays: one for the unsorted pile and one that contains the numbers in sorted order.</p>
+<p>But you can perform the insertion sort <em>in-place</em>, without having to create a separate array. You just keep track of which part of the array is sorted already and which part is the unsorted pile.</p>
+<p>Initially, the array is <code>[ 8, 3, 5, 4, 6 ]</code>. The <code>|</code> bar shows where the sorted portion ends and the pile begins:</p>
+<pre><code>[| 8, 3, 5, 4, 6 ]
+</code></pre>
+<p>This shows that the sorted portion is empty and the pile starts at <code>8</code>.</p>
+<p>After processing the first number, we have:</p>
+<pre><code>[ 8 | 3, 5, 4, 6 ]
+</code></pre>
+<p>The sorted portion is <code>[ 8 ]</code> and the pile is <code>[ 3, 5, 4, 6 ]</code>. The <code>|</code> bar has shifted one position to the right.</p>
+<p>This is how the content of the array changes during the sort:</p>
+<pre><code>[| 8, 3, 5, 4, 6 ]
+[ 8 | 3, 5, 4, 6 ]
+[ 3, 8 | 5, 4, 6 ]
+[ 3, 5, 8 | 4, 6 ]
+[ 3, 4, 5, 8 | 6 ]
+[ 3, 4, 5, 6, 8 |]
+</code></pre>
+<p>In each step, the <code>|</code> bar moves up one position. As you can see, the beginning of the array up to the <code>|</code> is always sorted. The pile shrinks by one and the sorted portion grows by one, until the pile is empty and there are no more unsorted numbers left.</p>
+<h2>How to insert</h2>
+<p>At each step you pick the top-most number from the unsorted pile and insert it into the sorted portion of the array. You must put that number in the proper place so that the beginning of the array remains sorted. How does that work?</p>
+<p>Let's say we've already done the first few elements and the array looks like this:</p>
+<pre><code>[ 3, 5, 8 | 4, 6 ]
+</code></pre>
+<p>The next number to sort is <code>4</code>. We need to insert that into the sorted portion <code>[ 3, 5, 8 ]</code> somewhere.</p>
+<p>Here's one way to do this: Look at the previous element, <code>8</code>.</p>
+<pre><code>[ 3, 5, 8, 4 | 6 ]
+        ^
+</code></pre>
+<p>Is this greater than <code>4</code>? Yes it is, so the <code>4</code> should come before the <code>8</code>. We swap these two numbers to get:</p>
+<pre><code>[ 3, 5, 4, 8 | 6 ]
+        &lt;--&gt;
+       swapped
+</code></pre>
+<p>We're not done yet. The new previous element, <code>5</code>, is also greater than <code>4</code>. We also swap these two numbers:</p>
+<pre><code>[ 3, 4, 5, 8 | 6 ]
+     &lt;--&gt;
+    swapped
+</code></pre>
+<p>Again, look at the previous element. Is <code>3</code> greater than <code>4</code>? No, it is not. That means we're done with number <code>4</code>. The beginning of the array is sorted again.</p>
+<p>This was a description of the inner loop of the insertion sort algorithm, which you'll see in the next section. It inserts the number from the top of the pile into the sorted portion by swapping numbers.</p>
+<h2>The code</h2>
+<p>Here is an implementation of insertion sort in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">insertionSort</span>(<span class="pl-en">_</span> <span class="pl-smi">array</span>: [<span class="pl-c1">Int</span>]) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] {
+    <span class="pl-k">var</span> a <span class="pl-k">=</span> array			 <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>    <span class="pl-k">for</span> x <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">..&lt;</span>a.<span class="pl-c1">count</span> {		 <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>        <span class="pl-k">var</span> y <span class="pl-k">=</span> x
+        <span class="pl-k">while</span> y <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> <span class="pl-k">&amp;&amp;</span> a[y] <span class="pl-k">&lt;</span> a[y <span class="pl-k">-</span> <span class="pl-c1">1</span>] { <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>            a.<span class="pl-c1">swapAt</span>(y <span class="pl-k">-</span> <span class="pl-c1">1</span>, y)
+            y <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+        }
+    }
+    <span class="pl-k">return</span> a
+}
+
+</pre></div>
+<p>Put this code in a playground and test it like so:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> list <span class="pl-k">=</span> [ <span class="pl-c1">10</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">2</span>, <span class="pl-c1">27</span>, <span class="pl-c1">8</span>, <span class="pl-c1">5</span>, <span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">0</span>, <span class="pl-c1">26</span> ]
+<span class="pl-c1">insertionSort</span>(list)</pre></div>
+<p>Here is how the code works.</p>
+<ol>
+<li>
+<p>Make a copy of the array. This is necessary because we cannot modify the contents of the <code>array</code> parameter directly. Like Swift's own <code>sort()</code>, the <code>insertionSort()</code> function will return a sorted <em>copy</em> of the original array.</p>
+</li>
+<li>
+<p>There are two loops inside this function. The outer loop looks at each of the elements in the array in turn; this is what picks the top-most number from the pile. The variable <code>x</code> is the index of where the sorted portion ends and the pile begins (the position of the <code>|</code> bar). Remember, at any given moment the beginning of the array -- from index 0 up to <code>x</code> -- is always sorted. The rest, from index <code>x</code> until the last element, is the unsorted pile.</p>
+</li>
+<li>
+<p>The inner loop looks at the element at position <code>x</code>. This is the number at the top of the pile, and it may be smaller than any of the previous elements. The inner loop steps backwards through the sorted array; every time it finds a previous number that is larger, it swaps them. When the inner loop completes, the beginning of the array is sorted again, and the sorted portion has grown by one element.</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> The outer loop starts at index 1, not 0. Moving the very first element from the pile to the sorted portion doesn't actually change anything, so we might as well skip it.</p>
+</blockquote>
+<h2>No more swaps</h2>
+<p>The above version of insertion sort works fine, but it can be made a tiny bit faster by removing the call to <code>swap()</code>.</p>
+<p>You've seen that we swap numbers to move the next element into its sorted position:</p>
+<pre><code>[ 3, 5, 8, 4 | 6 ]
+        &lt;--&gt;
+        swap
+        
+[ 3, 5, 4, 8 | 6 ]
+     &lt;--&gt;
+     swap
+</code></pre>
+<p>Instead of swapping with each of the previous elements, we can just shift all those elements one position to the right, and then copy the new number into the right position.</p>
+<pre><code>[ 3, 5, 8, 4 | 6 ]   remember 4
+           *
+
+[ 3, 5, 8, 8 | 6 ]   shift 8 to the right
+        ---&gt;
+        
+[ 3, 5, 5, 8 | 6 ]   shift 5 to the right
+     ---&gt;
+     
+[ 3, 4, 5, 8 | 6 ]   copy 4 into place
+     *
+</code></pre>
+<p>In code that looks like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">insertionSort</span>(<span class="pl-en">_</span> <span class="pl-smi">array</span>: [<span class="pl-c1">Int</span>]) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] {
+  <span class="pl-k">var</span> a <span class="pl-k">=</span> array
+  <span class="pl-k">for</span> x <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">..&lt;</span>a.<span class="pl-c1">count</span> {
+    <span class="pl-k">var</span> y <span class="pl-k">=</span> x
+    <span class="pl-k">let</span> temp <span class="pl-k">=</span> a[y]
+    <span class="pl-k">while</span> y <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> <span class="pl-k">&amp;&amp;</span> temp <span class="pl-k">&lt;</span> a[y <span class="pl-k">-</span> <span class="pl-c1">1</span>] {
+      a[y] <span class="pl-k">=</span> a[y <span class="pl-k">-</span> <span class="pl-c1">1</span>]                <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>      y <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+    }
+    a[y] <span class="pl-k">=</span> temp                      <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>  }
+  <span class="pl-k">return</span> a
+}</pre></div>
+<p>The line at <code>//1</code> is what shifts up the previous elements by one position. At the end of the inner loop, <code>y</code> is the destination index for the new number in the sorted portion, and the line at <code>//2</code> copies this number into place.</p>
+<h2>Making it generic</h2>
+<p>It would be nice to sort other things than just numbers. We can make the datatype of the array generic and use a user-supplied function (or closure) to perform the less-than comparison. This only requires two changes to the code.</p>
+<p>The function signature becomes:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">insertionSort</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">array</span>: [T], <span class="pl-en">_</span> <span class="pl-smi">isOrderedBefore</span>: (T, T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span>) <span class="pl-k">-&gt;</span> [T] {</pre></div>
+<p>The array has type <code>[T]</code> where <code>T</code> is the placeholder type for the generics. Now <code>insertionSort()</code> will accept any kind of array, whether it contains numbers, strings, or something else.</p>
+<p>The new parameter <code>isOrderedBefore: (T, T) -&gt; Bool</code> is a function that takes two <code>T</code> objects and returns true if the first object comes before the second, and false if the second object should come before the first. This is exactly what Swift's built-in <code>sort()</code> function does.</p>
+<p>The only other change is in the inner loop, which now becomes:</p>
+<div class="highlight highlight-source-swift"><pre>      <span class="pl-k">while</span> y <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">isOrderedBefore</span>(temp, a[y <span class="pl-k">-</span> <span class="pl-c1">1</span>]) {</pre></div>
+<p>Instead of writing <code>temp &lt; a[y - 1]</code>, we call the <code>isOrderedBefore()</code> function. It does the exact same thing, except we can now compare any kind of object, not just numbers.</p>
+<p>To test this in a playground, do:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> numbers <span class="pl-k">=</span> [ <span class="pl-c1">10</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">2</span>, <span class="pl-c1">27</span>, <span class="pl-c1">8</span>, <span class="pl-c1">5</span>, <span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">0</span>, <span class="pl-c1">26</span> ]
+<span class="pl-c1">insertionSort</span>(numbers, <span class="pl-k">&lt;</span>)
+<span class="pl-c1">insertionSort</span>(numbers, <span class="pl-k">&gt;</span>)</pre></div>
+<p>The <code>&lt;</code> and <code>&gt;</code> determine the sort order, low-to-high and high-to-low, respectively.</p>
+<p>Of course, you can also sort other things such as strings,</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> strings <span class="pl-k">=</span> [ <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span> ]
+<span class="pl-c1">insertionSort</span>(strings, <span class="pl-k">&lt;</span>)</pre></div>
+<p>or even more complex objects:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> objects <span class="pl-k">=</span> [ obj1, obj2, obj3, <span class="pl-k">...</span> ]
+<span class="pl-c1">insertionSort</span>(objects) { <span class="pl-c1">$0</span>.<span class="pl-smi">priority</span> <span class="pl-k">&lt;</span> <span class="pl-c1">$1</span>.<span class="pl-smi">priority</span> }</pre></div>
+<p>The closure tells <code>insertionSort()</code> to sort on the <code>priority</code> property of the objects.</p>
+<p>Insertion sort is a <em>stable</em> sort. A sort is stable when elements that have identical sort keys remain in the same relative order after sorting. This is not important for simple values such as numbers or strings, but it is important when sorting more complex objects. In the example above, if two objects have the same <code>priority</code>, regardless of the values of their other properties, those two objects don't get swapped around.</p>
+<h2>Performance</h2>
+<p>Insertion sort is really fast if the array is already sorted. That sounds obvious, but this is not true for all search algorithms. In practice, a lot of data will already be largely -- if not entirely -- sorted and insertion sort works quite well in that case.</p>
+<p>The worst-case and average case performance of insertion sort is <strong>O(n^2)</strong>. That's because there are two nested loops in this function. Other sort algorithms, such as quicksort and merge sort, have <strong>O(n log n)</strong> performance, which is faster on large inputs.</p>
+<p>Insertion sort is actually very fast for sorting small arrays. Some standard libraries have sort functions that switch from a quicksort to insertion sort when the partition size is 10 or less.</p>
+<p>I did a quick test comparing our <code>insertionSort()</code> with Swift's built-in <code>sort()</code>. On arrays of about 100 items or so, the difference in speed is tiny. However, as your input becomes larger, <strong>O(n^2)</strong> quickly starts to perform a lot worse than <strong>O(n log n)</strong> and insertion sort just can't keep up.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Insertion_sort" rel="nofollow">Insertion sort on Wikipedia</a></p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

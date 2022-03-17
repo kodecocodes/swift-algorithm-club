@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+  <title>Minimum Edit Distance</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Minimum Edit Distance</h1>
+<p>The minimum edit distance is a possibility to measure the similarity of two strings <em>w</em> and <em>u</em> by counting costs of operations which are necessary to transform <em>w</em> into <em>u</em> (or vice versa).</p>
+<h3>Algorithm using Levenshtein distance</h3>
+<p>A common distance measure is given by the <em>Levenshtein distance</em>, which allows the following three transformation operations:</p>
+<ul>
+<li><strong>Insertion</strong> (<em>ε→x</em>) of a single symbol <em>x</em> with <strong>cost 1</strong>,</li>
+<li><strong>Deletion</strong> (<em>x→ε</em>) of a single symbol <em>x</em> with <strong>cost 1</strong>, and</li>
+<li><strong>Substitution</strong> (<em>x→y</em>) of two single symbols <em>x, y</em> with <strong>cost 1</strong> if <em>x≠y</em> and with <strong>cost 0</strong> otherwise.</li>
+</ul>
+<p>When transforming a string by a sequence of operations, the costs of the single operations are added to obtain the (minimal) edit distance. For example, the string <em>Door</em> can be transformed by the operations <em>o→l</em>, <em>r→l</em>, <em>ε→s</em> to the string <em>Dolls</em>, which results in a minimum edit distance of 3.</p>
+<p>To avoid exponential time complexity, the minimum edit distance of two strings in the usual is computed using <em>dynamic programming</em>. For this in a matrix</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> matrix <span class="pl-k">=</span> [[<span class="pl-c1">Int</span>]](<span class="pl-c1">repeating</span>: [<span class="pl-c1">Int</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: n <span class="pl-k">+</span> <span class="pl-c1">1</span>), <span class="pl-c1">count</span>: m <span class="pl-k">+</span> <span class="pl-c1">1</span>)</pre></div>
+<p>already computed minimal edit distances of prefixes of <em>w</em> and <em>u</em> (of length <em>m</em> and <em>n</em>, respectively) are used to fill the matrix. In a first step the matrix is initialized by filling the first row and the first column as follows:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> initialize matrix</span>
+<span class="pl-c"></span><span class="pl-k">for</span> index <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-smi">m</span> {
+    <span class="pl-c"><span class="pl-c">//</span> the distance of any first string to an empty second string</span>
+<span class="pl-c"></span>    matrix[index][<span class="pl-c1">0</span>] <span class="pl-k">=</span> index
+}
+
+<span class="pl-k">for</span> index <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-smi">n</span> {
+    <span class="pl-c"><span class="pl-c">//</span> the distance of any second string to an empty first string</span>
+<span class="pl-c"></span>    matrix[<span class="pl-c1">0</span>][index] <span class="pl-k">=</span> index
+}</pre></div>
+<p>Then in each cell the minimum of the cost of insertion, deletion, or substitution added to the already computed costs in the corresponding cells is chosen. In this way the matrix is filled iteratively:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> compute Levenshtein distance</span>
+<span class="pl-c"></span><span class="pl-k">for</span> (i, selfChar) <span class="pl-k">in</span> <span class="pl-c1">self</span>.<span class="pl-c1">enumerated</span>() {
+    <span class="pl-k">for</span> (j, otherChar) <span class="pl-k">in</span> other.<span class="pl-c1">enumerated</span>() {
+        <span class="pl-k">if</span> otherChar <span class="pl-k">==</span> selfChar {
+            <span class="pl-c"><span class="pl-c">//</span> substitution of equal symbols with cost 0</span>
+<span class="pl-c"></span>            matrix[i <span class="pl-k">+</span> <span class="pl-c1">1</span>][j <span class="pl-k">+</span> <span class="pl-c1">1</span>] <span class="pl-k">=</span> matrix[i][j]
+        } <span class="pl-k">else</span> {
+            <span class="pl-c"><span class="pl-c">//</span> minimum of the cost of insertion, deletion, or substitution </span>
+<span class="pl-c"></span>            <span class="pl-c"><span class="pl-c">//</span> added to the already computed costs in the corresponding cells</span>
+<span class="pl-c"></span>            matrix[i <span class="pl-k">+</span> <span class="pl-c1">1</span>][j <span class="pl-k">+</span> <span class="pl-c1">1</span>] <span class="pl-k">=</span> Swift.<span class="pl-c1">min</span>(matrix[i][j] <span class="pl-k">+</span> <span class="pl-c1">1</span>, matrix[i <span class="pl-k">+</span> <span class="pl-c1">1</span>][j] <span class="pl-k">+</span> <span class="pl-c1">1</span>, matrix[i][j <span class="pl-k">+</span> <span class="pl-c1">1</span>] <span class="pl-k">+</span> <span class="pl-c1">1</span>)
+        } 
+    }
+}</pre></div>
+<p>After applying this algorithm, the minimal edit distance can be read from the rightmost bottom cell and is returned.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">return</span> matrix[m][n]</pre></div>
+<p>This algorithm has a time complexity of Θ(<em>mn</em>).</p>
+<p><strong>TODO</strong>: Other distance measures.</p>
+<p><em>Written for Swift Algorithm Club by Luisa Herrmann</em></p></div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<head>
+  <title>Longest Common Subsequence</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Longest Common Subsequence</h1>
+<p>The Longest Common Subsequence (LCS) of two strings is the longest sequence of characters that appear in the same order in both strings.</p>
+<p>For example the LCS of <code>"Hello World"</code> and <code>"Bonjour le monde"</code> is <code>"oorld"</code>. If you go through both strings from left-to-right, you'll find that the characters <code>o</code>, <code>o</code>, <code>r</code>, <code>l</code>, <code>d</code> appear in both strings in that order.</p>
+<p>Other possible subsequences are <code>"ed"</code> and <code>"old"</code>, but these are all shorter than <code>"oorld"</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> This should not be confused with the Longest Common Substring problem, where the characters must form a substring of both strings, i.e they have to be immediate neighbors. With a subsequence, it's OK if the characters are not right next to each other, but they must be in the same order.</p>
+</blockquote>
+<p>One way to find the LCS of two strings <code>a</code> and <code>b</code> is using dynamic programming and a backtracking strategy.</p>
+<h2>Finding the length of the LCS with dynamic programming</h2>
+<p>First, we want to find the length of the longest common subsequence between strings <code>a</code> and <code>b</code>. We're not looking for the actual subsequence yet, only how long it is.</p>
+<p>To determine the length of the LCS between all combinations of substrings of <code>a</code> and <code>b</code>, we can use a <em>dynamic programming</em> technique. Dynamic programming basically means that you compute all possibilities and store them inside a look-up table.</p>
+<blockquote>
+<p><strong>Note:</strong> During the following explanation, <code>n</code> is the length of string <code>a</code>, and <code>m</code> is the length of string <code>b</code>.</p>
+</blockquote>
+<p>To find the lengths of all possible subsequences, we use a helper function, <code>lcsLength(_:)</code>. This creates a matrix of size <code>(n+1)</code> by <code>(m+1)</code>, where <code>matrix[x][y]</code> is the length of the LCS between the substrings <code>a[0...x-1]</code> and <code>b[0...y-1]</code>.</p>
+<p>Given strings <code>"ABCBX"</code> and <code>"ABDCAB"</code>, the output matrix of <code>lcsLength(_:)</code> is the following:</p>
+<pre><code>|   | Ø | A | B | D | C | A | B |
+| Ø | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A | 0 | 1 | 1 | 1 | 1 | 1 | 1 |  
+| B | 0 | 1 | 2 | 2 | 2 | 2 | 2 |
+| C | 0 | 1 | 2 | 2 | 3 | 3 | 3 |
+| B | 0 | 1 | 2 | 2 | 3 | 3 | 4 |
+| X | 0 | 1 | 2 | 2 | 3 | 3 | 4 |
+</code></pre>
+<p>In this example, if we look at <code>matrix[3][4]</code> we find the value <code>3</code>. This means the length of the LCS between <code>a[0...2]</code> and <code>b[0...3]</code>, or between <code>"ABC"</code> and <code>"ABDC"</code>, is 3. That is correct, because these two substrings have the subsequence <code>ABC</code> in common. (Note: the first row and column of the matrix are always filled with zeros.)</p>
+<p>Here is the source code for <code>lcsLength(_:)</code>; this lives in an extension on <code>String</code>:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">lcsLength</span>(<span class="pl-en">_</span> <span class="pl-smi">other</span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> [[<span class="pl-c1">Int</span>]] {
+
+  <span class="pl-k">var</span> matrix <span class="pl-k">=</span> [[<span class="pl-c1">Int</span>]](<span class="pl-c1">repeating</span>: [<span class="pl-c1">Int</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: other.<span class="pl-c1">characters</span>.<span class="pl-c1">count</span><span class="pl-k">+</span><span class="pl-c1">1</span>), <span class="pl-c1">count</span>: <span class="pl-c1">self</span>.<span class="pl-c1">characters</span>.<span class="pl-c1">count</span><span class="pl-k">+</span><span class="pl-c1">1</span>)
+
+  <span class="pl-k">for</span> (i, selfChar) <span class="pl-k">in</span> <span class="pl-c1">self</span>.<span class="pl-c1">characters</span>.<span class="pl-c1">enumerated</span>() {
+	<span class="pl-k">for</span> (j, otherChar) <span class="pl-k">in</span> other.<span class="pl-c1">characters</span>.<span class="pl-c1">enumerated</span>() {
+	  <span class="pl-k">if</span> otherChar <span class="pl-k">==</span> selfChar {
+		<span class="pl-c"><span class="pl-c">//</span> Common char found, add 1 to highest lcs found so far.</span>
+<span class="pl-c"></span>		matrix[i<span class="pl-k">+</span><span class="pl-c1">1</span>][j<span class="pl-k">+</span><span class="pl-c1">1</span>] <span class="pl-k">=</span> matrix[i][j] <span class="pl-k">+</span> <span class="pl-c1">1</span>
+	  } <span class="pl-k">else</span> {
+		<span class="pl-c"><span class="pl-c">//</span> Not a match, propagates highest lcs length found so far.</span>
+<span class="pl-c"></span>		matrix[i<span class="pl-k">+</span><span class="pl-c1">1</span>][j<span class="pl-k">+</span><span class="pl-c1">1</span>] <span class="pl-k">=</span> <span class="pl-c1">max</span>(matrix[i][j<span class="pl-k">+</span><span class="pl-c1">1</span>], matrix[i<span class="pl-k">+</span><span class="pl-c1">1</span>][j])
+	  }
+	}
+  }
+
+  <span class="pl-k">return</span> matrix
+}</pre></div>
+<p>First, this creates a new matrix -- really a 2-dimensional array -- and fills it with zeros. Then it loops through both strings, <code>self</code> and <code>other</code>, and compares their characters in order to fill in the matrix. If two characters match, we increment the length of the subsequence. However, if two characters are different, then we "propagate" the highest LCS length found so far.</p>
+<p>Let's say the following is the current situation:</p>
+<pre><code>|   | Ø | A | B | D | C | A | B |
+| Ø | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A | 0 | 1 | 1 | 1 | 1 | 1 | 1 |  
+| B | 0 | 1 | 2 | 2 | 2 | 2 | 2 |
+| C | 0 | 1 | 2 | * |   |   |   |
+| B | 0 |   |   |   |   |   |   |
+| X | 0 |   |   |   |   |   |   |
+</code></pre>
+<p>The <code>*</code> marks the two characters we're currently comparing, <code>C</code> versus <code>D</code>. These characters are not the same, so we propagate the highest length we've seen so far, which is <code>2</code>:</p>
+<pre><code>|   | Ø | A | B | D | C | A | B |
+| Ø | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A | 0 | 1 | 1 | 1 | 1 | 1 | 1 |  
+| B | 0 | 1 | 2 | 2 | 2 | 2 | 2 |
+| C | 0 | 1 | 2 | 2 | * |   |   |
+| B | 0 |   |   |   |   |   |   |
+| X | 0 |   |   |   |   |   |   |
+</code></pre>
+<p>Now we compare <code>C</code> with <code>C</code>. These are equal, and we increment the length to <code>3</code>:</p>
+<pre><code>|   | Ø | A | B | D | C | A | B |
+| Ø | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A | 0 | 1 | 1 | 1 | 1 | 1 | 1 |  
+| B | 0 | 1 | 2 | 2 | 2 | 2 | 2 |
+| C | 0 | 1 | 2 | 2 | 3 | * |   |
+| B | 0 |   |   |   |   |   |   |
+| X | 0 |   |   |   |   |   |   |
+</code></pre>
+<p>And so on... this is how <code>lcsLength(_:)</code> fills in the entire matrix.</p>
+<h2>Backtracking to find the actual subsequence</h2>
+<p>So far we've calculated the length of every possible subsequence. The length of the longest subsequence is found in the bottom-right corner of matrix, at <code>matrix[n+1][m+1]</code>. In the above example it is 4, so the LCS consists of 4 characters.</p>
+<p>Having the length of every combination of substrings makes it possible to determine <em>which</em> characters are part of the LCS itself by using a backtracking strategy.</p>
+<p>Backtracking starts at <code>matrix[n+1][m+1]</code> and walks up and left (in this priority) looking for changes that do not indicate a simple propagation.</p>
+<pre><code>|   |  Ø|  A|  B|  D|  C|  A|  B|
+| Ø |  0|  0|  0|  0|  0|  0|  0|
+| A |  0|↖ 1|  1|  1|  1|  1|  1|  
+| B |  0|  1|↖ 2|← 2|  2|  2|  2|
+| C |  0|  1|  2|  2|↖ 3|← 3|  3|
+| B |  0|  1|  2|  2|  3|  3|↖ 4|
+| X |  0|  1|  2|  2|  3|  3|↑ 4|
+</code></pre>
+<p>Each <code>↖</code> move indicates a character (in row/column header) that is part of the LCS.</p>
+<p>If the number on the left and above are different than the number in the current cell, no propagation happened. In that case <code>matrix[i][j]</code> indicates a common char between the strings <code>a</code> and <code>b</code>, so the characters at <code>a[i - 1]</code> and <code>b[j - 1]</code> are part of the LCS that we're looking for.</p>
+<p>One thing to notice is, as it's running backwards, the LCS is built in reverse order. Before returning, the result is reversed to reflect the actual LCS.</p>
+<p>Here is the backtracking code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">backtrack</span>(<span class="pl-en">_</span> <span class="pl-smi">matrix</span>: [[<span class="pl-c1">Int</span>]]) <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span> {
+  <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">characters</span>.<span class="pl-c1">count</span>
+  <span class="pl-k">var</span> j <span class="pl-k">=</span> other.<span class="pl-c1">characters</span>.<span class="pl-c1">count</span>
+  
+  <span class="pl-k">var</span> charInSequence <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">endIndex</span>
+  
+  <span class="pl-k">var</span> lcs <span class="pl-k">=</span> <span class="pl-c1">String</span>()
+  
+  <span class="pl-k">while</span> i <span class="pl-k">&gt;=</span> <span class="pl-c1">1</span> <span class="pl-k">&amp;&amp;</span> j <span class="pl-k">&gt;=</span> <span class="pl-c1">1</span> {
+	<span class="pl-c"><span class="pl-c">//</span> Indicates propagation without change: no new char was added to lcs.</span>
+<span class="pl-c"></span>	<span class="pl-k">if</span> matrix[i][j] <span class="pl-k">==</span> matrix[i][j <span class="pl-k">-</span> <span class="pl-c1">1</span>] {
+	  j <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+	}
+	<span class="pl-c"><span class="pl-c">//</span> Indicates propagation without change: no new char was added to lcs.</span>
+<span class="pl-c"></span>	<span class="pl-k">else</span> <span class="pl-k">if</span> matrix[i][j] <span class="pl-k">==</span> matrix[i <span class="pl-k">-</span> <span class="pl-c1">1</span>][j] {
+	  i <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+	  charInSequence <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">index</span>(<span class="pl-c1">before</span>: charInSequence)
+	}
+	<span class="pl-c"><span class="pl-c">//</span> Value on the left and above are different than current cell.</span>
+<span class="pl-c"></span>	<span class="pl-c"><span class="pl-c">//</span> This means 1 was added to lcs length.</span>
+<span class="pl-c"></span>	<span class="pl-k">else</span> {
+	  i <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+	  j <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+	  charInSequence <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">index</span>(<span class="pl-c1">before</span>: charInSequence)
+	  lcs.<span class="pl-c1">append</span>(<span class="pl-c1">self</span>[charInSequence])
+	}
+  }
+  
+  <span class="pl-k">return</span> <span class="pl-c1">String</span>(lcs.<span class="pl-c1">characters</span>.<span class="pl-c1">reversed</span>())
+}</pre></div>
+<p>This backtracks from <code>matrix[n+1][m+1]</code> (bottom-right corner) to <code>matrix[1][1]</code> (top-left corner), looking for characters that are common to both strings. It adds those characters to a new string, <code>lcs</code>.</p>
+<p>The <code>charInSequence</code> variable is an index into the string given by <code>self</code>. Initially this points to the last character of the string. Each time we decrement <code>i</code>, we also move back <code>charInSequence</code>. When the two characters are found to be equal, we add the character at <code>self[charInSequence]</code> to the new <code>lcs</code> string. (We can't just write <code>self[i]</code> because <code>i</code> may not map to the current position inside the Swift string.)</p>
+<p>Due to backtracking, characters are added in reverse order, so at the end of the function we call <code>reversed()</code> to put the string in the right order. (Appending new characters to the end of the string and then reversing it once is faster than always inserting the characters at the front of the string.)</p>
+<h2>Putting it all together</h2>
+<p>To find the LCS between two strings, we first call <code>lcsLength(_:)</code> and then <code>backtrack(_:)</code>:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">String</span></span> {
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">longestCommonSubsequence</span>(<span class="pl-en">_</span> <span class="pl-smi">other</span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span> {
+
+    <span class="pl-k">func</span> <span class="pl-en">lcsLength</span>(<span class="pl-en">_</span> <span class="pl-smi">other</span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> [[<span class="pl-c1">Int</span>]] {
+      <span class="pl-k">...</span>
+    }
+    
+    <span class="pl-k">func</span> <span class="pl-en">backtrack</span>(<span class="pl-en">_</span> <span class="pl-smi">matrix</span>: [[<span class="pl-c1">Int</span>]]) <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span> {
+      <span class="pl-k">...</span>
+    }
+
+    <span class="pl-k">return</span> <span class="pl-c1">backtrack</span>(<span class="pl-c1">lcsLength</span>(other))
+  }
+}</pre></div>
+<p>To keep everything tidy, the two helper functions are nested inside the main <code>longestCommonSubsequence()</code> function.</p>
+<p>Here's how you could try it out in a Playground:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> a <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>ABCBX<span class="pl-pds">"</span></span>
+<span class="pl-k">let</span> b <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>ABDCAB<span class="pl-pds">"</span></span>
+a.<span class="pl-c1">longestCommonSubsequence</span>(b)   <span class="pl-c"><span class="pl-c">//</span> "ABCB"</span>
+<span class="pl-c"></span>
+<span class="pl-k">let</span> c <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>KLMK<span class="pl-pds">"</span></span>
+a.<span class="pl-c1">longestCommonSubsequence</span>(c)   <span class="pl-c"><span class="pl-c">//</span> "" (no common subsequence)</span>
+<span class="pl-c"></span>
+<span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span>.<span class="pl-c1">longestCommonSubsequence</span>(<span class="pl-s"><span class="pl-pds">"</span>Bonjour le monde<span class="pl-pds">"</span></span>)   <span class="pl-c"><span class="pl-c">//</span> "oorld"</span></pre></div>
+<p><em>Written for Swift Algorithm Club by Pedro Vereza</em></p></div>
+</body>
+</html>

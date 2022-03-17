@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+  <title>Stack</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Stack</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/149213/swift-algorithm-club-swift-stack-data-structure" rel="nofollow">here</a></p>
+</blockquote>
+<p>A stack is like an array but with limited functionality. You can only <em>push</em> to add a new element to the top of the stack, <em>pop</em> to remove the element from the top, and <em>peek</em> at the top element without popping it off.</p>
+<p>Why would you want to do this? Well, in many algorithms you want to add objects to a temporary list at some point and then pull them off this list again at a later time. Often the order in which you add and remove these objects matters.</p>
+<p>A stack gives you a LIFO or last-in first-out order. The element you pushed last is the first one to come off with the next pop. (A very similar data structure, the <a href="../Queue/">queue</a>, is FIFO or first-in first-out.)</p>
+<p>For example, let's push a number on the stack:</p>
+<div class="highlight highlight-source-swift"><pre>stack.<span class="pl-c1">push</span>(<span class="pl-c1">10</span>)</pre></div>
+<p>The stack is now <code>[ 10 ]</code>. Push the next number:</p>
+<div class="highlight highlight-source-swift"><pre>stack.<span class="pl-c1">push</span>(<span class="pl-c1">3</span>)</pre></div>
+<p>The stack is now <code>[ 10, 3 ]</code>. Push one more number:</p>
+<div class="highlight highlight-source-swift"><pre>stack.<span class="pl-c1">push</span>(<span class="pl-c1">57</span>)</pre></div>
+<p>The stack is now <code>[ 10, 3, 57 ]</code>. Let's pop the top number off the stack:</p>
+<div class="highlight highlight-source-swift"><pre>stack.<span class="pl-c1">pop</span>()</pre></div>
+<p>This returns <code>57</code>, because that was the most recent number we pushed. The stack is <code>[ 10, 3 ]</code> again.</p>
+<div class="highlight highlight-source-swift"><pre>stack.<span class="pl-c1">pop</span>()</pre></div>
+<p>This returns <code>3</code>, and so on. If the stack is empty, popping returns <code>nil</code> or in some implementations it gives an error message ("stack underflow").</p>
+<p>A stack is easy to create in Swift. It's just a wrapper around an array that just lets you push, pop, and look at the top element of the stack:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Stack</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> array <span class="pl-k">=</span> [T]()
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">isEmpty</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">count</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">push</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+    array.<span class="pl-c1">append</span>(element)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">pop</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">popLast</span>()
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> top<span class="pl-k">:</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> array.<span class="pl-c1">last</span>
+  }
+}</pre></div>
+<p>Notice that a push puts the new element at the end of the array, not the beginning. Inserting at the beginning of an array is expensive, an <strong>O(n)</strong> operation, because it requires all existing array elements to be shifted in memory. Adding at the end is <strong>O(1)</strong>; it always takes the same amount of time, regardless of the size of the array.</p>
+<p>Fun fact about stacks: Each time you call a function or a method, the CPU places the return address on a stack. When the function ends, the CPU uses that return address to jump back to the caller. That's why if you call too many functions -- for example in a recursive function that never ends -- you get a so-called "stack overflow" as the CPU stack has run out of space.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

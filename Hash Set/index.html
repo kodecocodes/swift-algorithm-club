@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<head>
+  <title>Hash Set</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Hash Set</h1>
+<p>A set is a collection of elements that is kind of like an array but with two important differences: the order of the elements in the set is unimportant and each element can appear only once.</p>
+<p>If the following were arrays, they'd all be different. However, they all represent the same set:</p>
+<div class="highlight highlight-source-swift"><pre>[<span class="pl-c1">1</span> ,<span class="pl-c1">2</span>, <span class="pl-c1">3</span>]
+[<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, <span class="pl-c1">3</span>]
+[<span class="pl-c1">3</span>, <span class="pl-c1">2</span>, <span class="pl-c1">1</span>]
+[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">1</span>]</pre></div>
+<p>Because each element can appear only once, it doesn't matter how often you write the element down -- only one of them counts.</p>
+<blockquote>
+<p><strong>Note:</strong> I often prefer to use sets over arrays when I have a collection of objects but don't care what order they are in. Using a set communicates to the programmer that the order of the elements is unimportant. If you're using an array, then you can't assume the same thing.</p>
+</blockquote>
+<p>Typical operations on a set are:</p>
+<ul>
+<li>insert an element</li>
+<li>remove an element</li>
+<li>check whether the set contains an element</li>
+<li>take the union with another set</li>
+<li>take the intersection with another set</li>
+<li>calculate the difference with another set</li>
+</ul>
+<p>Union, intersection, and difference are ways to combine two sets into a single one:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/CombineSets.png"><img src="Images/CombineSets.png" alt="Union, intersection, difference" style="max-width:100%;"></a></p>
+<p>As of Swift 1.2, the standard library includes a built-in <code>Set</code> type but here I'll show how you can make your own. You wouldn't use this in production code, but it's instructive to see how sets are implemented.</p>
+<p>It's possible to implement a set using a simple array but that's not the most efficient way. Instead, we'll use a dictionary. Since <code>Swift</code>'s dictionary is built using a hash table, our own set will be a hash set.</p>
+<h2>The code</h2>
+<p>Here are the beginnings of <code>HashSet</code> in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">HashSet</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Hashable</span></span>&gt; {
+    <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> dictionary <span class="pl-k">=</span> <span class="pl-c1">Dictionary</span><span class="pl-k">&lt;</span>T, <span class="pl-c1">Bool</span><span class="pl-k">&gt;</span>()
+
+    <span class="pl-k">public</span> <span class="pl-k">init</span>() {
+
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+        dictionary[element] <span class="pl-k">=</span> <span class="pl-c1">true</span>
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">remove</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+        dictionary[element] <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">contains</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+        <span class="pl-k">return</span> dictionary[element] <span class="pl-k">!=</span> <span class="pl-c1">nil</span>
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">allElements</span>() <span class="pl-k">-&gt;</span> [T] {
+        <span class="pl-k">return</span> <span class="pl-c1">Array</span>(dictionary.<span class="pl-c1">keys</span>)
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+        <span class="pl-k">return</span> dictionary.<span class="pl-c1">count</span>
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+        <span class="pl-k">return</span> dictionary.<span class="pl-c1">isEmpty</span>
+    }
+}</pre></div>
+<p>The code is really very simple because we rely on Swift's built-in <code>Dictionary</code> to do all the hard work. The reason we use a dictionary is that dictionary keys must be unique, just like the elements from a set. In addition, a dictionary has <strong>O(1)</strong> time complexity for most of its operations, making this set implementation very fast.</p>
+<p>Because we're using a dictionary, the generic type <code>T</code> must conform to <code>Hashable</code>. You can put any type of object into our set, as long as it can be hashed. (This is true for Swift's own <code>Set</code> too.)</p>
+<p>Normally, you use a dictionary to associate keys with values, but for a set we only care about the keys. That's why we use <code>Bool</code> as the dictionary's value type, even though we only ever set it to <code>true</code>, never to <code>false</code>. (We could have picked anything here but booleans take up the least space.)</p>
+<p>Copy the code to a playground and add some tests:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> <span class="pl-k">set</span> <span class="pl-k">=</span> HashSet<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>()
+
+<span class="pl-k">set</span>.<span class="pl-c1">insert</span>(<span class="pl-s"><span class="pl-pds">"</span>one<span class="pl-pds">"</span></span>)
+<span class="pl-k">set</span>.<span class="pl-c1">insert</span>(<span class="pl-s"><span class="pl-pds">"</span>two<span class="pl-pds">"</span></span>)
+<span class="pl-k">set</span>.<span class="pl-c1">insert</span>(<span class="pl-s"><span class="pl-pds">"</span>three<span class="pl-pds">"</span></span>)
+<span class="pl-k">set</span>.<span class="pl-c1">allElements</span>()      <span class="pl-c"><span class="pl-c">//</span> ["one, "three", "two"]</span>
+<span class="pl-c"></span>
+<span class="pl-k">set</span>.<span class="pl-c1">insert</span>(<span class="pl-s"><span class="pl-pds">"</span>two<span class="pl-pds">"</span></span>)
+<span class="pl-k">set</span>.<span class="pl-c1">allElements</span>()      <span class="pl-c"><span class="pl-c">//</span> still ["one, "three", "two"]</span>
+<span class="pl-c"></span>
+<span class="pl-k">set</span>.<span class="pl-c1">contains</span>(<span class="pl-s"><span class="pl-pds">"</span>one<span class="pl-pds">"</span></span>)    <span class="pl-c"><span class="pl-c">//</span> true</span>
+<span class="pl-c"></span><span class="pl-k">set</span>.<span class="pl-c1">remove</span>(<span class="pl-s"><span class="pl-pds">"</span>one<span class="pl-pds">"</span></span>)
+<span class="pl-k">set</span>.<span class="pl-c1">contains</span>(<span class="pl-s"><span class="pl-pds">"</span>one<span class="pl-pds">"</span></span>)    <span class="pl-c"><span class="pl-c">//</span> false</span></pre></div>
+<p>The <code>allElements()</code> function converts the contents of the set into an array. Note that the order of the elements in that array can be different than the order in which you added the items. As I said, a set doesn't care about the order of the elements (and neither does a dictionary).</p>
+<h2>Combining sets</h2>
+<p>A lot of the usefulness of sets is in how you can combine them. (If you've ever used a vector drawing program like Sketch or Illustrator, you'll have seen the Union, Subtract, Intersect options to combine shapes. Same thing.)</p>
+<p>Here is the code for the union operation:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">HashSet</span> {
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">union</span>(<span class="pl-en">_</span> <span class="pl-smi">otherSet</span>: HashSet&lt;T&gt;) <span class="pl-k">-&gt;</span> HashSet&lt;T&gt; {
+        <span class="pl-k">var</span> combined <span class="pl-k">=</span> HashSet<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>()
+        <span class="pl-k">for</span> obj <span class="pl-k">in</span> <span class="pl-c1">self</span>.<span class="pl-c1">dictionary</span>.<span class="pl-c1">keys</span> {
+            combined.<span class="pl-c1">insert</span>(obj)
+        }
+        <span class="pl-k">for</span> obj <span class="pl-k">in</span> otherSet.<span class="pl-c1">dictionary</span>.<span class="pl-c1">keys</span> {
+            combined.<span class="pl-c1">insert</span>(obj)
+        }
+        <span class="pl-k">return</span> combined
+    }
+}</pre></div>
+<p>The <em>union</em> of two sets creates a new set that consists of all the elements in set A plus all the elements in set B. Of course, if there are duplicate elements they count only once.</p>
+<p>Example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> setA <span class="pl-k">=</span> HashSet<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>()
+setA.<span class="pl-c1">insert</span>(<span class="pl-c1">1</span>)
+setA.<span class="pl-c1">insert</span>(<span class="pl-c1">2</span>)
+setA.<span class="pl-c1">insert</span>(<span class="pl-c1">3</span>)
+setA.<span class="pl-c1">insert</span>(<span class="pl-c1">4</span>)
+
+<span class="pl-k">var</span> setB <span class="pl-k">=</span> HashSet<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>()
+setB.<span class="pl-c1">insert</span>(<span class="pl-c1">3</span>)
+setB.<span class="pl-c1">insert</span>(<span class="pl-c1">4</span>)
+setB.<span class="pl-c1">insert</span>(<span class="pl-c1">5</span>)
+setB.<span class="pl-c1">insert</span>(<span class="pl-c1">6</span>)
+
+<span class="pl-k">let</span> union <span class="pl-k">=</span> setA.<span class="pl-c1">union</span>(setB)
+union.<span class="pl-c1">allElements</span>()           <span class="pl-c"><span class="pl-c">//</span> [5, 6, 2, 3, 1, 4]</span></pre></div>
+<p>As you can see, the union of the two sets contains all of the elements now. The values <code>3</code> and <code>4</code> still appear only once, even though they were in both sets.</p>
+<p>The <em>intersection</em> of two sets contains only the elements that they have in common. Here is the code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">HashSet</span> {
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">intersect</span>(<span class="pl-en">_</span> <span class="pl-smi">otherSet</span>: HashSet&lt;T&gt;) <span class="pl-k">-&gt;</span> HashSet&lt;T&gt; {
+        <span class="pl-k">var</span> common <span class="pl-k">=</span> HashSet<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>()
+        <span class="pl-k">for</span> obj <span class="pl-k">in</span> dictionary.<span class="pl-c1">keys</span> {
+            <span class="pl-k">if</span> otherSet.<span class="pl-c1">contains</span>(obj) {
+                common.<span class="pl-c1">insert</span>(obj)
+            }
+        }
+        <span class="pl-k">return</span> common
+    }
+}</pre></div>
+<p>To test it:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> intersection <span class="pl-k">=</span> setA.<span class="pl-c1">intersect</span>(setB)
+intersection.<span class="pl-c1">allElements</span>()</pre></div>
+<p>This prints <code>[3, 4]</code> because those are the only objects from set A that are also in set B.</p>
+<p>Finally, the <em>difference</em> between two sets removes the elements they have in common. The code is as follows:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">HashSet</span> {
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">difference</span>(<span class="pl-en">_</span> <span class="pl-smi">otherSet</span>: HashSet&lt;T&gt;) <span class="pl-k">-&gt;</span> HashSet&lt;T&gt; {
+        <span class="pl-k">var</span> diff <span class="pl-k">=</span> HashSet<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>()
+        <span class="pl-k">for</span> obj <span class="pl-k">in</span> dictionary.<span class="pl-c1">keys</span> {
+            <span class="pl-k">if</span> <span class="pl-k">!</span>otherSet.<span class="pl-c1">contains</span>(obj) {
+                diff.<span class="pl-c1">insert</span>(obj)
+            }
+        }
+        <span class="pl-k">return</span> diff
+    }
+}</pre></div>
+<p>It's really the opposite of <code>intersect()</code>. Try it out:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> difference1 <span class="pl-k">=</span> setA.<span class="pl-c1">difference</span>(setB)
+difference1.<span class="pl-c1">allElements</span>()                <span class="pl-c"><span class="pl-c">//</span> [2, 1]</span>
+<span class="pl-c"></span>
+<span class="pl-k">let</span> difference2 <span class="pl-k">=</span> setB.<span class="pl-c1">difference</span>(setA)
+difference2.<span class="pl-c1">allElements</span>()                <span class="pl-c"><span class="pl-c">//</span> [5, 6]</span></pre></div>
+<h2>Where to go from here?</h2>
+<p>If you look at the <a href="http://swiftdoc.org/v2.1/type/Set/" rel="nofollow">documentation</a> for Swift's own <code>Set</code>, you'll notice it has tons more functionality. An obvious extension would be to make <code>HashSet</code> conform to <code>SequenceType</code> so that you can iterate it with a <code>for</code>...<code>in</code> loop.</p>
+<p>Another thing you could do is replace the <code>Dictionary</code> with an actual <a href="../Hash%20Table">hash table</a>, but one that just stores the keys and doesn't associate them with anything. So you wouldn't need the <code>Bool</code> values anymore.</p>
+<p>If you often need to look up whether an element belongs to a set and perform unions, then the <a href="../Union-Find/">union-find</a> data structure may be more suitable. It uses a tree structure instead of a dictionary to make the find and union operations very efficient.</p>
+<blockquote>
+<p><strong>Note:</strong> I'd like to make <code>HashSet</code> conform to <code>ArrayLiteralConvertible</code> so you can write <code>let setA: HashSet&lt;Int&gt; = [1, 2, 3, 4]</code> but currently this crashes the compiler.</p>
+</blockquote>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

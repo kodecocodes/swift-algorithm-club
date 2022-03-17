@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<head>
+  <title>Union-Find</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Union-Find</h1>
+<p>Union-Find is a data structure that can keep track of a set of elements partitioned into a number of disjoint (non-overlapping) subsets. It is also known as disjoint-set data structure.</p>
+<p>What do we mean by this? For example, the Union-Find data structure could be keeping track of the following sets:</p>
+<pre><code>[ a, b, f, k ]
+[ e ]
+[ g, d, c ]
+[ i, j ]
+</code></pre>
+<p>These sets are <strong>disjoint</strong> because they have no members in common.</p>
+<p>Union-Find supports three basic operations:</p>
+<ol>
+<li>
+<p><strong>Find(A)</strong>: Determine which subset an element <strong>A</strong> is in. For example, <code>find(d)</code> would return the subset <code>[ g, d, c ]</code>.</p>
+</li>
+<li>
+<p><strong>Union(A, B)</strong>: Join two subsets that contain <strong>A</strong> and <strong>B</strong> into a single subset. For example, <code>union(d, j)</code> would combine <code>[ g, d, c ]</code> and <code>[ i, j ]</code> into the larger set <code>[ g, d, c, i, j ]</code>.</p>
+</li>
+<li>
+<p><strong>AddSet(A)</strong>: Add a new subset containing just that element <strong>A</strong>. For example, <code>addSet(h)</code> would add a new set <code>[ h ]</code>.</p>
+</li>
+</ol>
+<p>The most common application of this data structure is keeping track of the connected components of an undirected <a href="../Graph/">graph</a>. It is also used for implementing an efficient version of Kruskal's algorithm to find the minimum spanning tree of a graph.</p>
+<h2>Implementation</h2>
+<p>Union-Find can be implemented in many ways but we'll look at an efficient and easy to understand implementation: Weighted Quick Union.</p>
+<blockquote>
+<p><strong>PS: Multiple implementations of Union-Find has been included in playground.</strong></p>
+</blockquote>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">UnionFind</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Hashable</span></span>&gt; {
+  <span class="pl-k">private</span> <span class="pl-k">var</span> index <span class="pl-k">=</span> [T<span class="pl-k">:</span> <span class="pl-c1">Int</span>]()
+  <span class="pl-k">private</span> <span class="pl-k">var</span> parent <span class="pl-k">=</span> [<span class="pl-c1">Int</span>]()
+  <span class="pl-k">private</span> <span class="pl-k">var</span> size <span class="pl-k">=</span> [<span class="pl-c1">Int</span>]()
+}</pre></div>
+<p>Our Union-Find data structure is actually a forest where each subset is represented by a <a href="../Tree/">tree</a>.</p>
+<p>For our purposes we only need to keep track of the parent of each tree node, not the node's children. To do this we use the array <code>parent</code> so that <code>parent[i]</code> is the index of node <code>i</code>'s parent.</p>
+<p>Example: If <code>parent</code> looks like this,</p>
+<pre><code>parent [ 1, 1, 1, 0, 2, 0, 6, 6, 6 ]
+     i   0  1  2  3  4  5  6  7  8
+</code></pre>
+<p>then the tree structure looks like:</p>
+<pre><code>      1              6
+    /   \           / \
+  0       2        7   8
+ / \     /
+3   5   4
+</code></pre>
+<p>There are two trees in this forest, each of which corresponds to one set of elements. (Note: due to the limitations of ASCII art the trees are shown here as binary trees but that is not necessarily the case.)</p>
+<p>We give each subset a unique number to identify it. That number is the index of  the root node of that subset's tree. In the example, node <code>1</code> is the root of the first tree and <code>6</code> is the root of the second tree.</p>
+<p>So in this example we have two subsets, the first with the label <code>1</code> and the second with the label <code>6</code>. The <strong>Find</strong> operation actually returns the set's label, not its contents.</p>
+<p>Note that the <code>parent[]</code> of a root node points to itself. So <code>parent[1] = 1</code> and <code>parent[6] = 6</code>. That's how we can tell something is a root node.</p>
+<h2>Add set</h2>
+<p>Let's look at the implementation of these basic operations, starting with adding a new set.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">addSetWith</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+  index[element] <span class="pl-k">=</span> parent.<span class="pl-c1">count</span>  <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>  parent.<span class="pl-c1">append</span>(parent.<span class="pl-c1">count</span>)    <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>  size.<span class="pl-c1">append</span>(<span class="pl-c1">1</span>)                 <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>}</pre></div>
+<p>When you add a new element, this actually adds a new subset containing just that element.</p>
+<ol>
+<li>
+<p>We save the index of the new element in the <code>index</code> dictionary. That lets us look up the element quickly later on.</p>
+</li>
+<li>
+<p>Then we add that index to the <code>parent</code> array to build a new tree for this  set. Here, <code>parent[i]</code> is pointing to itself because the tree that represents the new set contains only one node, which of course is the root of that tree.</p>
+</li>
+<li>
+<p><code>size[i]</code> is the count of nodes in the tree whose root is at index <code>i</code>. For the new set this is 1 because it only contains the one element. We'll be using the <code>size</code> array in the Union operation.</p>
+</li>
+</ol>
+<h2>Find</h2>
+<p>Often we want to determine whether we already have a set that contains a given element. That's what the <strong>Find</strong> operation does. In our <code>UnionFind</code> data structure it is called <code>setOf()</code>:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">setOf</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span><span class="pl-k">?</span> {
+  <span class="pl-k">if</span> <span class="pl-k">let</span> indexOfElement <span class="pl-k">=</span> index[element] {
+    <span class="pl-k">return</span> <span class="pl-c1">setByIndex</span>(indexOfElement)
+  } <span class="pl-k">else</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }
+}</pre></div>
+<p>This looks up the element's index in the <code>index</code> dictionary and then uses a helper method to find the set that this element belongs to:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">private</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">setByIndex</span>(<span class="pl-en">_</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">if</span> parent[index] <span class="pl-k">==</span> index {  <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>    <span class="pl-k">return</span> index
+  } <span class="pl-k">else</span> {
+    parent[index] <span class="pl-k">=</span> <span class="pl-c1">setByIndex</span>(parent[index])  <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>    <span class="pl-k">return</span> parent[index]       <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>  }
+}</pre></div>
+<p>Because we're dealing with a tree structure, this is a recursive method.</p>
+<p>Recall that each set is represented by a tree and that the index of the root node serves as the number that identifies the set. We're going to find the root node of the tree that the element we're searching for belongs to, and return its index.</p>
+<ol>
+<li>
+<p>First, we check if the given index represents a root node (i.e. a node whose <code>parent</code> points back to the node itself). If so, we're done.</p>
+</li>
+<li>
+<p>Otherwise we recursively call this method on the parent of the current node. And then we do a <strong>very important thing</strong>: we overwrite the parent of the current node with the index of root node, in effect reconnecting the node directly to the root of the tree. The next time we call this method, it will execute faster because the path to the root of the tree is now much shorter. Without that optimization, this method's complexity is <strong>O(n)</strong> but now in combination with the size optimization (covered in the Union section) it is almost <strong>O(1)</strong>.</p>
+</li>
+<li>
+<p>We return the index of the root node as the result.</p>
+</li>
+</ol>
+<p>Here's illustration of what I mean. Let's say the tree looks like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/BeforeFind.png"><img src="Images/BeforeFind.png" alt="BeforeFind" style="max-width:100%;"></a></p>
+<p>We call <code>setOf(4)</code>. To find the root node we have to first go to node <code>2</code> and then to node <code>7</code>. (The indices of the elements are marked in red.)</p>
+<p>During the call to <code>setOf(4)</code>, the tree is reorganized to look like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/AfterFind.png"><img src="Images/AfterFind.png" alt="AfterFind" style="max-width:100%;"></a></p>
+<p>Now if we need to call <code>setOf(4)</code> again, we no longer have to go through node <code>2</code> to get to the root. So as you use the Union-Find data structure, it optimizes itself. Pretty cool!</p>
+<p>There is also a helper method to check that two elements are in the same set:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">inSameSet</span>(<span class="pl-en">_</span> <span class="pl-smi">firstElement</span>: T, <span class="pl-en">and</span> <span class="pl-smi">secondElement</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+  <span class="pl-k">if</span> <span class="pl-k">let</span> firstSet <span class="pl-k">=</span> <span class="pl-c1">setOf</span>(firstElement), <span class="pl-k">let</span> secondSet <span class="pl-k">=</span> <span class="pl-c1">setOf</span>(secondElement) {
+    <span class="pl-k">return</span> firstSet <span class="pl-k">==</span> secondSet
+  } <span class="pl-k">else</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>
+  }
+}</pre></div>
+<p>Since this calls <code>setOf()</code> it also optimizes the tree.</p>
+<h2>Union (Weighted)</h2>
+<p>The final operation is <strong>Union</strong>, which combines two sets into one larger set.</p>
+<div class="highlight highlight-source-swift"><pre>    <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">unionSetsContaining</span>(<span class="pl-en">_</span> <span class="pl-smi">firstElement</span>: T, <span class="pl-en">and</span> <span class="pl-smi">secondElement</span>: T) {
+        <span class="pl-k">if</span> <span class="pl-k">let</span> firstSet <span class="pl-k">=</span> <span class="pl-c1">setOf</span>(firstElement), <span class="pl-k">let</span> secondSet <span class="pl-k">=</span> <span class="pl-c1">setOf</span>(secondElement) { <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>            <span class="pl-k">if</span> firstSet <span class="pl-k">!=</span> secondSet {                <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>                <span class="pl-k">if</span> size[firstSet] <span class="pl-k">&lt;</span> size[secondSet] { <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>                    parent[firstSet] <span class="pl-k">=</span> secondSet      <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>                    size[secondSet] <span class="pl-k">+=</span> size[firstSet] <span class="pl-c"><span class="pl-c">//</span> 5</span>
+<span class="pl-c"></span>                } <span class="pl-k">else</span> {
+                    parent[secondSet] <span class="pl-k">=</span> firstSet
+                    size[firstSet] <span class="pl-k">+=</span> size[secondSet]
+                }
+            }
+        }
+    }</pre></div>
+<p>Here is how it works:</p>
+<ol>
+<li>
+<p>We find the sets that each element belongs to. Remember that this gives us two integers: the indices of the root nodes in the <code>parent</code> array.</p>
+</li>
+<li>
+<p>Check that the sets are not equal because if they are it makes no sense to union them.</p>
+</li>
+<li>
+<p>This is where the size optimization comes in (Weighting). We want to keep the trees as shallow as possible so we always attach the smaller tree to the root of the larger tree. To determine which is the smaller tree we compare trees by their sizes.</p>
+</li>
+<li>
+<p>Here we attach the smaller tree to the root of the larger tree.</p>
+</li>
+<li>
+<p>Update the size of larger tree because it just had a bunch of nodes added to it.</p>
+</li>
+</ol>
+<p>An illustration may help to better understand this. Let's say we have these two sets, each with its own tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/BeforeUnion.png"><img src="Images/BeforeUnion.png" alt="BeforeUnion" style="max-width:100%;"></a></p>
+<p>Now we call <code>unionSetsContaining(4, and: 3)</code>. The smaller tree is attached to the larger one:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/AfterUnion.png"><img src="Images/AfterUnion.png" alt="AfterUnion" style="max-width:100%;"></a></p>
+<p>Note that, because we call <code>setOf()</code> at the start of the method, the larger tree was also optimized in the process -- node <code>3</code> now hangs directly off the root.</p>
+<p>Union with optimizations also takes almost <strong>O(1)</strong> time.</p>
+<h2>Path Compression</h2>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">private</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">setByIndex</span>(<span class="pl-en">_</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">if</span> index <span class="pl-k">!=</span> parent[index] {
+        <span class="pl-c"><span class="pl-c">//</span> Updating parent index while looking up the index of parent.</span>
+<span class="pl-c"></span>        parent[index] <span class="pl-k">=</span> <span class="pl-c1">setByIndex</span>(parent[index])
+    }
+    <span class="pl-k">return</span> parent[index]
+}</pre></div>
+<p>Path Compression helps keep trees very flat, thus find operation could take <strong>ALMOST</strong> in <strong>O(1)</strong></p>
+<h2>Complexity Summary</h2>
+<h5>To process N objects</h5>
+<table>
+<thead>
+<tr>
+<th>Data Structure</th>
+<th>Union</th>
+<th>Find</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quick Find</td>
+<td>N</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Quick Union</td>
+<td>Tree height</td>
+<td>Tree height</td>
+</tr>
+<tr>
+<td>Weighted Quick Union</td>
+<td>lgN</td>
+<td>lgN</td>
+</tr>
+<tr>
+<td>Weighted Quick Union + Path Compression</td>
+<td>very close, but not O(1)</td>
+<td>very close, but not O(1)</td>
+</tr>
+</tbody>
+</table>
+<h5>To process M union commands on N objects</h5>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Worst-case time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quick Find</td>
+<td>M N</td>
+</tr>
+<tr>
+<td>Quick Union</td>
+<td>M N</td>
+</tr>
+<tr>
+<td>Weighted Quick Union</td>
+<td>N + M lgN</td>
+</tr>
+<tr>
+<td>Weighted Quick Union + Path Compression</td>
+<td>(M + N) lgN</td>
+</tr>
+</tbody>
+</table>
+<h2>See also</h2>
+<p>See the playground for more examples of how to use this handy data structure.</p>
+<p><a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure" rel="nofollow">Union-Find at Wikipedia</a></p>
+<p><em>Written for Swift Algorithm Club by <a href="https://github.com/goingreen">Artur Antonov</a></em>, <em>modified by <a href="https://github.com/antonio081014">Yi Ding</a>.</em></p></div>
+</body>
+</html>

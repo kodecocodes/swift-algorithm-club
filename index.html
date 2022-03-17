@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<head>
+  <title>Swift Algorithm Club</title>
+  <link rel="stylesheet" type="text/css" href="github-light.css">
+</head>
+<body>
+  <div id="container"><p><a target="_blank" rel="noopener noreferrer" href="Images/SwiftAlgorithm-410-transp.png"><img src="Images/SwiftAlgorithm-410-transp.png" alt="Swift Algorithm Club" style="max-width:100%;"></a></p>
+<h1>Welcome to the Swift Algorithm Club!</h1>
+<p>Here you'll find implementations of popular algorithms and data structures in everyone's favorite new language Swift, with detailed explanations of how they work.</p>
+<p>If you're a computer science student who needs to learn this stuff for exams -- or if you're a self-taught programmer who wants to brush up on the theory behind your craft -- you've come to the right place!</p>
+<p>The goal of this project is to <strong>explain how algorithms work</strong>. The focus is on clarity and readability of the code, not on making a reusable library that you can drop into your own projects. That said, most of the code should be ready for production use but you may need to tweak it to fit into your own codebase.</p>
+<p>Code is compatible with <strong>Xcode 10</strong> and <strong>Swift 4.2</strong>. We'll keep this updated with the latest version of Swift. If you're interested in a GitHub pages version of the repo, check out <a href="https://aquarchitect.github.io/swift-algorithm-club/" rel="nofollow">this</a>.</p>
+<p><g-emoji class="g-emoji" alias="heart_eyes" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f60d.png">😍</g-emoji> <strong>Suggestions and contributions are welcome!</strong> <g-emoji class="g-emoji" alias="heart_eyes" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f60d.png">😍</g-emoji></p>
+<h2>Important links</h2>
+<p><a href="What%20are%20Algorithms.html">What are algorithms and data structures?</a> Pancakes!</p>
+<p><a href="Why%20Algorithms.html">Why learn algorithms?</a> Worried this isn't your cup of tea? Then read this.</p>
+<p><a href="Big-O%20Notation.html">Big-O notation</a>. We often say things like, "This algorithm is <strong>O(n)</strong>." If you don't know what that means, read this first.</p>
+<p><a href="Algorithm%20Design.html">Algorithm design techniques</a>. How do you create your own algorithms?</p>
+<p><a href="https://github.com/raywenderlich/swift-algorithm-club/blob/master/.github/CONTRIBUTING.md">How to contribute</a>. Report an issue to leave feedback, or submit a pull request.</p>
+<h2>Where to start?</h2>
+<p>If you're new to algorithms and data structures, here are a few good ones to start out with:</p>
+<ul>
+<li><a href="Stack/">Stack</a></li>
+<li><a href="Queue/">Queue</a></li>
+<li><a href="Insertion%20Sort/">Insertion Sort</a></li>
+<li><a href="Binary%20Search/">Binary Search</a> and <a href="Binary%20Search%20Tree/">Binary Search Tree</a></li>
+<li><a href="Merge%20Sort/">Merge Sort</a></li>
+<li><a href="Boyer-Moore-Horspool/">Boyer-Moore string search</a></li>
+</ul>
+<h2>The algorithms</h2>
+<h3>Searching</h3>
+<ul>
+<li><a href="Linear%20Search/">Linear Search</a>. Find an element in an array.</li>
+<li><a href="Binary%20Search/">Binary Search</a>. Quickly find elements in a sorted array.</li>
+<li><a href="Count%20Occurrences/">Count Occurrences</a>. Count how often a value appears in an array.</li>
+<li><a href="Select%20Minimum%20Maximum">Select Minimum / Maximum</a>. Find the minimum/maximum value in an array.</li>
+<li><a href="Kth%20Largest%20Element/">k-th Largest Element</a>. Find the <em>k</em>-th largest element in an array, such as the median.</li>
+<li><a href="Selection%20Sampling/">Selection Sampling</a>. Randomly choose a bunch of items from a collection.</li>
+<li><a href="Union-Find/">Union-Find</a>. Keeps track of disjoint sets and lets you quickly merge them.</li>
+</ul>
+<h3>String Search</h3>
+<ul>
+<li><a href="Brute-Force%20String%20Search/">Brute-Force String Search</a>. A naive method.</li>
+<li><a href="Boyer-Moore-Horspool/">Boyer-Moore</a>. A fast method to search for substrings. It skips ahead based on a look-up table, to avoid looking at every character in the text.</li>
+<li><a href="Knuth-Morris-Pratt/">Knuth-Morris-Pratt</a>. A linear-time string algorithm that returns indexes of all occurrencies of a given pattern.</li>
+<li><a href="Rabin-Karp/">Rabin-Karp</a>  Faster search by using hashing.</li>
+<li><a href="Longest%20Common%20Subsequence/">Longest Common Subsequence</a>. Find the longest sequence of characters that appear in the same order in both strings.</li>
+<li><a href="Z-Algorithm/">Z-Algorithm</a>. Finds all instances of a pattern in a String, and returns the indexes of where the pattern starts within the String.</li>
+</ul>
+<h3>Sorting</h3>
+<p>It's fun to see how sorting algorithms work, but in practice you'll almost never have to provide your own sorting routines. Swift's own <code>sort()</code> is more than up to the job. But if you're curious, read on...</p>
+<p>Basic sorts:</p>
+<ul>
+<li><a href="Insertion%20Sort/">Insertion Sort</a></li>
+<li><a href="Selection%20Sort/">Selection Sort</a></li>
+<li><a href="Shell%20Sort/">Shell Sort</a></li>
+</ul>
+<p>Fast sorts:</p>
+<ul>
+<li><a href="Quicksort/">Quicksort</a></li>
+<li><a href="Merge%20Sort/">Merge Sort</a></li>
+<li><a href="Heap%20Sort/">Heap Sort</a></li>
+</ul>
+<p>Hybrid sorts:</p>
+<ul>
+<li><a href="Introsort/">Introsort</a></li>
+</ul>
+<p>Special-purpose sorts:</p>
+<ul>
+<li><a href="Counting%20Sort/">Counting Sort</a></li>
+<li><a href="Radix%20Sort/">Radix Sort</a></li>
+<li><a href="Topological%20Sort/">Topological Sort</a></li>
+</ul>
+<p>Bad sorting algorithms (don't use these!):</p>
+<ul>
+<li><a href="Bubble%20Sort/">Bubble Sort</a></li>
+<li><a href="Slow%20Sort/">Slow Sort</a></li>
+</ul>
+<h3>Compression</h3>
+<ul>
+<li><a href="Run-Length%20Encoding/">Run-Length Encoding (RLE)</a>. Store repeated values as a single byte and a count.</li>
+<li><a href="Huffman%20Coding/">Huffman Coding</a>. Store more common elements using a smaller number of bits.</li>
+</ul>
+<h3>Miscellaneous</h3>
+<ul>
+<li><a href="Shuffle/">Shuffle</a>. Randomly rearranges the contents of an array.</li>
+<li><a href="Comb%20Sort/">Comb Sort</a>. An improve upon the Bubble Sort algorithm.</li>
+<li><a href="Convex%20Hull/">Convex Hull</a>.</li>
+<li><a href="Miller-Rabin%20Primality%20Test/">Miller-Rabin Primality Test</a>. Is the number a prime number?</li>
+<li><a href="MinimumCoinChange/">MinimumCoinChange</a>. A showcase for dynamic programming.</li>
+<li><a href="Genetic/">Genetic</a>. A simple example on how to slowly mutate a value to its ideal form, in the context of biological evolution.</li>
+<li><a href="Myers%20Difference%20Algorithm/">Myers Difference Algorithm</a>. Finding the longest common subsequence of two sequences.</li>
+</ul>
+<h3>Mathematics</h3>
+<ul>
+<li><a href="GCD/">Greatest Common Divisor (GCD)</a>. Special bonus: the least common multiple.</li>
+<li><a href="Combinatorics/">Permutations and Combinations</a>. Get your combinatorics on!</li>
+<li><a href="Shunting%20Yard/">Shunting Yard Algorithm</a>. Convert infix expressions to postfix.</li>
+<li><a href="Karatsuba%20Multiplication/">Karatsuba Multiplication</a>. Another take on elementary multiplication.</li>
+<li><a href="HaversineDistance/">Haversine Distance</a>. Calculating the distance between 2 points from a sphere.</li>
+<li><a href="Strassen%20Matrix%20Multiplication/">Strassen's Multiplication Matrix</a>. Efficient way to handle matrix multiplication.</li>
+</ul>
+<h3>Machine learning</h3>
+<ul>
+<li><a href="K-Means/">k-Means Clustering</a>. Unsupervised classifier that partitions data into <em>k</em> clusters.</li>
+<li>k-Nearest Neighbors</li>
+<li><a href="Linear%20Regression/">Linear Regression</a>. A technique for creating a model of the relationship between two (or more) variable quantities.</li>
+<li>Logistic Regression</li>
+<li>Neural Networks</li>
+<li>PageRank</li>
+<li><a href="Naive%20Bayes%20Classifier/">Naive Bayes Classifier</a></li>
+<li><a href="Simulated%20annealing/">Simulated annealing</a>. Probabilistic technique for approximating the global maxima in a (often discrete) large search space.</li>
+</ul>
+<h2>Data structures</h2>
+<p>The choice of data structure for a particular task depends on a few things.</p>
+<p>First, there is the shape of your data and the kinds of operations that you'll need to perform on it. If you want to look up objects by a key you need some kind of dictionary; if your data is hierarchical in nature you want a tree structure of some sort; if your data is sequential you want a stack or queue.</p>
+<p>Second, it matters what particular operations you'll be performing most, as certain data structures are optimized for certain actions. For example, if you often need to find the most important object in a collection, then a heap or priority queue is more optimal than a plain array.</p>
+<p>Most of the time using just the built-in <code>Array</code>, <code>Dictionary</code>, and <code>Set</code> types is sufficient, but sometimes you may want something more fancy...</p>
+<h3>Variations on arrays</h3>
+<ul>
+<li><a href="Array2D/">Array2D</a>. A two-dimensional array with fixed dimensions. Useful for board games.</li>
+<li><a href="Bit%20Set/">Bit Set</a>. A fixed-size sequence of <em>n</em> bits.</li>
+<li><a href="Fixed%20Size%20Array/">Fixed Size Array</a>. When you know beforehand how large your data will be, it might be more efficient to use an old-fashioned array with a fixed size.</li>
+<li><a href="Ordered%20Array/">Ordered Array</a>. An array that is always sorted.</li>
+<li><a href="Rootish%20Array%20Stack/">Rootish Array Stack</a>. A space and time efficient variation on Swift arrays.</li>
+</ul>
+<h3>Queues</h3>
+<ul>
+<li><a href="Stack/">Stack</a>. Last-in, first-out!</li>
+<li><a href="Queue/">Queue</a>. First-in, first-out!</li>
+<li><a href="Deque/">Deque</a>. A double-ended queue.</li>
+<li><a href="Priority%20Queue">Priority Queue</a>. A queue where the most important element is always at the front.</li>
+<li><a href="Ring%20Buffer/">Ring Buffer</a>. Also known as a circular buffer. An array of a certain size that conceptually wraps around back to the beginning.</li>
+</ul>
+<h3>Lists</h3>
+<ul>
+<li><a href="Linked%20List/">Linked List</a>. A sequence of data items connected through links. Covers both singly and doubly linked lists.</li>
+<li><a href="Skip-List/">Skip-List</a>. Skip List is a probabilistic data-structure with same logarithmic time bound and efficiency as AVL/ or Red-Black tree and provides a clever compromise to efficiently support search and update operations.</li>
+</ul>
+<h3>Trees</h3>
+<ul>
+<li><a href="Tree/">Tree</a>. A general-purpose tree structure.</li>
+<li><a href="Binary%20Tree/">Binary Tree</a>. A tree where each node has at most two children.</li>
+<li><a href="Binary%20Search%20Tree/">Binary Search Tree (BST)</a>. A binary tree that orders its nodes in a way that allows for fast queries.</li>
+<li><a href="Red-Black%20Tree/">Red-Black Tree</a>. A self balancing binary search tree.</li>
+<li><a href="Splay%20Tree/">Splay Tree</a>. A self balancing binary search tree that enables fast retrieval of recently updated elements.</li>
+<li><a href="Threaded%20Binary%20Tree/">Threaded Binary Tree</a>. A binary tree that maintains a few extra variables for cheap and fast in-order traversals.</li>
+<li><a href="Segment%20Tree/">Segment Tree</a>. Can quickly compute a function over a portion of an array.
+<ul>
+<li><a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Segment%20Tree/LazyPropagation">Lazy Propagation</a></li>
+</ul>
+</li>
+<li>kd-Tree</li>
+<li><a href="Sparse%20Table/">Sparse Table</a>. Another take on quickly computing a function over a portion of an array, but this time we'll make it even quicker!.</li>
+<li><a href="Heap/">Heap</a>. A binary tree stored in an array, so it doesn't use pointers. Makes a great priority queue.</li>
+<li>Fibonacci Heap</li>
+<li><a href="Trie/">Trie</a>. A special type of tree used to store associative data structures.</li>
+<li><a href="B-Tree/">B-Tree</a>. A self-balancing search tree, in which nodes can have more than two children.</li>
+<li><a href="QuadTree/">QuadTree</a>. A tree with 4 children.</li>
+<li><a href="Octree/">Octree</a>. A tree with 8 children.</li>
+</ul>
+<h3>Hashing</h3>
+<ul>
+<li><a href="Hash%20Table/">Hash Table</a>. Allows you to store and retrieve objects by a key. This is how the dictionary type is usually implemented.</li>
+<li>Hash Functions</li>
+</ul>
+<h3>Sets</h3>
+<ul>
+<li><a href="Bloom%20Filter/">Bloom Filter</a>. A constant-memory data structure that probabilistically tests whether an element is in a set.</li>
+<li><a href="Hash%20Set/">Hash Set</a>. A set implemented using a hash table.</li>
+<li><a href="Multiset/">Multiset</a>. A set where the number of times an element is added matters. (Also known as a bag.)</li>
+<li><a href="Ordered%20Set/">Ordered Set</a>. A set where the order of items matters.</li>
+</ul>
+<h3>Graphs</h3>
+<ul>
+<li><a href="Graph/">Graph</a></li>
+<li><a href="Breadth-First%20Search/">Breadth-First Search (BFS)</a></li>
+<li><a href="Depth-First%20Search/">Depth-First Search (DFS)</a></li>
+<li><a href="Shortest%20Path%20%28Unweighted%29/">Shortest Path</a> on an unweighted tree</li>
+<li><a href="Single-Source%20Shortest%20Paths%20(Weighted)/">Single-Source Shortest Paths</a></li>
+<li><a href="Minimum%20Spanning%20Tree%20%28Unweighted%29/">Minimum Spanning Tree</a> on an unweighted tree</li>
+<li><a href="Minimum%20Spanning%20Tree/">Minimum Spanning Tree</a></li>
+<li><a href="All-Pairs%20Shortest%20Paths/">All-Pairs Shortest Paths</a></li>
+<li><a href="Dijkstra%20Algorithm/">Dijkstra's shortest path algorithm</a></li>
+</ul>
+<h2>Puzzles</h2>
+<p>A lot of software developer interview questions consist of algorithmic puzzles. Here is a small selection of fun ones. For more puzzles (with answers), see <a href="http://elementsofprogramminginterviews.com/" rel="nofollow">here</a> and <a href="http://www.crackingthecodinginterview.com" rel="nofollow">here</a>.</p>
+<ul>
+<li><a href="Two-Sum%20Problem/">Two-Sum Problem</a></li>
+<li><a href="3Sum%20and%204Sum/">Three-Sum/Four-Sum Problem</a></li>
+<li><a href="Fizz%20Buzz/">Fizz Buzz</a></li>
+<li><a href="Monty%20Hall%20Problem/">Monty Hall Problem</a></li>
+<li><a href="Palindromes/">Finding Palindromes</a></li>
+<li><a href="DiningPhilosophers/">Dining Philosophers</a></li>
+<li><a href="Egg%20Drop%20Problem/">Egg Drop Problem</a></li>
+<li><a href="Encode%20and%20Decode%20Tree/">Encoding and Decoding Binary Tree</a></li>
+<li><a href="Closest%20Pair/">Closest Pair</a></li>
+</ul>
+<h2>Learn more!</h2>
+<p>Like what you see? Check out <a href="https://store.raywenderlich.com/products/data-structures-and-algorithms-in-swift" rel="nofollow">Data Structures &amp; Algorithms in Swift</a>, the official book by the Swift Algorithm Club team!</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/DataStructuresAndAlgorithmsInSwiftBook.png"><img src="Images/DataStructuresAndAlgorithmsInSwiftBook.png" alt="Data Structures &amp; Algorithms in Swift Book" style="max-width:100%;"></a></p>
+<p>You’ll start with the fundamental structures of linked lists, queues and stacks, and see how to implement them in a highly Swift-like way. Move on to working with various types of trees, including general purpose trees, binary trees, AVL trees, binary search trees, and tries.</p>
+<p>Go beyond bubble and insertion sort with better-performing algorithms, including mergesort, radix sort, heap sort, and quicksort. Learn how to construct directed, non-directed and weighted graphs to represent many real-world models, and traverse graphs and trees efficiently with breadth-first, depth-first, Dijkstra’s and Prim’s algorithms to solve problems such as finding the shortest path or lowest cost in a network.</p>
+<p>By the end of this book, you’ll have hands-on experience solving common issues with data structures and algorithms — and you’ll be well on your way to developing your own efficient and useful implementations!</p>
+<p>You can find the book on the <a href="https://store.raywenderlich.com/products/data-structures-and-algorithms-in-swift" rel="nofollow">raywenderlich.com store</a>.</p>
+<h2>Credits</h2>
+<p>The Swift Algorithm Club was originally created by <a href="https://github.com/hollance">Matthijs Hollemans</a>.</p>
+<p>It is now maintained by <a href="https://www.raywenderlich.com/u/jomoka" rel="nofollow">Vincent Ngo</a>, <a href="https://github.com/kelvinlauKL">Kelvin Lau</a>, and <a href="https://github.com/richard-ash">Richard Ash</a>.</p>
+<p>The Swift Algorithm Club is a collaborative effort from the <a href="https://github.com/raywenderlich/swift-algorithm-club/graphs/contributors">most algorithmic members</a> of the <a href="https://www.raywenderlich.com" rel="nofollow">raywenderlich.com</a> community. We're always looking for help - why not <a href=".github/CONTRIBUTING.md">join the club</a>? :]</p>
+<h2>License</h2>
+<p>All content is licensed under the terms of the MIT open source license.</p>
+<p>By posting here, or by submitting any pull request through this forum, you agree that all content you submit or create, both code and text, is subject to this license.  Razeware, LLC, and others will have all the rights described in the license regarding this content.  The precise terms of this license may be found <a href="https://github.com/raywenderlich/swift-algorithm-club/blob/master/LICENSE.txt">here</a>.</p>
+<p><a href="https://travis-ci.org/raywenderlich/swift-algorithm-club" rel="nofollow"><img src="https://camo.githubusercontent.com/d686248464ea87440457e93704b5f54191acc804/68747470733a2f2f7472617669732d63692e6f72672f72617977656e6465726c6963682f73776966742d616c676f726974686d2d636c75622e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/raywenderlich/swift-algorithm-club.svg?branch=master" style="max-width:100%;"></a></p></div>
+</body>
+</html>

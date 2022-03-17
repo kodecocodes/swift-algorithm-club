@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+  <title>HaversineDistance</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Haversine Distance</h1>
+<p>Calculates the distance on a sphere between two points given in latitude and longitude using the haversine formula.</p>
+<p>The haversine formula can be found on <a href="https://en.wikipedia.org/wiki/Haversine_formula" rel="nofollow">Wikipedia</a></p>
+<p>The Haversine Distance is implemented as a function as a class would be kind of overkill.</p>
+<p><code>haversineDinstance(la1: Double, lo1: Double, la2: Double, lo2: Double, radius: Double = 6367444.7) -&gt; Double</code></p>
+<ul>
+<li><code>la1</code> is the latitude of point 1 in degrees.</li>
+<li><code>lo1</code> is the longitude of point 1 in degrees.</li>
+<li><code>la2</code> is the latitude of point 2 in degrees.</li>
+<li><code>lo2</code> is the longitude of point 2 in degrees.</li>
+<li><code>radius</code> is the radius of the sphere considered in meters, which defaults to the mean radius of the earth (from <a href="http://www.wolframalpha.com/input/?i=earth+radius" rel="nofollow">WolframAlpha</a>).</li>
+</ul>
+<p>The function contains 3 closures in order to make the code more readable and comparable to the Haversine formula given by the Wikipedia page mentioned above.</p>
+<ol>
+<li><code>haversine</code> implements the haversine, a trigonometric function.</li>
+<li><code>ahaversine</code> the inverse function of the haversine.</li>
+<li><code>dToR</code> a closure converting degrees to radians.</li>
+</ol>
+<p>The result of <code>haversineDistance</code> is returned in meters.</p>
+<p><em>Written for Swift Algorithm Club by Jaap Wijnen.</em></p></div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+  <title>Counting Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Counting Sort</h1>
+<p>Counting sort is an algorithm for sorting a collection of objects according to keys that are small integers. It operates by counting the number of objects that have each distinct key values, and using arithmetic on those counts to determine the positions of each key value in the output sequence.</p>
+<h2>Example</h2>
+<p>To understand the algorithm let's walk through a small example.</p>
+<p>Consider the array: <code>[ 10, 9, 8, 7, 1, 2, 7, 3 ]</code></p>
+<h3>Step 1:</h3>
+<p>The first step is to count the total number of occurrences for each item in the array. The output for the first step would be a new array that looks as follows:</p>
+<pre><code>Index 0 1 2 3 4 5 6 7 8 9 10
+Count 0 1 1 1 0 0 0 2 1 1 1
+</code></pre>
+<p>Here is the code to accomplish this:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">let</span> maxElement <span class="pl-k">=</span> array.<span class="pl-c1">max</span>() <span class="pl-k">??</span> <span class="pl-c1">0</span>
+
+  <span class="pl-k">var</span> countArray <span class="pl-k">=</span> [<span class="pl-c1">Int</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: <span class="pl-c1">Int</span>(maxElement <span class="pl-k">+</span> <span class="pl-c1">1</span>))
+  <span class="pl-k">for</span> element <span class="pl-k">in</span> array {
+    countArray[element] <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  }</pre></div>
+<h3>Step 2:</h3>
+<p>In this step the algorithm tries to determine the number of elements that are placed before each element. Since, you already know the total occurrences for each element you can use this information to your advantage. The way it works is to sum up the previous counts and store them at each index.</p>
+<p>The count array would be as follows:</p>
+<pre><code>Index 0 1 2 3 4 5 6 7 8 9 10
+Count 0 1 2 3 3 3 3 5 6 7 8
+</code></pre>
+<p>The code for step 2 is:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">for</span> index <span class="pl-k">in</span> <span class="pl-c1">1</span> <span class="pl-k">..&lt;</span> countArray.<span class="pl-c1">count</span> {
+    <span class="pl-k">let</span> sum <span class="pl-k">=</span> countArray[index] <span class="pl-k">+</span> countArray[index <span class="pl-k">-</span> <span class="pl-c1">1</span>]
+    countArray[index] <span class="pl-k">=</span> sum
+  }</pre></div>
+<h3>Step 3:</h3>
+<p>This is the last step in the algorithm. Each element in the original array is placed at the position defined by the output of step 2. For example, the number 10 would be placed at an index of 7 in the output array. Also, as you place the elements you need to reduce the count by 1 as those many elements are reduced from the array.</p>
+<p>The final output would be:</p>
+<pre><code>Index  0 1 2 3 4 5 6 7
+Output 1 2 3 7 7 8 9 10
+</code></pre>
+<p>Here is the code for this final step:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">var</span> sortedArray <span class="pl-k">=</span> [<span class="pl-c1">Int</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: array.<span class="pl-c1">count</span>)
+  <span class="pl-k">for</span> element <span class="pl-k">in</span> array {
+    countArray[element] <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+    sortedArray[countArray[element]] <span class="pl-k">=</span> element
+  }
+  <span class="pl-k">return</span> sortedArray</pre></div>
+<h2>Performance</h2>
+<p>The algorithm uses simple loops to sort a collection. Hence, the time to run the entire algorithm is <strong>O(n+k)</strong> where <strong>O(n)</strong> represents the loops that are required to initialize the output arrays and <strong>O(k)</strong> is the loop required to create the count array.</p>
+<p>The algorithm uses arrays of length <strong>n + 1</strong> and <strong>n</strong>, so the total space required is <strong>O(2n)</strong>. Hence for collections where the keys are scattered in a dense area along the number line it can be space efficient.</p>
+<p><em>Written for Swift Algorithm Club by Ali Hafizji</em></p></div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+  <title>Brute-Force String Search</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Brute-Force String Search</h1>
+<p>How would you go about writing a string search algorithm in pure Swift if you were not allowed to import Foundation and could not use <code>NSString</code>'s <code>rangeOfString()</code> method?</p>
+<p>The goal is to implement an <code>indexOf(pattern: String)</code> extension on <code>String</code> that returns the <code>String.Index</code> of the first occurrence of the search pattern, or <code>nil</code> if the pattern could not be found inside the string.</p>
+<p>For example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> Input: </span>
+<span class="pl-c"></span><span class="pl-k">let</span> s <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Hello, World<span class="pl-pds">"</span></span>
+s.<span class="pl-c1">indexOf</span>(<span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span>)
+
+<span class="pl-c"><span class="pl-c">//</span> Output:</span>
+<span class="pl-c"></span><span class="pl-k">&lt;</span><span class="pl-c1">String</span>.<span class="pl-c1">Index</span><span class="pl-k">?&gt;</span> <span class="pl-c1">7</span>
+
+<span class="pl-c"><span class="pl-c">//</span> Input:</span>
+<span class="pl-c"></span><span class="pl-k">let</span> animals <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>🐶🐔🐷🐮🐱<span class="pl-pds">"</span></span>
+animals.<span class="pl-c1">indexOf</span>(<span class="pl-s"><span class="pl-pds">"</span>🐮<span class="pl-pds">"</span></span>)
+
+<span class="pl-c"><span class="pl-c">//</span> Output:</span>
+<span class="pl-c"></span><span class="pl-k">&lt;</span><span class="pl-c1">String</span>.<span class="pl-c1">Index</span><span class="pl-k">?&gt;</span> <span class="pl-c1">6</span></pre></div>
+<blockquote>
+<p><strong>Note:</strong> The index of the cow is 6, not 3 as you might expect, because the string uses more storage per character for emoji. The actual value of the <code>String.Index</code> is not so important, just that it points at the right character in the string.</p>
+</blockquote>
+<p>Here is a brute-force solution:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">String</span></span> {
+  <span class="pl-k">func</span> <span class="pl-en">indexOf</span>(<span class="pl-en">_</span> <span class="pl-smi">pattern</span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span>.<span class="pl-c1">Index</span><span class="pl-k">?</span> {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">self</span>.<span class="pl-c1">characters</span>.<span class="pl-c1">indices</span> {
+        <span class="pl-k">var</span> j <span class="pl-k">=</span> i
+        <span class="pl-k">var</span> found <span class="pl-k">=</span> <span class="pl-c1">true</span>
+        <span class="pl-k">for</span> p <span class="pl-k">in</span> pattern.<span class="pl-c1">characters</span>.<span class="pl-c1">indices</span>{
+            <span class="pl-k">if</span> j <span class="pl-k">==</span> <span class="pl-c1">self</span>.<span class="pl-c1">characters</span>.<span class="pl-c1">endIndex</span> <span class="pl-k">||</span> <span class="pl-c1">self</span>[j] <span class="pl-k">!=</span> pattern[p] {
+                found <span class="pl-k">=</span> <span class="pl-c1">false</span>
+                <span class="pl-k">break</span>
+            } <span class="pl-k">else</span> {
+                j <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">characters</span>.<span class="pl-c1">index</span>(<span class="pl-c1">after</span>: j)
+            }
+        }
+        <span class="pl-k">if</span> found {
+            <span class="pl-k">return</span> i
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }
+}</pre></div>
+<p>This looks at each character in the source string in turn. If the character equals the first character of the search pattern, then the inner loop checks whether the rest of the pattern matches. If no match is found, the outer loop continues where it left off. This repeats until a complete match is found or the end of the source string is reached.</p>
+<p>The brute-force approach works OK, but it's not very efficient (or pretty). It should work fine on small strings, though. For a smarter algorithm that works better with large chunks of text, check out <a href="../Boyer-Moore-Horspool">Boyer-Moore</a> string search.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

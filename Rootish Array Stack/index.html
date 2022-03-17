@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<head>
+  <title>Rootish Array Stack</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Rootish Array Stack</h1>
+<p>A <em>Rootish Array Stack</em> is an ordered array based structure that minimizes wasted space (based on <a href="https://betterexplained.com/articles/techniques-for-adding-the-numbers-1-to-100/" rel="nofollow">Gauss's summation technique</a>). A <em>Rootish Array Stack</em> consists of an array holding many fixed size arrays in ascending size.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/RootishArrayStackIntro.png"><img src="images/RootishArrayStackIntro.png" alt="Rootish Array Stack Intro" style="max-width:100%;"></a></p>
+<p>A resizable array holds references to blocks (arrays of fixed size). A block's capacity is the same as it's index in the resizable array. Blocks don't grow/shrink like regular Swift arrays. Instead, when their capacity is reached, a new slightly larger block is created. When a block is emptied the last block is freed. This is a great improvement on what Swift arrays do in terms of wasted space.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/RootishArrayStackExample.png"><img src="images/RootishArrayStackExample.png" alt="Rootish Array Stack Intro" style="max-width:100%;"></a></p>
+<p>Here you can see how insert/remove operations would behave (very similar to how a Swift array handles such operations).</p>
+<h2>Gauss' Summation Trick</h2>
+<p>One of the most well known legends about famous mathematician <a href="https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss" rel="nofollow">Carl Friedrich Gauss</a> goes back to when he was in primary school. One day, Gauss' teacher asked his class to add up all the numbers from 1 to 100, hoping that the task would take long enough for him to step out for a smoke break. The teacher was shocked when young Gauss had his hand up with the answer <code>5050</code>. So soon? The teacher suspected a cheat, but no. Gauss had found a formula to sidestep the problem of manually adding up all the numbers 1 by 1. His formula:</p>
+<pre><code>sum from 1...n = n * (n + 1) / 2
+</code></pre>
+<p>To understand this imagine <code>n</code> blocks where <code>x</code> represents <code>1</code> unit. In this example let <code>n</code> be <code>5</code>:</p>
+<pre><code>blocks:     [x] [x x] [x x x] [x x x x] [x x x x x]
+# of x's:    1    2      3        4          5
+</code></pre>
+<p><em>Block <code>1</code> has 1 <code>x</code>, block <code>2</code> as 2 <code>x</code>s, block <code>3</code> has 3 <code>x</code>s, etc...</em></p>
+<p>If you wanted to take the sum of all the blocks from <code>1</code> to <code>n</code>, you could go through and count them <em>one by one</em>. This is okay, but for a large sequence of blocks that could take a long time! Instead, you could arrange the blocks to look like a <em>half pyramid</em>:</p>
+<pre><code># |  blocks
+--|-------------
+1 |  x
+2 |  x x
+3 |  x x x
+4 |  x x x x
+5 |  x x x x x
+
+</code></pre>
+<p>Then we mirror the <em>half pyramid</em> and rearrange the image so that it fits with the original <em>half pyramid</em> in a rectangular shape:</p>
+<pre><code>x                  o      x o o o o o
+x x              o o      x x o o o o
+x x x          o o o  =&gt;  x x x o o o
+x x x x      o o o o      x x x x o o
+x x x x x  o o o o o      x x x x x o
+</code></pre>
+<p>Here we have <code>n</code> rows and <code>n + 1</code> columns. <em>5 rows and 6 columns</em>.</p>
+<p>We can calculate the sum just as we would an area! Let's also express the width and height in terms of <code>n</code>:</p>
+<pre><code>area of a rectangle = height * width = n * (n + 1)
+</code></pre>
+<p>We only want to calculate the amount of <code>x</code>s, not the amount of <code>o</code>s. Since there's a 1:1 ratio between <code>x</code>s and <code>o</code>s we can just divide our area by 2!</p>
+<pre><code>area of only x = n * (n + 1) / 2
+</code></pre>
+<p>Voila! A super fast way to take a sum of all the blocks! This equation is useful for deriving fast <code>block</code> and <code>inner block index</code> equations.</p>
+
+<h2>Get/Set with Speed</h2>
+<p>Next, we want to find an efficient and accurate way to access an element at a random index. For example, which block does <code>rootishArrayStack[12]</code> point to? To answer this we will need more math!<br>
+Determining the inner block <code>index</code> turns out to be easy. If <code>index</code> is in some <code>block</code> then:</p>
+<pre><code>inner block index = index - block * (block + 1) / 2
+</code></pre>
+<p>Determining which <code>block</code> an index points to is more difficult. The number of elements up to and including the element requested is: <code>index + 1</code> elements. The number of elements in blocks <code>0...block</code> is <code>(block + 1) * (block + 2) / 2</code> (equation derived above). The relationship between the <code>block</code> and the <code>index</code> is as follows:</p>
+<pre><code>(block + 1) * (block + 2) / 2 &gt;= index + 1
+</code></pre>
+<p>This can be rewritten as:</p>
+<pre><code>(block)^2 + (3 * block) - (2 * index) &gt;= 0
+</code></pre>
+<p>Using the quadratic formula we get:</p>
+<pre><code>block = (-3 ± √(9 + 8 * index)) / 2
+</code></pre>
+<p>A negative block doesn't make sense, so we take the positive root instead. In general, this solution is not an integer. However, going back to our inequality, we want the smallest block such that <code>block =&gt; (-3 + √(9 + 8 * index)) / 2</code>. Next, we take the ceiling of the result:</p>
+<pre><code>block = ⌈(-3 + √(9 + 8 * index)) / 2⌉
+</code></pre>
+<p>Now we can figure out what <code>rootishArrayStack[12]</code> points to! First, let's see which block the <code>12</code> points to:</p>
+<pre><code>block = ⌈(-3 + √(9 + 8 * (12))) / 2⌉
+block = ⌈(-3 + √105) / 2⌉
+block = ⌈(-3 + (10.246950766)) / 2⌉
+block = ⌈(7.246950766) / 2⌉
+block = ⌈3.623475383⌉
+block = 4
+</code></pre>
+<p>Next lets see which <code>innerBlockIndex</code> <code>12</code> points to:</p>
+<pre><code>inner block index = (12) - (4) * ((4) + 1) / 2
+inner block index = (12) - (4) * (5) / 2
+inner block index = (12) - 10
+inner block index = 2
+</code></pre>
+<p>Therefore, <code>rootishArrayStack[12]</code> points to the block at index <code>4</code> and at inner block index <code>2</code>.<br>
+<a target="_blank" rel="noopener noreferrer" href="images/RootishArrayStackExample2.png"><img src="images/RootishArrayStackExample2.png" alt="Rootish Array Stack Intro" style="max-width:100%;"></a></p>
+<h3>Interesting Discovery</h3>
+<p>Using the <code>block</code> equation, we can see that the number of <code>blocks</code> is proportional to the square root of the number of elements: <strong>O(blocks) = O(√n)</strong>.</p>
+<h1>Implementation Details</h1>
+<p>Let's start with instance variables and struct declaration:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">import</span> <span class="pl-en">Darwin</span>
+
+<span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">RootishArrayStack</span>&lt;<span class="pl-c1">T</span>&gt; {
+
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> blocks <span class="pl-k">=</span> [<span class="pl-c1">Array</span><span class="pl-k">&lt;</span>T<span class="pl-k">?&gt;</span>]()
+  <span class="pl-k">fileprivate</span> <span class="pl-k">var</span> internalCount <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>() { }
+
+  <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> internalCount
+  }
+
+  <span class="pl-k">...</span>
+
+}
+</pre></div>
+<p>The elements are of generic type <code>T</code>, so data of any kind can be stored in the list. <code>blocks</code> will be a resizable array to hold fixed sized arrays that take type <code>T?</code>.</p>
+<blockquote>
+<p>The reason for the fixed size arrays taking type <code>T?</code> is so that references to elements aren't retained after they've been removed. Eg: if you remove the last element, the last index must be set to <code>nil</code> to prevent the last element being held in memory at an inaccessible index.</p>
+</blockquote>
+<p><code>internalCount</code> is an internal mutable counter that keeps track of the number of elements. <code>count</code> is a read only variable that returns the <code>internalCount</code> value. <code>Darwin</code> is imported here to provide simple math functions such as <code>ceil()</code> and <code>sqrt()</code>.</p>
+<p>The <code>capacity</code> of the structure is simply the Gaussian summation trick:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> capacity<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">return</span> blocks.<span class="pl-c1">count</span> <span class="pl-k">*</span> (blocks.<span class="pl-c1">count</span> <span class="pl-k">+</span> <span class="pl-c1">1</span>) <span class="pl-k">/</span> <span class="pl-c1">2</span>
+}</pre></div>
+<p>Next, let's look at how we would <code>get</code> and <code>set</code> elements:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">fileprivate</span> <span class="pl-k">func</span> <span class="pl-en">block</span>(<span class="pl-smi"><span class="pl-en">fromIndex</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">let</span> block <span class="pl-k">=</span> <span class="pl-c1">Int</span>(<span class="pl-c1">ceil</span>((<span class="pl-c1">-3.0</span> <span class="pl-k">+</span> <span class="pl-c1">sqrt</span>(<span class="pl-c1">9.0</span> <span class="pl-k">+</span> <span class="pl-c1">8.0</span> <span class="pl-k">*</span> <span class="pl-c1">Double</span>(index))) <span class="pl-k">/</span> <span class="pl-c1">2</span>))
+  <span class="pl-k">return</span> block
+}
+
+<span class="pl-k">fileprivate</span> <span class="pl-k">func</span> <span class="pl-en">innerBlockIndex</span>(<span class="pl-en">fromIndex</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>, <span class="pl-en">fromBlock</span> <span class="pl-smi">block</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">return</span> index <span class="pl-k">-</span> block <span class="pl-k">*</span> (block <span class="pl-k">+</span> <span class="pl-c1">1</span>) <span class="pl-k">/</span> <span class="pl-c1">2</span>
+}
+
+<span class="pl-k">public</span> <span class="pl-k">subscript</span>(<span class="pl-c1">index</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+  <span class="pl-k">get</span> {
+    <span class="pl-k">let</span> block <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">block</span>(<span class="pl-c1">fromIndex</span>: index)
+    <span class="pl-k">let</span> innerBlockIndex <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">innerBlockIndex</span>(<span class="pl-c1">fromIndex</span>: index, <span class="pl-c1">fromBlock</span>: block)
+    <span class="pl-k">return</span> blocks[block][innerBlockIndex]<span class="pl-k">!</span>
+  }
+  <span class="pl-k">set</span>(newValue) {
+    <span class="pl-k">let</span> block <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">block</span>(<span class="pl-c1">fromIndex</span>: index)
+    <span class="pl-k">let</span> innerBlockIndex <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">innerBlockIndex</span>(<span class="pl-c1">fromIndex</span>: index, <span class="pl-c1">fromBlock</span>: block)
+    blocks[block][innerBlockIndex] <span class="pl-k">=</span> newValue
+  }
+}</pre></div>
+<p><code>block(fromIndex:)</code> and <code>innerBlockIndex(fromIndex:, fromBlock:)</code> are wrapping the <code>block</code> and <code>inner block index</code> equations we derived earlier. <code>superscript</code> lets us have <code>get</code> and <code>set</code> access to the structure with the familiar <code>[index:]</code> syntax. For both <code>get</code> and <code>set</code> in <code>superscript</code> we use the same logic:</p>
+<ol>
+<li>determine the block that the index points to</li>
+<li>determine the inner block index</li>
+<li><code>get</code>/<code>set</code> the value</li>
+</ol>
+<p>Next, let's look at how we would <code>growIfNeeded()</code> and <code>shrinkIfNeeded()</code>.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">fileprivate</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">growIfNeeded</span>() {
+  <span class="pl-k">if</span> capacity <span class="pl-k">-</span> blocks.<span class="pl-c1">count</span> <span class="pl-k">&lt;</span> count <span class="pl-k">+</span> <span class="pl-c1">1</span> {
+    <span class="pl-k">let</span> newArray <span class="pl-k">=</span> [T<span class="pl-k">?</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">nil</span>, <span class="pl-c1">count</span>: blocks.<span class="pl-c1">count</span> <span class="pl-k">+</span> <span class="pl-c1">1</span>)
+    blocks.<span class="pl-c1">append</span>(newArray)
+  }
+}
+
+<span class="pl-k">fileprivate</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">shrinkIfNeeded</span>() {
+  <span class="pl-k">if</span> capacity <span class="pl-k">+</span> blocks.<span class="pl-c1">count</span> <span class="pl-k">&gt;=</span> count {
+    <span class="pl-k">while</span> blocks.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> <span class="pl-k">&amp;&amp;</span> (blocks.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">2</span>) <span class="pl-k">*</span> (blocks.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>) <span class="pl-k">/</span> <span class="pl-c1">2</span> <span class="pl-k">&gt;</span>    count {
+      blocks.<span class="pl-c1">remove</span>(<span class="pl-c1">at</span>: blocks.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+    }
+  }
+}</pre></div>
+<p>If our data set grows or shrinks in size, we want our data structure to accommodate the change.<br>
+Just like a Swift array, when a capacity threshold is met we will <code>grow</code> or <code>shrink</code> the size of our structure. For the Rootish Array Stack we want to <code>grow</code> if the second last block is full on an <code>insert</code> operation, and <code>shrink</code> if the two last blocks are empty.</p>
+<p>Now to the more familiar Swift array behaviour.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-smi"><span class="pl-en">element</span></span>: T, <span class="pl-en">atIndex</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>) {
+	<span class="pl-c1">growIfNeeded</span>()
+	internalCount <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+	<span class="pl-k">var</span> i <span class="pl-k">=</span> count <span class="pl-k">-</span> <span class="pl-c1">1</span>
+	<span class="pl-k">while</span> i <span class="pl-k">&gt;</span> index {
+		<span class="pl-c1">self</span>[i] <span class="pl-k">=</span> <span class="pl-c1">self</span>[i <span class="pl-k">-</span> <span class="pl-c1">1</span>]
+		i <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+	}
+	<span class="pl-c1">self</span>[index] <span class="pl-k">=</span> element
+}
+
+<span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">append</span>(<span class="pl-smi"><span class="pl-en">element</span></span>: T) {
+	<span class="pl-c1">insert</span>(<span class="pl-c1">element</span>: element, <span class="pl-c1">atIndex</span>: count)
+}
+
+<span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">remove</span>(<span class="pl-en">atIndex</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+	<span class="pl-k">let</span> element <span class="pl-k">=</span> <span class="pl-c1">self</span>[index]
+	<span class="pl-k">for</span> i <span class="pl-k">in</span> index<span class="pl-k">..&lt;</span>count <span class="pl-k">-</span> <span class="pl-c1">1</span> {
+		<span class="pl-c1">self</span>[i] <span class="pl-k">=</span> <span class="pl-c1">self</span>[i <span class="pl-k">+</span> <span class="pl-c1">1</span>]
+	}
+	internalCount <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+	<span class="pl-c1">makeNil</span>(<span class="pl-c1">atIndex</span>: count)
+	<span class="pl-c1">shrinkIfNeeded</span>()
+	<span class="pl-k">return</span> element
+}
+
+<span class="pl-k">fileprivate</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">makeNil</span>(<span class="pl-en">atIndex</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>) {
+  <span class="pl-k">let</span> block <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">block</span>(<span class="pl-c1">fromIndex</span>: index)
+  <span class="pl-k">let</span> innerBlockIndex <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">innerBlockIndex</span>(<span class="pl-c1">fromIndex</span>: index, <span class="pl-c1">fromBlock</span>: block)
+  blocks[block][innerBlockIndex] <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+}</pre></div>
+<p>To <code>insert(element:, atIndex:)</code> we move all elements after the <code>index</code> to the right by 1. After space has been made for the element, we set the value using the <code>subscript</code> convenience method.<br>
+<code>append(element:)</code> is just a convenience method to <code>insert</code> to the end.<br>
+To <code>remove(atIndex:)</code> we move all the elements after the <code>index</code> to the left by 1. After the removed value is covered by it's proceeding value, we set the last value in the structure to <code>nil</code>.<br>
+<code>makeNil(atIndex:)</code> uses the same logic as our <code>subscript</code> method but is used to set the root optional at a particular index to <code>nil</code> (because setting it's wrapped value to <code>nil</code> is something only the user of the data structure should do).</p>
+<blockquote>
+<p>Setting a optionals value to <code>nil</code> is different than setting it's wrapped value to <code>nil</code>. An optionals wrapped value is an embedded type within the optional reference. This means that a <code>nil</code> wrapped value is actually <code>.some(.none)</code> whereas setting the root reference to <code>nil</code> is <code>.none</code>. To better understand Swift optionals I recommend checking out <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=2922440" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/SebastianBoldt">@SebastianBoldt</a>'s article <a href="https://medium.com/ios-os-x-development/swift-optionals-78dafaa53f3#.rvjobhuzs" rel="nofollow">Swift! Optionals?</a>.</p>
+</blockquote>
+<h1>Performance</h1>
+<ul>
+<li>
+<p>An internal counter keeps track of the number of elements in the structure. <code>count</code> is executed in <strong>O(1)</strong> time.</p>
+</li>
+<li>
+<p><code>capacity</code> can be calculated using Gauss' summation trick in an equation which takes <strong>O(1)</strong> time to execute.</p>
+</li>
+<li>
+<p>Since <code>subcript[index:]</code> uses the <code>block</code> and <code>inner block index</code> equations, which can be executed in <strong>O(1)</strong> time, all get and set operations take <strong>O(1)</strong>.</p>
+</li>
+<li>
+<p>Ignoring the time cost to <code>grow</code> and <code>shrink</code>, <code>insert(atIndex:)</code> and <code>remove(atIndex:)</code> operations shift all elements right of the specified index resulting in <strong>O(n)</strong> time.</p>
+</li>
+</ul>
+<h1>Analysis of Growing and Shrinking</h1>
+<p>The performance analysis doesn't account for the cost to <code>grow</code> and <code>shrink</code>. Unlike a regular Swift array, <code>grow</code> and <code>shrink</code> operations don't copy all the elements into a backing array. They only allocate or free an array proportional to the number of <code>blocks</code>. The number of <code>blocks</code> is proportional to the  square root of the number of elements. Growing and shrinking only costs <strong>O(√n)</strong>.</p>
+<h1>Wasted Space</h1>
+<p>Wasted space is how much memory with respect to the number of elements <code>n</code> is unused. The Rootish Array Stack never has more than 2 empty blocks and it never has less than 1 empty block. The last two blocks are proportional to the number of blocks, which is proportional to the square root of the number of elements. The number of references needed to point to each block is the same as the number of blocks. Therefore, the amount of wasted space with respect to the number of elements is <strong>O(√n)</strong>.</p>
+<p><em>Written for Swift Algorithm Club by <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=11095731" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/BenEmdon">@BenEmdon</a></em></p>
+<p><em>With help from <a href="http://opendatastructures.org" rel="nofollow">OpenDataStructures.org</a></em></p></div>
+</body>
+</html>

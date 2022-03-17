@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<head>
+  <title>Bit Set</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Bit Set</h1>
+<p>A fixed-size sequence of <em>n</em> bits. Also known as bit array or bit vector.</p>
+<p>To store whether something is true or false you use a <code>Bool</code>. Every programmer knows that... But what if you need to remember whether 10,000 things are true or not?</p>
+<p>You could make an array of 10,000 booleans but you can also go hardcore and use 10,000 bits instead. That's a lot more compact because 10,000 bits fit in less than 160 <code>Int</code>s on a 64-bit CPU.</p>
+<p>Since manipulating individual bits is a little tricky, you can use <code>BitSet</code> to hide the dirty work.</p>
+<h2>The code</h2>
+<p>A bit set is simply a wrapper around an array. The array doesn't store individual bits but larger integers called the "words". The main job of <code>BitSet</code> is to map the bits to the right word.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">BitSet</span> {
+  <span class="pl-k">private</span>(<span class="pl-k">set</span>) <span class="pl-k">public</span> <span class="pl-k">var</span> size<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+
+  <span class="pl-k">private</span> <span class="pl-k">let</span> N <span class="pl-k">=</span> <span class="pl-c1">64</span>
+  <span class="pl-k">public</span> <span class="pl-k">typealias</span> <span class="pl-en">Word</span> <span class="pl-k">=</span> <span class="pl-c1">UInt64</span>
+  <span class="pl-k">fileprivate</span>(<span class="pl-k">set</span>) <span class="pl-k">public</span> <span class="pl-k">var</span> words<span class="pl-k">:</span> [<span class="pl-c1">Word</span>]
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">size</span></span>: <span class="pl-c1">Int</span>) {
+    <span class="pl-c1">precondition</span>(size <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>)
+    <span class="pl-c1">self</span>.<span class="pl-c1">size</span> <span class="pl-k">=</span> size
+
+    <span class="pl-c"><span class="pl-c">//</span> Round up the count to the next multiple of 64.</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> n <span class="pl-k">=</span> (size <span class="pl-k">+</span> (N<span class="pl-k">-</span><span class="pl-c1">1</span>)) <span class="pl-k">/</span> N
+    words <span class="pl-k">=</span> [<span class="pl-c1">Word</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">0</span>, <span class="pl-c1">count</span>: n)
+  }</pre></div>
+<p><code>N</code> is the bit size of the words. It is 64 because we store the bits in a list of unsigned 64-bit integers. (It's fairly easy to change <code>BitSet</code> to use 32-bit words instead.)</p>
+<p>If you write,</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> bits <span class="pl-k">=</span> <span class="pl-c1">BitSet</span>(<span class="pl-c1">size</span>: <span class="pl-c1">140</span>)</pre></div>
+<p>then the <code>BitSet</code> allocates an array of three words. Each word has 64 bits and therefore three words can hold 192 bits. We only use 140 of those bits so we're wasting a bit of space (but of course we can never use less than a whole word).</p>
+<blockquote>
+<p><strong>Note:</strong> The first entry in the <code>words</code> array is the least-significant word, so these words are stored in little endian order in the array.</p>
+</blockquote>
+<h2>Looking up the bits</h2>
+<p>Most of the operations on <code>BitSet</code> take the index of the bit as a parameter, so it's useful to have a way to find which word contains that bit.</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">indexOf</span>(<span class="pl-en">_</span> <span class="pl-smi">i</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> (<span class="pl-c1">Int</span>, <span class="pl-c1">Word</span>) {
+    <span class="pl-c1">precondition</span>(i <span class="pl-k">&gt;=</span> <span class="pl-c1">0</span>)
+    <span class="pl-c1">precondition</span>(i <span class="pl-k">&lt;</span> size)
+    <span class="pl-k">let</span> o <span class="pl-k">=</span> i <span class="pl-k">/</span> N
+    <span class="pl-k">let</span> m <span class="pl-k">=</span> <span class="pl-c1">Word</span>(i <span class="pl-k">-</span> o<span class="pl-k">*</span>N)
+    <span class="pl-k">return</span> (o, <span class="pl-c1">1</span> <span class="pl-k">&lt;&lt;</span> m)
+  }</pre></div>
+<p>The <code>indexOf()</code> function returns the array index of the word, as well as a "mask" that shows exactly where the bit sits inside that word.</p>
+<p>For example, <code>indexOf(2)</code> returns the tuple <code>(0, 4)</code> because bit 2 is in the first word (index 0). The mask is 4. In binary the mask looks like the following:</p>
+<pre><code>0010000000000000000000000000000000000000000000000000000000000000
+</code></pre>
+<p>That 1 points at the second bit in the word.</p>
+<blockquote>
+<p><strong>Note:</strong> Remember that everything is shown in little-endian order, including the bits themselves. Bit 0 is on the left, bit 63 on the right.</p>
+</blockquote>
+<p>Another example: <code>indexOf(127)</code> returns the tuple <code>(1, 9223372036854775808)</code>. It is the last bit of the second word. The mask is:</p>
+<pre><code>0000000000000000000000000000000000000000000000000000000000000001
+</code></pre>
+<p>Note that the mask is always 64 bits because we look at the data one word at a time.</p>
+<h2>Setting and getting bits</h2>
+<p>Now that we know where to find a bit, setting it to 1 is easy:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">set</span>(<span class="pl-en">_</span> <span class="pl-smi">i</span>: <span class="pl-c1">Int</span>) {
+    <span class="pl-k">let</span> (j, m) <span class="pl-k">=</span> <span class="pl-c1">indexOf</span>(i)
+    words[j] <span class="pl-k">|=</span> m
+  }</pre></div>
+<p>This looks up the word index and the mask, then performs a bitwise OR between that word and the mask. If the bit was 0 it becomes 1. If it was already set, then it remains set.</p>
+<p>Clearing the bit -- i.e. changing it to 0 -- is just as easy:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">clear</span>(<span class="pl-en">_</span> <span class="pl-smi">i</span>: <span class="pl-c1">Int</span>) {
+    <span class="pl-k">let</span> (j, m) <span class="pl-k">=</span> <span class="pl-c1">indexOf</span>(i)
+    words[j] <span class="pl-k">&amp;=</span> <span class="pl-k">~</span>m
+  }</pre></div>
+<p>Instead of a bitwise OR we now do a bitwise AND with the inverse of the mask. So if the mask was <code>00100000...0</code>, then the inverse is <code>11011111...1</code>. All the bits are 1, except for the bit we want to set to 0. Due to the way <code>&amp;</code> works, this leaves all other bits alone and only changes that single bit to 0.</p>
+<p>To see if a bit is set we also use the bitwise AND but without inverting:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">isSet</span>(<span class="pl-en">_</span> <span class="pl-smi">i</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">let</span> (j, m) <span class="pl-k">=</span> <span class="pl-c1">indexOf</span>(i)
+    <span class="pl-k">return</span> (words[j] <span class="pl-k">&amp;</span> m) <span class="pl-k">!=</span> <span class="pl-c1">0</span>
+  }</pre></div>
+<p>We can add a subscript function to make this all very natural to express:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">subscript</span>(<span class="pl-c1">i</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">get</span> { <span class="pl-k">return</span> <span class="pl-c1">isSet</span>(i) }
+    <span class="pl-k">set</span> { <span class="pl-k">if</span> newValue { <span class="pl-k">set</span>(i) } <span class="pl-k">else</span> { <span class="pl-c1">clear</span>(i) } }
+  }</pre></div>
+<p>Now you can write things like:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> bits <span class="pl-k">=</span> <span class="pl-c1">BitSet</span>(<span class="pl-c1">size</span>: <span class="pl-c1">140</span>)
+bits[<span class="pl-c1">2</span>] <span class="pl-k">=</span> <span class="pl-c1">true</span>
+bits[<span class="pl-c1">99</span>] <span class="pl-k">=</span> <span class="pl-c1">true</span>
+bits[<span class="pl-c1">128</span>] <span class="pl-k">=</span> <span class="pl-c1">true</span>
+<span class="pl-c1">print</span>(bits)</pre></div>
+<p>This will print the three words that the 140-bit <code>BitSet</code> uses to store everything:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">0010000000000000000000000000000000000000000000000000000000000000</span>
+<span class="pl-c1">0000000000000000000000000000000000010000000000000000000000000000</span>
+<span class="pl-c1">1000000000000000000000000000000000000000000000000000000000000000</span></pre></div>
+<p>Something else that's fun to do with bits is flipping them. This changes 0 into 1 and 1 into 0. Here's <code>flip()</code>:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">flip</span>(<span class="pl-en">_</span> <span class="pl-smi">i</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">let</span> (j, m) <span class="pl-k">=</span> <span class="pl-c1">indexOf</span>(i)
+    words[j] <span class="pl-k">^=</span> m
+    <span class="pl-k">return</span> (words[j] <span class="pl-k">&amp;</span> m) <span class="pl-k">!=</span> <span class="pl-c1">0</span>
+  }</pre></div>
+<p>This uses the remaining bitwise operator, exclusive-OR, to do the flipping. The function also returns the new value of the bit.</p>
+<h2>Ignoring the unused bits</h2>
+<p>A lot of the <code>BitSet</code> functions are quite easy to implement. For example, <code>clearAll()</code>, which resets all the bits to 0:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">clearAll</span>() {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>words.<span class="pl-c1">count</span> {
+      words[i] <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    }
+  }</pre></div>
+<p>There is also <code>setAll()</code> to make all the bits 1. However, this has to deal with a subtle issue.</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">setAll</span>() {
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>words.<span class="pl-c1">count</span> {
+      words[i] <span class="pl-k">=</span> allOnes
+    }
+    <span class="pl-c1">clearUnusedBits</span>()
+  }</pre></div>
+<p>First, we copy ones into all the words in our array. The array is now:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">1111111111111111111111111111111111111111111111111111111111111111</span>
+<span class="pl-c1">1111111111111111111111111111111111111111111111111111111111111111</span>
+<span class="pl-c1">1111111111111111111111111111111111111111111111111111111111111111</span></pre></div>
+<p>But this is incorrect... Since we don't use most of the last word, we should leave those bits at 0:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">1111111111111111111111111111111111111111111111111111111111111111</span>
+<span class="pl-c1">1111111111111111111111111111111111111111111111111111111111111111</span>
+<span class="pl-c1">1111111111110000000000000000000000000000000000000000000000000000</span></pre></div>
+<p>Instead of 192 one-bits we now have only 140 one-bits. The fact that the last word may not be completely filled up means that we always have to treat this last word specially.</p>
+<p>Setting those "leftover" bits to 0 is what the <code>clearUnusedBits()</code> helper function does. If the <code>BitSet</code>'s size is not a multiple of <code>N</code> (i.e. 64), then we have to clear out the bits that we're not using. If we don't do this, bitwise operations between two differently sized <code>BitSet</code>s will go wrong (an example follows).</p>
+<p>This uses some advanced bit manipulation, so pay close attention:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">lastWordMask</span>() <span class="pl-k">-&gt;</span> <span class="pl-c1">Word</span> {
+    <span class="pl-k">let</span> diff <span class="pl-k">=</span> words.<span class="pl-c1">count</span><span class="pl-k">*</span>N <span class="pl-k">-</span> size       <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>    <span class="pl-k">if</span> diff <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> {
+      <span class="pl-k">let</span> mask <span class="pl-k">=</span> <span class="pl-c1">1</span> <span class="pl-k">&lt;&lt;</span> <span class="pl-c1">Word</span>(<span class="pl-c1">63</span> <span class="pl-k">-</span> diff)     <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>      <span class="pl-k">return</span> mask <span class="pl-k">|</span> (mask <span class="pl-k">-</span> <span class="pl-c1">1</span>)            <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> <span class="pl-k">~</span><span class="pl-c1">Word</span>()
+    }
+  }
+
+  <span class="pl-k">private</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">clearUnusedBits</span>() {
+    words[words.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>] <span class="pl-k">&amp;=</span> <span class="pl-c1">lastWordMask</span>()   <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>  }  </pre></div>
+<p>Here's what it does, step-by-step:</p>
+<ol>
+<li>
+<p><code>diff</code> is the number of "leftover" bits. In the above example that is 52 because <code>3*64 - 140 = 52</code>.</p>
+</li>
+<li>
+<p>Create a mask that is all 0's, except the highest bit that's still valid is a 1. In our example, that would be:</p>
+<p>0000000000010000000000000000000000000000000000000000000000000000</p>
+</li>
+<li>
+<p>Subtract 1 to turn it into:</p>
+<p>1111111111100000000000000000000000000000000000000000000000000000</p>
+</li>
+</ol>
+<p>and add the high bit back in to get:</p>
+<pre><code>1111111111110000000000000000000000000000000000000000000000000000
+</code></pre>
+<p>There are now 12 one-bits in this word because <code>140 - 2*64 = 12</code>.</p>
+<ol start="4">
+<li>Finally, turn all the higher bits off. Any leftover bits in the last word are now all 0.</li>
+</ol>
+<p>An example of where this is important is when you combine two <code>BitSet</code>s of different sizes. For the sake of illustration, let's take the bitwise OR between two 8-bit values:</p>
+<pre><code>10001111  size=4
+00100011  size=8
+</code></pre>
+<p>The first one only uses the first 4 bits; the second one uses 8 bits. The first one should really be <code>10000000</code> but let's pretend we forgot to clear out those 1's at the end. Then a bitwise OR between the two results in:</p>
+<pre><code>10001111  
+00100011  
+-------- OR
+10101111
+</code></pre>
+<p>That is wrong since two of those 1-bits aren't supposed to be here. The correct way to do it is:</p>
+<pre><code>10000000       unused bits set to 0 first!
+00100011  
+-------- OR
+10100011
+</code></pre>
+<p>Here's how the <code>|</code> operator is implemented:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">|</span>(<span class="pl-smi"><span class="pl-en">lhs</span></span>: BitSet, <span class="pl-smi"><span class="pl-en">rhs</span></span>: BitSet) <span class="pl-k">-&gt;</span> BitSet {
+  <span class="pl-k">var</span> out <span class="pl-k">=</span> <span class="pl-c1">copyLargest</span>(lhs, rhs)
+  <span class="pl-k">let</span> n <span class="pl-k">=</span> <span class="pl-c1">min</span>(lhs.<span class="pl-smi">words</span>.<span class="pl-c1">count</span>, rhs.<span class="pl-smi">words</span>.<span class="pl-c1">count</span>)
+  <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>n {
+    out.<span class="pl-smi">words</span>[i] <span class="pl-k">=</span> lhs.<span class="pl-smi">words</span>[i] <span class="pl-k">|</span> rhs.<span class="pl-smi">words</span>[i]
+  }
+  <span class="pl-k">return</span> out
+}</pre></div>
+<p>Note that we <code>|</code> entire words together, not individual bits. That would be way too slow! We also need to do some extra work if the left-hand side and right-hand side have a different number of bits: we copy the largest of the two <code>BitSet</code>s into the <code>out</code> variable and then combine it with the words from the smaller <code>BitSet</code>.</p>
+<p>Example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> a <span class="pl-k">=</span> <span class="pl-c1">BitSet</span>(<span class="pl-c1">size</span>: <span class="pl-c1">4</span>)
+a.<span class="pl-c1">setAll</span>()
+a[<span class="pl-c1">1</span>] <span class="pl-k">=</span> <span class="pl-c1">false</span>
+a[<span class="pl-c1">2</span>] <span class="pl-k">=</span> <span class="pl-c1">false</span>
+a[<span class="pl-c1">3</span>] <span class="pl-k">=</span> <span class="pl-c1">false</span>
+<span class="pl-c1">print</span>(a)
+
+<span class="pl-k">var</span> b <span class="pl-k">=</span> <span class="pl-c1">BitSet</span>(<span class="pl-c1">size</span>: <span class="pl-c1">8</span>)
+b[<span class="pl-c1">2</span>] <span class="pl-k">=</span> <span class="pl-c1">true</span>
+b[<span class="pl-c1">6</span>] <span class="pl-k">=</span> <span class="pl-c1">true</span>
+b[<span class="pl-c1">7</span>] <span class="pl-k">=</span> <span class="pl-c1">true</span>
+<span class="pl-c1">print</span>(b)
+
+<span class="pl-k">let</span> c <span class="pl-k">=</span> a <span class="pl-k">|</span> b
+<span class="pl-c1">print</span>(c)        <span class="pl-c"><span class="pl-c">//</span> 1010001100000000...0</span></pre></div>
+<p>Bitwise AND (<code>&amp;</code>), exclusive-OR (<code>^</code>), and inversion (<code>~</code>) are implemented in a similar manner.</p>
+<h2>Counting the number of 1-bits</h2>
+<p>To count the number of bits that are set to 1 we could scan through the entire array -- an <strong>O(n)</strong> operation -- but there's a more clever method:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">var</span> cardinality<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">var</span> count <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">for</span> <span class="pl-k">var</span> x <span class="pl-k">in</span> words {
+      <span class="pl-k">while</span> x <span class="pl-k">!=</span> <span class="pl-c1">0</span> {
+        <span class="pl-k">let</span> y <span class="pl-k">=</span> x <span class="pl-k">&amp;</span> <span class="pl-k">~</span>(x <span class="pl-k">-</span> <span class="pl-c1">1</span>)  <span class="pl-c"><span class="pl-c">//</span> find lowest 1-bit</span>
+<span class="pl-c"></span>        x <span class="pl-k">=</span> x <span class="pl-k">^</span> y             <span class="pl-c"><span class="pl-c">//</span> and erase it</span>
+<span class="pl-c"></span>        <span class="pl-k">++</span>count
+      }
+    }
+    <span class="pl-k">return</span> count
+  }</pre></div>
+<p>When you write <code>x &amp; ~(x - 1)</code>, it gives you a new value with only a single bit set. This is the lowest bit that is one. For example take this 8-bit value (again, I'm showing this with the least significant bit on the left):</p>
+<pre><code>00101101
+</code></pre>
+<p>First we subtract 1 to get:</p>
+<pre><code>11001101
+</code></pre>
+<p>Then we invert it, flipping all the bits:</p>
+<pre><code>00110010
+</code></pre>
+<p>And take the bitwise AND with the original value:</p>
+<pre><code>00101101
+00110010
+-------- AND
+00100000
+</code></pre>
+<p>The only value they have in common is the lowest (or least significant) 1-bit. Then we erase that from the original value using exclusive-OR:</p>
+<pre><code>00101101
+00100000
+-------- XOR
+00001101
+</code></pre>
+<p>This is the original value but with the lowest 1-bit removed.</p>
+<p>We keep repeating this process until the value consists of all zeros. The time complexity is <strong>O(s)</strong> where <strong>s</strong> is the number of 1-bits.</p>
+<h2>Bit Shift Operations</h2>
+<p>Bit shifts are a common and very useful mechanism when dealing with bitsets. Here is the right-shift function:</p>
+<pre><code>public func &gt;&gt; (lhs: BitSet, numBitsRight: Int) -&gt; BitSet {
+    var out = lhs
+    let offset = numBitsRight / lhs.N
+    let shift = numBitsRight % lhs.N
+    for i in 0..&lt;lhs.words.count {
+        out.words[i] = 0
+        
+        if (i + offset &lt; lhs.words.count) {
+            out.words[i] = lhs.words[i + offset] &gt;&gt; shift
+        }
+        
+        if (i + offset + 1 &lt; lhs.words.count) {
+            out.words[i] |= lhs.words[i + offset + 1] &lt;&lt; (lhs.N - shift)
+        }
+    }
+
+    out.clearUnusedBits()
+    return out
+}
+</code></pre>
+<p>Let's start with this line:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>lhs.<span class="pl-smi">words</span>.<span class="pl-c1">count</span> {</pre></div>
+<p>This indicates our strategy: we want to go through each word of the result and assign the correct bits.</p>
+<p>The two internal if-statements inside this loop are assigning some bits from one place in the source number and bitwise OR-ing them with some bits from a second place in the source number. The key insight here is that the bits for any one word of the result comes from at most two source words in the input. So the only remaining trick is to calculate which ones. For this, we need these two numbers:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> offset <span class="pl-k">=</span> numBitsRight <span class="pl-k">/</span> lhs.<span class="pl-smi">N</span>
+<span class="pl-k">let</span> shift <span class="pl-k">=</span> numBitsRight <span class="pl-k">%</span> lhs.<span class="pl-smi">N</span></pre></div>
+<p>Offset gives us how many words away from the source word we start getting our bits (with the remainder coming from it's neighbour). Shift gives us how many bits we need to shift within that word. Note that both of these are calcuated using the word size <code>lhs.N</code>.</p>
+<p>All that's left if a little bit of protection against reading outside the bounds of the input. So these two if conditions protect against that:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> (i <span class="pl-k">+</span> offset <span class="pl-k">&lt;</span> lhs.<span class="pl-smi">words</span>.<span class="pl-c1">count</span>) {</pre></div>
+<p>and</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> (i <span class="pl-k">+</span> offset <span class="pl-k">+</span> <span class="pl-c1">1</span> <span class="pl-k">&lt;</span> lhs.<span class="pl-smi">words</span>.<span class="pl-c1">count</span>) {</pre></div>
+<p>Let's work through an example. Suppose our word length has been reduced to 8 bits, and we'd like to right-shift the following number by 10 bits:</p>
+<pre><code>01000010 11000000 00011100      &gt;&gt; 10
+</code></pre>
+<p>I've grouped each part of the number by word to make it easier to see what happens. The for-loop goes from least significant word to most significant. So for index zero we're want to know what bits will make up our least significant word. Let's calculate our offset and shift values:</p>
+<pre><code>offset = 10 / 8 = 1     (remember this is integer division)
+shift = 10 % 8 = 2
+</code></pre>
+<p>So we consult the word at offset 1 to get some of our bits:</p>
+<pre><code>11000000 &gt;&gt; 2 = 00110000
+</code></pre>
+<p>And we get the rest of them from the word one further away:</p>
+<pre><code>01000010 &lt;&lt; (8 - 2) = 10000000
+</code></pre>
+<p>And we bitwise OR these together to get our least significant term</p>
+<pre><code>00110000
+10000000
+-------- OR
+10110000
+</code></pre>
+<p>We repeat this for the 2nd least significant term and obtain:</p>
+<pre><code>00010000
+</code></pre>
+<p>The last term can't get any bits because they are past the end of our number so those are all zeros. Our result is:</p>
+<pre><code>00000000 00010000 10110000
+</code></pre>
+<h2>See also</h2>
+<p><a href="http://graphics.stanford.edu/~seander/bithacks.html" rel="nofollow">Bit Twiddling Hacks</a></p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

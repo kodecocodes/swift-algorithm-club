@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+  <title>Multiset</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Multiset</h1>
+<p>A multiset (also known as a bag) is a data structure similar to a regular set, but it can store multiple instances of the same element.</p>
+<p>For example, if I added the elements 1, 2, 2 to a regular set, the set would only contain two items, since adding 2 a second time has no effect.</p>
+<pre><code>var set = Set&lt;Int&gt;()
+set.add(1) // set is now [1]
+set.add(2) // set is now [1, 2]
+set.add(2) // set is still [1, 2]
+</code></pre>
+<p>By comparison, after adding the elements 1, 2, 2 to a multiset, it would contain three items.</p>
+<pre><code>var set = Multiset&lt;Int&gt;()
+set.add(1) // set is now [1]
+set.add(2) // set is now [1, 2]
+set.add(2) // set is now [1, 2, 2]
+</code></pre>
+<p>You might be thinking that this looks an awful lot like an array. So why would you use a multiset? Let's consider the differences between the two…</p>
+<ul>
+<li>Ordering: arrays maintain the order of items added to them, multisets do not</li>
+<li>Testing for membership: testing whether an element is a member of the collection is O(N) for arrays, O(1) for multisets.</li>
+<li>Testing for subset: testing whether collection X is a subset of collection Y is a simple operation for a multiset, but complex for arrays</li>
+</ul>
+<p>Typical operations on a multiset are:</p>
+<ul>
+<li>Add an element</li>
+<li>Remove an element</li>
+<li>Get the count for an element (the number of times it's been added)</li>
+<li>Get the count for the whole set (the number of items that have been added)</li>
+<li>Check whether it is a subset of another multiset</li>
+</ul>
+<p>One real-world use of multisets is to determine whether one string is a partial anagram of another. For example, the word "cacti" is a partial anagrams of "tactical". (In other words, I can rearrange the letters of "tactical" to make "cacti", with some letters left over.)</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> cacti <span class="pl-k">=</span> Multiset<span class="pl-k">&lt;</span><span class="pl-c1">Character</span><span class="pl-k">&gt;</span>(<span class="pl-s"><span class="pl-pds">"</span>cacti<span class="pl-pds">"</span></span>)
+<span class="pl-k">var</span> tactical <span class="pl-k">=</span> Multiset<span class="pl-k">&lt;</span><span class="pl-c1">Character</span><span class="pl-k">&gt;</span>(<span class="pl-s"><span class="pl-pds">"</span>tactical<span class="pl-pds">"</span></span>)
+cacti.<span class="pl-c1">isSubSet</span>(<span class="pl-c1">of</span>: tactical) <span class="pl-c"><span class="pl-c">//</span> true!</span></pre></div>
+<h2>Implementation</h2>
+<p>Under the hood, this implementation of Multiset uses a dictionary to store a mapping of elements to the number of times they've been added.</p>
+<p>Here's the essence of it:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Multiset</span>&lt;<span class="pl-c1">Element</span>: <span class="pl-e"><span class="pl-c1">Hashable</span></span>&gt; {
+  <span class="pl-k">private</span> <span class="pl-k">var</span> storage<span class="pl-k">:</span> [<span class="pl-c1">Element</span><span class="pl-k">:</span> <span class="pl-c1">UInt</span>] <span class="pl-k">=</span> [<span class="pl-k">:</span>]
+  
+  <span class="pl-k">public</span> <span class="pl-k">init</span>() {}</pre></div>
+<p>And here's how you'd use this class to create a multiset of strings:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> <span class="pl-k">set</span> <span class="pl-k">=</span> Multiset<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>()</pre></div>
+<p>Adding an element is a case of incrementing the counter for that element, or setting it to 1 if it doesn't already exist:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">add</span> (<span class="pl-en">_</span> <span class="pl-smi">elem</span>: <span class="pl-c1">Element</span>) {
+  storage[elem, <span class="pl-c1">default</span>: <span class="pl-c1">0</span>] <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+}</pre></div>
+<p>Here's how you'd use this method to add to the set we created earlier:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">set</span>.<span class="pl-c1">add</span>(<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>)
+<span class="pl-k">set</span>.<span class="pl-c1">add</span>(<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>) 
+<span class="pl-k">set</span>.<span class="pl-smi">allItems</span> <span class="pl-c"><span class="pl-c">//</span> returns ["foo", "foo"]</span></pre></div>
+<p>Our set now contains two elements, both the string "foo".</p>
+<p>Removing an element works much the same way as adding; decrement the counter for the element, or remove it from the underlying dictionary if its value is 1 before removal.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">remove</span> (<span class="pl-en">_</span> <span class="pl-smi">elem</span>: <span class="pl-c1">Element</span>) {
+  <span class="pl-k">if</span> <span class="pl-k">let</span> currentCount <span class="pl-k">=</span> storage[elem] {
+    <span class="pl-k">if</span> currentCount <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> {
+      storage[elem] <span class="pl-k">=</span> currentCount <span class="pl-k">-</span> <span class="pl-c1">1</span>
+    } <span class="pl-k">else</span> {
+      storage.<span class="pl-c1">removeValue</span>(<span class="pl-c1">forKey</span>: elem)
+    }
+  }
+}</pre></div>
+<p>Getting the count for an item is simple: we just return the value for the given item in the internal dictionary.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">count</span>(<span class="pl-en">for</span> <span class="pl-smi">key</span>: <span class="pl-c1">Element</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">UInt</span> {
+  <span class="pl-k">return</span> storage[key] <span class="pl-k">??</span> <span class="pl-c1">0</span>
+}</pre></div>
+<p><em>Written for the Swift Algorithm Club by Simon Whitaker</em></p></div>
+</body>
+</html>

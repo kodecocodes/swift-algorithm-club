@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<head>
+  <title>Tree</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Trees</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/138190/swift-algorithm-club-swift-tree-data-structure" rel="nofollow">here</a></p>
+</blockquote>
+<p>A tree represents hierarchical relationships between objects. This is a tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Tree.png"><img src="Images/Tree.png" alt="A tree" style="max-width:100%;"></a></p>
+<p>A tree consists of nodes, and these nodes are linked to one another.</p>
+<p>Nodes have links to their children and usually to their parent as well. The children are the nodes below a given node; the parent is the node above. A node always has just one parent but can have multiple children.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/ParentChildren.png"><img src="Images/ParentChildren.png" alt="A tree" style="max-width:100%;"></a></p>
+<p>A node without a parent is the <em>root</em> node. A node without children is a <em>leaf</em> node.</p>
+<p>The pointers in a tree do not form cycles. This is not a tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Cycles.png"><img src="Images/Cycles.png" alt="Not a tree" style="max-width:100%;"></a></p>
+<p>Such a structure is called a <a href="../Graph/">graph</a>. A tree is really a very simple form of a graph. (In a similar vein, a <a href="../Linked%20List/">linked list</a> is a simple version of a tree. Think about it!)</p>
+<p>This article talks about a general-purpose tree. That's a tree without any kind of restrictions on how many children each node may have, or on the order of the nodes in the tree.</p>
+<p>Here's a basic implementation in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">TreeNode</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">public</span> <span class="pl-k">var</span> value<span class="pl-k">:</span> T
+
+  <span class="pl-k">public</span> <span class="pl-k">weak</span> <span class="pl-k">var</span> parent<span class="pl-k">:</span> TreeNode<span class="pl-k">?</span>
+  <span class="pl-k">public</span> <span class="pl-k">var</span> children <span class="pl-k">=</span> [TreeNode<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>]()
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">value</span></span>: T) {
+    <span class="pl-c1">self</span>.<span class="pl-c1">value</span> <span class="pl-k">=</span> value
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">addChild</span>(<span class="pl-en">_</span> <span class="pl-smi">node</span>: TreeNode&lt;T&gt;) {
+    children.<span class="pl-c1">append</span>(node)
+    node.<span class="pl-smi">parent</span> <span class="pl-k">=</span> <span class="pl-c1">self</span>
+  }
+}</pre></div>
+<p>This describes a single node from the tree. It has a value of generic type <code>T</code>, a reference to a <code>parent</code> node, and an array of child nodes.</p>
+<p>It will be useful to add a <code>description</code> method so you can print the tree:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">TreeNode</span>: <span class="pl-e"><span class="pl-c1">CustomStringConvertible</span> </span>{
+  <span class="pl-k">public</span> <span class="pl-k">var</span> description<span class="pl-k">:</span> <span class="pl-c1">String</span> {
+    <span class="pl-k">var</span> s <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">value</span><span class="pl-pse"><span class="pl-s1">)</span></span><span class="pl-pds">"</span></span>
+    <span class="pl-k">if</span> <span class="pl-k">!</span>children.<span class="pl-c1">isEmpty</span> {
+      s <span class="pl-k">+=</span> <span class="pl-s"><span class="pl-pds">"</span> {<span class="pl-pds">"</span></span> <span class="pl-k">+</span> children.<span class="pl-c1">map</span> { <span class="pl-c1">$0</span>.<span class="pl-c1">description</span> }.<span class="pl-c1">joined</span>(<span class="pl-c1">separator</span>: <span class="pl-s"><span class="pl-pds">"</span>, <span class="pl-pds">"</span></span>) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>}<span class="pl-pds">"</span></span>
+    }
+    <span class="pl-k">return</span> s
+  }
+}</pre></div>
+<p>To see this in action in a playground:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> tree <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>beverages<span class="pl-pds">"</span></span>)
+
+<span class="pl-k">let</span> hotNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>hot<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> coldNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>cold<span class="pl-pds">"</span></span>)
+
+<span class="pl-k">let</span> teaNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>tea<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> coffeeNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>coffee<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> chocolateNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>cocoa<span class="pl-pds">"</span></span>)
+
+<span class="pl-k">let</span> blackTeaNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>black<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> greenTeaNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>green<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> chaiTeaNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>chai<span class="pl-pds">"</span></span>)
+
+<span class="pl-k">let</span> sodaNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>soda<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> milkNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>milk<span class="pl-pds">"</span></span>)
+
+<span class="pl-k">let</span> gingerAleNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>ginger ale<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> bitterLemonNode <span class="pl-k">=</span> TreeNode<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>(<span class="pl-c1">value</span>: <span class="pl-s"><span class="pl-pds">"</span>bitter lemon<span class="pl-pds">"</span></span>)
+
+tree.<span class="pl-c1">addChild</span>(hotNode)
+tree.<span class="pl-c1">addChild</span>(coldNode)
+
+hotNode.<span class="pl-c1">addChild</span>(teaNode)
+hotNode.<span class="pl-c1">addChild</span>(coffeeNode)
+hotNode.<span class="pl-c1">addChild</span>(chocolateNode)
+
+coldNode.<span class="pl-c1">addChild</span>(sodaNode)
+coldNode.<span class="pl-c1">addChild</span>(milkNode)
+
+teaNode.<span class="pl-c1">addChild</span>(blackTeaNode)
+teaNode.<span class="pl-c1">addChild</span>(greenTeaNode)
+teaNode.<span class="pl-c1">addChild</span>(chaiTeaNode)
+
+sodaNode.<span class="pl-c1">addChild</span>(gingerAleNode)
+sodaNode.<span class="pl-c1">addChild</span>(bitterLemonNode)</pre></div>
+<p>If you print out the value of <code>tree</code>, you'll get:</p>
+<pre><code>beverages {hot {tea {black, green, chai}, coffee, cocoa}, cold {soda {ginger ale, bitter lemon}, milk}}
+</code></pre>
+<p>That corresponds to the following structure:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Example.png"><img src="Images/Example.png" alt="Example tree" style="max-width:100%;"></a></p>
+<p>The <code>beverages</code> node is the root because it has no parent. The leaves are <code>black</code>, <code>green</code>, <code>chai</code>, <code>coffee</code>, <code>cocoa</code>, <code>ginger ale</code>, <code>bitter lemon</code>, <code>milk</code> because they don't have any child nodes.</p>
+<p>For any node you can look at the <code>parent</code> property and work your way back up to the root:</p>
+<div class="highlight highlight-source-swift"><pre>teaNode.<span class="pl-smi">parent</span>           <span class="pl-c"><span class="pl-c">//</span> this is the "hot" node</span>
+<span class="pl-c"></span>teaNode.<span class="pl-smi">parent</span><span class="pl-k">!</span>.<span class="pl-smi">parent</span>   <span class="pl-c"><span class="pl-c">//</span> this is the root</span></pre></div>
+<p>We often use the following definitions when talking about trees:</p>
+<ul>
+<li>
+<p><strong>Height of the tree.</strong> This is the number of links between the root node and the lowest leaf. In our example the height of the tree is 3 because it takes three jumps to go from the root to the bottom.</p>
+</li>
+<li>
+<p><strong>Depth of a node.</strong> The number of links between this node and the root node. For example, the depth of <code>tea</code> is 2 because it takes two jumps to reach the root. (The root itself has depth 0.)</p>
+</li>
+</ul>
+<p>There are many different ways to construct trees. For example, sometimes you don't need to have a <code>parent</code> property at all. Or maybe you only need to give each node a maximum of two children -- such a tree is called a <a href="../Binary%20Tree/">binary tree</a>. A very common type of tree is the <a href="../Binary%20Search%20Tree/">binary search tree</a> (or BST), a stricter version of a binary tree where the nodes are ordered in a particular way to speed up searches.</p>
+<p>The general purpose tree I've shown here is great for describing hierarchical data, but it really depends on your application what kind of extra functionality it needs to have.</p>
+<p>Here's an example of how you could use the <code>TreeNode</code> class to determine if the tree contains a particular value. You first look at the node's own <code>value</code> property. If there's no match, then you look at all your children in turn. Of course, those children are also <code>TreeNodes</code> so they will repeat the same process recursively: first look at their own value and then at their children. And their children will also do the same thing again, and so on... Recursion and trees go hand-in-hand.</p>
+<p>Here's the code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">TreeNode</span> <span class="pl-k">where</span> T<span class="pl-k">:</span> <span class="pl-e"><span class="pl-c1">Equatable</span></span> {
+  <span class="pl-k">func</span> <span class="pl-en">search</span>(<span class="pl-en">_</span> <span class="pl-smi">value</span>: T) <span class="pl-k">-&gt;</span> TreeNode<span class="pl-k">?</span> {
+    <span class="pl-k">if</span> value <span class="pl-k">==</span> <span class="pl-c1">self</span>.<span class="pl-c1">value</span> {
+      <span class="pl-k">return</span> <span class="pl-c1">self</span>
+    }
+    <span class="pl-k">for</span> child <span class="pl-k">in</span> children {
+      <span class="pl-k">if</span> <span class="pl-k">let</span> found <span class="pl-k">=</span> child.<span class="pl-c1">search</span>(value) {
+        <span class="pl-k">return</span> found
+      }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }
+}</pre></div>
+<p>And an example of how to use this:</p>
+<div class="highlight highlight-source-swift"><pre>tree.<span class="pl-c1">search</span>(<span class="pl-s"><span class="pl-pds">"</span>cocoa<span class="pl-pds">"</span></span>)    <span class="pl-c"><span class="pl-c">//</span> returns the "cocoa" node</span>
+<span class="pl-c"></span>tree.<span class="pl-c1">search</span>(<span class="pl-s"><span class="pl-pds">"</span>chai<span class="pl-pds">"</span></span>)     <span class="pl-c"><span class="pl-c">//</span> returns the "chai" node</span>
+<span class="pl-c"></span>tree.<span class="pl-c1">search</span>(<span class="pl-s"><span class="pl-pds">"</span>bubbly<span class="pl-pds">"</span></span>)   <span class="pl-c"><span class="pl-c">//</span> nil</span></pre></div>
+<p>It's also possible to describe a tree using nothing more than an array. The indices in the array then create the links between the different nodes. For example, if we have:</p>
+<pre><code>0 = beverage		5 = cocoa		9  = green
+1 = hot			6 = soda		10 = chai
+2 = cold		7 = milk		11 = ginger ale
+3 = tea			8 = black		12 = bitter lemon
+4 = coffee				
+</code></pre>
+<p>Then we can describe the tree with the following array:</p>
+<pre><code>[ -1, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 6, 6 ]
+</code></pre>
+<p>Each entry in the array is a pointer to its parent node. The item at index 3, <code>tea</code>, has the value 1 because its parent is <code>hot</code>. The root node points to <code>-1</code> because it has no parent. You can only traverse such trees from a node back to the root but not the other way around.</p>
+<p>By the way, sometimes you see algorithms using the term <em>forest</em>. Unsurprisingly, that is the name given to a collection of separate tree objects. For an example of this, see <a href="../Union-Find/">union-find</a>.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

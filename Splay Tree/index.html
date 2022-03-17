@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<head>
+  <title>Splay Tree</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Splay Tree</h1>
+<p>Splay tree is a data structure, structurally identitical to a balanced binary search tree. Every operation performed on a Splay Tree causes a readjustment in order to provide fast access to recently operated values. On every access, the tree is rearranged and the node accessed is moved to the root of the tree using a set of specific rotations, which together are referred to as <strong>Splaying</strong>.</p>
+<h2>Rotations</h2>
+<p>There are 3 types of rotations that can form an <strong>Splaying</strong>:</p>
+<ul>
+<li>ZigZig</li>
+<li>ZigZag</li>
+<li>Zig</li>
+</ul>
+<h3>Zig-Zig</h3>
+<p>Given a node <em>a</em> if <em>a</em> is not the root, and <em>a</em> has a child <em>b</em>, and both <em>a</em> and <em>b</em> are left children or right children, a <strong>Zig-Zig</strong> is performed.</p>
+<h3>Case both nodes right children</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/zigzig1.png"><img src="Images/zigzig1.png" alt="ZigZigCase1" style="max-width:100%;"></a></p>
+<h3>Case both nodes left children</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/zigzig2.png"><img src="Images/zigzig2.png" alt="ZigZigCase2" style="max-width:100%;"></a></p>
+<p><strong>IMPORTANT</strong> is to note that a <em>ZigZig</em> performs first the rotation of the middle node with its parent (call it the grandparent) and later the rotation of the remaining node (grandchild). Doing that helps to keep the trees balanced even if it was first created by inserted a sequence of increasing values (see below worst case scenario followed by an explanation about why ZigZig rotates first to the grandparent).</p>
+<h3>Zig-Zag</h3>
+<p>Given a node <em>a</em> if <em>a</em> is not the root, and <em>a</em> has a child <em>b</em>, and <em>b</em> is the left child of <em>a</em> being the right child (or the opposite), a <strong>Zig-Zag</strong> is performed.</p>
+<h3>Case right - left</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/zigzag1.png"><img src="Images/zigzag1.png" alt="ZigZagCase1" style="max-width:100%;"></a></p>
+<h3>Case left - right</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/zigzag2.png"><img src="Images/zigzag2.png" alt="ZigZagCase2" style="max-width:100%;"></a></p>
+<p><strong>IMPORTANT</strong> A <em>ZigZag</em> performs first the rotation of the grandchild node and later the same node with its new parent again.</p>
+<h3>Zig</h3>
+<p>A <strong>Zig</strong> is performed when the node <em>a</em> to be rotated has the root as parent.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/zig.png"><img src="Images/zig.png" alt="ZigCase" style="max-width:100%;"></a></p>
+<h2>Splaying</h2>
+<p>Splaying consists in making so many rotations as needed until the node affected by the operation is at the top and becomes the root of the tree.</p>
+<pre><code>while (node.parent != nil) {
+    operation(forNode: node).apply(onNode: node)
+}
+</code></pre>
+<p>Where operation returns the required rotation to be applied.</p>
+<pre><code>public static func operation&lt;T&gt;(forNode node: Node&lt;T&gt;) -&gt; SplayOperation {
+    
+    if let parent = node.parent, let _ = parent.parent {
+        if (node.isLeftChild &amp;&amp; parent.isRightChild) || (node.isRightChild &amp;&amp; parent.isLeftChild) {
+            return .zigZag
+        }
+        return .zigZig
+    }
+    return .zig
+}
+</code></pre>
+<p>During the applying phase, the algorithms determines which nodes are involved depending on the rotation to be applied and proceeding to re-arrange the node with its parent.</p>
+<pre><code>public func apply&lt;T&gt;(onNode node: Node&lt;T&gt;) {
+    switch self {
+    case .zigZag:
+        assert(node.parent != nil &amp;&amp; node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
+        rotate(child: node, parent: node.parent!)
+        rotate(child: node, parent: node.parent!)
+
+    case .zigZig:
+        assert(node.parent != nil &amp;&amp; node.parent!.parent != nil, "Should be at least 2 nodes up in the tree")
+        rotate(child: node.parent!, parent: node.parent!.parent!)
+        rotate(child: node, parent: node.parent!)
+    
+    case .zig:
+        assert(node.parent != nil &amp;&amp; node.parent!.parent == nil, "There should be a parent which is the root")
+        rotate(child: node, parent: node.parent!)
+    }
+}
+</code></pre>
+<h2>Operations on an Splay Tree</h2>
+<h3>Insertion</h3>
+<p>To insert a value:</p>
+<ul>
+<li>Insert it as in a binary search tree</li>
+<li>Splay the value to the root</li>
+</ul>
+<h3>Deletion</h3>
+<p>To delete a value:</p>
+<ul>
+<li>Delete it as in a binary search tree</li>
+<li>Splay the parent of the removed node to the root</li>
+</ul>
+<h3>Search</h3>
+<p>To search a value:</p>
+<ul>
+<li>Search for it as in a binary search tree</li>
+<li>Splay the node containing the value to the root</li>
+<li>If not found splay the node that would had been the parent of the searched value</li>
+</ul>
+<h3>Minimum and maximum</h3>
+<ul>
+<li>Search the tree for the required value</li>
+<li>Splay the node to the root</li>
+</ul>
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<p>Lets suppose a <em>find(20)</em> operation was performed and now the values <strong>20</strong> needs to be splayed to the root.<br>
+The sequence of steps will be the following:</p>
+<ol>
+<li>Since we are in a <em>ZigZig</em> case, we need to rotate <strong>9</strong> to <strong>4</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/examplezigzig1.png"><img src="Images/examplezigzig1.png" alt="ZiggEx1" style="max-width:100%;"></a></p>
+<ol start="2">
+<li>We got the following tree after the first rotation:</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/examplezigzig2.png"><img src="Images/examplezigzig2.png" alt="ZiggEx2" style="max-width:100%;"></a></p>
+<ol start="3">
+<li>And finally the <strong>20</strong> is rotated to the <strong>9</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/examplezigzig3.png"><img src="Images/examplezigzig3.png" alt="ZiggEx3" style="max-width:100%;"></a></p>
+<h3>Example 2</h3>
+<p>Now suppose a <em>insert(7)</em> operation was performed and we're in a <em>ZigZag</em> case.</p>
+<ol>
+<li>First <strong>7</strong> is rotated to <strong>9</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/example1-1.png"><img src="Images/example1-1.png" alt="ZigggEx21" style="max-width:100%;"></a></p>
+<ol start="2">
+<li>And the result tree is:</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/example1-2.png"><img src="Images/example1-2.png" alt="ZigggEx22" style="max-width:100%;"></a></p>
+<ol start="3">
+<li>Finally <strong>7</strong> is rotated to <strong>4</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/example1-3.png"><img src="Images/example1-3.png" alt="ZigggEx23" style="max-width:100%;"></a></p>
+<h2>Advantages</h2>
+<p>Splay trees provide an efficient way to quickly access elements that are frequently requested. This characteristic makes then a good choice to implement, for example, caches or garbage collection algorithms, or in any other problem involving frequent access to a certain numbers of elements from a data set.</p>
+<h2>Disadvantages</h2>
+<p>Splay tree are not perfectly balanced always, so in case of accessing all the elements in the tree in an increasing order, the height of the tree becomes <em>n</em>.</p>
+<h2>Time complexity</h2>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th align="center">Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average</td>
+<td align="center">O(log n)</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td align="center">n</td>
+</tr>
+</tbody>
+</table>
+<p>With <em>n</em> being the number of items in the tree.</p>
+<h1>An example of the Worst Case Performance</h1>
+<p>Suppose the a sequence of consecutive values are inserted in an Splay Tree.<br>
+Let's take for example [1,2,3,4,5,6,7,8].</p>
+<p>The tree construction will be like following:</p>
+<ol>
+<li>
+<p>Insert the number <strong>1</strong></p>
+</li>
+<li>
+<p>Insert <strong>2</strong></p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/worst-case-1.png"><img src="Images/worst-case-1.png" alt="WorstCase1" style="max-width:100%;"></a></p>
+<ol start="3">
+<li>Splay <strong>2</strong> to the root</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/worst-case-2.png"><img src="Images/worst-case-2.png" alt="WorstCase2" style="max-width:100%;"></a></p>
+<ol start="4">
+<li>Insert <strong>3</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/worst-case-3.png"><img src="Images/worst-case-3.png" alt="WorstCase3" style="max-width:100%;"></a></p>
+<ol start="5">
+<li>Splay <strong>3</strong> to the root</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/worst-case-4.png"><img src="Images/worst-case-4.png" alt="WorstCase4" style="max-width:100%;"></a></p>
+<ol start="6">
+<li>Insert <strong>4</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/worst-case-5.png"><img src="Images/worst-case-5.png" alt="WorstCase5" style="max-width:100%;"></a></p>
+<ol start="7">
+<li>After inserting the rest of the values the tree will look like this:</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/worst-case-6.png"><img src="Images/worst-case-6.png" alt="WorstCase6" style="max-width:100%;"></a></p>
+<p>If we keep insert number following the same sequence, that tree becomes inbalanced and have a height of <strong>n</strong> with <strong>n</strong> being the numbers of values inserted.<br>
+After getting this tree, a <em>find(1)</em> operation for example will take <strong>O(n)</strong></p>
+<h2>ZigZig rotation order: first grandparent</h2>
+<p>But thanks to the properties of the <strong>Splay Tree</strong> and the <em>ZigZig</em> rotations after the <em>find(1)</em> operation the tree becomes balanced again. This only happens if we respect the order of the <em>ZigZig</em> rotation, and the rotation to the grandparent happens first.</p>
+<p>The sequence of <em>ZigZigs</em> rotations will look like follows:</p>
+<ol>
+<li>Rotate <strong>2</strong> to <strong>3</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/example-zigzig-1.png"><img src="Images/example-zigzig-1.png" alt="ZigZig1" style="max-width:100%;"></a></p>
+<ol start="2">
+<li>Rotate <strong>1</strong> to <strong>2</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/example-zigzig-2.png"><img src="Images/example-zigzig-2.png" alt="ZigZig2" style="max-width:100%;"></a></p>
+<ol start="3">
+<li>Rotate <strong>4</strong> to <strong>5</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/example-zigzig-3.png"><img src="Images/example-zigzig-3.png" alt="ZigZig3" style="max-width:100%;"></a></p>
+<ol start="4">
+<li>Rotate <strong>1</strong> to <strong>4</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/example-zigzig-4.png"><img src="Images/example-zigzig-4.png" alt="ZigZig4" style="max-width:100%;"></a></p>
+<ol start="5">
+<li>Finally after splaying <strong>1</strong> to the root the tree will look like this:</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/example-zigzig-5.png"><img src="Images/example-zigzig-5.png" alt="ZigZig5" style="max-width:100%;"></a></p>
+<p>Based on the example above, we can see why it's important to rotate first to the grandparent. We got a tree of height = 6, from an initial tree of height = 8. If the tree would had been taller, we would have achieved almost half of the initial height after the splaying operation.</p>
+<h2>ZigZig wrong rotation order</h2>
+<p>If the rotations would had been taking first the parent and not the grandparent we would have finished with the following, yet unbalanced tree, just inverting the side of the elements.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/zigzig-wrongrotated.png"><img src="Images/zigzig-wrongrotated.png" alt="ZigZigWrong" style="max-width:100%;"></a></p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Splay_tree" rel="nofollow">Splay Tree on Wikipedia</a></p>
+<p><a href="https://www.youtube.com/watch?v=8Zs1lj_bUV0" rel="nofollow">Splay Tree by University of California in Berkeley - CS 61B Lecture 34</a></p>
+<hr>
+<p><em>Written for Swift Algorithm Club by Barbara Martina Rodeker</em></p>
+<hr></div>
+</body>
+</html>

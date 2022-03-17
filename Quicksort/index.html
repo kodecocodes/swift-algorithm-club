@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<head>
+  <title>Quicksort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Quicksort</h1>
+<p>Goal: Sort an array from low to high (or high to low).</p>
+<p>Quicksort is one of the most famous algorithms in history. It was invented way back in 1959 by Tony Hoare, at a time when recursion was still a fairly nebulous concept.</p>
+<p>Here's an implementation in Swift that should be easy to understand:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">quicksort</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: [T]) <span class="pl-k">-&gt;</span> [T] {
+  <span class="pl-k">guard</span> a.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> <span class="pl-k">else</span> { <span class="pl-k">return</span> a }
+
+  <span class="pl-k">let</span> pivot <span class="pl-k">=</span> a[a.<span class="pl-c1">count</span><span class="pl-k">/</span><span class="pl-c1">2</span>]
+  <span class="pl-k">let</span> less <span class="pl-k">=</span> a.<span class="pl-c1">filter</span> { <span class="pl-c1">$0</span> <span class="pl-k">&lt;</span> pivot }
+  <span class="pl-k">let</span> equal <span class="pl-k">=</span> a.<span class="pl-c1">filter</span> { <span class="pl-c1">$0</span> <span class="pl-k">==</span> pivot }
+  <span class="pl-k">let</span> greater <span class="pl-k">=</span> a.<span class="pl-c1">filter</span> { <span class="pl-c1">$0</span> <span class="pl-k">&gt;</span> pivot }
+
+  <span class="pl-k">return</span> <span class="pl-c1">quicksort</span>(less) <span class="pl-k">+</span> equal <span class="pl-k">+</span> <span class="pl-c1">quicksort</span>(greater)
+}</pre></div>
+<p>Put this code in a playground and test it like so:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> list <span class="pl-k">=</span> [ <span class="pl-c1">10</span>, <span class="pl-c1">0</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">2</span>, <span class="pl-c1">14</span>, <span class="pl-c1">8</span>, <span class="pl-c1">27</span>, <span class="pl-c1">1</span>, <span class="pl-c1">5</span>, <span class="pl-c1">8</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">26</span> ]
+<span class="pl-c1">quicksort</span>(list)</pre></div>
+<p>Here's how it works. When given an array, <code>quicksort()</code> splits it up into three parts based on a "pivot" variable. Here, the pivot is taken to be the element in the middle of the array (later on you'll see other ways to choose the pivot).</p>
+<p>All the elements less than the pivot go into a new array called <code>less</code>. All the elements equal to the pivot go into the <code>equal</code> array. And you guessed it, all elements greater than the pivot go into the third array, <code>greater</code>. This is why the generic type <code>T</code> must be <code>Comparable</code>, so we can compare the elements with <code>&lt;</code>, <code>==</code>, and <code>&gt;</code>.</p>
+<p>Once we have these three arrays, <code>quicksort()</code> recursively sorts the <code>less</code> array and the <code>greater</code> array, then glues those sorted subarrays back together with the <code>equal</code> array to get the final result.</p>
+<h2>An example</h2>
+<p>Let's walk through the example. The array is initially:</p>
+<pre><code>[ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
+</code></pre>
+<p>First, we pick the pivot element. That is <code>8</code> because it's in the middle of the array. Now we split the array into the less, equal, and greater parts:</p>
+<pre><code>less:    [ 0, 3, 2, 1, 5, -1 ]
+equal:   [ 8, 8 ]
+greater: [ 10, 9, 14, 27, 26 ]
+</code></pre>
+<p>This is a good split because <code>less</code> and <code>greater</code> roughly contain the same number of elements. So we've picked a good pivot that chopped the array right down the middle.</p>
+<p>Note that the <code>less</code> and <code>greater</code> arrays aren't sorted yet, so we call <code>quicksort()</code> again to sort those two subarrays. That does the exact same thing: pick a pivot and split the subarray into three even smaller parts.</p>
+<p>Let's just take a look at the <code>less</code> array:</p>
+<pre><code>[ 0, 3, 2, 1, 5, -1 ]
+</code></pre>
+<p>The pivot element is the one in the middle, <code>1</code>. (You could also have picked <code>2</code>, it doesn't matter.) Again, we create three subarrays around the pivot:</p>
+<pre><code>less:    [ 0, -1 ]
+equal:   [ 1 ]
+greater: [ 3, 2, 5 ]
+</code></pre>
+<p>We're not done yet and <code>quicksort()</code> again is called recursively on the <code>less</code> and <code>greater</code> arrays. Let's look at <code>less</code> again:</p>
+<pre><code>[ 0, -1 ]
+</code></pre>
+<p>As pivot we pick <code>-1</code>. Now the subarrays are:</p>
+<pre><code>less:    [ ]
+equal:   [ -1 ]
+greater: [ 0 ]
+</code></pre>
+<p>The <code>less</code> array is empty because there was no value smaller than <code>-1</code>; the other arrays contain a single element each. That means we're done at this level of the recursion, and we go back up to sort the previous <code>greater</code> array.</p>
+<p>That <code>greater</code> array was:</p>
+<pre><code>[ 3, 2, 5 ]
+</code></pre>
+<p>This works just the same way as before: we pick the middle element <code>2</code> as the pivot and fill up the subarrays:</p>
+<pre><code>less:    [ ]
+equal:   [ 2 ]
+greater: [ 3, 5 ]
+</code></pre>
+<p>Note that here it would have been better to pick <code>3</code> as the pivot -- we would have been done sooner. But now we have to recurse into the <code>greater</code> array again to make sure it is sorted. This is why picking a good pivot is important. When you pick too many "bad" pivots, quicksort actually becomes really slow. More on that below.</p>
+<p>When we partition the <code>greater</code> subarray, we find:</p>
+<pre><code>less:    [ 3 ]
+equal:   [ 5 ]
+greater: [ ]
+</code></pre>
+<p>And now we're done at this level of the recursion because we can't split up the arrays any further.</p>
+<p>This process repeats until all the subarrays have been sorted. In a picture:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Example.png"><img src="Images/Example.png" alt="Example" style="max-width:100%;"></a></p>
+<p>Now if you read the colored boxes from left to right, you get the sorted array:</p>
+<pre><code>[ -1, 0, 1, 2, 3, 5, 8, 8, 9, 10, 14, 26, 27 ]
+</code></pre>
+<p>This shows that <code>8</code> was a good initial pivot because it appears in the middle of the sorted array too.</p>
+<p>I hope this makes the basic principle clear of how quicksort works. Unfortunately, this version of quicksort isn't very quick, because we <code>filter()</code> the same array three times. There are more clever ways to split up the array.</p>
+<h2>Partitioning</h2>
+<p>Dividing the array around the pivot is called <em>partitioning</em> and there are a few different partitioning schemes.</p>
+<p>If the array is,</p>
+<pre><code>[ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
+</code></pre>
+<p>and we choose the middle element <code>8</code> as a pivot then after partitioning the array will look like this:</p>
+<pre><code>[ 0, 3, 2, 1, 5, -1, 8, 8, 10, 9, 14, 27, 26 ]
+  -----------------        -----------------
+  all elements &lt; 8         all elements &gt; 8
+</code></pre>
+<p>The key thing to realize is that after partitioning the pivot element is in its final sorted place already. The rest of the numbers are not sorted yet, they are simply partitioned around the pivot value. Quicksort partitions the array many times over, until all the values are in their final places.</p>
+<p>There is no guarantee that partitioning keeps the elements in the same relative order, so after partitioning around pivot <code>8</code> you could also end up with something like this:</p>
+<pre><code>[ 3, 0, 5, 2, -1, 1, 8, 8, 14, 26, 10, 27, 9 ]
+</code></pre>
+<p>The only guarantee is that to the left of the pivot are all the smaller elements and to the right are all the larger elements. Because partitioning can change the original order of equal elements, quicksort does not produce a "stable" sort (unlike <a href="../Merge%20Sort/">merge sort</a>, for example). Most of the time that's not a big deal.</p>
+<h2>Lomuto's partitioning scheme</h2>
+<p>In the first example of quicksort I showed you, partitioning was done by calling Swift's <code>filter()</code> function three times. That is not very efficient. So let's look at a smarter partitioning algorithm that works <em>in place</em>, i.e. by modifying the original array.</p>
+<p>Here's an implementation of Lomuto's partitioning scheme in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">partitionLomuto</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: <span class="pl-k">inout</span> [T], <span class="pl-smi"><span class="pl-en">low</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">high</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">let</span> pivot <span class="pl-k">=</span> a[high]
+
+  <span class="pl-k">var</span> i <span class="pl-k">=</span> low
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> low<span class="pl-k">..&lt;</span>high {
+    <span class="pl-k">if</span> a[j] <span class="pl-k">&lt;=</span> pivot {
+      (a[i], a[j]) <span class="pl-k">=</span> (a[j], a[i])
+      i <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    }
+  }
+
+  (a[i], a[high]) <span class="pl-k">=</span> (a[high], a[i])
+  <span class="pl-k">return</span> i
+}</pre></div>
+<p>To test this in a playground, do:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> list <span class="pl-k">=</span> [ <span class="pl-c1">10</span>, <span class="pl-c1">0</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">2</span>, <span class="pl-c1">14</span>, <span class="pl-c1">26</span>, <span class="pl-c1">27</span>, <span class="pl-c1">1</span>, <span class="pl-c1">5</span>, <span class="pl-c1">8</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">8</span> ]
+<span class="pl-k">let</span> p <span class="pl-k">=</span> <span class="pl-c1">partitionLomuto</span>(<span class="pl-k">&amp;</span>list, <span class="pl-c1">low</span>: <span class="pl-c1">0</span>, <span class="pl-c1">high</span>: list.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+list  <span class="pl-c"><span class="pl-c">//</span> show the results</span></pre></div>
+<p>Note that <code>list</code> needs to be a <code>var</code> because <code>partitionLomuto()</code> directly changes the contents of the array (it is passed as an <code>inout</code> parameter). That is much more efficient than allocating a new array object.</p>
+<p>The <code>low</code> and <code>high</code> parameters are necessary because when this is used inside quicksort, you don't always want to (re)partition the entire array, only a limited range that becomes smaller and smaller.</p>
+<p>Previously we used the middle array element as the pivot but it's important to realize that the Lomuto algorithm always uses the <em>last</em> element, <code>a[high]</code>, for the pivot. Because we've been pivoting around <code>8</code> all this time, I swapped the positions of <code>8</code> and <code>26</code> in the example so that <code>8</code> is at the end of the array and is used as the pivot value here too.</p>
+<p>After partitioning, the array looks like this:</p>
+<pre><code>[ 0, 3, 2, 1, 5, 8, -1, 8, 9, 10, 14, 26, 27 ]
+                        *
+</code></pre>
+<p>The variable <code>p</code> contains the return value of the call to <code>partitionLomuto()</code> and is 7. This is the index of the pivot element in the new array (marked with a star).</p>
+<p>The left partition goes from 0 to <code>p-1</code> and is <code>[ 0, 3, 2, 1, 5, 8, -1 ]</code>. The right partition goes from <code>p+1</code> to the end, and is <code>[ 9, 10, 14, 26, 27 ]</code> (the fact that the right partition is already sorted is a coincidence).</p>
+<p>You may notice something interesting... The value <code>8</code> occurs more than once in the array. One of those <code>8</code>s did not end up neatly in the middle but somewhere in the left partition. That's a small downside of the Lomuto algorithm as it makes quicksort slower if there are a lot of duplicate elements.</p>
+<p>So how does the Lomuto algorithm actually work? The magic happens in the <code>for</code> loop. This loop divides the array into four regions:</p>
+<ol>
+<li><code>a[low...i]</code> contains all values &lt;= pivot</li>
+<li><code>a[i+1...j-1]</code> contains all values &gt; pivot</li>
+<li><code>a[j...high-1]</code> are values we haven't looked at yet</li>
+<li><code>a[high]</code> is the pivot value</li>
+</ol>
+<p>In ASCII art the array is divided up like this:</p>
+<pre><code>[ values &lt;= pivot | values &gt; pivot | not looked at yet | pivot ]
+  low           i   i+1        j-1   j          high-1   high
+</code></pre>
+<p>The loop looks at each element from <code>low</code> to <code>high-1</code> in turn. If the value of the current element is less than or equal to the pivot, it is moved into the first region using a swap.</p>
+<blockquote>
+<p><strong>Note:</strong> In Swift, the notation <code>(x, y) = (y, x)</code> is a convenient way to perform a swap between the values of <code>x</code> and <code>y</code>. You can also write <code>swap(&amp;x, &amp;y)</code>.</p>
+</blockquote>
+<p>After the loop is over, the pivot is still the last element in the array. So we swap it with the first element that is greater than the pivot. Now the pivot sits between the &lt;= and &gt; regions and the array is properly partitioned.</p>
+<p>Let's step through the example. The array we're starting with is:</p>
+<pre><code>[| 10, 0, 3, 9, 2, 14, 26, 27, 1, 5, 8, -1 | 8 ]
+   low                                       high
+   i
+   j
+</code></pre>
+<p>Initially, the "not looked at" region stretches from index 0 to 11. The pivot is at index 12. The "values &lt;= pivot" and "values &gt; pivot" regions are empty, because we haven't looked at any values yet.</p>
+<p>Look at the first value, <code>10</code>. Is this smaller than the pivot? No, skip to the next element.</p>
+<pre><code>[| 10 | 0, 3, 9, 2, 14, 26, 27, 1, 5, 8, -1 | 8 ]
+   low                                        high
+   i
+       j
+</code></pre>
+<p>Now the "not looked at" region goes from index 1 to 11, the "values &gt; pivot" region contains the number <code>10</code>, and "values &lt;= pivot" is still empty.</p>
+<p>Look at the second value, <code>0</code>. Is this smaller than the pivot? Yes, so swap <code>10</code> with <code>0</code> and move <code>i</code> ahead by one.</p>
+<pre><code>[ 0 | 10 | 3, 9, 2, 14, 26, 27, 1, 5, 8, -1 | 8 ]
+  low                                         high
+      i
+           j
+</code></pre>
+<p>Now "not looked at" goes from index 2 to 11, "values &gt; pivot" still contains <code>10</code>, and "values &lt;= pivot" contains the number <code>0</code>.</p>
+<p>Look at the third value, <code>3</code>. This is smaller than the pivot, so swap it with <code>10</code> to get:</p>
+<pre><code>[ 0, 3 | 10 | 9, 2, 14, 26, 27, 1, 5, 8, -1 | 8 ]
+  low                                         high
+         i
+             j
+</code></pre>
+<p>The "values &lt;= pivot" region is now <code>[ 0, 3 ]</code>. Let's do one more... <code>9</code> is greater than the pivot, so simply skip ahead:</p>
+<pre><code>[ 0, 3 | 10, 9 | 2, 14, 26, 27, 1, 5, 8, -1 | 8 ]
+  low                                         high
+         i
+                 j
+</code></pre>
+<p>Now the "values &gt; pivot" region contains <code>[ 10, 9 ]</code>. If we keep going this way, then eventually we end up with:</p>
+<pre><code>[ 0, 3, 2, 1, 5, 8, -1 | 27, 9, 10, 14, 26 | 8 ]
+  low                                        high
+                         i                   j
+</code></pre>
+<p>The final thing to do is to put the pivot into place by swapping <code>a[i]</code> with <code>a[high]</code>:</p>
+<pre><code>[ 0, 3, 2, 1, 5, 8, -1 | 8 | 9, 10, 14, 26, 27 ]
+  low                                       high
+                         i                  j
+</code></pre>
+<p>And we return <code>i</code>, the index of the pivot element.</p>
+<blockquote>
+<p><strong>Note:</strong> If you're still not entirely clear on how the algorithm works, I suggest you play with this in the playground to see exactly how the loop creates these four regions.</p>
+</blockquote>
+<p>Let's use this partitioning scheme to build quicksort. Here's the code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">quicksortLomuto</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: <span class="pl-k">inout</span> [T], <span class="pl-smi"><span class="pl-en">low</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">high</span></span>: <span class="pl-c1">Int</span>) {
+  <span class="pl-k">if</span> low <span class="pl-k">&lt;</span> high {
+    <span class="pl-k">let</span> p <span class="pl-k">=</span> <span class="pl-c1">partitionLomuto</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: low, <span class="pl-c1">high</span>: high)
+    <span class="pl-c1">quicksortLomuto</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: low, <span class="pl-c1">high</span>: p <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+    <span class="pl-c1">quicksortLomuto</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: p <span class="pl-k">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">high</span>: high)
+  }
+}</pre></div>
+<p>This is now super simple. We first call <code>partitionLomuto()</code> to reorder the array around the pivot (which is always the last element from the array). And then we call <code>quicksortLomuto()</code> recursively to sort the left and right partitions.</p>
+<p>Try it out:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> list <span class="pl-k">=</span> [ <span class="pl-c1">10</span>, <span class="pl-c1">0</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">2</span>, <span class="pl-c1">14</span>, <span class="pl-c1">26</span>, <span class="pl-c1">27</span>, <span class="pl-c1">1</span>, <span class="pl-c1">5</span>, <span class="pl-c1">8</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">8</span> ]
+<span class="pl-c1">quicksortLomuto</span>(<span class="pl-k">&amp;</span>list, <span class="pl-c1">low</span>: <span class="pl-c1">0</span>, <span class="pl-c1">high</span>: list.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>)</pre></div>
+<p>Lomuto's isn't the only partitioning scheme but it's probably the easiest to understand. It's not as efficient as Hoare's scheme, which requires fewer swap operations.</p>
+<h2>Hoare's partitioning scheme</h2>
+<p>This partitioning scheme is by Hoare, the inventor of quicksort.</p>
+<p>Here is the code:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">partitionHoare</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: <span class="pl-k">inout</span> [T], <span class="pl-smi"><span class="pl-en">low</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">high</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+  <span class="pl-k">let</span> pivot <span class="pl-k">=</span> a[low]
+  <span class="pl-k">var</span> i <span class="pl-k">=</span> low <span class="pl-k">-</span> <span class="pl-c1">1</span>
+  <span class="pl-k">var</span> j <span class="pl-k">=</span> high <span class="pl-k">+</span> <span class="pl-c1">1</span>
+
+  <span class="pl-k">while</span> <span class="pl-c1">true</span> {
+    <span class="pl-k">repeat</span> { j <span class="pl-k">-=</span> <span class="pl-c1">1</span> } <span class="pl-k">while</span> a[j] <span class="pl-k">&gt;</span> pivot
+    <span class="pl-k">repeat</span> { i <span class="pl-k">+=</span> <span class="pl-c1">1</span> } <span class="pl-k">while</span> a[i] <span class="pl-k">&lt;</span> pivot
+
+    <span class="pl-k">if</span> i <span class="pl-k">&lt;</span> j {
+      a.<span class="pl-c1">swapAt</span>(i, j)
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> j
+    }
+  }
+}</pre></div>
+<p>To test this in a playground, do:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> list <span class="pl-k">=</span> [ <span class="pl-c1">8</span>, <span class="pl-c1">0</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">2</span>, <span class="pl-c1">14</span>, <span class="pl-c1">10</span>, <span class="pl-c1">27</span>, <span class="pl-c1">1</span>, <span class="pl-c1">5</span>, <span class="pl-c1">8</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">26</span> ]
+<span class="pl-k">let</span> p <span class="pl-k">=</span> <span class="pl-c1">partitionHoare</span>(<span class="pl-k">&amp;</span>list, <span class="pl-c1">low</span>: <span class="pl-c1">0</span>, <span class="pl-c1">high</span>: list.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+list  <span class="pl-c"><span class="pl-c">//</span> show the results</span></pre></div>
+<p>Note that with Hoare's scheme, the pivot is always expected to be the <em>first</em> element in the array, <code>a[low]</code>. Again, we're using <code>8</code> as the pivot element.</p>
+<p>The result is:</p>
+<pre><code>[ -1, 0, 3, 8, 2, 5, 1, 27, 10, 14, 9, 8, 26 ]
+</code></pre>
+<p>Note that this time the pivot isn't in the middle at all. Unlike with Lomuto's scheme, the return value is not necessarily the index of the pivot element in the new array.</p>
+<p>Instead, the array is partitioned into the regions <code>[low...p]</code> and <code>[p+1...high]</code>. Here, the return value <code>p</code> is 6, so the two partitions are <code>[ -1, 0, 3, 8, 2, 5, 1 ]</code> and <code>[ 27, 10, 14, 9, 8, 26 ]</code>.</p>
+<p>The pivot is placed somewhere inside one of the two partitions, but the algorithm doesn't tell you which one or where. If the pivot value occurs more than once, then some instances may appear in the left partition and others may appear in the right partition.</p>
+<p>Because of these differences, the implementation of Hoare's quicksort is slightly different:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">quicksortHoare</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: <span class="pl-k">inout</span> [T], <span class="pl-smi"><span class="pl-en">low</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">high</span></span>: <span class="pl-c1">Int</span>) {
+  <span class="pl-k">if</span> low <span class="pl-k">&lt;</span> high {
+    <span class="pl-k">let</span> p <span class="pl-k">=</span> <span class="pl-c1">partitionHoare</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: low, <span class="pl-c1">high</span>: high)
+    <span class="pl-c1">quicksortHoare</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: low, <span class="pl-c1">high</span>: p)
+    <span class="pl-c1">quicksortHoare</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: p <span class="pl-k">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">high</span>: high)
+  }
+}</pre></div>
+<p>I'll leave it as an exercise for the reader to figure out exactly how Hoare's partitioning scheme works. :-)</p>
+<h2>Picking a good pivot</h2>
+<p>Lomuto's partitioning scheme always chooses the last array element for the pivot. Hoare's scheme uses the first element. But there is no guarantee that these pivots are any good.</p>
+<p>Here is what happens when you pick a bad value for the pivot. Let's say the array is,</p>
+<pre><code>[ 7, 6, 5, 4, 3, 2, 1 ]
+</code></pre>
+<p>and we're using Lomuto's scheme. The pivot is the last element, <code>1</code>. After pivoting, we have the following arrays:</p>
+<pre><code>   less than pivot: [ ]
+    equal to pivot: [ 1 ]
+greater than pivot: [ 7, 6, 5, 4, 3, 2 ]
+</code></pre>
+<p>Now recursively partition the "greater than" subarray and get:</p>
+<pre><code>   less than pivot: [ ]
+    equal to pivot: [ 2 ]
+greater than pivot: [ 7, 6, 5, 4, 3 ]
+</code></pre>
+<p>And again:</p>
+<pre><code>   less than pivot: [ ]
+    equal to pivot: [ 3 ]
+greater than pivot: [ 7, 6, 5, 4 ]
+</code></pre>
+<p>And so on...</p>
+<p>That's no good, because this pretty much reduces quicksort to the much slower insertion sort. For quicksort to be efficient, it needs to split the array into roughly two halves.</p>
+<p>The optimal pivot for this example would have been <code>4</code>, so we'd get:</p>
+<pre><code>   less than pivot: [ 3, 2, 1 ]
+    equal to pivot: [ 4 ]
+greater than pivot: [ 7, 6, 5 ]
+</code></pre>
+<p>You might think this means we should always choose the middle element rather than the first or the last, but imagine what happens in the following situation:</p>
+<pre><code>[ 7, 6, 5, 1, 4, 3, 2 ]
+</code></pre>
+<p>Now the middle element is <code>1</code> and that gives the same lousy results as in the previous example.</p>
+<p>Ideally, the pivot is the <em>median</em> element of the array that you're partitioning, i.e. the element that sits in the middle of the sorted array. Of course, you won't know what the median is until after you've sorted the array, so this is a bit of a chicken-and-egg problem. However, there are some tricks to choose good, if not ideal, pivots.</p>
+<p>One trick is "median-of-three", where you find the median of the first, middle, and last element in this subarray. In theory that often gives a good approximation of the true median.</p>
+<p>Another common solution is to choose the pivot randomly. Sometimes this may result in choosing a suboptimal pivot but on average this gives very good results.</p>
+<p>Here is how you can do quicksort with a randomly chosen pivot:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">quicksortRandom</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: <span class="pl-k">inout</span> [T], <span class="pl-smi"><span class="pl-en">low</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">high</span></span>: <span class="pl-c1">Int</span>) {
+  <span class="pl-k">if</span> low <span class="pl-k">&lt;</span> high {
+    <span class="pl-k">let</span> pivotIndex <span class="pl-k">=</span> <span class="pl-c1">random</span>(<span class="pl-c1">min</span>: low, <span class="pl-c1">max</span>: high)         <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>
+    (a[pivotIndex], a[high]) <span class="pl-k">=</span> (a[high], a[pivotIndex])  <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>
+    <span class="pl-k">let</span> p <span class="pl-k">=</span> <span class="pl-c1">partitionLomuto</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: low, <span class="pl-c1">high</span>: high)
+    <span class="pl-c1">quicksortRandom</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: low, <span class="pl-c1">high</span>: p <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+    <span class="pl-c1">quicksortRandom</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: p <span class="pl-k">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">high</span>: high)
+  }
+}</pre></div>
+<p>There are two important differences with before:</p>
+<ol>
+<li>
+<p>The <code>random(min:max:)</code> function returns an integer in the range <code>min...max</code>, inclusive. This is our pivot index.</p>
+</li>
+<li>
+<p>Because the Lomuto scheme expects <code>a[high]</code> to be the pivot entry, we swap <code>a[pivotIndex]</code> with <code>a[high]</code> to put the pivot element at the end before calling <code>partitionLomuto()</code>.</p>
+</li>
+</ol>
+<p>It may seem strange to use random numbers in something like a sorting function, but it is necessary to make quicksort behave efficiently under all circumstances. With bad pivots, the performance of quicksort can be quite horrible, <strong>O(n^2)</strong>. But if you choose good pivots on average, for example by using a random number generator, the expected running time becomes <strong>O(n log n)</strong>, which is as good as sorting algorithms get.</p>
+<h2>Dutch national flag partitioning</h2>
+<p>But there are more improvements to make! In the first example of quicksort I showed you, we ended up with an array that was partitioned like this:</p>
+<pre><code>[ values &lt; pivot | values equal to pivot | values &gt; pivot ]
+</code></pre>
+<p>But as you've seen with the Lomuto partitioning scheme, if the pivot occurs more than once the duplicates end up in the left half. And with Hoare's scheme the pivot can be all over the place. The solution to this is "Dutch national flag" partitioning, named after the fact that the <a href="https://en.wikipedia.org/wiki/Flag_of_the_Netherlands" rel="nofollow">Dutch flag</a> has three bands just like we want to have three partitions.</p>
+<p>The code for this scheme is:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">partitionDutchFlag</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: <span class="pl-k">inout</span> [T], <span class="pl-smi"><span class="pl-en">low</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">high</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">pivotIndex</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> (<span class="pl-c1">Int</span>, <span class="pl-c1">Int</span>) {
+  <span class="pl-k">let</span> pivot <span class="pl-k">=</span> a[pivotIndex]
+
+  <span class="pl-k">var</span> smaller <span class="pl-k">=</span> low
+  <span class="pl-k">var</span> equal <span class="pl-k">=</span> low
+  <span class="pl-k">var</span> larger <span class="pl-k">=</span> high
+
+  <span class="pl-k">while</span> equal <span class="pl-k">&lt;=</span> larger {
+    <span class="pl-k">if</span> a[equal] <span class="pl-k">&lt;</span> pivot {
+      <span class="pl-c1">swap</span>(<span class="pl-k">&amp;</span>a, smaller, equal)
+      smaller <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+      equal <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    } <span class="pl-k">else</span> <span class="pl-k">if</span> a[equal] <span class="pl-k">==</span> pivot {
+      equal <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-c1">swap</span>(<span class="pl-k">&amp;</span>a, equal, larger)
+      larger <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+    }
+  }
+  <span class="pl-k">return</span> (smaller, larger)
+}</pre></div>
+<p>This works very similarly to the Lomuto scheme, except that the loop partitions the array into four (possibly empty) regions:</p>
+<ul>
+<li><code>[low ... smaller-1]</code> contains all values &lt; pivot</li>
+<li><code>[smaller ... equal-1]</code> contains all values == pivot</li>
+<li><code>[equal ... larger]</code> contains all values &gt; pivot</li>
+<li><code>[larger ... high]</code> are values we haven't looked at yet</li>
+</ul>
+<p>Note that this doesn't assume the pivot is in <code>a[high]</code>. Instead, you have to pass in the index of the element you wish to use as a pivot.</p>
+<p>An example of how to use it:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> list <span class="pl-k">=</span> [ <span class="pl-c1">10</span>, <span class="pl-c1">0</span>, <span class="pl-c1">3</span>, <span class="pl-c1">9</span>, <span class="pl-c1">2</span>, <span class="pl-c1">14</span>, <span class="pl-c1">8</span>, <span class="pl-c1">27</span>, <span class="pl-c1">1</span>, <span class="pl-c1">5</span>, <span class="pl-c1">8</span>, <span class="pl-c1">-1</span>, <span class="pl-c1">26</span> ]
+<span class="pl-c1">partitionDutchFlag</span>(<span class="pl-k">&amp;</span>list, <span class="pl-c1">low</span>: <span class="pl-c1">0</span>, <span class="pl-c1">high</span>: list.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>, <span class="pl-c1">pivotIndex</span>: <span class="pl-c1">10</span>)
+list  <span class="pl-c"><span class="pl-c">//</span> show the results</span></pre></div>
+<p>Just for fun, we're giving it the index of the other <code>8</code> this time. The result is:</p>
+<pre><code>[ -1, 0, 3, 2, 5, 1, 8, 8, 27, 14, 9, 26, 10 ]
+</code></pre>
+<p>Notice how the two <code>8</code>s are in the middle now. The return value from <code>partitionDutchFlag()</code> is a tuple, <code>(6, 7)</code>. This is the range that contains the pivot value(s).</p>
+<p>Here is how you would use it in quicksort:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">quicksortDutchFlag</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: <span class="pl-k">inout</span> [T], <span class="pl-smi"><span class="pl-en">low</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">high</span></span>: <span class="pl-c1">Int</span>) {
+  <span class="pl-k">if</span> low <span class="pl-k">&lt;</span> high {
+    <span class="pl-k">let</span> pivotIndex <span class="pl-k">=</span> <span class="pl-c1">random</span>(<span class="pl-c1">min</span>: low, <span class="pl-c1">max</span>: high)
+    <span class="pl-k">let</span> (p, q) <span class="pl-k">=</span> <span class="pl-c1">partitionDutchFlag</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: low, <span class="pl-c1">high</span>: high, <span class="pl-c1">pivotIndex</span>: pivotIndex)
+    <span class="pl-c1">quicksortDutchFlag</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: low, <span class="pl-c1">high</span>: p <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+    <span class="pl-c1">quicksortDutchFlag</span>(<span class="pl-k">&amp;</span>a, <span class="pl-c1">low</span>: q <span class="pl-k">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">high</span>: high)
+  }
+}</pre></div>
+<p>Using Dutch flag partitioning makes for a more efficient quicksort if the array contains many duplicate elements. (And I'm not just saying that because I'm Dutch!)</p>
+<blockquote>
+<p><strong>Note:</strong> The above implementation of <code>partitionDutchFlag()</code> uses a custom <code>swap()</code> routine for swapping the contents of two array elements. Unlike Swift's own <code>swap()</code>, this doesn't give an error when the two indices refer to the same array element. See <a href="Quicksort.swift">Quicksort.swift</a> for the code.</p>
+</blockquote>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Quicksort" rel="nofollow">Quicksort on Wikipedia</a></p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

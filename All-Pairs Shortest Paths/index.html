@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<head>
+  <title>All-Pairs Shortest Paths</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>All-Pairs Shortest Paths</h1>
+<p>The All-Pairs shortest path problem simultaneously computes the shortest path from each node in the graph to each other node, provided a path exists for each pair. In the naive approach, we could simply compute a single-source shortest path from each node to each other node. The number of shortest paths computed is then bound by <code>O(V^2)</code>, where <code>V</code> is the number of vertices in the graph. Because SSSP is also bounded by <code>O(V^2)</code>, the total running time for the naive approach would be <code>O(V^4)</code>.</p>
+<p>However, by applying a dynamic approach on the adjacency matrix of the graph, a running time of <code>O(V^3)</code> is achievable, using the <code>Floyd-Warshall</code> algorithm. Floyd-Warshall iterates through an adjacency matrix, and for each pair of start(<code>i</code>) and end(<code>j</code>) vertices it considers if the current distance between them is greater than a path taken through another vertex(<code>k</code>) in the graph (if paths <code>i</code> ~&gt; <code>k</code> and <code>k</code> ~&gt; <code>j</code> exist). It moves through an adjacency matrix for every vertex <code>k</code> applying its comparison for each pair (<code>i</code>, <code>j</code>), so for each <code>k</code> a new adjacency matrix <code>D(k)</code> is derived, where each value <code>d(k)[i][j]</code> is defined as:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/weight_comparison_formula.png"><img src="img/weight_comparison_formula.png" width="400px" style="max-width:100%;"></a></p>
+<p>where <code>w[i][j]</code> is the weight of the edge connecting vertex <code>i</code> to vertex <code>j</code> in the graph's original adjacency matrix.</p>
+<p>When the algorithm memoizes each refined adjacency and predecessor matrix, its space complexity is <code>O(V^3)</code>, which can be optimised to <code>O(V^2)</code> by only memoizing the latest refinements. Reconstructing paths is a recursive procedure which requires <code>O(V)</code> time and <code>O(V^2)</code> space.</p>
+<h1>Example</h1>
+<p>For the following weighted directed graph</p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/example_graph.png"><img src="img/example_graph.png" width="200px" style="max-width:100%;"></a></p>
+<p>the adjacency matrix representation <code>w</code> is</p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/original_adjacency_matrix.png"><img src="img/original_adjacency_matrix.png" width="200px" style="max-width:100%;"></a></p>
+<h3>Calculating shortest paths' weights</h3>
+<p>At the beginning of the algorithm, <code>D(0)</code> is the same as <code>w</code>, with the following exceptions to accommodate the comparison function:</p>
+<ol>
+<li>vertices with no path connecting them have the <code>ø</code> replaced with <code>∞</code></li>
+<li>the diagonal has all <code>0</code>s</li>
+</ol>
+<p>Here are all the adjacency matrices derived when perform Floyd-Warshall on the above graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/d0.png"><img src="img/d0.png" width="200px" style="max-width:100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/d1.png"><img src="img/d1.png" width="200px" style="max-width:100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/d2.png"><img src="img/d2.png" width="200px" style="max-width:100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/d3.png"><img src="img/d3.png" width="200px" style="max-width:100%;"></a></p>
+<p>with the last being the result, which tells for each pair of starting and ending vertices, the total weight of the shortest path connecting them. During the step where <code>k = 2</code>, the comparison that winds up changing the top right value from <code>2</code> to <code>-4</code> goes like this:</p>
+<pre><code>k = 2, i = 0, j = 3
+d(k-1)[i][j] =&gt; d(1)[0][3] = 2
+d(k-1)[i][k] =&gt; d(1)[0][2] = 1
+d(k-1)[j][k] =&gt; d(1)[2][3] = -5
+</code></pre>
+<p>therefore <code>min(2, 2 + -5) =&gt; min(2, -4)</code> produces a new weight of <code>-4</code> for the element at <code>d(2)[0][3]</code>, meaning that the shortest known path 1 ~&gt; 4 before this step was from 1 -&gt; 2 -&gt; 4 with a total weight of -2, and afterwards we discovered a shorter path from 1 -&gt; 3 -&gt; 4 with a total weight of -4.</p>
+<h3>Reconstructing shortest paths</h3>
+<p>This algorithm finds only the lengths of the shortest paths between all pairs of nodes; a separate bookkeeping structure must be maintained to track predecessors' indices and reconstruct the shortest paths afterwards. The predecessor matrices at each step for the above graph follow:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/pi0.png"><img src="img/pi0.png" width="200px" style="max-width:100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/pi1.png"><img src="img/pi1.png" width="200px" style="max-width:100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/pi2.png"><img src="img/pi2.png" width="200px" style="max-width:100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/pi3.png"><img src="img/pi3.png" width="200px" style="max-width:100%;"></a></p>
+<h1>Project Structure</h1>
+<p>The provided xcworkspace allows working in the playground, which imports the APSP framework target from the xcodeproj. Build the framework target and rerun the playground to get started. There is also a test target in the xcodeproj.</p>
+<p>In the framework:</p>
+<ul>
+<li>protocols for All-Pairs Shortest Paths algorithms and results structures</li>
+<li>an implementation of the Floyd-Warshall algorithm</li>
+</ul>
+<h1>TODO</h1>
+<ul>
+<li>Implement naive <code>O(V^4)</code> method for comparison</li>
+<li>Implement Johnson's algorithm for sparse graphs</li>
+<li>Implement other cool optimized versions</li>
+</ul>
+<h1>References</h1>
+<p>Chapter 25 of Introduction to Algorithms, Third Edition by Cormen, Leiserson, Rivest and Stein <a href="https://mitpress.mit.edu/books/introduction-algorithms" rel="nofollow">https://mitpress.mit.edu/books/introduction-algorithms</a></p>
+<p><em>Written for Swift Algorithm Club by <a href="https://github.com/armcknight">Andrew McKnight</a></em></p></div>
+</body>
+</html>

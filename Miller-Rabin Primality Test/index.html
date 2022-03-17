@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+  <title>Miller-Rabin Primality Test</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Miller-Rabin Primality Test</h1>
+<p>In 1976, Gray Miller introduced an algorithm, through his ph.d thesis<a href="https://cs.uwaterloo.ca/research/tr/1975/CS-75-27.pdf" rel="nofollow">1</a>, which determines a primality of the given number. The original algorithm was deterministic under the Extended Reimann Hypothesis, which is yet to be proven. After four years, Michael O. Rabin improved the algorithm<a href="http://www.sciencedirect.com/science/article/pii/0022314X80900840" rel="nofollow">2</a> by using probabilistic approach and it no longer assumes the unproven hypothesis.</p>
+<h2>Probabilistic</h2>
+<p>The result of the test is simply a boolean. However, <code>true</code> does not implicate <em>the number is prime</em>. In fact, it means <em>the number is <strong>probably</strong> prime</em>. But <code>false</code> does mean <em>the number is composite</em>.</p>
+<p>In order to increase the accuracy of the test, it needs to be iterated few times. If it returns <code>true</code> in every single iteration, then we can say with confidence that <em>the number is pro......bably prime</em>.</p>
+<h2>Algorithm</h2>
+<p>Let <code>n</code> be the given number, and write <code>n-1</code> as <code>2^s·d</code>, where <code>d</code> is odd. And choose a random number <code>a</code> within the range from <code>2</code> to <code>n - 1</code>.</p>
+<p>Now make a sequence, in modulo <code>n</code>, as following:</p>
+<blockquote>
+<p>a^d, a^(2·d), a^(4·d), ... , a^((2^(s-1))·d), a^((2^s)·d) = a^(n-1)</p>
+</blockquote>
+<p>And we say the number <code>n</code> passes the test, <em>probably prime</em>, if 1) <code>a^d</code> is congruence to <code>1</code> in modulo <code>n</code>, or 2) <code>a^((2^k)·d)</code> is congruence to <code>-1</code> for some <code>k = 1, 2, ..., s-1</code>.</p>
+<h3>Pseudo Code</h3>
+<p>The following pseudo code is excerpted from Wikipedia<a href="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test" rel="nofollow">3</a>:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="./Images/img_pseudo.png"><img src="./Images/img_pseudo.png" alt="Image of Pseudocode" style="max-width:100%;"></a></p>
+<h2>Usage</h2>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">checkWithMillerRabin</span>(<span class="pl-c1">7</span>)                      <span class="pl-c"><span class="pl-c">//</span> test if 7 is prime. (default iteration = 1)</span>
+<span class="pl-c"></span><span class="pl-c1">checkWithMillerRabin</span>(<span class="pl-c1">7</span>, <span class="pl-c1">accuracy</span>: <span class="pl-c1">10</span>)       <span class="pl-c"><span class="pl-c">//</span> test if 7 is prime &amp;&amp; iterate 10 times.</span></pre></div>
+<h2>Reference</h2>
+<ol>
+<li>G. L. Miller, "Riemann's Hypothesis and Tests for Primality". <em>J. Comput. System Sci.</em> 13 (1976), 300-317.</li>
+<li>M. O. Rabin, "Probabilistic algorithm for testing primality". <em>Journal of Number Theory.</em> 12 (1980), 128-138.</li>
+<li>Miller–Rabin primality test - Wikipedia, the free encyclopedia</li>
+</ol>
+<p><em>Written for Swift Algorithm Club by <strong>Sahn Cha</strong>, <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=5023693" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/scha00">@scha00</a></em><br>
+<em>Code updated by <strong>Simon C. Krüger</strong>.</em></p></div>
+</body>
+</html>

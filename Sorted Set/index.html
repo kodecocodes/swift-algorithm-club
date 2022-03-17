@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<head>
+  <title>Sorted Set</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Sorted Set</h1>
+<h2>Sorted Array Version</h2>
+<p>An Sorted Set is a collection of unique items in sorted order. Items are usually sorted from least to greatest.</p>
+<p>The Sorted Set data type is a hybrid of:</p>
+<ul>
+<li>a <a href="https://en.wikipedia.org/wiki/Set_%28mathematics%29" rel="nofollow">Set</a>, a collection of unique items where the order does not matter, and</li>
+<li>a <a href="https://en.wikipedia.org/wiki/Sequence" rel="nofollow">Sequence</a>, an sorted list of items where each item may appear more than once.</li>
+</ul>
+<p>It's important to keep in mind that two items can have the same <em>value</em> but still may not be equal. For example, we could define "a" and "z" to have the same value (their lengths), but clearly "a" != "z".</p>
+<h2>Why use an sorted set?</h2>
+<p>Sorted Sets should be considered when you need to keep your collection sorted at all times, and you do lookups on the collection much more frequently than inserting or deleting items. Many of the lookup operations for an Sorted Set are <strong>O(1)</strong>.</p>
+<p>A good example would be keeping track of the rankings of players in a scoreboard (see example 2 below).</p>
+<h4>These are sorted sets</h4>
+<p>A set of integers:</p>
+<pre><code>[1, 2, 3, 6, 8, 10, 1000]
+</code></pre>
+<p>A set of strings:</p>
+<pre><code>["a", "is", "set", "this"]
+</code></pre>
+<p>The "value" of these strings could be their text content, but also for example their length.</p>
+<h4>These are not sorted sets</h4>
+<p>This set violates the property of uniqueness:</p>
+<pre><code>[1, 1, 2, 3, 5, 8]
+</code></pre>
+<p>This set violates the sorted property:</p>
+<pre><code>[1, 11, 2, 3]
+</code></pre>
+<h2>The code</h2>
+<p>We'll start by creating our internal representation for the Sorted Set. Since the idea of a set is similar to that of an array, we will use an array to represent our set. Furthermore, since we'll need to keep the set sorted, we need to be able to compare the individual elements. Thus, any type must conform to the <a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Comparable_Protocol/index.html" rel="nofollow">Comparable Protocol</a>.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">SortedSet</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e"><span class="pl-c1">Comparable</span></span>&gt; {
+  <span class="pl-k">private</span> <span class="pl-k">var</span> internalSet <span class="pl-k">=</span> [T]()
+
+  <span class="pl-c"><span class="pl-c">//</span> Returns the number of elements in the SortedSet.</span>
+<span class="pl-c"></span>  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> internalSet.<span class="pl-c1">count</span>
+  }
+  <span class="pl-k">...</span></pre></div>
+<p>Lets take a look at the <code>insert()</code> function first. This first checks if the item already exists in the collection. If so, it returns and does not insert the item.  Otherwise, it will insert the item through straightforward iteration.</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-en">_</span> <span class="pl-smi">item</span>: T){
+    <span class="pl-k">if</span> <span class="pl-c1">exists</span>(item) {
+      <span class="pl-k">return</span>  <span class="pl-c"><span class="pl-c">//</span> don't add an item if it already exists</span>
+<span class="pl-c"></span>    }
+
+    <span class="pl-c"><span class="pl-c">//</span> Insert new the item just before the one that is larger.</span>
+<span class="pl-c"></span>    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>count {
+      <span class="pl-k">if</span> internalSet[i] <span class="pl-k">&gt;</span> item {
+        internalSet.<span class="pl-c1">insert</span>(item, <span class="pl-c1">at</span>: i)
+        <span class="pl-k">return</span>
+      }
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> Append to the back if the new item is greater than any other in the set.</span>
+<span class="pl-c"></span>    internalSet.<span class="pl-c1">append</span>(item)
+  }</pre></div>
+<p>As we'll see later on, checking if the item is already in the set has an efficiency of <strong>O(log(n) + k)</strong> where <strong>k</strong> is the number of items with the same value as the item we are inserting.</p>
+<p>To insert the new item, the <code>for</code> loop starts from the beginning of the array, and checks to see if each item is larger than the item we want to insert. Once we find such an item, we insert the new one into its place. This shifts the rest of the array over to the right by 1 position. This loop is at worst <strong>O(n)</strong>.</p>
+<p>The total performance of the <code>insert()</code> function is therefore <strong>O(n)</strong>.</p>
+<p>Next up is the <code>remove()</code> function:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">remove</span>(<span class="pl-en">_</span> <span class="pl-smi">item</span>: T) {
+    <span class="pl-k">if</span> <span class="pl-k">let</span> index <span class="pl-k">=</span> <span class="pl-c1">index</span>(<span class="pl-c1">of</span>: item) {
+      internalSet.<span class="pl-c1">remove</span>(<span class="pl-c1">at</span>: index)
+    }
+  }</pre></div>
+<p>First this checks if the item exists and then removes it from the array. Because of the <code>removeAtIndex()</code> function, the efficiency for remove is <strong>O(n)</strong>.</p>
+<p>The next function is <code>indexOf()</code>, which takes in an object of type <code>T</code> and returns the index of the corresponding item if it is in the set, or <code>nil</code> if it is not. Since our set is sorted, we can use a binary search to quickly search for the item.</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">index</span>(<span class="pl-en">of</span> <span class="pl-smi">item</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span><span class="pl-k">?</span> {
+    <span class="pl-k">var</span> leftBound <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> rightBound <span class="pl-k">=</span> count <span class="pl-k">-</span> <span class="pl-c1">1</span>
+
+    <span class="pl-k">while</span> leftBound <span class="pl-k">&lt;=</span> rightBound {
+      <span class="pl-k">let</span> mid <span class="pl-k">=</span> leftBound <span class="pl-k">+</span> ((rightBound <span class="pl-k">-</span> leftBound) <span class="pl-k">/</span> <span class="pl-c1">2</span>)
+
+      <span class="pl-k">if</span> internalSet[mid] <span class="pl-k">&gt;</span> item {
+        rightBound <span class="pl-k">=</span> mid <span class="pl-k">-</span> <span class="pl-c1">1</span>
+      } <span class="pl-k">else</span> <span class="pl-k">if</span> internalSet[mid] <span class="pl-k">&lt;</span> item {
+        leftBound <span class="pl-k">=</span> mid <span class="pl-k">+</span> <span class="pl-c1">1</span>
+      } <span class="pl-k">else</span> <span class="pl-k">if</span> internalSet[mid] <span class="pl-k">==</span> item {
+        <span class="pl-k">return</span> mid
+      } <span class="pl-k">else</span> {
+      	<span class="pl-c"><span class="pl-c">//</span> see below</span>
+<span class="pl-c"></span>      }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+  }</pre></div>
+<blockquote>
+<p><strong>Note:</strong> If you are not familiar with the concept of binary search, we have an <a href="../Binary%20Search">article that explains all about it</a>.</p>
+</blockquote>
+<p>However, there is an important issue to deal with here. Recall that two objects can be unequal yet still have the same "value" for the purposes of comparing them. Since a set can contain multiple items with the same value, it is important to check that the binary search has landed on the correct item.</p>
+<p>For example, consider this sorted set of <code>Player</code> objects. Each <code>Player</code> has a name and a number of points:</p>
+<pre><code>[ ("Bill", 50), ("Ada", 50), ("Jony", 50), ("Steve", 200), ("Jean-Louis", 500), ("Woz", 1000) ]
+</code></pre>
+<p>We want the set to be sorted by points, from low to high. Multiple players can have the same number of points. The name of the player is not important for this ordering. However, the name <em>is</em> important for retrieving the correct item.</p>
+<p>Let's say we do <code>indexOf(bill)</code> where <code>bill</code> is player object <code>("Bill", 50)</code>. If we did a traditional binary search we'd land on index 2, which is the object <code>("Jony", 50)</code>. The value 50 matches, but it's not the object we're looking for!</p>
+<p>Therefore, we also need to check the items with the same value to the right and left of the midpoint. The code to check the left and right side looks like this:</p>
+<div class="highlight highlight-source-swift"><pre>        <span class="pl-c"><span class="pl-c">//</span> Check to the right.</span>
+<span class="pl-c"></span>        <span class="pl-k">for</span> j <span class="pl-k">in</span> mid.<span class="pl-c1">stride</span>(<span class="pl-c1">to</span>: count <span class="pl-k">-</span> <span class="pl-c1">1</span>, <span class="pl-c1">by</span>: <span class="pl-c1">1</span>) {
+          <span class="pl-k">if</span> internalSet[j <span class="pl-k">+</span> <span class="pl-c1">1</span>] <span class="pl-k">==</span> item {
+            <span class="pl-k">return</span> j <span class="pl-k">+</span> <span class="pl-c1">1</span>
+          } <span class="pl-k">else</span> <span class="pl-k">if</span> internalSet[j] <span class="pl-k">&lt;</span> internalSet[j <span class="pl-k">+</span> <span class="pl-c1">1</span>] {
+            <span class="pl-k">break</span>
+          }
+        }
+
+        <span class="pl-c"><span class="pl-c">//</span> Check to the left.</span>
+<span class="pl-c"></span>        <span class="pl-k">for</span> j <span class="pl-k">in</span> mid.<span class="pl-c1">stride</span>(<span class="pl-c1">to</span>: <span class="pl-c1">0</span>, <span class="pl-c1">by</span>: <span class="pl-c1">-1</span>) {
+          <span class="pl-k">if</span> internalSet[j <span class="pl-k">-</span> <span class="pl-c1">1</span>] <span class="pl-k">==</span> item {
+            <span class="pl-k">return</span> j <span class="pl-k">-</span> <span class="pl-c1">1</span>
+          } <span class="pl-k">else</span> <span class="pl-k">if</span> internalSet[j] <span class="pl-k">&gt;</span> internalSet[j <span class="pl-k">-</span> <span class="pl-c1">1</span>] {
+            <span class="pl-k">break</span>
+          }
+        }
+
+        <span class="pl-k">return</span> <span class="pl-c1">nil</span></pre></div>
+<p>These loops start at the current <code>mid</code> value and then look at the neighboring values until we've found the correct object.</p>
+<p>The combined runtime for <code>indexOf()</code> is <strong>O(log(n) + k)</strong> where <strong>n</strong> is the length of the set, and <strong>k</strong> is the number of items with the same <em>value</em> as the one that is being searched for.</p>
+<p>Since the set is sorted, the following operations are all <strong>O(1)</strong>:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-c"><span class="pl-c">//</span> Returns the 'maximum' or 'largest' value in the set.</span>
+<span class="pl-c"></span>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">max</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> count <span class="pl-k">==</span> <span class="pl-c1">0</span> <span class="pl-k">?</span> <span class="pl-c1">nil</span> <span class="pl-k">:</span> internalSet[count <span class="pl-k">-</span> <span class="pl-c1">1</span>]
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> Returns the 'minimum' or 'smallest' value in the set.</span>
+<span class="pl-c"></span>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">min</span>() <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> count <span class="pl-k">==</span> <span class="pl-c1">0</span> <span class="pl-k">?</span> <span class="pl-c1">nil</span> <span class="pl-k">:</span> internalSet[<span class="pl-c1">0</span>]
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> Returns the k-th largest element in the set, if k is in the range</span>
+<span class="pl-c"></span>  <span class="pl-c"><span class="pl-c">//</span> [1, count]. Returns nil otherwise.</span>
+<span class="pl-c"></span>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">kLargest</span>(<span class="pl-en">_</span> <span class="pl-smi">k</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> k <span class="pl-k">&gt;</span> count <span class="pl-k">||</span> k <span class="pl-k">&lt;=</span> <span class="pl-c1">0</span> <span class="pl-k">?</span> <span class="pl-c1">nil</span> <span class="pl-k">:</span> internalSet[count <span class="pl-k">-</span> k]
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> Returns the k-th smallest element in the set, if k is in the range</span>
+<span class="pl-c"></span>  <span class="pl-c"><span class="pl-c">//</span> [1, count]. Returns nil otherwise.</span>
+<span class="pl-c"></span>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">kSmallest</span>(<span class="pl-en">_</span> <span class="pl-smi">k</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> k <span class="pl-k">&gt;</span> count <span class="pl-k">||</span> k <span class="pl-k">&lt;=</span> <span class="pl-c1">0</span> <span class="pl-k">?</span> <span class="pl-c1">nil</span> <span class="pl-k">:</span> internalSet[k <span class="pl-k">-</span> <span class="pl-c1">1</span>]
+  }</pre></div>
+<h2>Examples</h2>
+<p>Below are a few examples that can be found in the playground file.</p>
+<h3>Example 1</h3>
+<p>Here we create a set with random Integers. Printing the largest/smallest 5 numbers in the set is fairly easy.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> Example 1 with type Int</span>
+<span class="pl-c"></span><span class="pl-k">var</span> mySet <span class="pl-k">=</span> SortedSet<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>()
+
+<span class="pl-c"><span class="pl-c">//</span> Insert random numbers into the set</span>
+<span class="pl-c"></span><span class="pl-k">for</span> <span class="pl-c1">_</span> <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span><span class="pl-c1">50</span> {
+  mySet.<span class="pl-c1">insert</span>(<span class="pl-c1">randomNum</span>(<span class="pl-c1">50</span>, <span class="pl-c1">max</span>: <span class="pl-c1">500</span>))
+}
+
+<span class="pl-c1">print</span>(mySet)
+
+<span class="pl-c1">print</span>(mySet.<span class="pl-c1">max</span>())
+<span class="pl-c1">print</span>(mySet.<span class="pl-c1">min</span>())
+
+<span class="pl-c"><span class="pl-c">//</span> Print the 5 largest values</span>
+<span class="pl-c"></span><span class="pl-k">for</span> k <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-c1">5</span> {
+  <span class="pl-c1">print</span>(mySet.<span class="pl-c1">kLargest</span>(k))
+}
+
+<span class="pl-c"><span class="pl-c">//</span> Print the 5 lowest values</span>
+<span class="pl-c"></span><span class="pl-k">for</span> k <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-c1">5</span> {
+  <span class="pl-c1">print</span>(mySet.<span class="pl-c1">kSmallest</span>(k))
+}</pre></div>
+<h3>Example 2</h3>
+<p>In this example we take a look at something a bit more interesting. We define a <code>Player</code> struct as follows:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">Player</span>: <span class="pl-e"><span class="pl-c1">Comparable</span> </span>{
+  <span class="pl-k">public</span> <span class="pl-k">var</span> name<span class="pl-k">:</span> <span class="pl-c1">String</span>
+  <span class="pl-k">public</span> <span class="pl-k">var</span> points<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+}</pre></div>
+<p>The <code>Player</code> also gets its own <code>==</code> and <code>&lt;</code> operators. The <code>&lt;</code> operator is used to determine the sort order of the set, while <code>==</code> determines whether two objects are really equal.</p>
+<p>Note that <code>==</code> compares both the name and the points:</p>
+<pre lang="swifr"><code>func ==(x: Player, y: Player) -&gt; Bool {
+  return x.name == y.name &amp;&amp; x.points == y.points
+}
+</code></pre>
+<p>But <code>&lt;</code> only compares the points:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">&lt;</span>(<span class="pl-smi"><span class="pl-en">x</span></span>: Player, <span class="pl-smi"><span class="pl-en">y</span></span>: Player) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+  <span class="pl-k">return</span> x.<span class="pl-smi">points</span> <span class="pl-k">&lt;</span> y.<span class="pl-smi">points</span>
+}</pre></div>
+<p>Therefore, two <code>Player</code>s can each have the same value (the number of points), but are not guaranteed to be equal (they can have different names).</p>
+<p>We create a new set and insert 20 random players. The <code>Player()</code> constructor gives each player a random name and score:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> playerSet <span class="pl-k">=</span> SortedSet<span class="pl-k">&lt;</span>Player<span class="pl-k">&gt;</span>()
+
+<span class="pl-c"><span class="pl-c">//</span> Populate the set with random players.</span>
+<span class="pl-c"></span><span class="pl-k">for</span> <span class="pl-c1">_</span> <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span><span class="pl-c1">20</span> {
+  playerSet.<span class="pl-c1">insert</span>(<span class="pl-c1">Player</span>())
+}</pre></div>
+<p>Insert another player:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> anotherPlayer <span class="pl-k">=</span> <span class="pl-c1">Player</span>()
+playerSet.<span class="pl-c1">insert</span>(anotherPlayer)</pre></div>
+<p>Now we use the <code>indexOf()</code> function to find out what rank <code>anotherPlayer</code> is.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> level <span class="pl-k">=</span> playerSet.<span class="pl-c1">count</span> <span class="pl-k">-</span> playerSet.<span class="pl-c1">indexOf</span>(anotherPlayer)<span class="pl-k">!</span>
+<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">anotherPlayer.<span class="pl-smi">name</span></span><span class="pl-pse"><span class="pl-s1">)</span></span> is ranked at level <span class="pl-pse">\(</span><span class="pl-s1">level</span><span class="pl-pse"><span class="pl-s1">)</span></span> with <span class="pl-pse">\(</span><span class="pl-s1">anotherPlayer.<span class="pl-smi">points</span></span><span class="pl-pse"><span class="pl-s1">)</span></span> points<span class="pl-pds">"</span></span>)</pre></div>
+<h3>Example 3</h3>
+<p>The final example demonstrates the need to look for the right item even after the binary search has completed.</p>
+<p>We insert 9 players into the set:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> repeatedSet <span class="pl-k">=</span> SortedSet<span class="pl-k">&lt;</span>Player<span class="pl-k">&gt;</span>()
+
+repeatedSet.<span class="pl-c1">insert</span>(<span class="pl-c1">Player</span>(<span class="pl-c1">name</span>: <span class="pl-s"><span class="pl-pds">"</span>Player 1<span class="pl-pds">"</span></span>, <span class="pl-c1">points</span>: <span class="pl-c1">100</span>))
+repeatedSet.<span class="pl-c1">insert</span>(<span class="pl-c1">Player</span>(<span class="pl-c1">name</span>: <span class="pl-s"><span class="pl-pds">"</span>Player 2<span class="pl-pds">"</span></span>, <span class="pl-c1">points</span>: <span class="pl-c1">100</span>))
+repeatedSet.<span class="pl-c1">insert</span>(<span class="pl-c1">Player</span>(<span class="pl-c1">name</span>: <span class="pl-s"><span class="pl-pds">"</span>Player 3<span class="pl-pds">"</span></span>, <span class="pl-c1">points</span>: <span class="pl-c1">100</span>))
+repeatedSet.<span class="pl-c1">insert</span>(<span class="pl-c1">Player</span>(<span class="pl-c1">name</span>: <span class="pl-s"><span class="pl-pds">"</span>Player 4<span class="pl-pds">"</span></span>, <span class="pl-c1">points</span>: <span class="pl-c1">100</span>))
+repeatedSet.<span class="pl-c1">insert</span>(<span class="pl-c1">Player</span>(<span class="pl-c1">name</span>: <span class="pl-s"><span class="pl-pds">"</span>Player 5<span class="pl-pds">"</span></span>, <span class="pl-c1">points</span>: <span class="pl-c1">100</span>))
+repeatedSet.<span class="pl-c1">insert</span>(<span class="pl-c1">Player</span>(<span class="pl-c1">name</span>: <span class="pl-s"><span class="pl-pds">"</span>Player 6<span class="pl-pds">"</span></span>, <span class="pl-c1">points</span>: <span class="pl-c1">50</span>))
+repeatedSet.<span class="pl-c1">insert</span>(<span class="pl-c1">Player</span>(<span class="pl-c1">name</span>: <span class="pl-s"><span class="pl-pds">"</span>Player 7<span class="pl-pds">"</span></span>, <span class="pl-c1">points</span>: <span class="pl-c1">200</span>))
+repeatedSet.<span class="pl-c1">insert</span>(<span class="pl-c1">Player</span>(<span class="pl-c1">name</span>: <span class="pl-s"><span class="pl-pds">"</span>Player 8<span class="pl-pds">"</span></span>, <span class="pl-c1">points</span>: <span class="pl-c1">250</span>))
+repeatedSet.<span class="pl-c1">insert</span>(<span class="pl-c1">Player</span>(<span class="pl-c1">name</span>: <span class="pl-s"><span class="pl-pds">"</span>Player 9<span class="pl-pds">"</span></span>, <span class="pl-c1">points</span>: <span class="pl-c1">25</span>))</pre></div>
+<p>Notice how several of these players have the same value of 100 points.</p>
+<p>The set looks something like this:</p>
+<pre><code>[Player 9, Player 6, Player 1, Player 2, Player 3, Player 4, Player 5, Player 7, Player 8]
+</code></pre>
+<p>The next line looks for <code>Player 2</code>:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c1">print</span>(repeatedSet.<span class="pl-c1">index</span>(<span class="pl-c1">of</span>: <span class="pl-c1">Player</span>(<span class="pl-c1">name</span>: <span class="pl-s"><span class="pl-pds">"</span>Player 2<span class="pl-pds">"</span></span>, <span class="pl-c1">points</span>: <span class="pl-c1">100</span>)))</pre></div>
+<p>After the binary search finishes, the value of <code>mid</code> is at index 5:</p>
+<pre><code>[Player 9, Player 6, Player 1, Player 2, Player 3, Player 4, Player 5, Player 7, Player 8]
+                                                      mid
+</code></pre>
+<p>However, this is not <code>Player 2</code>. Both <code>Player 4</code> and <code>Player 2</code> have the same points, but a different name. The binary search only looked at the points, not the name.</p>
+<p>But we do know that <code>Player 2</code> must be either to the immediate left or the right of <code>Player 4</code>, so we check both sides of <code>mid</code>. We only need to look at the objects with the same value as <code>Player 4</code>. The others are replaced by <code>X</code>:</p>
+<pre><code>[X, X, Player 1, Player 2, Player 3, Player 4, Player 5, X, X]
+                                       mid
+</code></pre>
+<p>The code then first checks on the right of <code>mid</code> (where the <code>*</code> is):</p>
+<pre><code>[X, X, Player 1, Player 2, Player 3, Player 4, Player 5, X, X]
+                                       mid        *
+</code></pre>
+<p>The right side did not contain the item, so we look at the left side:</p>
+<pre><code>[X, X, Player 1, Player 2, Player 3, Player 4, Player 5, X, X]
+                              *        mid        
+
+[X, X, Player 1, Player 2, Player 3, Player 4, Player 5, X, X]
+                    *                  mid        
+</code></pre>
+<p>Finally, we've found <code>Player 2</code>, and return index 3.</p>
+<p><em>Written By Zain Humayun</em></p></div>
+</body>
+</html>

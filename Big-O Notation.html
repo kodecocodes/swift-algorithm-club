@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<head>
+  <title>Big-O Notation</title>
+  <link rel="stylesheet" type="text/css" href="github-light.css">
+</head>
+<body>
+  <div id="container"><h1>A note on Big-O notation</h1>
+<p>It's useful to know how fast an algorithm is and how much space it needs. This allows you to pick the right algorithm for the job.</p>
+<p>Big-O notation gives you a rough indication of the running time of an algorithm and the amount of memory it uses. When someone says, "This algorithm has worst-case running time of <strong>O(n^2)</strong> and uses <strong>O(n)</strong> space," they mean it's kinda slow but doesn't need lots of extra memory.</p>
+<p>Figuring out the Big-O of an algorithm is usually done through mathematical analysis. We're skipping the math here, but it's useful to know what the different values mean, so here's a handy table. <strong>n</strong> refers to the number of data items that you're processing. For example, when sorting an array of 100 items, <strong>n = 100</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Big-O</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>O(1)</strong></td>
+<td>constant</td>
+<td><strong>This is the best.</strong> The algorithm always takes the same amount of time, regardless of how much data there is. Example: looking up an element of an array by its index.</td>
+</tr>
+<tr>
+<td><strong>O(log n)</strong></td>
+<td>logarithmic</td>
+<td><strong>Pretty great.</strong> These kinds of algorithms halve the amount of data with each iteration. If you have 100 items, it takes about 7 steps to find the answer. With 1,000 items, it takes 10 steps. And 1,000,000 items only take 20 steps. This is super fast even for large amounts of data. Example: binary search.</td>
+</tr>
+<tr>
+<td><strong>O(n)</strong></td>
+<td>linear</td>
+<td><strong>Good performance.</strong> If you have 100 items, this does 100 units of work. Doubling the number of items makes the algorithm take exactly twice as long (200 units of work). Example: sequential search.</td>
+</tr>
+<tr>
+<td><strong>O(n log n)</strong></td>
+<td>"linearithmic"</td>
+<td><strong>Decent performance.</strong> This is slightly worse than linear but not too bad. Example: the fastest general-purpose sorting algorithms.</td>
+</tr>
+<tr>
+<td><strong>O(n^2)</strong></td>
+<td>quadratic</td>
+<td><strong>Kinda slow.</strong> If you have 100 items, this does 100^2 = 10,000 units of work. Doubling the number of items makes it four times slower (because 2 squared equals 4). Example: algorithms using nested loops, such as insertion sort.</td>
+</tr>
+<tr>
+<td><strong>O(n^3)</strong></td>
+<td>cubic</td>
+<td><strong>Poor performance.</strong> If you have 100 items, this does 100^3 = 1,000,000 units of work. Doubling the input size makes it eight times slower. Example: matrix multiplication.</td>
+</tr>
+<tr>
+<td><strong>O(2^n)</strong></td>
+<td>exponential</td>
+<td><strong>Very poor performance.</strong> You want to avoid these kinds of algorithms, but sometimes you have no choice. Adding just one bit to the input doubles the running time. Example: traveling salesperson problem.</td>
+</tr>
+<tr>
+<td><strong>O(n!)</strong></td>
+<td>factorial</td>
+<td><strong>Intolerably slow.</strong> It literally takes a million years to do anything.</td>
+</tr>
+</tbody>
+</table>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/f31c9fd847244e710fd9a31a3787e91607d82163/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f372f37652f436f6d70617269736f6e5f636f6d7075746174696f6e616c5f636f6d706c65786974792e737667"><img src="https://camo.githubusercontent.com/f31c9fd847244e710fd9a31a3787e91607d82163/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f372f37652f436f6d70617269736f6e5f636f6d7075746174696f6e616c5f636f6d706c65786974792e737667" alt="Comparison of Big O computations" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Comparison_computational_complexity.svg" style="max-width:100%;"></a></p>
+<p>Below are some examples for each category of performance:</p>
+<p><strong>O(1)</strong></p>
+<p>The most common example with O(1) complexity is accessing an array index.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> value <span class="pl-k">=</span> array[<span class="pl-c1">5</span>]</pre></div>
+<p>Another example of O(1) is pushing and popping from Stack.</p>
+<p><strong>O(log n)</strong></p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> j <span class="pl-k">=</span> <span class="pl-c1">1</span>
+<span class="pl-k">while</span> j <span class="pl-k">&lt;</span> n {
+  <span class="pl-c"><span class="pl-c">//</span> do constant time stuff</span>
+<span class="pl-c"></span>  j <span class="pl-k">*=</span> <span class="pl-c1">2</span>
+}</pre></div>
+<p>Instead of simply incrementing, 'j' is increased by 2 times itself in each run.</p>
+<p>Binary Search Algorithm is an example of O(log n) complexity.</p>
+<p><strong>O(n)</strong></p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: <span class="pl-c1">0</span>, <span class="pl-c1">to</span>: n, <span class="pl-c1">by</span>: <span class="pl-c1">1</span>) {
+  <span class="pl-c1">print</span>(array[i])
+}</pre></div>
+<p>Array Traversal and Linear Search are examples of O(n) complexity.</p>
+<p><strong>O(n log n)</strong></p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: <span class="pl-c1">0</span>, <span class="pl-c1">to</span>: n, <span class="pl-c1">by</span>: <span class="pl-c1">1</span>) {
+<span class="pl-k">var</span> j <span class="pl-k">=</span> <span class="pl-c1">1</span>
+  <span class="pl-k">while</span> j <span class="pl-k">&lt;</span> n {
+    j <span class="pl-k">*=</span> <span class="pl-c1">2</span>
+    <span class="pl-c"><span class="pl-c">//</span> do constant time stuff</span>
+<span class="pl-c"></span>  }
+}</pre></div>
+<p>OR</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: <span class="pl-c1">0</span>, <span class="pl-c1">to</span>: n, <span class="pl-c1">by</span>: <span class="pl-c1">1</span>) {
+  <span class="pl-k">func</span> <span class="pl-en">index</span>(<span class="pl-en">after</span> <span class="pl-smi">i</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span><span class="pl-k">?</span> { <span class="pl-c"><span class="pl-c">//</span> multiplies `i` by 2 until `i` &gt;= `n`</span>
+<span class="pl-c"></span>    <span class="pl-k">return</span> i <span class="pl-k">&lt;</span> n <span class="pl-k">?</span> i <span class="pl-k">*</span> <span class="pl-c1">2</span> <span class="pl-k">:</span> <span class="pl-c1">nil</span>
+  }
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">sequence</span>(<span class="pl-c1">first</span>: <span class="pl-c1">1</span>, <span class="pl-c1">next</span>: <span class="pl-en">index</span>(<span class="pl-en">after:</span>)) {
+    <span class="pl-c"><span class="pl-c">//</span> do constant time stuff</span>
+<span class="pl-c"></span>  }
+}</pre></div>
+<p>Merge Sort and Heap Sort are examples of O(n log n) complexity.</p>
+<p><strong>O(n^2)</strong></p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> i  <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: <span class="pl-c1">0</span>, <span class="pl-c1">to</span>: n, <span class="pl-c1">by</span>: <span class="pl-c1">1</span>) {
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: <span class="pl-c1">1</span>, <span class="pl-c1">to</span>: n, <span class="pl-c1">by</span>: <span class="pl-c1">1</span>) {
+    <span class="pl-c"><span class="pl-c">//</span> do constant time stuff</span>
+<span class="pl-c"></span>  }
+}</pre></div>
+<p>Traversing a simple 2-D array and Bubble Sort are examples of O(n^2) complexity.</p>
+<p><strong>O(n^3)</strong></p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: <span class="pl-c1">0</span>, <span class="pl-c1">to</span>: n, <span class="pl-c1">by</span>: <span class="pl-c1">1</span>) {
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: <span class="pl-c1">1</span>, <span class="pl-c1">to</span>: n, <span class="pl-c1">by</span>: <span class="pl-c1">1</span>) {
+    <span class="pl-k">for</span> k <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: <span class="pl-c1">1</span>, <span class="pl-c1">to</span>: n, <span class="pl-c1">by</span>: <span class="pl-c1">1</span>) {
+      <span class="pl-c"><span class="pl-c">//</span> do constant time stuff</span>
+<span class="pl-c"></span>    }
+  }
+}</pre></div>
+<p><strong>O(2^n)</strong></p>
+<p>Algorithms with running time O(2^N) are often recursive algorithms that solve a problem of size N by recursively solving two smaller problems of size N-1.<br>
+The following example prints all the moves necessary to solve the famous "Towers of Hanoi" problem for N disks.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">solveHanoi</span>(<span class="pl-smi"><span class="pl-en">n</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">from</span></span>: <span class="pl-c1">String</span>, <span class="pl-smi"><span class="pl-en">to</span></span>: <span class="pl-c1">String</span>, <span class="pl-smi"><span class="pl-en">spare</span></span>: <span class="pl-c1">String</span>) {
+  <span class="pl-k">guard</span> n <span class="pl-k">&gt;=</span> <span class="pl-c1">1</span> <span class="pl-k">else</span> { <span class="pl-k">return</span> }
+  <span class="pl-k">if</span> n <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> {
+      <span class="pl-c1">solveHanoi</span>(<span class="pl-c1">n</span>: n <span class="pl-k">-</span> <span class="pl-c1">1</span>, <span class="pl-c1">from</span>: from, <span class="pl-c1">to</span>: spare, <span class="pl-c1">spare</span>: to)
+      <span class="pl-c1">solveHanoi</span>(<span class="pl-c1">n</span>: n <span class="pl-k">-</span> <span class="pl-c1">1</span>, <span class="pl-c1">from</span>: spare, <span class="pl-c1">to</span>: to, <span class="pl-c1">spare</span>: from)
+  }
+}</pre></div>
+<p><strong>O(n!)</strong></p>
+<p>The most trivial example of function that takes O(n!) time is given below.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">nFactFunc</span>(<span class="pl-smi"><span class="pl-en">n</span></span>: <span class="pl-c1">Int</span>) {
+  <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: <span class="pl-c1">0</span>, <span class="pl-c1">to</span>: n, <span class="pl-c1">by</span>: <span class="pl-c1">1</span>) {
+    <span class="pl-c1">nFactFunc</span>(<span class="pl-c1">n</span>: n <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+  }
+}</pre></div>
+<p>Often you don't need math to figure out what the Big-O of an algorithm is but you can simply use your intuition. If your code uses a single loop that looks at all <strong>n</strong> elements of your input, the algorithm is <strong>O(n)</strong>. If the code has two nested loops, it is <strong>O(n^2)</strong>. Three nested loops gives <strong>O(n^3)</strong>, and so on.</p>
+<p>Note that Big-O notation is an estimate and is only really useful for large values of <strong>n</strong>. For example, the worst-case running time for the <a href="Insertion%20Sort/">insertion sort</a> algorithm is <strong>O(n^2)</strong>. In theory that is worse than the running time for <a href="Merge%20Sort/">merge sort</a>, which is <strong>O(n log n)</strong>. But for small amounts of data, insertion sort is actually faster, especially if the array is partially sorted already!</p>
+<p>If you find this confusing, don't let this Big-O stuff bother you too much. It's mostly useful when comparing two algorithms to figure out which one is better. But in the end you still want to test in practice which one really is the best. And if the amount of data is relatively small, then even a slow algorithm will be fast enough for practical use.</p></div>
+</body>
+</html>

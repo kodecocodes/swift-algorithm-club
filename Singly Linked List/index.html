@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<head>
+  <title>Singly Linked List</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Singly-Linked List</h1>
+<h4>How is this different to the Linked List implementation?</h4>
+<p>The existing Linked list implementation represents the same concept. However, the existing implementation has reference semantics and does not conform to the Collection protocol implemented in the Swift's standard Library. What SinglyLinkedList aims to contribute is a more idiomatic Swift implementation, that uses value semantics and copy-on-write as well as conforms to the collection protocol.</p>
+<h4>Conceptual representation</h4>
+<p>A Singly linked list is a non-contiguous sequence of data items in memory. Each element links to the next via a memory reference. Additionally, this implementation keeps track of the last element, which can be retrived in order O(1). However, the list can only be traversed from head to tail.</p>
+<pre><code>+--------+    +--------+    +--------+    +--------+
+|        |    |        |    |        |    |        |
+| node 0 |---&gt;| node 1 |---&gt;| node 2 |---&gt;| node 3 |---&gt; nil
+|        |    |        |    |        |    |        |
++--------+    +--------+    +--------+    +--------+
+^                                         ^
+|                                         |
+Head                                      Tail
+</code></pre>
+<p>Each element in the list is represented with an instance of SinglyLinkedListNode class, which basically contains some data and a reference of optional type to the next node, which means that the last node's next reference is <code>nil</code>.</p>
+<h4>In-memory representation</h4>
+<p>In Swift, data types can have value or reference semantics. This implementation of a singly-linked list uses value semantics. Support for copy-on-write has been added in order to improve performance and delay copying the elements of the array until strictly necessary.</p>
+<p>The image below shows how initially, after variable <code>l2</code> is assigned <code>l1</code>, a new instance of the struct SinglyLinkedList is created. Nevertheless, the indirect storage is still shared as indicated by the references that both l1 and l2 have pointing to a common area in memory.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/SharedIndirectStorage.png"><img src="Images/SharedIndirectStorage.png" alt="alt text" title="Two linked lists sharing the indirect storage" style="max-width:100%;"></a></p>
+<p>Once a mutating operation happens --for example on <code>l2</code> to append a new element--, then the indirect storage and all nodes in the list is actually copied and the references from <code>l1</code> and <code>l2</code> are updated. This is ilustrated in the following figure.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/CopiedIndirectStorage.png"><img src="Images/CopiedIndirectStorage.png" alt="alt text" title="A copy is created after editing one of the lists" style="max-width:100%;"></a></p>
+<h4>Implementation details</h4>
+<ol>
+<li>Direct access to the tail in O(1) by keeping a reference that gets updated only when an operation to the list modifies the tail.</li>
+<li>Value semantics. This implementation of a singly-linked list uses a struct. When the list struct is assigned into another variable or passed as an argument to a function, a copy of the struct is made.</li>
+<li>Copy-on write. Instances of SinglyLinkedList have an internal reference to an indirect storage allocated in the heap. When a copy of the list is made (according to its value semantics) the indirect storage is initialy shared between the copies. This means that a potentially large list can be accessed to read values in it without an expensive copy having to take place. However, as soon as there is a write access to the indirect storage when there are more than one instances referencing to it, a copy will be performed to guarantee value semantics.</li>
+<li>Conformance to the Collection protocol.</li>
+</ol>
+<h2>Performance of linked lists</h2>
+<p>EDITION</p>
+<ul>
+<li><em>append</em>: Appends a new node to the end of the list. This method will modify the list's tail. If the list is empty, it will also modify the head. This operation's time complexity is <em>O(1)</em> since there's a reference to the tail node in this implementation.</li>
+<li><em>prepend</em>: Inserts a new node at the start of the list. If the list is empty, it will also modify the head. This operation's time complexity is <em>O(1)</em> since there's a reference to the head node.</li>
+<li><em>delete</em>: Finds a node in the list and deletes it. This operation's time complexity has an upper bound described by a linear function; O(n).</li>
+</ul>
+<p>SEARCH</p>
+<ul>
+<li>find k-th to last element. Given a list with <code>n</code> number of elements and <code>k</code> being the passed parameter with <code>0</code> &lt;= <code>k</code> &lt;= <code>n</code>, this method has <em>O(k)</em>.</li>
+</ul>
+<h2>Conforming to the Collection protocol</h2>
+<p>Collections are sequences, therefore the first step is to conform to the Sequence protocol.</p>
+<pre><code>extension SinglyLinkedList: Sequence {
+    public func makeIterator() -&gt; SinglyLinkedListForwardIterator&lt;T&gt; {
+        return SinglyLinkedListForwardIterator(head: self.storage.head)
+    }
+}
+</code></pre>
+<p>We have used <code>SinglyLinkedListForwardIterator</code> an iterator class to keep track of the progress while iterating the structure:</p>
+<pre><code>public struct SinglyLinkedListForwardIterator&lt;T&gt; : IteratorProtocol {
+
+    public typealias Element = T
+
+    private(set) var head: SinglyLinkedListNode&lt;T&gt;?
+
+    mutating public func next() -&gt; T? {
+        let result = self.head?.value
+        self.head = self.head?.next
+        return result
+    }
+}
+</code></pre>
+<p>Next, a collection needs to be indexable. Indexes are implemented by the data structure class. We have encapsulated this knowledge in instances of the class <code>SinglyLinkedListIndex</code>.</p>
+<pre><code>public struct SinglyLinkedListIndex&lt;T&gt;: Comparable {
+    fileprivate let node: SinglyLinkedListNode&lt;T&gt;?
+    fileprivate let tag: Int
+
+    public static func==&lt;T&gt;(lhs: SinglyLinkedListIndex&lt;T&gt;, rhs: SinglyLinkedListIndex&lt;T&gt;) -&gt; Bool {
+        return (lhs.tag == rhs.tag)
+    }
+
+    public static func&lt; &lt;T&gt;(lhs: SinglyLinkedListIndex&lt;T&gt;, rhs: SinglyLinkedListIndex&lt;T&gt;) -&gt; Bool {
+        return (lhs.tag &lt; rhs.tag)
+    }
+}
+</code></pre>
+<p>Finally, the methods in the collection to manipulate indexes are implemented below:</p>
+<ul>
+<li>startIndex: Index of the first element. Can be calculated with O(1).</li>
+<li>endIndex: Index that follows the last valid index in the collection. That is, the index that follows the tail's index. Can be calculated with O(1) if the count of elements is kept internally. However, the implementation below is O(n) with <code>n</code> being the number of elements in the list.</li>
+</ul>
+<pre><code>extension SinglyLinkedList : Collection {
+
+    public typealias Index = SinglyLinkedListIndex&lt;T&gt;
+
+    public var startIndex: Index {
+        get {
+            return SinglyLinkedListIndex&lt;T&gt;(node: self.storage.head, tag: 0)
+        }
+    }
+
+public var endIndex: Index {
+    get {
+        if let h = self.storage.head {
+        let (_, numberOfElements) = findTail(in: h)
+            return SinglyLinkedListIndex&lt;T&gt;(node: h, tag: numberOfElements)
+        } else {
+            return SinglyLinkedListIndex&lt;T&gt;(node: nil, tag: self.startIndex.tag)
+        }
+    }
+}
+
+public subscript(position: Index) -&gt; T {
+    get {
+        return position.node!.value
+    }
+}
+
+public func index(after idx: Index) -&gt; Index {
+    return SinglyLinkedListIndex&lt;T&gt;(node: idx.node?.next, tag: idx.tag+1)
+    }
+}
+</code></pre>
+<p>Conforming to the Collection protocol allows our class SinglyLinkedList to take adventage of all the collection methods included in the Stardard Library.</p>
+<p><em>Written by Borja Arias Drake</em></p></div>
+</body>
+</html>

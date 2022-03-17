@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<head>
+  <title>Heap</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Heap</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/160631/swift-algorithm-club-heap-and-priority-queue-data-structure" rel="nofollow">here</a></p>
+</blockquote>
+<p>A heap is a <a href="../Binary%20Tree/">binary tree</a> inside an array, so it does not use parent/child pointers. A heap is sorted based on the "heap property" that determines the order of the nodes in the tree.</p>
+<p>Common uses for heap:</p>
+<ul>
+<li>To build <a href="../Priority%20Queue/">priority queues</a>.</li>
+<li>To support <a href="../Heap%20Sort/">heap sorts</a>.</li>
+<li>To compute the minimum (or maximum) element of a collection quickly.</li>
+<li>To impress your non-programmer friends.</li>
+</ul>
+<h2>The heap property</h2>
+<p>There are two kinds of heaps: a <em>max-heap</em> and a <em>min-heap</em> which are different by the order in which they store the tree nodes.</p>
+<p>In a max-heap, parent nodes have a greater value than each of their children. In a min-heap, every parent node has a smaller value than its child nodes. This is called the "heap property", and it is true for every single node in the tree.</p>
+<p>An example:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Heap1.png"><img src="Images/Heap1.png" alt="A max-heap" style="max-width:100%;"></a></p>
+<p>This is a max-heap because every parent node is greater than its children. <code>(10)</code> is greater than <code>(7)</code> and <code>(2)</code>. <code>(7)</code> is greater than <code>(5)</code> and <code>(1)</code>.</p>
+<p>As a result of this heap property, a max-heap always stores its largest item at the root of the tree. For a min-heap, the root is always the smallest item in the tree. The heap property is useful because heaps are often used as a <a href="../Priority%20Queue/">priority queue</a> to access the "most important" element quickly.</p>
+<blockquote>
+<p><strong>Note:</strong> The root of the heap has the maximum or minimum element, but the sort order of other elements are not predictable. For example, the maximum element is always at index 0 in a max-heap, but the minimum element isn’t necessarily the last one. -- the only guarantee you have is that it is one of the leaf nodes, but not which one.</p>
+</blockquote>
+<h2>How does a heap compare to regular trees?</h2>
+<p>A heap is not a replacement for a binary search tree, and there are similarities and differences between them. Here are some main differences:</p>
+<p><strong>Order of the nodes.</strong> In a <a href="../Binary%20Search%20Tree/">binary search tree (BST)</a>, the left child must be smaller than its parent, and the right child must be greater. This is not true for a heap. In a max-heap both children must be smaller than the parent, while in a min-heap they both must be greater.</p>
+<p><strong>Memory.</strong> Traditional trees take up more memory than just the data they store. You need to allocate additional storage for the node objects and pointers to the left/right child nodes. A heap only uses a plain array for storage and uses no pointers.</p>
+<p><strong>Balancing.</strong> A binary search tree must be "balanced" so that most operations have <strong>O(log n)</strong> performance. You can either insert and delete your data in a random order or use something like an <a href="../AVL%20Tree/">AVL tree</a> or <a href="../Red-Black%20Tree/">red-black tree</a>, but with heaps we don't actually need the entire tree to be sorted. We just want the heap property to be fulfilled, so balancing isn't an issue. Because of the way the heap is structured, heaps can guarantee <strong>O(log n)</strong> performance.</p>
+<p><strong>Searching.</strong> Whereas searching is fast in a binary tree, it is slow in a heap. Searching isn't a top priority in a heap since the purpose of a heap is to put the largest (or smallest) node at the front and to allow relatively fast inserts and deletes.</p>
+<h2>The tree inside an array</h2>
+<p>An array may seem like an odd way to implement a tree-like structure, but it is efficient in both time and space.</p>
+<p>This is how we are going to store the tree from the above example:</p>
+<pre><code>[ 10, 7, 2, 5, 1 ]
+</code></pre>
+<p>That's all there is to it! We don't need any more storage than just this simple array.</p>
+<p>So how do we know which nodes are the parents and which are the children if we are not allowed to use any pointers? Good question! There is a well-defined relationship between the array index of a tree node and the array indices of its parent and children.</p>
+<p>If <code>i</code> is the index of a node, then the following formulas give the array indices of its parent and child nodes:</p>
+<pre><code>parent(i) = floor((i - 1)/2)
+left(i)   = 2i + 1
+right(i)  = 2i + 2
+</code></pre>
+<p>Note that <code>right(i)</code> is simply <code>left(i) + 1</code>. The left and right nodes are always stored right next to each other.</p>
+<p>Let's use these formulas on the example. Fill in the array index and we should get the positions of the parent and child nodes in the array:</p>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Array index (<code>i</code>)</th>
+<th>Parent index</th>
+<th>Left child</th>
+<th>Right child</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>0</td>
+<td>-1</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>5</td>
+<td>6</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>1</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+<td>9</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>Verify for yourself that these array indices indeed correspond to the picture of the tree.</p>
+<blockquote>
+<p><strong>Note:</strong> The root node <code>(10)</code> does not have a parent because <code>-1</code> is not a valid array index. Likewise, nodes <code>(2)</code>, <code>(5)</code>, and <code>(1)</code> do not have children because those indices are greater than the array size, so we always have to make sure the indices we calculate are actually valid before we use them.</p>
+</blockquote>
+<p>Recall that in a max-heap, the parent's value is always greater than (or equal to) the values of its children. This means the following must be true for all array indices <code>i</code>:</p>
+<div class="highlight highlight-source-swift"><pre>array[<span class="pl-c1">parent</span>(i)] <span class="pl-k">&gt;=</span> array[i]</pre></div>
+<p>Verify that this heap property holds for the array from the example heap.</p>
+<p>As you can see, these equations allow us to find the parent or child index for any node without the need for pointers. It is complicated than just dereferencing a pointer, but that is the tradeoff: we save memory space but pay with extra computations. Fortunately, the computations are fast and only take <strong>O(1)</strong> time.</p>
+<p>It is important to understand this relationship between array index and position in the tree. Here is a larger heap which has 15 nodes divided over four levels:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/LargeHeap.png"><img src="Images/LargeHeap.png" alt="Large heap" style="max-width:100%;"></a></p>
+<p>The numbers in this picture are not the values of the nodes but the array indices that store the nodes! Here is the array indices correspond to the different levels of the tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Array.png"><img src="Images/Array.png" alt="The heap array" style="max-width:100%;"></a></p>
+<p>For the formulas to work, parent nodes must appear before child nodes in the array. You can see that in the above picture.</p>
+<p>Note that this scheme has limitations. You can do the following with a regular binary tree but not with a heap:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/RegularTree.png"><img src="Images/RegularTree.png" alt="Impossible with a heap" style="max-width:100%;"></a></p>
+<p>You can not start a new level unless the current lowest level is completely full, so heaps always have this kind of shape:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/HeapShape.png"><img src="Images/HeapShape.png" alt="The shape of a heap" style="max-width:100%;"></a></p>
+<blockquote>
+<p><strong>Note:</strong> You <em>could</em> emulate a regular binary tree with a heap, but it would be a waste of space, and you would need to mark array indices as being empty.</p>
+</blockquote>
+<p>Pop quiz! Let's say we have the array:</p>
+<pre><code>[ 10, 14, 25, 33, 81, 82, 99 ]
+</code></pre>
+<p>Is this a valid heap? The answer is yes! A sorted array from low-to-high is a valid min-heap. We can draw this heap as follows:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/SortedArray.png"><img src="Images/SortedArray.png" alt="A sorted array is a valid heap" style="max-width:100%;"></a></p>
+<p>The heap property holds for each node because a parent is always smaller than its children. (Verify for yourself that an array sorted from high-to-low is always a valid max-heap.)</p>
+<blockquote>
+<p><strong>Note:</strong> But not every min-heap is necessarily a sorted array! It only works one way. To turn a heap back into a sorted array, you need to use <a href="../Heap%20Sort/">heap sort</a>.</p>
+</blockquote>
+<h2>More math!</h2>
+<p>In case you are curious, here are a few more formulas that describe certain properties of a heap. You do not need to know these by heart, but they come in handy sometimes. Feel free to skip this section!</p>
+<p>The <em>height</em> of a tree is defined as the number of steps it takes to go from the root node to the lowest leaf node, or more formally: the height is the maximum number of edges between the nodes. A heap of height <em>h</em> has <em>h + 1</em> levels.</p>
+<p>This heap has height 3, so it has 4 levels:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/LargeHeap.png"><img src="Images/LargeHeap.png" alt="Large heap" style="max-width:100%;"></a></p>
+<p>A heap with <em>n</em> nodes has height <em>h = floor(log2(n))</em>. This is because we always fill up the lowest level completely before we add a new level. The example has 15 nodes, so the height is <code>floor(log2(15)) = floor(3.91) = 3</code>.</p>
+<p>If the lowest level is completely full, then that level contains <em>2^h</em> nodes. The rest of the tree above it contains <em>2^h - 1</em> nodes. Fill in the numbers from the example: the lowest level has 8 nodes, which indeed is <code>2^3 = 8</code>. The first three levels contain a total of 7 nodes, i.e. <code>2^3 - 1 = 8 - 1 = 7</code>.</p>
+<p>The total number of nodes <em>n</em> in the entire heap is therefore <em>2^(h+1) - 1</em>. In the example, <code>2^4 - 1 = 16 - 1 = 15</code>.</p>
+<p>There are at most <em>ceil(n/2^(h+1))</em> nodes of height <em>h</em> in an <em>n</em>-element heap.</p>
+<p>The leaf nodes are always located at array indices <em>floor(n/2)</em> to <em>n-1</em>. We will make use of this fact to quickly build up the heap from an array. Verify this for the example if you don't believe it. ;-)</p>
+<p>Just a few math facts to brighten your day.</p>
+<h2>What can you do with a heap?</h2>
+<p>There are two primitive operations necessary to make sure the heap is a valid max-heap or min-heap after you insert or remove an element:</p>
+<ul>
+<li>
+<p><code>shiftUp()</code>: If the element is greater (max-heap) or smaller (min-heap) than its parent, it needs to be swapped with the parent. This makes it move up the tree.</p>
+</li>
+<li>
+<p><code>shiftDown()</code>. If the element is smaller (max-heap) or greater (min-heap) than its children, it needs to move down the tree. This operation is also called "heapify".</p>
+</li>
+</ul>
+<p>Shifting up or down is a recursive procedure that takes <strong>O(log n)</strong> time.</p>
+<p>Here are other operations that are built on primitive operations:</p>
+<ul>
+<li>
+<p><code>insert(value)</code>: Adds the new element to the end of the heap and then uses <code>shiftUp()</code> to fix the heap.</p>
+</li>
+<li>
+<p><code>remove()</code>: Removes and returns the maximum value (max-heap) or the minimum value (min-heap). To fill up the hole left by removing the element, the very last element is moved to the root position and then <code>shiftDown()</code> fixes up the heap. (This is sometimes called "extract min" or "extract max".)</p>
+</li>
+<li>
+<p><code>removeAtIndex(index)</code>: Just like <code>remove()</code> with the exception that it allows you to remove any item from the heap, not just the root. This calls both <code>shiftDown()</code>, in case the new element is out-of-order with its children, and <code>shiftUp()</code>, in case the element is out-of-order with its parents.</p>
+</li>
+<li>
+<p><code>replace(index, value)</code>: Assigns a smaller (min-heap) or larger (max-heap) value to a node. Because this invalidates the heap property, it uses <code>shiftUp()</code> to patch things up. (Also called "decrease key" and "increase key".)</p>
+</li>
+</ul>
+<p>All of the above take time <strong>O(log n)</strong> because shifting up or down is expensive. There are also a few operations that take more time:</p>
+<ul>
+<li>
+<p><code>search(value)</code>. Heaps are not built for efficient searches, but the <code>replace()</code> and <code>removeAtIndex()</code> operations require the array index of the node, so you need to find that index. Time: <strong>O(n)</strong>.</p>
+</li>
+<li>
+<p><code>buildHeap(array)</code>: Converts an (unsorted) array into a heap by repeatedly calling <code>insert()</code>. If you are smart about this, it can be done in <strong>O(n)</strong> time.</p>
+</li>
+<li>
+<p><a href="../Heap%20Sort/">Heap sort</a>. Since the heap is an array, we can use its unique properties to sort the array from low to high. Time: <strong>O(n lg n).</strong></p>
+</li>
+</ul>
+<p>The heap also has a <code>peek()</code> function that returns the maximum (max-heap) or minimum (min-heap) element, without removing it from the heap. Time: <strong>O(1)</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> By far the most common things you will do with a heap are inserting new values with <code>insert()</code> and removing the maximum or minimum value with <code>remove()</code>. Both take <strong>O(log n)</strong> time. The other operations exist to support more advanced usage, such as building a priority queue where the "importance" of items can change after they have been added to the queue.</p>
+</blockquote>
+<h2>Inserting into the heap</h2>
+<p>Let's go through an example of insertion to see in details how this works. We will insert the value <code>16</code> into this heap:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Heap1.png"><img src="Images/Heap1.png" alt="The heap before insertion" style="max-width:100%;"></a></p>
+<p>The array for this heap is <code>[ 10, 7, 2, 5, 1 ]</code>.</p>
+<p>The first step when inserting a new item is to append it to the end of the array. The array becomes:</p>
+<pre><code>[ 10, 7, 2, 5, 1, 16 ]
+</code></pre>
+<p>This corresponds to the following tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Insert1.png"><img src="Images/Insert1.png" alt="The heap before insertion" style="max-width:100%;"></a></p>
+<p>The <code>(16)</code> was added to the first available space on the last row.</p>
+<p>Unfortunately, the heap property is no longer satisfied because <code>(2)</code> is above <code>(16)</code>, and we want higher numbers above lower numbers. (This is a max-heap.)</p>
+<p>To restore the heap property, we swap <code>(16)</code> and <code>(2)</code>.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Insert2.png"><img src="Images/Insert2.png" alt="The heap before insertion" style="max-width:100%;"></a></p>
+<p>We are not done yet because <code>(10)</code> is also smaller than <code>(16)</code>. We keep swapping our inserted value with its parent, until the parent is larger or we reach the top of the tree. This is called <strong>shift-up</strong> or <strong>sifting</strong> and is done after every insertion. It makes a number that is too large or too small "float up" the tree.</p>
+<p>Finally, we get:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Insert3.png"><img src="Images/Insert3.png" alt="The heap before insertion" style="max-width:100%;"></a></p>
+<p>And now every parent is greater than its children again.</p>
+<p>The time required for shifting up is proportional to the height of the tree, so it takes <strong>O(log n)</strong> time. (The time it takes to append the node to the end of the array is only <strong>O(1)</strong>, so that does not slow it down.)</p>
+<h2>Removing the root</h2>
+<p>Let's remove <code>(10)</code> from this tree:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Heap1.png"><img src="Images/Heap1.png" alt="The heap before removal" style="max-width:100%;"></a></p>
+<p>What happens to the empty spot at the top?</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Remove1.png"><img src="Images/Remove1.png" alt="The root is gone" style="max-width:100%;"></a></p>
+<p>When inserting, we put the new value at the end of the array. Here, we do the opposite: we take the last object we have, stick it up on top of the tree, and restore the heap property.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Remove2.png"><img src="Images/Remove2.png" alt="The last node goes to the root" style="max-width:100%;"></a></p>
+<p>Let's look at how to <strong>shift-down</strong> <code>(1)</code>. To maintain the heap property for this max-heap, we want to the highest number of top. We have two candidates for swapping places with: <code>(7)</code> and <code>(2)</code>. We choose the highest number between these three nodes to be on top. That is <code>(7)</code>, so swapping <code>(1)</code> and <code>(7)</code> gives us the following tree.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Remove3.png"><img src="Images/Remove3.png" alt="The last node goes to the root" style="max-width:100%;"></a></p>
+<p>Keep shifting down until the node does not have any children or it is larger than both its children. For our heap, we only need one more swap to restore the heap property:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Remove4.png"><img src="Images/Remove4.png" alt="The last node goes to the root" style="max-width:100%;"></a></p>
+<p>The time required for shifting all the way down is proportional to the height of the tree which takes <strong>O(log n)</strong> time.</p>
+<blockquote>
+<p><strong>Note:</strong> <code>shiftUp()</code> and <code>shiftDown()</code> can only fix one out-of-place element at a time. If there are multiple elements in the wrong place, you need to call these functions once for each of those elements.</p>
+</blockquote>
+<h2>Removing any node</h2>
+<p>The vast majority of the time you will be removing the object at the root of the heap because that is what heaps are designed for.</p>
+<p>However, it can be useful to remove an arbitrary element. This is a general version of <code>remove()</code> and may involve either <code>shiftDown()</code> or <code>shiftUp()</code>.</p>
+<p>Let's take the example tree again and remove <code>(7)</code>:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Heap1.png"><img src="Images/Heap1.png" alt="The heap before removal" style="max-width:100%;"></a></p>
+<p>As a reminder, the array is:</p>
+<pre><code>[ 10, 7, 2, 5, 1 ]
+</code></pre>
+<p>As you know, removing an element could potentially invalidate the max-heap or min-heap property. To fix this, we swap the node that we are removing with the last element:</p>
+<pre><code>[ 10, 1, 2, 5, 7 ]
+</code></pre>
+<p>The last element is the one that we will return; we will call <code>removeLast()</code> to remove it from the heap. The <code>(1)</code> is now out-of-order because it is smaller than its child, <code>(5)</code> but sits higher in the tree. We call <code>shiftDown()</code> to repair this.</p>
+<p>However, shifting down is not the only situation we need to handle. It may also happen that the new element must be shifted up. Consider what happens if you remove <code>(5)</code> from the following heap:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Remove5.png"><img src="Images/Remove5.png" alt="We need to shift up" style="max-width:100%;"></a></p>
+<p>Now <code>(5)</code> gets swapped with <code>(8)</code>. Because <code>(8)</code> is larger than its parent, we need to call <code>shiftUp()</code>.</p>
+<h2>Creating a heap from an array</h2>
+<p>It can be convenient to convert an array into a heap. This just shuffles the array elements around until the heap property is satisfied.</p>
+<p>In code it would look like this:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">private</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">buildHeap</span>(<span class="pl-en">fromArray</span> <span class="pl-smi">array</span>: [T]) {
+    <span class="pl-k">for</span> value <span class="pl-k">in</span> array {
+      <span class="pl-c1">insert</span>(value)
+    }
+  }</pre></div>
+<p>We simply call <code>insert()</code> for each of the values in the array. Simple enough but not very efficient. This takes <strong>O(n log n)</strong> time in total because there are <strong>n</strong> elements and each insertion takes <strong>log n</strong> time.</p>
+<p>If you didn't gloss over the math section, you'd have seen that for any heap the elements at array indices <em>n/2</em> to <em>n-1</em> are the leaves of the tree. We can simply skip those leaves. We only have to process the other nodes, since they are parents with one or more children and therefore may be in the wrong order.</p>
+<p>In code:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">private</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">buildHeap</span>(<span class="pl-en">fromArray</span> <span class="pl-smi">array</span>: [T]) {
+    elements <span class="pl-k">=</span> array
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">stride</span>(<span class="pl-c1">from</span>: (nodes.<span class="pl-c1">count</span><span class="pl-k">/</span><span class="pl-c1">2</span><span class="pl-k">-</span><span class="pl-c1">1</span>), <span class="pl-c1">through</span>: <span class="pl-c1">0</span>, <span class="pl-c1">by</span>: <span class="pl-c1">-1</span>) {
+      <span class="pl-c1">shiftDown</span>(<span class="pl-c1">index</span>: i, <span class="pl-c1">heapSize</span>: elements.<span class="pl-c1">count</span>)
+    }
+  }</pre></div>
+<p>Here, <code>elements</code> is the heap's own array. We walk backwards through this array, starting at the first non-leaf node, and call <code>shiftDown()</code>. This simple loop puts these nodes, as well as the leaves that we skipped, in the correct order. This is known as Floyd's algorithm and only takes <strong>O(n)</strong> time. Win!</p>
+<h2>Searching the heap</h2>
+<p>Heaps are not made for fast searches, but if you want to remove an arbitrary element using <code>removeAtIndex()</code> or change the value of an element with <code>replace()</code>, then you need to obtain the index of that element. Searching is one way to do this, but it is slow.</p>
+<p>In a <a href="../Binary%20Search%20Tree/">binary search tree</a>, depending on the order of the nodes, a fast search can be guaranteed. Since a heap orders its nodes differently, a binary search will not work, and you need to check every node in the tree.</p>
+<p>Let's take our example heap again:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Heap1.png"><img src="Images/Heap1.png" alt="The heap" style="max-width:100%;"></a></p>
+<p>If we want to search for the index of node <code>(1)</code>, we could just step through the array <code>[ 10, 7, 2, 5, 1 ]</code> with a linear search.</p>
+<p>Even though the heap property was not conceived with searching in mind, we can still take advantage of it. We know that in a max-heap a parent node is always larger than its children, so we can ignore those children (and their children, and so on...) if the parent is already smaller than the value we are looking for.</p>
+<p>Let's say we want to see if the heap contains the value <code>8</code> (it doesn't). We start at the root <code>(10)</code>. This is not what we are looking for, so we recursively look at its left and right child. The left child is <code>(7)</code>. That is also not what we want, but since this is a max-heap, we know there is no point in looking at the children of <code>(7)</code>. They will always be smaller than <code>7</code> and are therefore never equal to <code>8</code>; likewise, for the right child, <code>(2)</code>.</p>
+<p>Despite this small optimization, searching is still an <strong>O(n)</strong> operation.</p>
+<blockquote>
+<p><strong>Note:</strong> There is a way to turn lookups into a <strong>O(1)</strong> operation by keeping an additional dictionary that maps node values to indices. This may be worth doing if you often need to call <code>replace()</code> to change the "priority" of objects in a <a href="../Priority%20Queue/">priority queue</a> that's built on a heap.</p>
+</blockquote>
+<h2>The code</h2>
+<p>See <a href="Heap.swift">Heap.swift</a> for the implementation of these concepts in Swift. Most of the code is quite straightforward. The only tricky bits are in <code>shiftUp()</code> and <code>shiftDown()</code>.</p>
+<p>You have seen that there are two types of heaps: a max-heap and a min-heap. The only difference between them is in how they order their nodes: largest value first or smallest value first.</p>
+<p>Rather than create two different versions, <code>MaxHeap</code> and <code>MinHeap</code>, there is just one <code>Heap</code> object and it takes an <code>isOrderedBefore</code> closure. This closure contains the logic that determines the order of two values. You have probably seen this before because it is also how Swift's <code>sort()</code> works.</p>
+<p>To make a max-heap of integers, you write:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> maxHeap <span class="pl-k">=</span> Heap<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>(<span class="pl-c1">sort</span>: <span class="pl-k">&gt;</span>)</pre></div>
+<p>And to create a min-heap you write:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> minHeap <span class="pl-k">=</span> Heap<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>(<span class="pl-c1">sort</span>: <span class="pl-k">&lt;</span>)</pre></div>
+<p>I just wanted to point this out, because where most heap implementations use the <code>&lt;</code> and <code>&gt;</code> operators to compare values, this one uses the <code>isOrderedBefore()</code> closure.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Heap_%28data_structure%29" rel="nofollow">Heap on Wikipedia</a></p>
+<p><em>Written for the Swift Algorithm Club by <a href="http://www.github.com/kevinrandrup">Kevin Randrup</a> and Matthijs Hollemans</em></p></div>
+</body>
+</html>

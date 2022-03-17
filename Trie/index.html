@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<head>
+  <title>Trie</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Trie</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/139410/swift-algorithm-club-swift-trie-data-structure" rel="nofollow">here</a></p>
+</blockquote>
+<h2>What is a Trie?</h2>
+<p>A <code>Trie</code>, (also known as a prefix tree, or radix tree in some other implementations) is a special type of tree used to store associative data structures. A <code>Trie</code> for a dictionary might look like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/trie.png"><img src="images/trie.png" alt="A Trie" style="max-width:100%;"></a></p>
+<p>Storing the English language is a primary use case for a <code>Trie</code>. Each node in the <code>Trie</code> would represent a single character of a word. A series of nodes then make up a word.</p>
+<h2>Why a Trie?</h2>
+<p>Tries are very useful for certain situations. Here are some of the advantages:</p>
+<ul>
+<li>Looking up values typically have a better worst-case time complexity.</li>
+<li>Unlike a hash map, a <code>Trie</code> does not need to worry about key collisions.</li>
+<li>Doesn't utilize hashing to guarantee a unique path to elements.</li>
+<li><code>Trie</code> structures can be alphabetically ordered by default.</li>
+</ul>
+<h2>Common Algorithms</h2>
+<h3>Contains (or any general lookup method)</h3>
+<p><code>Trie</code> structures are great for lookup operations. For <code>Trie</code> structures that model the English language, finding a particular word is a matter of a few pointer traversals:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">contains</span>(<span class="pl-smi"><span class="pl-en">word</span></span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+  <span class="pl-k">guard</span> <span class="pl-k">!</span>word.<span class="pl-c1">isEmpty</span> <span class="pl-k">else</span> { <span class="pl-k">return</span> <span class="pl-c1">false</span> }
+
+  <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>  <span class="pl-k">var</span> currentNode <span class="pl-k">=</span> root
+  
+  <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>  <span class="pl-k">var</span> characters <span class="pl-k">=</span> <span class="pl-c1">Array</span>(word.<span class="pl-c1">lowercased</span>())
+  <span class="pl-k">var</span> currentIndex <span class="pl-k">=</span> <span class="pl-c1">0</span>
+ 
+  <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>  <span class="pl-k">while</span> currentIndex <span class="pl-k">&lt;</span> characters.<span class="pl-c1">count</span>, 
+    <span class="pl-k">let</span> child <span class="pl-k">=</span> currentNode.<span class="pl-smi">children</span>[characters[currentIndex]] {
+
+    currentNode <span class="pl-k">=</span> child
+    currentIndex <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>  <span class="pl-k">if</span> currentIndex <span class="pl-k">==</span> characters.<span class="pl-c1">count</span> <span class="pl-k">&amp;&amp;</span> currentNode.<span class="pl-smi">isTerminating</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">true</span>
+  } <span class="pl-k">else</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>
+  }
+}</pre></div>
+<p>The <code>contains</code> method is fairly straightforward:</p>
+<ol>
+<li>Create a reference to the <code>root</code>. This reference will allow you to walk down a chain of nodes.</li>
+<li>Keep track of the characters of the word you're trying to match.</li>
+<li>Walk the pointer down the nodes.</li>
+<li><code>isTerminating</code> is a boolean flag for whether or not this node is the end of a word. If this <code>if</code> condition is satisfied, it means you are able to find the word in the <code>trie</code>.</li>
+</ol>
+<h3>Insertion</h3>
+<p>Insertion into a <code>Trie</code> requires you to walk over the nodes until you either halt on a node that must be marked as <code>terminating</code>, or reach a point where you need to add extra nodes.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-smi"><span class="pl-en">word</span></span>: <span class="pl-c1">String</span>) {
+  <span class="pl-k">guard</span> <span class="pl-k">!</span>word.<span class="pl-c1">isEmpty</span> <span class="pl-k">else</span> {
+    <span class="pl-k">return</span>
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>  <span class="pl-k">var</span> currentNode <span class="pl-k">=</span> root
+
+  <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>  <span class="pl-k">for</span> character <span class="pl-k">in</span> word.<span class="pl-c1">lowercased</span>() {
+    <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>    <span class="pl-k">if</span> <span class="pl-k">let</span> childNode <span class="pl-k">=</span> currentNode.<span class="pl-smi">children</span>[character] {
+      currentNode <span class="pl-k">=</span> childNode
+    } <span class="pl-k">else</span> {
+      currentNode.<span class="pl-c1">add</span>(<span class="pl-c1">value</span>: character)
+      currentNode <span class="pl-k">=</span> currentNode.<span class="pl-smi">children</span>[character]<span class="pl-k">!</span>
+    }
+  }
+  <span class="pl-c"><span class="pl-c">//</span> Word already present?</span>
+<span class="pl-c"></span>  <span class="pl-k">guard</span> <span class="pl-k">!</span>currentNode.<span class="pl-smi">isTerminating</span> <span class="pl-k">else</span> {
+    <span class="pl-k">return</span>
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>  wordCount <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  currentNode.<span class="pl-smi">isTerminating</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>
+}</pre></div>
+<ol>
+<li>Once again, you create a reference to the root node. You'll move this reference down a chain of nodes.</li>
+<li>Begin walking through your word letter by letter</li>
+<li>Sometimes, the required node to insert already exists. That is the case for two words inside the <code>Trie</code> that shares letters (i.e "Apple", "App"). If a letter already exists, you'll reuse it, and simply traverse deeper down the chain. Otherwise, you'll create a new node representing the letter.</li>
+<li>Once you get to the end, you mark <code>isTerminating</code> to true to mark that specific node as the end of a word.</li>
+</ol>
+<h3>Removal</h3>
+<p>Removing keys from the trie is a little tricky, as there are a few more cases you'll need to take into account. Nodes in a <code>Trie</code> may be shared between different words. Consider the two words "Apple" and "App". Inside a <code>Trie</code>, the chain of nodes representing "App" is shared with "Apple".</p>
+<p>If you'd like to remove "Apple", you'll need to take care to leave the "App" chain in tact.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">remove</span>(<span class="pl-smi"><span class="pl-en">word</span></span>: <span class="pl-c1">String</span>) {
+  <span class="pl-k">guard</span> <span class="pl-k">!</span>word.<span class="pl-c1">isEmpty</span> <span class="pl-k">else</span> {
+    <span class="pl-k">return</span>
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>  <span class="pl-k">guard</span> <span class="pl-k">let</span> terminalNode <span class="pl-k">=</span> <span class="pl-c1">findTerminalNodeOf</span>(<span class="pl-c1">word</span>: word) <span class="pl-k">else</span> {
+    <span class="pl-k">return</span>
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>  <span class="pl-k">if</span> terminalNode.<span class="pl-smi">isLeaf</span> {
+    <span class="pl-c1">deleteNodesForWordEndingWith</span>(<span class="pl-c1">terminalNode</span>: terminalNode)
+  } <span class="pl-k">else</span> {
+    terminalNode.<span class="pl-smi">isTerminating</span> <span class="pl-k">=</span> <span class="pl-c1">false</span>
+  }
+  wordCount <span class="pl-k">-=</span> <span class="pl-c1">1</span>
+}</pre></div>
+<ol>
+<li><code>findTerminalNodeOf</code> traverses through the Trie to find the last node that represents the <code>word</code>. If it is unable to traverse through the chain of characters, it returns <code>nil</code>.</li>
+<li><code>deleteNodesForWordEndingWith</code> traverse backwords, deleting the nodes represented by the <code>word</code>.</li>
+</ol>
+<h3>Time Complexity</h3>
+<p>Let n be the length of some value in the <code>Trie</code>.</p>
+<ul>
+<li><code>contains</code> - Worst case O(n)</li>
+<li><code>insert</code> - O(n)</li>
+<li><code>remove</code> - O(n)</li>
+</ul>
+<h3>Other Notable Operations</h3>
+<ul>
+<li><code>count</code>: Returns the number of keys in the <code>Trie</code> - O(1)</li>
+<li><code>words</code>: Returns a list containing all the keys in the <code>Trie</code> - O(1)</li>
+<li><code>isEmpty</code>: Returns <code>true</code> if the <code>Trie</code> is empty, <code>false</code> otherwise - O(1)</li>
+</ul>
+<p>See also <a href="https://en.wikipedia.org/wiki/Trie" rel="nofollow">Wikipedia entry for Trie</a>.</p>
+<p><em>Written for the Swift Algorithm Club by Christian Encarnacion. Refactored by Kelvin Lau</em></p>
+<h1>Changes by Rick Zaccone</h1>
+<ul>
+<li>Added comments to all methods</li>
+<li>Refactored the <code>remove</code> method</li>
+<li>Renamed some variables.  I have mixed feelings about the way Swift infers types.  It's not always apparent what type a variable will have.  To address this, I made changes such as renaming <code>parent</code> to <code>parentNode</code> to emphasize that it is a node and not the value contained within the node.</li>
+<li>Added a <code>words</code> property that recursively traverses the trie and constructs an array containing all of the words in the trie.</li>
+<li>Added a <code>isLeaf</code> property to <code>TrieNode</code> for readability.</li>
+<li>Implemented <code>count</code> and <code>isEmpty</code> properties for the trie.</li>
+<li>I tried stress testing the trie by adding 162,825 words.  The playground was very slow while adding the words and eventually crashed.  To fix this problem, I moved everything into a project and wrote <code>XCTest</code> tests that test the trie.  There are also several performance tests.  Everything passes.</li>
+</ul></div>
+</body>
+</html>

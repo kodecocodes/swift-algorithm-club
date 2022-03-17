@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<head>
+  <title>Topological Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Topological Sort</h1>
+<p>Topological sort is an algorithm that orders a directed graph such that for each directed edge <em>u→v</em>, vertex <em>u</em> comes before vertex <em>v</em>.</p>
+<p>In other words, a topological sort places the vertices of a <a href="../Graph/">directed acyclic graph</a> on a line so that all directed edges go from left to right.</p>
+<p>Consider the graph in the following example:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Graph.png"><img src="Images/Graph.png" alt="Example" style="max-width:100%;"></a></p>
+<p>This graph has two possible topological sorts:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/TopologicalSort.png"><img src="Images/TopologicalSort.png" alt="Example" style="max-width:100%;"></a></p>
+<p>The topological orderings are <strong>S, V, W, T, X</strong> and <strong>S, W, V, T, X</strong>. Notice how the arrows all go from left to right.</p>
+<p>The following is not a valid topological sort for this graph, since <strong>X</strong> and <strong>T</strong> cannot happen before <strong>V</strong>:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/InvalidSort.png"><img src="Images/InvalidSort.png" alt="Example" style="max-width:100%;"></a></p>
+<h2>Where is this used?</h2>
+<p>Let's consider that you want to learn all the algorithms and data structures from the Swift Algorithm Club. This might seem daunting at first but we can use topological sort to get things organized.</p>
+<p>Since you're learning about topological sort, let's take this topic as an example. What else do you need to learn first before you can fully understand topological sort? Well, topological sort uses <a href="../Depth-First%20Search/">depth-first search</a> as well as a <a href="../Stack/">stack</a>. But before you can learn about the depth-first search algorithm, you need to know what a <a href="../Graph/">graph</a> is, and it helps to know what a <a href="../Tree/">tree</a> is. In turn, graphs and trees use the idea of linking objects together, so you may need to read up on that first. And so on...</p>
+<p>If we were to represent these objectives in the form of a graph it would look as follows:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Algorithms.png"><img src="Images/Algorithms.png" alt="Example" style="max-width:100%;"></a></p>
+<p>If we consider each algorithm to be a vertex in the graph you can clearly see the dependencies between them. To learn something you might have to know something else first. This is exactly what topological sort is used for -- it will sort things out so that you know what to do first.</p>
+<h2>How does it work?</h2>
+<p><strong>Step 1: Find all vertices that have in-degree of 0</strong></p>
+<p>The <em>in-degree</em> of a vertex is the number of edges pointing at that vertex. Vertices with no incoming edges have an in-degree of 0. These vertices are the starting points for the topological sort.</p>
+<p>In the context of the previous example, these starting vertices represent algorithms and data structures that don't have any prerequisites; you don't need to learn anything else first, hence the sort starts with them.</p>
+<p><strong>Step 2: Traverse the graph with depth-first search</strong></p>
+<p>Depth-first search is an algorithm that starts traversing the graph from a certain vertex and explores as far as possible along each branch before backtracking. To find out more about depth-first search, please take a look at the <a href="../Depth-First%20Search/">detailed explanation</a>.</p>
+<p>We perform a depth-first search on each vertex with in-degree 0. This tells us which vertices are connected to each of these starting vertices.</p>
+<p><strong>Step 3: Remember all visited vertices</strong></p>
+<p>As we perform the depth-first search, we maintain a list of all the vertices that have been visited. This is to avoid visiting the same vertex twice.</p>
+<p><strong>Step 4: Put it all together</strong></p>
+<p>The last step of the sort is to combine the results of the different depth-first searches and put the vertices in a sorted list.</p>
+<h2>Example</h2>
+<p>Consider the following graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Example.png"><img src="Images/Example.png" alt="Graph Example" style="max-width:100%;"></a></p>
+<p><strong>Step 1:</strong> The vertices with 0 in-degree are: <strong>3, 7, 5</strong>. These are our starting vertices.</p>
+<p><strong>Step 2:</strong> Perform depth-first search for each starting vertex, without remembering vertices that have already been visited:</p>
+<pre><code>Vertex 3: 3, 10, 8, 9
+Vertex 7: 7, 11, 2, 8, 9
+Vertex 5: 5, 11, 2, 9, 10
+</code></pre>
+<p><strong>Step 3:</strong> Filter out the vertices already visited in each previous search:</p>
+<pre><code>Vertex 3: 3, 10, 8, 9
+Vertex 7: 7, 11, 2
+Vertex 5: 5
+</code></pre>
+<p><strong>Step 4:</strong> Combine the results of these three depth-first searches. The final sorted order is <strong>5, 7, 11, 2, 3, 10, 8, 9</strong>. (Important: we need to add the results of each subsequent search to the <em>front</em> of the sorted list.)</p>
+<p>The result of the topological sort looks like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/GraphResult.png"><img src="Images/GraphResult.png" alt="Result of the sort" style="max-width:100%;"></a></p>
+<blockquote>
+<p><strong>Note:</strong> This is not the only possible topological sort for this graph. For example, other valid solutions are <strong>3, 7, 5, 10, 8, 11, 9, 2</strong> and <strong>3, 7, 5, 8, 11, 2, 9, 10</strong>. Any order where all the arrows are going from left to right will do.</p>
+</blockquote>
+<h2>The code</h2>
+<p>Here is how you could implement topological sort in Swift (see also <a href="TopologicalSort1.swift">TopologicalSort1.swift</a>):</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">Graph</span> {
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">topologicalSort</span>() <span class="pl-k">-&gt;</span> [Node] {
+    <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> startNodes <span class="pl-k">=</span> <span class="pl-c1">calculateInDegreeOfNodes</span>().<span class="pl-c1">filter</span>({ <span class="pl-c1">_</span>, indegree <span class="pl-k">in</span>
+      <span class="pl-k">return</span> indegree <span class="pl-k">==</span> <span class="pl-c1">0</span>
+    }).<span class="pl-c1">map</span>({ node, indegree <span class="pl-k">in</span>
+      <span class="pl-k">return</span> node
+    })
+    
+    <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>    <span class="pl-k">var</span> visited <span class="pl-k">=</span> [Node <span class="pl-k">:</span> <span class="pl-c1">Bool</span>]()
+    <span class="pl-k">for</span> (node, <span class="pl-c1">_</span>) <span class="pl-k">in</span> adjacencyLists {
+      visited[node] <span class="pl-k">=</span> <span class="pl-c1">false</span>
+    }
+    
+    <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>    <span class="pl-k">var</span> result <span class="pl-k">=</span> [Node]()
+    <span class="pl-k">for</span> startNode <span class="pl-k">in</span> startNodes {
+      result <span class="pl-k">=</span> <span class="pl-c1">depthFirstSearch</span>(startNode, <span class="pl-c1">visited</span>: <span class="pl-k">&amp;</span>visited) <span class="pl-k">+</span> result
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> 4    </span>
+<span class="pl-c"></span>    <span class="pl-k">return</span> result
+  }
+}</pre></div>
+<p>Some remarks:</p>
+<ol>
+<li>
+<p>Find the in-degree of each vertex and put all the vertices with in-degree 0 in the <code>startNodes</code> array. In this graph implementation, vertices are called "nodes". Both terms are used interchangeably by people who write graph code.</p>
+</li>
+<li>
+<p>The <code>visited</code> array keeps track of whether we've already seen a vertex during the depth-first search. Initially, we set all elements to <code>false</code>.</p>
+</li>
+<li>
+<p>For each of the vertices in the <code>startNodes</code> array, perform a depth-first search. This returns an array of sorted <code>Node</code> objects. We prepend that array to our own <code>result</code> array.</p>
+</li>
+<li>
+<p>The <code>result</code> array contains all the vertices in topologically sorted order.</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> For a slightly different implementation of topological sort using depth-first search, see <a href="TopologicalSort3.swift">TopologicalSort3.swift</a>. This uses a stack and does not require you to find all vertices with in-degree 0 first.</p>
+</blockquote>
+<h2>Kahn's algorithm</h2>
+<p>Even though depth-first search is the typical way to perform a topological sort, there is another algorithm that also does the job.</p>
+<ol>
+<li>Find out what the in-degree is of every vertex.</li>
+<li>Put all the vertices that have no predecessors in a new array called <code>leaders</code>. These vertices have in-degree 0 and therefore do not depend on any other vertices.</li>
+<li>Go through this list of leaders and remove them one-by-one from the graph. We don't actually modify the graph, we just decrement the in-degree of the vertices they point to. That has the same effect.</li>
+<li>Look at the (former) immediate neighbor vertices of each leader. If any of them now have an in-degree of 0, then they no longer have any predecessors themselves. We'll add those vertices to the <code>leaders</code> array too.</li>
+<li>This repeats until there are no more vertices left to look at. At this point, the <code>leaders</code> array contains all the vertices in sorted order.</li>
+</ol>
+<p>This is an <strong>O(n + m)</strong> algorithm where <strong>n</strong> is the number of vertices and <strong>m</strong> is the number of edges. You can see the implementation in <a href="TopologicalSort2.swift">TopologicalSort2.swift</a>.</p>
+<p>Source: I first read about this alternative algorithm in the Algorithm Alley column in Dr. Dobb's Magazine from May 1993.</p>
+<p><em>Written for Swift Algorithm Club by Ali Hafizji and Matthijs Hollemans</em></p></div>
+</body>
+</html>

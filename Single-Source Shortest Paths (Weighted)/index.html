@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<head>
+  <title>Single-Source Shortest Paths (Weighted)</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Single-Source Shortest Paths</h1>
+<p>The Single-Source shortest path problem finds the shortest paths from a given source vertex to all other vertices in a directed weighted graph. Many variations exist on the problem, specifying whether or not edges may have negative values, whether cycles exist, or whether a path between a specific pair of vertices.</p>
+<h2>Bellman-Ford</h2>
+<p>The Bellman-Ford shortest paths algorithm finds the shortest paths to all vertices from a given source vertex <code>s</code> in a directed graph that may contain negative edge weights. It iterates over all edges for each other vertex in the graph, applying a relaxation to the current state of known shortest path weights. The intuition here is that a path will not contain more vertices than are present in the graph, so performing a pass over all edges <code>|V|-1</code> number of times is sufficient to compare all possible paths.</p>
+<p>At each step, a value is stored for each vertex <code>v</code>, which is the weight of the current known shortest path <code>s</code>~&gt;<code>v</code>. This value remains 0 for the source vertex itself, and all others are initially <code>∞</code>. Then, they are "relaxed" by applying the following test to each edge <code>e = (u, v)</code> (where <code>u</code> is a source vertex and <code>v</code> is a destination vertex for the directed edge):</p>
+<pre><code>if weights[v] &gt; weights[u] + e.weight {
+	weights[v] = weights[u] + e.weight
+}
+</code></pre>
+<p>Bellman-Ford in essence only computes the lengths of the shortest paths, but can optionally maintain a structure that memoizes the predecessor of each vertex on its shortest path from the source vertex.  Then the paths themselves can be reconstructed by recursing through this structure from a destination vertex to the source vertex. This is maintained by simply adding the statement</p>
+<pre><code>predecessors[v] = u
+</code></pre>
+<p>inside of the <code>if</code> statement's body above.</p>
+<h3>Example</h3>
+<p>For the following weighted directed graph:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/example_graph.png"><img src="img/example_graph.png" width="200px" style="max-width:100%;"></a></p>
+<p>let's compute the shortest paths from vertex <code>s</code>. First, we prepare our <code>weights</code> and <code>predecessors</code> structures thusly:</p>
+<table>
+<thead>
+<tr>
+<th>weights</th>
+<th align="center">predecessors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>weights[s] = 0</code></td>
+<td align="center"><code>predecessors[s] = 1</code></td>
+</tr>
+<tr>
+<td><code>weights[t] = ∞</code></td>
+<td align="center"><code>predecessors[t] = ø</code></td>
+</tr>
+<tr>
+<td><code>weights[x] = ∞</code></td>
+<td align="center"><code>predecessors[x] = ø</code></td>
+</tr>
+<tr>
+<td><code>weights[y] = ∞</code></td>
+<td align="center"><code>predecessors[y] = ø</code></td>
+</tr>
+<tr>
+<td><code>weights[z] = ∞</code></td>
+<td align="center"><code>predecessors[z] = ø</code></td>
+</tr>
+</tbody>
+</table>
+<p>Here are their states after each relaxation iteration (each iteration is a pass over all edges, and there are 4 iterations total for this graph):</p>
+<h6>Iteration 1:</h6>
+<table>
+<thead>
+<tr>
+<th>weights</th>
+<th align="center">predecessors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>weights[s] = 0</code></td>
+<td align="center"><code>predecessors[s] = s</code></td>
+</tr>
+<tr>
+<td><code>weights[t] = 6</code></td>
+<td align="center"><code>predecessors[t] = s</code></td>
+</tr>
+<tr>
+<td><code>weights[x] = 4</code></td>
+<td align="center"><code>predecessors[x] = y</code></td>
+</tr>
+<tr>
+<td><code>weights[y] = 7</code></td>
+<td align="center"><code>predecessors[y] = s</code></td>
+</tr>
+<tr>
+<td><code>weights[z] = 2</code></td>
+<td align="center"><code>predecessors[z] = t</code></td>
+</tr>
+</tbody>
+</table>
+<h6>Iteration 2:</h6>
+<table>
+<thead>
+<tr>
+<th>weights</th>
+<th align="center">predecessors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>weights[s] = 0</code></td>
+<td align="center"><code>predecessors[s] = s</code></td>
+</tr>
+<tr>
+<td><code>weights[t] = 2</code></td>
+<td align="center"><code>predecessors[t] = x</code></td>
+</tr>
+<tr>
+<td><code>weights[x] = 4</code></td>
+<td align="center"><code>predecessors[x] = y</code></td>
+</tr>
+<tr>
+<td><code>weights[y] = 7</code></td>
+<td align="center"><code>predecessors[y] = s</code></td>
+</tr>
+<tr>
+<td><code>weights[z] = 2</code></td>
+<td align="center"><code>predecessors[z] = t</code></td>
+</tr>
+</tbody>
+</table>
+<h6>Iteration 3:</h6>
+<table>
+<thead>
+<tr>
+<th>weights</th>
+<th align="center">predecessors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>weights[s] = 0</code></td>
+<td align="center"><code>predecessors[s] = s</code></td>
+</tr>
+<tr>
+<td><code>weights[t] = 2</code></td>
+<td align="center"><code>predecessors[t] = x</code></td>
+</tr>
+<tr>
+<td><code>weights[x] = 4</code></td>
+<td align="center"><code>predecessors[x] = y</code></td>
+</tr>
+<tr>
+<td><code>weights[y] = 7</code></td>
+<td align="center"><code>predecessors[y] = s</code></td>
+</tr>
+<tr>
+<td><code>weights[z] = -2</code></td>
+<td align="center"><code>predecessors[z] = t</code></td>
+</tr>
+</tbody>
+</table>
+<h6>Iteration 4:</h6>
+<table>
+<thead>
+<tr>
+<th>weights</th>
+<th align="center">predecessors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>weights[s] = 0</code></td>
+<td align="center"><code>predecessors[s] = s</code></td>
+</tr>
+<tr>
+<td><code>weights[t] = 2</code></td>
+<td align="center"><code>predecessors[t] = x</code></td>
+</tr>
+<tr>
+<td><code>weights[x] = 4</code></td>
+<td align="center"><code>predecessors[x] = y</code></td>
+</tr>
+<tr>
+<td><code>weights[y] = 7</code></td>
+<td align="center"><code>predecessors[y] = s</code></td>
+</tr>
+<tr>
+<td><code>weights[z] = -2</code></td>
+<td align="center"><code>predecessors[z] = t</code></td>
+</tr>
+</tbody>
+</table>
+<h4>Negative weight cycles</h4>
+<p>An additional useful property of the solution structure is that it can answer whether or not a negative weight cycle exists in the graph and is reachable from the source vertex. A negative weight cycle is a cycle whose sum of edge weights is negative. This means that shortest paths are not well defined in the graph from the specified source, because you can decrease the weight of a path by reentering the cycle, pushing the path's weight towards <code>-∞</code>. After fully relaxing the paths, simply running a check over each edge <code>e = (u, v)</code> to see if the weight of the shortest path to <code>v</code> is greater than the path to <code>u</code>, plus the edge weight itself, signals that the edge has a negative weight and would decrease the shortest path's weight further. Since we know we've already performed the relaxations enough times according to the intuition stated above, we can safely assume this further decrease of weight will continue infinitely.</p>
+<h5>Example</h5>
+<p>For this example, we try to compute the shortest paths from <code>a</code>:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/negative_cycle_example.png"><img src="img/negative_cycle_example.png" width="200px" style="max-width:100%;"></a></p>
+<p>The cycle <code>a</code>-&gt;<code>t</code>-&gt;<code>s</code>-&gt;<code>a</code> has a total edge weight of -9, therefore shortest paths for <code>a</code><del>&gt;<code>t</code> and <code>a</code></del>&gt;<code>s</code> are not well-defined. <code>a</code>~&gt;<code>b</code> is also not well-defined because <code>b</code>-&gt;<code>t</code>-&gt;<code>s</code> is also a negative weight cycle.</p>
+<p>This is confirmed after running the relaxation loop, and checking all the edges as mentioned above. For this graph, we would have after relaxation:</p>
+<table>
+<thead>
+<tr>
+<th>weights</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>weights[a] = -5</code></td>
+</tr>
+<tr>
+<td><code>weights[b] = -5</code></td>
+</tr>
+<tr>
+<td><code>weights[s] = -18</code></td>
+</tr>
+<tr>
+<td><code>weights[t] = -3</code></td>
+</tr>
+</tbody>
+</table>
+<p>One of the edge checks we would perform afterwards would be the following:</p>
+<pre><code>e = (s, a)
+e.weight = 4
+weight[a] &gt; weight[s] + e.weight =&gt; -5 &gt; -18 + 4 =&gt; -5 &gt; -14 =&gt; true
+</code></pre>
+<p>Because this check is true, we know the graph has a negative weight cycle reachable from <code>a</code>.</p>
+<h4>Complexity</h4>
+<p>The relaxation step requires constant time (<code>O(1)</code>) as it simply performs comparisons. That step is performed once per edge (<code>Θ(|E|)</code>), and the edges are iterated over <code>|V|-1</code> times. This would mean a total complexity of <code>Θ(|V||E|)</code>, but there is an optimization we can make: if the outer loop executes and no changes are made to the recorded weights, we can safely terminate the relaxation phase, which means it may execute in <code>O(|V|)</code> steps instead of <code>Θ(|V|)</code> steps (that is, the best case for any size graph is actually a constant number of iterations; the worst case is still iterating <code>|V|-1</code> times).</p>
+<p>The check for negative weight cycles at the end is <code>O(|E|)</code> if we return once we find a hit. To find all negative weight cycles reachable from the source vertex, we'd have to iterate <code>Θ(|E|)</code> times (we currently do not attempt to report the cycles, we simply return a <code>nil</code> result if such a cycle is present).</p>
+<p>The total running time of Bellman-Ford is therefore <code>O(|V||E|)</code>.</p>
+<h2>TODO</h2>
+<ul>
+<li>Dijkstra's algorithm for computing SSSP on a directed non-negative weighted graph</li>
+</ul>
+<h1>References</h1>
+<ul>
+<li>Chapter 24 of Introduction to Algorithms, Third Edition by Cormen, Leiserson, Rivest and Stein <a href="https://mitpress.mit.edu/books/introduction-algorithms" rel="nofollow">https://mitpress.mit.edu/books/introduction-algorithms</a></li>
+<li>Wikipedia: <a href="https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm" rel="nofollow">Bellman–Ford algorithm</a></li>
+</ul>
+<p><em>Written for Swift Algorithm Club by <a href="https://github.com/armcknight">Andrew McKnight</a></em></p></div>
+</body>
+</html>

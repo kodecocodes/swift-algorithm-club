@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<head>
+  <title>Strassen Matrix Multiplication</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Strassen Matrix Multiplication</h1>
+<h2>Goal</h2>
+<ul>
+<li>To quickly perform a matrix multiplication operation on two matricies</li>
+</ul>
+<h2>What is Matrix Multiplication??</h2>
+<blockquote>
+<p>Note: If you are already familiar with Linear Algebra/Matrix Multiplication, feel free to skip this section</p>
+</blockquote>
+<p>Before we begin, you may ask what is matrix multiplication? Great question! It is <strong>NOT</strong> multiplying two matricies term-by-term. Matrix multiplication is a mathematical operation that combines two matricies into a single one. Sounds like multiplying term-by-term huh? It's not... our lives would be much easier if it were. To see how matrix multiplcation works, let's look at an example.</p>
+<h3>Example: Matrix Multiplication</h3>
+<pre><code>matrix A = |1 2|, matrix B = |5 6|
+           |3 4|             |7 8|
+	
+A * B = C
+	
+|1 2| * |5 6| = |1*5+2*7 1*6+2*8| = |19 22|
+|3 4|   |7 8|   |3*5+4*7 3*6+4*8|   |43 50|
+</code></pre>
+<p>What's going on here? To start, we're multiplying matricies A &amp; B. Our new matrix, C's, elements <code>[i, j]</code> are determined by the dot product of the first matrix's ith row and the second matrix's jth column. See <a href="https://www.khanacademy.org/math/linear-algebra/vectors-and-spaces/dot-cross-products/v/vector-dot-product-and-vector-length" rel="nofollow">here</a> for a refresher on the dot product.</p>
+<p>So the upper left element <code>[i=1, j=1]</code> of our new matrix is a combination of A's 1st row and B's 1st column.</p>
+<pre><code>A's first row = [1, 2]
+B's first column = [5, 7]
+
+[1, 2] dot [5, 7] = [1*5 + 2*7] = [19] = C[1, 1]
+</code></pre>
+<p>Now let's try this for <code>[i=1, j=2]</code>. Because <code>i=1</code> and <code>j=2</code>, this will represent the upper right element in our new matrix, C.</p>
+<pre><code>A's first row = [1, 2]
+B's second column = [6, 8]
+
+[1, 2] dot [6, 8] = [1*6 + 2*8] = [22] = C[1, 2]
+</code></pre>
+<p>If we do this for each row &amp; column of A &amp; B we'll get our result matrix C!</p>
+<p>Here's a great graphic that visually shows you what's going on.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/5525fa3f5161a0a1fe825b22cc6ae3d7cd5864bd/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f7468756d622f652f65312f4d61747269785f6d756c7469706c69636174696f6e5f7072696e6369706c652e7376672f3130323470782d4d61747269785f6d756c7469706c69636174696f6e5f7072696e6369706c652e7376672e706e67"><img src="https://camo.githubusercontent.com/5525fa3f5161a0a1fe825b22cc6ae3d7cd5864bd/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f7468756d622f652f65312f4d61747269785f6d756c7469706c69636174696f6e5f7072696e6369706c652e7376672f3130323470782d4d61747269785f6d756c7469706c69636174696f6e5f7072696e6369706c652e7376672e706e67" alt="" data-canonical-src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Matrix_multiplication_principle.svg/1024px-Matrix_multiplication_principle.svg.png" style="max-width:100%;"></a></p>
+<p><a href="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Matrix_multiplication_principle.svg/1024px-Matrix_multiplication_principle.svg.png" rel="nofollow">Source</a></p>
+<h2>Matix Multiplication Algorithm</h2>
+<p>So how do we implement matrix multiplication in an algoirthm? We'll start with the basic version and from there move on to Strassen's Algorithm.</p>
+<ul>
+<li><a href="#basic-version">Basic Version</a></li>
+<li><a href="#strassens-algorithm">Strassen's Algorithm</a></li>
+</ul>
+<h3>Basic Version</h3>
+<p>Remember the method we used to solve matrix multiplication <a href="#what-is-matrix-multiplication??">above</a>? Let's try to implement that first! We first assert that the two matricies are the right size.</p>
+<p><code>assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn &amp; the other has dimensions nxp where m, n, p are in R")</code></p>
+<blockquote>
+<p><strong>NOTE:</strong> A's # of columns HAS to equal B's # of rows for matrix multiplication to work</p>
+</blockquote>
+<p>Next, we loop over A's columns and B's rows. Because we know both A's columns &amp; B's rows are the same length, we set that length equal to <code>n</code>.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>n {
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>n {</pre></div>
+<p>Then, for each row in A and column in B, we take the dot product of the ith row in A with the jth column in B and set that result equal to the <code>[i, j]</code> element in C. Or <code>C[i, j]</code>.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">for</span> k <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>n {
+  C[i, j] <span class="pl-k">+=</span> A[i, k] <span class="pl-k">*</span> B[k, j]
+}</pre></div>
+<p>Finally, we return our new matrix C!</p>
+<p>Here's the full implementation:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">matrixMultiply</span>(<span class="pl-en">by</span> <span class="pl-smi">B</span>: Matrix&lt;T&gt;) <span class="pl-k">-&gt;</span> Matrix&lt;T&gt; {
+  <span class="pl-k">let</span> A <span class="pl-k">=</span> <span class="pl-c1">self</span>
+  <span class="pl-c1">assert</span>(A.<span class="pl-smi">columns</span> <span class="pl-k">==</span> B.<span class="pl-smi">rows</span>, <span class="pl-s"><span class="pl-pds">"</span>Two matricies can only be matrix mulitiplied if one has dimensions mxn &amp; the other has dimensions nxp where m, n, p are in R<span class="pl-pds">"</span></span>)
+  <span class="pl-k">let</span> n <span class="pl-k">=</span> A.<span class="pl-smi">columns</span>
+  <span class="pl-k">var</span> C <span class="pl-k">=</span> Matrix<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>(<span class="pl-c1">rows</span>: A.<span class="pl-smi">rows</span>, <span class="pl-c1">columns</span>: B.<span class="pl-smi">columns</span>)
+    
+  <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>n {
+    <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>n {
+      <span class="pl-k">for</span> k <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>n {
+        C[i, j] <span class="pl-k">+=</span> A[i, k] <span class="pl-k">*</span> B[k, j]
+      }
+    }
+  }
+    
+  <span class="pl-k">return</span> C
+}</pre></div>
+<p>This algorithm has a runtime of <strong>O(n^3)</strong>. The <strong>O(n^3)</strong> comes from the three <code>for</code> loops. Two from the loop over the rows &amp; columns and one from the dot product!</p>
+<p>Now, <strong>O(n^3)</strong> is not very fast and a great question we should ask is can we do better? Indeed we can!</p>
+<h3>Strassens Algorithm</h3>
+<p>Volker Strassen first published his algorithm in 1969. It was the first algorithm to prove that the basic <strong>O(n^3)</strong> runtime was not optiomal.</p>
+<p>The basic idea behind Strassen's algorithm is to split A &amp; B into 8 submatricies and then recursively compute the submatricies of C. This strategy is called <em>Divide and Conquer</em>.</p>
+<pre><code>matrix A = |a b|, matrix B = |e f|
+           |c d|             |g h|
+</code></pre>
+<p><em>There will be 8 recursive calls:</em></p>
+<ol>
+<li>a * e</li>
+<li>b * g</li>
+<li>a * f</li>
+<li>b * h</li>
+<li>c * e</li>
+<li>d * g</li>
+<li>c * f</li>
+<li>d * h</li>
+</ol>
+<p>We then use these results to compute C's submatricies.</p>
+<pre><code>matrix C = |ae+bg af+bh|
+		   |ce+dg cf+dh| 
+</code></pre>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/deead5e174a01f5867c29fe7d703347344d423aa/687474703a2f2f64316879663469723167717736632e636c6f756466726f6e742e6e65742f2f77702d636f6e74656e742f75706c6f6164732f737472617373656e5f6e65772e706e67"><img src="https://camo.githubusercontent.com/deead5e174a01f5867c29fe7d703347344d423aa/687474703a2f2f64316879663469723167717736632e636c6f756466726f6e742e6e65742f2f77702d636f6e74656e742f75706c6f6164732f737472617373656e5f6e65772e706e67" alt="http://d1hyf4ir1gqw6c.cloudfront.net//wp-content/uploads/strassen_new.png" data-canonical-src="http://d1hyf4ir1gqw6c.cloudfront.net//wp-content/uploads/strassen_new.png" style="max-width:100%;"></a></p>
+<p>This step alone, however, doesn't help our runtime at all. Using the <a href="https://en.wikipedia.org/wiki/Master_theorem" rel="nofollow">Master Theorem</a> with <code>T(n) = 8T(n/2) + O(n^2)</code> we still get a runtime of <code>O(n^3)</code>.</p>
+<p>Strassen's insight was that we don't actually need <strong>8</strong> recursive calls to complete this process. We can finish the call with <strong>7</strong> recursive calls and a little bit of addition and subtraction.</p>
+<p>Strassen's <strong>7</strong> calls are as follows:</p>
+<ol>
+<li>a * (f - h)</li>
+<li>(a + b) * h</li>
+<li>(c + d) * e</li>
+<li>d * (g - e)</li>
+<li>(a + d) * (e + h)</li>
+<li>(b - d) * (g + h)</li>
+<li>(a - c) * (e + f)</li>
+</ol>
+<p>Now we can compute our new matrix C's new quardents!</p>
+<pre><code>matrix C = |p5+p4-p2+p6    p1+p2   |
+           |   p3+p4    p1+p5-p3-p7|    
+</code></pre>
+<p>A great reaction right now would be !!??!?!?!!?! How does this even work??</p>
+<p>Let's prove it!</p>
+<p><strong>First</strong> Submatrix:</p>
+<pre><code>p5+p4-p2+p6 = (a+d)*(e+h) + d*(g-e) - (a+b)*h + (b-d)*(g+h)
+            = (ae+de+ah+dh) + (dg-de) - (ah+bh) + (bg-dg+bh-dh)
+            = ae+bg ✅
+</code></pre>
+<p>Exactly what we got the first time!</p>
+<p>Now let's prove the others.</p>
+<p><strong>Second</strong> submatrix:</p>
+<pre><code>p1+p2 = a*(f-h) + (a+b)*h
+      = (af-ah) + (ah+bh)
+      = af+bh ✅
+</code></pre>
+<p><strong>Third</strong> submatrix:</p>
+<pre><code>p3+p4 = (c+d)*e + d*(g-e)
+      = (ce+de) + (dg-de)
+      = ce+dg ✅
+</code></pre>
+<p><strong>Fourth</strong> submatrix:</p>
+<pre><code>p1+p5-p3-p7 = a*(f-h) + (a+d)*(e+h) - (c+d)*e - (a-c)*(e+f)
+            = (af-ah) + (ae+de+ah+dh) -(ce+de) - (ae-ce+af-cf)
+            = cf+dh ✅
+</code></pre>
+<p>Great! The math checks out!</p>
+<p>Here's the process in action.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/944f0e02f61fa650ecb2d1e4c6436616fe5691a7/687474703a2f2f64316879663469723167717736632e636c6f756466726f6e742e6e65742f2f77702d636f6e74656e742f75706c6f6164732f737472657373656e5f666f726d756c615f6e65775f6e65772e706e67"><img src="https://camo.githubusercontent.com/944f0e02f61fa650ecb2d1e4c6436616fe5691a7/687474703a2f2f64316879663469723167717736632e636c6f756466726f6e742e6e65742f2f77702d636f6e74656e742f75706c6f6164732f737472657373656e5f666f726d756c615f6e65775f6e65772e706e67" alt="" data-canonical-src="http://d1hyf4ir1gqw6c.cloudfront.net//wp-content/uploads/stressen_formula_new_new.png" style="max-width:100%;"></a></p>
+<p><a href="http://www.geeksforgeeks.org/strassens-matrix-multiplication/" rel="nofollow">Source</a></p>
+<h4>Implementation</h4>
+<p>Ok so now to the implementation. We'll start with the same first step from the basic implementation. We need to assert that A's # of columns are equal to B's number of rows.</p>
+<pre><code>assert(A.columns == B.rows, "Two matricies can only be matrix mulitiplied if one has dimensions mxn &amp; the other has dimensions nxp where m, n, p are in R")
+</code></pre>
+<p>Now time for some prep work! We make each matrix a square and increase it's size to the next power of two. This ensures makes Strassen's Algorithm much easier to manage. We now only need to deal with square matricies that can be broken up an even number of times!</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> n <span class="pl-k">=</span> <span class="pl-c1">max</span>(A.<span class="pl-smi">rows</span>, A.<span class="pl-smi">columns</span>, B.<span class="pl-smi">rows</span>, B.<span class="pl-smi">columns</span>)
+<span class="pl-k">let</span> m <span class="pl-k">=</span> <span class="pl-c1">nextPowerOfTwo</span>(<span class="pl-c1">after</span>: n)
+    
+<span class="pl-k">var</span> APrep <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: m)
+<span class="pl-k">var</span> BPrep <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: m)
+   
+<span class="pl-k">for</span> i <span class="pl-k">in</span> A.<span class="pl-smi">rows</span> {
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> A.<span class="pl-smi">columns</span> {
+    APrep[i, j] <span class="pl-k">=</span> A[i,j]
+  }
+}
+
+<span class="pl-k">for</span> i <span class="pl-k">in</span> B.<span class="pl-smi">rows</span> {
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> B.<span class="pl-smi">columns</span> {
+    BPrep[i, j] <span class="pl-k">=</span> B[i, j]
+  }
+}</pre></div>
+<p>Finally, we recursively compute the matrix using Strassen's algorithm and the transform our new matrix <code>C</code> back to the correct dimensions!</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> CPrep <span class="pl-k">=</span> APrep.<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: BPrep)
+<span class="pl-k">var</span> C <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">rows</span>: A.<span class="pl-smi">rows</span>, <span class="pl-c1">columns</span>: B.<span class="pl-smi">columns</span>)
+    
+<span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>A.<span class="pl-smi">rows</span> {
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>B.<span class="pl-smi">columns</span> {
+    C[i,j] <span class="pl-k">=</span> CPrep[i,j]
+  }
+}</pre></div>
+<h4>Recursively Computing the Matrix Multiplication</h4>
+<p>Next let's explore this recursive function <code>strassenR</code>.</p>
+<p>We start by initializing 8 submatricies.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> a <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+<span class="pl-k">var</span> b <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+<span class="pl-k">var</span> c <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+<span class="pl-k">var</span> d <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+<span class="pl-k">var</span> e <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+<span class="pl-k">var</span> f <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+<span class="pl-k">var</span> g <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+<span class="pl-k">var</span> h <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+    
+<span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>nBy2 {
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>nBy2 {
+    a[i,j] <span class="pl-k">=</span> A[i,j]
+    b[i,j] <span class="pl-k">=</span> A[i, j<span class="pl-k">+</span>nBy2]
+    c[i,j] <span class="pl-k">=</span> A[i<span class="pl-k">+</span>nBy2, j]
+    d[i,j] <span class="pl-k">=</span> A[i<span class="pl-k">+</span>nBy2, j<span class="pl-k">+</span>nBy2]
+    e[i,j] <span class="pl-k">=</span> B[i,j]
+    f[i,j] <span class="pl-k">=</span> B[i, j<span class="pl-k">+</span>nBy2]
+    g[i,j] <span class="pl-k">=</span> B[i<span class="pl-k">+</span>nBy2, j]
+    h[i,j] <span class="pl-k">=</span> B[i<span class="pl-k">+</span>nBy2, j<span class="pl-k">+</span>nBy2]
+  }
+}</pre></div>
+<p>We next recursively compute the 7 matrix multiplications.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> p1 <span class="pl-k">=</span> a.<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: f<span class="pl-k">-</span>h)       <span class="pl-c"><span class="pl-c">//</span> a * (f - h)</span>
+<span class="pl-c"></span><span class="pl-k">let</span> p2 <span class="pl-k">=</span> (a<span class="pl-k">+</span>b).<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: h)     <span class="pl-c"><span class="pl-c">//</span> (a + b) * h</span>
+<span class="pl-c"></span><span class="pl-k">let</span> p3 <span class="pl-k">=</span> (c<span class="pl-k">+</span>d).<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: e)     <span class="pl-c"><span class="pl-c">//</span> (c + d) * e</span>
+<span class="pl-c"></span><span class="pl-k">let</span> p4 <span class="pl-k">=</span> d.<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: g<span class="pl-k">-</span>e)       <span class="pl-c"><span class="pl-c">//</span> d * (g - e)</span>
+<span class="pl-c"></span><span class="pl-k">let</span> p5 <span class="pl-k">=</span> (a<span class="pl-k">+</span>d).<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: e<span class="pl-k">+</span>h)   <span class="pl-c"><span class="pl-c">//</span> (a + d) * (e + h)</span>
+<span class="pl-c"></span><span class="pl-k">let</span> p6 <span class="pl-k">=</span> (b<span class="pl-k">-</span>d).<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: g<span class="pl-k">+</span>h)   <span class="pl-c"><span class="pl-c">//</span> (b - d) * (g + h)</span>
+<span class="pl-c"></span><span class="pl-k">let</span> p7 <span class="pl-k">=</span> (a<span class="pl-k">-</span>c).<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: e<span class="pl-k">+</span>f)   <span class="pl-c"><span class="pl-c">//</span> (a - c) * (e + f)</span></pre></div>
+<p>Next, we compute the submatricies of C.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> c11 <span class="pl-k">=</span> p5 <span class="pl-k">+</span> p4 <span class="pl-k">-</span> p2 <span class="pl-k">+</span> p6         <span class="pl-c"><span class="pl-c">//</span> p5 + p4 - p2 + p6</span>
+<span class="pl-c"></span><span class="pl-k">let</span> c12 <span class="pl-k">=</span> p1 <span class="pl-k">+</span> p2                   <span class="pl-c"><span class="pl-c">//</span> p1 + p2</span>
+<span class="pl-c"></span><span class="pl-k">let</span> c21 <span class="pl-k">=</span> p3 <span class="pl-k">+</span> p4                   <span class="pl-c"><span class="pl-c">//</span> p3 + p4</span>
+<span class="pl-c"></span><span class="pl-k">let</span> c22 <span class="pl-k">=</span> p1 <span class="pl-k">+</span> p5 <span class="pl-k">-</span> p3 <span class="pl-k">-</span> p7         <span class="pl-c"><span class="pl-c">//</span> p1 + p5 - p3 - p7</span></pre></div>
+<p>And finally, we combine these submatricies into our new matrix C!</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> C <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: n)    
+<span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>nBy2 {
+  <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>nBy2 {
+    C[i, j]           <span class="pl-k">=</span> c11[i,j]
+    C[i, j<span class="pl-k">+</span>nBy2]      <span class="pl-k">=</span> c12[i,j]
+    C[i<span class="pl-k">+</span>nBy2, j]      <span class="pl-k">=</span> c21[i,j]
+    C[i<span class="pl-k">+</span>nBy2, j<span class="pl-k">+</span>nBy2] <span class="pl-k">=</span> c22[i,j]
+  }
+}</pre></div>
+<p>As before, we can analyze the time completxity using the <a href="https://en.wikipedia.org/wiki/Master_theorem" rel="nofollow">Master Theorem</a>. <code>T(n) = 7T(n/2) +  O(n^2)</code> which leads to <code>O(n^log(7))</code> runtime. This comes out to approxiamtely <code>O(n^2.8074)</code> which is better than <code>O(n^3)</code>!</p>
+<p>And that's Strassen's algorithm! Here's the full implementation:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> MARK: - Strassen Multiplication</span>
+<span class="pl-c"></span>
+<span class="pl-k">extension</span> <span class="pl-en">Matrix</span> {
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">strassenMatrixMultiply</span>(<span class="pl-en">by</span> <span class="pl-smi">B</span>: Matrix&lt;T&gt;) <span class="pl-k">-&gt;</span> Matrix&lt;T&gt; {
+    <span class="pl-k">let</span> A <span class="pl-k">=</span> <span class="pl-c1">self</span>
+    <span class="pl-c1">assert</span>(A.<span class="pl-smi">columns</span> <span class="pl-k">==</span> B.<span class="pl-smi">rows</span>, <span class="pl-s"><span class="pl-pds">"</span>Two matricies can only be matrix mulitiplied if one has dimensions mxn &amp; the other has dimensions nxp where m, n, p are in R<span class="pl-pds">"</span></span>)
+    
+    <span class="pl-k">let</span> n <span class="pl-k">=</span> <span class="pl-c1">max</span>(A.<span class="pl-smi">rows</span>, A.<span class="pl-smi">columns</span>, B.<span class="pl-smi">rows</span>, B.<span class="pl-smi">columns</span>)
+    <span class="pl-k">let</span> m <span class="pl-k">=</span> <span class="pl-c1">nextPowerOfTwo</span>(<span class="pl-c1">after</span>: n)
+    
+    <span class="pl-k">var</span> APrep <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: m)
+    <span class="pl-k">var</span> BPrep <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: m)
+    
+    A.<span class="pl-c1">forEach</span> { (i, j) <span class="pl-k">in</span>
+      APrep[i,j] <span class="pl-k">=</span> A[i,j]
+    }
+    
+    B.<span class="pl-c1">forEach</span> { (i, j) <span class="pl-k">in</span>
+      BPrep[i,j] <span class="pl-k">=</span> B[i,j]
+    }
+    
+    <span class="pl-k">let</span> CPrep <span class="pl-k">=</span> APrep.<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: BPrep)
+    <span class="pl-k">var</span> C <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">rows</span>: A.<span class="pl-smi">rows</span>, <span class="pl-c1">columns</span>: B.<span class="pl-smi">columns</span>)
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>A.<span class="pl-smi">rows</span> {
+      <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>B.<span class="pl-smi">columns</span> {
+        C[i,j] <span class="pl-k">=</span> CPrep[i,j]
+      }
+    }
+    
+    <span class="pl-k">return</span> C
+  }
+  
+  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">strassenR</span>(<span class="pl-en">by</span> <span class="pl-smi">B</span>: Matrix&lt;T&gt;) <span class="pl-k">-&gt;</span> Matrix&lt;T&gt; {
+    <span class="pl-k">let</span> A <span class="pl-k">=</span> <span class="pl-c1">self</span>
+    <span class="pl-c1">assert</span>(A.<span class="pl-smi">isSquare</span> <span class="pl-k">&amp;&amp;</span> B.<span class="pl-smi">isSquare</span>, <span class="pl-s"><span class="pl-pds">"</span>This function requires square matricies!<span class="pl-pds">"</span></span>)
+    <span class="pl-k">guard</span> A.<span class="pl-smi">rows</span> <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> <span class="pl-k">&amp;&amp;</span> B.<span class="pl-smi">rows</span> <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> <span class="pl-k">else</span> { <span class="pl-k">return</span> A <span class="pl-k">*</span> B }
+    
+    <span class="pl-k">let</span> n    <span class="pl-k">=</span> A.<span class="pl-smi">rows</span>
+    <span class="pl-k">let</span> nBy2 <span class="pl-k">=</span> n <span class="pl-k">/</span> <span class="pl-c1">2</span>
+    
+    <span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c">    Assume submatricies are allocated as follows</span>
+<span class="pl-c">    </span>
+<span class="pl-c">     matrix A = |a b|,    matrix B = |e f|</span>
+<span class="pl-c">                |c d|                |g h|</span>
+<span class="pl-c">    <span class="pl-c">*/</span></span>
+    
+    <span class="pl-k">var</span> a <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+    <span class="pl-k">var</span> b <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+    <span class="pl-k">var</span> c <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+    <span class="pl-k">var</span> d <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+    <span class="pl-k">var</span> e <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+    <span class="pl-k">var</span> f <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+    <span class="pl-k">var</span> g <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+    <span class="pl-k">var</span> h <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: nBy2)
+    
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>nBy2 {
+      <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>nBy2 {
+        a[i,j] <span class="pl-k">=</span> A[i,j]
+        b[i,j] <span class="pl-k">=</span> A[i, j<span class="pl-k">+</span>nBy2]
+        c[i,j] <span class="pl-k">=</span> A[i<span class="pl-k">+</span>nBy2, j]
+        d[i,j] <span class="pl-k">=</span> A[i<span class="pl-k">+</span>nBy2, j<span class="pl-k">+</span>nBy2]
+        e[i,j] <span class="pl-k">=</span> B[i,j]
+        f[i,j] <span class="pl-k">=</span> B[i, j<span class="pl-k">+</span>nBy2]
+        g[i,j] <span class="pl-k">=</span> B[i<span class="pl-k">+</span>nBy2, j]
+        h[i,j] <span class="pl-k">=</span> B[i<span class="pl-k">+</span>nBy2, j<span class="pl-k">+</span>nBy2]
+      }
+    }
+    
+    <span class="pl-k">let</span> p1 <span class="pl-k">=</span> a.<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: f<span class="pl-k">-</span>h)       <span class="pl-c"><span class="pl-c">//</span> a * (f - h)</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> p2 <span class="pl-k">=</span> (a<span class="pl-k">+</span>b).<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: h)     <span class="pl-c"><span class="pl-c">//</span> (a + b) * h</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> p3 <span class="pl-k">=</span> (c<span class="pl-k">+</span>d).<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: e)     <span class="pl-c"><span class="pl-c">//</span> (c + d) * e</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> p4 <span class="pl-k">=</span> d.<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: g<span class="pl-k">-</span>e)       <span class="pl-c"><span class="pl-c">//</span> d * (g - e)</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> p5 <span class="pl-k">=</span> (a<span class="pl-k">+</span>d).<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: e<span class="pl-k">+</span>h)   <span class="pl-c"><span class="pl-c">//</span> (a + d) * (e + h)</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> p6 <span class="pl-k">=</span> (b<span class="pl-k">-</span>d).<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: g<span class="pl-k">+</span>h)   <span class="pl-c"><span class="pl-c">//</span> (b - d) * (g + h)</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> p7 <span class="pl-k">=</span> (a<span class="pl-k">-</span>c).<span class="pl-c1">strassenR</span>(<span class="pl-c1">by</span>: e<span class="pl-k">+</span>f)   <span class="pl-c"><span class="pl-c">//</span> (a - c) * (e + f)</span>
+<span class="pl-c"></span>    
+    <span class="pl-k">let</span> c11 <span class="pl-k">=</span> p5 <span class="pl-k">+</span> p4 <span class="pl-k">-</span> p2 <span class="pl-k">+</span> p6         <span class="pl-c"><span class="pl-c">//</span> p5 + p4 - p2 + p6</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> c12 <span class="pl-k">=</span> p1 <span class="pl-k">+</span> p2                   <span class="pl-c"><span class="pl-c">//</span> p1 + p2</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> c21 <span class="pl-k">=</span> p3 <span class="pl-k">+</span> p4                   <span class="pl-c"><span class="pl-c">//</span> p3 + p4</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> c22 <span class="pl-k">=</span> p1 <span class="pl-k">+</span> p5 <span class="pl-k">-</span> p3 <span class="pl-k">-</span> p7         <span class="pl-c"><span class="pl-c">//</span> p1 + p5 - p3 - p7</span>
+<span class="pl-c"></span>    
+    <span class="pl-k">var</span> C <span class="pl-k">=</span> <span class="pl-c1">Matrix</span>(<span class="pl-c1">size</span>: n)
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>nBy2 {
+      <span class="pl-k">for</span> j <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>nBy2 {
+        C[i, j]           <span class="pl-k">=</span> c11[i,j]
+        C[i, j<span class="pl-k">+</span>nBy2]      <span class="pl-k">=</span> c12[i,j]
+        C[i<span class="pl-k">+</span>nBy2, j]      <span class="pl-k">=</span> c21[i,j]
+        C[i<span class="pl-k">+</span>nBy2, j<span class="pl-k">+</span>nBy2] <span class="pl-k">=</span> c22[i,j]
+      }
+    }
+    
+    <span class="pl-k">return</span> C
+  }
+  
+  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">nextPowerOfTwo</span>(<span class="pl-en">after</span> <span class="pl-smi">n</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">Int</span>(<span class="pl-c1">pow</span>(<span class="pl-c1">2</span>, <span class="pl-c1">ceil</span>(<span class="pl-c1">log2</span>(<span class="pl-c1">Double</span>(n)))))
+  }
+}</pre></div>
+<h2>Appendix</h2>
+<h3>Number Protocol</h3>
+<p>I use a number protocol to enable by Matrix to be generic.</p>
+<p>The Number protocol ensures three things:</p>
+<ol>
+<li>Everything that is a number can be multiplied</li>
+<li>Everything that is a number can be added/subtracted</li>
+<li>Everything that is a number has a zero value</li>
+</ol>
+<p>Extending <code>Int</code>, <code>Float</code>, and <code>Double</code> to conform to this protocol is now very straightforward. All you need to do is implement the <code>static var zero</code>!</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">protocol</span> <span class="pl-en">Number</span>: <span class="pl-e">Multipliable</span>, <span class="pl-e">Addable </span>{
+  <span class="pl-k">static</span> <span class="pl-k">var</span> zero<span class="pl-k">:</span> <span class="pl-c1">Self</span> { <span class="pl-k">get</span> }
+}
+
+<span class="pl-k">public</span> <span class="pl-k">protocol</span> <span class="pl-en">Addable</span> {
+  <span class="pl-k">static</span> <span class="pl-k">func</span> <span class="pl-en">+</span>(<span class="pl-smi"><span class="pl-en">lhs</span></span>: <span class="pl-c1">Self</span>, <span class="pl-smi"><span class="pl-en">rhs</span></span>: <span class="pl-c1">Self</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Self</span>
+  <span class="pl-k">static</span> <span class="pl-k">func</span> <span class="pl-en">-</span>(<span class="pl-smi"><span class="pl-en">lhs</span></span>: <span class="pl-c1">Self</span>, <span class="pl-smi"><span class="pl-en">rhs</span></span>: <span class="pl-c1">Self</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Self</span>
+}
+
+<span class="pl-k">public</span> <span class="pl-k">protocol</span> <span class="pl-en">Multipliable</span> {
+  <span class="pl-k">static</span> <span class="pl-k">func</span> <span class="pl-en">*</span>(<span class="pl-smi"><span class="pl-en">lhs</span></span>: <span class="pl-c1">Self</span>, <span class="pl-smi"><span class="pl-en">rhs</span></span>: <span class="pl-c1">Self</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Self</span>
+}</pre></div>
+<h3>Dot Product</h3>
+<p>I extend <code>Array</code> to include a dot product function for when the Array's element conform to the <code>Number</code> protocol.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">Array</span></span> <span class="pl-k">where</span> <span class="pl-c1">Element</span><span class="pl-k">:</span> <span class="pl-e">Number</span> {
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">dot</span>(<span class="pl-en">_</span> <span class="pl-smi">b</span>: <span class="pl-c1">Array</span>&lt;<span class="pl-c1">Element</span>&gt;) <span class="pl-k">-&gt;</span> <span class="pl-c1">Element</span> {
+    <span class="pl-k">let</span> a <span class="pl-k">=</span> <span class="pl-c1">self</span>
+    <span class="pl-c1">assert</span>(a.<span class="pl-c1">count</span> <span class="pl-k">==</span> b.<span class="pl-c1">count</span>, <span class="pl-s"><span class="pl-pds">"</span>Can only take the dot product of arrays of the same length!<span class="pl-pds">"</span></span>)
+    <span class="pl-k">let</span> c <span class="pl-k">=</span> a.<span class="pl-c1">indices</span>.<span class="pl-c1">map</span>{ a[<span class="pl-c1">$0</span>] <span class="pl-k">*</span> b[<span class="pl-c1">$0</span>] }
+    <span class="pl-k">return</span> c.<span class="pl-c1">reduce</span>(<span class="pl-c1">Element</span>.<span class="pl-smi">zero</span>, { <span class="pl-c1">$0</span> <span class="pl-k">+</span> <span class="pl-c1">$1</span> })
+  }
+}</pre></div>
+<h2>Resources</h2>
+<ul>
+<li><a href="https://www.khanacademy.org/math/precalculus/precalc-matrices/multiplying-matrices-by-matrices/v/matrix-multiplication-intro" rel="nofollow">Intro to Matrix Multiplication | Khan Academy</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Matrix_multiplication" rel="nofollow">Matrix Multiplication | Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Strassen_algorithm" rel="nofollow">Strassen Algorithm | Wikipedia</a></li>
+<li><a href="http://mathworld.wolfram.com/StrassenFormulas.html" rel="nofollow">Strassen Algorithm | Wolfram MathWorld</a></li>
+<li><a href="http://www.geeksforgeeks.org/strassens-matrix-multiplication/" rel="nofollow">Strassens Algorithm | Geeks for Geeks</a></li>
+</ul>
+<p><em>Written for Swift Algorithm Club by Richard Ash</em></p></div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+  <title>Points Lines Planes</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Points Lines (Planes)</h1>
+<p>This implements data structures for points lines and planes(not yet) in (for now) 2D space and a few functions to play around with them. This was originally written to improve on the Convex Hull algorithm but I thought it might be a nice addition in itself. Im planning to add 3D implementations as well.</p>
+<h1>implementation</h1>
+<p>Two <code>struct</code>s are implemented the <code>Point2D</code> and <code>Line2D</code>.</p>
+<pre><code>struct Point2D: {
+  var x: Double
+  var y: double
+}
+</code></pre>
+<pre><code>struct Line2D {
+  var slope: Slope
+  var offset: Double
+  var direction: Direction
+}
+</code></pre>
+<p>Here <code>Slope</code> is an enum to account for vertical lines.<br>
+slope is infinite for vertical lines, offset is the x coordinate where the line crosses the line <code>y=0</code>.<br>
+slope is finite for any other line and contains a double with the actual value of the slope.</p>
+<pre><code>enum Slope {
+  case finite(slope: Double)
+  case infinite(offset: Double)
+}
+</code></pre>
+<p><code>Line2D</code> also contains a <code>Direction</code> enum. This is introduced in order to make lines directional in order to be able to determine what is left and right of a certain line. It is <code>.increasing</code> if the line points in positive y direction and <code>.decreasing</code> if it points in the negative y direction.</p>
+<p><code>Line2D</code>'s offset is the the y-coordinate where the line crosses the vertical <code>x=0</code> line.</p>
+<p><em>Written for the Swift Algorithm Club by Jaap Wijnen.</em></p></div>
+</body>
+</html>

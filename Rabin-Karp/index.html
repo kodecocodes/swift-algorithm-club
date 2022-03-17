@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<head>
+  <title>Rabin-Karp</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Rabin-Karp string search algorithm</h1>
+<p>The Rabin-Karp string search algorithm is used to search text for a pattern.</p>
+<p>A practical application of the algorithm is detecting plagiarism. Given source material, the algorithm can rapidly search through a paper for instances of sentences from the source material, ignoring details such as case and punctuation. Because of the abundance of the sought strings, single-string searching algorithms are impractical.</p>
+<h2>Example</h2>
+<p>Given a text of "The big dog jumped over the fox" and a search pattern of "ump" this will return 13.<br>
+It starts by hashing "ump" then hashing "The".  If hashed don't match then it slides the window a character<br>
+at a time (e.g. "he ") and subtracts out the previous hash from the "T".</p>
+<h2>Algorithm</h2>
+<p>The Rabin-Karp algorithm uses a sliding window the size of the search pattern.  It starts by hashing the search pattern, then<br>
+hashing the first x characters of the text string where x is the length of the search pattern.  It then slides the window one character over and uses<br>
+the previous hash value to calculate the new hash faster.  Only when it finds a hash that matches the hash of the search pattern will it compare<br>
+the two strings it see if they are the same (to prevent a hash collision from producing a false positive).</p>
+<h2>The code</h2>
+<p>The major search method is next.  More implementation details are in rabin-karp.swift</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">search</span>(<span class="pl-smi"><span class="pl-en">text</span></span>: <span class="pl-c1">String</span> , <span class="pl-smi"><span class="pl-en">pattern</span></span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+    <span class="pl-c"><span class="pl-c">//</span> convert to array of ints</span>
+<span class="pl-c"></span>    <span class="pl-k">let</span> patternArray <span class="pl-k">=</span> pattern.<span class="pl-c1">flatMap</span> { <span class="pl-c1">$0</span>.<span class="pl-smi">asInt</span> }
+    <span class="pl-k">let</span> textArray <span class="pl-k">=</span> text.<span class="pl-c1">flatMap</span> { <span class="pl-c1">$0</span>.<span class="pl-smi">asInt</span> }
+
+    <span class="pl-k">if</span> textArray.<span class="pl-c1">count</span> <span class="pl-k">&lt;</span> patternArray.<span class="pl-c1">count</span> {
+        <span class="pl-k">return</span> <span class="pl-c1">-1</span>
+    }
+
+    <span class="pl-k">let</span> patternHash <span class="pl-k">=</span> <span class="pl-c1">hash</span>(<span class="pl-c1">array</span>: patternArray)
+    <span class="pl-k">var</span> endIdx <span class="pl-k">=</span> patternArray.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>
+    <span class="pl-k">let</span> firstChars <span class="pl-k">=</span> <span class="pl-c1">Array</span>(textArray[<span class="pl-c1">0</span><span class="pl-k">...</span><span class="pl-smi">endIdx</span>])
+    <span class="pl-k">let</span> firstHash <span class="pl-k">=</span> <span class="pl-c1">hash</span>(<span class="pl-c1">array</span>: firstChars)
+
+    <span class="pl-k">if</span> (patternHash <span class="pl-k">==</span> firstHash) {
+        <span class="pl-c"><span class="pl-c">//</span> Verify this was not a hash collision</span>
+<span class="pl-c"></span>        <span class="pl-k">if</span> firstChars <span class="pl-k">==</span> patternArray {
+            <span class="pl-k">return</span> <span class="pl-c1">0</span>
+        }
+    }
+
+    <span class="pl-k">var</span> prevHash <span class="pl-k">=</span> firstHash
+    <span class="pl-c"><span class="pl-c">//</span> Now slide the window across the text to be searched</span>
+<span class="pl-c"></span>    <span class="pl-k">for</span> idx <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">...</span>(textArray.<span class="pl-c1">count</span> <span class="pl-k">-</span> patternArray.<span class="pl-c1">count</span>) {
+        endIdx <span class="pl-k">=</span> idx <span class="pl-k">+</span> (patternArray.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+        <span class="pl-k">let</span> window <span class="pl-k">=</span> <span class="pl-c1">Array</span>(textArray[idx<span class="pl-k">...</span><span class="pl-smi">endIdx</span>])
+        <span class="pl-k">let</span> windowHash <span class="pl-k">=</span> <span class="pl-c1">nextHash</span>(<span class="pl-c1">prevHash</span>: prevHash, <span class="pl-c1">dropped</span>: textArray[idx <span class="pl-k">-</span> <span class="pl-c1">1</span>], <span class="pl-c1">added</span>: textArray[endIdx], <span class="pl-c1">patternSize</span>: patternArray.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+
+        <span class="pl-k">if</span> windowHash <span class="pl-k">==</span> patternHash {
+            <span class="pl-k">if</span> patternArray <span class="pl-k">==</span> window {
+                <span class="pl-k">return</span> idx
+            }
+        }
+
+        prevHash <span class="pl-k">=</span> windowHash
+    }
+
+    <span class="pl-k">return</span> <span class="pl-c1">-1</span>
+}</pre></div>
+<p>This code can be tested in a playground using the following:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-c1">search</span>(<span class="pl-c1">text</span>: <span class="pl-s"><span class="pl-pds">"</span>The big dog jumped<span class="pl-pds">"</span><span class="pl-pds">"</span>, <span class="pl-pds">"</span></span>ump<span class="pl-s"><span class="pl-pds">"</span>)<span class="pl-ii"></span></span></pre></div>
+<p>This will return 13 since ump is in the 13 position of the zero based string.</p>
+<h2>Additional Resources</h2>
+<p><a href="https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm" rel="nofollow">Rabin-Karp Wikipedia</a></p>
+<p><em>Written by <a href="https://github.com/brbatwork">Bill Barbour</a></em></p></div>
+</body>
+</html>

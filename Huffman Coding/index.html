@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<head>
+  <title>Huffman Coding</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Huffman Coding</h1>
+<p>The idea: To encode objects that occur often with a smaller number of bits than objects that occur less frequently.</p>
+<p>Although any type of objects can be encoded with this scheme, it is common to compress a stream of bytes. Suppose you have the following text, where each character is one byte:</p>
+<pre><code>so much words wow many compression
+</code></pre>
+<p>If you count how often each byte appears, you can see some bytes occur more than others:</p>
+<pre><code>space: 5                  u: 1
+    o: 5                  h: 1
+    s: 4                  d: 1
+    m: 3                  a: 1
+    w: 3                  y: 1
+    c: 2                  p: 1
+    r: 2                  e: 1
+    n: 2                  i: 1
+</code></pre>
+<p>We can assign bit strings to each of these bytes. The more common a byte is, the fewer bits we assign to it. We might get something like this:</p>
+<pre><code>space: 5    010           u: 1    11001
+    o: 5    000	          h: 1    10001
+    s: 4    101	          d: 1    11010
+    m: 3    111	          a: 1    11011
+    w: 3    0010          y: 1    01111
+    c: 2    0011          p: 1    11000
+    r: 2    1001          e: 1    01110
+    n: 2    0110          i: 1    10000
+</code></pre>
+<p>Now if we replace the original bytes with these bit strings, the compressed output becomes:</p>
+<pre><code>101 000 010 111 11001 0011 10001 010 0010 000 1001 11010 101
+s   o   _   m   u     c    h     _   w    o   r    d     s
+
+010 0010 000 0010 010 111 11011 0110 01111 010 0011 000 111
+_   w    o   w    _   m   a     n    y     _   c    o   m
+
+11000 1001 01110 101 101 10000 000 0110 0
+p     r    e     s   s   i     o   n
+</code></pre>
+<p>The extra 0-bit at the end is there to make a full number of bytes. We were able to compress the original 34 bytes into merely 16 bytes, a space savings of over 50%!</p>
+<p>To be able to decode these bits, we need to have the original frequency table. That table needs to be transmitted or saved along with the compressed data. Otherwise, the decoder does not know how to interpret the bits. Because of the overhead of this frequency table (about 1 kilobyte), it is not beneficial to use Huffman encoding on small inputs.</p>
+<h2>How it works</h2>
+<p>When compressing a stream of bytes, the algorithm first creates a frequency table that counts how often each byte occurs. Based on this table, the algorithm creates a binary tree that describes the bit strings for each of the input bytes.</p>
+<p>For our example, the tree looks like this:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Tree.png"><img src="Images/Tree.png" alt="The compression tree" style="max-width:100%;"></a></p>
+<p>Note that the tree has 16 leaf nodes (the grey ones), one for each byte value from the input. Each leaf node also shows the count of how often it occurs. The other nodes are "intermediate" nodes. The number shown in these nodes is the sum of the counts of their child nodes. The count of the root node is therefore the total number of bytes in the input.</p>
+<p>The edges between the nodes are either "1" or "0". These correspond to the bit-encodings of the leaf nodes. Notice how each left branch is always 1 and each right branch is always 0.</p>
+<p>Compression is then a matter of looping through the input bytes and for each byte traversing the tree from the root node to that byte's leaf node. Every time we take a left branch, we emit a 1-bit. When we take a right branch, we emit a 0-bit.</p>
+<p>For example, to go from the root node to <code>c</code>, we go right (<code>0</code>), right again (<code>0</code>), left (<code>1</code>), and left again (<code>1</code>). This gives the Huffman code as <code>0011</code> for <code>c</code>.</p>
+<p>Decompression works in exactly the opposite way. It reads the compressed bits one-by-one and traverses the tree until it reaches to a leaf node. The value of that leaf node is the uncompressed byte. For example, if the bits are <code>11010</code>, we start at the root and go left, left again, right, left, and a final right to end up at <code>d</code>.</p>
+<h2>The code</h2>
+<p>Before we get to the actual Huffman coding scheme, it is useful to have some helper code that can write individual bits to an <code>NSData</code> object. The smallest piece of data that <code>NSData</code> understands is the byte, but we are dealing in bits, so we need to translate between the two.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">BitWriter</span> {
+  <span class="pl-k">public</span> <span class="pl-k">var</span> data <span class="pl-k">=</span> <span class="pl-c1">NSMutableData</span>()
+  <span class="pl-k">var</span> outByte<span class="pl-k">:</span> <span class="pl-c1">UInt8</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  <span class="pl-k">var</span> outCount <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">writeBit</span>(<span class="pl-smi"><span class="pl-en">bit</span></span>: <span class="pl-c1">Bool</span>) {
+    <span class="pl-k">if</span> outCount <span class="pl-k">==</span> <span class="pl-c1">8</span> {
+      data.<span class="pl-c1">append</span>(<span class="pl-k">&amp;</span>outByte, <span class="pl-c1">length</span>: <span class="pl-c1">1</span>)
+      outCount <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    }
+    outByte <span class="pl-k">=</span> (outByte <span class="pl-k">&lt;&lt;</span> <span class="pl-c1">1</span>) <span class="pl-k">|</span> (bit <span class="pl-k">?</span> <span class="pl-c1">1</span> <span class="pl-k">:</span> <span class="pl-c1">0</span>)
+    outCount <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">flush</span>() {
+    <span class="pl-k">if</span> outCount <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> {
+      <span class="pl-k">if</span> outCount <span class="pl-k">&lt;</span> <span class="pl-c1">8</span> {
+        <span class="pl-k">let</span> diff <span class="pl-k">=</span> <span class="pl-c1">UInt8</span>(<span class="pl-c1">8</span> <span class="pl-k">-</span> outCount)
+        outByte <span class="pl-k">&lt;&lt;=</span> diff
+      }
+      data.<span class="pl-c1">append</span>(<span class="pl-k">&amp;</span>outByte, <span class="pl-c1">length</span>: <span class="pl-c1">1</span>)
+    }
+  }
+}</pre></div>
+<p>To add a bit to the <code>NSData</code>, you can call <code>writeBit()</code>. This helper object stuffs each new bit into the <code>outByte</code> variable. Once you have written 8 bits, <code>outByte</code> gets added to the <code>NSData</code> object for real.</p>
+<p>The <code>flush()</code> method is used for outputting the very last byte. There is no guarantee that the number of compressed bits is a nice round multiple of 8, in which case there may be some spare bits at the end. If so, <code>flush()</code> adds a few 0-bits to make sure that we write a full byte.</p>
+<p>Here is a similar helper object for reading individual bits from <code>NSData</code>:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">BitReader</span> {
+  <span class="pl-k">var</span> ptr<span class="pl-k">:</span> <span class="pl-c1">UnsafePointer</span><span class="pl-k">&lt;</span><span class="pl-c1">UInt8</span><span class="pl-k">&gt;</span>
+  <span class="pl-k">var</span> inByte<span class="pl-k">:</span> <span class="pl-c1">UInt8</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  <span class="pl-k">var</span> inCount <span class="pl-k">=</span> <span class="pl-c1">8</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">data</span></span>: NSData) {
+    ptr <span class="pl-k">=</span> data.<span class="pl-smi">bytes</span>.<span class="pl-c1">assumingMemoryBound</span>(<span class="pl-c1">to</span>: <span class="pl-c1">UInt8</span>.<span class="pl-k">self</span>)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">readBit</span>() <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">if</span> inCount <span class="pl-k">==</span> <span class="pl-c1">8</span> {
+      inByte <span class="pl-k">=</span> ptr.<span class="pl-c1">pointee</span>    <span class="pl-c"><span class="pl-c">//</span> load the next byte</span>
+<span class="pl-c"></span>      inCount <span class="pl-k">=</span> <span class="pl-c1">0</span>
+      ptr <span class="pl-k">=</span> ptr.<span class="pl-c1">successor</span>()
+    }
+    <span class="pl-k">let</span> bit <span class="pl-k">=</span> inByte <span class="pl-k">&amp;</span> <span class="pl-c1">0x80</span>  <span class="pl-c"><span class="pl-c">//</span> read the next bit</span>
+<span class="pl-c"></span>    inByte <span class="pl-k">&lt;&lt;=</span> <span class="pl-c1">1</span>
+    inCount <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    <span class="pl-k">return</span> bit <span class="pl-k">==</span> <span class="pl-c1">0</span> <span class="pl-k">?</span> <span class="pl-c1">false</span> <span class="pl-k">:</span> <span class="pl-c1">true</span>
+  }
+}</pre></div>
+<p>By using this helper object, we can read one whole byte from the <code>NSData</code> object and put it in <code>inByte</code>. Then, <code>readBit()</code> returns the individual bits from that byte. Once <code>readBit()</code> has been called 8 times, we read the next byte from the <code>NSData</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> If you are unfamiliar with this type of bit manipulation, just know that these two helper objects make it simple for us to write and read bits.</p>
+</blockquote>
+<h2>The frequency table</h2>
+<p>The first step in the Huffman compression is to read the entire input stream and build a frequency table. This table contains a list of all 256 possible byte values and shows how often each of these bytes occurs in the input data.</p>
+<p>We could store this frequency information in a dictionary or an array, but since we need to build a tree, we might store the frequency table as the leaves of the tree.</p>
+<p>Here are the definitions we need:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">class</span> <span class="pl-en">Huffman</span> {
+  <span class="pl-k">typealias</span> <span class="pl-en">NodeIndex</span> <span class="pl-k">=</span> <span class="pl-c1">Int</span>
+
+  <span class="pl-k">struct</span> <span class="pl-en">Node</span> {
+    <span class="pl-k">var</span> count <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> index<span class="pl-k">:</span> NodeIndex <span class="pl-k">=</span> <span class="pl-c1">-1</span>
+    <span class="pl-k">var</span> parent<span class="pl-k">:</span> NodeIndex <span class="pl-k">=</span> <span class="pl-c1">-1</span>
+    <span class="pl-k">var</span> left<span class="pl-k">:</span> NodeIndex <span class="pl-k">=</span> <span class="pl-c1">-1</span>
+    <span class="pl-k">var</span> right<span class="pl-k">:</span> NodeIndex <span class="pl-k">=</span> <span class="pl-c1">-1</span>
+  }
+
+  <span class="pl-k">var</span> tree <span class="pl-k">=</span> [Node](<span class="pl-c1">repeating</span>: <span class="pl-c1">Node</span>(), <span class="pl-c1">count</span>: <span class="pl-c1">256</span>)
+
+  <span class="pl-k">var</span> root<span class="pl-k">:</span> NodeIndex <span class="pl-k">=</span> <span class="pl-c1">-1</span>
+}</pre></div>
+<p>The tree structure is stored in the <code>tree</code> array and will be made up of <code>Node</code> objects. Since this is a <a href="../Binary%20Tree/">binary tree</a>, each node needs two children, <code>left</code> and <code>right</code>, and a reference back to its <code>parent</code> node. Unlike a typical binary tree, these nodes do not use pointers to refer to each other but use simple integer indices in the <code>tree</code> array. (We also store the array <code>index</code> of the node itself; the reason for this will become clear later.)</p>
+<p>Note that the <code>tree</code> currently has room for 256 entries. These are for the leaf nodes because there are 256 possible byte values. Of course, not all of those may end up being used, depending on the input data. Later, we will add more nodes as we build up the actual tree. For the moment, there is not a tree yet. It includes 256 separate leaf nodes with no connections between them. All the node counts are 0.</p>
+<p>We use the following method to count how often each byte occurs in the input data:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">fileprivate</span> <span class="pl-k">func</span> <span class="pl-en">countByteFrequency</span>(<span class="pl-en">inData</span> <span class="pl-smi">data</span>: NSData) {
+    <span class="pl-k">var</span> ptr <span class="pl-k">=</span> data.<span class="pl-smi">bytes</span>.<span class="pl-c1">assumingMemoryBound</span>(<span class="pl-c1">to</span>: <span class="pl-c1">UInt8</span>.<span class="pl-k">self</span>)
+    <span class="pl-k">for</span> <span class="pl-c1">_</span> <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>data.<span class="pl-smi">length</span> {
+      <span class="pl-k">let</span> i <span class="pl-k">=</span> <span class="pl-c1">Int</span>(ptr.<span class="pl-c1">pointee</span>)
+      tree[i].<span class="pl-c1">count</span> <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+      tree[i].<span class="pl-smi">index</span> <span class="pl-k">=</span> i
+      ptr <span class="pl-k">=</span> ptr.<span class="pl-c1">successor</span>()
+    }
+  }</pre></div>
+<p>This steps through the <code>NSData</code> object from beginning to end and for each byte increments the <code>count</code> of the corresponding leaf node. After <code>countByteFrequency()</code> completes, the first 256 <code>Node</code> objects in the <code>tree</code> array represent the frequency table.</p>
+<p>To decompress a Huffman-encoded block of data, we need to have the original frequency table. If we were writing the compressed data to a file, then somewhere in the file we should include the frequency table.</p>
+<p>We could dump the first 256 elements from the <code>tree</code> array, but that is not efficient. Not all of these 256 elements will be used, and we do not need to serialize the <code>parent</code>, <code>right</code>, and <code>left</code> pointers. All we need is the frequency information and not the entire tree.</p>
+<p>Instead, we will add a method to export the frequency table without all the pieces we do not need:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">struct</span> <span class="pl-en">Freq</span> {
+    <span class="pl-k">var</span> byte<span class="pl-k">:</span> <span class="pl-c1">UInt8</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">var</span> count <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  }
+
+  <span class="pl-k">func</span> <span class="pl-en">frequencyTable</span>() <span class="pl-k">-&gt;</span> [Freq] {
+    <span class="pl-k">var</span> a <span class="pl-k">=</span> [Freq]()
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span><span class="pl-c1">256</span> <span class="pl-k">where</span> tree[i].<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> {
+      a.<span class="pl-c1">append</span>(<span class="pl-c1">Freq</span>(<span class="pl-c1">byte</span>: <span class="pl-c1">UInt8</span>(i), <span class="pl-c1">count</span>: tree[i].<span class="pl-c1">count</span>))
+    }
+    <span class="pl-k">return</span> a
+  }</pre></div>
+<p>The <code>frequencyTable()</code> method looks at those first 256 nodes from the tree but keeps only those that are used, without the <code>parent</code>, <code>left</code>, and <code>right</code> pointers. It returns an array of <code>Freq</code> objects. You have to serialize this array along with the compressed data, so that it can be properly decompressed later.</p>
+<h2>The tree</h2>
+<p>As a reminder, there is the compression tree for the example:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Tree.png"><img src="Images/Tree.png" alt="The compression tree" style="max-width:100%;"></a></p>
+<p>The leaf nodes represent the actual bytes that are present in the input data. The intermediary nodes connect the leaves in such a way that the path from the root to a frequently-used byte value is shorter than the path to a less common byte value. As you can see, <code>m</code>, <code>s</code>, space, and <code>o</code> are the most common letters in our input data and the highest up in the tree.</p>
+<p>To build the tree, we do the following:</p>
+<ol>
+<li>Find the two nodes with the smallest counts that do not have a parent node yet.</li>
+<li>Create a new parent node that links these two nodes together.</li>
+<li>This repeats over and over until only one node with no parent remains. This becomes the root node of the tree.</li>
+</ol>
+<p>This is an ideal place to use a <a href="../Priority%20Queue/">priority queue</a>. A priority queue is a data structure that is optimized, so that finding the minimum value is always fast. Here, we repeatedly need to find the node with the smallest count.</p>
+<p>The function <code>buildTree()</code> then becomes:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">fileprivate</span> <span class="pl-k">func</span> <span class="pl-en">buildTree</span>() {
+    <span class="pl-k">var</span> queue <span class="pl-k">=</span> PriorityQueue<span class="pl-k">&lt;</span>Node<span class="pl-k">&gt;</span>(<span class="pl-c1">sort</span>: { <span class="pl-c1">$0</span>.<span class="pl-c1">count</span> <span class="pl-k">&lt;</span> <span class="pl-c1">$1</span>.<span class="pl-c1">count</span> })
+    <span class="pl-k">for</span> node <span class="pl-k">in</span> tree <span class="pl-k">where</span> node.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span> {
+      queue.<span class="pl-c1">enqueue</span>(node)                            <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>    }
+
+    <span class="pl-k">while</span> queue.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> {
+      <span class="pl-k">let</span> node1 <span class="pl-k">=</span> queue.<span class="pl-c1">dequeue</span>()<span class="pl-k">!</span>                   <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>      <span class="pl-k">let</span> node2 <span class="pl-k">=</span> queue.<span class="pl-c1">dequeue</span>()<span class="pl-k">!</span>
+
+      <span class="pl-k">var</span> parentNode <span class="pl-k">=</span> <span class="pl-c1">Node</span>()                        <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>      parentNode.<span class="pl-c1">count</span> <span class="pl-k">=</span> node1.<span class="pl-c1">count</span> <span class="pl-k">+</span> node2.<span class="pl-c1">count</span>
+      parentNode.<span class="pl-smi">left</span> <span class="pl-k">=</span> node1.<span class="pl-smi">index</span>
+      parentNode.<span class="pl-smi">right</span> <span class="pl-k">=</span> node2.<span class="pl-smi">index</span>
+      parentNode.<span class="pl-smi">index</span> <span class="pl-k">=</span> tree.<span class="pl-c1">count</span>
+      tree.<span class="pl-c1">append</span>(parentNode)
+
+      tree[node1.<span class="pl-smi">index</span>].<span class="pl-smi">parent</span> <span class="pl-k">=</span> parentNode.<span class="pl-smi">index</span>    <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>      tree[node2.<span class="pl-smi">index</span>].<span class="pl-smi">parent</span> <span class="pl-k">=</span> parentNode.<span class="pl-smi">index</span>
+
+      queue.<span class="pl-c1">enqueue</span>(parentNode)                      <span class="pl-c"><span class="pl-c">//</span> 5</span>
+<span class="pl-c"></span>    }
+
+    <span class="pl-k">let</span> rootNode <span class="pl-k">=</span> queue.<span class="pl-c1">dequeue</span>()<span class="pl-k">!</span>                  <span class="pl-c"><span class="pl-c">//</span> 6</span>
+<span class="pl-c"></span>    root <span class="pl-k">=</span> rootNode.<span class="pl-smi">index</span>
+  }</pre></div>
+<p>Here is how it works step-by-step:</p>
+<ol>
+<li>
+<p>Create a priority queue and enqueue all the leaf nodes that have at least a count of 1. (If the count is 0, then this byte value did not appear in the input data.) The <code>PriorityQueue</code> object sorts the nodes by their count, so that the node with the lowest count is always the first one that gets dequeued.</p>
+</li>
+<li>
+<p>While there are at least two nodes left in the queue, remove the two nodes that are at the front of the queue. Since this is a min-priority queue, this gives us the two nodes with the smallest counts that do not have a parent node yet.</p>
+</li>
+<li>
+<p>Create a new intermediate node that connects <code>node1</code> and <code>node2</code>. The count of this new node is the sum of the counts of <code>node1</code> and <code>node2</code>. Because the nodes are connected using array indices instead of real pointers, we use <code>node1.index</code> and <code>node2.index</code> to find these nodes in the <code>tree</code> array. (This is why a <code>Node</code> needs to know its own index.)</p>
+</li>
+<li>
+<p>Link the two nodes into their new parent node. Now this new intermediate node has become part of the tree.</p>
+</li>
+<li>
+<p>Put the new intermediate node back into the queue. At this point we are done with <code>node1</code> and <code>node2</code>, but the <code>parentNode</code> still needs to be connected to other nodes in the tree.</p>
+</li>
+<li>
+<p>Repeat steps 2-5 until there is only one node left in the queue. This becomes the root node of the tree, and we are done.</p>
+</li>
+</ol>
+<p>The animation shows what the process looks like:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/BuildTree.gif"><img src="Images/BuildTree.gif" alt="Building the tree" style="max-width:100%;"></a></p>
+<blockquote>
+<p><strong>Note:</strong> Instead of using a priority queue, you can repeatedly iterate through the <code>tree</code> array to find the next two smallest nodes, but that makes the compressor slow as <strong>O(n^2)</strong>. Using the priority queue, the running time is only <strong>O(n log n)</strong> where <strong>n</strong> is the number of nodes.</p>
+</blockquote>
+<blockquote>
+<p><strong>Fun fact:</strong> Due to the nature of binary trees, if we have <em>x</em> leaf nodes we can at most add <em>x - 1</em> additional nodes to the tree. Given that at most there will be 256 leaf nodes, the tree will never contain more than 511 nodes total.</p>
+</blockquote>
+<h2>Compression</h2>
+<p>Now that we know how to build the compression tree from the frequency table, we can use it to compress the contents of an <code>NSData</code> object. Here is the code:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">compressData</span>(<span class="pl-smi"><span class="pl-en">data</span></span>: NSData) <span class="pl-k">-&gt;</span> NSData {
+    <span class="pl-c1">countByteFrequency</span>(<span class="pl-c1">inData</span>: data)
+    <span class="pl-c1">buildTree</span>()
+
+    <span class="pl-k">let</span> writer <span class="pl-k">=</span> <span class="pl-c1">BitWriter</span>()
+    <span class="pl-k">var</span> ptr <span class="pl-k">=</span> data.<span class="pl-smi">bytes</span>.<span class="pl-c1">assumingMemoryBound</span>(<span class="pl-c1">to</span>: <span class="pl-c1">UInt8</span>.<span class="pl-k">self</span>)
+    <span class="pl-k">for</span> <span class="pl-c1">_</span> <span class="pl-k">in</span> <span class="pl-c1">0</span><span class="pl-k">..&lt;</span>data.<span class="pl-smi">length</span> {
+      <span class="pl-k">let</span> c <span class="pl-k">=</span> ptr.<span class="pl-c1">pointee</span>
+      <span class="pl-k">let</span> i <span class="pl-k">=</span> <span class="pl-c1">Int</span>(c)
+      <span class="pl-c1">traverseTree</span>(<span class="pl-c1">writer</span>: writer, <span class="pl-c1">nodeIndex</span>: i, <span class="pl-c1">childIndex</span>: <span class="pl-c1">-1</span>)
+      ptr <span class="pl-k">=</span> ptr.<span class="pl-c1">successor</span>()
+    }
+    writer.<span class="pl-c1">flush</span>()
+    <span class="pl-k">return</span> writer.<span class="pl-smi">data</span>
+  }</pre></div>
+<p>This first calls <code>countByteFrequency()</code> to build the frequency table and then calls <code>buildTree()</code> to put together the compression tree. It also creates a <code>BitWriter</code> object for writing individual bits.</p>
+<p>Then, it loops through the entire input and calls <code>traverseTree()</code>for each byte. This method will step through the tree nodes and for each node write a 1 or 0 bit. Finally, we return the <code>BitWriter</code>'s data object.</p>
+<blockquote>
+<p><strong>Note:</strong> Compression always requires two passes through the entire input data: first to build the frequency table, and second to convert the bytes to their compressed bit sequences.</p>
+</blockquote>
+<p>The interesting stuff happens in <code>traverseTree()</code>. This is a recursive method:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">traverseTree</span>(<span class="pl-smi"><span class="pl-en">writer</span></span>: BitWriter, <span class="pl-en">nodeIndex</span> <span class="pl-smi">h</span>: <span class="pl-c1">Int</span>, <span class="pl-en">childIndex</span> <span class="pl-smi">child</span>: <span class="pl-c1">Int</span>) {
+    <span class="pl-k">if</span> tree[h].<span class="pl-smi">parent</span> <span class="pl-k">!=</span> <span class="pl-c1">-1</span> {
+      <span class="pl-c1">traverseTree</span>(<span class="pl-c1">writer</span>: writer, <span class="pl-c1">nodeIndex</span>: tree[h].<span class="pl-smi">parent</span>, <span class="pl-c1">childIndex</span>: h)
+    }
+    <span class="pl-k">if</span> child <span class="pl-k">!=</span> <span class="pl-c1">-1</span> {
+      <span class="pl-k">if</span> child <span class="pl-k">==</span> tree[h].<span class="pl-smi">left</span> {
+        writer.<span class="pl-c1">writeBit</span>(<span class="pl-c1">bit</span>: <span class="pl-c1">true</span>)
+      } <span class="pl-k">else</span> <span class="pl-k">if</span> child <span class="pl-k">==</span> tree[h].<span class="pl-smi">right</span> {
+        writer.<span class="pl-c1">writeBit</span>(<span class="pl-c1">bit</span>: <span class="pl-c1">false</span>)
+      }
+    }
+  }</pre></div>
+<p>When we call this method from <code>compressData()</code>, the <code>nodeIndex</code> parameter is the array index of the leaf node for the byte that we need to encode. This method recursively walks the tree from a leaf node up to the root and then back again.</p>
+<p>As we are going back from the root to the leaf node, we write a 1 bit or a 0 bit for every node we encounter. If a child is the left node, we emit a 1; if it is the right node, we emit a 0.</p>
+<p>In a picture:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Compression.png"><img src="Images/Compression.png" alt="How compression works" style="max-width:100%;"></a></p>
+<p>Even though the illustration of the tree shows a 0 or 1 for each edge between the nodes, the bit values 0 and 1 are not actually stored in the tree! The rule is that we write a 1 bit if we take the left branch and a 0 bit if we take the right branch, so just knowing the direction we are going in is enough to determine what bit value to write.</p>
+<p>You use the <code>compressData()</code> method as follows:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> s1 <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>so much words wow many compression<span class="pl-pds">"</span></span>
+<span class="pl-k">if</span> <span class="pl-k">let</span> originalData <span class="pl-k">=</span> s1.<span class="pl-c1">dataUsingEncoding</span>(NSUTF8StringEncoding) {
+  <span class="pl-k">let</span> huffman1 <span class="pl-k">=</span> <span class="pl-c1">Huffman</span>()
+  <span class="pl-k">let</span> compressedData <span class="pl-k">=</span> huffman1.<span class="pl-c1">compressData</span>(originalData)
+  <span class="pl-c1">print</span>(compressedData.<span class="pl-smi">length</span>)
+}</pre></div>
+<h2>Decompression</h2>
+<p>Decompression is the compression in reverse. However, the compressed bits are useless without the frequency table. As mentioned, the <code>frequencyTable()</code> method returns an array of <code>Freq</code> objects. If we were saving the compressed data into a file or sending it across the network, we'd also save that <code>[Freq]</code> array along with it.</p>
+<p>We first need some way to turn the <code>[Freq]</code> array back into a compression tree:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">fileprivate</span> <span class="pl-k">func</span> <span class="pl-en">restoreTree</span>(<span class="pl-en">fromTable</span> <span class="pl-smi">frequencyTable</span>: [Freq]) {
+    <span class="pl-k">for</span> freq <span class="pl-k">in</span> frequencyTable {
+      <span class="pl-k">let</span> i <span class="pl-k">=</span> <span class="pl-c1">Int</span>(freq.<span class="pl-smi">byte</span>)
+      tree[i].<span class="pl-c1">count</span> <span class="pl-k">=</span> freq.<span class="pl-c1">count</span>
+      tree[i].<span class="pl-smi">index</span> <span class="pl-k">=</span> i
+    }
+    <span class="pl-c1">buildTree</span>()
+  }</pre></div>
+<p>We convert the <code>Freq</code> objects into leaf nodes and then call <code>buildTree()</code> to do the rest.</p>
+<p>Here is the code for <code>decompressData()</code>, which takes an <code>NSData</code> object with Huffman-encoded bits and a frequency table, and it returns the original data:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">func</span> <span class="pl-en">decompressData</span>(<span class="pl-smi"><span class="pl-en">data</span></span>: NSData, <span class="pl-smi"><span class="pl-en">frequencyTable</span></span>: [Freq]) <span class="pl-k">-&gt;</span> NSData {
+    <span class="pl-c1">restoreTree</span>(<span class="pl-c1">fromTable</span>: frequencyTable)
+
+    <span class="pl-k">let</span> reader <span class="pl-k">=</span> <span class="pl-c1">BitReader</span>(<span class="pl-c1">data</span>: data)
+    <span class="pl-k">let</span> outData <span class="pl-k">=</span> <span class="pl-c1">NSMutableData</span>()
+    <span class="pl-k">let</span> byteCount <span class="pl-k">=</span> tree[root].<span class="pl-c1">count</span>
+
+    <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">while</span> i <span class="pl-k">&lt;</span> byteCount {
+      <span class="pl-k">var</span> b <span class="pl-k">=</span> <span class="pl-c1">findLeafNode</span>(<span class="pl-c1">reader</span>: reader, <span class="pl-c1">nodeIndex</span>: root)
+      outData.<span class="pl-c1">append</span>(<span class="pl-k">&amp;</span>b, <span class="pl-c1">length</span>: <span class="pl-c1">1</span>)
+      i <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    }
+    <span class="pl-k">return</span> outData
+  }</pre></div>
+<p>This also uses a helper method to traverse the tree:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">findLeafNode</span>(<span class="pl-en">reader</span> <span class="pl-smi">reader</span>: BitReader, <span class="pl-smi"><span class="pl-en">nodeIndex</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">UInt8</span> {
+    <span class="pl-k">var</span> h <span class="pl-k">=</span> nodeIndex
+    <span class="pl-k">while</span> tree[h].<span class="pl-smi">right</span> <span class="pl-k">!=</span> <span class="pl-c1">-1</span> {
+      <span class="pl-k">if</span> reader.<span class="pl-c1">readBit</span>() {
+        h <span class="pl-k">=</span> tree[h].<span class="pl-smi">left</span>
+      } <span class="pl-k">else</span> {
+        h <span class="pl-k">=</span> tree[h].<span class="pl-smi">right</span>
+      }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">UInt8</span>(h)
+  }</pre></div>
+<p><code>findLeafNode()</code> walks the tree from the root down to the leaf node given by <code>nodeIndex</code>. At each intermediate node, we read a new bit and then step to the left (bit is 1) or the right (bit is 0). When we get to the leaf node, we simply return its index, which is equal to the original byte value.</p>
+<p>In a picture:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="Images/Decompression.png"><img src="Images/Decompression.png" alt="How decompression works" style="max-width:100%;"></a></p>
+<p>Here is how we use the decompression method:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">let</span> frequencyTable <span class="pl-k">=</span> huffman1.<span class="pl-c1">frequencyTable</span>()
+
+  <span class="pl-k">let</span> huffman2 <span class="pl-k">=</span> <span class="pl-c1">Huffman</span>()
+  <span class="pl-k">let</span> decompressedData <span class="pl-k">=</span> huffman2.<span class="pl-c1">decompressData</span>(compressedData, <span class="pl-c1">frequencyTable</span>: frequencyTable)
+
+  <span class="pl-k">let</span> s2 <span class="pl-k">=</span> <span class="pl-c1">String</span>(<span class="pl-c1">data</span>: decompressedData, <span class="pl-c1">encoding</span>: NSUTF8StringEncoding)<span class="pl-k">!</span></pre></div>
+<p>First we get the frequency table from somewhere (in this case the <code>Huffman</code> object we used to encode the data) and then call <code>decompressData()</code>. The string that results should be equal to the one we compressed in the first place.</p>
+<p>we can see how this works in more detail in the Playground.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Huffman_coding" rel="nofollow">Huffman coding at Wikipedia</a></p>
+<p>The code is loosely based on Al Stevens' C Programming column from Dr.Dobb's Magazine, February 1991 and October 1992.</p>
+<p><em>Written for Swift Algorithm Club by Matthijs Hollemans</em></p></div>
+</body>
+</html>

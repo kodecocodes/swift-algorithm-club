@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<head>
+  <title>Merge Sort</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Merge Sort</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/154256/swift-algorithm-club-swift-merge-sort" rel="nofollow">here</a></p>
+</blockquote>
+<p>Goal: Sort an array from low to high (or high to low)</p>
+<p>Invented in 1945 by John von Neumann, merge-sort is an efficient algorithm with a best, worst, and average time complexity of <strong>O(n log n)</strong>.</p>
+<p>The merge-sort algorithm uses the <strong>divide and conquer</strong> approach which is to divide a big problem into smaller problems and solve them. I think of the merge-sort algorithm as <strong>split first</strong> and <strong>merge after</strong>.</p>
+<p>Assume you need to sort an array of <em>n</em> numbers in the right order. The merge-sort algorithm works as follows:</p>
+<ul>
+<li>Put the numbers in an unsorted pile.</li>
+<li>Split the pile into two. Now, you have <strong>two unsorted piles</strong> of numbers.</li>
+<li>Keep splitting the resulting piles until you cannot split anymore. In the end, you will have <em>n</em> piles with one number in each pile.</li>
+<li>Begin to <strong>merge</strong> the piles together by pairing them sequentially. During each merge, put the contents in sorted order. This is fairly easy because each individual pile is already sorted.</li>
+</ul>
+<h2>An example</h2>
+<h3>Splitting</h3>
+<p>Assume you are given an array of <em>n</em> numbers as<code>[2, 1, 5, 4, 9]</code>. This is an unsorted pile. The goal is to keep splitting the pile until you cannot split anymore.</p>
+<p>First, split the array into two halves: <code>[2, 1]</code> and <code>[5, 4, 9]</code>. Can you keep splitting them? Yes, you can!</p>
+<p>Focus on the left pile. Split<code>[2, 1]</code> into <code>[2]</code> and <code>[1]</code>. Can you keep splitting them? No. Time to check the other pile.</p>
+<p>Split <code>[5, 4, 9]</code> into <code>[5]</code> and <code>[4, 9]</code>. Unsurprisingly, <code>[5]</code> cannot be split anymore, but <code>[4, 9]</code> can be split into <code>[4]</code> and <code>[9]</code>.</p>
+<p>The splitting process ends with the following piles: <code>[2]</code> <code>[1]</code> <code>[5]</code> <code>[4]</code> <code>[9]</code>. Notice that each pile consists of just one element.</p>
+<h3>Merging</h3>
+<p>Now that you have split the array, you should <strong>merge</strong> the piles together <strong>while sorting them</strong>. Remember, the idea is to solve many small problems rather than a big one. For each merge iteration, you must be concerned at merging one pile with another.</p>
+<p>Given the piles <code>[2]</code> <code>[1]</code> <code>[5]</code> <code>[4]</code> <code>[9]</code>, the first pass will result in <code>[1, 2]</code> and <code>[4, 5]</code> and <code>[9]</code>. Since <code>[9]</code> is the odd one out, you cannot merge it with anything during this pass.</p>
+<p>The next pass will merge <code>[1, 2]</code> and <code>[4, 5]</code> together. This results in <code>[1, 2, 4, 5]</code>, with the <code>[9]</code> left out again because it is the odd one out.</p>
+<p>You are left with only two piles <code>[1, 2, 4, 5]</code> and <code>[9]</code>, finally gets its chance to merge, resulting in the sorted array as <code>[1, 2, 4, 5, 9]</code>.</p>
+<h2>Top-down implementation</h2>
+<p>Here's what merge sort may look like in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">mergeSort</span>(<span class="pl-en">_</span> <span class="pl-smi">array</span>: [<span class="pl-c1">Int</span>]) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] {
+  <span class="pl-k">guard</span> array.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> <span class="pl-k">else</span> { <span class="pl-k">return</span> array }    <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>
+  <span class="pl-k">let</span> middleIndex <span class="pl-k">=</span> array.<span class="pl-c1">count</span> <span class="pl-k">/</span> <span class="pl-c1">2</span>              <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>
+  <span class="pl-k">let</span> leftArray <span class="pl-k">=</span> <span class="pl-c1">mergeSort</span>(<span class="pl-c1">Array</span>(array[<span class="pl-c1">0</span><span class="pl-k">..&lt;</span>middleIndex]))             <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>
+  <span class="pl-k">let</span> rightArray <span class="pl-k">=</span> <span class="pl-c1">mergeSort</span>(<span class="pl-c1">Array</span>(array[middleIndex<span class="pl-k">..&lt;</span>array.<span class="pl-c1">count</span>]))  <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>
+  <span class="pl-k">return</span> <span class="pl-c1">merge</span>(<span class="pl-c1">leftPile</span>: leftArray, <span class="pl-c1">rightPile</span>: rightArray)             <span class="pl-c"><span class="pl-c">//</span> 5</span>
+<span class="pl-c"></span>}</pre></div>
+<p>A step-by-step explanation of how the code works:</p>
+<ol>
+<li>
+<p>If the array is empty or contains a single element, there is no way to split it into smaller pieces. You must just return the array.</p>
+</li>
+<li>
+<p>Find the middle index.</p>
+</li>
+<li>
+<p>Using the middle index from the previous step, recursively split the left side of the array.</p>
+</li>
+<li>
+<p>Also, recursively split the right side of the array.</p>
+</li>
+<li>
+<p>Finally, merge all the values together, making sure that it is always sorted.</p>
+</li>
+</ol>
+<p>Here's the merging algorithm:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">merge</span>(<span class="pl-smi"><span class="pl-en">leftPile</span></span>: [<span class="pl-c1">Int</span>], <span class="pl-smi"><span class="pl-en">rightPile</span></span>: [<span class="pl-c1">Int</span>]) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] {
+  <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>  <span class="pl-k">var</span> leftIndex <span class="pl-k">=</span> <span class="pl-c1">0</span>
+  <span class="pl-k">var</span> rightIndex <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+  <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>  <span class="pl-k">var</span> orderedPile <span class="pl-k">=</span> [<span class="pl-c1">Int</span>]()
+  orderedPile.<span class="pl-c1">reserveCapacity</span>(leftPile.<span class="pl-c1">count</span> <span class="pl-k">+</span> rightPile.<span class="pl-c1">count</span>)
+
+  <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>  <span class="pl-k">while</span> leftIndex <span class="pl-k">&lt;</span> leftPile.<span class="pl-c1">count</span> <span class="pl-k">&amp;&amp;</span> rightIndex <span class="pl-k">&lt;</span> rightPile.<span class="pl-c1">count</span> {
+    <span class="pl-k">if</span> leftPile[leftIndex] <span class="pl-k">&lt;</span> rightPile[rightIndex] {
+      orderedPile.<span class="pl-c1">append</span>(leftPile[leftIndex])
+      leftIndex <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    } <span class="pl-k">else</span> <span class="pl-k">if</span> leftPile[leftIndex] <span class="pl-k">&gt;</span> rightPile[rightIndex] {
+      orderedPile.<span class="pl-c1">append</span>(rightPile[rightIndex])
+      rightIndex <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    } <span class="pl-k">else</span> {
+      orderedPile.<span class="pl-c1">append</span>(leftPile[leftIndex])
+      leftIndex <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+      orderedPile.<span class="pl-c1">append</span>(rightPile[rightIndex])
+      rightIndex <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    }
+  }
+
+  <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>  <span class="pl-k">while</span> leftIndex <span class="pl-k">&lt;</span> leftPile.<span class="pl-c1">count</span> {
+    orderedPile.<span class="pl-c1">append</span>(leftPile[leftIndex])
+    leftIndex <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  }
+
+  <span class="pl-k">while</span> rightIndex <span class="pl-k">&lt;</span> rightPile.<span class="pl-c1">count</span> {
+    orderedPile.<span class="pl-c1">append</span>(rightPile[rightIndex])
+    rightIndex <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  }
+
+  <span class="pl-k">return</span> orderedPile
+}</pre></div>
+<p>This method may look scary, but it is quite straightforward:</p>
+<ol>
+<li>
+<p>You need two indexes to keep track of your progress for the two arrays while merging.</p>
+</li>
+<li>
+<p>This is the merged array. It is empty right now, but you will build it up in subsequent steps by appending elements from the other arrays. Since you already know number of elements that will end up in this array, you reserve capacity to avoid reallocation overhead later.</p>
+</li>
+<li>
+<p>This while-loop will compare the elements from the left and right sides and append them into the <code>orderedPile</code> while making sure that the result stays in order.</p>
+</li>
+<li>
+<p>If control exits from the previous while-loop, it means that either the <code>leftPile</code> or the <code>rightPile</code> has its contents completely merged into the <code>orderedPile</code>. At this point, you no longer need to do comparisons. Just append the rest of the contents of the other array until there is no more to append.</p>
+</li>
+</ol>
+<p>As an example of how <code>merge()</code> works, suppose that we have the following piles: <code>leftPile = [1, 7, 8]</code> and <code>rightPile = [3, 6, 9]</code>. Note that each of these piles is individually sorted already -- that is always true with merge sort. These are merged into one larger sorted pile in the following steps:</p>
+<pre><code>leftPile       rightPile       orderedPile
+[ 1, 7, 8 ]    [ 3, 6, 9 ]     [ ]
+  l              r
+</code></pre>
+<p>The left index, here represented as <code>l</code>, points at the first item from the left pile, <code>1</code>. The right index, <code>r</code>, points at <code>3</code>. Therefore, the first item we add to <code>orderedPile</code> is <code>1</code>. We also move the left index <code>l</code> to the next item.</p>
+<pre><code>leftPile       rightPile       orderedPile
+[ 1, 7, 8 ]    [ 3, 6, 9 ]     [ 1 ]
+  --&gt;l           r
+</code></pre>
+<p>Now <code>l</code> points at <code>7</code> but <code>r</code> is still at <code>3</code>. We add the smallest item to the ordered pile, so that is <code>3</code>. The situation is now:</p>
+<pre><code>leftPile       rightPile       orderedPile
+[ 1, 7, 8 ]    [ 3, 6, 9 ]     [ 1, 3 ]
+     l           --&gt;r
+</code></pre>
+<p>This process repeats. At each step, we pick the smallest item from either the <code>leftPile</code> or the <code>rightPile</code> and add the item into the <code>orderedPile</code>:</p>
+<pre><code>leftPile       rightPile       orderedPile
+[ 1, 7, 8 ]    [ 3, 6, 9 ]     [ 1, 3, 6 ]
+     l              --&gt;r
+
+leftPile       rightPile       orderedPile
+[ 1, 7, 8 ]    [ 3, 6, 9 ]     [ 1, 3, 6, 7 ]
+     --&gt;l              r
+
+leftPile       rightPile       orderedPile
+[ 1, 7, 8 ]    [ 3, 6, 9 ]     [ 1, 3, 6, 7, 8 ]
+        --&gt;l           r
+</code></pre>
+<p>Now, there are no more items in the left pile. We simply add the remaining items from the right pile, and we are done. The merged pile is <code>[ 1, 3, 6, 7, 8, 9 ]</code>.</p>
+<p>Notice that, this algorithm is very simple: it moves from left-to-right through the two piles and at every step picks the smallest item. This works because we guarantee that each of the piles is already sorted.</p>
+<h2>Bottom-up implementation</h2>
+<p>The implementation of the merge-sort algorithm you have seen so far is called the "top-down" approach because it first splits the array into smaller piles and then merges them. When sorting an array (as opposed to, say, a linked list) you can actually skip the splitting step and immediately start merging the individual array elements. This is called the "bottom-up" approach.</p>
+<p>Time to step up the game a little. :-) Here is a complete bottom-up implementation in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">mergeSortBottomUp</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">a</span>: [T], <span class="pl-en">_</span> <span class="pl-smi">isOrderedBefore</span>: (T, T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span>) <span class="pl-k">-&gt;</span> [T] {
+  <span class="pl-k">let</span> n <span class="pl-k">=</span> a.<span class="pl-c1">count</span>
+
+  <span class="pl-k">var</span> z <span class="pl-k">=</span> [a, a]      <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>  <span class="pl-k">var</span> d <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+  <span class="pl-k">var</span> width <span class="pl-k">=</span> <span class="pl-c1">1</span>
+  <span class="pl-k">while</span> width <span class="pl-k">&lt;</span> n {   <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>
+    <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">while</span> i <span class="pl-k">&lt;</span> n {     <span class="pl-c"><span class="pl-c">//</span> 3</span>
+<span class="pl-c"></span>
+      <span class="pl-k">var</span> j <span class="pl-k">=</span> i
+      <span class="pl-k">var</span> l <span class="pl-k">=</span> i
+      <span class="pl-k">var</span> r <span class="pl-k">=</span> i <span class="pl-k">+</span> width
+
+      <span class="pl-k">let</span> lmax <span class="pl-k">=</span> <span class="pl-c1">min</span>(l <span class="pl-k">+</span> width, n)
+      <span class="pl-k">let</span> rmax <span class="pl-k">=</span> <span class="pl-c1">min</span>(r <span class="pl-k">+</span> width, n)
+
+      <span class="pl-k">while</span> l <span class="pl-k">&lt;</span> lmax <span class="pl-k">&amp;&amp;</span> r <span class="pl-k">&lt;</span> rmax {                <span class="pl-c"><span class="pl-c">//</span> 4</span>
+<span class="pl-c"></span>        <span class="pl-k">if</span> <span class="pl-c1">isOrderedBefore</span>(z[d][l], z[d][r]) {
+          z[<span class="pl-c1">1</span> <span class="pl-k">-</span> d][j] <span class="pl-k">=</span> z[d][l]
+          l <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+        } <span class="pl-k">else</span> {
+          z[<span class="pl-c1">1</span> <span class="pl-k">-</span> d][j] <span class="pl-k">=</span> z[d][r]
+          r <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+        }
+        j <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+      }
+      <span class="pl-k">while</span> l <span class="pl-k">&lt;</span> lmax {
+        z[<span class="pl-c1">1</span> <span class="pl-k">-</span> d][j] <span class="pl-k">=</span> z[d][l]
+        j <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+        l <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+      }
+      <span class="pl-k">while</span> r <span class="pl-k">&lt;</span> rmax {
+        z[<span class="pl-c1">1</span> <span class="pl-k">-</span> d][j] <span class="pl-k">=</span> z[d][r]
+        j <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+        r <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+      }
+
+      i <span class="pl-k">+=</span> width<span class="pl-k">*</span><span class="pl-c1">2</span>
+    }
+
+    width <span class="pl-k">*=</span> <span class="pl-c1">2</span>
+    d <span class="pl-k">=</span> <span class="pl-c1">1</span> <span class="pl-k">-</span> d      <span class="pl-c"><span class="pl-c">//</span> 5</span>
+<span class="pl-c"></span>  }
+  <span class="pl-k">return</span> z[d]
+}</pre></div>
+<p>It looks a lot more intimidating than the top-down version, but notice that the main body includes the same three <code>while</code> loops from <code>merge()</code>.</p>
+<p>Notable points:</p>
+<ol>
+<li>
+<p>The Merge-sort algorithm needs a temporary working array because you cannot merge the left and right piles and at the same time overwrite their contents. Because allocating a new array for each merge is wasteful, we are using two working arrays, and we will switch between them using the value of <code>d</code>, which is either 0 or 1. The array <code>z[d]</code> is used for reading, and <code>z[1 - d]</code> is used for writing. This is called <em>double-buffering</em>.</p>
+</li>
+<li>
+<p>Conceptually, the bottom-up version works the same way as the top-down version. First, it merges small piles of one element each, then it merges piles of two elements each, then piles of four elements each, and so on. The size of the pile is given by <code>width</code>. Initially, <code>width</code> is <code>1</code> but at the end of each loop iteration, we multiply it by two, so this outer loop determines the size of the piles being merged, and the subarrays to merge become larger in each step.</p>
+</li>
+<li>
+<p>The inner loop steps through the piles and merges each pair of piles into a larger one. The result is written in the array given by <code>z[1 - d]</code>.</p>
+</li>
+<li>
+<p>This is the same logic as in the top-down version. The main difference is that we're using double-buffering, so values are read from <code>z[d]</code> and written into <code>z[1 - d]</code>. It also uses an <code>isOrderedBefore</code> function to compare the elements rather than just <code>&lt;</code>, so this merge-sort algorithm is generic, and you can use it to sort any kind of object you want.</p>
+</li>
+<li>
+<p>At this point, the piles of size <code>width</code> from array <code>z[d]</code> have been merged into larger piles of size <code>width * 2</code> in array <code>z[1 - d]</code>. Here, we swap the active array, so that in the next step we'll read from the new piles we have just created.</p>
+</li>
+</ol>
+<p>This function is generic, so you can use it to sort any type you desire, as long as you provide a proper <code>isOrderedBefore</code> closure to compare the elements.</p>
+<p>Example of how to use it:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> array <span class="pl-k">=</span> [<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, <span class="pl-c1">5</span>, <span class="pl-c1">4</span>, <span class="pl-c1">9</span>]
+<span class="pl-c1">mergeSortBottomUp</span>(array, <span class="pl-k">&lt;</span>)   <span class="pl-c"><span class="pl-c">//</span> [1, 2, 4, 5, 9]</span></pre></div>
+<h2>Performance</h2>
+<p>The speed of the merge-sort algorithm is dependent on the size of the array it needs to sort. The larger the array, the more work it needs to do.</p>
+<p>Whether or not the initial array is sorted already does not affect the speed of the merge-sort algorithm since you will be doing the same amount splits and comparisons regardless of the initial order of the elements.</p>
+<p>Therefore, the time complexity for the best, worst, and average case will always be <strong>O(n log n)</strong>.</p>
+<p>A disadvantage of the merge-sort algorithm is that it needs a temporary "working" array equal in size to the array being sorted. It is not an <strong>in-place</strong> sort, unlike for example <a href="../Quicksort/">quicksort</a>.</p>
+<p>Most implementations of the merge-sort algorithm produce a <strong>stable</strong> sort. This means that array elements that have identical sort keys will stay in the same order relative to each other after sorting. This is not important for simple values such as numbers or strings, but it can be an issue when sorting more complex objects.</p>
+<h2>See also</h2>
+<p><a href="https://en.wikipedia.org/wiki/Merge_sort" rel="nofollow">Merge sort on Wikipedia</a></p>
+<p><em>Written by Kelvin Lau. Additions by Matthijs Hollemans.</em></p></div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+  <title>Bloom Filter</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Bloom Filter</h1>
+<h2>Introduction</h2>
+<p>A Bloom Filter is a space-efficient data structure that tells you whether or not an element is present in a set.</p>
+<p>This is a probabilistic data structure: a query to a Bloom filter either returns <code>false</code>, meaning the element is definitely not in the set, or <code>true</code>, meaning that the element <em>might</em> be in the set.</p>
+<p>There is a small probability of false positives, where the element isn't actually in the set even though the query returned <code>true</code>. But there will never any false negatives: you're guaranteed that if the query returns <code>false</code>, then the element really isn't in the set.</p>
+<p>So a Bloom Filter tells you, "definitely not" or "probably yes".</p>
+<p>At first, this may not seem too useful. However, it's important in applications like cache filtering and data synchronization.</p>
+<p>An advantage of the Bloom Filter over a hash table is that the former maintains constant memory usage and constant-time insert and search. For sets with a large number of elements, the performance difference between a hash table and a Bloom Filter is significant, and it is a viable option if you do not need the guarantee of no false positives.</p>
+<blockquote>
+<p><strong>Note:</strong> Unlike a hash table, the Bloom Filter does not store the actual objects. It just remembers what objects you’ve seen (with a degree of uncertainty) and which ones you haven’t.</p>
+</blockquote>
+<h2>Inserting objects into the set</h2>
+<p>A Bloom Filter is essentially a fixed-length <a href="../Bit%20Set/">bit vector</a>, an array of bits. When we insert objects, we set some of these bits to <code>1</code>, and when we query for objects we check if certain bits are <code>0</code> or <code>1</code>. Both operations use hash functions.</p>
+<p>To insert an element in the filter, the element is hashed with several different hash functions. Each hash function returns a value that we map to an index in the array. We then set the bits at these indices to <code>1</code> or true.</p>
+<p>For example, let's say this is our array of bits. We have 17 bits and initially they are all <code>0</code> or false:</p>
+<pre><code>[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+</code></pre>
+<p>Now we want to insert the string <code>"Hello world!"</code> into the Bloom Filter. We apply two hash functions to this string. The first one gives the value 1999532104120917762. We map this hash value to an index into our array by taking the modulo of the array length: <code>1999532104120917762 % 17 = 4</code>. This means we set the bit at index 4 to <code>1</code> or true:</p>
+<pre><code>[ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+</code></pre>
+<p>Then we hash the original string again but this time with a different hash function. It gives the hash value 9211818684948223801. Modulo 17 that is 12, and we set the bit at index 12 to <code>1</code> as well:</p>
+<pre><code>[ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 ]
+</code></pre>
+<p>These two 1-bits are enough to tell the Bloom Filter that it now contains the string <code>"Hello world!"</code>. Of course, it doesn't contain the actual string, so you can't ask the Bloom Filter, "give me a list of all the objects you contain". All it has is a bunch of ones and zeros.</p>
+<h2>Querying the set</h2>
+<p>Querying, similarly to inserting, is accomplished by first hashing the expected value, which gives several array indices, and then checking to see if all of the bits at those indices are <code>1</code>. If even one of the bits is not <code>1</code>, the element could not have been inserted and the query returns <code>false</code>. If all the bits are <code>1</code>, the query returns <code>true</code>.</p>
+<p>For example, if we query for the string <code>"Hello WORLD"</code>, then the first hash function returns 5383892684077141175, which modulo 17 is 12. That bit is <code>1</code>. But the second hash function gives 5625257205398334446, which maps to array index 9. That bit is <code>0</code>. This means the string <code>"Hello WORLD"</code> is not in the filter and the query returns <code>false</code>.</p>
+<p>The fact that the first hash function mapped to a <code>1</code> bit is a coincidence (it has nothing to do with the fact that both strings start with <code>"Hello "</code>). Too many such coincidences can lead to "collisions". If there are collisions, the query may erroneously return <code>true</code> even though the element was not inserted -- bringing about the issue with false positives mentioned earlier.</p>
+<p>Let's say we insert some other element, <code>"Bloom Filterz"</code>, which sets bits 7 and 9. Now the array looks like this:</p>
+<pre><code>[ 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0 ]
+</code></pre>
+<p>If you query for <code>"Hello WORLD"</code> again, the filter sees that bit 12 is true and bit 9 is now true as well. It reports that <code>"Hello WORLD"</code> is indeed present in the set, even though it isn't... because we never inserted that particular string. It's a false positive. This example shows why a Bloom Filter will never say, "definitely yes", only "probably yes".</p>
+<p>You can fix such issues by using an array with more bits and using additional hash functions. Of course, the more hash functions you use the slower the Bloom Filter will be. So you have to strike a balance.</p>
+<p>Deletion is not possible with a Bloom Filter, since any one bit might belong to multiple elements. Once you add an element, it's in there for good.</p>
+<p>Performance of a Bloom Filter is <strong>O(k)</strong> where <strong>k</strong> is the number of hashing functions.</p>
+<h2>The code</h2>
+<p>The code is quite straightforward. The internal bit array is set to a fixed length on initialization, which cannot be mutated once it is initialized.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">size</span></span>: <span class="pl-c1">Int</span> <span class="pl-k">=</span> <span class="pl-c1">1024</span>, <span class="pl-smi"><span class="pl-en">hashFunctions</span></span>: [(T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span>]) {
+	<span class="pl-c1">self</span>.<span class="pl-c1">array</span> <span class="pl-k">=</span> [<span class="pl-c1">Bool</span>](<span class="pl-c1">repeating</span>: <span class="pl-c1">false</span>, <span class="pl-c1">count</span>: size)
+  <span class="pl-c1">self</span>.<span class="pl-smi">hashFunctions</span> <span class="pl-k">=</span> hashFunctions
+}</pre></div>
+<p>Several hash functions should be specified at initialization. Which hash functions you use will depend on the datatypes of the elements you'll be adding to the set. You can see some examples in the playground and the tests -- the <code>djb2</code> and <code>sdbm</code> hash functions for strings.</p>
+<p>Insertion just flips the required bits to <code>true</code>:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-en">_</span> <span class="pl-smi">element</span>: T) {
+  <span class="pl-k">for</span> hashValue <span class="pl-k">in</span> <span class="pl-c1">computeHashes</span>(element) {
+    array[hashValue] <span class="pl-k">=</span> <span class="pl-c1">true</span>
+  }
+}</pre></div>
+<p>This uses the <code>computeHashes()</code> function, which loops through the specified <code>hashFunctions</code> and returns an array of indices:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">computeHashes</span>(<span class="pl-en">_</span> <span class="pl-smi">value</span>: T) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] {
+  <span class="pl-k">return</span> hashFunctions.<span class="pl-c1">map</span>() { hashFunc <span class="pl-k">in</span> <span class="pl-c1">abs</span>(<span class="pl-c1">hashFunc</span>(value) <span class="pl-k">%</span> array.<span class="pl-c1">count</span>) }
+}</pre></div>
+<p>And querying checks to make sure the bits at the hashed values are <code>true</code>:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">query</span>(<span class="pl-en">_</span> <span class="pl-smi">value</span>: T) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+  <span class="pl-k">let</span> hashValues <span class="pl-k">=</span> <span class="pl-c1">computeHashes</span>(value)
+  <span class="pl-k">let</span> results <span class="pl-k">=</span> hashValues.<span class="pl-c1">map</span>() { hashValue <span class="pl-k">in</span> array[hashValue] }
+	<span class="pl-k">let</span> exists <span class="pl-k">=</span> results.<span class="pl-c1">reduce</span>(<span class="pl-c1">true</span>, { <span class="pl-c1">$0</span> <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">$1</span> })
+  <span class="pl-k">return</span> exists
+}</pre></div>
+<p>If you're coming from another imperative language, you might notice the unusual syntax in the <code>exists</code> assignment. Swift makes use of functional paradigms when it makes code more consise and readable, and in this case <code>reduce</code> is a much more consise way to check if all the required bits are <code>true</code> than a <code>for</code> loop.</p>
+<h2>Another approach</h2>
+<p>In the previous section, you learnt about how using multiple different hash functions can help reduce the chance of collisions in the bloom filter. However, good hash functions are difficult to design. A simple alternative to multiple hash functions is to use a set of random numbers.</p>
+<p>As an example, let's say a bloom filter wants to hash each element 15 times during insertion. Instead of using 15 different hash functions, you can rely on just one hash function. The hash value can then be combined with 15 different values to form the indices for flipping. This bloom filter would initialize a set of 15 random numbers ahead of time and use these values during each insertion.</p>
+<pre><code>hash("Hello world!") &gt;&gt; hash(987654321) // would flip bit 8
+hash("Hello world!") &gt;&gt; hash(123456789) // would flip bit 2
+</code></pre>
+<p>Since Swift 4.2, <code>Hasher</code> is now included in the Standard library, which is designed to reduce multiple hashes to a single hash in an efficient manner. This makes combining the hashes trivial.</p>
+<pre><code>private func computeHashes(_ value: T) -&gt; [Int] {
+  return randomSeeds.map() { seed in
+		let hasher = Hasher()
+		hasher.combine(seed)
+		hasher.combine(value)
+		let hashValue = hasher.finalize()
+		return abs(hashValue % array.count)
+	}
+}
+</code></pre>
+<p>If you want to learn more about this approach, you can read about the <a href="https://developer.apple.com/documentation/swift/hasher" rel="nofollow">Hasher documentation</a> or Soroush Khanlou's <a href="http://khanlou.com/2018/09/bloom-filters/" rel="nofollow">Swift 4.2 Bloom filter</a> implementation.</p>
+<p><em>Written for Swift Algorithm Club by Jamil Dhanani. Edited by Matthijs Hollemans. Updated by Bruno Scheele.</em></p></div>
+</body>
+</html>

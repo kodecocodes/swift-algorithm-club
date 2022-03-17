@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<head>
+  <title>Ordered Set</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Ordered Set</h1>
+<p>Let's look into how to implement <a href="https://developer.apple.com/documentation/foundation/nsorderedset" rel="nofollow">Ordered Set</a>.</p>
+<p>Here is the example about how it works</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> s <span class="pl-k">=</span> AppleOrderedSet<span class="pl-k">&lt;</span><span class="pl-c1">Int</span><span class="pl-k">&gt;</span>()
+
+s.<span class="pl-c1">add</span>(<span class="pl-c1">1</span>)
+s.<span class="pl-c1">add</span>(<span class="pl-c1">2</span>)
+s.<span class="pl-c1">add</span>(<span class="pl-c1">-1</span>)
+s.<span class="pl-c1">add</span>(<span class="pl-c1">0</span>)
+s.<span class="pl-c1">insert</span>(<span class="pl-c1">4</span>, <span class="pl-c1">at</span>: <span class="pl-c1">3</span>)
+
+<span class="pl-c1">print</span>(s.<span class="pl-c1">all</span>()) <span class="pl-c"><span class="pl-c">//</span> [1, 2, -1, 4, 0]</span>
+<span class="pl-c"></span>
+s.<span class="pl-c1">set</span>(<span class="pl-c1">-1</span>, <span class="pl-c1">at</span>: <span class="pl-c1">0</span>) <span class="pl-c"><span class="pl-c">//</span> We already have -1 in index: 2, so we will do nothing here</span>
+<span class="pl-c"></span>
+<span class="pl-c1">print</span>(s.<span class="pl-c1">all</span>()) <span class="pl-c"><span class="pl-c">//</span> [1, 2, -1, 4, 0]</span>
+<span class="pl-c"></span>
+s.<span class="pl-c1">remove</span>(<span class="pl-c1">-1</span>)
+
+<span class="pl-c1">print</span>(s.<span class="pl-c1">all</span>()) <span class="pl-c"><span class="pl-c">//</span> [1, 2, 4, 0]</span>
+<span class="pl-c"></span>
+<span class="pl-c1">print</span>(s.<span class="pl-c1">object</span>(<span class="pl-c1">at</span>: <span class="pl-c1">1</span>)) <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>
+<span class="pl-c1">print</span>(s.<span class="pl-c1">object</span>(<span class="pl-c1">at</span>: <span class="pl-c1">2</span>)) <span class="pl-c"><span class="pl-c">//</span> 4</span></pre></div>
+<p>The significant difference is the the array is not sorted. The elements in the array are the same when insert them. Image the array without duplicates and with <code>O(logn)</code> or <code>O(1)</code> search time.</p>
+<p>The idea here is using a data structure to provide <code>O(1)</code> or <code>O(logn)</code> time complexity, so it's easy to think about hash table.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> indexOfKey<span class="pl-k">:</span> [T<span class="pl-k">:</span> <span class="pl-c1">Int</span>]
+<span class="pl-k">var</span> objects<span class="pl-k">:</span> [T]</pre></div>
+<p><code>indexOfKey</code> is used to track the index of the element. <code>objects</code> is array holding elements.</p>
+<p>We will go through some key functions details here.</p>
+<h3>Add</h3>
+<p>Update <code>indexOfKey</code> and insert element in the end of <code>objects</code></p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> O(1)</span>
+<span class="pl-c"></span><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">add</span>(<span class="pl-en">_</span> <span class="pl-smi">object</span>: T) {
+	<span class="pl-k">guard</span> indexOfKey[object] <span class="pl-k">==</span> <span class="pl-c1">nil</span> <span class="pl-k">else</span> {
+		<span class="pl-k">return</span>
+	}
+
+	objects.<span class="pl-c1">append</span>(object)
+	indexOfKey[object] <span class="pl-k">=</span> objects.<span class="pl-c1">count</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>
+}</pre></div>
+<h3>Insert</h3>
+<p>Insert in a random place of the array will cost <code>O(n)</code> time.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> O(n)</span>
+<span class="pl-c"></span><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-en">_</span> <span class="pl-smi">object</span>: T, <span class="pl-en">at</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>) {
+	<span class="pl-c1">assert</span>(index <span class="pl-k">&lt;</span> objects.<span class="pl-c1">count</span>, <span class="pl-s"><span class="pl-pds">"</span>Index should be smaller than object count<span class="pl-pds">"</span></span>)
+	<span class="pl-c1">assert</span>(index <span class="pl-k">&gt;=</span> <span class="pl-c1">0</span>, <span class="pl-s"><span class="pl-pds">"</span>Index should be bigger than 0<span class="pl-pds">"</span></span>)
+
+	<span class="pl-k">guard</span> indexOfKey[object] <span class="pl-k">==</span> <span class="pl-c1">nil</span> <span class="pl-k">else</span> {
+		<span class="pl-k">return</span>
+	}
+
+	objects.<span class="pl-c1">insert</span>(object, <span class="pl-c1">at</span>: index)
+	indexOfKey[object] <span class="pl-k">=</span> index
+	<span class="pl-k">for</span> i <span class="pl-k">in</span> index<span class="pl-k">+</span><span class="pl-c1">1</span><span class="pl-k">..&lt;</span>objects.<span class="pl-c1">count</span> {
+		indexOfKey[objects[i]] <span class="pl-k">=</span> i
+	}
+}</pre></div>
+<h3>Set</h3>
+<p>If the <code>object</code> already existed in the <code>OrderedSet</code>, do nothing. Otherwise, we need to update the <code>indexOfkey</code> and <code>objects</code>.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> O(1)</span>
+<span class="pl-c"></span><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">set</span>(<span class="pl-en">_</span> <span class="pl-smi">object</span>: T, <span class="pl-en">at</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>) {
+	<span class="pl-c1">assert</span>(index <span class="pl-k">&lt;</span> objects.<span class="pl-c1">count</span>, <span class="pl-s"><span class="pl-pds">"</span>Index should be smaller than object count<span class="pl-pds">"</span></span>)
+	<span class="pl-c1">assert</span>(index <span class="pl-k">&gt;=</span> <span class="pl-c1">0</span>, <span class="pl-s"><span class="pl-pds">"</span>Index should be bigger than 0<span class="pl-pds">"</span></span>)
+
+	<span class="pl-k">guard</span> indexOfKey[object] <span class="pl-k">==</span> <span class="pl-c1">nil</span> <span class="pl-k">else</span> {
+		<span class="pl-k">return</span>
+	}
+
+	indexOfKey.<span class="pl-c1">removeValue</span>(<span class="pl-c1">forKey</span>: objects[index])
+	indexOfKey[object] <span class="pl-k">=</span> index
+	objects[index] <span class="pl-k">=</span> object
+}</pre></div>
+<h3>Remove</h3>
+<p>Remove element in the array will cost <code>O(n)</code>. At the same time, we need to update all elements's index after the removed element.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">//</span> O(n)</span>
+<span class="pl-c"></span><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">remove</span>(<span class="pl-en">_</span> <span class="pl-smi">object</span>: T) {
+	<span class="pl-k">guard</span> <span class="pl-k">let</span> index <span class="pl-k">=</span> indexOfKey[object] <span class="pl-k">else</span> {
+		<span class="pl-k">return</span> 
+	}
+
+	indexOfKey.<span class="pl-c1">removeValue</span>(<span class="pl-c1">forKey</span>: object)
+	objects.<span class="pl-c1">remove</span>(<span class="pl-c1">at</span>: index)
+	<span class="pl-k">for</span> i <span class="pl-k">in</span> index<span class="pl-k">..&lt;</span>objects.<span class="pl-c1">count</span> {
+		indexOfKey[objects[i]] <span class="pl-k">=</span> i
+	}
+}</pre></div>
+<p><em>Written By Kai Chen</em></p></div>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<head>
+  <title>Linked List</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Linked List</h1>
+<blockquote>
+<p>This topic has been tutorialized <a href="https://www.raywenderlich.com/144083/swift-algorithm-club-swift-linked-list-data-structure" rel="nofollow">here</a></p>
+</blockquote>
+<p>A linked list is a sequence of data items, just like an array. But where an array allocates a big block of memory to store the objects, the elements in a linked list are totally separate objects in memory and are connected through links:</p>
+<pre><code>+--------+    +--------+    +--------+    +--------+
+|        |    |        |    |        |    |        |
+| node 0 |---&gt;| node 1 |---&gt;| node 2 |---&gt;| node 3 |
+|        |    |        |    |        |    |        |
++--------+    +--------+    +--------+    +--------+
+</code></pre>
+<p>The elements of a linked list are referred to as <em>nodes</em>. The above picture shows a <em>singly linked list</em>, where each node only has a reference -- or a "pointer" -- to the next node. In a <em>doubly linked list</em>, shown below, nodes also have pointers to the previous node:</p>
+<pre><code>+--------+    +--------+    +--------+    +--------+
+|        |---&gt;|        |---&gt;|        |---&gt;|        |
+| node 0 |    | node 1 |    | node 2 |    | node 3 |
+|        |&lt;---|        |&lt;---|        |&lt;---|        |
++--------+    +--------+    +--------+    +--------+
+</code></pre>
+<p>You need to keep track of where the list begins. That's usually done with a pointer called the <em>head</em>:</p>
+<pre><code>         +--------+    +--------+    +--------+    +--------+
+head ---&gt;|        |---&gt;|        |---&gt;|        |---&gt;|        |---&gt; nil
+         | node 0 |    | node 1 |    | node 2 |    | node 3 |
+ nil &lt;---|        |&lt;---|        |&lt;---|        |&lt;---|        |&lt;--- tail
+         +--------+    +--------+    +--------+    +--------+
+</code></pre>
+<p>It's also useful to have a reference to the end of the list, known as the <em>tail</em>. Note that the "next" pointer of the last node is <code>nil</code>, just like the "previous" pointer of the very first node.</p>
+<h2>Performance of linked lists</h2>
+<p>Most operations on a linked list have <strong>O(n)</strong> time, so linked lists are generally slower than arrays. However, they are also much more flexible -- rather than having to copy large chunks of memory around as with an array, many operations on a linked list just require you to change a few pointers.</p>
+<p>The reason for the <strong>O(n)</strong> time is that you can't simply write <code>list[2]</code> to access node 2 from the list. If you don't have a reference to that node already, you have to start at the <code>head</code> and work your way down to that node by following the <code>next</code> pointers (or start at the <code>tail</code> and work your way back using the <code>previous</code> pointers).</p>
+<p>But once you have a reference to a node, operations like insertion and deletion are really quick. It's just that finding the node is slow.</p>
+<p>This means that when you're dealing with a linked list, you should insert new items at the front whenever possible. That is an <strong>O(1)</strong> operation. Likewise for inserting at the back if you're keeping track of the <code>tail</code> pointer.</p>
+<h2>Singly vs doubly linked lists</h2>
+<p>A singly linked list uses a little less memory than a doubly linked list because it doesn't need to store all those <code>previous</code> pointers.</p>
+<p>But if you have a node and you need to find its previous node, you're screwed. You have to start at the head of the list and iterate through the entire list until you get to the right node.</p>
+<p>For many tasks, a doubly linked list makes things easier.</p>
+<h2>Why use a linked list?</h2>
+<p>A typical example of where to use a linked list is when you need a <a href="../Queue/">queue</a>. With an array, removing elements from the front of the queue is slow because it needs to shift down all the other elements in memory. But with a linked list it's just a matter of changing <code>head</code> to point to the second element. Much faster.</p>
+<p>But to be honest, you hardly ever need to write your own linked list these days. Still, it's useful to understand how they work; the principle of linking objects together is also used with <a href="../Tree/">trees</a> and <a href="../Graph/">graphs</a>.</p>
+<h2>The code</h2>
+<p>We'll start by defining a type to describe the nodes:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">LinkedListNode</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">var</span> value<span class="pl-k">:</span> T
+  <span class="pl-k">var</span> next<span class="pl-k">:</span> LinkedListNode<span class="pl-k">?</span>
+  <span class="pl-k">weak</span> <span class="pl-k">var</span> previous<span class="pl-k">:</span> LinkedListNode<span class="pl-k">?</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">value</span></span>: T) {
+    <span class="pl-c1">self</span>.<span class="pl-c1">value</span> <span class="pl-k">=</span> value
+  }
+}</pre></div>
+<p>This is a generic type, so <code>T</code> can be any kind of data that you'd like to store in the node. We'll be using strings in the examples that follow.</p>
+<p>Ours is a doubly-linked list and each node has a <code>next</code> and <code>previous</code> pointer. These can be <code>nil</code> if there are no next or previous nodes, so these variables must be optionals. (In what follows, I'll point out which functions would need to change if this was just a singly- instead of a doubly-linked list.)</p>
+<blockquote>
+<p><strong>Note:</strong> To avoid ownership cycles, we declare the <code>previous</code> pointer to be weak. If you have a node <code>A</code> that is followed by node <code>B</code> in the list, then <code>A</code> points to <code>B</code> but also <code>B</code> points to <code>A</code>. In certain circumstances, this ownership cycle can cause nodes to be kept alive even after you deleted them. We don't want that, so we make one of the pointers <code>weak</code> to break the cycle.</p>
+</blockquote>
+<p>Let's start building <code>LinkedList</code>. Here's the first bit:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">LinkedList</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">public</span> <span class="pl-k">typealias</span> <span class="pl-en">Node</span> <span class="pl-k">=</span> LinkedListNode&lt;T&gt;
+
+  <span class="pl-k">private</span> <span class="pl-k">var</span> head<span class="pl-k">:</span> Node<span class="pl-k">?</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> isEmpty<span class="pl-k">:</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> head <span class="pl-k">==</span> <span class="pl-c1">nil</span>
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">var</span> first<span class="pl-k">:</span> Node<span class="pl-k">?</span> {
+    <span class="pl-k">return</span> head
+  }
+}</pre></div>
+<p>Ideally, we would want a class name to be as descriptive as possible, yet, we don't want to type a long name every time we want to use the class, therefore, we're using a typealias so inside <code>LinkedList</code> we can write the shorter <code>Node</code> instead of <code>LinkedListNode&lt;T&gt;</code>.</p>
+<p>This linked list only has a <code>head</code> pointer, not a tail. Adding a tail pointer is left as an exercise for the reader. (I'll point out which functions would be different if we also had a tail pointer.)</p>
+<p>The list is empty if <code>head</code> is nil. Because <code>head</code> is a private variable, I've added the property <code>first</code> to return a reference to the first node in the list.</p>
+<p>You can try it out in a playground like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> list <span class="pl-k">=</span> LinkedList<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>()
+list.<span class="pl-c1">isEmpty</span>   <span class="pl-c"><span class="pl-c">//</span> true</span>
+<span class="pl-c"></span>list.<span class="pl-c1">first</span>     <span class="pl-c"><span class="pl-c">//</span> nil</span></pre></div>
+<p>Let's also add a property that gives you the last node in the list. This is where it starts to become interesting:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">var</span> last<span class="pl-k">:</span> Node<span class="pl-k">?</span> {
+    <span class="pl-k">guard</span> <span class="pl-k">var</span> node <span class="pl-k">=</span> head <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> <span class="pl-c1">nil</span>
+    }
+  
+    <span class="pl-k">while</span> <span class="pl-k">let</span> next <span class="pl-k">=</span> node.<span class="pl-smi">next</span> {
+      node <span class="pl-k">=</span> next
+    }
+    <span class="pl-k">return</span> node
+  }</pre></div>
+<p>If you're new to Swift, you've probably seen <code>if let</code> but maybe not <code>if var</code>. It does the same thing -- it unwraps the <code>head</code> optional and puts the result in a new local variable named <code>node</code>. The difference is that <code>node</code> is not a constant but an actual variable, so we can change it inside the loop.</p>
+<p>The loop also does some Swift magic. The <code>while let next = node.next</code> bit keeps looping until <code>node.next</code> is nil. You could have written this as follows:</p>
+<div class="highlight highlight-source-swift"><pre>      <span class="pl-k">var</span> node<span class="pl-k">:</span> Node<span class="pl-k">?</span> <span class="pl-k">=</span> head
+      <span class="pl-k">while</span> node <span class="pl-k">!=</span> <span class="pl-c1">nil</span> <span class="pl-k">&amp;&amp;</span> node<span class="pl-k">!</span>.<span class="pl-smi">next</span> <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+        node <span class="pl-k">=</span> node<span class="pl-k">!</span>.<span class="pl-smi">next</span>
+      }</pre></div>
+<p>But that doesn't feel very Swifty to me. We might as well make use of Swift's built-in support for unwrapping optionals. You'll see a bunch of these kinds of loops in the code that follows.</p>
+<blockquote>
+<p><strong>Note:</strong> If we kept a tail pointer, <code>last</code> would simply do <code>return tail</code>. But we don't, so it has to step through the entire list from beginning to the end. It's an expensive operation, especially if the list is long.</p>
+</blockquote>
+<p>Of course, <code>last</code> only returns nil because we don't have any nodes in the list. Let's add a method that adds a new node to the end of the list:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">append</span>(<span class="pl-smi"><span class="pl-en">value</span></span>: T) {
+    <span class="pl-k">let</span> newNode <span class="pl-k">=</span> <span class="pl-c1">Node</span>(<span class="pl-c1">value</span>: value)
+    <span class="pl-k">if</span> <span class="pl-k">let</span> lastNode <span class="pl-k">=</span> last {
+      newNode.<span class="pl-smi">previous</span> <span class="pl-k">=</span> lastNode
+      lastNode.<span class="pl-smi">next</span> <span class="pl-k">=</span> newNode
+    } <span class="pl-k">else</span> {
+      head <span class="pl-k">=</span> newNode
+    }
+  }</pre></div>
+<p>The <code>append()</code> method first creates a new <code>Node</code> object and then asks for the last node using the <code>last</code> property we've just added. If there is no such node, the list is still empty and we make <code>head</code> point to this new <code>Node</code>. But if we did find a valid node object, we connect the <code>next</code> and <code>previous</code> pointers to link this new node into the chain. A lot of linked list code involves this kind of <code>next</code> and <code>previous</code> pointer manipulation.</p>
+<p>Let's test it in the playground:</p>
+<div class="highlight highlight-source-swift"><pre>list.<span class="pl-c1">append</span>(<span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>)
+list.<span class="pl-c1">isEmpty</span>         <span class="pl-c"><span class="pl-c">//</span> false</span>
+<span class="pl-c"></span>list.<span class="pl-c1">first</span><span class="pl-k">!</span>.<span class="pl-c1">value</span>    <span class="pl-c"><span class="pl-c">//</span> "Hello"</span>
+<span class="pl-c"></span>list.<span class="pl-c1">last</span><span class="pl-k">!</span>.<span class="pl-c1">value</span>     <span class="pl-c"><span class="pl-c">//</span> "Hello"</span></pre></div>
+<p>The list looks like this:</p>
+<pre><code>         +---------+
+head ---&gt;|         |---&gt; nil
+         | "Hello" |
+ nil &lt;---|         |
+         +---------+
+</code></pre>
+<p>Now add a second node:</p>
+<div class="highlight highlight-source-swift"><pre>list.<span class="pl-c1">append</span>(<span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span>)
+list.<span class="pl-c1">first</span><span class="pl-k">!</span>.<span class="pl-c1">value</span>    <span class="pl-c"><span class="pl-c">//</span> "Hello"</span>
+<span class="pl-c"></span>list.<span class="pl-c1">last</span><span class="pl-k">!</span>.<span class="pl-c1">value</span>     <span class="pl-c"><span class="pl-c">//</span> "World"</span></pre></div>
+<p>And the list looks like:</p>
+<pre><code>         +---------+    +---------+
+head ---&gt;|         |---&gt;|         |---&gt; nil
+         | "Hello" |    | "World" |
+ nil &lt;---|         |&lt;---|         |
+         +---------+    +---------+
+</code></pre>
+<p>You can verify this for yourself by looking at the <code>next</code> and <code>previous</code> pointers:</p>
+<div class="highlight highlight-source-swift"><pre>list.<span class="pl-c1">first</span><span class="pl-k">!</span>.<span class="pl-smi">previous</span>          <span class="pl-c"><span class="pl-c">//</span> nil</span>
+<span class="pl-c"></span>list.<span class="pl-c1">first</span><span class="pl-k">!</span>.<span class="pl-smi">next</span><span class="pl-k">!</span>.<span class="pl-c1">value</span>       <span class="pl-c"><span class="pl-c">//</span> "World"</span>
+<span class="pl-c"></span>list.<span class="pl-c1">last</span><span class="pl-k">!</span>.<span class="pl-smi">previous</span><span class="pl-k">!</span>.<span class="pl-c1">value</span>    <span class="pl-c"><span class="pl-c">//</span> "Hello"</span>
+<span class="pl-c"></span>list.<span class="pl-c1">last</span><span class="pl-k">!</span>.<span class="pl-smi">next</span>               <span class="pl-c"><span class="pl-c">//</span> nil</span></pre></div>
+<p>Let's add a method to count how many nodes are in the list. This will look very similar to what we did already:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">var</span> count<span class="pl-k">:</span> <span class="pl-c1">Int</span> {
+    <span class="pl-k">guard</span> <span class="pl-k">var</span> node <span class="pl-k">=</span> head <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> <span class="pl-c1">0</span>
+    }
+  
+    <span class="pl-k">var</span> count <span class="pl-k">=</span> <span class="pl-c1">1</span>
+    <span class="pl-k">while</span> <span class="pl-k">let</span> next <span class="pl-k">=</span> node.<span class="pl-smi">next</span> {
+      node <span class="pl-k">=</span> next
+      count <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+    }
+    <span class="pl-k">return</span> count
+  }</pre></div>
+<p>It loops through the list in the same manner but this time increments a counter as well.</p>
+<blockquote>
+<p><strong>Note:</strong> One way to speed up <code>count</code> from <strong>O(n)</strong> to <strong>O(1)</strong> is to keep track of a variable that counts how many nodes are in the list. Whenever you add or remove a node, you also update this variable.</p>
+</blockquote>
+<p>What if we wanted to find the node at a specific index in the list? With an array we can just write <code>array[index]</code> and it's an <strong>O(1)</strong> operation. It's a bit more involved with linked lists, but again the code follows a similar pattern:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">node</span>(<span class="pl-en">atIndex</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> Node {
+    <span class="pl-k">if</span> index <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+      <span class="pl-k">return</span> head<span class="pl-k">!</span>
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">var</span> node <span class="pl-k">=</span> head<span class="pl-k">!</span>.<span class="pl-smi">next</span>
+      <span class="pl-k">for</span> <span class="pl-c1">_</span> <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">..&lt;</span>index {
+        node <span class="pl-k">=</span> node<span class="pl-k">?</span>.<span class="pl-smi">next</span>
+        <span class="pl-k">if</span> node <span class="pl-k">==</span> <span class="pl-c1">nil</span> { <span class="pl-c"><span class="pl-c">//</span>(*1)</span>
+<span class="pl-c"></span>          <span class="pl-k">break</span>
+        }
+      }
+      <span class="pl-k">return</span> node<span class="pl-k">!</span>
+    }
+  }</pre></div>
+<p>First we check whether the given index is 0 or not. Because if it is 0, it returns the head as it is.<br>
+However, when the given index is greater than 0, it starts at head then keeps following the node.next pointers to step through the list.<br>
+The difference from count method at this time is that there are two termination conditions.<br>
+One is when the for-loop statement reaches index, and we were able to acquire the node of the given index.<br>
+The second is when <code>node.next</code> in for-loop statement returns nil and cause break. (*1)<br>
+This means that the given index is out of bounds and it causes a crash.</p>
+<p>Try it out:</p>
+<div class="highlight highlight-source-swift"><pre>list.<span class="pl-c1">nodeAt</span>(<span class="pl-c1">0</span>)<span class="pl-k">!</span>.<span class="pl-c1">value</span>    <span class="pl-c"><span class="pl-c">//</span> "Hello"</span>
+<span class="pl-c"></span>list.<span class="pl-c1">nodeAt</span>(<span class="pl-c1">1</span>)<span class="pl-k">!</span>.<span class="pl-c1">value</span>    <span class="pl-c"><span class="pl-c">//</span> "World"</span>
+<span class="pl-c"><span class="pl-c">//</span> list.nodeAt(2)           // crash</span></pre></div>
+<p>For fun we can implement a <code>subscript</code> method too:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">subscript</span>(<span class="pl-c1">index</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-k">let</span> node <span class="pl-k">=</span> <span class="pl-c1">node</span>(<span class="pl-c1">atIndex</span>: index)
+    <span class="pl-k">return</span> node.<span class="pl-c1">value</span>
+  }</pre></div>
+<p>Now you can write the following:</p>
+<div class="highlight highlight-source-swift"><pre>list[<span class="pl-c1">0</span>]   <span class="pl-c"><span class="pl-c">//</span> "Hello"</span>
+<span class="pl-c"></span>list[<span class="pl-c1">1</span>]   <span class="pl-c"><span class="pl-c">//</span> "World"</span>
+<span class="pl-c"></span>list[<span class="pl-c1">2</span>]   <span class="pl-c"><span class="pl-c">//</span> crash!</span></pre></div>
+<p>It crashes on <code>list[2]</code> because there is no node at that index.</p>
+<p>So far we've written code to add new nodes to the end of the list, but that's slow because you need to find the end of the list first. (It would be fast if we used a tail pointer.) For this reason, if the order of the items in the list doesn't matter, you should insert at the front of the list instead. That's always an <strong>O(1)</strong> operation.</p>
+<p>Let's write a method that lets you insert a new node at any index in the list.</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">insert</span>(<span class="pl-en">_</span> <span class="pl-smi">node</span>: Node, <span class="pl-en">atIndex</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>) {
+   <span class="pl-k">let</span> newNode <span class="pl-k">=</span> node
+   <span class="pl-k">if</span> index <span class="pl-k">==</span> <span class="pl-c1">0</span> {
+     newNode.<span class="pl-smi">next</span> <span class="pl-k">=</span> head                      
+     head<span class="pl-k">?</span>.<span class="pl-smi">previous</span> <span class="pl-k">=</span> newNode
+     head <span class="pl-k">=</span> newNode
+   } <span class="pl-k">else</span> {
+     <span class="pl-k">let</span> prev <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-c1">node</span>(<span class="pl-c1">atIndex</span>: index<span class="pl-k">-</span><span class="pl-c1">1</span>)
+     <span class="pl-k">let</span> next <span class="pl-k">=</span> prev.<span class="pl-smi">next</span>
+
+     newNode.<span class="pl-smi">previous</span> <span class="pl-k">=</span> prev
+     newNode.<span class="pl-smi">next</span> <span class="pl-k">=</span> prev.<span class="pl-smi">next</span>
+     prev.<span class="pl-smi">next</span> <span class="pl-k">=</span> newNode
+     next<span class="pl-k">?</span>.<span class="pl-smi">previous</span> <span class="pl-k">=</span> newNode
+   }
+}</pre></div>
+<p>As with node(atIndex :) method, insert(_: at:) method also branches depending on whether the given index is 0 or not.<br>
+First let's look at the former case. Suppose we have the following list and the new node(C).</p>
+<pre><code>         +---------+     +---------+
+head ---&gt;|         |----&gt;|         |-----//-----&gt;
+         |    A    |     |    B    |
+ nil &lt;---|         |&lt;----|         |&lt;----//------
+         +---------+     +---------+ 
+             [0]             [1]
+              
+              
+         +---------+ 
+ new ---&gt;|         |----&gt; nil
+         |    C    |
+         |         |
+         +---------+
+</code></pre>
+<p>Now put the new node before the first node. In this way:</p>
+<pre><code>new.next = head
+head.previous = new
+
+         +---------+            +---------+     +---------+
+ new ---&gt;|         |--&gt; head --&gt;|         |----&gt;|         |-----//-----&gt;
+         |    C    |            |    A    |     |    B    |
+         |         |&lt;-----------|         |&lt;----|         |&lt;----//------
+         +---------+            +---------+     +---------+ 
+</code></pre>
+<p>Finally, replace the head with the new node.</p>
+<pre><code>head = new
+
+         +---------+    +---------+     +---------+
+head ---&gt;|         |---&gt;|         |----&gt;|         |-----//-----&gt;
+         |    C    |    |    A    |     |    B    |
+ nil &lt;---|         |&lt;---|         |&lt;----|         |&lt;----//------
+         +---------+    +---------+     +---------+ 
+             [0]            [1]             [2]
+</code></pre>
+<p>However, when the given index is greater than 0, it is necessary to get the node previous and next index and insert between them.<br>
+You can also obtain the previous and next node using node(atIndex:) as follows:</p>
+<pre><code>         +---------+         +---------+     +---------+    
+head ---&gt;|         |---//---&gt;|         |----&gt;|         |----
+         |         |         |    A    |     |    B    |    
+ nil &lt;---|         |---//&lt;---|         |&lt;----|         |&lt;---
+         +---------+         +---------+     +---------+    
+             [0]              [index-1]        [index]      
+                                  ^               ^ 
+                                  |               | 
+                                 prev            next
+
+prev = node(at: index-1)
+next = prev.next
+</code></pre>
+<p>Now insert new node between the prev and the next.</p>
+<pre><code>new.prev = prev; prev.next = new  // connect prev and new.
+new.next = next; next.prev = new  // connect new and next.
+
+         +---------+         +---------+     +---------+     +---------+
+head ---&gt;|         |---//---&gt;|         |----&gt;|         |----&gt;|         |
+         |         |         |    A    |     |    C    |     |    B    |
+ nil &lt;---|         |---//&lt;---|         |&lt;----|         |&lt;----|         |
+         +---------+         +---------+     +---------+     +---------+
+             [0]              [index-1]        [index]        [index+1]
+                                  ^               ^               ^
+                                  |               |               |
+                                 prev            new             next
+</code></pre>
+<p>Try it out:</p>
+<div class="highlight highlight-source-swift"><pre>list.<span class="pl-c1">insert</span>(<span class="pl-s"><span class="pl-pds">"</span>Swift<span class="pl-pds">"</span></span>, <span class="pl-c1">atIndex</span>: <span class="pl-c1">1</span>)
+list[<span class="pl-c1">0</span>]     <span class="pl-c"><span class="pl-c">//</span> "Hello"</span>
+<span class="pl-c"></span>list[<span class="pl-c1">1</span>]     <span class="pl-c"><span class="pl-c">//</span> "Swift"</span>
+<span class="pl-c"></span>list[<span class="pl-c1">2</span>]     <span class="pl-c"><span class="pl-c">//</span> "World"</span></pre></div>
+<p>Also try adding new nodes to the front and back of the list, to verify that this works properly.</p>
+<blockquote>
+<p><strong>Note:</strong> The <code>node(atIndex:)</code> and <code>insert(_: atIndex:)</code> functions can also be used with a singly linked list because we don't depend on the node's <code>previous</code> pointer to find the previous element.</p>
+</blockquote>
+<p>What else do we need? Removing nodes, of course! First we'll do <code>removeAll()</code>, which is really simple:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">removeAll</span>() {
+    head <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+  }</pre></div>
+<p>If you had a tail pointer, you'd set it to <code>nil</code> here too.</p>
+<p>Next we'll add some functions that let you remove individual nodes. If you already have a reference to the node, then using <code>remove()</code> is the most optimal because you don't need to iterate through the list to find the node first.</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">remove</span>(<span class="pl-smi"><span class="pl-en">node</span></span>: Node) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-k">let</span> prev <span class="pl-k">=</span> node.<span class="pl-smi">previous</span>
+    <span class="pl-k">let</span> next <span class="pl-k">=</span> node.<span class="pl-smi">next</span>
+
+    <span class="pl-k">if</span> <span class="pl-k">let</span> prev <span class="pl-k">=</span> prev {
+      prev.<span class="pl-smi">next</span> <span class="pl-k">=</span> next
+    } <span class="pl-k">else</span> {
+      head <span class="pl-k">=</span> next
+    }
+    next<span class="pl-k">?</span>.<span class="pl-smi">previous</span> <span class="pl-k">=</span> prev
+
+    node.<span class="pl-smi">previous</span> <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    node.<span class="pl-smi">next</span> <span class="pl-k">=</span> <span class="pl-c1">nil</span>
+    <span class="pl-k">return</span> node.<span class="pl-c1">value</span>
+  }</pre></div>
+<p>When we take this node out of the list, we break the links to the previous node and the next node. To make the list whole again we must connect the previous node to the next node.</p>
+<p>Don't forget the <code>head</code> pointer! If this was the first node in the list then <code>head</code> needs to be updated to point to the next node. (Likewise for when you have a tail pointer and this was the last node). Of course, if there are no more nodes left, <code>head</code> should become nil.</p>
+<p>Try it out:</p>
+<div class="highlight highlight-source-swift"><pre>list.<span class="pl-c1">remove</span>(list.<span class="pl-c1">first</span><span class="pl-k">!</span>)   <span class="pl-c"><span class="pl-c">//</span> "Hello"</span>
+<span class="pl-c"></span>list.<span class="pl-c1">count</span>                     <span class="pl-c"><span class="pl-c">//</span> 2</span>
+<span class="pl-c"></span>list[<span class="pl-c1">0</span>]                        <span class="pl-c"><span class="pl-c">//</span> "Swift"</span>
+<span class="pl-c"></span>list[<span class="pl-c1">1</span>]                        <span class="pl-c"><span class="pl-c">//</span> "World"</span></pre></div>
+<p>If you don't have a reference to the node, you can use <code>removeLast()</code> or <code>removeAt()</code>:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">removeLast</span>() <span class="pl-k">-&gt;</span> T {
+    <span class="pl-c1">assert</span>(<span class="pl-k">!</span>isEmpty)
+    <span class="pl-k">return</span> <span class="pl-c1">remove</span>(<span class="pl-c1">node</span>: last<span class="pl-k">!</span>)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">removeAt</span>(<span class="pl-en">_</span> <span class="pl-smi">index</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> T {
+    <span class="pl-k">let</span> node <span class="pl-k">=</span> <span class="pl-c1">nodeAt</span>(index)
+    <span class="pl-c1">assert</span>(node <span class="pl-k">!=</span> <span class="pl-c1">nil</span>)
+    <span class="pl-k">return</span> <span class="pl-c1">remove</span>(<span class="pl-c1">node</span>: node<span class="pl-k">!</span>)
+  }</pre></div>
+<p>All these removal functions also return the value from the removed element.</p>
+<div class="highlight highlight-source-swift"><pre>list.<span class="pl-c1">removeLast</span>()              <span class="pl-c"><span class="pl-c">//</span> "World"</span>
+<span class="pl-c"></span>list.<span class="pl-c1">count</span>                     <span class="pl-c"><span class="pl-c">//</span> 1</span>
+<span class="pl-c"></span>list[<span class="pl-c1">0</span>]                        <span class="pl-c"><span class="pl-c">//</span> "Swift"</span>
+<span class="pl-c"></span>
+list.<span class="pl-c1">removeAt</span>(<span class="pl-c1">0</span>)          <span class="pl-c"><span class="pl-c">//</span> "Swift"</span>
+<span class="pl-c"></span>list.<span class="pl-c1">count</span>                     <span class="pl-c"><span class="pl-c">//</span> 0</span></pre></div>
+<blockquote>
+<p><strong>Note:</strong> For a singly linked list, removing the last node is slightly more complicated. You can't just use <code>last</code> to find the end of the list because you also need a reference to the second-to-last node. Instead, use the <code>nodesBeforeAndAfter()</code> helper method. If the list has a tail pointer, then <code>removeLast()</code> is really quick, but you do need to remember to make <code>tail</code> point to the previous node.</p>
+</blockquote>
+<p>There's a few other fun things we can do with our <code>LinkedList</code> class. It's handy to have some sort of readable debug output:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> <span class="pl-en">LinkedList</span>: <span class="pl-e"><span class="pl-c1">CustomStringConvertible</span> </span>{
+  <span class="pl-k">public</span> <span class="pl-k">var</span> description<span class="pl-k">:</span> <span class="pl-c1">String</span> {
+    <span class="pl-k">var</span> s <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>[<span class="pl-pds">"</span></span>
+    <span class="pl-k">var</span> node <span class="pl-k">=</span> head
+    <span class="pl-k">while</span> node <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+      s <span class="pl-k">+=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">node<span class="pl-k">!</span>.<span class="pl-c1">value</span></span><span class="pl-pse"><span class="pl-s1">)</span></span><span class="pl-pds">"</span></span>
+      node <span class="pl-k">=</span> node<span class="pl-k">!</span>.<span class="pl-smi">next</span>
+      <span class="pl-k">if</span> node <span class="pl-k">!=</span> <span class="pl-c1">nil</span> { s <span class="pl-k">+=</span> <span class="pl-s"><span class="pl-pds">"</span>, <span class="pl-pds">"</span></span> }
+    }
+    <span class="pl-k">return</span> s <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>]<span class="pl-pds">"</span></span>
+  }
+}</pre></div>
+<p>This will print the list like so:</p>
+<pre><code>[Hello, Swift, World]
+</code></pre>
+<p>How about reversing a list, so that the head becomes the tail and vice versa? There is a very fast algorithm for that:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">reverse</span>() {
+    <span class="pl-k">var</span> node <span class="pl-k">=</span> head
+    tail <span class="pl-k">=</span> node <span class="pl-c"><span class="pl-c">//</span> If you had a tail pointer</span>
+<span class="pl-c"></span>    <span class="pl-k">while</span> <span class="pl-k">let</span> currentNode <span class="pl-k">=</span> node {
+      node <span class="pl-k">=</span> currentNode.<span class="pl-smi">next</span>
+      <span class="pl-c1">swap</span>(<span class="pl-k">&amp;</span>currentNode.<span class="pl-smi">next</span>, <span class="pl-k">&amp;</span>currentNode.<span class="pl-smi">previous</span>)
+      head <span class="pl-k">=</span> currentNode
+    }
+  }</pre></div>
+<p>This loops through the entire list and simply swaps the <code>next</code> and <code>previous</code> pointers of each node. It also moves the <code>head</code> pointer to the very last element. (If you had a tail pointer you'd also need to update it.) You end up with something like this:</p>
+<pre><code>         +--------+    +--------+    +--------+    +--------+
+tail ---&gt;|        |&lt;---|        |&lt;---|        |&lt;---|        |---&gt; nil
+         | node 0 |    | node 1 |    | node 2 |    | node 3 |
+ nil &lt;---|        |---&gt;|        |---&gt;|        |---&gt;|        |&lt;--- head
+         +--------+    +--------+    +--------+    +--------+
+</code></pre>
+<p>Arrays have <code>map()</code> and <code>filter()</code> functions, and there's no reason why linked lists shouldn't either.</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">map</span>&lt;<span class="pl-c1">U</span>&gt;(<span class="pl-smi"><span class="pl-en">transform</span></span>: T <span class="pl-k">-&gt;</span> U) <span class="pl-k">-&gt;</span> LinkedList&lt;U&gt; {
+    <span class="pl-k">let</span> result <span class="pl-k">=</span> LinkedList<span class="pl-k">&lt;</span>U<span class="pl-k">&gt;</span>()
+    <span class="pl-k">var</span> node <span class="pl-k">=</span> head
+    <span class="pl-k">while</span> node <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+      result.<span class="pl-c1">append</span>(<span class="pl-c1">transform</span>(node<span class="pl-k">!</span>.<span class="pl-c1">value</span>))
+      node <span class="pl-k">=</span> node<span class="pl-k">!</span>.<span class="pl-smi">next</span>
+    }
+    <span class="pl-k">return</span> result
+  }</pre></div>
+<p>You can use it like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> list <span class="pl-k">=</span> LinkedList<span class="pl-k">&lt;</span><span class="pl-c1">String</span><span class="pl-k">&gt;</span>()
+list.<span class="pl-c1">append</span>(<span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>)
+list.<span class="pl-c1">append</span>(<span class="pl-s"><span class="pl-pds">"</span>Swifty<span class="pl-pds">"</span></span>)
+list.<span class="pl-c1">append</span>(<span class="pl-s"><span class="pl-pds">"</span>Universe<span class="pl-pds">"</span></span>)
+
+<span class="pl-k">let</span> m <span class="pl-k">=</span> list.<span class="pl-c1">map</span> { s <span class="pl-k">in</span> s.<span class="pl-c1">characters</span>.<span class="pl-c1">count</span> }
+m  <span class="pl-c"><span class="pl-c">//</span> [5, 6, 8]</span></pre></div>
+<p>And here's filter:</p>
+<div class="highlight highlight-source-swift"><pre>  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">filter</span>(<span class="pl-smi"><span class="pl-en">predicate</span></span>: T <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span>) <span class="pl-k">-&gt;</span> LinkedList&lt;T&gt; {
+    <span class="pl-k">let</span> result <span class="pl-k">=</span> LinkedList<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>()
+    <span class="pl-k">var</span> node <span class="pl-k">=</span> head
+    <span class="pl-k">while</span> node <span class="pl-k">!=</span> <span class="pl-c1">nil</span> {
+      <span class="pl-k">if</span> <span class="pl-c1">predicate</span>(node<span class="pl-k">!</span>.<span class="pl-c1">value</span>) {
+        result.<span class="pl-c1">append</span>(node<span class="pl-k">!</span>.<span class="pl-c1">value</span>)
+      }
+      node <span class="pl-k">=</span> node<span class="pl-k">!</span>.<span class="pl-smi">next</span>
+    }
+    <span class="pl-k">return</span> result
+  }</pre></div>
+<p>And a silly example:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> f <span class="pl-k">=</span> list.<span class="pl-c1">filter</span> { s <span class="pl-k">in</span> s.<span class="pl-c1">count</span> <span class="pl-k">&gt;</span> <span class="pl-c1">5</span> }
+f    <span class="pl-c"><span class="pl-c">//</span> [Universe, Swifty]</span></pre></div>
+<p>Exercise for the reader: These implementations of <code>map()</code> and <code>filter()</code> aren't very fast because they <code>append()</code> the new node to the end of the new list. Recall that append is <strong>O(n)</strong> because it needs to scan through the entire list to find the last node. Can you make this faster? (Hint: keep track of the last node that you added.)</p>
+<h2>An alternative approach</h2>
+<p>The version of <code>LinkedList</code> you've seen so far uses nodes that are classes and therefore have reference semantics. Nothing wrong with that, but that does make them a bit more heavyweight than Swift's other collections such as <code>Array</code> and <code>Dictionary</code>.</p>
+<p>It is possible to implement a linked list with value semantics using an enum. That would look somewhat like this:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">enum</span> <span class="pl-en">ListNode</span>&lt;<span class="pl-c1">T</span>&gt; {
+  <span class="pl-k">indirect</span> <span class="pl-k">case</span> <span class="pl-c1">node</span>(T, <span class="pl-en"><span class="pl-smi">next</span></span>: ListNode&lt;T&gt;)
+  <span class="pl-k">case</span> <span class="pl-c1">end</span>
+}</pre></div>
+<p>The big difference with the enum-based version is that any modification you make to this list will result in a <em>new copy</em> being created because of <a href="https://developer.apple.com/swift/blog/?id=10" rel="nofollow">Swift's value semantics</a>. Whether that's what you want or not depends on the application.</p>
+<p>[I might fill out this section in more detail if there's a demand for it.]</p>
+<h2>Conforming to the Collection protocol</h2>
+<p>Types that conform to the Sequence protocol, whose elements can be traversed multiple times, nondestructively, and accessed by indexed subscript should conform to the Collection protocol defined in Swift's Standard Library.</p>
+<p>Doing so grants access to a very large number of properties and operations that are common when dealing collections of data. In addition to this, it lets custom types follow the patterns that are common to Swift developers.</p>
+<p>In order to conform to this protocol, classes need to provide:<br>
+1 <code>startIndex</code> and <code>endIndex</code> properties.<br>
+2 Subscript access to elements as O(1). Diversions of this time complexity need to be documented.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">///</span> The position of the first element in a nonempty collection.</span>
+<span class="pl-c"></span><span class="pl-k">public</span> <span class="pl-k">var</span> startIndex<span class="pl-k">:</span> <span class="pl-c1">Index</span> {
+  <span class="pl-k">get</span> {
+    <span class="pl-k">return</span> LinkedListIndex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>(<span class="pl-c1">node</span>: head, <span class="pl-c1">tag</span>: <span class="pl-c1">0</span>)
+  }
+}
+  
+<span class="pl-c"><span class="pl-c">///</span> The collection's "past the end" position---that is, the position one</span>
+<span class="pl-c"><span class="pl-c">///</span> greater than the last valid subscript argument.</span>
+<span class="pl-c"><span class="pl-c">///</span> - Complexity: O(n), where n is the number of elements in the list.</span>
+<span class="pl-c"><span class="pl-c">///</span>   This diverts from the protocol's expectation.</span>
+<span class="pl-c"></span><span class="pl-k">public</span> <span class="pl-k">var</span> endIndex<span class="pl-k">:</span> <span class="pl-c1">Index</span> {
+  <span class="pl-k">get</span> {
+    <span class="pl-k">if</span> <span class="pl-k">let</span> h <span class="pl-k">=</span> <span class="pl-c1">self</span>.<span class="pl-smi">head</span> {
+      <span class="pl-k">return</span> LinkedListIndex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>(<span class="pl-c1">node</span>: h, <span class="pl-c1">tag</span>: count)
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">return</span> LinkedListIndex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>(<span class="pl-c1">node</span>: <span class="pl-c1">nil</span>, <span class="pl-c1">tag</span>: startIndex.<span class="pl-smi">tag</span>)
+    }
+  }
+}</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">subscript</span>(<span class="pl-c1">position</span>: <span class="pl-c1">Index</span>) <span class="pl-k">-&gt;</span> T {
+  <span class="pl-k">get</span> {
+    <span class="pl-k">return</span> position.<span class="pl-smi">node</span><span class="pl-k">!</span>.<span class="pl-c1">value</span>
+  }
+}</pre></div>
+<p>Becuase collections are responsible for managing their own indexes, the implementation below keeps a reference to a node in the list. A tag property in the index represents the position of the node in the list.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c"><span class="pl-c">///</span> Custom index type that contains a reference to the node at index 'tag'</span>
+<span class="pl-c"></span><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">LinkedListIndex</span>&lt;<span class="pl-c1">T</span>&gt; : <span class="pl-e"><span class="pl-c1">Comparable</span></span>
+{
+  <span class="pl-k">fileprivate</span> <span class="pl-k">let</span> node<span class="pl-k">:</span> LinkedList<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>.<span class="pl-smi">LinkedListNode</span><span class="pl-k">&lt;</span>T<span class="pl-k">&gt;?</span>
+  <span class="pl-k">fileprivate</span> <span class="pl-k">let</span> tag<span class="pl-k">:</span> <span class="pl-c1">Int</span>
+
+  <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">func</span><span class="pl-k">==&lt;</span>T<span class="pl-k">&gt;</span>(<span class="pl-c1">lhs</span>: LinkedListIndex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>, <span class="pl-c1">rhs</span>: LinkedListIndex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> (lhs.<span class="pl-smi">tag</span> <span class="pl-k">==</span> rhs.<span class="pl-smi">tag</span>)
+  }
+
+  <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">func</span><span class="pl-k">&lt;</span> <span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>(<span class="pl-c1">lhs</span>: LinkedListIndex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>, <span class="pl-c1">rhs</span>: LinkedListIndex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+    <span class="pl-k">return</span> (lhs.<span class="pl-smi">tag</span> <span class="pl-k">&lt;</span> rhs.<span class="pl-smi">tag</span>)
+  }
+}</pre></div>
+<p>Finally, the linked is is able to calculate the index after a given one with the following implementation.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">index</span>(<span class="pl-en">after</span> <span class="pl-smi">idx</span>: <span class="pl-c1">Index</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Index</span> {
+  <span class="pl-k">return</span> LinkedListIndex<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>(<span class="pl-c1">node</span>: idx.<span class="pl-smi">node</span><span class="pl-k">?</span>.<span class="pl-smi">next</span>, <span class="pl-c1">tag</span>: idx.<span class="pl-smi">tag</span><span class="pl-k">+</span><span class="pl-c1">1</span>)
+}</pre></div>
+<h2>Some things to keep in mind</h2>
+<p>Linked lists are flexible but many operations are <strong>O(n)</strong>.</p>
+<p>When performing operations on a linked list, you always need to be careful to update the relevant <code>next</code> and <code>previous</code> pointers, and possibly also the <code>head</code> and <code>tail</code> pointers. If you mess this up, your list will no longer be correct and your program will likely crash at some point. Be careful!</p>
+<p>When processing lists, you can often use recursion: process the first element and then recursively call the function again on the rest of the list. You’re done when there is no next element. This is why linked lists are the foundation of functional programming languages such as LISP.</p>
+<p><em>Originally written by Matthijs Hollemans for Ray Wenderlich's Swift Algorithm Club</em></p></div>
+</body>
+</html>

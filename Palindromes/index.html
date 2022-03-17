@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+  <title>Palindromes</title>
+  <link rel="stylesheet" type="text/css" href="../github-light.css">
+</head>
+<body>
+  <div id="container"><h1>Palindromes</h1>
+<p>A palindrome is a word or phrase that is spelled the exact same when reading it forwards or backward. Palindromes are allowed to be lowercase or uppercase, contain spaces, punctuation, and word dividers.</p>
+<p>Algorithms that check for palindromes are a common programming interview question.</p>
+<h2>Example</h2>
+<p>The word racecar is a valid palindrome, as it is a word spelled the same when backgrounds and forwards. The examples below shows valid cases of the palindrome <code>racecar</code>.</p>
+<pre><code>raceCar
+r a c e c a r
+r?a?c?e?c?a?r?
+RACEcar
+</code></pre>
+<h2>Algorithm</h2>
+<p>To check for palindromes, a string's characters are compared starting from the beginning and end then moving inward toward the middle of the string while maintaining the same distance apart. In this implementation of a palindrome algorithm, recursion is used to check each of the characters on the left-hand side and right-hand side moving inward.</p>
+<h2>The code</h2>
+<p>Here is a recursive implementation of this in Swift:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">isPalindrome</span>(<span class="pl-en">_</span> <span class="pl-smi">str</span>: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+  <span class="pl-k">let</span> strippedString <span class="pl-k">=</span> str.<span class="pl-c1">replacingOccurrences</span>(<span class="pl-c1">of</span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\</span>W<span class="pl-pds">"</span></span>, <span class="pl-c1">with</span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>, <span class="pl-c1">options</span>: .<span class="pl-smi">regularExpression</span>, <span class="pl-c1">range</span>: <span class="pl-c1">nil</span>)
+  <span class="pl-k">let</span> length <span class="pl-k">=</span> strippedString.<span class="pl-c1">count</span>
+
+  <span class="pl-k">if</span> length <span class="pl-k">&gt;</span> <span class="pl-c1">1</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">palindrome</span>(strippedString.<span class="pl-c1">lowercased</span>(), <span class="pl-c1">left</span>: <span class="pl-c1">0</span>, <span class="pl-c1">right</span>: length <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+  }
+
+  <span class="pl-k">return</span> <span class="pl-c1">false</span>
+}
+
+<span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">palindrome</span>(<span class="pl-en">_</span> <span class="pl-smi">str</span>: <span class="pl-c1">String</span>, <span class="pl-smi"><span class="pl-en">left</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">right</span></span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span> {
+  <span class="pl-k">if</span> left <span class="pl-k">&gt;=</span> right {
+    <span class="pl-k">return</span> <span class="pl-c1">true</span>
+  }
+
+  <span class="pl-k">let</span> lhs <span class="pl-k">=</span> str[str.<span class="pl-c1">index</span>(str.<span class="pl-c1">startIndex</span>, <span class="pl-c1">offsetBy</span>: left)]
+  <span class="pl-k">let</span> rhs <span class="pl-k">=</span> str[str.<span class="pl-c1">index</span>(str.<span class="pl-c1">startIndex</span>, <span class="pl-c1">offsetBy</span>: right)]
+
+  <span class="pl-k">if</span> lhs <span class="pl-k">!=</span> rhs {
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>
+  }
+
+  <span class="pl-k">return</span> <span class="pl-c1">palindrome</span>(str, <span class="pl-c1">left</span>: left <span class="pl-k">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">right</span>: right <span class="pl-k">-</span> <span class="pl-c1">1</span>)
+}</pre></div>
+<p>This algorithm has a two-step process.</p>
+<ol>
+<li>The first step is to pass the string to validate as a palindrome into the <code>isPalindrome</code> method. This method first removes occurrences of non-word pattern matches <code>\W</code> <a href="http://regexr.com" rel="nofollow">Regex reference</a>. It is written with two \ to escape the \ in the String literal.</li>
+</ol>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> strippedString <span class="pl-k">=</span> str.<span class="pl-c1">replacingOccurrences</span>(<span class="pl-c1">of</span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\</span>W<span class="pl-pds">"</span></span>, <span class="pl-c1">with</span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>, <span class="pl-c1">options</span>: .<span class="pl-smi">regularExpression</span>, <span class="pl-c1">range</span>: <span class="pl-c1">nil</span>)</pre></div>
+<p>The length of the string is then checked to make sure that the string after being stripped of non-word characters is still in a valid length. It is then passed into the next step after being lowercased.</p>
+<ol start="2">
+<li>The second step is to pass the string in a recursive method. This method takes a string, a left index, and a right index. The method checks the characters of the string using the indexes to compare each character on both sides. The method checks if the left is greater or equal to the right if so the entire string has been run through without returning false so the string is equal on both sides thus returning true.</li>
+</ol>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> left <span class="pl-k">&gt;=</span> right {
+  <span class="pl-k">return</span> <span class="pl-c1">true</span>
+}</pre></div>
+<p>If the check doesn't pass it continues to get the characters at the specified indexes and compare each. If they are not the same the method returns false and exits.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> lhs <span class="pl-k">=</span> str[str.<span class="pl-c1">index</span>(str.<span class="pl-c1">startIndex</span>, <span class="pl-c1">offsetBy</span>: left)]
+<span class="pl-k">let</span> rhs <span class="pl-k">=</span> str[str.<span class="pl-c1">index</span>(str.<span class="pl-c1">startIndex</span>, <span class="pl-c1">offsetBy</span>: right)]
+
+<span class="pl-k">if</span> lhs <span class="pl-k">!=</span> rhs {
+  <span class="pl-k">return</span> <span class="pl-c1">false</span>
+}</pre></div>
+<p>If they are the same the method calls itself again and updates the indexes accordingly to continue to check the rest of the string.</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">return</span> <span class="pl-c1">palindrome</span>(str, <span class="pl-c1">left</span>: left <span class="pl-k">+</span> <span class="pl-c1">1</span>, <span class="pl-c1">right</span>: right <span class="pl-k">-</span> <span class="pl-c1">1</span>)</pre></div>
+<p>Step 1:<br>
+<code>race?C ar -&gt; raceCar -&gt; racecar</code></p>
+<p>Step 2:</p>
+<pre><code>|     |
+racecar -&gt; r == r
+
+ |   |
+racecar -&gt; a == a
+
+  | |
+racecar -&gt; c == c
+
+   |
+racecar -&gt; left index == right index -&gt; return true
+</code></pre>
+<h2>Additional Resources</h2>
+<p><a href="https://en.wikipedia.org/wiki/Palindrome" rel="nofollow">Palindrome Wikipedia</a></p>
+<p><em>Written by <a href="https://github.com/lostatseajoshua">Joshua Alvarado</a></em></p></div>
+</body>
+</html>
