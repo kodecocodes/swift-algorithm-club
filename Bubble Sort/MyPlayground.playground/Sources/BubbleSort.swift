@@ -23,12 +23,17 @@ import Foundation
 
 /// Performs the bubble sort algorithm in the array
 ///
-/// - Parameter elements: a array of elements that implement the Comparable protocol
+/// - Parameter elements: Array of Comparable elements to be sorted
 /// - Returns: an array with the same elements but in order
 public func bubbleSort<T> (_ elements: [T]) -> [T] where T: Comparable {
   return bubbleSort(elements, <)
 }
 
+/// Performs the bubble sort algorithm in the array
+/// - Parameters:
+///   - elements: Array of Comparable elements to be sorted
+///   - comparison: The method that will tell the algorithm if two elements are ordered
+/// - Returns: an array with the same elements but in order
 public func bubbleSort<T> (_ elements: [T], _ comparison: (T,T) -> Bool) -> [T]  {
   var array = elements
   
