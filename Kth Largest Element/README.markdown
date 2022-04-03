@@ -88,7 +88,7 @@ public func randomizedSelect<T: Comparable>(_ array: [T], order k: Int) -> T {
   var a = array
 
   func randomPivot<T: Comparable>(_ a: inout [T], _ low: Int, _ high: Int) -> T {
-    let pivotIndex = Int.random(min: low, max: high)
+    let pivotIndex = Int.random(in: low...high)
     a.swapAt(pivotIndex, high)
     return a[high]
   }
