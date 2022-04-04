@@ -28,7 +28,7 @@ func countOccurrences<T: Comparable>(of key: T, in array: [T]) -> Int {
     var high = array.count
     while low < high {
       let midIndex = low + (high - low)/2
-      if a[midIndex] < key {
+      if array[midIndex] < key {
         low = midIndex + 1
       } else {
         high = midIndex
@@ -42,7 +42,7 @@ func countOccurrences<T: Comparable>(of key: T, in array: [T]) -> Int {
     var high = array.count
     while low < high {
       let midIndex = low + (high - low)/2
-      if a[midIndex] > key {
+      if array[midIndex] > key {
         high = midIndex
       } else {
         low = midIndex + 1

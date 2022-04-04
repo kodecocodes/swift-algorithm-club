@@ -7,6 +7,12 @@ Let's say you have a deck of 52 playing cards and you need to draw 10 cards at r
 Here's a very fast version:
 
 ```swift
+public func random(min: Int, max: Int) -> Int {
+  assert(min < max)
+  return min + Int(arc4random_uniform(UInt32(max - min + 1)))
+}
+
+
 func select<T>(from a: [T], count k: Int) -> [T] {
   var a = a
   for i in 0..<k {
