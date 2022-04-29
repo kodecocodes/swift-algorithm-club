@@ -168,7 +168,7 @@ func insertionSort(_ array: [Int]) -> [Int] {
 }
 ```
 
-The line at `//1` is what shifts up the previous elements by one position. At the end of the inner loop, `y` is the destination index for the new number in the sorted portion, and the line at `//2` copies this number into place.
+The line at `//1` is what shifts up the previous elements by one position. At the end of the inner loop, `currentIndex` is the destination index for the new number in the sorted portion, and the line at `//2` copies this number into place.
 
 ## Making it generic
 
@@ -187,10 +187,10 @@ The new parameter `isOrderedBefore: (T, T) -> Bool` is a function that takes two
 The only other change is in the inner loop, which now becomes:
 
 ```swift
-      while y > 0 && isOrderedBefore(temp, a[y - 1]) {
+      while currentIndex > 0 && isOrderedBefore(temp, sortedArray[currentIndex - 1]) {
 ```
 
-Instead of writing `temp < a[y - 1]`, we call the `isOrderedBefore()` function. It does the exact same thing, except we can now compare any kind of object, not just numbers.
+Instead of writing `temp < sortedArray[currentIndex - 1]`, we call the `isOrderedBefore()` function. It does the exact same thing, except we can now compare any kind of object, not just numbers.
 
 To test this in a playground, do:
 
