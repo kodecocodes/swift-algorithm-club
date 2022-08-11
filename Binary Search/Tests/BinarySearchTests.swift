@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import BinarySearch
 
 class BinarySearchTest: XCTestCase {
   var searchList = [Int]()

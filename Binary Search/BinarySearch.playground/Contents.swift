@@ -1,3 +1,5 @@
+import BinarySearch
+
 //: Playground - noun: a place where people can play
 
 // An unsorted array of numbers
