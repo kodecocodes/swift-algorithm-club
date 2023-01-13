@@ -1,3 +1,15 @@
+
+/**
+ *  A class that represents a graph data structure.
+ *  It contains an adjacency list which is a dictionary of nodes and their corresponding edges.
+ *  It has the following methods:
+ *  - addNode(value: Node) -> Node: adds a new node to the graph
+ *  - addEdge(fromNode: Node, toNode: Node) -> Bool: adds a directed edge from one node to another
+ *  - adjacencyList(forNode: Node) -> [Node]? : returns the list of nodes that are adjacent to the given node
+ *  - calculateInDegreeOfNodes() -> [Node : InDegree]: returns a dictionary of nodes and their corresponding in-degree values
+ *
+ */
+
 public class Graph: CustomStringConvertible {
   public typealias Node = String
 
@@ -33,6 +45,13 @@ public class Graph: CustomStringConvertible {
 
 extension Graph {
   typealias InDegree = Int
+  
+  /**
+   *  A method that calculates the in-degree of all the nodes in the graph.
+   *  It returns a dictionary with the nodes as keys and their corresponding in-degree values as values.
+   *
+   *  - returns: A dictionary of [Node : InDegree]
+   */
 
   func calculateInDegreeOfNodes() -> [Node : InDegree] {
     var inDegrees = [Node: InDegree]()
