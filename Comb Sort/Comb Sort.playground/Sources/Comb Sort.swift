@@ -7,25 +7,22 @@
 
 import Foundation
 
-public func combSort<T: Comparable>(_ input: [T]) -> [T] {
-    var copy: [T] = input
+public func combSort<T: Comparable>(_ input: [T]) -> [T] {        
+    var copy = input
     var gap = copy.count
-    let shrink = 1.3
+    var done = false
 
-    while gap > 1 {
-        gap = (Int)(Double(gap) / shrink)
-        if gap < 1 {
-            gap = 1
-        }
-
-        var index = 0
-        while !(index + gap >= copy.count) {
+    while gap > 1 || !done {
+        gap = max(gap * 10 / 13, 1)
+        done = true        
+        for index in 0 ..< copy.count - gap {
             if copy[index] > copy[index + gap] {
-               copy.swapAt(index, index + gap)
+                copy.swapAt(index, index + gap)
+                done = false
             }
-            index += 1
         }
     }
+
     return copy
 }
 
