@@ -1,12 +1,12 @@
 public final class LinkedList<T> {
     
     /// Linked List's Node Class Declaration
-    public class LinkedListNode<T> {
-        var value: T
+    public class LinkedListNode<E> {
+        var value: E
         var next: LinkedListNode?
         weak var previous: LinkedListNode?
         
-        public init(value: T) {
+        public init(value: E) {
             self.value = value
         }
     }
@@ -330,12 +330,11 @@ public struct LinkedListIndex<T>: Comparable {
     fileprivate let node: LinkedList<T>.LinkedListNode<T>?
     fileprivate let tag: Int
     
-    public static func==<T>(lhs: LinkedListIndex<T>, rhs: LinkedListIndex<T>) -> Bool {
+    public static func==<E>(lhs: LinkedListIndex<E>, rhs: LinkedListIndex<E>) -> Bool {
         return (lhs.tag == rhs.tag)
     }
     
-    public static func< <T>(lhs: LinkedListIndex<T>, rhs: LinkedListIndex<T>) -> Bool {
+    public static func< <E>(lhs: LinkedListIndex<E>, rhs: LinkedListIndex<E>) -> Bool {
         return (lhs.tag < rhs.tag)
     }
 }
-
