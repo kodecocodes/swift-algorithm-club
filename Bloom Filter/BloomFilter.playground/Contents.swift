@@ -79,4 +79,4 @@ bloom.insert("Bloom Filterz")
 print(bloom.array)
 
 bloom.query("Bloom Filterz")   // true
-bloom.query("Hello WORLD")     // true
+bloom.query("Hello WORLD")     // false or true: It may return true due to a false positive, but it's not guaranteed.
