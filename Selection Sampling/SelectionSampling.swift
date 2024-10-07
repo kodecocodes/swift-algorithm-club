@@ -17,7 +17,7 @@ func select<T>(from a: [T], count k: Int) -> [T] {
   for i in 0..<k {
     let r = random(min: i, max: a.count - 1)
     if i != r {
-      swap(&a[i], &a[r])
+      a.swapAt(i, r) // Corrected line
     }
   }
   return Array(a[0..<k])
