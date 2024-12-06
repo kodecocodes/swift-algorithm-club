@@ -1,5 +1,3 @@
-// Written by Alejandro Isaza.
-
 import Foundation
 
 public protocol Graph {
@@ -36,31 +34,31 @@ public final class AStar<G: Graph> {
     /// Closed list of vertices already expanded.
     private var closed = Set<G.Vertex>()
 
-    /// Actual vertex cost for vertices we already encountered (refered to as `g` on the literature).
-    private var costs = Dictionary<G.Vertex, Double>()
+    /// Actual vertex cost for vertices we already encountered (`g` in A* literature).
+    private var costs = [G.Vertex: Double]()
 
     /// Store the previous node for each expanded node to recreate the path.
-    private var parents = Dictionary<G.Vertex, G.Vertex>()
+    private var parents = [G.Vertex: G.Vertex]()
 
     /// Initializes `AStar` with a graph and a heuristic cost function.
     public init(graph: G, heuristic: @escaping (G.Vertex, G.Vertex) -> Double) {
         self.graph = graph
         self.heuristic = heuristic
-        open = HashedHeap(sort: <)
+        self.open = HashedHeap(sort: <)
     }
 
     /// Finds an optimal path between `source` and `target`.
     ///
     /// - Precondition: both `source` and `target` belong to `graph`.
     public func path(start: G.Vertex, target: G.Vertex) -> [G.Vertex] {
-        open.insert(Node<G.Vertex>(vertex: start, cost: 0, estimate: heuristic(start, target)))
+        open.insert(Node(vertex: start, cost: 0, estimate: heuristic(start, target)))
         while !open.isEmpty {
             guard let node = open.remove() else {
                 break
             }
             costs[node.vertex] = node.cost
 
-            if (node.vertex == target) {
+            if node.vertex == target {
                 let path = buildPath(start: start, target: target)
                 cleanup()
                 return path
@@ -81,13 +79,13 @@ public final class AStar<G: Graph> {
         for edge in edges {
             let g = cost(node.vertex) + edge.cost
             if g < cost(edge.target) {
-                open.insert(Node<G.Vertex>(vertex: edge.target, cost: g, estimate: heuristic(edge.target, target)))
+                open.insert(Node(vertex: edge.target, cost: g, estimate: heuristic(edge.target, target)))
                 parents[edge.target] = node.vertex
             }
         }
     }
 
-    private func cost(_ vertex: G.Edge.Vertex) -> Double {
+    private func cost(_ vertex: G.Vertex) -> Double {
         if let c = costs[vertex] {
             return c
         }
@@ -101,18 +99,16 @@ public final class AStar<G: Graph> {
     }
 
     private func buildPath(start: G.Vertex, target: G.Vertex) -> [G.Vertex] {
-        var path = Array<G.Vertex>()
-        path.append(target)
-
+        var path = [G.Vertex]()
         var current = target
         while current != start {
             guard let parent = parents[current] else {
-                return [] // no path found
+                return [] // No path found
             }
-            current = parent
             path.append(current)
+            current = parent
         }
-
+        path.append(start)
         return path.reversed()
     }
 
@@ -130,7 +126,7 @@ private struct Node<V: Hashable>: Hashable, Comparable {
     /// The actual cost between the start vertex and this vertex.
     var cost: Double
 
-    /// Estimated (heuristic) cost betweent this vertex and the target vertex.
+    /// Estimated (heuristic) cost between this vertex and the target vertex.
     var estimate: Double
 
     public init(vertex: V, cost: Double, estimate: Double) {
@@ -147,7 +143,26 @@ private struct Node<V: Hashable>: Hashable, Comparable {
         return lhs.vertex == rhs.vertex
     }
 
-    var hashValue: Int {
-        return vertex.hashValue
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(vertex)
     }
 }
+
+    
+   
+
+   
+
+    
+            
+          
+       
+   
+    
+            
+
+
+
+   
+
+   
