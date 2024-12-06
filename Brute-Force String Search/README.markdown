@@ -19,30 +19,26 @@ let animals = "🐶🐔🐷🐮🐱"
 animals.indexOf("🐮")
 
 // Output:
-<String.Index?> 6
+<String.Index?> 3
 ```
-
-> **Note:** The index of the cow is 6, not 3 as you might expect, because the string uses more storage per character for emoji. The actual value of the `String.Index` is not so important, just that it points at the right character in the string.
 
 Here is a brute-force solution:
 
 ```swift
 extension String {
-  func indexOf(_ pattern: String) -> String.Index? {
-    for i in self.characters.indices {
-        var j = i
-        var found = true
-        for p in pattern.characters.indices{
-            if j == self.characters.endIndex || self[j] != pattern[p] {
-                found = false
-                break
-            } else {
-                j = self.characters.index(after: j)
-            }
+  func indexOf(_ pattern : String) -> String.Index? {
+    let noOfLoops = self.count - pattern.count + 1
+    for i in 0..<noOfLoops {
+      for (index,char) in pattern.enumerated() {
+        if char == Array(self)[i + index] {
+          if index == pattern.count - 1 {
+            //Pattern found in the string
+            return self.index(self.startIndex, offsetBy: i)
+          }
+        } else {
+          break
         }
-        if found {
-            return i
-        }
+      }
     }
     return nil
   }
