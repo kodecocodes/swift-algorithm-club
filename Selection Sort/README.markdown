@@ -59,25 +59,22 @@ The selection sort is an *in-place* sort because everything happens in the same 
 Here is an implementation of selection sort in Swift:
 
 ```swift
-func selectionSort(_ array: [Int]) -> [Int] {
-  guard array.count > 1 else { return array }  // 1
+func selectionSort(_ array: inout [Int]){ // 1
+  guard array.count > 1 else { return array }  // 2
 
-  var a = array                    // 2
-
-  for x in 0 ..< a.count - 1 {     // 3
+  for x in 0 ..< array.count - 1 {     // 3
 
     var lowest = x
-    for y in x + 1 ..< a.count {   // 4
-      if a[y] < a[lowest] {
+    for y in x + 1 ..< array.count {   // 4
+      if array[y] < array[lowest] {
         lowest = y
       }
     }
 
     if x != lowest {               // 5
-      a.swapAt(x, lowest)
+      array.swapAt(x, lowest)
     }
   }
-  return a
 }
 ```
 
@@ -85,14 +82,14 @@ Put this code in a playground and test it like so:
 
 ```swift
 let list = [ 10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26 ]
-selectionSort(list)
+selectionSort(&list)
 ```
 
 A step-by-step explanation of how the code works:
 
-1. If the array is empty or only contains a single element, then there is no need to sort.
+1. By adding `inout` before the parameter name, you indicate that the function can modify the original array directly.
 
-2. Make a copy of the array. This is necessary because we cannot modify the contents of the `array` parameter directly in Swift. Like the Swift's `sort()` function, the `selectionSort()` function will return a sorted *copy* of the original array.
+2. If the array is empty or only contains a single element, then there is no need to sort.
 
 3. There are two loops inside this function. The outer loop looks at each of the elements in the array in turn; this is what moves the `|` bar forward.
 
